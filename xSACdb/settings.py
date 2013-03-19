@@ -119,6 +119,7 @@ INSTALLED_APPS = (
     'django.contrib.admindocs',
 
     'south',
+    'django_facebook',
 
     'xsd_members',
     'xsd_training',
@@ -153,3 +154,6 @@ LOGGING = {
         },
     }
 }
+AUTH_PROFILE_MODULE='xSACdb.MemberProfile'
+FACEBOOK_APP_ID=0
+FACEBOOK_APP_SECRET=0
