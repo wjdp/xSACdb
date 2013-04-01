@@ -1,0 +1,5 @@
+Django==1.5
+PIL==1.1.7
+South==0.7.6
+django-facebook==5.0.7beta
+wsgiref==0.1.2
