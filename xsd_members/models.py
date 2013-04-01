@@ -40,7 +40,6 @@ class MemberProfile(models.Model):
 
     other_qualifications = models.TextField(blank=True)
 
-
 from django.contrib.auth.models import User
 from django.db.models.signals import post_save
 
@@ -53,3 +52,6 @@ post_save.connect(create_facebook_profile, sender=User)
 
 class Membership_Type(models.Model):
     name=models.CharField(max_length=40)
+
+    def __unicode__(self):
+        return self.name
