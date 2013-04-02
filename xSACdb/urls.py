@@ -8,6 +8,10 @@ urlpatterns = patterns('',
     # Examples:
     # url(r'^$', 'xSACdb.views.home', name='home'),
     # url(r'^xSACdb/', include('xSACdb.foo.urls')),
+    
+    url(r'^$', 'xsd_frontend.views.dashboard', name='dashboard'),
+
+
     url(r'^media/(?P<path>.*)$', 'django.views.static.serve',
         {'document_root': settings.STATIC_DOC_ROOT}),
     url(r'^admin/doc/', include('django.contrib.admindocs.urls')),
