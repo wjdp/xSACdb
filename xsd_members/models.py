@@ -5,8 +5,8 @@ from django_facebook.models import FacebookProfileModel
 class MemberProfile(models.Model):
     user = models.OneToOneField('auth.User')
     gender = models.CharField(max_length=6, blank=True)
-    fid = models.BigIntegerField(verbose_name=u'Facebook ID')
-    token = models.CharField(max_length=150)
+    fid = models.BigIntegerField(verbose_name=u'Facebook ID',blank=True,null=True)
+    token = models.CharField(max_length=150, blank=True)
 
     dob = models.DateField(blank=True, null=True)
     address = models.TextField(blank=True)
@@ -28,7 +28,7 @@ class MemberProfile(models.Model):
 
     club_id=models.IntegerField(max_length=7,blank=True, null=True)
     club_expiry=models.DateField(blank=True, null=True)
-    club_membership_type=models.ForeignKey('Membership_Type', blank=True, null=True)
+    club_membership_type=models.ForeignKey('MembershipType', blank=True, null=True)
 
     bsac_id=models.IntegerField(max_length=7,blank=True, null=True)
     bsac_expiry=models.DateField(blank=True, null=True)
@@ -40,6 +40,8 @@ class MemberProfile(models.Model):
 
     other_qualifications = models.TextField(blank=True)
 
+    def __unicode__(self):
+        return self.user.first_name + " " + self.user.last_name
 from django.contrib.auth.models import User
 from django.db.models.signals import post_save
 
@@ -50,7 +52,7 @@ def create_facebook_profile(sender, instance, created, **kwargs):
 
 post_save.connect(create_facebook_profile, sender=User)
 
-class Membership_Type(models.Model):
+class MembershipType(models.Model):
     name=models.CharField(max_length=40)
 
     def __unicode__(self):

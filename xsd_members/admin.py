@@ -7,4 +7,4 @@ class MembershipTypeAdmin(admin.ModelAdmin):
     pass
 
 admin.site.register(MemberProfile, MemberAdmin)
-admin.site.register(Membership_Type, MembershipTypeAdmin)
+admin.site.register(MembershipType, MembershipTypeAdmin)
