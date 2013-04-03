@@ -1,2 +1,16 @@
-<h1>Hello World</h1>
-{{request.user.first_name}}
+{% extends "base_template.html" %}
+
+{% block content %}
+<div class"row">
+<div class="span7">
+   <h1>Hello {{request.user.first_name}}</h1>
+</div>
+<div class="span4">
+    <h2>Membership</h2>
+    <ul>
+    <li class="pass"><strong>NUSAC Membership</strong> Expires on 02/10/13</li>
+    <li class="pass"><strong>BSAC Membership</strong> Expires on 02/10/13</li>
+    <li class="fail"><strong>Medical Form</strong> Expired on 28/02/13</li>
+    </ul>
+</div>
+{% endblock %}
