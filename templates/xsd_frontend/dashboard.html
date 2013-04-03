@@ -2,21 +2,34 @@
 
 {% block content %}
 <div class"row">
-<div class="span8">
+<div class="span6">
    <h1>Hello {{request.user.first_name}}</h1>
 </div>
-<div class="span3">
+<div class="span5">
     <h2>Membership</h2>
-    <div class="alert alert-block">
-        <button type="button" class="close" data-dismiss="alert">&times;</button>
-        <h4>Warning!</h4>
-        Some parts of your membership are incomplete. You'll need to correct this before you're allowed to dive with the club. Please contact [VP's Name] for more information.
+    {% if no_data %}
+    <div class="alert alert-info">
+    <h4>Welcome!</h4>
+    <p>It looks like you're new to the club. Before you can dive with us you need to be a member of NUSAC, a member of BSAC and have a complete medical form. You can get help with these things from [VP's Name] the vice-president.</p>
     </div>
-    <ul class="membership-status">
-    <li class="pass"><strong>NUSAC Membership</strong> <span class="note">Expires on 02/10/13</span></li>
-    <li class="pass"><strong>BSAC Membership</strong> <span class="note">Expires on 02/10/13</span></li>
-    <li class="fail"><strong>Medical Form</strong> <span class="note">Expired on 28/02/13</span></li>
-    </ul>
-
+    {% else %}
+        {% if membership_ok == False %}
+        <div class="alert alert-block">
+            <button type="button" class="close" data-dismiss="alert">&times;</button>
+            <h4>Warning!</h4>
+            Some parts of your membership have expired. You'll need to correct this before you're allowed to dive with the club. Please contact [VP's Name] for more information.
+        </div>
+        {% endif %}
+        <ul class="membership-status">
+        <li class="{% if club_expired %}fail{% else %}pass{% endif %}"><strong>NUSAC Membership</strong>
+        <span class="note">{% if club_expired %}Expired{% else %}Expires{% endif %} on {{request.user.get_profile.club_expiry}}</span></li>
+        
+        <li class="{% if bsac_expired %}fail{% else %}pass{% endif %}"><strong>BSAC Membership</strong>
+        <span class="note">{% if bsac_expired %}Expired{% else %}Expires{% endif %} on {{request.user.get_profile.bsac_expiry}}</span></li>
+        
+        <li class="{% if medical_form_expired %}fail{% else %}pass{% endif %}"><strong>Medical Form</strong>
+        <span class="note">{% if medical_form_expired %}Expired{% else %}Expires{% endif %} on {{request.user.get_profile.medical_form_expiry}}</span></li>
+        </ul>
+    {% endif %}
 </div>
 {% endblock %}

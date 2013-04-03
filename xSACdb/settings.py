@@ -168,6 +168,6 @@ LOGGING = {
         },
     }
 }
-AUTH_PROFILE_MODULE='xSACdb.MemberProfile'
+AUTH_PROFILE_MODULE='xsd_members.MemberProfile'
 FACEBOOK_APP_ID=0
 FACEBOOK_APP_SECRET=0
