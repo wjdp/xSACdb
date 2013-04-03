@@ -2,15 +2,21 @@
 
 {% block content %}
 <div class"row">
-<div class="span7">
+<div class="span8">
    <h1>Hello {{request.user.first_name}}</h1>
 </div>
-<div class="span4">
+<div class="span3">
     <h2>Membership</h2>
-    <ul>
-    <li class="pass"><strong>NUSAC Membership</strong> Expires on 02/10/13</li>
-    <li class="pass"><strong>BSAC Membership</strong> Expires on 02/10/13</li>
-    <li class="fail"><strong>Medical Form</strong> Expired on 28/02/13</li>
+    <div class="alert alert-block">
+        <button type="button" class="close" data-dismiss="alert">&times;</button>
+        <h4>Warning!</h4>
+        Some parts of your membership are incomplete. You'll need to correct this before you're allowed to dive with the club. Please contact [VP's Name] for more information.
+    </div>
+    <ul class="membership-status">
+    <li class="pass"><strong>NUSAC Membership</strong> <span class="note">Expires on 02/10/13</span></li>
+    <li class="pass"><strong>BSAC Membership</strong> <span class="note">Expires on 02/10/13</span></li>
+    <li class="fail"><strong>Medical Form</strong> <span class="note">Expired on 28/02/13</span></li>
     </ul>
+
 </div>
 {% endblock %}

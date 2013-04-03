@@ -10,7 +10,7 @@
         }
     </style>
     <link rel="stylesheet" type="text/css" media="screen" href="/media/bootstrap/css/bootstrap-responsive.min.css" />
-
+    <link rel="stylesheet" type="text/css" media="screen" href="/media/css/strap.css" />
 </head>
 <body>
 <div class="navbar navbar-inverse navbar-fixed-top">
@@ -26,8 +26,10 @@
                 <ul class="nav">
                     <li class="active"><a href="#">Home</a></li>
                     <li><a href="#profile">Profile</a></li>
+                    {% if has_members_module %}<li><a href="#members">Members</a></li>{% endif %}
                     <li><a href="#training">Training</a></li>
                     <li><a href="#trips">Trips</a></li>
+                    {% if has_admin_module %}<li><a href="#admin">Admin</a></li>{% endif %}
                 </ul>
             </div><!--/.nav-collapse -->
         </div>
@@ -39,5 +41,7 @@
 No content
 {% endblock %}
 </div>
+<script src="http://code.jquery.com/jquery.js"></script>
+<script src="/media/bootstrap/js/bootstrap.min.js"></script>
 </body>
 </html>
