@@ -39,7 +39,7 @@ class Lesson(models.Model):
         return self.code + " - " + self.title
 
 class Qualification(models.Model):
-    title=models.CharField(max_length=30)
+    title=models.CharField(max_length=50)
     rank=models.IntegerField()
     definition=models.TextField(blank=True)
     instructor_qualification=models.BooleanField(default=False)
@@ -57,3 +57,6 @@ class Session(models.Model):
     where=models.ForeignKey('xsd_sites.Site')
     notes=models.TextField(blank=True)
     created_by=models.ForeignKey('auth.User')
+
+    def __unicode__(self):
+        return str(self.when) + " at " + self.where.__unicode__()

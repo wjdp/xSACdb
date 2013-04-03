@@ -11,3 +11,6 @@ class Site(models.Model):
     max_temp=models.IntegerField(blank=True, null=True)
     max_depth=models.IntegerField(blank=True, null=True)
     facilities=models.TextField(blank=True)
+
+    def __unicode__(self):
+        return self.name
