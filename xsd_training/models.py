@@ -64,7 +64,7 @@ class SDC(models.Model):
     class Meta:
         verbose_name="SDC"
         verbose_name_plural="SDCs"
-        ordering=['min_qualification','title']
+        ordering=['title']
 
 class Session(models.Model):
     when=models.DateTimeField()

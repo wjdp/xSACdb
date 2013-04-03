@@ -22,6 +22,7 @@ class MemberProfile(models.Model):
     alergies = models.TextField(blank=True)
 
     qualifications=models.ManyToManyField('xsd_training.Qualification', blank=True)
+    sdcs=models.ManyToManyField('xsd_training.SDC', blank=True)
     instructor_number=models.IntegerField(blank=True, null=True)
     
     student_id=models.IntegerField(max_length=7,blank=True, null=True)
