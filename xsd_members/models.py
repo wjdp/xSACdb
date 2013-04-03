@@ -21,8 +21,11 @@ class MemberProfile(models.Model):
     veggie = models.BooleanField(default=False)
     alergies = models.TextField(blank=True)
 
+    qualifications=models.ManyToManyField('xsd_training.Qualification', blank=True)
+    instructor_number=models.IntegerField(blank=True, null=True)
+    
     student_id=models.IntegerField(max_length=7,blank=True, null=True)
-
+    
     associate_id=models.IntegerField(max_length=7,blank=True, null=True)
     associate_expiry=models.DateField(blank=True, null=True)
 
