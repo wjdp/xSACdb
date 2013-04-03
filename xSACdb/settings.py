@@ -138,6 +138,7 @@ INSTALLED_APPS = (
     'xsd_members',
     'xsd_training',
     'xsd_trips',
+    'xsd_sites',
 )
 
 # A sample logging configuration. The only tangible logging
