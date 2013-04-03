@@ -6,13 +6,19 @@ class PerformedLessonAdmin(admin.ModelAdmin):
     pass
 
 class LessonAdmin(admin.ModelAdmin):
-    pass
+    fieldsets = (('Basic Info', {'fields': ('qualification','code','title','mode','order','required','description')}),
+                 ('Practical Details', {'fields': ('max_depth','activities')}))
+    list_display=('qualification','code','title','mode','order','required','max_depth')
+    list_display_links=('code','title')
+    list_filter=('qualification','mode')
 
 class QualificationAdmin(admin.ModelAdmin):
-    pass
+    list_display=('title','rank','instructor_qualification') 
+    list_filter=('instructor_qualification',)
 
 class SDCAdmin(admin.ModelAdmin):
-    pass
+    list_display=('title','min_qualification')
+    list_filter=('min_qualification',)
 
 class SessionAdmin(admin.ModelAdmin):
     pass

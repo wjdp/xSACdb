@@ -2,11 +2,13 @@ from django.db import models
 import django.contrib.auth
 
 class PerformedLesson(models.Model):
-    session=models.ForeignKey('Session')
+    session=models.ForeignKey('Session', blank=True)
+    date=models.DateField(blank=True, null=True)
     lesson=models.ForeignKey('Lesson')
     instructor=models.ForeignKey('auth.User', related_name="pl_instructor")
-    trainees=models.ManyToManyField('auth.User', related_name="pl_trainees")
+    trainee=models.ForeignKey('auth.User', related_name="pl_trainee")
     completed=models.BooleanField(default=False)
+    public_notes=models.TextField(blank=True)
     private_notes=models.TextField(blank=True)
 
     def __unicode__(self):
@@ -24,10 +26,11 @@ class Lesson(models.Model):
                         ('WS', 'Workshop'),
                         ('PQ', 'Post Qualification'),
                         ('XO', 'Cross-over'),
+                        ('AS', 'Assessment'),
                    )
     qualification = models.ForeignKey('Qualification')
-    code = models.CharField(max_length=5)
-    title = models.CharField(max_length=30)
+    code = models.CharField(max_length=5, blank=True)
+    title = models.CharField(max_length=90)
     mode = models.CharField(max_length=2, choices=MODE_CHOICES)
     order = models.IntegerField(blank=True, null=True)
     required = models.BooleanField(default=False)
@@ -38,6 +41,9 @@ class Lesson(models.Model):
     def __unicode__(self):
         return self.code + " - " + self.title
 
+    class Meta:
+        ordering = ['qualification','order']
+
 class Qualification(models.Model):
     title=models.CharField(max_length=50)
     rank=models.IntegerField()
@@ -46,11 +52,19 @@ class Qualification(models.Model):
 
     def __unicode__(self): return self.title
 
+    class Meta:
+        ordering = ['rank']
+
 class SDC(models.Model):
     title=models.CharField(max_length=50)
-    min_qualification=models.ForeignKey('Qualification')
+    min_qualification=models.ForeignKey('Qualification', blank=True, null=True)
 
-    def __unicode__(self): return title
+    def __unicode__(self): return self.title
+
+    class Meta:
+        verbose_name="SDC"
+        verbose_name_plural="SDCs"
+        ordering=['min_qualification','title']
 
 class Session(models.Model):
     when=models.DateTimeField()
