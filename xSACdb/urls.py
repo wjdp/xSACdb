@@ -10,7 +10,11 @@ urlpatterns = patterns('',
     # url(r'^xSACdb/', include('xSACdb.foo.urls')),
     
     url(r'^$', 'xsd_frontend.views.dashboard', name='dashboard'),
-    url(r'^login/$', 'xsd_frontend.views.login',),
+
+    url(r'^accounts/login/$', 'xsd_frontend.views.login', name='login'),
+    url(r'^accounts/logout/$', 'xsd_frontend.views.logout', name='logout'),
+    
+    url(r'^profile/$', 'xsd_members.views.view_profile', name='my-profile'),
 
     url(r'^media/(?P<path>.*)$', 'django.views.static.serve',
         {'document_root': settings.STATIC_DOC_ROOT}),
