@@ -7,13 +7,13 @@
 </div>
 <div class="span5">
     <h2>Membership</h2>
-    {% if no_data %}
+    {% if profile.no_expiry_data %}
     <div class="alert alert-info">
     <h4>Welcome!</h4>
     <p>It looks like you're new to the club. Before you can dive with us you need to be a member of NUSAC, a member of BSAC and have a complete medical form. You can get help with these things from [VP's Name] the vice-president.</p>
     </div>
     {% else %}
-        {% if membership_ok == False %}
+        {% if profile.membership_problem %}
         <div class="alert alert-block">
             <button type="button" class="close" data-dismiss="alert">&times;</button>
             <h4>Warning!</h4>
@@ -21,14 +21,14 @@
         </div>
         {% endif %}
         <ul class="membership-status">
-        <li class="{% if club_expired %}fail{% else %}pass{% endif %}"><strong>NUSAC Membership</strong>
-        <span class="note">{% if club_expired %}Expired{% else %}Expires{% endif %} on {{request.user.get_profile.club_expiry}}</span></li>
+        <li class="{% if profile.club_expired %}fail{% else %}pass{% endif %}"><strong>NUSAC Membership</strong>
+        <span class="note">{% if profile.club_expired %}Expired{% else %}Expires{% endif %} on {{profile.club_expiry}}</span></li>
         
-        <li class="{% if bsac_expired %}fail{% else %}pass{% endif %}"><strong>BSAC Membership</strong>
-        <span class="note">{% if bsac_expired %}Expired{% else %}Expires{% endif %} on {{request.user.get_profile.bsac_expiry}}</span></li>
+        <li class="{% if profile.bsac_expired %}fail{% else %}pass{% endif %}"><strong>BSAC Membership</strong>
+        <span class="note">{% if profile.bsac_expired %}Expired{% else %}Expires{% endif %} on {{profile.bsac_expiry}}</span></li>
         
-        <li class="{% if medical_form_expired %}fail{% else %}pass{% endif %}"><strong>Medical Form</strong>
-        <span class="note">{% if medical_form_expired %}Expired{% else %}Expires{% endif %} on {{request.user.get_profile.medical_form_expiry}}</span></li>
+        <li class="{% if profile.medical_form_expired %}fail{% else %}pass{% endif %}"><strong>Medical Form</strong>
+        <span class="note">{% if profile.medical_form_expired %}Expired{% else %}Expires{% endif %} on {{profile.medical_form_expiry}}</span></li>
         </ul>
     {% endif %}
 </div>

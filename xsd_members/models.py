@@ -1,4 +1,5 @@
 from django.db import models
+from datetime import date
 
 from django_facebook.models import FacebookProfileModel
 
@@ -55,6 +56,23 @@ class MemberProfile(models.Model):
         c=q.count()-1
         return q[c]
 
+    def club_expired(self):
+        if self.club_expiry <= date.today(): return True
+        else: return False
+    def bsac_expired(self):
+        if self.bsac_expiry <= date.today(): return True
+        else: return False
+    def medical_form_expired(self):
+        if self.medical_form_expiry <= date.today(): return True
+        else: return False
+    def membership_problem(self):
+        if self.club_expired() or self.bsac_expired() or self.medical_form_expired():
+            return True
+        else: return False
+    def no_expiry_data(self):
+        if self.club_expiry==None and self.bsac_expiry==None and self.medical_form_expiry==None:
+            return True
+        else: return False
 from django.contrib.auth.models import User
 from django.db.models.signals import post_save
 
