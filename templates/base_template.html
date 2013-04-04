@@ -18,10 +18,10 @@
         <div class="container">
             <a class="brand" href="#">xSACdb Dev Version</a>
             <ul class="nav">
-                <li class="active"><a href="#">Home</a></li>
+                <li class="active"><a href="/">Home</a></li>
                 <li><a href="{% url 'xsd_members.views.view_my_profile' %}">Profile</a></li>
                 {% if has_members_module %}<li><a href="#members">Members</a></li>{% endif %}
-                <li><a href="#training">Training</a></li>
+                <li><a href="{% url 'xsd_training.views.overview' %}">Training</a></li>
                 <li><a href="#trips">Trips</a></li>
                 {% if has_admin_module %}<li><a href="/admin">Admin</a></li>{% endif %}
             </ul>
