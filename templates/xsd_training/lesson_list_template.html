@@ -1,0 +1,18 @@
+<ul class="lessons uncompleted">
+    {% for l in lessons %}
+    <li>
+    {% if l.description %}<a href="{% url 'lesson_detail' l.id %}">{% endif %}
+        {% if l.code %}{{l.code}} - {% endif %}{{l.title}}
+    {% if l.description %}</a>{% endif %}
+    </li>
+    {% endfor %}
+</ul>
+<ul class="lessons completed">
+    {% for l in completed %}
+    <li>
+    {% if l.description %}<a href="{% url 'lesson_detail' l.id %}">{% endif %}
+        {% if l.code %}{{l.code}} - {% endif %}{{l.title}}
+    {% if l.description %}</a>{% endif %}
+    </li>
+    {% endfor %}
+</ul>

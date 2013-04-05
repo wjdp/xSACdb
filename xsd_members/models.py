@@ -3,6 +3,8 @@ from datetime import date
 
 from django_facebook.models import FacebookProfileModel
 
+from xsd_training.models import PerformedLesson
+
 class MemberProfile(models.Model):
     user = models.OneToOneField('auth.User')
     gender = models.CharField(max_length=6, blank=True)
@@ -74,6 +76,9 @@ class MemberProfile(models.Model):
         if self.club_expiry==None and self.bsac_expiry==None and self.medical_form_expiry==None:
             return True
         else: return False
+    def performed_lessons_for_qualification(self, qualification):
+        pass
+
 from django.contrib.auth.models import User
 from django.db.models.signals import post_save
 

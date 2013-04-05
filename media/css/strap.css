@@ -22,3 +22,28 @@ li.pass {
 li.fail {
     background:url('/media/images/error.png') no-repeat top left;
 }
+
+ul.lessons {
+margin-left:0;
+}
+ul.lessons li {
+padding-left:20px;
+list-style-type:none;
+}
+ul.completed li {
+background:url('/media/images/tick16.png') no-repeat 0 50%;
+opacity:0.5;
+}
+ul.uncompleted li {
+background:url('/media/images/arrow_r.png') no-repeat 0 50%;
+}
+
+div.lesson-code {
+background:#8095C3;
+border: 1px solid #2253BB;
+border-radius:2px;
+padding:2px;
+width:30px;
+font-weight:bold;
+color:#fafafa;
+}

@@ -2,7 +2,7 @@ from django.db import models
 import django.contrib.auth
 
 class PerformedLesson(models.Model):
-    session=models.ForeignKey('Session', blank=True)
+    session=models.ForeignKey('Session', blank=True, null=True)
     date=models.DateField(blank=True, null=True)
     lesson=models.ForeignKey('Lesson')
     instructor=models.ForeignKey('auth.User', related_name="pl_instructor")
@@ -11,10 +11,15 @@ class PerformedLesson(models.Model):
     public_notes=models.TextField(blank=True)
     private_notes=models.TextField(blank=True)
 
-    def __unicode__(self):
-        ret = ("Lesson " + self.lesson.code + " at " +
-               self.session.when + " instr by " +
-               self.instructor.first_name + " " + self.instructor.last_name)
+    #def __unicode__(self):
+    #    ret = ("Lesson " + self.lesson.code + " at " +
+    #           str(self.session.when) + " instr by " +
+    #           self.instructor.first_name + " " + self.instructor.last_name)
+    def get_date(self):
+        if self.date==None:
+            return self.session.when.date()
+        else:
+            return self.date
 
 class Lesson(models.Model):
     MODE_CHOICES = (
@@ -44,6 +49,11 @@ class Lesson(models.Model):
     class Meta:
         ordering = ['qualification','order']
 
+    def is_completed(self, user):
+        pl=PerformedLesson.objects.filter(trainee=user, lesson=self, completed=True).count()
+        if pl>0: return True
+        else: return False
+
 class Qualification(models.Model):
     title=models.CharField(max_length=50)
     rank=models.IntegerField()
@@ -54,6 +64,10 @@ class Qualification(models.Model):
 
     class Meta:
         ordering = ['rank']
+
+    def lessons_by_mode(self, mode):
+        lessons=Lesson.objects.filter(qualification=self, mode=mode)
+        return lessons
 
 class SDC(models.Model):
     title=models.CharField(max_length=50)

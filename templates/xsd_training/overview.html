@@ -1,9 +1,44 @@
 {% extends 'base_template.html' %}
+{% load lesson_extras %}
 {% block content %}
 <div class="row">
-<div class="span3">
-    <h4>You're a qualified</h4>
+<div class="span4">
+    {% ifequal profile.top_qual None %}
+    <p>You're currently unqualified and training for</p>
+    <h1>{{profile.training_for}}</h1>
+    {% else %}
+    <p>You're a qualified</p>
     <h1>{{profile.top_qual}}</h1>
+    {% if profile.training_for %}
+    <p>training for</p>
+    <h2>{{profile.training_for}}</h2>
+    {% else %}
+    <p>and you're not currently registered for any further training.</p>
+    {% endif %}
+    {% endifequal %}
+
+    {% if profile.training_for %}
+    <h3>Upcoming Lessons</h3>
+    {% show_upcoming_lessons user %}
+    {% endif %}
+</div>
+<div class="span5">
+<h2>Lessons</h2>
+<p>Lessons include all theory, pool sessions and open water.</p>
+<h3>Theory Lessons</h3>
+{% show_lessons profile.training_for 'TH' user %}
+<h3>Sheltered Water Lessons</h3>
+{% show_lessons profile.training_for 'SW' user %}
+<h3>Open Water Lessons</h3>
+{% show_lessons profile.training_for 'OW' user %}
+<h3>Dry Practical Lessons</h3>
+{% show_lessons profile.training_for 'DP' user %}
+</div>
+<div class="span3">
+<h2>Experience</h2>
+<p>Experience dives can take place at any point, but you need to get them signed off by an instructor.</p>
+
+{% show_lessons profile.training_for 'XP' profile %}
 </div>
 </div>
 {% endblock %}
