@@ -1,0 +1,35 @@
+{% extends 'base_template.html' %}
+{% load xsd_nav %}
+{% block content %}
+<div class="row">
+<div class="span3">
+    <ul class="nav nav-list">
+      <li class="nav-header">Your Training</li>
+      <li {% is_active_simple ui.page 'my_overview' %}>
+      <a href="{% url 'xsd_training.views.overview' %}">Overview</a></li>
+      <li {% is_active_simple ui.page 'my_lessons' %}>
+      <a href="{% url 'xsd_training.views.lessons' %}">Lessons</a></li>
+      <li {% is_active_simple ui.page 'my_feedback' %}>
+      <a href="{% url 'xsd_training.views.all_feedback' %}">See All Feedback</a></li>
+      <li class="nav-header">Skill Development Courses</li>
+      <li><a href="#">SDC Overview</a></li>
+      <li><a href="#">Your SDCs</a></li>
+      <li class="nav-header">Your Teaching</li>
+      <li><a href="#">Upcoming Lessons</a></li>
+      <li><a href="#">Give Feedback</a></li>
+      <li class="nav-header">Training Administration</li>
+      <li><a href="#">Overview</a></li>
+      <li><a href="#">Plan a Session</a></li>
+      <li><a href="#">Edit / Complete a Session</a></li>
+      <li><a href="#">Retrospectivly Add Lessons</a></li>
+      <li><a href="#">Plan an SDC</a></li>
+      <li><a href="#">Award Qualifications</a></li>
+      <li><a href="#">Award SDCs</a></li>
+    </ul> 
+
+</div>
+{% block training_content %}
+
+{% endblock %}
+</div>
+{% endblock %}
