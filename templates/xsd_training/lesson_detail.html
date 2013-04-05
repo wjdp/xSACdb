@@ -1,18 +1,16 @@
-{% extends 'base_template.html' %}
-{% block content %}
-<div class="row">
-<div class="span6">
-<div class="lesson-code">{{lesson.code}}</div>
-<h1>{{lesson.title}}</h1>
+{% extends 'xsd_training/training_template.html' %}
+{% block training_content %}
+<div class="span3">
+<div class="lesson-code">{{lesson.code}}</div>{{lesson.title}}
 <p class="mode">This is a {{lesson.get_mode_display|lower}} lesson.</p>
 <p>{{lesson.description}}</p>
 
 </div>
-<div class="span4">
+<div class="span6">
 {% if pl %}
     {% if pl.completed %}
     <h2>Lesson Completed</h2>
-    <p>You completed this lesson on <strong>{{pl.get_date}}</strong>, your instructor was <strong>{{pl.instructor}}</strong>.</p>
+    <p>You completed this lesson on <strong>{{pl.get_date}}</strong>, your instructor was <strong>{{pl.instructor.get_full_name}}</strong>.</p>
     {% if pl.public_notes %}
     <h3>Notes</h3>
     <p class="notes">{{pl.public_notes}}</p>
@@ -25,7 +23,7 @@
         <h3>Notes</h3>
         <p class="notes">{{pl.session.notes}}</p>
         {% elif pl.date %}
-        <p>This lesson will take place on {{pl.date}}.</p>
+        <p>This lesson will take place on {{pl.date}}, your instructor will be {{pl.instructor.get_full_name}}.</p>
         {% else %}
         <p>The lesson is planned but there is no other information in the database at this time.</p>
         {%endif%}

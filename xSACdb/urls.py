@@ -17,7 +17,9 @@ urlpatterns = patterns('',
     url(r'^profile/$', 'xsd_members.views.view_my_profile', name='my-profile'),
 
     url(r'^training/$', 'xsd_training.views.overview', name='training-overview')    ,
+    url(r'^training/lessons/all$', 'xsd_training.views.lessons', name='training-lessons')    ,
     url(r'^training/lesson/(?P<id>.*)$', 'xsd_training.views.lesson_detail', name='lesson_detail'),
+    url(r'^training/feedback$', 'xsd_training.views.all_feedback'),
 
     url(r'^media/(?P<path>.*)$', 'django.views.static.serve',
         {'document_root': settings.STATIC_DOC_ROOT}),

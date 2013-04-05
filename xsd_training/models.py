@@ -16,10 +16,11 @@ class PerformedLesson(models.Model):
     #           str(self.session.when) + " instr by " +
     #           self.instructor.first_name + " " + self.instructor.last_name)
     def get_date(self):
-        if self.date==None:
-            return self.session.when.date()
-        else:
-            return self.date
+        return self.date  # legacy, will be removed
+    def save(self, *args, **kwargs):
+        if self.session:
+            self.date=self.session.when.date()
+        super(PerformedLesson, self).save(*args, **kwargs)
 
 class Lesson(models.Model):
     MODE_CHOICES = (
