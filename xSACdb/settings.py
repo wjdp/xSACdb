@@ -52,7 +52,7 @@ MEDIA_ROOT = ''
 # Examples: "http://media.lawrence.com/media/", "http://example.com/media/"
 MEDIA_URL = ''
 
-# Media files (css, images etc) for devlopment server
+# Media files (css, images etc) for development server
 STATIC_DOC_ROOT='/home/will/local/xSACdb/media/'
 
 # Absolute path to the directory static files should be collected to.
@@ -63,7 +63,7 @@ STATIC_ROOT = '/home/will/local/xSACdb/static/'
 
 # URL prefix for static files.
 # Example: "http://media.lawrence.com/static/"
-STATIC_URL = '/static/'
+STATIC_URL = 'http://localhost/static/'
 
 # Additional locations of static files
 STATICFILES_DIRS = (
