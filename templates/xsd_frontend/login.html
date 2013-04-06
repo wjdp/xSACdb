@@ -9,10 +9,23 @@
 </head>
 
 <body>
+{% if form.errors %}
+<p>Your username and password didn't match. Please try again.</p>
+{% endif %}
 <form action="" method="post">{% csrf_token %}
 {{ form.as_p }}
 <input type="submit" value="Submit" />
 </form>
+
+<h2>Facebook login</h2>
+<form action="{% url 'facebook_connect' %}?facebook_login=1" method="post">
+<a href="javascript:void(0);" style="font-size: 20px;" onclick="F.connect(this.parentNode);">Register, login or connect with facebook</a>
+<input type="hidden" value="{{ request.path }}" name="next" />
+<input type="hidden" value="{{ request.path }}" name="register_next" />
+<input type="hidden" value="{{ request.path }}" name="error_next" />
+{% csrf_token %}
+</form>
+
 
 {% include 'django_facebook/_facebook_js.html' %}
 </body>

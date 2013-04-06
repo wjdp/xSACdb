@@ -11,7 +11,6 @@ urlpatterns = patterns('',
     url(r'^accounts/logout/$', 'xsd_frontend.views.logout', name='logout'),
     
     url(r'^facebook/', include('django_facebook.urls')),
-    
 
     url(r'^profile/$', 'xsd_members.views.view_my_profile', name='my-profile'),
 
