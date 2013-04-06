@@ -101,12 +101,13 @@ MIDDLEWARE_CLASSES = (
 )
 
 TEMPLATE_CONTEXT_PROCESSORS = (
-    "django.contrib.auth.context_processors.auth",
-    "django.core.context_processors.debug",
-    "django.core.context_processors.i18n",
-    "django.core.context_processors.media",
-    "django.contrib.messages.context_processors.messages",
-    "xSACdb.context_processors.menu_perms",
+    'django.contrib.auth.context_processors.auth',
+    'django.core.context_processors.debug',
+    'django.core.context_processors.i18n',
+    'django.core.context_processors.media',
+    'django.contrib.messages.context_processors.messages',
+    'xSACdb.context_processors.menu_perms',
+    'django_facebook.context_processors.facebook',
 )
 
 
@@ -120,6 +121,11 @@ TEMPLATE_DIRS = (
     # Always use forward slashes, even on Windows.
     # Don't forget to use absolute paths, not relative paths.
     '/home/will/local/xSACdb/templates',
+)
+
+AUTHENTICATION_BACKENDS = (
+    'django.contrib.auth.backends.ModelBackend',
+    'django_facebook.auth_backends.FacebookBackend',
 )
 
 INSTALLED_APPS = (
@@ -170,5 +176,5 @@ LOGGING = {
     }
 }
 AUTH_PROFILE_MODULE='xsd_members.MemberProfile'
-FACEBOOK_APP_ID=0
-FACEBOOK_APP_SECRET=0
+FACEBOOK_APP_ID=499200763461634
+FACEBOOK_APP_SECRET="77de4df5ba9b93e25d8cd2ad7cb55cae"
