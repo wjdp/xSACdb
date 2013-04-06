@@ -1,5 +1,20 @@
+<!doctype html>
+
+<html>
+
+<head>
+    <title>xSACdb Login</title>
+    <meta charset="utf-8" />
+    <link href="{{ STATIC_URL }}css/facebook.css" type="text/css" rel="stylesheet" media="all" />
+    
+</head>
+
+<body>
 <form action="" method="post">{% csrf_token %}
 {{ form.as_p }}
 <input type="submit" value="Submit" />
 </form>
 
+{% include 'django_facebook/_facebook_js.html' %}
+</body>
+</html>
