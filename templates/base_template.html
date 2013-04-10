@@ -1,3 +1,4 @@
+{% load xsd_nav %}
 <!doctype html>
 <html>
 <head>
@@ -18,11 +19,11 @@
         <div class="container">
             <a class="brand" href="#">xSACdb Dev Version</a>
             <ul class="nav">
-                <li class="active"><a href="/">Home</a></li>
-                <li><a href="{% url 'xsd_members.views.view_my_profile' %}">Profile</a></li>
-                {% if has_members_module %}<li><a href="#members">Members</a></li>{% endif %}
-                <li><a href="{% url 'xsd_training.views.overview' %}">Training</a></li>
-                <li><a href="#trips">Trips</a></li>
+                <li {% is_active_simple ui.app 'home' %}><a href="/">Home</a></li>
+                <li {% is_active_simple ui.app 'profile' %}><a href="{% url 'xsd_members.views.view_my_profile' %}">Profile</a></li>
+                {% if has_members_module %}<li {% is_active_simple ui.app 'members' %}><a href="#members">Members</a></li>{% endif %}
+                <li {% is_active_simple ui.app 'training' %}><a href="{% url 'xsd_training.views.overview' %}">Training</a></li>
+                <li {% is_active_simple ui.app 'trips' %}><a href="#trips">Trips</a></li>
                 {% if has_admin_module %}<li><a href="/admin">Admin</a></li>{% endif %}
             </ul>
             <ul class="pull-right nav">

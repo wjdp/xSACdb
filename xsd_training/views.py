@@ -46,7 +46,8 @@ def all_feedback(request):
     ui.app='training'
     ui.section='my'
     ui.page='my_feedback'
-    pls=PerformedLesson.objects.exclude(public_notes="").order_by('-date')
+    pls=PerformedLesson.objects.filter(trainee=request.user)
+    pls=pls.exclude(public_notes="").order_by('-date')
 
     return render(request,'xsd_training/all_feedback.html', {
                   'ui':ui,
