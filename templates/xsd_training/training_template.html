@@ -7,13 +7,13 @@
       <li class="nav-header">Your Training</li>
       <li {% is_active_simple ui.page 'my_overview' %}>
       <a href="{% url 'xsd_training.views.overview' %}">Overview</a></li>
-      <li {% is_active_simple ui.page 'my_lessons' %}>
-      <a href="{% url 'xsd_training.views.lessons' %}">Lessons</a></li>
+      {% if profile.training_for %}<li {% is_active_simple ui.page 'my_lessons' %}>
+      <a href="{% url 'xsd_training.views.lessons' %}">Lessons</a></li>{% endif %}
       <li {% is_active_simple ui.page 'my_feedback' %}>
       <a href="{% url 'xsd_training.views.all_feedback' %}">See All Feedback</a></li>
       <li class="nav-header">Skill Development Courses</li>
-      <li><a href="#">SDC Overview</a></li>
       <li><a href="#">Your SDCs</a></li>
+      <li><a href="#">View All SDCs</a></li>
       <li class="nav-header">Your Teaching</li>
       <li><a href="#">Upcoming Lessons</a></li>
       <li><a href="#">Give Feedback</a></li>

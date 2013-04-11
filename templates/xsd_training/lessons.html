@@ -2,7 +2,6 @@
 {% load lesson_extras %}
 {% block training_content %}
 <div class="span5">
-<h2>Lessons</h2>
 <p>Lessons include all theory, pool sessions and open water.</p>
 <h3>Theory Lessons</h3>
 {% show_lessons profile.training_for 'TH' user %}
@@ -14,11 +13,7 @@
 {% show_lessons profile.training_for 'DP' user %}
 </div>
 <div class="span4">
-    {% if profile.training_for %}
-    <h2>Upcoming Lessons</h2>
-    {% show_upcoming_lessons user %}
-    {% endif %}
-<h2>Experience</h2>
+<h3>Experience</h3>
 <p>Experience dives can take place at any point, but you need to get them signed off by an instructor.</p>
 
 {% show_lessons profile.training_for 'XP' profile %}

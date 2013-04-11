@@ -30,6 +30,9 @@ ul.lessons li {
 padding-left:20px;
 list-style-type:none;
 }
+ul.planned li {
+background:url('/media/images/clock16.png') no-repeat 0 50%;
+}
 ul.completed li {
 background:url('/media/images/tick16.png') no-repeat 0 50%;
 opacity:0.5;

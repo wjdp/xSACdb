@@ -55,6 +55,11 @@ class Lesson(models.Model):
         if pl>0: return True
         else: return False
 
+    def is_planned(self, user):
+        pl=PerformedLesson.objects.filter(trainee=user, lesson=self, completed=False).count()
+        if pl>0: return True
+        else: return False
+
 class Qualification(models.Model):
     title=models.CharField(max_length=50)
     rank=models.IntegerField()

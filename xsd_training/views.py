@@ -33,12 +33,17 @@ def qualification_detail(request, id):
 
 def lesson_detail(request, id):
     lesson=get_object_or_404(Lesson, id=id)
+    ui=xsdUI
+    ui.app='training'
+    ui.page='my_lessons'
+    ui.section='my'
     try:
         pl=PerformedLesson.objects.get(trainee=request.user, lesson=lesson)
     except PerformedLesson.DoesNotExist: pl=None
     return render(request, 'xsd_training/lesson_detail.html', {
         'lesson':lesson,
-        'pl': pl
+        'pl': pl,
+        'ui':ui,
         }, context_instance=RequestContext(request))
 
 def all_feedback(request):
