@@ -1,0 +1,18 @@
+{% extends 'members_template.html' %}
+{% load bootstrap_toolkit %}
+
+{% block members_content %}
+<div class="row">
+<div class="span8">
+	<h2>Search Membership</h2>
+	<p>Pop a surname, or part of one, into the box below and hit search. BAM!</p>
+	<form action="." method="GET">
+    {% csrf_token %}
+    {{ search_form|as_bootstrap }}
+    <button type="submit" class="btn btn-primary">Submit</button>
+	</form>
+		{% include 'member_list_table.html' %}
+
+</div>
+</div>
+{% endblock %}
