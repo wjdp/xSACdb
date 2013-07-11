@@ -1,9 +1,11 @@
 {% extends 'members_template.html' %}
 {% block members_content %}
+{% load xsd_nav %}
+
 <div class="row">
 <div class="span9">
-	{% if myself %}<a href="{% url 'MyProfileEdit' %}" class="btn alignright" type="button"><i class="icon-pencil"></i> Edit</a>
-	{% elif editable %}Edtiable{% endif %}
+	{% if has_members_module %}<a href="{% url 'MemberEdit' user.pk %}" class="btn alignright" type="button"><i class="icon-pencil"></i> Edit</a>
+	{% elif myself %}<a href="{% url 'MyProfileEdit' %}" class="btn alignright" type="button"><i class="icon-pencil"></i> Edit</a>{% endif %}
 
 	{% ifequal member_profile.gender "F" %} <img src="/media/images/female.png" class="alignright" />{% endifequal %}
 	{% ifequal member_profile.gender "M" %} <img src="/media/images/male.png" class="alignright" />{% endifequal %}

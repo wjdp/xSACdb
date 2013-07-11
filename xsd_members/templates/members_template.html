@@ -7,6 +7,7 @@
       <li {% is_active_simple current_url 'my-profile' %}{% is_active_simple current_url 'MyProfileEdit' %}>
       <a href="{% url 'my-profile' %}">Your Profile</a></li>
 
+      {% if has_members_module %}
       <li class="nav-header">Current Membership</li>
       <li {% is_active_simple current_url 'MemberSearch' %}>
       <a href="{% url 'MemberSearch' %}">Search For Member</a></li>
@@ -32,7 +33,7 @@
       <a href="{% url 'MemberList' %}">Add User Only</a></li>
       <li {% is_active_simple current_url 'NoPage' %}>
       <a href="{% url 'MemberList' %}">Add Member</a></li>
-
+      {% endif %}
 
     </ul> 
 
