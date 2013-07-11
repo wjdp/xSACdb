@@ -2,7 +2,8 @@
 {% block members_content %}
 <div class="row">
 <div class="span9">
-	<a href="" class="btn alignright" type="button">Edit</a>
+	{% if myself %}<a href="{% url 'MyProfileEdit' %}" class="btn alignright" type="button"><i class="icon-pencil"></i> Edit</a>
+	{% elif editable %}Edtiable{% endif %}
 
 	{% ifequal member_profile.gender "F" %} <img src="/media/images/female.png" class="alignright" />{% endifequal %}
 	{% ifequal member_profile.gender "M" %} <img src="/media/images/male.png" class="alignright" />{% endifequal %}
@@ -25,6 +26,8 @@
 		<dd>{{member_profile.dob}}</dd>
 		<dt>Age</dt>
 		<dd>{{member_profile.age}}</dd>
+		<dt>Email Address</dt>
+		<dd>{{member.email}}</dd>
 		<dt>Home Phone</dt>
 		<dd>{{member_profile.home_phone}}</dd>
 		<dt>Mobile Phone</dt>

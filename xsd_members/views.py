@@ -3,13 +3,14 @@ from django.contrib.auth.models import User
 from django.views.generic.base import View
 from django.views.generic.list import ListView
 from django.views.generic.detail import DetailView
+from django.views.generic.edit import FormView
 
 from django.template import RequestContext
 from django.shortcuts import render, redirect
-from django.core.urlresolvers import reverse
+from django.core.urlresolvers import reverse, reverse_lazy
 
 from xsd_members.models import MemberProfile
-from xsd_members.forms import MemberSearchForm
+from xsd_members.forms import *
 
 
 def view_my_profile(request):
@@ -67,3 +68,22 @@ class MemberDetail(DetailView):
         # Add in a QuerySet of all the books
         context['member_profile'] = self.get_object().get_profile()
         return context
+
+class MyProfileEdit(FormView):
+    template_name='members_personal_edit.html'
+    form_class=PersonalEditForm
+    success_url=reverse_lazy('my-profile')
+
+    def get_initial(self):
+        initial={}
+        profile=self.request.user.get_profile()
+        for field in self.form_class._meta.fields:
+            initial[field]=getattr(profile,field)
+        return initial
+    def form_valid(self, form):
+        profile=self.request.user.get_profile()
+        for field in form.cleaned_data:
+            setattr(profile, field, form.cleaned_data[field])
+        profile.save()
+        return super(MyProfileEdit, self).form_valid(form)
+
