@@ -53,3 +53,9 @@ width:30px;
 font-weight:bold;
 color:#fafafa;
 }
+
+.dl-break {
+    margin-top: 1em;
+    padding-top: 0.8em;
+    border-top: 1px solid #ccc;
+}

@@ -79,6 +79,25 @@ class MemberProfile(models.Model):
     def performed_lessons_for_qualification(self, qualification):
         pass
 
+    def missing_personal_details(self):
+        if self.dob==None or self.address==None or self.postcode==None or self.home_phone==None \
+        or self.mobile_phone==None or self.next_of_kin_name==None or self.next_of_kin_relation==None \
+        or self.next_of_kin_relation==None or self.next_of_kin_phone==None:
+            return True
+        else:
+            return False
+
+    def age(self):
+        today=date.today()
+        num_years = int((today - self.dob).days / 365.25)
+        return num_years
+    def formatted_address(self):
+        return self.address.replace("\n","<br />")
+    def formatted_other_qualifications(self):
+        return self.other_qualifications.replace("\n","<br />")
+    def formatted_alergies(self):
+        return self.alergies.replace("\n","<br />")
+
 from django.db.models import signals
 from django.contrib.auth.management import create_superuser
 from django.contrib.auth import models as auth_app

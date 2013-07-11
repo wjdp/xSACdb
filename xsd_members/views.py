@@ -13,15 +13,16 @@ from xsd_members.forms import MemberSearchForm
 
 
 def view_my_profile(request):
-    return view_profile(request, user=request.user)
-
-def view_profile(request, user):
-    profile = user.get_profile()
-
-    return render(request,'profile.html', {'user':user, 'profile':profile, }, context_instance=RequestContext(request))
+    profile=request.user.get_profile
+    editable=True
+    return render(request,'members_detail.html',
+        {'member_profile':profile,
+        'editable':editable,
+        'myself':True},
+        context_instance=RequestContext(request))
 
 def admin(request):
-    return redirect(reverse('MemberList'))
+    return redirect(reverse('MemberSearch'))
 
 class OrderedListView(ListView):
     def get_queryset(self):

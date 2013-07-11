@@ -9,7 +9,7 @@
 	<form action="." method="GET">
     {% csrf_token %}
     {{ search_form|as_bootstrap }}
-    <button type="submit" class="btn btn-primary">Submit</button>
+    <button type="submit" class="btn btn-primary">Search</button>
 	</form>
 		{% include 'member_list_table.html' %}
 
