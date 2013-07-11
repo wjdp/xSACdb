@@ -79,6 +79,15 @@ class MemberProfile(models.Model):
     def performed_lessons_for_qualification(self, qualification):
         pass
 
+from django.db.models import signals
+from django.contrib.auth.management import create_superuser
+from django.contrib.auth import models as auth_app
+
+signals.post_syncdb.disconnect(
+    create_superuser,
+    sender=auth_app,
+    dispatch_uid = "django.contrib.auth.management.create_superuser")
+
 from django.contrib.auth.models import User
 from django.db.models.signals import post_save
 
