@@ -1,3 +1,6 @@
+.alignleft {float: left}
+.alignright {float: right}
+
 ul.membership-status {
     margin-left:4px
 }

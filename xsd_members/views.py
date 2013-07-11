@@ -2,6 +2,7 @@ from django.contrib.auth.models import User
 
 from django.views.generic.base import View
 from django.views.generic.list import ListView
+from django.views.generic.detail import DetailView
 
 from django.template import RequestContext
 from django.shortcuts import render, redirect
@@ -48,9 +49,20 @@ class MemberSearch(OrderedListView):
         context['search_form'] = MemberSearchForm()
         return context
 
-
 class MemberList(OrderedListView):
     model=User
     template_name='members_list.html'
     context_object_name='members'
     order_by='last_name'
+
+class MemberDetail(DetailView):
+    model=User
+    template_name='members_detail.html'
+    context_object_name='member'
+
+    def get_context_data(self, **kwargs):
+        # Call the base implementation first to get a context
+        context = super(MemberDetail, self).get_context_data(**kwargs)
+        # Add in a QuerySet of all the books
+        context['member_profile'] = self.get_object().get_profile()
+        return context

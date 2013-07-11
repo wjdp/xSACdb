@@ -6,5 +6,6 @@ from views import *
 urlpatterns = patterns('',
 	    url(r'^$', 'xsd_members.views.admin', name='members_admin'),
 	    url(r'^search/$', MemberSearch.as_view(), name='MemberSearch'),
+	    url(r'^member/(?P<pk>\d+)$', MemberDetail.as_view(), name='MemberDetail'),
 	    url(r'^list/$', MemberList.as_view(), name='MemberList'),
 )

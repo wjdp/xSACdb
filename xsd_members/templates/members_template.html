@@ -9,13 +9,19 @@
       <a href="{% url 'MemberSearch' %}">Search For Member</a></li>
       <li {% is_active_simple current_url 'MemberList' %}>
       <a href="{% url 'MemberList' %}">Members Listing</a></li>
-      <li {% is_active_simple current_url 'MemberList' %}>
+      <li {% is_active_simple current_url 'NoPage' %}>
       <a href="{% url 'MemberList' %}">Search For Member</a></li>
 
+      <li class="nav-header">Bulk Jobs</li>
+      <li {% is_active_simple current_url 'NoPage' %}>
+      <a href="{% url 'MemberList' %}">Add Forms</a></li>
+      <li {% is_active_simple current_url 'NoPage' %}>
+      <a href="{% url 'MemberList' %}">Add Memberships</a></li>
+
       <li class="nav-header">Manual Registration</li>
-      <li {% is_active_simple current_url 'MemberList' %}>
+      <li {% is_active_simple current_url 'NoPage' %}>
       <a href="{% url 'MemberList' %}">Add User Only</a></li>
-      <li {% is_active_simple current_url 'MemberList' %}>
+      <li {% is_active_simple current_url 'NoPage' %}>
       <a href="{% url 'MemberList' %}">Add Member</a></li>
 
 

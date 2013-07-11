@@ -2,7 +2,9 @@
 <table class="table table-condensed table-striped">
 	<tr><th>Name</th><th>Membership Type</th></tr>
 {% for member in members %}
-	<tr><td>{{member.first_name}} {{member.last_name}}</td><td>{{member.get_profile.club_membership_type}}</td></tr>
+	<tr>
+		<td><a href="{% url 'MemberDetail' member.pk %}">{{member.first_name}} {{member.last_name}}</a></td>
+		<td>{{member.get_profile.club_membership_type}}</td></tr>
 {% endfor %}
 </table>
 {% endif %}
