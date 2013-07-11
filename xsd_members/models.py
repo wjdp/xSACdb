@@ -60,13 +60,13 @@ class MemberProfile(models.Model):
         return q[c]
 
     def club_expired(self):
-        if self.club_expiry <= date.today(): return True
+        if self.club_expiry==None or self.club_expiry <= date.today(): return True
         else: return False
     def bsac_expired(self):
-        if self.bsac_expiry <= date.today(): return True
+        if self.bsac_expiry==None or self.bsac_expiry <= date.today(): return True
         else: return False
     def medical_form_expired(self):
-        if self.medical_form_expiry <= date.today(): return True
+        if self.medical_form_expiry==None or self.medical_form_expiry <= date.today(): return True
         else: return False
     def membership_problem(self):
         if self.club_expired() or self.bsac_expired() or self.medical_form_expired():

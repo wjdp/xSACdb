@@ -7,11 +7,11 @@
 	{% if has_members_module %}<a href="{% url 'MemberEdit' user.pk %}" class="btn alignright" type="button"><i class="icon-pencil"></i> Edit</a>
 	{% elif myself %}<a href="{% url 'MyProfileEdit' %}" class="btn alignright" type="button"><i class="icon-pencil"></i> Edit</a>{% endif %}
 
-	{% ifequal member_profile.gender "F" %} <img src="/media/images/female.png" class="alignright" />{% endifequal %}
-	{% ifequal member_profile.gender "M" %} <img src="/media/images/male.png" class="alignright" />{% endifequal %}
-	<h1>{{member_profile}}</h1>
+	{% ifequal member.gender "F" %} <img src="/media/images/female.png" class="alignright" />{% endifequal %}
+	{% ifequal member.gender "M" %} <img src="/media/images/male.png" class="alignright" />{% endifequal %}
+	<h1>{{member}}</h1>
 {% if myself %}
-	{% if member_profile.missing_personal_details %}
+	{% if member.missing_personal_details %}
 		<div class="alert alert-block">
     		<button type="button" class="close" data-dismiss="alert">&times;</button>
     		<h4>You're missing some bits</h4>
@@ -25,43 +25,43 @@
 	<dl>
 		<h3>Personal Details</h3>
 		<dt>Date Of Birth</dt>
-		<dd>{{member_profile.dob}}</dd>
+		<dd>{{member.dob}}</dd>
 		<dt>Age</dt>
-		<dd>{{member_profile.age}}</dd>
+		<dd>{{member.age}}</dd>
 		<dt>Email Address</dt>
-		<dd>{{member.email}}</dd>
+		<dd>{{member.user.email}}</dd>
 		<dt>Home Phone</dt>
-		<dd>{{member_profile.home_phone}}</dd>
+		<dd>{{member.home_phone}}</dd>
 		<dt>Mobile Phone</dt>
-		<dd>{{member_profile.mobile_phone}}</dd>
+		<dd>{{member.mobile_phone}}</dd>
 		<dt>Address</dt>
-		<dd>{{member_profile.formatted_address|safe}}<br />
-			{{member_profile.postcode}}</dd>
+		<dd>{{member.formatted_address|safe}}<br />
+			{{member.postcode}}</dd>
 		<dt>Veggie</dt>
-		<dd>{{member_profile.veggie}}</dd>
-		{% if member_profile.alergies %}
+		<dd>{{member.veggie}}</dd>
+		{% if member.alergies %}
 		<dt>Alergies</dt>
-		<dd>{{member_profile.formatted_alergies|safe}}</dd>
+		<dd>{{member.formatted_alergies|safe}}</dd>
 		{% endif %}
 
 
 		<dt class="dl-break">Next of Kin Name</dt>
-		<dd>{{member_profile.next_of_kin_name}}</dd>
+		<dd>{{member.next_of_kin_name}}</dd>
 		<dt>Next of Kin Relation</dt>
-		<dd>{{member_profile.next_of_kin_relation}}</dd>
+		<dd>{{member.next_of_kin_relation}}</dd>
 		<dt>Next of Kin Phone</dt>
-		<dd>{{member_profile.next_of_kin_phone}}</dd>
+		<dd>{{member.next_of_kin_phone}}</dd>
 	</dl>
 </div>
 <div class="span3">
 	<dl>
 		<h3>Club Details</h3>
-		{% if member_profile.club_id %}
+		{% if member.club_id %}
 		<dt>Club ID</dt>
-		<dd>{{member_profile.club_id}}</dd>
+		<dd>{{member.club_id}}</dd>
 		{% endif %}
 		<dt>Club Membership Expiry</dt>
-		<dd>{{member_profile.club_expiry}}</dd>
+		<dd>{{member.club_expiry}}</dd>
 		<dt class="dl-break">SDCs</dt>
 		<dd>
 			<ul>
@@ -69,26 +69,26 @@
 			</ul>
 		</dd>
 		<dt>Instructor Number</dt>
-		<dd>{{member_profile.instructor_number}}</dd>
+		<dd>{{member.instructor_number}}</dd>
 	</dl>
 </div>
 <div class="span3">
 	<dl>
 		<h3>Qualification Details</h3>
 		<dt>Qualification</dt>
-		<dd>{{member_profile.top_qual}}</dd>
-		{% if member_profile.training_for %}
+		<dd>{{member.top_qual}}</dd>
+		{% if member.training_for %}
 		<dt>Training For</dt>
-		<dd>{{member_profile.training_for}}</dd>
+		<dd>{{member.training_for}}</dd>
 		{% endif %}
-		{% if member_profile.training_for %}
+		{% if member.training_for %}
 		<dt>Instructor Number</dt>
-		<dd>{{member_profile.instructor_number}}</dd>
+		<dd>{{member.instructor_number}}</dd>
 		{% endif %}		
 				<dt class="dl-break">SDCs</dt>
 		<dd>
 			<ul class="sdc">
-			{% for sdc in member_profile.sdcs.all %}
+			{% for sdc in member.sdcs.all %}
 				<li>{{sdc}}</li>
 				{% empty %}
 				None
@@ -96,8 +96,8 @@
 			</ul>
 		</dd>
 		<dt>Other Qualifications</dt>
-		<dd>{% if member_profile.other_qualifications %}
-			{{member_profile.formatted_other_qualifications|safe}}
+		<dd>{% if member.other_qualifications %}
+			{{member.formatted_other_qualifications|safe}}
 			{% else %}None{% endif %}</dd>
 	</dl>
 </div>
