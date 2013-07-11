@@ -22,3 +22,8 @@ class RetActiveNode(template.Node):
         else: return None
 
 register.tag('is_active', ret_active_if_equal)
+
+@register.simple_tag
+def is_active_simple(iff,value):
+    if iff==value: return "class='active'"
+    else: return None
