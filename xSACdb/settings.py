@@ -142,6 +142,7 @@ INSTALLED_APPS = (
 
     'south',
     'django_facebook',
+    'bootstrap_toolkit',
 
     'xsd_members',
     'xsd_training',
