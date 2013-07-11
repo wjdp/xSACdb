@@ -1,7 +1,7 @@
 from django import template
 register = template.Library()
 
-@register.inclusion_tag('xsd_training/lesson_list_template.html')
+@register.inclusion_tag('lesson_list_template.html')
 def show_lessons(qualification, mode, user):
     lessons=qualification.lessons_by_mode(mode=mode)
     
@@ -21,7 +21,7 @@ def show_lessons(qualification, mode, user):
 
 from xsd_training.models import PerformedLesson
 
-@register.inclusion_tag('xsd_training/lesson_list_template.html')
+@register.inclusion_tag('lesson_list_template.html')
 def show_upcoming_lessons(user):
     pl_upcoming=PerformedLesson.objects.filter(trainee=user, completed=False)
 

@@ -12,7 +12,7 @@ def overview(request):
     ui.page='my_overview'
     ui.section='my'
 
-    return render(request,'xsd_training/overview.html', {
+    return render(request,'overview.html', {
             'ui':ui     
             }, context_instance=RequestContext(request))
 
@@ -23,7 +23,7 @@ def lessons(request):
     ui.page='my_lessons'
     ui.section='my'
 
-    return render(request,'xsd_training/lessons.html', {
+    return render(request,'lessons.html', {
             'ui':ui     
             }, context_instance=RequestContext(request))
 
@@ -40,7 +40,7 @@ def lesson_detail(request, id):
     try:
         pl=PerformedLesson.objects.get(trainee=request.user, lesson=lesson)
     except PerformedLesson.DoesNotExist: pl=None
-    return render(request, 'xsd_training/lesson_detail.html', {
+    return render(request, 'lesson_detail.html', {
         'lesson':lesson,
         'pl': pl,
         'ui':ui,
@@ -54,7 +54,7 @@ def all_feedback(request):
     pls=PerformedLesson.objects.filter(trainee=request.user)
     pls=pls.exclude(public_notes="").order_by('-date')
 
-    return render(request,'xsd_training/all_feedback.html', {
+    return render(request,'all_feedback.html', {
                   'ui':ui,
                   'pls':pls
                   }, context_instance=RequestContext(request))

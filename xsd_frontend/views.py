@@ -8,7 +8,7 @@ def dashboard(request):
         return redirect('login')
     profile=request.user.get_profile()
 
-    return render(request,'xsd_frontend/dashboard.html', {
+    return render(request,'dashboard.html', {
         'request':request,
         'profile':profile,
     }, context_instance=RequestContext(request))
@@ -34,7 +34,7 @@ def login(request):
             pass
     else:
         form=LoginForm()
-    return render(request,'xsd_frontend/login.html', {'form':form}, context_instance=RequestContext(request))
+    return render(request,'login.html', {'form':form}, context_instance=RequestContext(request))
 
 from django.contrib.auth import logout as auth_logout
 
