@@ -11,7 +11,7 @@
 <table class="table table-condensed table-striped">
 	<tr><th>Name</th><th>Club Expiry</th><th>BSAC Expiry</th><th>Medical Form Expiry</th></tr>
 {% for form in formset %}
-	<tr><input type="hidden" name="form-{{form.id}}-userid" value="{{form.user_id}}" />
+	<tr>{{form.user_id}}
 		<td>{{form.full_name}}</td>
 		<td>{{form.club_expiry}}</td>
 		<td>{{form.bsac_expiry}}</td>

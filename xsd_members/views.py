@@ -180,14 +180,13 @@ class BulkAddForms(View):
             members=self.get_some_objects(user_ids)
             spreadsheet=True
         if spreadsheet:
-            FormExpiryFormSet = formset_factory(FormExpiryForm,extra=len(members))
-            formset=FormExpiryFormSet()
-            i=0
+            FormExpiryFormSet = formset_factory(FormExpiryForm, extra=0)
+            initial=[]
+            for member in members:
+                initial.append({'user_id':member.user.pk})
+            formset=FormExpiryFormSet(initial=initial)
             for member,form in zip(members,formset):
-                form.id=i
-                form.user_id=member.user.pk
                 form.full_name=member.user.get_full_name()
-                i+=1
 
             return render(request,'members_bulk_edit_forms.html',{
                 'page_title':'Bulk Select Results',
@@ -215,8 +214,12 @@ class BulkAddForms(View):
     def post(self, request, *args, **kwargs):
         formset=FormExpiryFormSet(request.POST)
         if formset.is_valid():
-            print "OK!"
-            print formset.cleaned_data
+            for form in formset.cleaned_data:
+                mp=MemberProfile.objects.get(user__pk=form['user_id'])
+                if form['club_expiry']: mp.club_expiry=form['club_expiry']
+                if form['bsac_expiry']: mp.bsac_expiry=form['bsac_expiry']
+                if form['medical_form_expiry']: mp.medical_form_expiry=form['medical_form_expiry']
+                mp.save()
         else:
             print "UNCLEAN!"
 

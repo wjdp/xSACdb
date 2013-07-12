@@ -33,11 +33,12 @@ class MemberEditForm(forms.ModelForm):
             'bsac_direct_debit','medical_form_expiry','other_qualifications']
 
 class FormExpiryForm(forms.Form):
-    user_id=None
+    user_id=forms.IntegerField()
+    user_id.widget=forms.HiddenInput()
     full_name=''
-    club_expiry = forms.DateField()
-    bsac_expiry = forms.DateField()
-    medical_form_expiry = forms.DateField()
+    club_expiry = forms.DateField(input_formats=['%d/%m/%Y'], required=False)
+    bsac_expiry = forms.DateField(input_formats=['%d/%m/%Y'], required=False)
+    medical_form_expiry = forms.DateField(input_formats=['%d/%m/%Y'], required=False)
 
 FormExpiryFormSet = formset_factory(FormExpiryForm)
 
