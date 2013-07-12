@@ -143,6 +143,7 @@ INSTALLED_APPS = (
     'south',
     'django_facebook',
     'bootstrap_toolkit',
+    'tastypie',
 
     'xsd_frontend',
     'xsd_members',

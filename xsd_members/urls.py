@@ -1,5 +1,10 @@
 from django.conf.urls import patterns, include, url
 from django.conf import settings
+from tastypie.api import Api
+from api import MemberResource
+
+members_api = Api(api_name='members')
+members_api.register(MemberResource())
 
 from views import *
 
@@ -12,4 +17,5 @@ urlpatterns = patterns('',
 	    url(r'^member/(?P<pk>\d+)/edit/$', MemberEdit.as_view(), name='MemberEdit'),
 	    url(r'^list/$', MemberList.as_view(), name='MemberList'),
 	    url(r'^expired-forms/$', MembersExpiredFormsList.as_view(), name='MembersExpiredFormsList'),
+	    url(r'^api/',include(members_api.urls)),
 )

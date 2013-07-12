@@ -3,4 +3,5 @@ Pillow==2.1.0
 South==0.7.6
 django-bootstrap-toolkit==2.14.0
 django-facebook==5.0.7beta
+django-tastypie==0.9.15
 wsgiref==0.1.2
