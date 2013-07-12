@@ -23,8 +23,8 @@
       <a href="{% url 'MembersExpiredFormsList' %}">Members With Expired Forms</a></li>
 
       <li class="nav-header">Bulk Jobs</li>
-      <li {% is_active_simple current_url 'NoPage' %}>
-      <a href="{% url 'MemberList' %}">Add Forms</a></li>
+      <li {% is_active_simple current_url 'BulkAddForms' %}>
+      <a href="{% url 'BulkAddForms' %}">Add Forms</a></li>
 
       <li class="nav-header">Manual Registration</li>
       <li {% is_active_simple current_url 'NoPage' %}>

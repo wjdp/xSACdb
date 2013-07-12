@@ -15,6 +15,8 @@ from xsd_members.models import MemberProfile
 from xsd_members.forms import *
 
 import datetime
+import StringIO
+import csv
 
 def view_my_profile(request):
     profile=request.user.get_profile
@@ -158,6 +160,23 @@ class MemberEdit(ModelFormView):
 
 def select_tool(request):
     return render(request,'members_bulk_select.html',{
+        },
+        context_instance=RequestContext(request))
+
+class BulkAddForms(View):
+    def get(self, request, *args, **kwargs):
+        return render(request,'members_bulk_select.html',{
+        },
+        context_instance=RequestContext(request))
+    def post(self, request, *args, **kwargs):
+        f = StringIO.StringIO(request.POST['names'])
+        reader = csv.reader(f, delimiter=',')
+        for row in reader:
+            user_ids=row
+        members=MemberProfile.objects.filter(user__pk__in=user_ids)
+        return render(request,'members_list.html',{
+            'members':members,
+            'page_title':'Bulk Select Results',
         },
         context_instance=RequestContext(request))
 

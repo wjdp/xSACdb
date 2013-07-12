@@ -4,13 +4,15 @@
 {% block members_content %}
 
 <div class="row">
-<div class="span9">
-<h2>Members Selection Tool</h2>
-<div>
-        <input type="text" id="token-input" name="names" />
-        <input type="button" value="Submit" />
-       
-    </div>
-</div>
+	<div class="span9">
+		<h2>Members Selection Tool</h2>
+		<div>
+			<form action="." method="POST">
+				{% csrf_token %}
+				<input type="text" id="token-input" name="names" />
+				<input type="submit" value="Select" />
+			</form>
+		</div>
+	</div>
 </div>
 {% endblock %}
