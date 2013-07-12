@@ -144,6 +144,7 @@ INSTALLED_APPS = (
     'django_facebook',
     'bootstrap_toolkit',
 
+    'xsd_frontend',
     'xsd_members',
     'xsd_training',
     'xsd_trips',
