@@ -132,3 +132,4 @@ def select_tool(request):
     return render(request,'members_bulk_select.html',{
         },
         context_instance=RequestContext(request))
+    
