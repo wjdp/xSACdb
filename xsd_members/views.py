@@ -5,6 +5,8 @@ from django.views.generic.list import ListView
 from django.views.generic.detail import DetailView
 from django.views.generic.edit import FormView
 
+from django.forms.formsets import formset_factory
+
 from django.db.models import Q
 
 from django.template import RequestContext
@@ -174,9 +176,16 @@ class BulkAddForms(View):
         for row in reader:
             user_ids=row
         members=MemberProfile.objects.filter(user__pk__in=user_ids)
-        return render(request,'members_list.html',{
-            'members':members,
+        FormExpiryFormSet = formset_factory(FormExpiryForm,extra=len(members))
+        formset=FormExpiryFormSet()
+        i=0
+        for member,form in zip(members,formset):
+            form.user_id=member.user.pk
+            form.full_name=member.user.get_full_name()
+
+        return render(request,'members_bulk_edit_forms.html',{
             'page_title':'Bulk Select Results',
+            'formset':formset,
         },
         context_instance=RequestContext(request))
 

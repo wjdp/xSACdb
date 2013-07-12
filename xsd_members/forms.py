@@ -29,3 +29,11 @@ class MemberEditForm(forms.ModelForm):
             'club_expiry','club_membership_type','bsac_id','bsac_expiry',
             'bsac_direct_member','bsac_member_via_another_club',
             'bsac_direct_debit','medical_form_expiry','other_qualifications']
+
+class FormExpiryForm(forms.Form):
+    user_id=None
+    full_name=''
+    club_expiry = forms.DateField()
+    bsac_expiry = forms.DateField()
+    medical_form_expiry = forms.DateField()
+

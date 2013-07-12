@@ -1,0 +1,25 @@
+{% extends 'members_template.html' %}
+{% block members_content %}
+<div class="row">
+<div class="span9">
+	<h2>Bulk Add Forms</h2>
+	<p>Please enter the new expiry dates for the forms you wish to add. To not inlude a form leave that field blank.</p>
+	<form action="." method="POST">
+		{% csrf_token %}
+<table class="table table-condensed table-striped">
+	<tr><th>Name</th><th>Club Expiry</th><th>BSAC Expiry</th><th>Medical Form Expiry</th></tr>
+{% for form in formset %}
+	<tr>
+		<td>{{form.full_name}}</td>
+		<td>{{form.club_expiry}}</td>
+		<td>{{form.bsac_expiry}}</td>
+		<td>{{form.medical_form_expiry}}</td>
+		</tr>
+{% endfor %}
+</table>
+<div class="btn-group">
+    <button type="submit" class="btn btn-primary">Add Forms</button>
+</div>
+</div>
+</div>
+{% endblock %}
