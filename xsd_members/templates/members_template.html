@@ -17,16 +17,14 @@
       <li class="nav-header">Records Needing Attention</li>
       <li {% is_active_simple current_url 'NoPage' %}>
       <a href="{% url 'MemberList' %}">Update Requests</a></li>
-      <li {% is_active_simple current_url 'NoPage' %}>
-      <a href="{% url 'MemberList' %}">Members With Blank Fields</a></li>
+      <li {% is_active_simple current_url 'MembersMissingFieldsList' %}>
+      <a href="{% url 'MembersMissingFieldsList' %}">Members With Blank Fields</a></li>
       <li {% is_active_simple current_url 'MembersExpiredFormsList' %}>
       <a href="{% url 'MembersExpiredFormsList' %}">Members With Expired Forms</a></li>
 
       <li class="nav-header">Bulk Jobs</li>
       <li {% is_active_simple current_url 'NoPage' %}>
       <a href="{% url 'MemberList' %}">Add Forms</a></li>
-      <li {% is_active_simple current_url 'NoPage' %}>
-      <a href="{% url 'MemberList' %}">Add Memberships</a></li>
 
       <li class="nav-header">Manual Registration</li>
       <li {% is_active_simple current_url 'NoPage' %}>

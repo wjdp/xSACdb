@@ -59,8 +59,16 @@ class MemberList(OrderedListView):
     template_name='members_list.html'
     context_object_name='members'
     order_by='user__last_name'
+    page_title='Club Membership Listing'
+
+    def get_context_data(self, **kwargs):
+        context = super(MemberList, self).get_context_data(**kwargs)
+        context['page_title'] = self.page_title
+        return context
 
 class MembersExpiredFormsList(MemberList):
+    page_title='Members With Expired Forms'
+
     def get_queryset(self):
         queryset=super(MembersExpiredFormsList, self).get_queryset()
         today=datetime.date.today()
@@ -68,6 +76,26 @@ class MembersExpiredFormsList(MemberList):
             Q(club_expiry__lte=today) | Q(club_expiry=today) | \
             Q(medical_form_expiry__lte=today) | Q(medical_form_expiry=None))
         return queryset
+
+class MembersMissingFieldsList(MemberList):
+    page_title='Members With Missing Personal Fields'
+
+    blank_fields=['address','postcode','home_phone','mobile_phone','next_of_kin_name','next_of_kin_relation','next_of_kin_phone']
+
+    def build_queryset(self):
+        qObj = None
+        for field in self.blank_fields:
+            newQ = Q(**{field :  ''}) 
+            if qObj is None:
+                qObj = newQ
+            else:
+                qObj = qObj | newQ
+        return qObj
+
+    def get_queryset(self):
+        queryset=super(MembersMissingFieldsList, self).get_queryset()
+        queryset_filtered=queryset.filter(self.build_queryset())
+        return queryset_filtered
 
 class MemberDetail(DetailView):
     model=MemberProfile
@@ -132,4 +160,4 @@ def select_tool(request):
     return render(request,'members_bulk_select.html',{
         },
         context_instance=RequestContext(request))
-    
+
