@@ -4,6 +4,7 @@
 <head>
     <title>{% block title %}xSACdb Default Template{% endblock %}</title>
     <meta charset="utf-8" />
+
     <link rel="stylesheet" type="text/css" media="screen" href="/media/bootstrap/css/bootstrap.min.css" />
     <style>
         body {
@@ -12,6 +13,19 @@
     </style>
     <link rel="stylesheet" type="text/css" media="screen" href="/media/bootstrap/css/bootstrap-responsive.min.css" />
     <link rel="stylesheet" type="text/css" media="screen" href="/media/css/strap.css" />
+
+    <link rel="stylesheet" type="text/css" media="screen" href="/media/css/token-input-facebook.css" />
+
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.5.1/jquery.min.js"></script>
+    <script type="text/javascript" src="/media/js/jquery.tokeninput.js"></script>
+
+    <script type="text/javascript">
+    $(document).ready(function () {
+        $("#token-input").tokenInput("/members/api/members/tokeninput_members/?format=json");
+    });
+    </script>
+
+    
 </head>
 <body>
 <div class="navbar navbar-inverse navbar-fixed-top">
@@ -46,7 +60,6 @@
 No content
 {% endblock %}
 </div>
-<script src="http://code.jquery.com/jquery.js"></script>
 <script src="/media/bootstrap/js/bootstrap.min.js"></script>
 </body>
 </html>

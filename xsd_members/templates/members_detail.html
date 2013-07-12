@@ -4,7 +4,7 @@
 
 <div class="row">
 <div class="span9">
-	{% if has_members_module %}<a href="{% url 'MemberEdit' user.pk %}" class="btn alignright" type="button"><i class="icon-pencil"></i> Edit</a>
+	{% if has_members_module %}<a href="{% url 'MemberEdit' member.user.pk %}" class="btn alignright" type="button"><i class="icon-pencil"></i> Edit</a>
 	{% elif myself %}<a href="{% url 'MyProfileEdit' %}" class="btn alignright" type="button"><i class="icon-pencil"></i> Edit</a>{% endif %}
 
 	{% ifequal member.gender "F" %} <img src="/media/images/female.png" class="alignright" />{% endifequal %}

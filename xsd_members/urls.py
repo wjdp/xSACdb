@@ -1,10 +1,12 @@
 from django.conf.urls import patterns, include, url
 from django.conf import settings
 from tastypie.api import Api
-from api import MemberResource
+from api import *
 
 members_api = Api(api_name='members')
 members_api.register(MemberResource())
+members_api.register(UserResource())
+members_api.register(TokenInputResource())
 
 from views import *
 
@@ -18,4 +20,6 @@ urlpatterns = patterns('',
 	    url(r'^list/$', MemberList.as_view(), name='MemberList'),
 	    url(r'^expired-forms/$', MembersExpiredFormsList.as_view(), name='MembersExpiredFormsList'),
 	    url(r'^api/',include(members_api.urls)),
+
+	    url(r'^select/$', 'xsd_members.views.select_tool', name='members-select-tool'),
 )

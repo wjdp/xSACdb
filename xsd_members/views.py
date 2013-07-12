@@ -128,3 +128,7 @@ class MemberEdit(ModelFormView):
         user=self.get_user()
         return user.get_profile()
 
+def select_tool(request):
+    return render(request,'members_bulk_select.html',{
+        },
+        context_instance=RequestContext(request))
