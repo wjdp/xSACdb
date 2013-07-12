@@ -1,6 +1,8 @@
 from django import forms
 from models import MemberProfile
 
+from django.forms.formsets import formset_factory
+
 class MemberSearchForm(forms.Form):
     surname=forms.CharField(max_length=50)
 
@@ -36,4 +38,6 @@ class FormExpiryForm(forms.Form):
     club_expiry = forms.DateField()
     bsac_expiry = forms.DateField()
     medical_form_expiry = forms.DateField()
+
+FormExpiryFormSet = formset_factory(FormExpiryForm)
 

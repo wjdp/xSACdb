@@ -5,11 +5,13 @@
 	<h2>Bulk Add Forms</h2>
 	<p>Please enter the new expiry dates for the forms you wish to add. To not inlude a form leave that field blank.</p>
 	<form action="." method="POST">
+		{{ formset.management_form }}
+		<input type="hidden" name="userset" value="{{userset}}" />
 		{% csrf_token %}
 <table class="table table-condensed table-striped">
 	<tr><th>Name</th><th>Club Expiry</th><th>BSAC Expiry</th><th>Medical Form Expiry</th></tr>
 {% for form in formset %}
-	<tr>
+	<tr><input type="hidden" name="form-{{form.id}}-userid" value="{{form.user_id}}" />
 		<td>{{form.full_name}}</td>
 		<td>{{form.club_expiry}}</td>
 		<td>{{form.bsac_expiry}}</td>

@@ -166,26 +166,59 @@ def select_tool(request):
         context_instance=RequestContext(request))
 
 class BulkAddForms(View):
+    model=MemberProfile
+    token_name='names'
+
     def get(self, request, *args, **kwargs):
-        return render(request,'members_bulk_select.html',{
-        },
-        context_instance=RequestContext(request))
-    def post(self, request, *args, **kwargs):
-        f = StringIO.StringIO(request.POST['names'])
+        spreadsheet=False
+        if 'set' in request.GET:
+            if request.GET['set']=='all':
+                members=self.get_all_objects()
+            spreadsheet=True
+        elif 'names' in request.GET and request.GET['names']!='':
+            user_ids=self.parse_token_data(request.GET)
+            members=self.get_some_objects(user_ids)
+            spreadsheet=True
+        if spreadsheet:
+            FormExpiryFormSet = formset_factory(FormExpiryForm,extra=len(members))
+            formset=FormExpiryFormSet()
+            i=0
+            for member,form in zip(members,formset):
+                form.id=i
+                form.user_id=member.user.pk
+                form.full_name=member.user.get_full_name()
+                i+=1
+
+            return render(request,'members_bulk_edit_forms.html',{
+                'page_title':'Bulk Select Results',
+                'formset':formset,
+            },
+            context_instance=RequestContext(request))
+        else:
+            # First form
+            return render(request,'members_bulk_select.html',{
+            },
+            context_instance=RequestContext(request))
+
+    def get_all_objects(self):
+        return self.model.objects.all()
+    def get_some_objects(self, list):
+        return self.model.objects.filter(user__pk__in=list)
+
+    def parse_token_data(self, request_post):
+        f = StringIO.StringIO(request_post[self.token_name])
         reader = csv.reader(f, delimiter=',')
         for row in reader:
             user_ids=row
-        members=MemberProfile.objects.filter(user__pk__in=user_ids)
-        FormExpiryFormSet = formset_factory(FormExpiryForm,extra=len(members))
-        formset=FormExpiryFormSet()
-        i=0
-        for member,form in zip(members,formset):
-            form.user_id=member.user.pk
-            form.full_name=member.user.get_full_name()
+        return user_ids
 
-        return render(request,'members_bulk_edit_forms.html',{
-            'page_title':'Bulk Select Results',
-            'formset':formset,
-        },
-        context_instance=RequestContext(request))
+    def post(self, request, *args, **kwargs):
+        formset=FormExpiryFormSet(request.POST)
+        if formset.is_valid():
+            print "OK!"
+            print formset.cleaned_data
+        else:
+            print "UNCLEAN!"
+
+        return redirect(reverse('BulkAddForms'))
 
