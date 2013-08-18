@@ -6,20 +6,37 @@
 
 <div class="span9">
 <h1>Session Planner</h1>
-</div>
 
-<div class="span4">
 <h2>Session Details</h2>
     <form action="" method="post">{% csrf_token %}
     {{ form|as_bootstrap  }}
-    <input type="submit" value="Update Session Details" />
+    <input type="submit" class="btn btn-primary" value="Update Session Details" />
     </form>
 
-</div>
-<div class="span5">
-<h2>Lessons</h2>
-    
 
+
+<h2>Trainees</h2>
+    <div>
+    Select multiple trainees below.
+			<form action="." method="GET">
+				<input type="text" id="token-input" name="names" />
+				<input type="submit" class="btn" value="Select" />
+			</form>
+		</div>
+
+    <div class="pls">
+    <form action="" method="post">
+    <table class="table">
+    <tr><th>Trainee</th><th>Lesson</th><th>Instructor</th></tr>
+    {% for form in performed_lessons_formset %}
+    <tr><td>{{form.trainee}}</td><td>{{form.lesson}}</td><td>{{form.instructor}}</td></tr>
+    {% endfor %}
+
+    </table>
+    <input type="submit" class="btn btn-primary" value="Update Trainees" />
+
+    </form>
+    </div>
 </div>
 
 

@@ -7,6 +7,11 @@ from django.views.generic.edit import CreateView, UpdateView
 from xSACdb.ui import xsdUI
 
 from xsd_training.models import *
+import forms
+from django.forms.models import modelformset_factory    
+
+
+from xsd_members.bulk_select import get_bulk_members
 
 def overview(request):
     p=request.user.get_profile()
@@ -76,5 +81,38 @@ class SessionPlanner(UpdateView):
     model=Session
     fields=['when']
     template_name='session_edit.html'
+
+    def pl_formset(self):
+        SessionPlannerTraineeFormSet = modelformset_factory(
+            PerformedLesson, fields=['trainee', 'lesson', 'instructor'],
+        )
+        formset=SessionPlannerTraineeFormSet(
+            queryset=PerformedLesson.objects.filter(session=self.object),
+        )
+        return SessionPlannerTraineeFormSet
+
+    def get_context_data(self, **kwargs):
+        # Call the base implementation first to get a context
+        context = super(SessionPlanner, self).get_context_data(**kwargs)
+        # Add our own custom context
+        context['performed_lessons_formset'] = self.pl_formset()
+        return context
+
+    def get(self, request, *args, **kwargs):
+        self.object=self.get_object()
+        if 'names' in request.GET:
+            self.add_trainees(request)
+        return super(SessionPlanner, self).get(request, *args, **kwargs)
+
+    def add_trainees(self, request):
+        members=get_bulk_members(request)
+        for member in members:
+            check = PerformedLesson.objects.filter(session=self.object).filter(trainee=member.user)
+            if check.count()==0:
+                pl=PerformedLesson()
+                pl.session=self.object
+                pl.trainee=member.user
+                pl.save()
+
 
 
