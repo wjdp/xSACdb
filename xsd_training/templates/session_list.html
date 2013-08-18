@@ -5,15 +5,16 @@
 {% block training_content %}
 
 <div class="span9">
-<h1>Sessions</h1>
+<h1>Edit Sessions</h1>
 {% if sessions %}
 <table class="table table-condensed table-striped">
-    <tr><th>When</th><th>Where</th><th></th></tr>
+    <tr><th>When</th><th>Where</th><th>Lessons Planned</th><th></th></tr>
 {% for session in sessions %}
     <tr>
         <td>{{session.when}}</td>
         <td>{{session.where}}</td>
-        <td><a href="{% url 'SessionPlanner' session.pk %}">Edit</a></td>
+        <td>{{session.performedlesson_set.all.count}}</td>
+        <td><a href="{% url 'SessionPlanner' session.pk %}">Edit</a> | <a href="{% url 'SessionDelete' session.pk %}">Delete</a></td>
 
         </tr>
 {% endfor %}
