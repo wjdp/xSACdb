@@ -64,3 +64,15 @@ color:#fafafa;
     padding-top: 0.8em;
     border-top: 1px solid #ccc;
 }
+
+.col2 {
+columns:2;
+-webkit-columns:2; /* Safari and Chrome */
+-moz-columns:2; /* Firefox */
+} 
+
+.col3 {
+columns:2;
+-webkit-columns:2; /* Safari and Chrome */
+-moz-columns:2; /* Firefox */
+} 
