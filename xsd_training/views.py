@@ -90,7 +90,7 @@ class SessionPlanner(UpdateView):
         formset=SessionPlannerTraineeFormSet(
             queryset=PerformedLesson.objects.filter(session=self.object),
         )
-        return SessionPlannerTraineeFormSet
+        return formset
 
     def get_context_data(self, **kwargs):
         # Call the base implementation first to get a context
