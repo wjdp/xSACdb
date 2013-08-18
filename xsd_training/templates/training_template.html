@@ -19,8 +19,8 @@
       <li><a href="#">Give Feedback</a></li>
       <li class="nav-header">Training Administration</li>
       <li><a href="#">Overview</a></li>
-      <li><a href="#">Plan a Session</a></li>
-      <li><a href="#">Edit / Complete a Session</a></li>
+      <li {% is_active_simple current_url 'SessionPlanner' %}>
+      <a href="{% url 'SessionPlanner' %}">Plan A Session</a></li> <li><a href="#">Edit / Complete a Session</a></li>
       <li><a href="#">Retrospectivly Add Lessons</a></li>
       <li><a href="#">Plan an SDC</a></li>
       <li><a href="#">Award Qualifications</a></li>

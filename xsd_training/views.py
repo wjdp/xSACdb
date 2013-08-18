@@ -1,6 +1,9 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.template import RequestContext
 
+from django.views.generic.base import View
+from django.views.generic.edit import CreateView
+
 from xSACdb.ui import xsdUI
 
 from xsd_training.models import *
@@ -63,3 +66,10 @@ def sdc_list(request,id):
     pass
 def sdc_detail(request,id):
     pass
+
+class SessionPlanner(CreateView):
+    model=Session
+    fields=['when','where','notes']
+    template_name='session_create.html'
+
+
