@@ -11,6 +11,7 @@ urlpatterns = patterns('',
     url(r'^session/new/$', SessionCreate.as_view(), name='SessionCreate'),
     url(r'^session/list/$', SessionList.as_view(), name='SessionList'),
     url(r'^session/(?P<pk>\d+)/$', SessionPlanner.as_view(), name='SessionPlanner'),
+    url(r'^session/(?P<pk>\d+)/delete/$', SessionDelete.as_view(), name='SessionDelete'),
 
 )
 

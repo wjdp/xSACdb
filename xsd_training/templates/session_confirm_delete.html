@@ -1,0 +1,36 @@
+{% extends 'training_template.html' %}
+{% load lesson_extras %}
+{% load bootstrap_toolkit %}
+
+{% block training_content %}
+
+<div class="span9">
+<h1>Delete Session</h1>
+<form action="" method="post">{% csrf_token %}
+    <p>Are you sure you want to delete the training session at {{ object.when }} ({{object.where}})?</p>
+    {% if pls %}
+    <p>If you go ahead with this you'll <strong>eradicate the record</strong> of the following {{pls.count}} lessons as they're linked to this session.</p>
+
+    <table class="table table-condensed table-striped">
+    <tr><th>Trainee</th><th>Lesson</th><th>Instructor</th><th>Completed?</th></tr>
+    {% for pl in pls %}
+    <tr><td>{{pl.trainee.get_full_name}}</td><td>{{pl.lesson}}</td><td>{{pl.instructor.get_full_name}}</td><td>{{pl.completed}}</td></tr>
+    {% endfor %}
+    </table>
+
+    <p>Trainees will also loose any feedback given to them on the database, instructors will loose access to any notes made about these lessons. Honestly if any of these lessons have taken place you shouldn't be deleting the records about them. It's kinda the point of having this database.</p>
+
+    <p>So <strong>are you sure</strong>?</p>
+
+    {% endif %}
+    <div class="form-actions">
+	    <input type="submit" class="btn btn-danger" value="Delete (I'm SuperDuper Sure)" />
+	    <a href="{% url 'SessionList' %}"  class="btn btn-success alignright">Bugger That, Cancel</a>
+	</div>
+</form>
+</div>
+
+
+{% endblock %}
+
+

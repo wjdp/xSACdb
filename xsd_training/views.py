@@ -2,8 +2,10 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.template import RequestContext
 
 from django.views.generic.base import View
-from django.views.generic.edit import CreateView, UpdateView
+from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.views.generic.list import ListView
+
+from django.core.urlresolvers import reverse_lazy
 
 from xSACdb.ui import xsdUI
 
@@ -83,11 +85,12 @@ class SessionPlanner(UpdateView):
     fields=['when']
     template_name='session_edit.html'
 
-    def pl_formset(self):
+    def pl_formset(self, bare=False):
         SessionPlannerTraineeFormSet = modelformset_factory(
             PerformedLesson, fields=['lesson', 'instructor'],
             extra=0
         )
+        if bare==True: return SessionPlannerTraineeFormSet
         formset=SessionPlannerTraineeFormSet(
             queryset=PerformedLesson.objects.filter(session=self.object),
         )
@@ -119,10 +122,11 @@ class SessionPlanner(UpdateView):
     def post(self, request, *args, **kwargs):
         print request.POST
         self.object = self.get_object()
-        pl_formset=self.pl_formset()
-        formset=pl_formset(request.POST)
-        if formset.is_valid():
-            formset.save()
+        pl_formset=self.pl_formset(bare=True)
+        if request.POST['form-TOTAL_FORMS']!=0:
+            formset=pl_formset(request.POST)
+            if formset.is_valid():
+                formset.save()
         return super(SessionPlanner, self).post(request, *args, **kwargs)
 
 class SessionList(ListView):
@@ -130,4 +134,14 @@ class SessionList(ListView):
     template_name='session_list.html'
     context_object_name='sessions'
 
+class SessionDelete(DeleteView):
+    model=Session
+    template_name='session_confirm_delete.html'
+    success_url = reverse_lazy('SessionList')
+
+
+    def get_context_data(self, **kwargs):
+        context = super(SessionDelete, self).get_context_data(**kwargs)
+        context['pls'] = PerformedLesson.objects.filter(session=self.object)
+        return context
 
