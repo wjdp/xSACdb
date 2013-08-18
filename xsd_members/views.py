@@ -167,7 +167,7 @@ def select_tool(request):
 
 class BulkAddForms(View):
     model=MemberProfile
-    token_name='names'
+    
 
     def get(self, request, *args, **kwargs):
         spreadsheet=False
@@ -176,8 +176,8 @@ class BulkAddForms(View):
                 members=self.get_all_objects()
             spreadsheet=True
         elif 'names' in request.GET and request.GET['names']!='':
-            user_ids=self.parse_token_data(request.GET)
-            members=self.get_some_objects(user_ids)
+            from bulk_select import get_bulk_members
+            members=get_bulk_members(request)
             spreadsheet=True
         if spreadsheet:
             FormExpiryFormSet = formset_factory(FormExpiryForm, extra=0)
@@ -201,15 +201,6 @@ class BulkAddForms(View):
 
     def get_all_objects(self):
         return self.model.objects.all()
-    def get_some_objects(self, list):
-        return self.model.objects.filter(user__pk__in=list)
-
-    def parse_token_data(self, request_post):
-        f = StringIO.StringIO(request_post[self.token_name])
-        reader = csv.reader(f, delimiter=',')
-        for row in reader:
-            user_ids=row
-        return user_ids
 
     def post(self, request, *args, **kwargs):
         formset=FormExpiryFormSet(request.POST)
