@@ -8,7 +8,8 @@ urlpatterns = patterns('',
     url(r'^lesson/(?P<id>.*)$', 'xsd_training.views.lesson_detail', name='lesson_detail'),
     url(r'^feedback$', 'xsd_training.views.all_feedback'),
 
-    url(r'^session/new/$', SessionPlanner.as_view(), name='SessionPlanner'),
+    url(r'^session/new/$', SessionCreate.as_view(), name='SessionCreate'),
+    url(r'^session/(?P<pk>\d+)/$', SessionPlanner.as_view(), name='SessionPlanner'),
 
 )
 

@@ -1,6 +1,9 @@
 from django.db import models
 import django.contrib.auth
 
+from django.core.urlresolvers import reverse
+
+
 class PerformedLesson(models.Model):
     session=models.ForeignKey('Session', blank=True, null=True)
     date=models.DateField(blank=True, null=True)
@@ -91,6 +94,9 @@ class Session(models.Model):
     where=models.ForeignKey('xsd_sites.Site')
     notes=models.TextField(blank=True)
     created_by=models.ForeignKey('auth.User')
+
+    def get_absolute_url(self):
+        return reverse('SessionPlanner', kwargs={'pk': self.pk})
 
     def __unicode__(self):
         return str(self.when) + " at " + self.where.__unicode__()
