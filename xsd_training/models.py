@@ -7,8 +7,8 @@ from django.core.urlresolvers import reverse
 class PerformedLesson(models.Model):
     session=models.ForeignKey('Session', blank=True, null=True)
     date=models.DateField(blank=True, null=True)
-    lesson=models.ForeignKey('Lesson')
-    instructor=models.ForeignKey('auth.User', related_name="pl_instructor")
+    lesson=models.ForeignKey('Lesson', blank=True, null=True)
+    instructor=models.ForeignKey('auth.User', related_name="pl_instructor", blank=True, null=True)
     trainee=models.ForeignKey('auth.User', related_name="pl_trainee")
     completed=models.BooleanField(default=False)
     public_notes=models.TextField(blank=True)
