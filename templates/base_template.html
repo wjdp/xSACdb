@@ -16,8 +16,9 @@
 
     <link rel="stylesheet" type="text/css" media="screen" href="/media/css/token-input-facebook.css" />
 
-    <script type="text/javascript" src="/media/js/jquery.min.js"></script>
+    <script type="text/javascript" src="/media/js/jquery.js"></script>
     <script type="text/javascript" src="/media/js/jquery.tokeninput.js"></script>
+    <script type="text/javascript" src="/media/bootstrap/js/bootstrap.min.js"></script>
 
     <script type="text/javascript">
     $(document).ready(function () {
@@ -43,8 +44,8 @@
             </ul>
             <ul class="pull-right nav">
                 <li><a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                    {{request.user.first_name}} {{request.user.last_name}} <b class="caret"></b></a>
-                    <ul class="dropdown-menu">
+                    {{request.user.get_full_name}} <b class="caret"></b></a>
+                    <ul class="dropdown-menu" role="menu">
                         <li><a href="#">Request An Update To Records</a></li>
                         <li><a href="/accounts/password">Change Password</a></li>
                         <li class="divider"></li>
@@ -61,6 +62,5 @@
 No content
 {% endblock %}
 </div>
-<script src="/media/bootstrap/js/bootstrap.min.js"></script>
 </body>
 </html>
