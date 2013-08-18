@@ -9,34 +9,37 @@
 
 <h2>Session Details</h2>
     <form action="" method="post">{% csrf_token %}
+    <input type="hidden" name="form_def" value="session" />
     {{ form|as_bootstrap  }}
-    <input type="submit" class="btn btn-primary" value="Update Session Details" />
-    </form>
+    
 
 
 
 <h2>Trainees</h2>
-    <div>
-    Select multiple trainees below.
-			<form action="." method="GET">
-				<input type="text" id="token-input" name="names" />
-				<input type="submit" class="btn" value="Select" />
-			</form>
-		</div>
+    
 
     <div class="pls">
-    <form action="" method="post">
+    {{performed_lessons_formset.management_form}}
     <table class="table">
     <tr><th>Trainee</th><th>Lesson</th><th>Instructor</th></tr>
     {% for form in performed_lessons_formset %}
-    <tr><td>{{form.trainee}}</td><td>{{form.lesson}}</td><td>{{form.instructor}}</td></tr>
+    <tr><td>{{form.id}}{{form.instance.trainee}}{{form.trainee}}</td><td>{{form.lesson}}</td><td>{{form.instructor}}</td></tr>
     {% endfor %}
 
     </table>
-    <input type="submit" class="btn btn-primary" value="Update Trainees" />
+    <input type="submit" class="btn btn-primary" value="Update Session" />
 
-    </form>
     </div>
+
+    <div>
+    Bulk add trainees.
+            <form action="." method="GET">
+                <input type="text" id="token-input" name="names" />
+                <input type="submit" class="btn" value="Select" />
+            </form>
+        </div>
+</form>
+
 </div>
 
 

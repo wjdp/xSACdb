@@ -84,7 +84,8 @@ class SessionPlanner(UpdateView):
 
     def pl_formset(self):
         SessionPlannerTraineeFormSet = modelformset_factory(
-            PerformedLesson, fields=['trainee', 'lesson', 'instructor'],
+            PerformedLesson, fields=['lesson', 'instructor'],
+            extra=0
         )
         formset=SessionPlannerTraineeFormSet(
             queryset=PerformedLesson.objects.filter(session=self.object),
@@ -113,6 +114,15 @@ class SessionPlanner(UpdateView):
                 pl.session=self.object
                 pl.trainee=member.user
                 pl.save()
+
+    def post(self, request, *args, **kwargs):
+        print request.POST
+        self.object = self.get_object()
+        pl_formset=self.pl_formset()
+        formset=pl_formset(request.POST)
+        if formset.is_valid():
+            formset.save()
+        return super(SessionPlanner, self).post(request, *args, **kwargs)
 
 
 
