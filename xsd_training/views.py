@@ -3,6 +3,7 @@ from django.template import RequestContext
 
 from django.views.generic.base import View
 from django.views.generic.edit import CreateView, UpdateView
+from django.views.generic.list import ListView
 
 from xSACdb.ui import xsdUI
 
@@ -124,5 +125,9 @@ class SessionPlanner(UpdateView):
             formset.save()
         return super(SessionPlanner, self).post(request, *args, **kwargs)
 
+class SessionList(ListView):
+    model=Session
+    template_name='session_list.html'
+    context_object_name='sessions'
 
 

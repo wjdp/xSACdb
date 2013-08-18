@@ -1,0 +1,25 @@
+{% extends 'training_template.html' %}
+{% load lesson_extras %}
+{% load bootstrap_toolkit %}
+
+{% block training_content %}
+
+<div class="span9">
+<h1>Sessions</h1>
+{% if sessions %}
+<table class="table table-condensed table-striped">
+    <tr><th>When</th><th>Where</th><th></th></tr>
+{% for session in sessions %}
+    <tr>
+        <td>{{session.when}}</td>
+        <td>{{session.where}}</td>
+        <td><a href="{% url 'SessionPlanner' session.pk %}">Edit</a></td>
+
+        </tr>
+{% endfor %}
+</table>
+{% endif %}
+</div>
+
+
+{% endblock %}
