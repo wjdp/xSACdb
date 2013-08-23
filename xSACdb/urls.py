@@ -18,6 +18,8 @@ urlpatterns = patterns('',
 
     url(r'^training/', include('xsd_training.urls')),
 
+    url(r'^sites/', include('xsd_sites.urls')),
+
     url(r'^media/(?P<path>.*)$', 'django.views.static.serve',
         {'document_root': settings.STATIC_DOC_ROOT}),
     url(r'^admin/doc/', include('django.contrib.admindocs.urls')),
