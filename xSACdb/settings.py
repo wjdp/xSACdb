@@ -1,5 +1,7 @@
 import os
 
+GOOGLE_MAPS_API_KEY=''
+
 PROJECT_PATH = os.path.join(os.path.dirname(__file__),'..')
 
 DEBUG = True
@@ -144,6 +146,7 @@ INSTALLED_APPS = (
     'django_facebook',
     'bootstrap_toolkit',
     'tastypie',
+    'geoposition',
 
     'xsd_frontend',
     'xsd_members',

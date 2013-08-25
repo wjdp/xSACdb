@@ -76,3 +76,6 @@ columns:2;
 -webkit-columns:2; /* Safari and Chrome */
 -moz-columns:2; /* Firefox */
 } 
+
+#map-canvas { height: 350px }
+

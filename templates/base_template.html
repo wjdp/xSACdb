@@ -2,6 +2,7 @@
 <!doctype html>
 <html>
 <head>
+    {% block pre_head %}{% endblock %}
     <title>{% block title %}xSACdb Default Template{% endblock %}</title>
     <meta charset="utf-8" />
 
@@ -26,7 +27,7 @@
     });
     </script>
 
-    
+    {% block post_head %}{% endblock %}
 </head>
 <body>
 <div class="navbar navbar-inverse navbar-fixed-top">

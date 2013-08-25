@@ -1,7 +1,13 @@
 {% extends 'sites_template.html' %}
 {% load bootstrap_toolkit %}
 
+{% block post_head %}
+{% include 'google_maps_init.js' %}
+{% endblock %}
 
 {% block sites_content %}
 
+<div class="span9">
+<div id="map-canvas"/>
+</div>
 {% endblock %}
