@@ -3,6 +3,7 @@
 
 var map;
 function initialize() {
+  $("#site-info").hide();
   var mapDiv = document.getElementById('map-canvas');
   map = new google.maps.Map(mapDiv, {
     center: new google.maps.LatLng(53.5,-2.5),
@@ -27,12 +28,20 @@ function initialize() {
     map: map,
     icon: image, 
     url: '/sites/' + {{site.id}},
-    title: '{{ site.id }}',
+    title: '{{ site.name }}',
   });
 
   google.maps.event.addListener(marker, 'click', function() {
-                //window.location.href = this.url;
-                alert("{{site.name}}")
+                $("#site-info").fadeIn('slow');
+                $("#site-info-blank").fadeOut('slow');
+                document.getElementById('site-name').innerHTML="{{site.name}}"
+                document.getElementById('site-address').innerHTML="{{site.address|linebreaks}}"
+                document.getElementById('site-phone').innerHTML="{{site.phone}}"
+                document.getElementById('site-email').innerHTML="{{site.email}}"
+                document.getElementById('site-mintemp').innerHTML="{{site.min_temp}}"
+                document.getElementById('site-maxtemp').innerHTML="{{site.max_temp}}"
+                document.getElementById('site-maxdepth').innerHTML="{{site.max_depth}}"
+                document.getElementById('site-facilities').innerHTML="{{site.facilities}}"
               });
   google.maps.event.addListener(marker, 'mouseover', function() {
                 // this['infowindow'].open(map, this);

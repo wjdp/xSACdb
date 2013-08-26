@@ -6,4 +6,5 @@ from views import *
 urlpatterns = patterns('',
 	    url(r'^$', SitesOverview.as_view(), name='SitesOverview'),
 	    url(r'^search/$', SitesSearch.as_view(), name='SitesSearch'),
+	    url(r'^json/(?P<pk>\d+)/$', 'xsd_sites.views.sitedetail_json', name='sitedetail_json'),
 )
