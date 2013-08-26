@@ -7,15 +7,15 @@
       <li class="nav-header">View Sites</li>
       <li {% is_active_simple current_url 'SitesOverview' %}>
       <a href="{% url 'SitesOverview' %}">Sites Overview</a></li>
-      <li {% is_active_simple current_url 'SitesSearch' %}>
-      <a href="{% url 'SitesSearch' %}">Search for a Site</a></li>
+      <!-- <li {% is_active_simple current_url 'SitesSearch' %}>
+      <a href="{% url 'SitesSearch' %}">Search for a Site</a></li> -->
 
       {% if has_sites_module %}
       <li class="nav-header">Edit Sites</li>
       <li {% is_active_simple current_url 'SitesCreate' %}>
-      <a href="{% url 'MemberSearch' %}">Add a Site</a></li>
-      <li {% is_active_simple current_url 'SitesList' %}>
-      <a href="{% url 'MemberList' %}">Edit Sites</a></li>
+      <a href="{% url 'SiteCreate' %}">Add a Site</a></li>
+      <li {% is_active_simple current_url 'SiteUpdate' %} {% is_active_simple current_url 'SitesList' %} >
+      <a href="{% url 'SitesList' %}">Edit Sites</a></li>
       {% endif %}
 
     </ul> 
