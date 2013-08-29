@@ -84,3 +84,7 @@ columns:2;
     margin-top: 0.2em;
 }
 
+.sdc-register-interest-true p {
+    font-weight: bold;
+}
+

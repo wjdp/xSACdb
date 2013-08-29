@@ -82,6 +82,9 @@ class SDC(models.Model):
     title=models.CharField(max_length=50)
     min_qualification=models.ForeignKey('Qualification', blank=True, null=True)
     description=models.TextField(blank=True)
+
+    interested_members=models.ManyToManyField('auth.User', blank=True)
+
     def __unicode__(self): return self.title
 
     class Meta:

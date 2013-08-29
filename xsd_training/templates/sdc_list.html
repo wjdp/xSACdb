@@ -8,31 +8,46 @@
 {% if sdcs %}
 <table class="table table-condensed table-striped">
     <tr><th>Title</th></tr>
-{% for sdc in sdcs %}
+    {% for sdc in sdcs %}
     <tr>
         <td>
-		{% if sdc.description %}<div class="alignright" >
-			{% if user|has_sdc:sdc %}<i class="icon-ok"></i>{% endif %}
- 			<i data-toggle="collapse" data-target="#sdc-info-{{sdc.id}}" class="icon-info-sign"></i>
- 		</div>{% endif %}
+        {% if sdc.description %}
+        <div class="alignright" >
+            {% if user|has_sdc:sdc %}<i class="icon-ok"></i>{% endif %}
+            <i class="icon-star sdc-register-interest sdc-register-interest-true-{{sdc.id}}" {% if not user|has_sdc_interest:sdc %}style="display:none"{% endif %}></i>
+            <i data-toggle="collapse" data-target="#sdc-info-{{sdc.id}}" class="icon-info-sign"></i>
+        </div>
+        {% endif %}
 
-        <div class="sdc-title"><strong>{{sdc.title}}</strong></div>
+        <div class="sdc-title">{{sdc.title}}</div>
 
-    	<div id="sdc-info-{{sdc.id}}" class="sdc-info collapse out">
-    	{% if not user|has_sdc:sdc %}<button class="btn btn-mini alignright" type="button">I'm Interested In Doing This</button>{% endif %}
-    	{{sdc.description|safe}}
-    	</div>
+        <div id="sdc-info-{{sdc.id}}" class="sdc-info collapse out">
+
+            <button class="btn btn-mini alignright sdc-register-interest sdc-register-interest-false-{{sdc.pk}}" data-sdc-id={{sdc.pk}} type="button" {% if user|has_sdc_interest:sdc %}style="display:none"{% endif %}>
+                <i class="icon-hand-right"></i> I'm Interested In Doing This</button>
+            
+            {{sdc.description|safe}}
+
+            <div class="sdc-register-interest-true sdc-register-interest-true-{{sdc.id}}" {% if not user|has_sdc_interest:sdc %}style="display:none"{% endif %}>
+                <button class="btn btn-danger btn-mini alignright sdc-cancel-interest" data-sdc-id={{sdc.pk}} type="button"><i class="icon-hand-right icon-white"></i> I'm No Longer Interested</button>
+                <p>You have noted that you're interested in taking this course</p>
+            </div>
+
+        </div>
 
 
-        </td>
-    </tr>
+    </td>
+</tr>
 {% endfor %}
 </table>
 {% else %}
 <p>You currently have not completed any SDCs.</p>
 {% endif %}
 </div>
-         
 
+{% endblock %}
+
+{% block closing_js %}
+<script type="text/javascript" src="/media/js/sdc.js"></script>
 
 {% endblock %}

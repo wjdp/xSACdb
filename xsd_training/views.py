@@ -1,5 +1,6 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.template import RequestContext
+from django.http import HttpResponse
 
 from django.views.generic.base import View
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
@@ -151,4 +152,19 @@ class SDCList(OrderedListView):
     template_name='sdc_list.html'
     context_object_name='sdcs'
     order_by='title'
+
+def sdc_register_interest(request):
+    if request.POST:
+        user=request.user
+        sdc_id=request.POST['sdc_id']
+        sdc=SDC.objects.get(pk=sdc_id)
+        if request.POST['action']=="add":
+            sdc.interested_members.add(user) 
+        elif request.POST['action']=="remove":
+            sdc.interested_members.remove(user) 
+        sdc.save()
+        return HttpResponse(content="True")
+    else:
+        return HttpResponse(content="False")
+
 
