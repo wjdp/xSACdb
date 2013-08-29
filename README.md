@@ -4,8 +4,8 @@ A web based database for managing BSAC dive clubs. It looks after membership det
 
 State of Development
 --------------------
-- members - profile model implemented, no frontend stuff done properly
+- members - profile model implemented, some frontend stuff done properly
 - training - models implemented, frontend for trainees 1/2 way there
-- sites - models only
+- sites - simple frontend implemented
 - trips - models only
 
