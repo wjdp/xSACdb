@@ -1,0 +1,38 @@
+{% extends 'training_template.html' %}
+{% load lesson_extras %}
+{% block training_content %}
+
+<div class="span9">
+<p>This is the list of all SDCs that BSAC currently offer, expand an item to find out more and to register your interest. Once you've completed an SDC, and passed the assessemnet if applicable, a little tick will show next to the title.</p>
+
+{% if sdcs %}
+<table class="table table-condensed table-striped">
+    <tr><th>Title</th></tr>
+{% for sdc in sdcs %}
+    <tr>
+        <td>
+		{% if sdc.description %}<div class="alignright" >
+			{% if user|has_sdc:sdc %}<i class="icon-ok"></i>{% endif %}
+ 			<i data-toggle="collapse" data-target="#sdc-info-{{sdc.id}}" class="icon-info-sign"></i>
+ 		</div>{% endif %}
+
+        <div class="sdc-title"><strong>{{sdc.title}}</strong></div>
+
+    	<div id="sdc-info-{{sdc.id}}" class="sdc-info collapse out">
+    	{% if not user|has_sdc:sdc %}<button class="btn btn-mini alignright" type="button">I'm Interested In Doing This</button>{% endif %}
+    	{{sdc.description|safe}}
+    	</div>
+
+
+        </td>
+    </tr>
+{% endfor %}
+</table>
+{% else %}
+<p>You currently have not completed any SDCs.</p>
+{% endif %}
+</div>
+         
+
+
+{% endblock %}

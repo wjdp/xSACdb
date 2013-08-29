@@ -16,6 +16,8 @@ from django.core.urlresolvers import reverse, reverse_lazy
 from xsd_members.models import MemberProfile
 from xsd_members.forms import *
 
+from xSACdb.view_helpers import OrderedListView
+
 import datetime
 import StringIO
 import csv
@@ -31,10 +33,6 @@ def view_my_profile(request):
 
 def admin(request):
     return redirect(reverse('MemberSearch'))
-
-class OrderedListView(ListView):
-    def get_queryset(self):
-        return super(OrderedListView, self).get_queryset().order_by(self.order_by)
 
 class MemberSearch(OrderedListView):
     model=MemberProfile

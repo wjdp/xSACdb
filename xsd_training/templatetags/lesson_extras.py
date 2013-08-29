@@ -31,3 +31,8 @@ def show_upcoming_lessons(user):
         lessons.append(pl.lesson)
 
     return {'lessons':lessons,'completed':None,}
+
+@register.filter
+def has_sdc(user,sdc):
+    if sdc in user.get_profile().sdcs.all(): return True
+    else: return False

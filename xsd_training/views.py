@@ -8,6 +8,7 @@ from django.views.generic.list import ListView
 from django.core.urlresolvers import reverse_lazy
 
 from xSACdb.ui import xsdUI
+from xSACdb.view_helpers import OrderedListView
 
 from xsd_training.models import *
 import forms
@@ -144,4 +145,10 @@ class SessionDelete(DeleteView):
         context = super(SessionDelete, self).get_context_data(**kwargs)
         context['pls'] = PerformedLesson.objects.filter(session=self.object)
         return context
+
+class SDCList(OrderedListView):
+    model=SDC
+    template_name='sdc_list.html'
+    context_object_name='sdcs'
+    order_by='title'
 

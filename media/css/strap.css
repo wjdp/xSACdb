@@ -79,3 +79,8 @@ columns:2;
 
 #map-canvas { height: 350px }
 
+.sdc-info {
+    font-size: 0.8em;
+    margin-top: 0.2em;
+}
+

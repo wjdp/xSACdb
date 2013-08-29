@@ -13,6 +13,8 @@ urlpatterns = patterns('',
     url(r'^session/(?P<pk>\d+)/$', SessionPlanner.as_view(), name='SessionPlanner'),
     url(r'^session/(?P<pk>\d+)/delete/$', SessionDelete.as_view(), name='SessionDelete'),
 
+    url(r'^sdcs/$', SDCList.as_view(), name='SDCList'),
+
 )
 
 
