@@ -54,7 +54,7 @@ MEDIA_ROOT = ''
 # URL that handles the media served from MEDIA_ROOT. Make sure to use a
 # trailing slash.
 # Examples: "http://media.lawrence.com/media/", "http://example.com/media/"
-MEDIA_URL = ''
+MEDIA_URL = '/media/'
 
 # Media files (css, images etc) for development server
 STATIC_DOC_ROOT = PROJECT_PATH + '/media/'

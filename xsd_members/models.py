@@ -8,7 +8,7 @@ from xsd_training.models import PerformedLesson
 class MemberProfile(models.Model):
     user = models.OneToOneField('auth.User')
     gender = models.CharField(max_length=6, blank=True)
-    fid = models.BigIntegerField(verbose_name=u'Facebook ID',blank=True,null=True)
+    facebook_id = models.BigIntegerField(verbose_name=u'Facebook ID',blank=True,null=True)
     token = models.CharField(max_length=150, blank=True)
 
     dob = models.DateField(blank=True, null=True)
