@@ -16,6 +16,10 @@ urlpatterns = patterns('',
     url(r'^sdcs/$', SDCList.as_view(), name='SDCList'),
     url(r'^sdcs/reg-interest/$', 'xsd_training.views.sdc_register_interest', name='sdc_register_interest'),
 
+    url(r'^sdcs/plan/$', PerformedSDCCreate.as_view(), name='PerformedSDCCreate'),
+    url(r'^sdcs/upcoming/$', PerformedSDCList.as_view(), name='PerformedSDCList'),
+    url(r'^sdcs/(?P<pk>\d+)/$', PerformedSDCDetail.as_view(), name='PerformedSDCDetail'),
+
 )
 
 

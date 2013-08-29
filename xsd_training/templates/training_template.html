@@ -13,7 +13,9 @@
       <a href="{% url 'xsd_training.views.all_feedback' %}">See All Feedback</a></li>
       <li class="nav-header">Skill Development Courses</li>
       <li {% is_active_simple current_url 'SDCList' %}>
-            <a href="{% url 'SDCList' %}">View SDCs</a></li>
+            <a href="{% url 'SDCList' %}">List of SDCs</a></li>
+      <li {% is_active_simple current_url 'PerformedSDCList' %} {% is_active_simple current_url 'PerformedSDCDetail' %}>
+            <a href="{% url 'PerformedSDCList' %}">Upcoming SDCs</a></li>
       <li class="nav-header">Your Teaching</li>
       <li><a href="#">Upcoming Lessons</a></li>
       <li><a href="#">Give Feedback</a></li>
@@ -23,7 +25,8 @@
       <li {% is_active_simple current_url 'SessionPlanner' %} {% is_active_simple current_url 'SessionList' %} {% is_active_simple current_url 'SessionDelete' %}>
       <a href="{% url 'SessionList' %}">Edit a Session</a></li>
       <li><a href="#">Retrospectivly Add Lessons</a></li>
-      <li><a href="#">Plan an SDC</a></li>
+      <li {% is_active_simple current_url 'PerformedSDCCreate' %}>
+            <a href="{% url 'PerformedSDCCreate' %}">Plan an SDC</a></li>
       <li><a href="#">Award Qualifications</a></li>
       <li><a href="#">Award SDCs</a></li>
     </ul> 

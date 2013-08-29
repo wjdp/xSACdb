@@ -82,6 +82,7 @@ class SDC(models.Model):
     title=models.CharField(max_length=50)
     min_qualification=models.ForeignKey('Qualification', blank=True, null=True)
     description=models.TextField(blank=True)
+    # water_involved=models.BooleanField(default=True)
 
     interested_members=models.ManyToManyField('auth.User', blank=True)
 
@@ -91,6 +92,17 @@ class SDC(models.Model):
         verbose_name="SDC"
         verbose_name_plural="SDCs"
         ordering=['title']
+
+class PerformedSDC(models.Model):
+    sdc=models.ForeignKey('SDC')
+    datetime=models.DateTimeField(blank=True, null=True)
+    notes=models.TextField(blank=True)
+    trainees=models.ManyToManyField('auth.User', blank=True)
+    completed=models.BooleanField(default=False)
+    # places = models.IntegerField()
+
+    def get_absolute_url(self):
+        return reverse('PerformedSDCDetail', kwargs={'pk': self.pk})
 
 class Session(models.Model):
     when=models.DateTimeField()

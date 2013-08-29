@@ -1,0 +1,27 @@
+{% extends 'training_template.html' %}
+{% load lesson_extras %}
+{% load bootstrap_toolkit %}
+
+{% block training_content %}
+
+<div class="span9">
+<p>This is the list of all the skill development courses that the club has planned. To obtain a place on an SDC, contact the training officer.</p>
+{% if psdc %}
+<table class="table table-condensed table-striped">
+    <tr><th>SDC</th><th>When</th><th>Trainees</th></tr>
+{% for p in psdc %}
+    <tr>
+        <td><a href="{% url 'PerformedSDCDetail' p.pk %}">{{p.sdc.title}}</a></td>
+        <td>{{p.datetime}}</td>
+        <td>{{p.trainees.count}}</td>
+
+        </tr>
+{% endfor %}
+</table>
+{% else %}
+No SDCs have been planned, perhaps you should bug the training officer to run some.
+{% endif %}
+</div>
+
+
+{% endblock %}

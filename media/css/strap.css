@@ -88,3 +88,7 @@ columns:2;
     font-weight: bold;
 }
 
+.error {
+    color:red;
+    font-weight: bold;
+}

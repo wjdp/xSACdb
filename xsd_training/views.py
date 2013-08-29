@@ -5,6 +5,7 @@ from django.http import HttpResponse
 from django.views.generic.base import View
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.views.generic.list import ListView
+from django.views.generic.detail import DetailView
 
 from django.core.urlresolvers import reverse_lazy
 
@@ -12,6 +13,7 @@ from xSACdb.ui import xsdUI
 from xSACdb.view_helpers import OrderedListView
 
 from xsd_training.models import *
+from xsd_training.forms import *
 import forms
 from django.forms.models import modelformset_factory    
 
@@ -167,4 +169,19 @@ def sdc_register_interest(request):
     else:
         return HttpResponse(content="False")
 
+class PerformedSDCCreate(CreateView):
+    model=PerformedSDC
+    fields=['sdc','datetime','notes']
+    template_name='performedsdc_create.html'
+    form_class=PerformedSDCCreateForm
+
+class PerformedSDCList(ListView):
+    model=PerformedSDC
+    template_name='performedsdc_list.html'
+    context_object_name='psdc'
+
+class PerformedSDCDetail(DetailView):
+    model=PerformedSDC
+    template_name='performedsdc_detail.html'
+    context_object_name='psdc'
 

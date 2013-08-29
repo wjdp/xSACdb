@@ -20,6 +20,10 @@ class SDCAdmin(admin.ModelAdmin):
     list_display=('title','min_qualification')
     list_filter=('min_qualification',)
 
+class PerformedSDCAdmin(admin.ModelAdmin):
+    list_display=('sdc','datetime','completed')
+    list_filter=('completed',)
+
 class SessionAdmin(admin.ModelAdmin):
     pass
 
@@ -27,4 +31,5 @@ admin.site.register(PerformedLesson, PerformedLessonAdmin)
 admin.site.register(Lesson, LessonAdmin)
 admin.site.register(Qualification, QualificationAdmin)
 admin.site.register(SDC, SDCAdmin)
+admin.site.register(PerformedSDC, PerformedSDCAdmin)
 admin.site.register(Session, SessionAdmin)

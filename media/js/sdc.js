@@ -40,3 +40,8 @@ $( ".sdc-cancel-interest" ).click(function() {
 });
 });
 
+$('.popover-button').popover()
+
+// $('.popover-button').click(function() {
+//     $(this).popover('toggle')
+// });
