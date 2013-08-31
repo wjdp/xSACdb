@@ -8,7 +8,7 @@
 	{% ifequal member.gender "M" %} <img src="/media/images/male.png" class="alignright" />{% endifequal %}
 	<h1>{{member}}</h1>
 	<div class="btn-group">
-	{% if has_members_module %}
+	{% if is_members %}
 	{% if member.new_notify %}
 	<a href="?action=remove-new-flag" class="btn" type="button"><i class="icon-flag"></i> Remove New Flag</a>
 	{% endif %}
