@@ -132,6 +132,10 @@ AUTHENTICATION_BACKENDS = (
     'django_facebook.auth_backends.FacebookBackend',
 )
 
+FIXTURE_DIRS = (
+    PROJECT_PATH+'/xSACdb/fixtures',
+)
+
 INSTALLED_APPS = (
     'django.contrib.auth',
     'django.contrib.contenttypes',
