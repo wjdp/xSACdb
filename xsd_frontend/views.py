@@ -6,8 +6,6 @@ from datetime import date
 from xsd_members.forms import PersonalEditForm
 
 def dashboard(request):
-    if request.user.is_authenticated()==False:
-        return redirect('login')
     profile=request.user.get_profile()
     newbie=profile.new
 
