@@ -7,7 +7,7 @@ When a member joins they have no special permissions, nothing really changes whe
 Instructors have access to feedback lists of members, upcoming lessons and can provide feedback after lessons.
 
 ## Training Officer
-This member has access to all
+This member has access to all training records, all the permissions of an instructor, can plan training sessions, can award lessons (including experience dives), can award qualifications, can plan and award SDCs.
 
 ## Trip Organiser
 A trip organiser can create trips and edit their own.
