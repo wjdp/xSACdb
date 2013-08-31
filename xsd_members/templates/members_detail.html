@@ -4,12 +4,19 @@
 
 <div class="row">
 <div class="span9">
-	{% if has_members_module %}<a href="{% url 'MemberEdit' member.user.pk %}" class="btn alignright" type="button"><i class="icon-pencil"></i> Edit</a>
-	{% elif myself %}<a href="{% url 'MyProfileEdit' %}" class="btn alignright" type="button"><i class="icon-pencil"></i> Edit</a>{% endif %}
-
 	{% ifequal member.gender "F" %} <img src="/media/images/female.png" class="alignright" />{% endifequal %}
 	{% ifequal member.gender "M" %} <img src="/media/images/male.png" class="alignright" />{% endifequal %}
 	<h1>{{member}}</h1>
+	<div class="btn-group">
+	{% if has_members_module %}
+	{% if member.new_notify %}
+	<a href="?action=remove-new-flag" class="btn" type="button"><i class="icon-flag"></i> Remove New Flag</a>
+	{% endif %}
+	<a href="{% url 'MemberEdit' member.user.pk %}" class="btn" type="button"><i class="icon-pencil"></i> Edit</a>
+	{% elif myself %}
+	<a href="{% url 'MyProfileEdit' %}" class="btn alignright" type="button"><i class="icon-pencil"></i> Edit</a>
+	{% endif %}
+	</div>
 {% if myself %}
 	{% if member.missing_personal_details %}
 		<div class="alert alert-block">

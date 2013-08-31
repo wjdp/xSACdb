@@ -11,6 +11,7 @@ class MemberProfile(models.Model):
     facebook_id = models.BigIntegerField(verbose_name=u'Facebook ID',blank=True,null=True)
     token = models.CharField(max_length=150, blank=True)
     new = models.BooleanField(default=True)
+    new_notify = models.BooleanField(default=True)
 
     dob = models.DateField(blank=True, null=True)
     address = models.TextField(blank=True)

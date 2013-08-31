@@ -68,6 +68,14 @@ class MemberList(OrderedListView):
         context['page_title'] = self.page_title
         return context
 
+class NewMembers(MemberList):
+    page_title='New Members'
+
+    def get_queryset(self):
+        queryset=super(NewMembers, self).get_queryset()
+        queryset=queryset.filter(new_notify=True)
+        return queryset
+
 class MembersExpiredFormsList(MemberList):
     page_title='Members With Expired Forms'
 
@@ -114,6 +122,16 @@ class MemberDetail(DetailView):
         user_pk=self.kwargs['user__pk']
         user=User.objects.get(pk=user_pk)
         return user.get_profile()
+
+    def get(self, request, *args, **kwargs):
+        if 'action' in request.GET:
+            action=request.GET['action']
+            if action=='remove-new-flag':
+                p=self.get_object()
+                p.new_notify=False
+                p.save()
+
+        return super(MemberDetail, self).get(request, *args, **kwargs)
 
 
 class ModelFormView(FormView):
