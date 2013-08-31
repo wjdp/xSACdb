@@ -17,6 +17,8 @@ from xsd_members.models import MemberProfile
 from xsd_members.forms import *
 
 from xSACdb.view_helpers import OrderedListView
+from xSACdb.roles.decorators import require_members_officer
+from xSACdb.roles.mixins import RequireMembersOfficer
 
 import datetime
 import StringIO
@@ -34,7 +36,7 @@ def view_my_profile(request):
 def admin(request):
     return redirect(reverse('MemberSearch'))
 
-class MemberSearch(OrderedListView):
+class MemberSearch(RequireMembersOfficer, OrderedListView):
     model=MemberProfile
     template_name='members_search.html'
     context_object_name='members'
@@ -56,7 +58,7 @@ class MemberSearch(OrderedListView):
         context['search_form'] = MemberSearchForm()
         return context
 
-class MemberList(OrderedListView):
+class MemberList(RequireMembersOfficer, OrderedListView):
     model=MemberProfile
     template_name='members_list.html'
     context_object_name='members'
@@ -107,7 +109,7 @@ class MembersMissingFieldsList(MemberList):
         queryset_filtered=queryset.filter(self.build_queryset())
         return queryset_filtered
 
-class MemberDetail(DetailView):
+class MemberDetail(RequireMembersOfficer, DetailView):
     model=MemberProfile
     template_name='members_detail.html'
     context_object_name='member'
@@ -132,7 +134,6 @@ class MemberDetail(DetailView):
                 p.save()
 
         return super(MemberDetail, self).get(request, *args, **kwargs)
-
 
 class ModelFormView(FormView):
     def get_model(self):
@@ -159,7 +160,7 @@ class MyProfileEdit(ModelFormView):
     def get_model(self):
         return self.request.user.get_profile()
 
-class MemberEdit(ModelFormView):
+class MemberEdit(RequireMembersOfficer, ModelFormView):
     template_name='members_edit.html'
     form_class=MemberEditForm
 
@@ -176,12 +177,13 @@ class MemberEdit(ModelFormView):
         user=self.get_user()
         return user.get_profile()
 
+@require_members_officer
 def select_tool(request):
     return render(request,'members_bulk_select.html',{
         },
         context_instance=RequestContext(request))
 
-class BulkAddForms(View):
+class BulkAddForms(RequireMembersOfficer, View):
     model=MemberProfile
     
 
