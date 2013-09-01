@@ -9,7 +9,7 @@ class MemberSearchForm(forms.Form):
 class PersonalEditForm(forms.ModelForm):
     class Meta:
         model = MemberProfile
-        fields = ['dob','home_phone','mobile_phone','address','postcode',
+        fields = ['date_of_birth','home_phone','mobile_phone','address','postcode',
             'veggie','alergies','next_of_kin_name','next_of_kin_relation',
             'next_of_kin_phone']
 
@@ -24,7 +24,7 @@ class PersonalEditForm(forms.ModelForm):
 class MemberEditForm(forms.ModelForm):
     class Meta:
         model = MemberProfile
-        fields = ['dob','home_phone','mobile_phone','address','postcode',
+        fields = ['date_of_birth','home_phone','mobile_phone','address','postcode',
             'veggie','alergies','next_of_kin_name','next_of_kin_relation',
             'next_of_kin_phone','training_for','instructor_number',
             'student_id','associate_id','associate_expiry', 'club_id',

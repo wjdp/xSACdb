@@ -11,7 +11,6 @@ class MemberProfile(FacebookProfileModel):
     new = models.BooleanField(default=True)
     new_notify = models.BooleanField(default=True)
 
-    dob = models.DateField(blank=True, null=True)
     address = models.TextField(blank=True)
     postcode = models.CharField(max_length=11, blank=True)
     home_phone = models.CharField(max_length=20, blank=True)
@@ -94,9 +93,12 @@ class MemberProfile(FacebookProfileModel):
         else:
             return False
 
+    def dob(self):
+        return self.date_of_birth
+
     def age(self):
         today=date.today()
-        num_years = int((today - self.dob).days / 365.25)
+        num_years = int((today - self.date_of_birth).days / 365.25)
         return num_years
     def formatted_address(self):
         return self.address.replace("\n","<br />")
