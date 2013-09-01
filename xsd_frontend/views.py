@@ -63,3 +63,6 @@ from django.contrib.auth import logout as auth_logout
 def logout(request):
    auth_logout(request)
    return redirect('/')
+
+def error403(request):
+    return render(request, 'error403.html')
