@@ -4,21 +4,36 @@
 
 
 	<div class="span5">
-		<h2>{{member}}</h2> 
-		{% if member.image %}<img src="{{member.image.url}}" alt="Profile Picture" class="alignright" width=50px height=50px />{%endif%}
-		<table class="table">
-			<tr><td>{{user.first_name}} joined the database on {{user.date_joined|date}}.</td></tr>
-			<tr><td>{{member.heshe}} was born on {{member.date_of_birth}} therefore is {{member.age}}.</td></tr>
-		</table>
+		<div class="titlebox">
+		{% if member.image %}<img src="{{member.image.url}}" alt="Profile Picture" class="alignright" />{%endif%}
+		<h2>{{member}}</h2>
+		<div class="btn-group btn-mini">
+			{% if is_members %}
+			{% if member.new_notify %}
+			<a href="?action=remove-new-flag" class="btn btn-small" type="button"><i class="icon-flag"></i> Remove New Flag</a>
+			{% endif %}
+			<a href="{% url 'MemberEdit' member.user.pk %}" class="btn btn-small" type="button"><i class="icon-edit"></i> Edit</a>
+			<a href="{% url 'MemberEdit' member.user.pk %}" class="btn btn-small" type="button"><i class="icon-trash"></i> Delete</a>
+			{% elif myself %}
+			<a href="{% url 'MyProfileEdit' %}" class="btn btn-small" type="button"><i class="icon-pencil"></i> Edit</a>
+			{% endif %}
+		</div>
+		</div>
+		
+		<p>{{member.user.first_name}} joined the database on {{member.user.date_joined|date}}. {{member.heshe}} was born on {{member.date_of_birth}} therefore is {{member.age}}.</p>
+
+		{% if member.membership_problem %}
+		<p>There are currently issues with {{member.user.first_name}}'s membership, see points with error icons below. Until this is fixed {{member.heshe|lower}} cannot go diving.</p>
+		{%endif%}
 		
 	</div>
 	<div class="span4">
-		<h3>Contact Details</h3>
+		<h3><i class="icon-envelope"></i> Contact Details</h3>
 		<table class="table">
-			<tr><th>Address</th><td>{{member.formatted_address|safe}}<br />{{member.postcode}}</td></tr>
-			<tr><th>Email</th><td>{{user.email}}</td></tr>
-			<tr><th>Home Phone</th><td>{{member.home_phone}}</td></tr>
-			<tr><th>Mobile Phone</th><td>{{member.mobile_phone}}</td></tr>
+			<tr><th>Address</th><td>{% if not member.address or member.post_code %}<i class="icon-warning-sign red"></i>{% else %}{{member.formatted_address|safe}}<br />{{member.postcode}}{% endif %}</td></tr>
+			<tr><th>Email</th><td>{{member.user.email}}{% if not member.useremail %} <i class="icon-warning-sign red"></i>{% endif %}</td></tr>
+			<tr><th>Home Phone</th><td>{{member.home_phone}}{% if not member.home_phone %} <i class="icon-warning-sign red"></i>{% endif %}</td></tr>
+			<tr><th>Mobile Phone</th><td>{{member.mobile_phone}}{% if not member.mobile_phone %} <i class="icon-warning-sign red"></i>{% endif %}</td></tr>
 
 		</table>
 	</div>
@@ -26,14 +41,14 @@
 
 
 	<div class="span5">
-		<h3>Club Details</h3>
+		<h3><i class="icon-home"></i> Club Details</h3>
 		{% if member.club_expiry or not myself %}
 		<table class="table">
 			{% if member.club_id %}<tr><th>Club ID</th><td>{{ member.club_id }}</td></tr>{% endif %}
 			{% if member.student_id %}<tr><th>Student ID</th><td>{{ member.student_id }}</td></tr>{% endif %}
 			<tr><th>Membership Type</th><td>{{member.club_membership_type }}</td></tr>
-			<tr><th>Memberhsip Expiry Date</th><td>{{member.club_expiry }}</td></tr>
-			<tr><th>Medical Form Expiry Date</th><td>{{member.medical_form_expiry}}</td></tr>
+			<tr><th>Memberhsip Expiry Date</th><td>{{member.club_expiry }}{% if member.club_expired %} <i class="icon-warning-sign red"></i>{% endif %}</td></tr>
+			<tr><th>Medical Form Expiry Date</th><td>{{member.medical_form_expiry}}{% if member.medical_form_expired %} <i class="icon-warning-sign red"></i>{% endif %}</td></tr>
 		</table>
 		{% else %}
 		<div class="alert alert-info">
@@ -44,15 +59,15 @@
 	</div>
 
 	<div class="span4">
-		<h3>Next of Kin</h3>
+		<h3><i class="icon-user"></i> Next of Kin</h3>
 		<table class="table">
-			<tr><th>Name</th><td>{{ member.next_of_kin_name }}</td></tr>
-			<tr><th>Relation</th><td>{{ member.next_of_kin_relation }}</td></tr>
-			<tr><th>Phone</th><td>{{ member.next_of_kin_phone }}</td></tr>
+			<tr><th>Name</th><td>{{ member.next_of_kin_name }}{% if not member.next_of_kin_name %} <i class="icon-warning-sign red"></i>{% endif %}</td></tr>
+			<tr><th>Relation</th><td>{{ member.next_of_kin_relation }}{% if not member.next_of_kin_relation %} <i class="icon-warning-sign red"></i>{% endif %}</td></tr>
+			<tr><th>Phone</th><td>{{ member.next_of_kin_phone }}{% if not member.next_of_kin_phone %} <i class="icon-warning-sign red"></i>{% endif %}</td></tr>
 		</table>
 	</div>
 	<div class="span5">
-		<h3>Qualification Details</h3>
+		<h3><i class="icon-ticket"></i> Qualification Details</h3>
 		<table class="table">
 			<tr><th>Current Qualification</th><td>{{ member.top_qual }}</td></tr>
 			<tr><th>Training For</th><td>{{ member.training_for }}</td></tr>
@@ -64,7 +79,7 @@
 	</div>
 
 	<div class="span4">
-		<h3>BSAC Details</h3>
+		<h3><i class="icon-bsac"></i> BSAC Details</h3>
 		{% if member.bsac_expiry or not myself %}
 		<table class="table">
 			{% if member.bsac_id %}<tr><th>BSAC ID</th><td>A{{ member.bsac_id }}</td></tr>{% endif %}
@@ -74,7 +89,7 @@
 				{% elif member.bsac_member_via_another_club}Member of BSAC through another club
 				{% else %}Standard club member{% endif %}
 			</td></tr>
-			<tr><th>Memberhsip Expiry Date</th><td>{{member.bsac_expiry }}</td></tr>
+			<tr><th>Memberhsip Expiry Date</th><td>{{member.bsac_expiry }}{% if member.bsac_expired %} <i class="icon-warning-sign red"></i>{% endif %}</td></tr>
 		</table>
 		{% else %}
 		<div class="alert alert-info">
