@@ -105,6 +105,11 @@ class MemberProfile(FacebookProfileModel):
     def formatted_alergies(self):
         return self.alergies.replace("\n","<br />")
 
+    def heshe(self):
+        if self.gender=="m": return "He"
+        if self.gender=="f": return "She"
+        return "They"
+
 from django.contrib.auth.models import User
 from django.db.models.signals import post_save
 
