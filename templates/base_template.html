@@ -48,8 +48,8 @@
                 <li><a href="#" class="dropdown-toggle" data-toggle="dropdown">
                     {{request.user.get_full_name}} <b class="caret"></b></a>
                     <ul class="dropdown-menu" role="menu">
-                        <li><a href="#">Request An Update To Records</a></li>
-                        <li><a href="/accounts/password">Change Password</a></li>
+                        <li><a href="#update_request_modal" data-toggle="modal">Request An Update To Records</a></li>
+                        <li><a href="#update_account_modal" data-toggle="modal">Account Settings</a></li>
                         <li class="divider"></li>
                         <li><a href="/accounts/logout">Logout of Database</a></li>
                     </ul>
@@ -63,6 +63,10 @@
 {% block content %}
 No content
 {% endblock %}
+
+{% include 'update_request.html' %}
+{% include 'update_account.html' %}
+
 {% block closing_js %}{% endblock %}
 </div>
 </body>

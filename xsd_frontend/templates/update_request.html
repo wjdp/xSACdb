@@ -1,0 +1,19 @@
+ <div id="update_request_modal" class="modal hide {% if not repost %}fade{% endif %}" tabindex="-1" role="dialog" aria-labelledby="new_user_modalLabel" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+  <form action="." method="POST">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+        <h3 id="new_user_modalLabel">Make an Update Request</h3>
+    </div>
+    <div class="modal-body">
+        <p>When there are things on the database that haven't been updated for you, such as what lessons you've taken or the fact you've renewed your membership you should make an update request.</p>
+        
+        <p>The relevant database officer will receive notification of the request and take action.</p>
+
+        {% csrf_token %}
+        
+    </div>
+    <div class="modal-footer">
+        <input class="btn btn-primary" type="submit" value="Submit Request" />
+    </div>
+</form>
+</div>
