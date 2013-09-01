@@ -7,15 +7,23 @@
 	<meta charset="utf-8" />
 	<link href="/static/css/facebook.css" type="text/css" rel="stylesheet" media="all" />
 	<style type="text/css" media="screen">
-		* {margin: 0;padding: 0;}
+		* {margin: 0;padding: 0; font-family: 'Helvetica', 'Arial', sans;}
 		body {
-			background:#333;
+			background: #4e5b89; /* Old browsers */
+background: -moz-linear-gradient(top, #4e5b89 0%, #2d3860 100%); /* FF3.6+ */
+background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#4e5b89), color-stop(100%,#2d3860)); /* Chrome,Safari4+ */
+background: -webkit-linear-gradient(top, #4e5b89 0%,#2d3860 100%); /* Chrome10+,Safari5.1+ */
+background: -o-linear-gradient(top, #4e5b89 0%,#2d3860 100%); /* Opera 11.10+ */
+background: -ms-linear-gradient(top, #4e5b89 0%,#2d3860 100%); /* IE10+ */
+background: linear-gradient(to bottom, #4e5b89 0%,#2d3860 100%); /* W3C */
+filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#4e5b89', endColorstr='#2d3860',GradientType=0 ); /* IE6-9 */
 			height: 100%;
 			overflow: hidden;
 		}
 
 		.big-background-1,.big-background-2 {
 			width: 150%;
+			min-height: 1100px;
 			position: absolute;
 			top:0;
 			left:0;
@@ -24,6 +32,12 @@
 			-webkit-transition: opacity 5s;
 			-moz-transition: opacity 5s;     
 			transition: opacity 5s; 
+		}
+		.overlay {
+			position: absolute;
+			left: 0; top: 0;
+			width:100%; height: 100%;
+			z-index: -1;
 		}
 		.big-background-1 {z-index: -10;opacity: 0;}
 		.big-background-2 {
@@ -35,21 +49,48 @@
 		.login {
 			background: white;
 			width:550px;
-			height: 200px;
+			height: 150px;
 			overflow: hidden;
 			padding: 16px;
 			position: absolute;
 			top:40%;
 			left:50%;
-			margin:-100px 0 0 -275px; 
+			margin:-75px 0 0 -275px; 
+			opacity: 0.95;
+			border-radius: 3px;
 		}
 		.login-facebook, .login-conventional {
-			width:40%;
-			float: left
+			float: left;
+			height: 150px;
 		}
 
 		.login-facebook {
-			margin-right: 10%
+			width:60%;
+			border-right: 1px solid #f1f1f1;
+		}
+		.login-facebook img {
+			padding: 52px 0 0 45px;
+		}
+
+		.login-conventional {
+			font-size: 15px;
+			padding: 30px 0 0 35px;
+		}
+		.login-conventional input {
+			padding: 3px;
+			margin: 4px;	
+			width: 100%;
+			border: 1px solid #ccc;
+			border-radius: 2px;
+		}
+		#id_username, #id_password {
+			width:95%;
+		}
+		.login-conventional .submit {
+			background:#548ac1;
+			color:white;
+			font-weight: bold;
+			border:none;
 		}
 
 		
@@ -96,8 +137,9 @@
 </head>
 
 <body>
-	<img  class="big-background-1">
-	<img  class="big-background-2">
+	<img class="big-background-1">
+	<img class="big-background-2">
+	<div class="overlay"></div>
  	<div class="login">
 		<div class="login-facebook">
 			<form action="{% url 'facebook_connect' %}?facebook_login=1" method="post">
@@ -115,8 +157,9 @@
 			<p>Your username and password didn't match. Please try again.</p>
 			{% endif %}
 			<form action="" method="post">{% csrf_token %}
-				{{ form.as_p }}
-				<input type="submit" value="Submit" />
+				<p><input id="id_username" name="username" type="text" placeholder="Username" /></p>
+				<p><input id="id_password" name="password" type="password" placeholder="Password" /></p>
+				<input class="submit" type="submit" value="Login" />
 			</form>
 		</div>
 
