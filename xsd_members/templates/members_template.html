@@ -5,7 +5,7 @@
 <div class="span3 nav-down">
     <ul class="nav nav-list">
       <li class="nav-header">Personal</li>
-      <li {% is_active_simple current_url 'my-profile' %}{% is_active_simple current_url 'MyProfileEdit' %}>
+      <li {% is_active_simple current_url 'my-profile' %} {% is_active_simple current_url 'MyProfileEdit' %}>
       <a href="{% url 'my-profile' %}">Your Profile</a></li>
 
       {% if is_members %}

@@ -1,20 +1,89 @@
 {% extends 'members_template.html' %}
 {% load bootstrap_toolkit %}
 
-
 {% block members_content %}
-<div class="row">
-<div class="span9">
-	<h2>Edit Member's Details</h2>
-</div>
-<div class="span9">
-	<form action="." method="POST">
+<form action="." method="POST">
     {% csrf_token %}
-    {{ form|as_bootstrap }}
-    <button type="submit" class="btn btn-primary">Save Changes</button>
-	</form>
+	<div class="span5">
+		<div class="titlebox">
+		{% if member.image %}<img src="{{member.image.url}}" alt="Profile Picture" class="alignright" />{%endif%}
+		<h2>{{member}}</h2>
+		</div>
+		{% if is_members %}
+		<p>Date of Birth: {{form.date_of_birth}}</p>
+		{% endif %}
+	</div>
+	<div class="span4">
+		<h3><i class="icon-envelope"></i> Contact Details</h3>
+		<table class="table">
+			<tr><th>Address</th><td>{{ form.address.errors }}{{form.address}}{{ form.postcode.errors }}{{form.postcode}}</td></tr>
+			<tr><th>Email</th><td>{% if is_members %}This can only be changed by the user.{% else %}This is changed under account settings.{% endif %}</td></tr>
+			<tr><th>Home Phone</th><td>{{ form.home_phone.errors }}{{form.home_phone}}</td></tr>
+			<tr><th>Mobile Phone</th><td>{{ form.mobile_phone.errors }}{{form.mobile_phone}}</td></tr>
+
+		</table>
+	</div>
+
+
+
+	<div class="span5">
+		<h3><i class="icon-home"></i> Club Details</h3>
+		{% if is_members %}
+		<table class="table">
+			<tr><th>Club ID</th><td>{{ form.club_id.errors }}{{ form.club_id }}</td></tr>
+			<tr><th>Student ID</th><td>{{ form.student_id.errors }}{{ form.student_id }}</td></tr>
+			<tr><th>Membership Type</th><td>{{ form.club_membership_type.errors }}{{form.club_membership_type }}</td></tr>
+			<tr><th>Memberhsip Expiry Date</th><td>{{ form.club_expiry.errors }}{{form.club_expiry }}</td></tr>
+			<tr><th>Medical Form Expiry Date</th><td>{{ form.medical_form_expiry.errors }}{{form.medical_form_expiry}}</td></tr>
+		</table>
+		{% else %}
+		<p>Club details can only be updated by a database officer. If there is an error please make an update request.</p>
+		{% endif %}
+	</div>
+
+	<div class="span4">
+		<h3><i class="icon-user"></i> Next of Kin</h3>
+		<table class="table">
+			<tr><th>Name</th><td>{{ form.next_of_kin_name.errors }}{{ form.next_of_kin_name }}</td></tr>
+			<tr><th>Relation</th><td>{{ form.next_of_kin_relation.errors }}{{ form.next_of_kin_relation }}</td></tr>
+			<tr><th>Phone</th><td>{{ form.next_of_kin_phone.errors }}{{ form.next_of_kin_phone }}</td></tr>
+		</table>
+	</div>
+	<div class="span5">
+	
+		<h3><i class="icon-ticket"></i> Qualification Details</h3>
+		{% if is_members %}
+		<table class="table">
+			<tr><th>Current Qualification</th><td>Qualifications are added in the training module</td></tr>
+			<tr><th>Training For</th><td>{{ form.training_for.errors }}{{ form.training_for }}</td></tr>
+			
+			<tr><th>Instructor Qualification</th><td>Qualifications are added in the training module</td></tr>
+			<tr><th>Instructor Number</th><td>{{ form.instructor_number.errors }}{{ form.instructor_number }}</td></tr>
+		{% else %}
+		<p>Qualification details can only be updated by a database officer. If there is an error please make an update request.</p>
+		{% endif %}
+			
+		</table>
+	</div>
+	<div class="span4">
+		<h3><i class="icon-bsac"></i> BSAC Details</h3>
+		{% if is_members %}
+		<table class="table">
+			<tr><th>BSAC ID</th><td>{{ form.bsac_id.errors }}A{{ form.bsac_id }}</td></tr>
+			<tr><th>Membership Type</th><td>
+				{{ form.bsac_direct_debit.errors }}{{form.bsac_direct_debit|as_bootstrap}}
+				{{ form.bsac_direct_member.errors }}{{form.bsac_direct_member|as_bootstrap}}
+				{{ form.bsac_member_via_another_club.errors }}{{form.bsac_member_via_another_club|as_bootstrap}}
+			</td></tr>
+			<tr><th>Membership Expiry Date</th><td>{{ form.bsac_expiry.errors }}{{form.bsac_expiry }}</td></tr>
+		</table>
+		{% else %}
+		<p>BSAC details can only be updated by a database officer. If there is an error please make an update request.</p>
+		{% endif %}
+	</div>
+	</div>
+	<div class="form-actions span9">
+	    <input type="submit" class="btn btn-primary alignright" value="Save Changes" />
 </div>
-<div class="span4">
-</div>
-</div>
+</form>
 {% endblock %}

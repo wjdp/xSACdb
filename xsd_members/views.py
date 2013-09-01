@@ -153,12 +153,17 @@ class ModelFormView(FormView):
         return super(ModelFormView, self).form_valid(form)
 
 class MyProfileEdit(ModelFormView):
-    template_name='members_personal_edit.html'
-    form_class=PersonalEditForm
+    template_name='members_edit.html'
+    form_class=MemberEditForm
     success_url=reverse_lazy('my-profile')
 
     def get_model(self):
         return self.request.user.get_profile()
+
+    def get_context_data(self, **kwargs):
+        context = super(MyProfileEdit, self).get_context_data(**kwargs)
+        context['member'] = self.get_model()
+        return context
 
 class MemberEdit(RequireMembersOfficer, ModelFormView):
     template_name='members_edit.html'
@@ -176,6 +181,11 @@ class MemberEdit(RequireMembersOfficer, ModelFormView):
     def get_model(self):
         user=self.get_user()
         return user.get_profile()
+
+    def get_context_data(self, **kwargs):
+        context = super(MemberEdit, self).get_context_data(**kwargs)
+        context['member'] = self.get_model()
+        return context
 
 @require_members_officer
 def select_tool(request):

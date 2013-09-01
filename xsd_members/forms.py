@@ -31,6 +31,9 @@ class MemberEditForm(forms.ModelForm):
             'club_expiry','club_membership_type','bsac_id','bsac_expiry',
             'bsac_direct_member','bsac_member_via_another_club',
             'bsac_direct_debit','medical_form_expiry','other_qualifications']
+        widgets = {
+          'address': forms.Textarea(attrs={'rows':3, 'cols':40}),
+        }
 
 class FormExpiryForm(forms.Form):
     user_id=forms.IntegerField()
