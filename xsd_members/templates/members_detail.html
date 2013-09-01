@@ -31,7 +31,7 @@
 		<h3><i class="icon-envelope"></i> Contact Details</h3>
 		<table class="table">
 			<tr><th>Address</th><td>{% if not member.address or member.post_code %}<i class="icon-warning-sign red"></i>{% else %}{{member.formatted_address|safe}}<br />{{member.postcode}}{% endif %}</td></tr>
-			<tr><th>Email</th><td>{{member.user.email}}{% if not member.useremail %} <i class="icon-warning-sign red"></i>{% endif %}</td></tr>
+			<tr><th>Email</th><td>{{member.user.email}}{% if not member.user.email %} <i class="icon-warning-sign red"></i>{% endif %}</td></tr>
 			<tr><th>Home Phone</th><td>{{member.home_phone}}{% if not member.home_phone %} <i class="icon-warning-sign red"></i>{% endif %}</td></tr>
 			<tr><th>Mobile Phone</th><td>{{member.mobile_phone}}{% if not member.mobile_phone %} <i class="icon-warning-sign red"></i>{% endif %}</td></tr>
 
