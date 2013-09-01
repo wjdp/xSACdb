@@ -3,30 +3,182 @@
 <html>
 
 <head>
-    <title>xSACdb Login</title>
-    <meta charset="utf-8" />
-    <link href="/static/css/facebook.css" type="text/css" rel="stylesheet" media="all" />
+	<title>xSACdb Login</title>
+	<meta charset="utf-8" />
+	<link href="/static/css/facebook.css" type="text/css" rel="stylesheet" media="all" />
+	<style type="text/css" media="screen">
+		* {margin: 0;padding: 0;}
+		body {
+			background:#333;
+			height: 100%;
+			overflow: hidden;
+		}
+
+		.big-background-1,.big-background-2 {
+			width: 150%;
+			position: absolute;
+			top:0;
+			left:0;
+			
+
+			-webkit-transition: opacity 5s;
+			-moz-transition: opacity 5s;     
+			transition: opacity 5s; 
+		}
+		.big-background-1 {z-index: -10;opacity: 0;}
+		.big-background-2 {
+			z-index: -20;
+			top:-200px;
+			left:-400px;
+		}
+
+		.login {
+			background: white;
+			width:550px;
+			height: 200px;
+			overflow: hidden;
+			padding: 16px;
+			position: absolute;
+			top:40%;
+			left:50%;
+			margin:-100px 0 0 -275px; 
+		}
+		.login-facebook, .login-conventional {
+			width:40%;
+			float: left
+		}
+
+		.login-facebook {
+			margin-right: 10%
+		}
+
+		
+.slow-slide {
+  -webkit-animation: slow-slide 50s 1; /* Safari 4+ */
+  -moz-animation:    slow-slide 50s 1; /* Fx 5+ */
+  -o-animation:      slow-slide 50s 1; /* Opera 12+ */
+  animation:         slow-slide 50s 1; /* IE 10+ */
+}
+
+@-webkit-keyframes slow-slide {
+  100% { -webkit-transform: translate(-400px,-200px); }
+}
+@-moz-keyframes slow-slide {
+  100% { -webkit-transform: translate(-400px,-200px); }
+}
+@-o-keyframes slow-slide {
+  100% { -webkit-transform: translate(-400px,-200px); }
+}
+@keyframes slow-slide {
+  100% { transform: translate(-400px,-200px); }
+}
+.slow-slide-rev {
+  -webkit-animation: slow-slide-rev 50s 1; /* Safari 4+ */
+  -moz-animation:    slow-slide-rev 50s 1; /* Fx 5+ */
+  -o-animation:      slow-slide-rev 50s 1; /* Opera 12+ */
+  animation:         slow-slide-rev 50s 1; /* IE 10+ */
+}
+
+@-webkit-keyframes slow-slide-rev {
+  100% { -webkit-transform: translate(400px,200px); }
+}
+@-moz-keyframes slow-slide-rev {
+  100% { -webkit-transform: translate(400px,200px); }
+}
+@-o-keyframes slow-slide-rev {
+  100% { -webkit-transform: translate(400px,200px); }
+}
+@keyframes slow-slide-rev {
+  100% { transform: translate(400px,200px); }
+}
+	</style>
+	<script type="text/javascript" src="/media/js/jquery.js"></script>
 </head>
 
 <body>
-{% if form.errors %}
-<p>Your username and password didn't match. Please try again.</p>
-{% endif %}
-<form action="" method="post">{% csrf_token %}
-{{ form.as_p }}
-<input type="submit" value="Submit" />
-</form>
+	<img  class="big-background-1">
+	<img  class="big-background-2">
+ 	<div class="login">
+		<div class="login-facebook">
+			<form action="{% url 'facebook_connect' %}?facebook_login=1" method="post">
+				<a href="javascript:void(0);" style="font-size: 20px;" onclick="F.connect(this.parentNode);">
+					<img src="/media/images/fb_button.png" alt="Login with Facebook" />					
+				</a>
+				<input type="hidden" value="{{ request.path }}" name="next" />
+				<input type="hidden" value="{{ request.path }}" name="register_next" />
+				<input type="hidden" value="{{ request.path }}" name="error_next" />
+				{% csrf_token %}
+			</form>
+		</div>
+		<div class="login-conventional">
+			{% if form.errors %}
+			<p>Your username and password didn't match. Please try again.</p>
+			{% endif %}
+			<form action="" method="post">{% csrf_token %}
+				{{ form.as_p }}
+				<input type="submit" value="Submit" />
+			</form>
+		</div>
 
-<h2>Facebook login</h2>
-<form action="{% url 'facebook_connect' %}?facebook_login=1" method="post">
-<a href="javascript:void(0);" style="font-size: 20px;" onclick="F.connect(this.parentNode);">Register, login or connect with facebook</a>
-<input type="hidden" value="{{ request.path }}" name="next" />
-<input type="hidden" value="{{ request.path }}" name="register_next" />
-<input type="hidden" value="{{ request.path }}" name="error_next" />
-{% csrf_token %}
-</form>
+	</div>
 
-<script src="/media/js/facebook.js" type="text/javascript"></script>
-{% include 'django_facebook/_facebook_js.html' %}
+	<script src="/media/js/facebook.js" type="text/javascript"></script>
+	{% include 'django_facebook/_facebook_js.html' %}
+
+	<script type="text/javascript">
+		var images=['/media/images/login_backgrounds/1.jpg','/media/images/login_backgrounds/2.jpg','/media/images/login_backgrounds/3.jpg','/media/images/login_backgrounds/4.jpg','/media/images/login_backgrounds/5.jpg','/media/images/login_backgrounds/6.jpg']
+		var i=0
+		var i_max=5
+		function shuffle(array) {
+  			var m = array.length, t, i;
+  			// While there remain elements to shuffle
+  			while (m) {
+    			// Pick a remaining element…
+    			i = Math.floor(Math.random() * m--);
+		    	// And swap it with the current element
+    			t = array[m];
+    			array[m] = array[i];
+    			array[i] = t;
+  			}
+  			return array;
+		}	
+
+		function fadeOutA() {$( ".big-background-1" ).css({"opacity":"0"});}
+		function fadeInA() {$( ".big-background-1" ).css({"opacity":"1"});}
+		function resetA(){$( ".big-background-1" ).removeClass( "slow-slide" ); nextImageA();}
+		function resetB(){$( ".big-background-2" ).removeClass( "slow-slide-rev" ); nextImageB();}
+		function startAMoving() {$( ".big-background-1" ).addClass( "slow-slide" );}
+		function startBMoving() {$( ".big-background-2" ).addClass( "slow-slide-rev" );}
+
+		function nextImage() {
+			next=images[i]
+			i++;
+			return next
+		}
+		function nextImageA() {
+			$( ".big-background-1" ).attr( "src",nextImage() );
+		}
+		function nextImageB() {
+			$( ".big-background-2" ).attr( "src",nextImage() );
+		}
+
+		function again() {
+				window.setTimeout(resetB, 10000);
+				window.setTimeout(fadeOutA, 30000);
+				window.setTimeout(startBMoving, 30000);
+				window.setTimeout(resetA, 40000);
+				window.setTimeout(fadeInA, 60000);
+				window.setTimeout(startAMoving, 60000);
+				window.setTimeout(again, 70000);
+			}
+
+		$(document).ready(function() {
+			images=shuffle(images)
+			startAMoving()
+			nextImageA()	
+			fadeInA();
+			again();
+		});
+</script>
 </body>
 </html>
