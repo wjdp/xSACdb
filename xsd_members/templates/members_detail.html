@@ -4,8 +4,9 @@
 
 <div class="row">
 <div class="span9">
-	{% ifequal member.gender "F" %} <img src="/media/images/female.png" class="alignright" />{% endifequal %}
-	{% ifequal member.gender "M" %} <img src="/media/images/male.png" class="alignright" />{% endifequal %}
+
+	{% ifequal member.gender "f" %} <img src="/media/images/female.png" class="alignright" />{% endifequal %}
+	{% ifequal member.gender "m" %} <img src="/media/images/male.png" class="alignright" />{% endifequal %}
 	<h1>{{member}}</h1>
 	<div class="btn-group">
 	{% if is_members %}
@@ -28,7 +29,7 @@
 {% endif %}
 </div>
 
-<div class="span3">
+<div class="span4">
 	<dl>
 		<h3>Personal Details</h3>
 		<dt>Date Of Birth</dt>
@@ -45,7 +46,7 @@
 		<dd>{{member.formatted_address|safe}}<br />
 			{{member.postcode}}</dd>
 		<dt>Veggie</dt>
-		<dd>{{member.veggie}}</dd>
+		<dd>{{member.veggie|yesno:"Yes,No"}}</dd>
 		{% if member.alergies %}
 		<dt>Alergies</dt>
 		<dd>{{member.formatted_alergies|safe}}</dd>
@@ -60,7 +61,7 @@
 		<dd>{{member.next_of_kin_phone}}</dd>
 	</dl>
 </div>
-<div class="span3">
+<div class="span4">
 	<dl>
 		<h3>Club Details</h3>
 		{% if member.club_id %}
@@ -69,20 +70,20 @@
 		{% endif %}
 		<dt>Club Membership Expiry</dt>
 		<dd>{{member.club_expiry}}</dd>
-		<dt class="dl-break">SDCs</dt>
-		<dd>
-			<ul>
-
-			</ul>
-		</dd>
+		<dt>Medical Form Expiry</dt>
+		<dd>{{member.medical_form_expiry}}</dd>
+		
+		{% if member.instructor_number %}
 		<dt>Instructor Number</dt>
 		<dd>{{member.instructor_number}}</dd>
+		{% endif %}
 	</dl>
-</div>
-<div class="span3">
+
 	<dl>
-		<h3>Qualification Details</h3>
-		<dt>Qualification</dt>
+		<h3>BSAC Details</h3>
+		<dt>BSAC Membership Expiry</dt>
+		<dd>{{member.bsac_expiry}}</dd>
+		<dt class="dl-break">Qualification</dt>
 		<dd>{{member.top_qual}}</dd>
 		{% if member.training_for %}
 		<dt>Training For</dt>
@@ -92,17 +93,23 @@
 		<dt>Instructor Number</dt>
 		<dd>{{member.instructor_number}}</dd>
 		{% endif %}		
-				<dt class="dl-break">SDCs</dt>
+		
+		<dt class="dl-break">SDCs</dt>
 		<dd>
-			<ul class="sdc">
+		{% if member.sdcs.all %}
+			<ul>
 			{% for sdc in member.sdcs.all %}
 				<li>{{sdc}}</li>
-				{% empty %}
-				None
 			{% endfor %}
 			</ul>
+		{% else %}
+		<p><em>No SDCs</em></p>
+		{% endif %}
 		</dd>
-		<dt>Other Qualifications</dt>
+
+
+		
+		<dt class="dl-break">Other Qualifications</dt>
 		<dd>{% if member.other_qualifications %}
 			{{member.formatted_other_qualifications|safe}}
 			{% else %}None{% endif %}</dd>
