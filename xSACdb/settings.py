@@ -47,6 +47,14 @@ USE_L10N = True
 # If you set this to False, Django will not use timezone-aware datetimes.
 USE_TZ = True
 
+LOGIN_URL = '/accounts/login/'
+
+LOGIN_EXEMPT_URLS = (
+ r'^media/', # allow any URL under /media/*
+ r'^static/', # allow any URL under /static/*
+ r'^facebook/', # allow any URL under /facebook/*
+) 
+
 # Absolute filesystem path to the directory that will hold user-uploaded files.
 # Example: "/home/media/media.lawrence.com/media/"
 MEDIA_ROOT = ''
@@ -100,8 +108,7 @@ MIDDLEWARE_CLASSES = (
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
-    # Uncomment the next line for simple clickjacking protection:
-    # 'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'xSACdb.middleware.LoginRequiredMiddleware'
 )
 
 TEMPLATE_CONTEXT_PROCESSORS = (
@@ -130,6 +137,10 @@ TEMPLATE_DIRS = (
 AUTHENTICATION_BACKENDS = (
     'django.contrib.auth.backends.ModelBackend',
     'django_facebook.auth_backends.FacebookBackend',
+)
+
+FIXTURE_DIRS = (
+    PROJECT_PATH+'/xSACdb/fixtures',
 )
 
 INSTALLED_APPS = (

@@ -11,11 +11,14 @@ from django.core.urlresolvers import reverse_lazy
 
 from xSACdb.ui import xsdUI
 from xSACdb.view_helpers import OrderedListView
+from xSACdb.roles.decorators import require_training_officer
+from xSACdb.roles.mixins import RequireTrainingOfficer
 
 from xsd_training.models import *
 from xsd_training.forms import *
 import forms
 from django.forms.models import modelformset_factory    
+
 
 
 from xsd_members.bulk_select import get_bulk_members
@@ -74,17 +77,12 @@ def all_feedback(request):
                   'pls':pls
                   }, context_instance=RequestContext(request))
 
-def sdc_list(request,id):
-    pass
-def sdc_detail(request,id):
-    pass
-
-class SessionCreate(CreateView):
+class SessionCreate(RequireTrainingOfficer, CreateView):
     model=Session
     fields=['when','where','notes']
     template_name='session_create.html'
 
-class SessionPlanner(UpdateView):
+class SessionPlanner(RequireTrainingOfficer, UpdateView):
     model=Session
     fields=['when']
     template_name='session_edit.html'
@@ -133,12 +131,12 @@ class SessionPlanner(UpdateView):
                 formset.save()
         return super(SessionPlanner, self).post(request, *args, **kwargs)
 
-class SessionList(ListView):
+class SessionList(RequireTrainingOfficer, ListView):
     model=Session
     template_name='session_list.html'
     context_object_name='sessions'
 
-class SessionDelete(DeleteView):
+class SessionDelete(RequireTrainingOfficer, DeleteView):
     model=Session
     template_name='session_confirm_delete.html'
     success_url = reverse_lazy('SessionList')
@@ -169,7 +167,7 @@ def sdc_register_interest(request):
     else:
         return HttpResponse(content="False")
 
-class PerformedSDCCreate(CreateView):
+class PerformedSDCCreate(RequireTrainingOfficer, CreateView):
     model=PerformedSDC
     fields=['sdc','datetime','notes']
     template_name='performedsdc_create.html'

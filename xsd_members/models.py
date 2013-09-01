@@ -54,12 +54,19 @@ class MemberProfile(models.Model):
         return self.user.first_name + " " + self.user.last_name
 
     def top_qual(self):
-        if self.qualifications.count()==0:
-            print "i returned none"
-            return None
+        if self.qualifications.count()==0: return None
         q=self.qualifications.all().exclude(instructor_qualification=True)
         c=q.count()-1
         return q[c]
+    def top_instructor_qual(self):
+        q=self.qualifications.all().filter(instructor_qualification=True)
+        if q.count()==0: return None
+        c=q.count()-1
+        return q[c]
+
+    def is_instructor(self):
+        if self.top_instructor_qual()==None: return False
+        else: return True
 
     def club_expired(self):
         if self.club_expiry==None or self.club_expiry <= date.today(): return True

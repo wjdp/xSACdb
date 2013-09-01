@@ -1,0 +1,72 @@
+[
+   {
+      "pk":1,
+      "model":"auth.group",
+      "fields":{
+         "name":"Member",
+         "permissions":[
+
+         ]
+      }
+   },
+   {
+      "pk":2,
+      "model":"auth.group",
+      "fields":{
+         "name":"Administrator",
+         "permissions":[
+
+         ]
+      }
+   },
+   {
+      "pk":3,
+      "model":"auth.group",
+      "fields":{
+         "name":"Training Officer",
+         "permissions":[
+
+         ]
+      }
+   },
+   {
+      "pk":4,
+      "model":"auth.group",
+      "fields":{
+         "name":"Trip Organiser",
+         "permissions":[
+
+         ]
+      }
+   },
+   {
+      "pk":5,
+      "model":"auth.group",
+      "fields":{
+         "name":"Site Administrator",
+         "permissions":[
+
+         ]
+      }
+   },
+   {
+      "pk":6,
+      "model":"auth.group",
+      "fields":{
+         "name":"Members Officer",
+         "permissions":[
+
+         ]
+      }
+   },
+   {
+      "pk":7,
+      "model":"auth.group",
+      "fields":{
+         "name":"Diving Officer",
+         "permissions":[
+
+         ]
+      }
+   }
+]

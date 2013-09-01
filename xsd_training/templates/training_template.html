@@ -11,14 +11,20 @@
       <a href="{% url 'xsd_training.views.lessons' %}">Lessons</a></li>{% endif %}
       <li {% is_active_simple ui.page 'my_feedback' %}>
       <a href="{% url 'xsd_training.views.all_feedback' %}">See All Feedback</a></li>
+
       <li class="nav-header">Skill Development Courses</li>
       <li {% is_active_simple current_url 'SDCList' %}>
             <a href="{% url 'SDCList' %}">List of SDCs</a></li>
       <li {% is_active_simple current_url 'PerformedSDCList' %} {% is_active_simple current_url 'PerformedSDCDetail' %}>
             <a href="{% url 'PerformedSDCList' %}">Upcoming SDCs</a></li>
+
+      {% if profile.is_instructor %}
       <li class="nav-header">Your Teaching</li>
       <li><a href="#">Upcoming Lessons</a></li>
       <li><a href="#">Give Feedback</a></li>
+      {% endif %}
+
+      {% if is_training %}
       <li class="nav-header">Training Administration</li>
       <li {% is_active_simple current_url 'SessionCreate' %}>
       <a href="{% url 'SessionCreate' %}">Plan a Session</a></li>
@@ -29,6 +35,7 @@
             <a href="{% url 'PerformedSDCCreate' %}">Plan an SDC</a></li>
       <li><a href="#">Award Qualifications</a></li>
       <li><a href="#">Award SDCs</a></li>
+      {% endif %}
     </ul> 
 
 </div>

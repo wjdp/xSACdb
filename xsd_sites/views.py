@@ -6,6 +6,8 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.core import serializers
 from django.core.urlresolvers import reverse, reverse_lazy
 
+from xSACdb.roles.decorators import require_site_administrator
+from xSACdb.roles.mixins import RequireSiteAdministrator
 
 from models import *
 
@@ -19,7 +21,7 @@ class SitesSearch(ListView):
     template_name="sites_overview.html"
     context_object_name='sites'
 
-class SiteCreate(CreateView):
+class SiteCreate(RequireSiteAdministrator, CreateView):
     model=Site
     template_name="sites_update.html"
     context_object_name='sites'
@@ -31,7 +33,7 @@ class SiteCreate(CreateView):
         context['page_title'] = self.page_title
         return context
 
-class SitesList(ListView):
+class SitesList(RequireSiteAdministrator, ListView):
     model=Site
     template_name="sites_list.html"
     context_object_name='sites'
@@ -42,7 +44,7 @@ class SitesList(ListView):
         context['page_title'] = self.page_title
         return context
 
-class SiteUpdate(UpdateView):
+class SiteUpdate(RequireSiteAdministrator, UpdateView):
     model=Site
     template_name="sites_update.html"
     context_object_name='sites'

@@ -10,7 +10,7 @@
       <!-- <li {% is_active_simple current_url 'SitesSearch' %}>
       <a href="{% url 'SitesSearch' %}">Search for a Site</a></li> -->
 
-      {% if has_sites_module %}
+      {% if is_sites %}
       <li class="nav-header">Edit Sites</li>
       <li {% is_active_simple current_url 'SiteCreate' %}>
       <a href="{% url 'SiteCreate' %}">Add a Site</a></li>

@@ -38,11 +38,11 @@
             <ul class="nav">
                 <li {% is_active_simple ui.app 'home' %}><a href="/">Home</a></li>
                 <li {% is_active_simple ui.app 'profile' %}><a href="{% url 'xsd_members.views.view_my_profile' %}">Profile</a></li>
-                {% if has_members_module %}<li {% is_active_simple ui.app 'members' %}><a href="{% url 'xsd_members.views.admin' %}">Members</a></li>{% endif %}
+                {% if is_members %}<li {% is_active_simple ui.app 'members' %}><a href="{% url 'xsd_members.views.admin' %}">Members</a></li>{% endif %}
                 <li {% is_active_simple ui.app 'training' %}><a href="{% url 'xsd_training.views.overview' %}">Training</a></li>
                 <li {% is_active_simple ui.app 'sites' %}><a href="{% url 'SitesOverview' %}">Sites</a></li>
                 <li {% is_active_simple ui.app 'trips' %}><a href="#trips">Trips</a></li>
-                {% if has_admin_module %}<li><a href="/admin">Admin</a></li>{% endif %}
+                {% if is_admin %}<li><a href="/admin">Admin</a></li>{% endif %}
             </ul>
             <ul class="pull-right nav">
                 <li><a href="#" class="dropdown-toggle" data-toggle="dropdown">

@@ -6,8 +6,6 @@ from datetime import date
 from xsd_members.forms import PersonalEditForm
 
 def dashboard(request):
-    if request.user.is_authenticated()==False:
-        return redirect('login')
     profile=request.user.get_profile()
     newbie=profile.new
 
@@ -65,3 +63,6 @@ from django.contrib.auth import logout as auth_logout
 def logout(request):
    auth_logout(request)
    return redirect('/')
+
+def error403(request):
+    return render(request, 'error403.html')
