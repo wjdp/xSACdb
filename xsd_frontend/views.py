@@ -3,7 +3,7 @@ from django.template import RequestContext
 
 from datetime import date
 
-from xsd_members.forms import PersonalEditForm
+from xsd_members.forms import MemberEditForm
 
 def dashboard(request):
     profile=request.user.get_profile()
@@ -12,7 +12,7 @@ def dashboard(request):
     repost=False
 
     if request.POST and newbie:
-        form=PersonalEditForm(request.POST, instance=profile)
+        form=MemberEditForm(request.POST, instance=profile)
         if form.is_valid():
             form.save()
             profile.new=False
@@ -23,7 +23,7 @@ def dashboard(request):
             pass
     else:
         if newbie:
-            form=PersonalEditForm(instance=profile)
+            form=MemberEditForm(instance=profile)
         else:
             form=None
 

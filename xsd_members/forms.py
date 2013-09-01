@@ -33,6 +33,7 @@ class MemberEditForm(forms.ModelForm):
             'bsac_direct_debit','medical_form_expiry','other_qualifications']
         widgets = {
           'address': forms.Textarea(attrs={'rows':3, 'cols':40}),
+          'alergies': forms.Textarea(attrs={'rows':4, 'cols':40}),
         }
 
 class FormExpiryForm(forms.Form):

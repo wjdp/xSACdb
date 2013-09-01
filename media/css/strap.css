@@ -130,9 +130,6 @@ i.icon-bsac {
     background: url('../images/bsac_icon.gif') no-repeat;
 }
 
-.fixed_bum_bar {
-    position: fixed;
-    bottom: -24px;
-    left: 0;
-    width: 100%;
+textarea {
+    width:97%;
 }

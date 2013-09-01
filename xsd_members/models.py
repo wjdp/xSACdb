@@ -20,8 +20,8 @@ class MemberProfile(FacebookProfileModel):
     next_of_kin_relation = models.CharField(max_length=20, blank=True)
     next_of_kin_phone = models.CharField(max_length=20, blank=True)
 
-    veggie = models.BooleanField(default=False)
-    alergies = models.TextField(blank=True)
+    veggie = models.BooleanField(default=False, verbose_name='Vegetarian')
+    alergies = models.TextField(blank=True, verbose_name='Alergies and other requiements')
 
     qualifications=models.ManyToManyField('xsd_training.Qualification', blank=True)
     training_for=models.ForeignKey('xsd_training.Qualification', blank=True, null=True, related_name='q_training_for')
