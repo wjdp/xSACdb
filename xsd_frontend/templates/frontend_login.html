@@ -74,7 +74,8 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#4e5b89', end
 
 		.login-conventional {
 			font-size: 15px;
-			padding: 30px 0 0 35px;
+			padding: 28px 0 0 35px;
+			width:28%;
 		}
 		.login-conventional input {
 			padding: 3px;
@@ -132,6 +133,22 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#4e5b89', end
 @keyframes slow-slide-rev {
   100% { transform: translate(400px,200px); }
 }
+.banner {
+	position: absolute;
+	top:20%;
+	left:50%;
+	height: 35px;
+	width:550px;
+	padding: 0 16px;
+	border-radius: 3px;
+	background: white;
+	margin: -15px 0 0 -275px;
+	text-align: center;
+	opacity: 0.8;
+}
+.banner p {
+	margin-top: 8px
+}
 	</style>
 	<script type="text/javascript" src="/media/js/jquery.js"></script>
 </head>
@@ -140,6 +157,10 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#4e5b89', end
 	<img class="big-background-1">
 	<img class="big-background-2">
 	<div class="overlay"></div>
+	{% if form.errors %}
+	<div class="banner"><p>Your username and password didn't match. Please try again.</p></div>
+	{% endif %}
+
  	<div class="login">
 		<div class="login-facebook">
 			<form action="{% url 'facebook_connect' %}?facebook_login=1" method="post">
@@ -153,9 +174,7 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#4e5b89', end
 			</form>
 		</div>
 		<div class="login-conventional">
-			{% if form.errors %}
-			<p>Your username and password didn't match. Please try again.</p>
-			{% endif %}
+			
 			<form action="" method="post">{% csrf_token %}
 				<p><input id="id_username" name="username" type="text" placeholder="Username" /></p>
 				<p><input id="id_password" name="password" type="password" placeholder="Password" /></p>
