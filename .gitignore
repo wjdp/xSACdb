@@ -5,4 +5,4 @@ local_settings.py
 db.sqlite3
 ltools/*
 *.pyc
-media/user_photos/*
+media/images/facebook_profiles/*

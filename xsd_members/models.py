@@ -5,11 +5,8 @@ from django_facebook.models import FacebookProfileModel
 
 from xsd_training.models import PerformedLesson
 
-class MemberProfile(models.Model):
+class MemberProfile(FacebookProfileModel):
     user = models.OneToOneField('auth.User')
-    gender = models.CharField(max_length=6, blank=True)
-    picture = models.ImageField(upload_to="user_photos/", blank=True, null=True)
-    facebook_id = models.BigIntegerField(verbose_name=u'Facebook ID',blank=True,null=True)
     token = models.CharField(max_length=150, blank=True)
     new = models.BooleanField(default=True)
     new_notify = models.BooleanField(default=True)
@@ -107,15 +104,6 @@ class MemberProfile(models.Model):
         return self.other_qualifications.replace("\n","<br />")
     def formatted_alergies(self):
         return self.alergies.replace("\n","<br />")
-
-from django.db.models import signals
-from django.contrib.auth.management import create_superuser
-from django.contrib.auth import models as auth_app
-
-signals.post_syncdb.disconnect(
-    create_superuser,
-    sender=auth_app,
-    dispatch_uid = "django.contrib.auth.management.create_superuser")
 
 from django.contrib.auth.models import User
 from django.db.models.signals import post_save
