@@ -17,12 +17,12 @@ from xSACdb.roles.mixins import RequireTrainingOfficer
 
 from xsd_training.models import *
 from xsd_training.forms import *
-import forms
 from django.forms.models import modelformset_factory    
 
-
-
 from xsd_members.bulk_select import get_bulk_members
+
+import forms
+import re
 
 def overview(request):
     p=request.user.get_profile()
@@ -179,6 +179,11 @@ class PerformedSDCList(ListView):
     template_name='performedsdc_list.html'
     context_object_name='psdc'
 
+    def get_queryset(self):
+        queryset=super(PerformedSDCList, self).get_queryset()
+        queryset=queryset.filter(completed=False)
+        return queryset
+
 class PerformedSDCDetail(DetailView):
     model=PerformedSDC
     template_name='performedsdc_detail.html'
@@ -188,6 +193,7 @@ class PerformedSDCUpdate(UpdateView):
     model=PerformedSDC
     template_name='performedsdc_update.html'
     context_object_name='psdc'
+    form_class=PerformedSDCUpdateForm
 
     def get_context_data(self, **kwargs):
         context = super(PerformedSDCUpdate, self).get_context_data(**kwargs)
@@ -209,5 +215,41 @@ class PerformedSDCUpdate(UpdateView):
             u=get_object_or_404(User,pk=request.GET['remove-trainee'])
             self.object.trainees.remove(u)
         return super(PerformedSDCUpdate, self).get(request, *args, **kwargs)
+
+class PerformedSDCComplete(DetailView):
+    model=PerformedSDC
+    template_name='performedsdc_complete.html'
+    context_object_name='psdc'
+
+    def get_users(self,request):
+        users=[]
+        for item in request.POST:
+            if re.match('user',item):
+                user_pk=item[5:]
+                u=User.objects.get(pk=user_pk)
+                users.append(u)
+        return users
+
+    def post(self, request, *args, **kwargs):
+        users=self.get_users(request)
+        psdc=self.get_object()
+        sdc=psdc.sdc
+        for user in users:
+            p=user.get_profile()
+            p.sdcs.add(sdc)
+            p.save()
+        for user in psdc.trainees.all():
+            if user not in users:
+                psdc.trainees.remove(user)
+        psdc.completed=True
+        psdc.save()
+        return redirect(reverse('PerformedSDCList'))
+        
+
+class PerformedSDCDelete(DeleteView):
+    model=PerformedSDC
+    template_name='performedsdc_delete.html'
+    context_object_name='psdc'
+    success_url = reverse_lazy('PerformedSDCList')
 
 

@@ -2,6 +2,7 @@
 {% block training_content %}
 <div class="span3">
     <form action="." method="POST">
+    {% csrf_token %}
     <input type="hidden" name="action" value="detail" />
     <h2>{{form.sdc}}</h2>
     <p>This skill development course is planned for {{form.datetime}}</p>

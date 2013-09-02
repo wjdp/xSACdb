@@ -3,7 +3,7 @@
 <div class="span3">
     <h2>{{psdc.sdc.title}}</h2>
     <p>This skill development course is planned for {{psdc.datetime}}</p>
-    <p>{{psdc.notes}}</p>
+    <p>{{psdc.notes|linebreaks}}</p>
     
 </div>
 <div class="span6">
@@ -36,7 +36,8 @@
         {% if not psdc.completed %}<a class="btn" href="{% url 'PerformedSDCUpdate' psdc.pk %}"><i class="icon icon-pencil"></i> Edit</a>{% endif %}
 
         <div class="btn-group pull-right">
-        <a class="btn btn-danger" href="#"><i class="icon icon-remove"></i> Cancel Course</a><a class="btn btn-success" href="#"><i class="icon icon-ok"></i> Complete Course</a>
+        <a class="btn btn-danger" href="{% url 'PerformedSDCDelete' psdc.pk %}"><i class="icon icon-remove"></i> Cancel Course</a>
+        <a class="btn btn-success" href="{% url 'PerformedSDCComplete' psdc.pk %}"><i class="icon icon-ok"></i> Complete Course</a>
         </div>
 </div>
 {% endif %}
