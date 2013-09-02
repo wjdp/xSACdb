@@ -1,42 +1,45 @@
 {% extends 'training_template.html' %}
 {% block training_content %}
 <div class="span3">
-    <h2>{{psdc.sdc.title}}</h2>
-    <p>This skill development course is planned for {{psdc.datetime}}</p>
-    <p>{{psdc.notes}}</p>
+    <h2>{{form.sdc}}</h2>
+    <p>This skill development course is planned for {{form.datetime}}</p>
+    <p>{{form.notes}}</p>
     
 </div>
 <div class="span6">
 <h3>Trainees</h3>
-    {% if psdc.trainees %}
-    <p>So far {{psdc.trainees.count}} people are attending this course.</p>
     <table class="table table-condensed table-striped">
         <tr><th>Name</th><th>Qualification</th><th>Membership Issue</th></tr>
     {% for user in psdc.trainees.all %}
         <tr>
             <td><a href="{% url 'MemberDetail' user.pk %}">{{user.get_full_name}}</a></td>
             <td>{{user.get_profile.top_qual}}</td>
-            <td>{% if user.get_profile.membership_problem %}
+            <td>
+            <button class="btn btn-danger btn-mini pull-right"><i class="icon icon-remove"></i></button>
+            {% if user.get_profile.membership_problem %}
             <div class="popover-button error" data-title="Problems With Membership"
             
             data-content="{{user.first_name}}'s {% if user.get_profile.no_expiry_data %}has not got any forms with the club, probably a new member {% elif user.get_profile.bsac_expired %}BSAC membership has expired, {% elif user.get_profile.club_expired %}club membership has expired, {% elif user.get_profile.club_expired %}medical form has expired.{% endif %}"
 
             data-trigger="hover" data-placement="top">Yes</div>
-            {% endif %}</td>
+            {% endif %}
+            </td>
             </tr>
     {% endfor %}
     </table>
-    {% else %}
-    <p>No trainees are confirmed on this course yet</p>
-    {% endif %}
+
+    <form action="." method="GET">
+                <input type="text" id="token-input" name="names"/>
+                <input type="submit" class="btn" value="Select" />
+            </form>
 </div>
 {% if is_training %}
 <div class="span9 ">
 <div class="form-actions">
-        {% if not psdc.completed %}<a class="btn" href="{% url 'PerformedSDCUpdate' psdc.pk %}"><i class="icon icon-pencil"></i> Edit</a>{% endif %}
+        <a class="btn btn-primary" href="#">Save</a>
 
-        <div class="btn-group pull-right">
-        <a class="btn btn-danger" href="#"><i class="icon icon-remove"></i> Cancel Course</a><a class="btn btn-success" href="#"><i class="icon icon-ok"></i> Complete Course</a>
+        <div class="pull-right">
+        Changes made to trainees happen immediately.
         </div>
 </div>
 {% endif %}

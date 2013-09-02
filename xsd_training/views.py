@@ -183,3 +183,14 @@ class PerformedSDCDetail(DetailView):
     template_name='performedsdc_detail.html'
     context_object_name='psdc'
 
+class PerformedSDCUpdate(UpdateView):
+    model=PerformedSDC
+    template_name='performedsdc_update.html'
+    context_object_name='psdc'
+
+    def get_context_data(self, **kwargs):
+        context = super(PerformedSDCUpdate, self).get_context_data(**kwargs)
+        context[self.context_object_name] = self.get_object()
+        return context
+
+
