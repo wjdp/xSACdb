@@ -6,9 +6,12 @@
 <p>This is the list of all SDCs that BSAC currently offer, expand an item to find out more and to register your interest. Once you've completed an SDC, and passed the assessemnet if applicable, a little tick will show next to the title.</p>
 
 {% if sdcs %}
+{% for cat in categories %}
+<h4>{{cat.cat_name}}</h4>
+
 <table class="table table-condensed table-striped">
     <tr><th>Title</th></tr>
-    {% for sdc in sdcs %}
+    {% for sdc in cat.sdcs %}
     <tr>
         <td>
         {% if sdc.description %}
@@ -26,7 +29,7 @@
             <button class="btn btn-mini alignright sdc-register-interest sdc-register-interest-false-{{sdc.pk}}" data-sdc-id={{sdc.pk}} type="button" {% if user|has_sdc_interest:sdc %}style="display:none"{% endif %}>
                 <i class="icon-hand-right"></i> I'm Interested In Doing This</button>
             
-            {{sdc.description|safe}}
+            {{sdc.description|linebreaks}}
 
             <div class="sdc-register-interest-true sdc-register-interest-true-{{sdc.id}}" {% if not user|has_sdc_interest:sdc %}style="display:none"{% endif %}>
                 <button class="btn btn-danger btn-mini alignright sdc-cancel-interest" data-sdc-id={{sdc.pk}} type="button"><i class="icon-hand-right icon-white"></i> I'm No Longer Interested</button>
@@ -40,6 +43,8 @@
 </tr>
 {% endfor %}
 </table>
+
+{% endfor %}
 {% else %}
 <p>You currently have not completed any SDCs.</p>
 {% endif %}

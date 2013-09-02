@@ -78,11 +78,20 @@ class Qualification(models.Model):
         lessons=Lesson.objects.filter(qualification=self, mode=mode)
         return lessons
 
+SDC_TYPE_CHOICES = (
+    ('clu','Club Diving'),
+    ('saf','Safety and Rescue'),
+    ('sea','Seamanship'),
+    ('spe','Special Interest'),
+    ('tec','Technical'),
+)
+
 class SDC(models.Model):
     title=models.CharField(max_length=50)
     min_qualification=models.ForeignKey('Qualification', blank=True, null=True)
     description=models.TextField(blank=True)
-    # water_involved=models.BooleanField(default=True)
+    category=models.CharField(choices=SDC_TYPE_CHOICES, max_length=3)
+    other_requirements=models.BooleanField(default=False)
 
     interested_members=models.ManyToManyField('auth.User', blank=True)
 
@@ -92,6 +101,16 @@ class SDC(models.Model):
         verbose_name="SDC"
         verbose_name_plural="SDCs"
         ordering=['title']
+
+class SDCCategoryList(object):
+    cat_id=""
+    cat_name=""
+    sdcs=[]
+
+    def __init__(self,cat_id,cat_name):
+        self.cat_id=cat_id
+        self.cat_name=cat_name
+
 
 class PerformedSDC(models.Model):
     sdc=models.ForeignKey('SDC')
