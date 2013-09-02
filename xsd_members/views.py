@@ -247,7 +247,7 @@ class BulkAddForms(RequireMembersOfficer, View):
 
         return redirect(reverse('BulkAddForms'))
 
-class UpdateRequests(ListView):
+class UpdateRequests(RequireMembersOfficer, ListView):
     model=UpdateRequest
     template_name="members_update_request.html"
     context_object_name="update_requests"
