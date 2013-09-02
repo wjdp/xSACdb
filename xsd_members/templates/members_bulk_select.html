@@ -8,10 +8,7 @@
 		<h2>Members Selection Tool</h2>
 		<p>Type in the names below, select them from the dropdown a la Facebook style.</p>
 		<div>
-			<form action="." method="GET">
-				<input type="text" id="token-input" name="names" />
-				<input type="submit" class="btn btn-primary" value="Select Trainees" />
-			</form>
+			{% include 'base/bulk_select_members.html' %}
 		</div>
 		<h3>Whole Membership</h3>
 		<p>Rather just do the entire membership, ok then...</p>

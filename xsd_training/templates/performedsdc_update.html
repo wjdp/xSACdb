@@ -32,10 +32,7 @@
     {% endfor %}
     </table>
 
-    <form action="." method="GET">
-                <input type="text" id="token-input" name="names"/>
-                <input type="submit" class="btn" value="Select" />
-            </form>
+    {% include 'base/bulk_select_members.html' %}
 </div>
 {% if is_training %}
 <div class="span9 ">
