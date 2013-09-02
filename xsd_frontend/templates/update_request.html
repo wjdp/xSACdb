@@ -1,7 +1,7 @@
 {% load bootstrap_toolkit %}
 
- <div id="update_request_modal" class="modal hide {% if not repost %}fade{% endif %}" tabindex="-1" role="dialog" aria-labelledby="new_user_modalLabel" aria-hidden="true" data-backdrop="static" data-keyboard="false">
-  <form action="." method="POST">
+<div id="update_request_modal" class="modal hide {% if not repost %}fade{% endif %}" tabindex="-1" role="dialog" aria-labelledby="new_user_modalLabel" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+  <form id="ur" action="/update-request/" method="POST">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
         <h3 id="new_user_modalLabel">Make an Update Request</h3>
@@ -20,13 +20,13 @@
                 <div class="ur-site hide">{{update_request_form.site|as_bootstrap}}</div>
             </div>
             <div class="span6 alert alert-info ur-info-inital">
-            <p><strong>Heads up</strong> The area you select will determine which database officer receives the request.</p>
+                <p><strong>Heads up</strong> The area you select will determine which database officer receives the request.</p>
             </div>
             <div class="span6 alert alert-info hide ur-lesson">
-            <p><strong>Training</strong> If you're request applies to a certain lesson, select it here. If not you can leave that field blank.</p>
+                <p><strong>Training</strong> If you're request applies to a certain lesson, select it here. If not you can leave that field blank.</p>
             </div>
             <div class="span6 alert alert-info hide ur-site">
-            <p><strong>Sites</strong> If the site already exists select it here.</p>
+                <p><strong>Sites</strong> If the site already exists select it here.</p>
             </div>
         </div>
 
@@ -38,28 +38,42 @@
         
     </div>
     <div class="modal-footer">
-        <input class="btn btn-primary" type="submit" value="Submit Request" />
+        <input type="submit" class="btn btn-primary ur-send" value="Send Request" />
+        <p class="ur-sucess alignright hide">Your request has been sent</p>
+        
     </div>
 </form>
 </div>
 
+<script src="http://malsup.github.com/jquery.form.js"></script> 
 <script type="text/javascript">
-$( "#id_area").change(function () {
-    switch ($( "#id_area").val()) {
-        case "tra":
+    $( "#id_area").change(function () {
+        switch ($( "#id_area").val()) {
+            case "tra":
             $(".ur-lesson").show()
             $(".ur-site").hide()
             $(".ur-info-inital").hide()
             break;
-        case "sit":
+            case "sit":
             $(".ur-lesson").hide()
             $(".ur-site").show()
             $(".ur-info-inital").hide()
             break;
-        default:
+            default:
             $(".ur-lesson").hide()
             $(".ur-site").hide()
             $(".ur-info-inital").show()
+        }
+    });
+    function hideModal() {
+        $("#update_request_modal").modal('hide')
     }
-});
+    $(document).ready(function() { 
+            // bind 'myForm' and provide a simple callback function 
+            $('#ur').ajaxForm(function() { 
+                $(".ur-send").hide()
+                $(".ur-sucess").show()
+                window.setTimeout(hideModal,1000)
+            }); 
+        });
 </script>

@@ -1,9 +1,11 @@
+from django.http import HttpResponse
 from django.shortcuts import render, redirect
 from django.template import RequestContext
 
 from datetime import date
 
 from xsd_members.forms import MemberEditForm
+from forms import UpdateRequestMake
 
 def dashboard(request):
     profile=request.user.get_profile()
@@ -66,3 +68,15 @@ def logout(request):
 
 def error403(request):
     return render(request, 'error403.html')
+
+def update_request(request):
+    if request.POST:
+        form=UpdateRequestMake(request.POST)
+        form.data = form.data.copy()
+        form.data['request_made_by_id'] = request.user.pk
+        if form.is_valid():
+            form.save()
+            return HttpResponse(content="ok")
+    response=HttpResponse(content="bad")
+    response.status_code=400
+    return response

@@ -8,6 +8,7 @@ handler403='xsd_frontend.views.error403'
 
 urlpatterns = patterns('',
     url(r'^$', 'xsd_frontend.views.dashboard', name='dashboard'),
+    url(r'^update-request/$', 'xsd_frontend.views.update_request', name='update_request'),
 
     url(r'^accounts/login/$', 'xsd_frontend.views.login', name='login'),
     url(r'^accounts/logout/$', 'xsd_frontend.views.logout', name='logout'),
