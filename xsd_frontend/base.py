@@ -11,7 +11,9 @@ class BaseUpdateRequestList(ListView):
     template_name=""    # Must be set by child views
     area=""             # Again set by child view
     form_action=""      # Where to send the form
+    custom_include=""
     context_object_name="update_requests" # This is consistant
+
     def get_queryset(self):
         queryset=super(BaseUpdateRequestList, self).get_queryset()
         queryset=queryset.filter(area=self.area)
@@ -20,6 +22,7 @@ class BaseUpdateRequestList(ListView):
         context = super(BaseUpdateRequestList, self).get_context_data(**kwargs)
         context['response_form'] = UpdateRequestReply()
         context['form_action']=self.form_action
+        context['update_request_custom']=self.custom_include
         return context
 
 class BaseUpdateRequestRespond(View):

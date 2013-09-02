@@ -1,0 +1,66 @@
+{% load bootstrap_toolkit %}
+
+<div class="row">
+	<div class="span9">
+		<h2>Update Requests</h2>
+		<div class="accordion" id="accordion-ur">
+
+			{% for ur in update_requests %}
+			
+			<div class="accordion-group">
+				<div class="accordion-heading">
+					<a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion-ur" href="#ur{{ur.pk}}">
+						<div class="alignright">
+							{% if not ur.completed and ur.response_body %}
+                        <span class="label label-warning">Response Sent</span>
+                        {% else %}
+						<span class="label {% if ur.completed %}label-success{% else %}label-important{% endif %}">{{ur.completed|yesno:"Fixed,Needs Attention"}}</span>{%endif%}</div>
+						From <strong>{{ur.request_made_by.get_full_name}}</strong> at {{ur.sent}}</strong>
+
+					</a>
+				</div>
+				<div id="ur{{ur.pk}}" class="accordion-body collapse out">
+					<div class="accordion-inner">
+						<form action="{{form_action}}" method="POST" >
+						<input type="hidden" name="pk" value="{{ur.pk}}" />
+						{%csrf_token %}
+							{{ur.request_body|linebreaks}}
+							{% if update_request_custom %}{% include update_request_custom %}{% endif %}
+							<hr />
+							<h4>Respond to this Request</h4>
+							<div class="row-fluid">
+								<div class="span8"><textarea cols="40" id="id_response_body" name="response_body" rows="10">{{ur.response_body}}</textarea></div>
+								<div class="span4">
+									<p>Please note that currently members cannot respond to the message that you put here, if further information is needed you should seek out the member.</p>
+
+									<div class="control-group">
+										<div class="controls">
+											<label class="checkbox">
+												<input id="id_completed" name="completed" type="checkbox" {% if ur.completed %}checked=true{% endif %} />
+												Mark this issue as fixed
+											</label>
+										</div>
+									</div>
+
+									<input type="submit" class="btn btn-primary" value="Send" />
+								</div>
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+
+
+			{% endfor %}
+		</div>
+
+	</div>
+</div>
+
+{% block closing_js %}
+<script type="text/javascript">
+	$(document).ready(function () {
+		location.hash && $(location.hash + '.collapse').collapse('show');
+	});
+</script>
+{% endblock %}

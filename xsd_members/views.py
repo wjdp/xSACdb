@@ -253,6 +253,7 @@ class MemberUpdateRequestList(BaseUpdateRequestList):
     template_name="members_update_request.html"
     area='mem'
     form_action=reverse_lazy('MemberUpdateRequestRespond')
+    custom_include='members_update_request_custom.html'
 
 class MemberUpdateRequestRespond(BaseUpdateRequestRespond):
     success_url=reverse_lazy('MemberUpdateRequestList')

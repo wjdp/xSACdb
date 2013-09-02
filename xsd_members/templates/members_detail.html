@@ -12,7 +12,7 @@
 			{% if member.new_notify %}
 			<a href="?action=remove-new-flag" class="btn btn-small" type="button"><i class="icon-flag"></i> Remove New Flag</a>
 			{% endif %}
-			<a href="{% url 'MemberEdit' member.user.pk %}" class="btn btn-small" type="button"><i class="icon-edit"></i> Edit</a>
+			<a href="{% url 'MemberEdit' member.user.pk %}" class="btn btn-small" type="button"><i class="icon-pencil"></i> Edit</a>
 			<a href="{% url 'MemberEdit' member.user.pk %}" class="btn btn-small" type="button"><i class="icon-trash"></i> Delete</a>
 			{% elif myself %}
 			<a href="{% url 'MyProfileEdit' %}" class="btn btn-small" type="button"><i class="icon-pencil"></i> Edit</a>
