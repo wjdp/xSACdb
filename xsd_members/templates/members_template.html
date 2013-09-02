@@ -2,9 +2,10 @@
 {% load xsd_nav %}
 {% block content %}
 <div class="row">
-<div class="span3">
+<div class="span3 nav-down">
     <ul class="nav nav-list">
-      <li {% is_active_simple current_url 'my-profile' %}{% is_active_simple current_url 'MyProfileEdit' %}>
+      <li class="nav-header">Personal</li>
+      <li {% is_active_simple current_url 'my-profile' %} {% is_active_simple current_url 'MyProfileEdit' %}>
       <a href="{% url 'my-profile' %}">Your Profile</a></li>
 
       {% if is_members %}
@@ -17,8 +18,8 @@
       <li class="nav-header">Records Needing Attention</li>
       <li {% is_active_simple current_url 'NewMembers' %}>
       <a href="{% url 'NewMembers' %}">New Members</a></li>
-      <li {% is_active_simple current_url 'NoPage' %}>
-      <a href="{% url 'MemberList' %}">Update Requests</a></li>
+      <li {% is_active_simple current_url 'MemberUpdateRequests' %}>
+      <a href="{% url 'MemberUpdateRequests' %}">Update Requests</a></li>
       <li {% is_active_simple current_url 'MembersMissingFieldsList' %}>
       <a href="{% url 'MembersMissingFieldsList' %}">Members With Blank Fields</a></li>
       <li {% is_active_simple current_url 'MembersExpiredFormsList' %}>

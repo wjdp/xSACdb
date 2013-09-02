@@ -9,7 +9,7 @@ class MemberSearchForm(forms.Form):
 class PersonalEditForm(forms.ModelForm):
     class Meta:
         model = MemberProfile
-        fields = ['dob','home_phone','mobile_phone','address','postcode',
+        fields = ['date_of_birth','home_phone','mobile_phone','address','postcode',
             'veggie','alergies','next_of_kin_name','next_of_kin_relation',
             'next_of_kin_phone']
 
@@ -24,13 +24,17 @@ class PersonalEditForm(forms.ModelForm):
 class MemberEditForm(forms.ModelForm):
     class Meta:
         model = MemberProfile
-        fields = ['dob','home_phone','mobile_phone','address','postcode',
+        fields = ['date_of_birth','home_phone','mobile_phone','address','postcode',
             'veggie','alergies','next_of_kin_name','next_of_kin_relation',
             'next_of_kin_phone','training_for','instructor_number',
             'student_id','associate_id','associate_expiry', 'club_id',
             'club_expiry','club_membership_type','bsac_id','bsac_expiry',
             'bsac_direct_member','bsac_member_via_another_club',
             'bsac_direct_debit','medical_form_expiry','other_qualifications']
+        widgets = {
+          'address': forms.Textarea(attrs={'rows':3, 'cols':40}),
+          'alergies': forms.Textarea(attrs={'rows':4, 'cols':40}),
+        }
 
 class FormExpiryForm(forms.Form):
     user_id=forms.IntegerField()

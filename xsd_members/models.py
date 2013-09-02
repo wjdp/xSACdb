@@ -5,15 +5,12 @@ from django_facebook.models import FacebookProfileModel
 
 from xsd_training.models import PerformedLesson
 
-class MemberProfile(models.Model):
+class MemberProfile(FacebookProfileModel):
     user = models.OneToOneField('auth.User')
-    gender = models.CharField(max_length=6, blank=True)
-    facebook_id = models.BigIntegerField(verbose_name=u'Facebook ID',blank=True,null=True)
     token = models.CharField(max_length=150, blank=True)
     new = models.BooleanField(default=True)
     new_notify = models.BooleanField(default=True)
 
-    dob = models.DateField(blank=True, null=True)
     address = models.TextField(blank=True)
     postcode = models.CharField(max_length=11, blank=True)
     home_phone = models.CharField(max_length=20, blank=True)
@@ -23,8 +20,8 @@ class MemberProfile(models.Model):
     next_of_kin_relation = models.CharField(max_length=20, blank=True)
     next_of_kin_phone = models.CharField(max_length=20, blank=True)
 
-    veggie = models.BooleanField(default=False)
-    alergies = models.TextField(blank=True)
+    veggie = models.BooleanField(default=False, verbose_name='Vegetarian')
+    alergies = models.TextField(blank=True, verbose_name='Alergies and other requiements')
 
     qualifications=models.ManyToManyField('xsd_training.Qualification', blank=True)
     training_for=models.ForeignKey('xsd_training.Qualification', blank=True, null=True, related_name='q_training_for')
@@ -96,9 +93,12 @@ class MemberProfile(models.Model):
         else:
             return False
 
+    def dob(self):
+        return self.date_of_birth
+
     def age(self):
         today=date.today()
-        num_years = int((today - self.dob).days / 365.25)
+        num_years = int((today - self.date_of_birth).days / 365.25)
         return num_years
     def formatted_address(self):
         return self.address.replace("\n","<br />")
@@ -107,14 +107,10 @@ class MemberProfile(models.Model):
     def formatted_alergies(self):
         return self.alergies.replace("\n","<br />")
 
-from django.db.models import signals
-from django.contrib.auth.management import create_superuser
-from django.contrib.auth import models as auth_app
-
-signals.post_syncdb.disconnect(
-    create_superuser,
-    sender=auth_app,
-    dispatch_uid = "django.contrib.auth.management.create_superuser")
+    def heshe(self):
+        if self.gender=="m": return "He"
+        if self.gender=="f": return "She"
+        return "They"
 
 from django.contrib.auth.models import User
 from django.db.models.signals import post_save

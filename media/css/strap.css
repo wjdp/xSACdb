@@ -92,3 +92,44 @@ columns:2;
     color:red;
     font-weight: bold;
 }
+
+.nav-down {
+    height: 800px;
+}
+
+.red {
+    color: red
+}
+
+.titlebox {
+    padding: 0.7em 0.5em;
+    background: rgb(0, 136, 204);
+    margin-top:0.7em;
+    margin-bottom:0.8em;
+    color:white;
+    min-height: 72px;
+    border-radius: 3px
+
+}
+.titlebox h2 {
+    margin: 0 0 6px 0;
+    font-size: 29px;
+    margin-left: 5px;
+    font-weight: lighter;
+}
+.titlebox img {
+    border:2px solid #f5f5f5;
+    width:66px; height: 66px;
+    margin-right: 2px
+}
+
+i.icon-bsac {
+    width:22px;
+    height:25px;
+    display: inline-block;
+    background: url('../images/bsac_icon.gif') no-repeat;
+}
+
+textarea {
+    width:97%;
+}

@@ -1,16 +1,23 @@
 from django.core.urlresolvers import resolve
 from xSACdb.roles.functions import *
 
+from xsd_frontend.forms import UpdateRequestMake
+
 def menu_perms(request):
     if request.user.is_authenticated():
         u=request.user
         p=u.get_profile()
         current_url = resolve(request.path_info).url_name
+
+        update_request_form = UpdateRequestMake()
+
         return {
             'request': request,
             'user': u,
             'profile': p,
             'current_url':current_url,
+
+            'update_request_form':update_request_form,
 
             'is_training':is_training(u),
             'is_trips':is_trips(u),
