@@ -16,8 +16,14 @@
         <td>
         {% if sdc.description %}
         <div class="alignright" >
-            {% if user|has_sdc:sdc %}<i class="icon-ok"></i>{% endif %}
-            <i class="icon-star sdc-register-interest sdc-register-interest-true-{{sdc.id}}" {% if not user|has_sdc_interest:sdc %}style="display:none"{% endif %}></i>
+        	<i class="icon-star sdc-register-interest sdc-register-interest-true-{{sdc.id}}" {% if not user|has_sdc_interest:sdc %}style="display:none"{% endif %}></i>
+        	{% if user|has_sdc:sdc %}<i class="icon-ok"></i>
+        	{% else %}
+            {% if sdc.other_requirements and profile|cando_sdc:sdc %}<i class="icon-adjust"></i>
+            {% elif not sdc.other_requirements and profile|cando_sdc:sdc %}<i class="icon-circle"></i>{% endif %}
+            {% endif %}
+            
+            
             <i data-toggle="collapse" data-target="#sdc-info-{{sdc.id}}" class="icon-info-sign"></i>
         </div>
         {% endif %}
@@ -41,7 +47,7 @@
 
     </td>
 </tr>
-{% endfor %}
+    {% endfor %}
 </table>
 
 {% endfor %}

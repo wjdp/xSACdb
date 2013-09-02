@@ -111,6 +111,10 @@ class SDCCategoryList(object):
         self.cat_id=cat_id
         self.cat_name=cat_name
 
+class SDCDisplay(object):
+    sdc=None
+    can_do=False
+
 
 class PerformedSDC(models.Model):
     sdc=models.ForeignKey('SDC')
