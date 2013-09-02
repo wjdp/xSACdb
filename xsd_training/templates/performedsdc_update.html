@@ -1,10 +1,14 @@
 {% extends 'training_template.html' %}
 {% block training_content %}
 <div class="span3">
+    <form action="." method="POST">
+    <input type="hidden" name="action" value="detail" />
     <h2>{{form.sdc}}</h2>
     <p>This skill development course is planned for {{form.datetime}}</p>
     <p>{{form.notes}}</p>
-    
+
+    <input type="submit" class="btn btn-primary" value="Save" />
+    </form>
 </div>
 <div class="span6">
 <h3>Trainees</h3>
@@ -15,7 +19,7 @@
             <td><a href="{% url 'MemberDetail' user.pk %}">{{user.get_full_name}}</a></td>
             <td>{{user.get_profile.top_qual}}</td>
             <td>
-            <button class="btn btn-danger btn-mini pull-right"><i class="icon icon-remove"></i></button>
+            <a href="?remove-trainee={{user.pk}}" class="btn btn-danger btn-mini pull-right"><i class="icon icon-remove"></i></a>
             {% if user.get_profile.membership_problem %}
             <div class="popover-button error" data-title="Problems With Membership"
             
@@ -36,7 +40,7 @@
 {% if is_training %}
 <div class="span9 ">
 <div class="form-actions">
-        <a class="btn btn-primary" href="#">Save</a>
+        
 
         <div class="pull-right">
         Changes made to trainees happen immediately.

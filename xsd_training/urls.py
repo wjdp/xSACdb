@@ -19,7 +19,7 @@ urlpatterns = patterns('',
     url(r'^sdcs/plan/$', PerformedSDCCreate.as_view(), name='PerformedSDCCreate'),
     url(r'^sdcs/upcoming/$', PerformedSDCList.as_view(), name='PerformedSDCList'),
     url(r'^sdcs/(?P<pk>\d+)/$', PerformedSDCDetail.as_view(), name='PerformedSDCDetail'),
-    url(r'^sdcs/(?P<pk>\d+)/edit$', PerformedSDCUpdate.as_view(), name='PerformedSDCUpdate'),
+    url(r'^sdcs/(?P<pk>\d+)/edit/$', PerformedSDCUpdate.as_view(), name='PerformedSDCUpdate'),
 
 )
 

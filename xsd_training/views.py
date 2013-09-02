@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.template import RequestContext
 from django.http import HttpResponse
+from django.contrib.auth.models import User
 
 from django.views.generic.base import View
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
@@ -192,5 +193,21 @@ class PerformedSDCUpdate(UpdateView):
         context = super(PerformedSDCUpdate, self).get_context_data(**kwargs)
         context[self.context_object_name] = self.get_object()
         return context
+
+    def add_trainees(self, request):
+        members=get_bulk_members(request)
+        for member in members:
+            if member.user not in self.object.trainees.all():
+                self.object.trainees.add(member.user)
+        self.object.save()
+
+    def get(self, request, *args, **kwargs):
+        self.object=self.get_object()
+        if 'names' in request.GET:
+            self.add_trainees(request)
+        if 'remove-trainee' in request.GET:
+            u=get_object_or_404(User,pk=request.GET['remove-trainee'])
+            self.object.trainees.remove(u)
+        return super(PerformedSDCUpdate, self).get(request, *args, **kwargs)
 
 
