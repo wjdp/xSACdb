@@ -16,15 +16,15 @@
         <td>
         {% if sdc.description %}
         <div class="alignright" >
-        	<i class="icon-star sdc-register-interest sdc-register-interest-true-{{sdc.id}}" {% if not user|has_sdc_interest:sdc %}style="display:none"{% endif %}></i>
-        	{% if user|has_sdc:sdc %}<i class="icon-ok"></i>
+        	<i class="sdc-interested icon-star sdc-register-interest sdc-register-interest-true-{{sdc.id}}" {% if not user|has_sdc_interest:sdc %}style="display:none"{% endif %}></i>
+        	{% if user|has_sdc:sdc %}<i class="sdc-has icon-ok"></i>
         	{% else %}
-            {% if sdc.other_requirements and profile|cando_sdc:sdc %}<i class="icon-adjust"></i>
-            {% elif not sdc.other_requirements and profile|cando_sdc:sdc %}<i class="icon-circle"></i>{% endif %}
+            {% if sdc.other_requirements and profile|cando_sdc:sdc %}<i class="sdc-other-requirements icon-adjust"></i>
+            {% elif not sdc.other_requirements and profile|cando_sdc:sdc %}<i class="sdc-cando icon-circle"></i>{% endif %}
             {% endif %}
             
             
-            <i data-toggle="collapse" data-target="#sdc-info-{{sdc.id}}" class="icon-info-sign"></i>
+            {% if not user|has_sdc:sdc %}<i data-toggle="collapse" data-target="#sdc-info-{{sdc.id}}" class="icon-info-sign"></i>{% endif %}
         </div>
         {% endif %}
 

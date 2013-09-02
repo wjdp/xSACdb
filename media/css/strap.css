@@ -141,3 +141,15 @@ textarea {
     -webkit-transform:rotate(45deg);
     -moz-transform:rotate(45deg);
 }
+
+.sdc-interested {
+    color:#EDDA47;
+}
+.sdc-has {
+}
+.sdc-other-requirements {
+    color:#999;
+}
+.sdc-cando {
+    color:#7BEB78;
+}
