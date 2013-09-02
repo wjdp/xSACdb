@@ -5,13 +5,17 @@ from django.template import RequestContext
 from datetime import date
 
 from xsd_members.forms import MemberEditForm
+
 from forms import UpdateRequestMake
+from models import UpdateRequest
 
 def dashboard(request):
     profile=request.user.get_profile()
     newbie=profile.new
 
     repost=False
+
+    urs=UpdateRequest.objects.filter(request_made_by=request.user)
 
     if request.POST and newbie:
         form=MemberEditForm(request.POST, instance=profile)
@@ -35,6 +39,7 @@ def dashboard(request):
         'form':form,
         'newbie':newbie,
         'repost':repost,
+        'urs':urs,
     }, context_instance=RequestContext(request))
 
 from xsd_frontend.forms import LoginForm 
@@ -73,9 +78,10 @@ def update_request(request):
     if request.POST:
         form=UpdateRequestMake(request.POST)
         form.data = form.data.copy()
-        form.data['request_made_by_id'] = request.user.pk
         if form.is_valid():
-            form.save()
+            ur=form.save()
+            ur.request_made_by=request.user
+            ur.save()
             return HttpResponse(content="ok")
     response=HttpResponse(content="bad")
     response.status_code=400

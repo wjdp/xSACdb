@@ -9,3 +9,8 @@ class UpdateRequestMake(forms.ModelForm):
     class Meta:
         model=UpdateRequest
         fields=['area', 'lesson', 'site', 'request_body']
+
+class UpdateRequestReply(forms.ModelForm):
+    class Meta:
+        model=UpdateRequest
+        fields=['response_body','completed']

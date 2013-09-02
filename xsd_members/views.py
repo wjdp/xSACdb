@@ -16,6 +16,9 @@ from django.core.urlresolvers import reverse, reverse_lazy
 from xsd_members.models import MemberProfile
 from xsd_members.forms import *
 
+from xsd_frontend.models import UpdateRequest
+from xsd_frontend.forms import UpdateRequestReply
+
 from xSACdb.view_helpers import OrderedListView
 from xSACdb.roles.decorators import require_members_officer
 from xSACdb.roles.mixins import RequireMembersOfficer
@@ -244,3 +247,28 @@ class BulkAddForms(RequireMembersOfficer, View):
 
         return redirect(reverse('BulkAddForms'))
 
+class UpdateRequests(ListView):
+    model=UpdateRequest
+    template_name="members_update_request.html"
+    context_object_name="update_requests"
+    def get_queryset(self):
+        queryset=super(UpdateRequests, self).get_queryset()
+        queryset=queryset.filter(area='mem')
+        return queryset
+    def get_context_data(self, **kwargs):
+        context = super(UpdateRequests, self).get_context_data(**kwargs)
+        context['response_form'] = UpdateRequestReply()
+        return context
+
+def update_request_respond(request):
+    if request.POST:
+        ur_pk=int(request.POST['pk'])
+        ur=UpdateRequest.objects.get(pk=ur_pk)
+        ur.response_body=request.POST['response_body']
+        if 'completed' in request.POST: ur.completed=request.POST['completed']
+        if ur.completed and 'completed' not in request.POST: ur.completed=False
+        ur.save()
+        return_url=reverse('MemberUpdateRequests')+"#ur"+str(ur_pk)
+        return redirect(return_url)
+    else:
+        pass 

@@ -25,4 +25,7 @@ urlpatterns = patterns('',
 	    url(r'^api/',include(members_api.urls)),
 	    url(r'^api/tokeninput-data/$', 'xsd_members.api.tokeninput_json', name='tokeninput-json'),
 	    url(r'^select/$', 'xsd_members.views.select_tool', name='members-select-tool'),
+	    url(r'^update-requests/$', UpdateRequests.as_view(), name='MemberUpdateRequests'),
+	    url(r'^update-requests/save/$', 'xsd_members.views.update_request_respond', name='MemberUpdateRequestsUpdate'),
+
 )
