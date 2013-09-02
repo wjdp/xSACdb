@@ -18,8 +18,8 @@
       <li class="nav-header">Records Needing Attention</li>
       <li {% is_active_simple current_url 'NewMembers' %}>
       <a href="{% url 'NewMembers' %}">New Members</a></li>
-      <li {% is_active_simple current_url 'MemberUpdateRequests' %}>
-      <a href="{% url 'MemberUpdateRequests' %}">Update Requests</a></li>
+      <li {% is_active_simple current_url 'MemberUpdateRequestList' %}>
+      <a href="{% url 'MemberUpdateRequestList' %}">Update Requests</a></li>
       <li {% is_active_simple current_url 'MembersMissingFieldsList' %}>
       <a href="{% url 'MembersMissingFieldsList' %}">Members With Blank Fields</a></li>
       <li {% is_active_simple current_url 'MembersExpiredFormsList' %}>

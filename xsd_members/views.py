@@ -247,28 +247,12 @@ class BulkAddForms(RequireMembersOfficer, View):
 
         return redirect(reverse('BulkAddForms'))
 
-class UpdateRequests(ListView):
-    model=UpdateRequest
-    template_name="members_update_request.html"
-    context_object_name="update_requests"
-    def get_queryset(self):
-        queryset=super(UpdateRequests, self).get_queryset()
-        queryset=queryset.filter(area='mem')
-        return queryset
-    def get_context_data(self, **kwargs):
-        context = super(UpdateRequests, self).get_context_data(**kwargs)
-        context['response_form'] = UpdateRequestReply()
-        return context
+from xsd_frontend.base import BaseUpdateRequestList, BaseUpdateRequestRespond
 
-def update_request_respond(request):
-    if request.POST:
-        ur_pk=int(request.POST['pk'])
-        ur=UpdateRequest.objects.get(pk=ur_pk)
-        ur.response_body=request.POST['response_body']
-        if 'completed' in request.POST: ur.completed=request.POST['completed']
-        if ur.completed and 'completed' not in request.POST: ur.completed=False
-        ur.save()
-        return_url=reverse('MemberUpdateRequests')+"#ur"+str(ur_pk)
-        return redirect(return_url)
-    else:
-        pass 
+class MemberUpdateRequestList(BaseUpdateRequestList):
+    template_name="members_update_request.html"
+    area='mem'
+    form_action=reverse_lazy('MemberUpdateRequestRespond')
+
+class MemberUpdateRequestRespond(BaseUpdateRequestRespond):
+    success_url=reverse_lazy('MemberUpdateRequestList')

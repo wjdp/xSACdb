@@ -23,7 +23,7 @@
 				</div>
 				<div id="ur{{ur.pk}}" class="accordion-body collapse out">
 					<div class="accordion-inner">
-						<form action="{% url 'MemberUpdateRequestsUpdate' %}" method="POST" >
+						<form action="{{form_action}}" method="POST" >
 						<input type="hidden" name="pk" value="{{ur.pk}}" />
 						{%csrf_token %}
 							{{ur.request_body|linebreaks}}
