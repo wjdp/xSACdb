@@ -14,21 +14,23 @@
     {% for sdc in cat.sdcs %}
     <tr>
         <td>
-        {% if sdc.description %}
         <div class="alignright" >
         	<i class="sdc-interested icon-star sdc-register-interest sdc-register-interest-true-{{sdc.id}}" {% if not user|has_sdc_interest:sdc %}style="display:none"{% endif %}></i>
-        	{% if user|has_sdc:sdc %}<i class="sdc-has icon-ok"></i>
-        	{% else %}
-            {% if sdc.other_requirements and profile|cando_sdc:sdc %}<i class="sdc-other-requirements icon-adjust"></i>
-            {% elif not sdc.other_requirements and profile|cando_sdc:sdc %}<i class="sdc-cando icon-circle"></i>{% endif %}
-            {% endif %}
+
+        	
             
             
             {% if not user|has_sdc:sdc %}<i data-toggle="collapse" data-target="#sdc-info-{{sdc.id}}" class="icon-info-sign"></i>{% endif %}
         </div>
-        {% endif %}
 
-        <div class="sdc-title">{{sdc.title}}</div>
+        <div class="sdc-title"> {% if user|has_sdc:sdc %}<i class="sdc-has icon-ok"></i>
+        	{% else %}
+            {% if sdc.other_requirements and profile|cando_sdc:sdc %}<i class="sdc-other-requirements icon-adjust"></i>
+            {% elif not sdc.other_requirements and profile|cando_sdc:sdc %}<i class="sdc-cando icon-circle"></i>
+            {% else %}
+            <i class="sdc-cantdo icon-circle-blank"></i>
+            {% endif %}
+            {% endif %}{{sdc.title}}</div>
 
         <div id="sdc-info-{{sdc.id}}" class="sdc-info collapse out">
 
