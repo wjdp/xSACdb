@@ -91,6 +91,7 @@
         {% csrf_token %}
         <div class="row-fluid">
         <div class="span6">
+            {{ form.date_of_birth|as_bootstrap }}
             {{ form.address|as_bootstrap }}
             {{ form.postcode|as_bootstrap }}
             {{ form.home_phone|as_bootstrap }}
