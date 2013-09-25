@@ -7,6 +7,17 @@ class MemberSearchForm(forms.Form):
     surname=forms.CharField(max_length=50)
 
 class PersonalEditForm(forms.ModelForm):
+    def __init__(self, *args, **kwargs):
+        super(PersonalEditForm, self).__init__(*args, **kwargs)
+        self.fields['date_of_birth'].required = True
+        self.fields['home_phone'].required = True
+        self.fields['mobile_phone'].required = True
+        self.fields['address'].required = True
+        self.fields['postcode'].required = True
+        self.fields['next_of_kin_name'].required = True
+        self.fields['next_of_kin_relation'].required = True
+        self.fields['next_of_kin_phone'].required = True
+
     class Meta:
         model = MemberProfile
         fields = ['date_of_birth','home_phone','mobile_phone','address','postcode',
