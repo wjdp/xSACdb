@@ -154,6 +154,22 @@ class SDCList(OrderedListView):
     context_object_name='sdcs'
     order_by='title'
 
+    def get_categories(self, top_qual):
+        cats=SDC_TYPE_CHOICES
+        categories=[]
+        for cat in cats:
+            c=SDCCategoryList(cat[0],cat[1])
+            c.sdcs=SDC.objects.filter(category=cat[0]).order_by('min_qualification')
+            categories.append(c)
+        return categories
+
+    def get_context_data(self, **kwargs):
+        self.categories=self.get_categories(self.request.user.get_profile().top_qual())
+        context = super(SDCList, self).get_context_data(**kwargs)
+        context['categories']=self.categories
+        return context
+
+
 def sdc_register_interest(request):
     if request.POST:
         user=request.user

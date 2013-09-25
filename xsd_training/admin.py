@@ -17,7 +17,7 @@ class QualificationAdmin(admin.ModelAdmin):
     list_filter=('instructor_qualification',)
 
 class SDCAdmin(admin.ModelAdmin):
-    list_display=('title','min_qualification')
+    list_display=('title','min_qualification','category')
     list_filter=('min_qualification',)
 
 class PerformedSDCAdmin(admin.ModelAdmin):
