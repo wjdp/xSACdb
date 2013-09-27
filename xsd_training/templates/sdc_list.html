@@ -15,20 +15,20 @@
     <tr>
         <td>
         <div class="alignright" >
-        	<i class="sdc-interested icon-star sdc-register-interest sdc-register-interest-true-{{sdc.id}}" {% if not user|has_sdc_interest:sdc %}style="display:none"{% endif %}></i>
-
-        	
-            
-            
+        	<i class="sdc-interested icon-star sdc-register-interest sdc-register-interest-true-{{sdc.id}}" title="You have indicated an interest in doing this SDC" {% if not user|has_sdc_interest:sdc %}style="display:none"{% endif %}></i>
             {% if not user|has_sdc:sdc %}<i data-toggle="collapse" data-target="#sdc-info-{{sdc.id}}" class="icon-info-sign"></i>{% endif %}
         </div>
 
-        <div class="sdc-title"> {% if user|has_sdc:sdc %}<i class="sdc-has icon-ok"></i>
+        <div class="sdc-title">
+            {% if user|has_sdc:sdc %}
+            <i class="sdc-has icon-ok" title="You have completed this SDC"></i>
         	{% else %}
-            {% if sdc.other_requirements and profile|cando_sdc:sdc %}<i class="sdc-other-requirements icon-adjust"></i>
-            {% elif not sdc.other_requirements and profile|cando_sdc:sdc %}<i class="sdc-cando icon-circle"></i>
+            {% if sdc.other_requirements and profile|cando_sdc:sdc %}
+            <i class="sdc-other-requirements icon-adjust" title="This SDC has custom requirements"></i>
+            {% elif not sdc.other_requirements and profile|cando_sdc:sdc %}
+            <i class="sdc-cando icon-circle" title="You can do this SDC"></i>
             {% else %}
-            <i class="sdc-cantdo icon-circle-blank"></i>
+            <i class="sdc-cantdo icon-circle-blank" title="You currently do not have the BSAC qualification to undertake this SDC"></i>
             {% endif %}
             {% endif %}{{sdc.title}}</div>
 
