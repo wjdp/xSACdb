@@ -111,6 +111,9 @@ columns:2;
     border-radius: 3px
 
 }
+.titlebox.training{
+    background: #DF3434;
+}
 .titlebox h2 {
     margin: 0 0 6px 0;
     font-size: 29px;

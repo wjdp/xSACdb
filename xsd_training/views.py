@@ -23,6 +23,7 @@ from xsd_members.bulk_select import get_bulk_members
 
 import forms
 import re
+import datetime
 
 def overview(request):
     p=request.user.get_profile()
@@ -268,4 +269,59 @@ class PerformedSDCDelete(DeleteView):
     context_object_name='psdc'
     success_url = reverse_lazy('PerformedSDCList')
 
+# class InstructorUpcoming(ListView):
+#     model=Session
+#     template_name='instructor_upcoming.html'
+#     context_object_name='sessions'
+#     def get_queryset(self):
+#         queryset=super(InstructorUpcoming, self).get_queryset()
+#         instructor=self.request.user
+#         now=datetime.datetime.now()+datetime.timedelta(days=1)
+#         queryset=queryset.filter(when__gt=now)
+#         return queryset
 
+def InstructorUpcoming(request):
+    def get_upcoming_sessions_by_instructor(instructor):
+        now=datetime.datetime.now()+datetime.timedelta(days=1)
+        sessions_query=Session.objects.filter(when__gt=now).order_by('when')
+
+        sessions=[]
+
+        for session in sessions_query:
+            pls=PerformedLesson.objects.filter(session=session)
+            involved=False
+            pls_teaching=[]
+            for pl in pls:
+                if pl.instructor==instructor:
+                    involved=True
+                    pls_teaching.append(pl)
+            if involved:
+                sessions.append((session,pls_teaching))
+        return sessions
+
+    instructor=request.user
+    upcoming_sessions=get_upcoming_sessions_by_instructor(instructor)
+
+    return render(request,'instructor_upcoming.html', {
+        'upcoming_sessions':upcoming_sessions     
+    }, context_instance=RequestContext(request))
+
+def TraineeNotesSearch(request):
+    if 'surname' in request.GET:
+        surname=request.GET['surname']
+        trainees=User.objects.filter(last_name__contains=surname)
+    else: trainees=None
+
+    return render(request, 'trainee_notes_search.html', {
+        'trainees':trainees
+    }, context_instance=RequestContext(request))
+
+
+def TraineeNotes(request, pk):
+    user=get_object_or_404(User,pk=pk)
+    trainee=user.get_profile()
+    pls=PerformedLesson.objects.filter(trainee=user).order_by('date')
+    return render(request, 'trainee_notes.html', {
+        'trainee':trainee,
+        'pls':pls,
+    }, context_instance=RequestContext(request))

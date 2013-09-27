@@ -13,6 +13,10 @@ urlpatterns = patterns('',
     url(r'^session/(?P<pk>\d+)/$', SessionPlanner.as_view(), name='SessionPlanner'),
     url(r'^session/(?P<pk>\d+)/delete/$', SessionDelete.as_view(), name='SessionDelete'),
 
+    url(r'^teaching/upcoming/$', 'xsd_training.views.InstructorUpcoming', name='InstructorUpcoming'),
+    url(r'^teaching/notes/$', 'xsd_training.views.TraineeNotesSearch', name='TraineeNotesSearch'),
+    url(r'^teaching/notes/(?P<pk>\d+)/$', 'xsd_training.views.TraineeNotes', name='TraineeNotes'),
+
     url(r'^sdcs/$', SDCList.as_view(), name='SDCList'),
     url(r'^sdcs/reg-interest/$', 'xsd_training.views.sdc_register_interest', name='sdc_register_interest'),
 

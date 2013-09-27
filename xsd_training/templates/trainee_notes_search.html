@@ -1,0 +1,31 @@
+{% extends 'training_template.html' %}
+{% load lesson_extras %}
+{% load bootstrap_toolkit %}
+
+{% block training_content %}
+
+<div class="span9">
+	<p>Pop a surname, or part of one, into the box below and hit search. BAM!</p>
+	<form action="." method="GET">
+	<div class="input-append">
+    	<input type="text" name="surname" />ar
+    	<button type="submit" class="btn btn-primary">Search</button>
+    </div>
+	</form>
+	{% if trainees %}
+	<table class="table table-condensed table-striped">
+	<tr><th>Name</th><th>Qualification</th></tr>
+
+	{% for trainee in trainees %}
+	<tr>
+		<td><a href="{% url 'TraineeNotes' trainee.pk %}">{{trainee.get_full_name}}</a></td>
+		<td>{{trainee.get_profile.top_qual}}</td>
+	</tr>
+	{% endfor %}
+	</table>
+
+	{% endif %}
+
+</div>
+
+{% endblock %}
