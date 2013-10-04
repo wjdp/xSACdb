@@ -134,7 +134,7 @@ i.icon-bsac {
 }
 
 textarea {
-    width:97%;
+    width:95%;
 }
 
 .rot45 {
@@ -158,4 +158,7 @@ textarea {
 }
 .sdc-cantdo {
     color:#FF8080;
+}
+.no-top {
+    margin-top: 0;
 }
