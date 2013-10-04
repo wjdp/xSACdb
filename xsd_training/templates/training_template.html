@@ -36,7 +36,8 @@
       <li><a href="#">Retrospectivly Add Lessons</a></li>
       <li {% is_active_simple current_url 'PerformedSDCCreate' %}>
             <a href="{% url 'PerformedSDCCreate' %}">Plan an SDC</a></li>
-      <li><a href="#">Award Qualifications</a></li>
+      <li {% is_active_simple current_url 'QualificationAward' %}>
+            <a href="{% url 'QualificationAward' %}"><i class="icon-trophy"></i> Award Qualifications</a></li>
       <li><a href="#">Award SDCs</a></li>
       {% endif %}
     </ul> 

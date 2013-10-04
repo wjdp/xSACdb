@@ -325,3 +325,9 @@ def TraineeNotes(request, pk):
         'trainee':trainee,
         'pls':pls,
     }, context_instance=RequestContext(request))
+
+def QualificationAward(request):
+
+    return render(request, 'qualification_award.html', {
+
+    }, context_instance=RequestContext(request))

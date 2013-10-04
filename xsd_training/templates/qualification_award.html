@@ -1,0 +1,18 @@
+{% extends 'training_template.html' %}
+{% load lesson_extras %}
+{% block training_content %}
+
+<div class="span9">
+<h2>Award BSAC Qualification</h2>
+<p>This tool alows you to instantly award a qualifictaion. This should be done after an instructor has signed the trainee's physical qualification record.</p>
+</div>
+
+<div class="span5">
+<h3>Select Members</h3>
+  {% include 'base/bulk_select_members.html' %}
+</div>
+<div class="span4">
+<h3>Select Qualification</h3>
+</div>
+
+{% endblock %}
