@@ -20,6 +20,9 @@
         </div>
 
         <div class="sdc-title">
+            {% if is_training %}
+                {{sdc.interested_members.count}}
+            {% endif %}
             {% if user|has_sdc:sdc %}
             <i class="sdc-has icon-ok" title="You have completed this SDC"></i>
         	{% else %}
@@ -43,6 +46,14 @@
                 <button class="btn btn-danger btn-mini alignright sdc-cancel-interest" data-sdc-id={{sdc.pk}} type="button"><i class="icon-hand-right icon-white"></i> I'm No Longer Interested</button>
                 <p>You have noted that you're interested in taking this course</p>
             </div>
+            {% if is_training %}
+                <h4>Interested Members</h4>
+                <ul>
+                {% for user in sdc.interested_members.all %}
+                <li>{{user.get_full_name}}</li>
+                {% endfor %}
+                </ul>
+            {% endif %}
 
         </div>
 
