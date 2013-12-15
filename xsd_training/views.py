@@ -327,7 +327,23 @@ def TraineeNotes(request, pk):
     }, context_instance=RequestContext(request))
 
 def QualificationAward(request):
+    qual_form=None
+    selected_members=None
+    awarded_members=None
+    awarded_qualification=None
+
+    if 'names' in request.GET and request.GET['names']!='':
+        selected_members=get_bulk_members(request)
+        qual_form=forms.QualificationSelectForm(initial={'selected_members':selected_members})
+
+    if request.POST:
+        qual_form=forms.QualificationSelectForm(request.POST)
+        if qual_form.is_valid():
+            for member in qual_form.cleaned_data['selected_members']:
+                member.qualifications.add(qual_form.cleaned_data['qualification'])
+                member.save()
 
     return render(request, 'qualification_award.html', {
-
+        'qual_form': qual_form,
+        'selected_members': selected_members,
     }, context_instance=RequestContext(request))
