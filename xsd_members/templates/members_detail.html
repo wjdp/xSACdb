@@ -75,7 +75,11 @@
 			<tr><th>Instructor Qualification</th><td>{{ member.top_instructor_qual }}</td></tr>
 			<tr><th>Instructor Number</th><td>{{ member.instructor_number }}</td></tr>
 			{% endif %}
-			<tr><th>SDCs</th><td>{{ member.sdcs.all }}</td></tr>
+			<tr><th>SDCs</th><td>
+				<ul class="mini-sdc-list">
+				{% for sdc in member.sdcs.all %}<li>{{sdc}}</li>{% endfor %}
+				</ul>
+			</td></tr>
 
 		</table>
 	</div>

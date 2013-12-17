@@ -162,3 +162,18 @@ textarea {
 .no-top {
     margin-top: 0;
 }
+
+ul.mini-sdc-list {
+    margin: 0
+}
+
+.mini-sdc-list li {
+    display: inline-block;
+    background: #358dc5;
+    padding: 0 4px;
+    color: #eee;
+    border-radius: 5px;
+    list-style-type: none;
+    font-size: 0.8em;
+    margin-right: 7px;
+}
