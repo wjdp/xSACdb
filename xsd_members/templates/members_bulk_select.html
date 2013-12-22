@@ -6,16 +6,20 @@
 <div class="row">
 	<div class="span9">
 		<h2>Members Selection Tool</h2>
-		<p>Type in the names below, select them from the dropdown a la Facebook style.</p>
-		<div>
+		<p>Type in the names below and then select them from the dropdown.</p>
+		<div class="formbox row-fluid">
+			<div class="span10">
 			{% include 'base/bulk_select_members.html' %}
-		</div>
-		<h3>Whole Membership</h3>
-		<p>Rather just do the entire membership, ok then...</p>
-		<form action="." method="GET">
+			</div>
+			<div class="span2">
+			<form action="." method="GET">
 				<input type="hidden" name="set" value="all" />
 				<input type="submit" class="btn" value="Everybody" />
 			</form>
+			</div>
+		</div>
+		
+		
 	</div>
 </div>
 {% endblock %}

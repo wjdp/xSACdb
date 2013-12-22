@@ -132,6 +132,21 @@ i.icon-bsac {
     display: inline-block;
     background: url('../images/bsac_icon.gif') no-repeat;
 }
+i.icon-bsac-small {
+    width:16px;
+    height:18px;
+    display: inline-block;
+    background: url('../images/bsac_icon_small.gif') no-repeat;
+}
+i.expired {
+    color: red;
+    margin-right: 0.4em;
+    font-size: 1.2em;
+}
+.expiry-column {
+width: 24px;
+}
+
 
 textarea {
     width:95%;
@@ -176,4 +191,28 @@ ul.mini-sdc-list {
     list-style-type: none;
     font-size: 0.8em;
     margin-right: 7px;
+}
+
+.formbox {
+    background: #eee;
+    padding: 19px 14px 1px 14px;
+    border-radius: 4px;
+    box-shadow: 0px 1px 2px #ddd;
+    position: relative;
+}
+.formbox #id_surname {
+    width:75%;
+}
+
+.token-input-list-facebook {
+    display: inline-block;
+    border:1px solid #ccc !important;
+    border-radius:6px;
+    width:80% !important;
+
+}
+
+.token-input-submit {
+    margin-left: 8px;
+    margin-top: -26px;
 }

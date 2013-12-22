@@ -3,14 +3,18 @@
 
 {% block members_content %}
 <div class="row">
-<div class="span8">
+<div class="span9">
 	<h2>Search Membership</h2>
 	<p>Pop a surname, or part of one, into the box below and hit search. BAM!</p>
+	<div class="formbox">
 	<form action="." method="GET">
     {% csrf_token %}
-    {{ search_form|as_bootstrap }}
-    <button type="submit" class="btn btn-primary">Search</button>
+    <div class="form-horizontal">
+	    {{search_form.surname}}
+	    <button type="submit" class="btn btn-primary">Search</button>
+    </div>	
 	</form>
+	</div>
 		{% include 'member_list_table.html' %}
 
 </div>
