@@ -1,0 +1,7 @@
+{% extends 'trips_template.html' %}
+
+{% block trips_content %}
+{% for trip in trips %}
+{{trip.name}}<br />
+{% endfor %}
+{% endblock %}

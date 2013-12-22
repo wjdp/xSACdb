@@ -1,0 +1,64 @@
+{% extends 'training_template.html' %}
+{% load lesson_extras %}
+{% load bootstrap_toolkit %}
+
+{% block training_content %}
+
+<div class="span5">
+		<div class="titlebox training">
+		{% if trainee.image %}<img src="{{trainee.image.url}}" alt="Profile Picture" class="alignright" />{%endif%}
+		<h2>{{trainee}}</h2>
+		</div>
+		
+		<p>{{trainee.user.first_name}} joined the database on {{trainee.user.date_joined|date}}. {{trainee.heshe}} was born on {{trainee.date_of_birth}} therefore is {{trainee.age}}.</p>
+
+		{% if trainee.traineeship_problem %}
+		<p>There are currently issues with {{trainee.user.first_name}}'s traineeship, see points with error icons below. Until this is fixed {{trainee.heshe|lower}} cannot go diving.</p>
+		{%endif%}
+		
+	</div>
+	<div class="span4">
+		<h3><i class="icon-envelope"></i> Contact Details</h3>
+		<table class="table">
+			<tr><th>Address</th><td>{% if not trainee.address or trainee.post_code %}<i class="icon-warning-sign red"></i>{% else %}{{trainee.formatted_address|safe}}<br />{{trainee.postcode}}{% endif %}</td></tr>
+			<tr><th>Email</th><td>{{trainee.user.email}}{% if not trainee.user.email %} <i class="icon-warning-sign red"></i>{% endif %}</td></tr>
+			<tr><th>Home Phone</th><td>{{trainee.home_phone}}{% if not trainee.home_phone %} <i class="icon-warning-sign red"></i>{% endif %}</td></tr>
+			<tr><th>Mobile Phone</th><td>{{trainee.mobile_phone}}{% if not trainee.mobile_phone %} <i class="icon-warning-sign red"></i>{% endif %}</td></tr>
+
+		</table>
+	</div>
+
+
+	<div class="span5">
+		<h3><i class="icon-table"></i> Lessons</h3>
+		<table class="table">
+		<tr><th>Lesson</th><th>Date</th></tr>
+			{% for pl in pls %}
+			<tr><td>{{pl.lesson}}</td><td>{{pl.date}}</td></tr>
+			{% empty %}
+			<tr><td>No lessons past or future</td><td></td></tr>
+			{% endfor %}
+
+		</table>
+	</div>
+
+
+	
+	<div class="span4">
+		<h3><i class="icon-trophy"></i> Qualification Details</h3>
+		<table class="table">
+			<tr><th>Current Qualification</th><td>{{ trainee.top_qual }}</td></tr>
+			<tr><th>Training For</th><td>{{ trainee.training_for }}</td></tr>
+			{% if trainee.top_instructor_qual or not myself %}
+			<tr><th>Instructor Qualification</th><td>{{ trainee.top_instructor_qual }}</td></tr>
+			<tr><th>Instructor Number</th><td>{{ trainee.instructor_number }}</td></tr>
+			{% endif %}
+			<tr><th>SDCs</th><td>{{ trainee.sdcs.all }}</td></tr>
+
+		</table>
+	</div>
+
+	
+
+
+{% endblock %}

@@ -7,11 +7,28 @@ class MemberSearchForm(forms.Form):
     surname=forms.CharField(max_length=50)
 
 class PersonalEditForm(forms.ModelForm):
+    def __init__(self, *args, **kwargs):
+        model = MemberProfile
+        self.fields['date_of_birth'].required = True
+        self.fields['home_phone'].required = True
+        self.fields['mobile_phone'].required = True
+        self.fields['address'].required = True
+        self.fields['postcode'].required = True
+        self.fields['next_of_kin_name'].required = True
+        self.fields['next_of_kin_relation'].required = True
+        self.fields['next_of_kin_phone'].required = True
+        
+
     class Meta:
         model = MemberProfile
         fields = ['date_of_birth','home_phone','mobile_phone','address','postcode',
             'veggie','alergies','next_of_kin_name','next_of_kin_relation',
             'next_of_kin_phone']
+        widgets =  {
+            'date_of_birth': forms.TextInput(attrs={'placeholder': 'dd/mm/yyyy', 'class':'input-block-level'}),    
+            'address': forms.Textarea(attrs={'rows':4, 'cols':11}),
+            'alergies': forms.Textarea(attrs={'rows':4, 'cols':11}),
+        }
 
     def __init__(self, *args, **kwargs):
         super(PersonalEditForm, self).__init__(*args, **kwargs)

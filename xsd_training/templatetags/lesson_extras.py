@@ -41,3 +41,13 @@ def has_sdc(user,sdc):
 def has_sdc_interest(user,sdc):
     if user in sdc.interested_members.all(): return True
     else: return False
+
+@register.filter
+def cando_sdc(profile,sdc):
+    if profile.top_qual()==None: my_rank=0
+    else: my_rank=profile.top_qual().rank
+    if sdc.min_qualification==None: sdc_rank=0
+    else: sdc_rank=sdc.min_qualification.rank
+    if my_rank>=sdc_rank:
+        return True
+    else: return False

@@ -12,7 +12,7 @@
 			{% if member.new_notify %}
 			<a href="?action=remove-new-flag" class="btn btn-small" type="button"><i class="icon-flag"></i> Remove New Flag</a>
 			{% endif %}
-			<a href="{% url 'MemberEdit' member.user.pk %}" class="btn btn-small" type="button"><i class="icon-edit"></i> Edit</a>
+			<a href="{% url 'MemberEdit' member.user.pk %}" class="btn btn-small" type="button"><i class="icon-pencil"></i> Edit</a>
 			<a href="{% url 'MemberEdit' member.user.pk %}" class="btn btn-small" type="button"><i class="icon-trash"></i> Delete</a>
 			{% elif myself %}
 			<a href="{% url 'MyProfileEdit' %}" class="btn btn-small" type="button"><i class="icon-pencil"></i> Edit</a>
@@ -20,7 +20,7 @@
 		</div>
 		</div>
 		
-		<p>{{member.user.first_name}} joined the database on {{member.user.date_joined|date}}. {{member.heshe}} was born on {{member.date_of_birth}} therefore is {{member.age}}.</p>
+		<p>{{member.user.first_name}} joined the database on {{member.user.date_joined|date}}. {{member.heshe}} was born on {{member.date_of_birth}} and is {{member.age}}.</p>
 
 		{% if member.membership_problem %}
 		<p>There are currently issues with {{member.user.first_name}}'s membership, see points with error icons below. Until this is fixed {{member.heshe|lower}} cannot go diving.</p>
@@ -67,7 +67,7 @@
 		</table>
 	</div>
 	<div class="span5">
-		<h3><i class="icon-ticket"></i> Qualification Details</h3>
+		<h3><i class="icon-trophy"></i> Qualification Details</h3>
 		<table class="table">
 			<tr><th>Current Qualification</th><td>{{ member.top_qual }}</td></tr>
 			<tr><th>Training For</th><td>{{ member.training_for }}</td></tr>
@@ -75,6 +75,12 @@
 			<tr><th>Instructor Qualification</th><td>{{ member.top_instructor_qual }}</td></tr>
 			<tr><th>Instructor Number</th><td>{{ member.instructor_number }}</td></tr>
 			{% endif %}
+			<tr><th>SDCs</th><td>
+				<ul class="mini-sdc-list">
+				{% for sdc in member.sdcs.all %}<li>{{sdc}}</li>{% endfor %}
+				</ul>
+			</td></tr>
+
 		</table>
 	</div>
 

@@ -4,7 +4,7 @@ from django.template import RequestContext
 
 from datetime import date
 
-from xsd_members.forms import MemberEditForm
+from xsd_members.forms import PersonalEditForm
 
 from forms import UpdateRequestMake
 from models import UpdateRequest
@@ -18,7 +18,7 @@ def dashboard(request):
     urs=UpdateRequest.objects.filter(request_made_by=request.user)
 
     if request.POST and newbie:
-        form=MemberEditForm(request.POST, instance=profile)
+        form=PersonalEditForm(request.POST, instance=profile)
         if form.is_valid():
             form.save()
             profile.new=False
@@ -29,7 +29,7 @@ def dashboard(request):
             pass
     else:
         if newbie:
-            form=MemberEditForm(instance=profile)
+            form=PersonalEditForm(instance=profile)
         else:
             form=None
 

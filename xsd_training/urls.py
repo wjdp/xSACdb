@@ -13,12 +13,21 @@ urlpatterns = patterns('',
     url(r'^session/(?P<pk>\d+)/$', SessionPlanner.as_view(), name='SessionPlanner'),
     url(r'^session/(?P<pk>\d+)/delete/$', SessionDelete.as_view(), name='SessionDelete'),
 
+    url(r'^qualification/award/$', 'xsd_training.views.QualificationAward', name='QualificationAward'),
+
+    url(r'^teaching/upcoming/$', 'xsd_training.views.InstructorUpcoming', name='InstructorUpcoming'),
+    url(r'^teaching/notes/$', 'xsd_training.views.TraineeNotesSearch', name='TraineeNotesSearch'),
+    url(r'^teaching/notes/(?P<pk>\d+)/$', 'xsd_training.views.TraineeNotes', name='TraineeNotes'),
+
     url(r'^sdcs/$', SDCList.as_view(), name='SDCList'),
     url(r'^sdcs/reg-interest/$', 'xsd_training.views.sdc_register_interest', name='sdc_register_interest'),
 
     url(r'^sdcs/plan/$', PerformedSDCCreate.as_view(), name='PerformedSDCCreate'),
     url(r'^sdcs/upcoming/$', PerformedSDCList.as_view(), name='PerformedSDCList'),
     url(r'^sdcs/(?P<pk>\d+)/$', PerformedSDCDetail.as_view(), name='PerformedSDCDetail'),
+    url(r'^sdcs/(?P<pk>\d+)/edit/$', PerformedSDCUpdate.as_view(), name='PerformedSDCUpdate'),
+    url(r'^sdcs/(?P<pk>\d+)/complete/$', PerformedSDCComplete.as_view(), name='PerformedSDCComplete'),
+    url(r'^sdcs/(?P<pk>\d+)/delete/$', PerformedSDCDelete.as_view(), name='PerformedSDCDelete'),
 
 )
 

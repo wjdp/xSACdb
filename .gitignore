@@ -6,3 +6,7 @@ db.sqlite3
 ltools/*
 *.pyc
 media/images/facebook_profiles/*
+xsd_members/fixtures/*
+xsd_training/fixtures/*
+xSACdb/fixtures/*
+components/*

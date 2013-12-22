@@ -20,7 +20,10 @@
 
       {% if profile.is_instructor %}
       <li class="nav-header">Your Teaching</li>
-      <li><a href="#">Upcoming Lessons</a></li>
+      <li {% is_active_simple current_url 'InstructorUpcoming' %}>
+            <a href="{% url 'InstructorUpcoming' %}">Upcoming Lessons</a></li>
+      <li {% is_active_simple current_url 'TraineeNotesSearch' %} {% is_active_simple current_url 'TraineeNotes' %}>
+            <a href="{% url 'TraineeNotesSearch' %}">See Trainee Notes</a></li>
       <li><a href="#">Give Feedback</a></li>
       {% endif %}
 
@@ -33,7 +36,8 @@
       <li><a href="#">Retrospectivly Add Lessons</a></li>
       <li {% is_active_simple current_url 'PerformedSDCCreate' %}>
             <a href="{% url 'PerformedSDCCreate' %}">Plan an SDC</a></li>
-      <li><a href="#">Award Qualifications</a></li>
+      <li {% is_active_simple current_url 'QualificationAward' %}>
+            <a href="{% url 'QualificationAward' %}"><i class="icon-trophy"></i> Award Qualifications</a></li>
       <li><a href="#">Award SDCs</a></li>
       {% endif %}
     </ul> 

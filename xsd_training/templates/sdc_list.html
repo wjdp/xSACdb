@@ -6,40 +6,64 @@
 <p>This is the list of all SDCs that BSAC currently offer, expand an item to find out more and to register your interest. Once you've completed an SDC, and passed the assessemnet if applicable, a little tick will show next to the title.</p>
 
 {% if sdcs %}
+{% for cat in categories %}
+<h4>{{cat.cat_name}}</h4>
+
 <table class="table table-condensed table-striped">
     <tr><th>Title</th></tr>
-    {% for sdc in sdcs %}
+    {% for sdc in cat.sdcs %}
     <tr>
         <td>
-        {% if sdc.description %}
         <div class="alignright" >
-            {% if user|has_sdc:sdc %}<i class="icon-ok"></i>{% endif %}
-            <i class="icon-star sdc-register-interest sdc-register-interest-true-{{sdc.id}}" {% if not user|has_sdc_interest:sdc %}style="display:none"{% endif %}></i>
-            <i data-toggle="collapse" data-target="#sdc-info-{{sdc.id}}" class="icon-info-sign"></i>
+        	<i class="sdc-interested icon-star sdc-register-interest sdc-register-interest-true-{{sdc.id}}" title="You have indicated an interest in doing this SDC" {% if not user|has_sdc_interest:sdc %}style="display:none"{% endif %}></i>
+            {% if not user|has_sdc:sdc %}<i data-toggle="collapse" data-target="#sdc-info-{{sdc.id}}" class="icon-info-sign"></i>{% endif %}
         </div>
-        {% endif %}
 
-        <div class="sdc-title">{{sdc.title}}</div>
+        <div class="sdc-title">
+            {% if is_training %}
+                {{sdc.interested_members.count}}
+            {% endif %}
+            {% if user|has_sdc:sdc %}
+            <i class="sdc-has icon-ok" title="You have completed this SDC"></i>
+        	{% else %}
+            {% if sdc.other_requirements and profile|cando_sdc:sdc %}
+            <i class="sdc-other-requirements icon-adjust" title="This SDC has custom requirements"></i>
+            {% elif not sdc.other_requirements and profile|cando_sdc:sdc %}
+            <i class="sdc-cando icon-circle" title="You can do this SDC"></i>
+            {% else %}
+            <i class="sdc-cantdo icon-circle-blank" title="You currently do not have the BSAC qualification to undertake this SDC"></i>
+            {% endif %}
+            {% endif %}{{sdc.title}}</div>
 
         <div id="sdc-info-{{sdc.id}}" class="sdc-info collapse out">
 
             <button class="btn btn-mini alignright sdc-register-interest sdc-register-interest-false-{{sdc.pk}}" data-sdc-id={{sdc.pk}} type="button" {% if user|has_sdc_interest:sdc %}style="display:none"{% endif %}>
                 <i class="icon-hand-right"></i> I'm Interested In Doing This</button>
             
-            {{sdc.description|safe}}
+            {{sdc.description|linebreaks}}
 
             <div class="sdc-register-interest-true sdc-register-interest-true-{{sdc.id}}" {% if not user|has_sdc_interest:sdc %}style="display:none"{% endif %}>
                 <button class="btn btn-danger btn-mini alignright sdc-cancel-interest" data-sdc-id={{sdc.pk}} type="button"><i class="icon-hand-right icon-white"></i> I'm No Longer Interested</button>
                 <p>You have noted that you're interested in taking this course</p>
             </div>
+            {% if is_training %}
+                <h4>Interested Members</h4>
+                <ul>
+                {% for user in sdc.interested_members.all %}
+                <li>{{user.get_full_name}}</li>
+                {% endfor %}
+                </ul>
+            {% endif %}
 
         </div>
 
 
     </td>
 </tr>
-{% endfor %}
+    {% endfor %}
 </table>
+
+{% endfor %}
 {% else %}
 <p>You currently have not completed any SDCs.</p>
 {% endif %}

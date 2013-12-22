@@ -4,19 +4,49 @@
 
 <div class="span6">
 
-    {% ifequal profile.top_qual None %}
-    <p>You're currently unqualified and training for</p>
-    <h1>{{profile.training_for}}</h1>
-    {% else %}
-    <p>You're a qualified</p>
-    <h1>{{profile.top_qual}}</h1>
-    {% if profile.training_for %}
-    <p>training for</p>
-    <h2>{{profile.training_for}}</h2>
-    {% else %}
-    <p>and you're not currently registered for any further training.</p>
+    {% if profile.training_for == None %}
+    {# Not training #}
+        {% if profile.top_qual == None %}
+            <h2>Training</h2>
+            <p>You're currently unqualified and not registered for any training, if this is in error please make an update request. You can do so via the menu top right.</p>
+        {% else %}
+            <h2>Training</h2>
+            <p>You are a qualified <strong>{{profile.top_qual}}</strong> and are not registered for any further training</p>
+        {% endif %}
+
+
+    {% elif profile.top_qual == None %}
+    {# In training #}
+        <p>You're currently unqualified and training for</p>
+        <h1>{{profile.training_for}}</h1>
+        {% else %}
+        <p>You're a qualified</p>
+        <h1>{{profile.top_qual}}</h1>
+        {% if profile.training_for %}
+        <p>training for</p>
+        <h2>{{profile.training_for}}</h2>
+        {% else %}
+        <p>and you're not currently registered for any further training.</p>
+        {% endif %}
     {% endif %}
-    {% endifequal %}
+</div>
+
+<div class="span3">
+<h3>Upcoming Training</h3>
+{% if profile.training_for != None %}
+<h4>Lessons</h4>
+{% endif %}
+
+<h4>SDCs</h4>
+{% if profile.upcoming_sdcs.exists %}
+<ul>
+{% for psdc in profile.upcoming_sdcs %}
+<li>{{psdc.sdc}} on {{psdc.datetime}}</li>
+{% endfor %}
+</ul>
+{%else%}
+<p>You're not registered on any upcoming SDCs</p>
+{% endif %}
 </div>
 
 {% endblock %}

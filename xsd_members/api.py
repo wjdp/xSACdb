@@ -57,7 +57,8 @@ def tokeninput_json(request):
     users=User.objects.all()
     data=[]
     for user in users:
-        t={"id":user.pk, "name":user.get_full_name()}
+        t={"name":user.get_full_name(), "id":user.pk}
         data.append(t)
     json_data=json.dumps(data)
-    return HttpResponse(content=json_data, mimetype='application/json')
+    js_version="var data = " + json_data + ";"
+    return HttpResponse(content=js_version, mimetype='text/javascript')

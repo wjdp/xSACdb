@@ -3,11 +3,7 @@
 <div class="span3">
     <h2>{{psdc.sdc.title}}</h2>
     <p>This skill development course is planned for {{psdc.datetime}}</p>
-    <p>{{psdc.notes}}</p>
-
-    {% if not psdc.completed %}<a class="btn" href="#">Edit this SDC</a>
-    <a class="btn btn-danger" href="#">Cancel this SDC</a>{% endif %}
-
+    <p>{{psdc.notes|linebreaks}}</p>
     
 </div>
 <div class="span6">
@@ -15,18 +11,19 @@
     {% if psdc.trainees %}
     <p>So far {{psdc.trainees.count}} people are attending this course.</p>
     <table class="table table-condensed table-striped">
-        <tr><th>Name</th><th>Qualification</th><th>Membership Issue</th></tr>
+        <tr><th>Name</th>{% if is_training %}<th>Qualification</th><th>Membership Issue</th>{% endif %}</tr>
     {% for user in psdc.trainees.all %}
         <tr>
-            <td><a href="{% url 'MemberDetail' user.pk %}">{{user.get_full_name}}</a></td>
-            <td>{{user.get_profile.top_qual}}</td>
+            <td>{% if is_training %}<a href="{% url 'MemberDetail' user.pk %}">{{user.get_full_name}}</a>
+            {% else %}{{user.get_full_name}} {% endif %}</td>
+            {% if is_training %}<td>{{user.get_profile.top_qual}}</td>
             <td>{% if user.get_profile.membership_problem %}
             <div class="popover-button error" data-title="Problems With Membership"
             
             data-content="{{user.first_name}}'s {% if user.get_profile.no_expiry_data %}has not got any forms with the club, probably a new member {% elif user.get_profile.bsac_expired %}BSAC membership has expired, {% elif user.get_profile.club_expired %}club membership has expired, {% elif user.get_profile.club_expired %}medical form has expired.{% endif %}"
 
             data-trigger="hover" data-placement="top">Yes</div>
-            {% endif %}</td>
+            {% endif %}</td>{% endif %}
             </tr>
     {% endfor %}
     </table>
@@ -34,6 +31,18 @@
     <p>No trainees are confirmed on this course yet</p>
     {% endif %}
 </div>
+{% if is_training %}
+<div class="span9 ">
+<div class="form-actions">
+        {% if not psdc.completed %}<a class="btn" href="{% url 'PerformedSDCUpdate' psdc.pk %}"><i class="icon icon-pencil"></i> Edit</a>{% endif %}
+
+        <div class="btn-group pull-right">
+        <a class="btn btn-danger" href="{% url 'PerformedSDCDelete' psdc.pk %}"><i class="icon icon-remove"></i> Cancel Course</a>
+        <a class="btn btn-success" href="{% url 'PerformedSDCComplete' psdc.pk %}"><i class="icon icon-ok"></i> Complete Course</a>
+        </div>
+</div>
+{% endif %}
+
 {% endblock %}
 
 {% block closing_js %}
