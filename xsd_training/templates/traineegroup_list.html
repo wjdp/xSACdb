@@ -1,0 +1,26 @@
+{% extends 'training_template.html' %}
+{% load lesson_extras %}
+{% load bootstrap_toolkit %}
+
+{% block training_content %}
+
+<div class="span9">
+<h1>Trainee Groups</h1>
+<a href="{% url 'TraineeGroupCreate' %}">Add New Group</a>
+{% if tgs %}
+<table class="table table-condensed table-striped">
+    <tr><th>Group</th><th>Members</th><th></th></tr>
+{% for group in tgs %}
+    <tr>
+        <td>{{group.name}}</td>
+        <td>{{group.trainees_list}}</td>
+        <td><a href="{% url 'TraineeGroupUpdate' group.pk %}">Edit</a> | <a href="{% url 'TraineeGroupDelete' group.pk %}">Delete</a></td>
+
+        </tr>
+{% endfor %}
+</table>
+{% endif %}
+</div>
+
+
+{% endblock %}

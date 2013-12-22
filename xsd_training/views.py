@@ -347,3 +347,23 @@ def QualificationAward(request):
         'qual_form': qual_form,
         'selected_members': selected_members,
     }, context_instance=RequestContext(request))
+
+class TraineeGroupList(ListView):
+    model=TraineeGroup
+    template_name='traineegroup_list.html'
+    context_object_name='tgs'
+
+class TraineeGroupCreate(CreateView):
+    model=TraineeGroup
+    template_name='traineegroup_create.html'
+    success_url = reverse_lazy('TraineeGroupList')
+
+class TraineeGroupUpdate(UpdateView):
+    model=TraineeGroup
+    template_name='traineegroup_update.html'
+    success_url = reverse_lazy('TraineeGroupList')
+
+class TraineeGroupDelete(DeleteView):
+    model=TraineeGroup
+    template_name='traineegroup_delete.html'
+    success_url = reverse_lazy('TraineeGroupList')

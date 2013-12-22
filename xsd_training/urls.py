@@ -29,6 +29,11 @@ urlpatterns = patterns('',
     url(r'^sdcs/(?P<pk>\d+)/complete/$', PerformedSDCComplete.as_view(), name='PerformedSDCComplete'),
     url(r'^sdcs/(?P<pk>\d+)/delete/$', PerformedSDCDelete.as_view(), name='PerformedSDCDelete'),
 
+    url(r'^groups/$', TraineeGroupList.as_view(), name='TraineeGroupList'),
+    url(r'^groups/new/$', TraineeGroupCreate.as_view(), name='TraineeGroupCreate'),
+    url(r'^groups/(?P<pk>\d+)/$', TraineeGroupUpdate.as_view(), name='TraineeGroupUpdate'),
+    url(r'^groups/(?P<pk>\d+)/delete/$', TraineeGroupDelete.as_view(), name='TraineeGroupDelete'),
+
 )
 
 

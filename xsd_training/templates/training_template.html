@@ -28,17 +28,22 @@
       {% endif %}
 
       {% if is_training %}
-      <li class="nav-header">Training Administration</li>
+      <li class="nav-header">Lesson Administration</li>
       <li {% is_active_simple current_url 'SessionCreate' %}>
       <a href="{% url 'SessionCreate' %}">Plan a Session</a></li>
       <li {% is_active_simple current_url 'SessionPlanner' %} {% is_active_simple current_url 'SessionList' %} {% is_active_simple current_url 'SessionDelete' %}>
       <a href="{% url 'SessionList' %}">Edit a Session</a></li>
       <li><a href="#">Retrospectivly Add Lessons</a></li>
-      <li {% is_active_simple current_url 'PerformedSDCCreate' %}>
-            <a href="{% url 'PerformedSDCCreate' %}">Plan an SDC</a></li>
+      <li {% is_active_simple current_url 'TraineeGroupList' %} {% is_active_simple current_url 'TraineeGroupCreate' %} {% is_active_simple current_url 'TraineeGroupUpdate' %} {% is_active_simple current_url 'TraineeGroupDelete' %}>
+      <a href="{% url 'TraineeGroupList' %}">Trainee Groups</a></li>
       <li {% is_active_simple current_url 'QualificationAward' %}>
             <a href="{% url 'QualificationAward' %}"><i class="icon-trophy"></i> Award Qualifications</a></li>
+
+      <li class="nav-header">SDC Administration</li>
+      <li {% is_active_simple current_url 'PerformedSDCCreate' %}>
+            <a href="{% url 'PerformedSDCCreate' %}">Plan an SDC</a></li>
       <li><a href="#">Award SDCs</a></li>
+
       {% endif %}
     </ul> 
 

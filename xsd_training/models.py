@@ -1,5 +1,5 @@
 from django.db import models
-import django.contrib.auth
+from django.contrib.auth.models import User
 
 from django.core.urlresolvers import reverse
 
@@ -138,3 +138,13 @@ class Session(models.Model):
 
     def __unicode__(self):
         return str(self.when) + " at " + self.where.__unicode__()
+
+class TraineeGroup(models.Model):
+    name=models.CharField(max_length=64)
+    trainees=models.ManyToManyField(User)
+
+    def trainees_list(self):
+        ret=""
+        for t in self.trainees.all():
+            ret=ret+t.get_full_name()+", "
+        return ret[:-2]
