@@ -112,6 +112,10 @@ class MemberProfile(FacebookProfileModel):
         if self.gender=="f": return "She"
         return "They"
 
+    def upcoming_sdcs(self):
+        from xsd_training.models import PerformedSDC
+        return PerformedSDC.objects.filter(trainees=self.user, completed=False)
+
 from django.contrib.auth.models import User
 from django.db.models.signals import post_save
 

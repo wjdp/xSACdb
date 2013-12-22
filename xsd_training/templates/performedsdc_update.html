@@ -8,7 +8,7 @@
     <p>This skill development course is planned for {{form.datetime}}</p>
     <p>{{form.notes}}</p>
 
-    <input type="submit" class="btn btn-primary" value="Save" />
+    <input type="submit" class="btn btn-primary" value="Save Changes" />
     </form>
 </div>
 <div class="span6">
@@ -32,19 +32,9 @@
             </tr>
     {% endfor %}
     </table>
-
+    <h4>Add Trainees</h4>
     {% include 'base/bulk_select_members.html' %}
 </div>
-{% if is_training %}
-<div class="span9 ">
-<div class="form-actions">
-        
-
-        <div class="pull-right">
-        Changes made to trainees happen immediately.
-        </div>
-</div>
-{% endif %}
 
 {% endblock %}
 
