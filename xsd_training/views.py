@@ -81,7 +81,7 @@ def all_feedback(request):
 
 class SessionCreate(RequireTrainingOfficer, CreateView):
     model=Session
-    fields=['when','where','notes']
+    form_class=SessionCreateForm
     template_name='session_create.html'
 
 class SessionPlanner(RequireTrainingOfficer, UpdateView):

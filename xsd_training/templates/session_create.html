@@ -4,12 +4,25 @@
 
 {% block training_content %}
 
-<div class="span6">
-<h1>Plan a Session</h1>
-    <form action="" method="post">{% csrf_token %}
-    {{ form|as_bootstrap  }}
-    <input type="submit" value="Create" />
-    </form>
+<div class="span9">
+	<h1>Plan a Session</h1>
+	<form action="" method="post">{% csrf_token %}
+		<div class="row-fluid">
+			<div class="span7">
+				{{ form.when|as_bootstrap  }}
+				{{ form.where|as_bootstrap  }}
+				{{ form.created_by|as_bootstrap  }}
+			</div>
+			<div class="span5">
+				{{ form.notes|as_bootstrap  }}
+			</div>
+
+		</div>
+		<div class="form-actions ">
+		Trainees and lessons are added in the next step.
+			<button type="submit" class="btn btn-primary alignright">Next</button>
+			</div>
+	</form>
 
 </div>
 

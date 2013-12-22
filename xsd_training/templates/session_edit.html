@@ -10,7 +10,17 @@
 <h2>Session Details</h2>
     <form action="" method="post">{% csrf_token %}
     <input type="hidden" name="form_def" value="session" />
-    {{ form|as_bootstrap  }}
+    <div class="row-fluid">
+            <div class="span7">
+                {{ form.when|as_bootstrap  }}
+                {{ form.where|as_bootstrap  }}
+                {{ form.created_by|as_bootstrap  }}
+            </div>
+            <div class="span5">
+                {{ form.notes|as_bootstrap  }}
+            </div>
+
+        </div>
     
 
 
@@ -27,13 +37,14 @@
     {% endfor %}
 
     </table>
-    <input type="submit" class="btn btn-primary" value="Update Session" />
-</form>
+<div class="form-actions ">
+            <button type="submit" class="btn btn-primary alignright">Save</button>
+            </div></form>
 
     </div>
 
     <div>
-    Bulk add trainees.
+    Add trainees.
             {% include 'base/bulk_select_members.html' %}
         </div>
 
