@@ -6,12 +6,15 @@
 
 <div class="span9">
 	<h1>Trainee Groups</h1>
-	<form action="" method="post">{% csrf_token %}
-				{{ form.name|as_bootstrap  }}
-				{{ form.trainees|as_bootstrap  }}
+				<h2>{{ tg.name  }}</h2>
+
+				{% include 'components/trainee_table.html' %}
+				<h4>Add Trainees</h4>
+    			{% include 'base/bulk_select_members.html' %}
 		<div class="form-actions ">
-			<button type="submit" class="btn btn-primary alignright">Save</button>
-			</div>
+			<a href=".." class="btn btn-primary alignright">Done</a>
+			<a href="{% url 'TraineeGroupDelete' tg.pk %}" class="btn btn-danger alignright">Delete Group</a>
+		</div>
 	</form>
 
 </div>

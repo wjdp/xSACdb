@@ -140,8 +140,8 @@ class Session(models.Model):
         return str(self.when) + " at " + self.where.__unicode__()
 
 class TraineeGroup(models.Model):
-    name=models.CharField(max_length=64)
-    trainees=models.ManyToManyField(User)
+    name=models.CharField(max_length=64, unique=True)
+    trainees=models.ManyToManyField(User, blank=True)
 
     def trainees_list(self):
         ret=""

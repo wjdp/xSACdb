@@ -6,7 +6,9 @@
 
 <div class="span9">
 <h1>Trainee Groups</h1>
-<a href="{% url 'TraineeGroupCreate' %}">Add New Group</a>
+<p>You can add trainee groups in bulk to lessons, this is useful if you have a regular cohort of trainees taking a particlar course.</p>
+</div>
+<div class="span6">
 {% if tgs %}
 <table class="table table-condensed table-striped">
     <tr><th>Group</th><th>Members</th><th></th></tr>
@@ -14,13 +16,20 @@
     <tr>
         <td>{{group.name}}</td>
         <td>{{group.trainees_list}}</td>
-        <td><a href="{% url 'TraineeGroupUpdate' group.pk %}">Edit</a> | <a href="{% url 'TraineeGroupDelete' group.pk %}">Delete</a></td>
+        <td class="action-icons"><a href="{% url 'TraineeGroupUpdate' group.pk %}"><i class="icon-pencil"></i></a> <a href="{% url 'TraineeGroupDelete' group.pk %}"><i class="icon-trash"></i></a></td>
 
         </tr>
 {% endfor %}
 </table>
 {% endif %}
 </div>
-
+<div class="span3">
+<strong>Add New</strong>
+<form action="new/" method="post">{% csrf_token %}
+			<input type="text" name="name" placeholder="Name" />
+				
+			<button type="submit" class="btn alignright">Create</button>
+	</form>
+</div>
 
 {% endblock %}

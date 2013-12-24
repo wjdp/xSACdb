@@ -17,6 +17,8 @@ from xSACdb.roles.mixins import RequireTrainingOfficer
 
 from xsd_training.models import *
 from xsd_training.forms import *
+import xsd_training.trainee_table as trainee_table
+
 from django.forms.models import modelformset_factory    
 
 from xsd_members.bulk_select import get_bulk_members
@@ -228,9 +230,7 @@ class PerformedSDCUpdate(UpdateView):
         self.object=self.get_object()
         if 'names' in request.GET:
             self.add_trainees(request)
-        if 'remove-trainee' in request.GET:
-            u=get_object_or_404(User,pk=request.GET['remove-trainee'])
-            self.object.trainees.remove(u)
+        trainee_table.remove_trainee(request, self.object)
         return super(PerformedSDCUpdate, self).get(request, *args, **kwargs)
 
 class PerformedSDCComplete(DetailView):
@@ -358,12 +358,33 @@ class TraineeGroupCreate(CreateView):
     template_name='traineegroup_create.html'
     success_url = reverse_lazy('TraineeGroupList')
 
-class TraineeGroupUpdate(UpdateView):
+class TraineeGroupUpdate(DetailView):
     model=TraineeGroup
     template_name='traineegroup_update.html'
+    context_object_name='tg'
     success_url = reverse_lazy('TraineeGroupList')
+
+    def get_context_data(self, **kwargs):
+        context = super(TraineeGroupUpdate, self).get_context_data(**kwargs)
+        context['trainees'] = context['tg'].trainees.all() 
+        return context
+
+    def get(self, request, *args, **kwargs):
+        self.object=self.get_object()
+        trainee_table.remove_trainee(request, self.object)
+        if 'names' in request.GET:
+            self.add_trainees(request)
+        return super(TraineeGroupUpdate, self).get(request, *args, **kwargs)
+
+    def add_trainees(self, request):
+        members=get_bulk_members(request)
+        for member in members:
+            if member.user not in self.object.trainees.all():
+                self.object.trainees.add(member.user)
+        self.object.save()
 
 class TraineeGroupDelete(DeleteView):
     model=TraineeGroup
     template_name='traineegroup_delete.html'
+    context_object_name='tg'
     success_url = reverse_lazy('TraineeGroupList')

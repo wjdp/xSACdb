@@ -4,44 +4,57 @@
 <div class="row">
 <div class="span3">
     <ul class="nav nav-list">
+
       <li class="nav-header">Your Training</li>
-      <li {% is_active_simple ui.page 'my_overview' %}>
-      <a href="{% url 'xsd_training.views.overview' %}">Overview</a></li>
-      {% if profile.training_for %}<li {% is_active_simple ui.page 'my_lessons' %}>
-      <a href="{% url 'xsd_training.views.lessons' %}">Lessons</a></li>{% endif %}
-      <li {% is_active_simple ui.page 'my_feedback' %}>
-      <a href="{% url 'xsd_training.views.all_feedback' %}">See All Feedback</a></li>
+      <li   {% is_active_simple ui.page 'my_overview' %}>
+            <a href="{% url 'xsd_training.views.overview' %}">Overview</a></li>
+      {% if profile.training_for %}
+      <li   {% is_active_simple ui.page 'my_lessons' %}>
+            <a href="{% url 'xsd_training.views.lessons' %}">Lessons</a></li>{% endif %}
+      <li   {% is_active_simple ui.page 'my_feedback' %}>
+            <a href="{% url 'xsd_training.views.all_feedback' %}">See All Feedback</a></li>
 
       <li class="nav-header">Skill Development Courses</li>
-      <li {% is_active_simple current_url 'SDCList' %}>
+      <li   {% is_active_simple current_url 'SDCList' %}>
             <a href="{% url 'SDCList' %}">List of SDCs</a></li>
-      <li {% is_active_simple current_url 'PerformedSDCList' %} {% is_active_simple current_url 'PerformedSDCDetail' %}>
+      <li   {% is_active_simple current_url 'PerformedSDCList' %}
+            {% is_active_simple current_url 'PerformedSDCDetail' %}>
             <a href="{% url 'PerformedSDCList' %}">Upcoming SDCs</a></li>
 
       {% if profile.is_instructor %}
       <li class="nav-header">Your Teaching</li>
-      <li {% is_active_simple current_url 'InstructorUpcoming' %}>
+      <li   {% is_active_simple current_url 'InstructorUpcoming' %}>
             <a href="{% url 'InstructorUpcoming' %}">Upcoming Lessons</a></li>
-      <li {% is_active_simple current_url 'TraineeNotesSearch' %} {% is_active_simple current_url 'TraineeNotes' %}>
+      <li   {% is_active_simple current_url 'TraineeNotesSearch' %} {% is_active_simple current_url 'TraineeNotes' %}>
             <a href="{% url 'TraineeNotesSearch' %}">See Trainee Notes</a></li>
       <li><a href="#">Give Feedback</a></li>
       {% endif %}
 
       {% if is_training %}
+      <li class="nav-header">Trainee Administration</li>
+      <li   {% is_active_simple current_url 'TraineeGroupList' %}
+            {% is_active_simple current_url 'TraineeGroupCreate' %}
+            {% is_active_simple current_url 'TraineeGroupUpdate' %}
+            {% is_active_simple current_url 'TraineeGroupDelete' %}>
+            <a href="{% url 'TraineeGroupList' %}">Trainee Groups</a></li>
+
       <li class="nav-header">Lesson Administration</li>
-      <li {% is_active_simple current_url 'SessionCreate' %}>
-      <a href="{% url 'SessionCreate' %}">Plan a Session</a></li>
-      <li {% is_active_simple current_url 'SessionPlanner' %} {% is_active_simple current_url 'SessionList' %} {% is_active_simple current_url 'SessionDelete' %}>
-      <a href="{% url 'SessionList' %}">Edit a Session</a></li>
+      <li   {% is_active_simple current_url 'SessionCreate' %}>
+            <a href="{% url 'SessionCreate' %}">Plan a Session</a></li>
+      <li   {% is_active_simple current_url 'SessionPlanner' %}
+            {% is_active_simple current_url 'SessionList' %}
+            {% is_active_simple current_url 'SessionDelete' %}>
+            <a href="{% url 'SessionList' %}">Edit a Session</a></li>
+      
       <li><a href="#">Retrospectivly Add Lessons</a></li>
-      <li {% is_active_simple current_url 'TraineeGroupList' %} {% is_active_simple current_url 'TraineeGroupCreate' %} {% is_active_simple current_url 'TraineeGroupUpdate' %} {% is_active_simple current_url 'TraineeGroupDelete' %}>
-      <a href="{% url 'TraineeGroupList' %}">Trainee Groups</a></li>
-      <li {% is_active_simple current_url 'QualificationAward' %}>
+      
+      <li   {% is_active_simple current_url 'QualificationAward' %}>
             <a href="{% url 'QualificationAward' %}"><i class="icon-trophy"></i> Award Qualifications</a></li>
 
       <li class="nav-header">SDC Administration</li>
-      <li {% is_active_simple current_url 'PerformedSDCCreate' %}>
+      <li   {% is_active_simple current_url 'PerformedSDCCreate' %}>
             <a href="{% url 'PerformedSDCCreate' %}">Plan an SDC</a></li>
+      
       <li><a href="#">Award SDCs</a></li>
 
       {% endif %}

@@ -1,0 +1,19 @@
+<table class="table table-condensed table-striped">
+        <tr><th>Name</th><th>Qualification</th><th>Membership Issue</th></tr>
+    {% for user in trainees %}
+        <tr>
+            <td><a href="{% url 'MemberDetail' user.pk %}">{{user.get_full_name}}</a></td>
+            <td>{{user.get_profile.top_qual}}</td>
+            <td>
+            <a href="?remove-trainee={{user.pk}}" class="btn btn-danger btn-mini pull-right"><i class="icon icon-remove"></i></a>
+            {% if user.get_profile.membership_problem %}
+            <div class="popover-button error" data-title="Problems With Membership"
+            
+            data-content="{{user.first_name}}'s {% if user.get_profile.no_expiry_data %}has not got any forms with the club, probably a new member {% elif user.get_profile.bsac_expired %}BSAC membership has expired, {% elif user.get_profile.club_expired %}club membership has expired, {% elif user.get_profile.club_expired %}medical form has expired.{% endif %}"
+
+            data-trigger="hover" data-placement="top">Yes</div>
+            {% endif %}
+            </td>
+            </tr>
+    {% endfor %}
+    </table>

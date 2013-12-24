@@ -216,3 +216,15 @@ ul.mini-sdc-list {
     margin-left: 8px;
     margin-top: -26px;
 }
+
+.action-icons a {
+    color: #aaa;
+    margin-left: 8px;
+    font-size: 1.4em
+}
+
+.action-icons a:hover {
+    /*color:red;*/
+    text-shadow:0px -1px 6px yellow;
+    text-decoration: none;
+}
