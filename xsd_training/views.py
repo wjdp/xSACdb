@@ -217,6 +217,7 @@ class PerformedSDCUpdate(UpdateView):
     def get_context_data(self, **kwargs):
         context = super(PerformedSDCUpdate, self).get_context_data(**kwargs)
         context[self.context_object_name] = self.get_object()
+        context['trainees']=context[self.context_object_name].trainees.all()
         return context
 
     def add_trainees(self, request):

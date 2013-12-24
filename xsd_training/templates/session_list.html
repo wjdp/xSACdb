@@ -14,7 +14,7 @@
         <td>{{session.when}}</td>
         <td>{{session.where}}</td>
         <td>{{session.performedlesson_set.all.count}}</td>
-        <td><a href="{% url 'SessionPlanner' session.pk %}">Edit</a> | <a href="{% url 'SessionDelete' session.pk %}">Delete</a></td>
+        <td class="action-icons"><a href="{% url 'SessionPlanner' session.pk %}"><i class="icon-pencil"></i></a> <a href="{% url 'SessionDelete' session.pk %}"><i class="icon-trash"></i></a></td>
 
         </tr>
 {% endfor %}

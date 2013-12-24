@@ -16,10 +16,10 @@
 
       <li class="nav-header">Skill Development Courses</li>
       <li   {% is_active_simple current_url 'SDCList' %}>
-            <a href="{% url 'SDCList' %}">List of SDCs</a></li>
+            <a href="{% url 'SDCList' %}">All SDCs</a></li>
       <li   {% is_active_simple current_url 'PerformedSDCList' %}
             {% is_active_simple current_url 'PerformedSDCDetail' %}>
-            <a href="{% url 'PerformedSDCList' %}">Upcoming SDCs</a></li>
+            <a href="{% url 'PerformedSDCList' %}">Upcoming Courses</a></li>
 
       {% if profile.is_instructor %}
       <li class="nav-header">Your Teaching</li>
@@ -32,11 +32,12 @@
 
       {% if is_training %}
       <li class="nav-header">Trainee Administration</li>
+      <li><a href="#">Records</a></li>
       <li   {% is_active_simple current_url 'TraineeGroupList' %}
             {% is_active_simple current_url 'TraineeGroupCreate' %}
             {% is_active_simple current_url 'TraineeGroupUpdate' %}
             {% is_active_simple current_url 'TraineeGroupDelete' %}>
-            <a href="{% url 'TraineeGroupList' %}">Trainee Groups</a></li>
+            <a href="{% url 'TraineeGroupList' %}">Groups</a></li>
 
       <li class="nav-header">Lesson Administration</li>
       <li   {% is_active_simple current_url 'SessionCreate' %}>
@@ -44,7 +45,7 @@
       <li   {% is_active_simple current_url 'SessionPlanner' %}
             {% is_active_simple current_url 'SessionList' %}
             {% is_active_simple current_url 'SessionDelete' %}>
-            <a href="{% url 'SessionList' %}">Edit a Session</a></li>
+            <a href="{% url 'SessionList' %}">Edit Sessions</a></li>
       
       <li><a href="#">Retrospectivly Add Lessons</a></li>
       
