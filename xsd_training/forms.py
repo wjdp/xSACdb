@@ -1,4 +1,4 @@
-from models import PerformedSDC, Qualification, Session
+from models import *
 from xsd_members.models import MemberProfile
 from django import forms
 
@@ -21,3 +21,12 @@ class SessionCreateForm(forms.ModelForm):
 	class Meta:
 		model=Session
 		fields=['when','where','notes','created_by']
+
+class SessionPLMapForm(forms.ModelForm):	# Used for mapping trainees to lessons and instrcutors in a Session
+    def __init__(self,*args,**kwargs):
+    	super(SessionPLMapForm, self).__init__(*args,**kwargs)
+    	self.fields['lesson'].queryset=Lesson.objects.exclude(mode='XP').order_by('qualification','mode')
+
+    class Meta:
+        model = PerformedLesson
+        fields=['lesson', 'instructor']

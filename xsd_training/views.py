@@ -93,12 +93,13 @@ class SessionPlanner(RequireTrainingOfficer, UpdateView):
 
     def pl_formset(self, bare=False):
         SessionPlannerTraineeFormSet = modelformset_factory(
-            PerformedLesson, fields=['lesson', 'instructor'],
+            PerformedLesson, form=SessionPLMapForm,
             extra=0
         )
         if bare==True: return SessionPlannerTraineeFormSet
         formset=SessionPlannerTraineeFormSet(
-            queryset=PerformedLesson.objects.filter(session=self.object),
+            queryset=PerformedLesson.objects
+                .filter(session=self.object)
         )
         return formset
 

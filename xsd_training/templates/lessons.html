@@ -1,21 +1,22 @@
 {% extends 'training_template.html' %}
 {% load lesson_extras %}
 {% block training_content %}
+<div class="span9"><h2>{{profile.training_for}}</h2></div>
+
 <div class="span5">
-<p>Lessons include all theory, pool sessions and open water.</p>
-<h3>Theory Lessons</h3>
-{% show_lessons profile.training_for 'TH' user %}
-<h3>Sheltered Water Lessons</h3>
-{% show_lessons profile.training_for 'SW' user %}
-<h3>Open Water Lessons</h3>
-{% show_lessons profile.training_for 'OW' user %}
-<h3>Dry Practical Lessons</h3>
-{% show_lessons profile.training_for 'DP' user %}
+	<h3>Theory Lessons</h3>
+	{% show_lessons profile.training_for 'TH' user %}
+	<h3>Sheltered Water Lessons</h3>
+	{% show_lessons profile.training_for 'SW' user %}
+	<h3>Open Water Lessons</h3>
+	{% show_lessons profile.training_for 'OW' user %}
+	<h3>Dry Practical Lessons</h3>
+	{% show_lessons profile.training_for 'DP' user %}
 </div>
 <div class="span4">
-<h3>Experience</h3>
-<p>Experience dives can take place at any point, but you need to get them signed off by an instructor.</p>
+	<h3>Experience</h3>
+	<p>Experience dives can take place at any point, but you need to get them signed off by an instructor.</p>
 
-{% show_lessons profile.training_for 'XP' profile %}
+	{% show_lessons profile.training_for 'XP' profile %}
 </div>
 {% endblock %}

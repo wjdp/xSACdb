@@ -31,3 +31,7 @@
     {% endfor %}
 </ul>
 {% endif %}
+
+{% if not planned and not lessons and not completed %}
+No Lessons in this category for this qualification.
+{% endif %}

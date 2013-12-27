@@ -49,17 +49,44 @@ ul.uncompleted li {
 background:url('/media/images/arrow_r.png') no-repeat 0 50%;
 }
 
+.lesson-detail {
+    margin: ;
+    background:url('/media/images/bg/lesson_grain.fw.png') #a8c7d9;
+    padding: 10px 12px;
+    box-shadow: 0px 1px 1px 1px #ccc;
+}
+
+.lesson-detail h3 {
+    margin: -7px 0 0 42px;
+    padding: 0;
+    font-size: 14px;
+}
+
 div.lesson-code {
 border-radius:2px;
 padding:2px;
 width:30px;
 font-weight:bold;
 color:#fafafa;
+float: left;
 }
 
 .OceanDiver {
 background:#8095C3;
 border: 1px solid #2253BB;
+}
+
+.lesson-detail .mode {
+    font-size: 0.8em;
+    font-style: italic;
+    margin-bottom: 4px;
+}
+
+h2.no-plan {
+    color: #eee;
+    text-align: center;
+    text-shadow: 0px 1px 0px #cfcfcf;
+    margin-top: 3em;
 }
 
 .dl-break {
@@ -231,3 +258,4 @@ ul.mini-sdc-list {
     text-shadow:0px -1px 6px yellow;
     text-decoration: none;
 }
+

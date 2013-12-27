@@ -33,7 +33,7 @@
     <table class="table table-condensed table-striped">
     <tr><th>Trainee</th><th>Lesson</th><th>Instructor</th></tr>
     {% for form in performed_lessons_formset %}
-    <tr><td>{{form.id}}{{form.instance.trainee}}{{form.trainee}}</td><td>{{form.lesson}}</td><td>{{form.instructor}}</td></tr>
+    <tr><td>{{form.id}}{{form.instance.trainee.get_full_name}}</td><td>{{form.lesson}}</td><td>{{form.instructor}}</td></tr>
     {% endfor %}
 
     </table>
