@@ -82,10 +82,13 @@ border: 1px solid #2253BB;
     margin-bottom: 4px;
 }
 
-h2.no-plan {
+.no-plan, .no-trainee {
     color: #eee;
     text-align: center;
     text-shadow: 0px 1px 0px #cfcfcf;
+}
+
+.no-plan {
     margin-top: 3em;
 }
 
@@ -238,7 +241,7 @@ ul.mini-sdc-list {
     display: inline-block;
     border:1px solid #ccc !important;
     border-radius:6px;
-    width:80% !important;
+    width:60% !important;
 
 }
 
@@ -262,3 +265,12 @@ ul.mini-sdc-list {
 tr.last td, td.last {
     background: #F2F1A5 !important;
 }
+
+.table-session {
+    font-size:11px;
+}
+.table-session select {
+    width:100px;
+}
+
+.no-top {margin-top: 0}

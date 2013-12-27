@@ -1,3 +1,7 @@
+from django.shortcuts import get_object_or_404
+
+from django.contrib.auth.models import User
+
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.views.generic.list import ListView
 
@@ -41,23 +45,43 @@ class SessionPlanner(RequireTrainingOfficer, UpdateView):
         context = super(SessionPlanner, self).get_context_data(**kwargs)
         # Add our own custom context
         context['performed_lessons_formset'] = self.pl_formset()
+        context['traineegroup_select'] = TraineeGroupSelectForm()
         return context
 
     def get(self, request, *args, **kwargs):
         self.object=self.get_object()
         if 'names' in request.GET:
             self.add_trainees(request)
+        if 'traineegroup' in request.GET:
+            self.add_trainee_group(request.GET['traineegroup'])
+        if 'remove-trainee' in request.GET:
+            self.remove_trainee(request.GET['remove-trainee'])
         return super(SessionPlanner, self).get(request, *args, **kwargs)
 
     def add_trainees(self, request):
         members=get_bulk_members(request)
         for member in members:
             check = PerformedLesson.objects.filter(session=self.object).filter(trainee=member.user)
-            if check.count()==0:
+            if not check.exists():
                 pl=PerformedLesson()
                 pl.session=self.object
                 pl.trainee=member.user
                 pl.save()
+
+    def add_trainee_group(self, group):
+        tg=get_object_or_404(TraineeGroup, pk=group)
+        for user in tg.trainees.all():
+            check = PerformedLesson.objects.filter(session=self.object).filter(trainee=user)
+            if not check.exists():
+                pl=PerformedLesson()
+                pl.session=self.object
+                pl.trainee=user
+                pl.save()
+
+    def remove_trainee(self, trainee_pk):
+        trainee=get_object_or_404(User, pk=trainee_pk)
+        pl=get_object_or_404(PerformedLesson, session=self.object, trainee=trainee)
+        pl.delete()
 
     def post(self, request, *args, **kwargs):
         print request.POST
@@ -89,7 +113,6 @@ class SessionDelete(RequireTrainingOfficer, DeleteView):
     model=Session
     template_name='session_confirm_delete.html'
     success_url = reverse_lazy('SessionList')
-
 
     def get_context_data(self, **kwargs):
         context = super(SessionDelete, self).get_context_data(**kwargs)

@@ -30,3 +30,6 @@ class SessionPLMapForm(forms.ModelForm):	# Used for mapping trainees to lessons 
     class Meta:
         model = PerformedLesson
         fields=['lesson', 'instructor']
+       
+class TraineeGroupSelectForm(forms.Form):
+    traineegroup=forms.ModelChoiceField(queryset=TraineeGroup.objects.all(), label='Trainee Group')

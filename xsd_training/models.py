@@ -148,3 +148,6 @@ class TraineeGroup(models.Model):
         for t in self.trainees.all():
             ret=ret+t.get_full_name()+", "
         return ret[:-2]
+
+    def __unicode__(self):
+        return self.name

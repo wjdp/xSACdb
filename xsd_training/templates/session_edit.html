@@ -4,11 +4,12 @@
 
 {% block training_content %}
 
-<div class="span9">
-    <h1>Session Planning</h1>
+<form action="" method="post">
+    <div class="span9">
+        <h1>Session Planning</h1>
 
-    <h2>Session Details</h2>
-    <form action="" method="post">{% csrf_token %}
+        <h2>Session Details</h2>
+        {% csrf_token %}
         <input type="hidden" name="form_def" value="session" />
         <div class="row-fluid">
             <div class="span7">
@@ -21,34 +22,47 @@
             </div>
 
         </div>
-
-
-
-
+    </div>
+    <div class="span9">
         <h2>Trainees</h2>
+    </div>
+    <div class="span5">
 
-
-        <div class="pls">
-            {{performed_lessons_formset.management_form}}
-            <table class="table table-condensed table-striped">
-                <tr><th>Trainee</th><th>Lesson</th><th>Instructor</th></tr>
-                {% for form in performed_lessons_formset %}
-                <tr><td>{{form.id}}{{form.instance.trainee.get_full_name}}</td><td>{{form.lesson}}</td><td>{{form.instructor}}</td></tr>
-                {% endfor %}
-
+        {{performed_lessons_formset.management_form}}
+        <table class="table table-condensed table-striped table-session">
+            <tr><th>Trainee</th><th>Lesson</th><th>Instructor</th><th></th></tr>
+            {% for form in performed_lessons_formset %}
+            <tr><td>{{form.id}}{{form.instance.trainee.get_full_name}}</td><td>{{form.lesson}}</td><td>{{form.instructor}}</td>
+            <td><a href="?remove-trainee={{form.instance.trainee.pk}}" class="btn btn-danger btn-mini pull-right"><i class="icon icon-remove"></i></a></td>
+            </tr>
+            {% empty %}
             </table>
-            <div class="form-actions ">
-                <button type="submit" class="btn btn-primary alignright">Save</button>
-                <p>To complete this session click the <i class="icon-check-sign"></i> icon on the <a href='{% url 'SessionList' %}?last={{session.pk}}'>list</a>.</p>
+            <h2 class="no-trainee">No Trainees Added Yet</h3>
+            {% endfor %}
+
+        </table>
+        <div class="form-actions ">
+            <button type="submit" class="btn btn-primary alignright">Save</button>
+            <p>To complete this session click the <i class="icon-check-sign"></i> icon on the <a href='{% url 'SessionList' %}?last={{session.pk}}'>list</a>.</p>
+        </div>
+
+
+    </div>
+</form>
+
+<div class="span4">
+    <h3 class="no-top">Add Trainees</h3>
+    <div>
+        Individually
+        {% include 'base/bulk_select_members.html' %}
+        <form method="GET" action=".">
+            <div class="form-horizontal">
+                {{traineegroup_select}}
+                <button type="submit" class="btn">Select</button>
             </div>
         </form>
-
     </div>
-
-    <div>
-        Add trainees.
-        {% include 'base/bulk_select_members.html' %}
-    </div>
+</div>
 
 </div>
 
