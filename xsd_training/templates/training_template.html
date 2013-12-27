@@ -21,7 +21,7 @@
             {% is_active_simple current_url 'PerformedSDCDetail' %}>
             <a href="{% url 'PerformedSDCList' %}">Upcoming Courses</a></li>
 
-      {% if profile.is_instructor %}
+      {% if profile.is_instructor or is_training %}
       <li class="nav-header">Your Teaching</li>
       <li   {% is_active_simple current_url 'InstructorUpcoming' %}>
             <a href="{% url 'InstructorUpcoming' %}">Upcoming Lessons</a></li>

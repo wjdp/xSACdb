@@ -13,7 +13,7 @@ import xsd_training.trainee_table as trainee_table
 from xsd_members.bulk_select import get_bulk_members
 
 
-
+@require_training_officer
 def QualificationAward(request):
     qual_form=None
     selected_members=None

@@ -15,6 +15,10 @@ class require_group(object):
         else:
             raise PermissionDenied
 
+class require_instructor(require_group):
+    def is_allowed(self,user):
+        return is_instructor(user)
+
 class require_training_officer(require_group):
     def is_allowed(self,user):
         return is_training(user)

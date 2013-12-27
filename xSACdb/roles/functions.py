@@ -11,6 +11,15 @@ def is_allowed(user,groups):
 # Diving Off: 2,7
 # Admin: 2
 
+def is_instructor(user):	#User is either by having a qualification or being training
+	groups=[2,3,7]
+	if is_allowed(user,groups):
+		return True
+	elif user.get_profile().is_instructor():
+		return True
+	else:
+		return False
+
 def is_training(user):
 	groups=[2,3,7]
 	return is_allowed(user,groups)

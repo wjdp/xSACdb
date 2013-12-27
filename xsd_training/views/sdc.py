@@ -78,7 +78,7 @@ class PerformedSDCDetail(DetailView):
     template_name='performedsdc_detail.html'
     context_object_name='psdc'
 
-class PerformedSDCUpdate(UpdateView):
+class PerformedSDCUpdate(RequireTrainingOfficer,UpdateView):
     model=PerformedSDC
     template_name='performedsdc_update.html'
     context_object_name='psdc'
@@ -104,7 +104,7 @@ class PerformedSDCUpdate(UpdateView):
         trainee_table.remove_trainee(request, self.object)
         return super(PerformedSDCUpdate, self).get(request, *args, **kwargs)
 
-class PerformedSDCComplete(DetailView):
+class PerformedSDCComplete(RequireTrainingOfficer,DetailView):
     model=PerformedSDC
     template_name='performedsdc_complete.html'
     context_object_name='psdc'
@@ -134,7 +134,7 @@ class PerformedSDCComplete(DetailView):
         return redirect(reverse('PerformedSDCList'))
         
 
-class PerformedSDCDelete(DeleteView):
+class PerformedSDCDelete(RequireTrainingOfficer,DeleteView):
     model=PerformedSDC
     template_name='performedsdc_delete.html'
     context_object_name='psdc'

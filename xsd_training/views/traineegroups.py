@@ -14,17 +14,17 @@ import xsd_training.trainee_table as trainee_table
 
 from xsd_members.bulk_select import get_bulk_members
 
-class TraineeGroupList(ListView):
+class TraineeGroupList(RequireTrainingOfficer,ListView):
     model=TraineeGroup
     template_name='traineegroup_list.html'
     context_object_name='tgs'
 
-class TraineeGroupCreate(CreateView):
+class TraineeGroupCreate(RequireTrainingOfficer,CreateView):
     model=TraineeGroup
     template_name='traineegroup_create.html'
     success_url = reverse_lazy('TraineeGroupList')
 
-class TraineeGroupUpdate(DetailView):
+class TraineeGroupUpdate(RequireTrainingOfficer,DetailView):
     model=TraineeGroup
     template_name='traineegroup_update.html'
     context_object_name='tg'
@@ -49,7 +49,7 @@ class TraineeGroupUpdate(DetailView):
                 self.object.trainees.add(member.user)
         self.object.save()
 
-class TraineeGroupDelete(DeleteView):
+class TraineeGroupDelete(RequireTrainingOfficer,DeleteView):
     model=TraineeGroup
     template_name='traineegroup_delete.html'
     context_object_name='tg'

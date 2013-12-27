@@ -2,7 +2,7 @@ from django.shortcuts import render, get_object_or_404
 from django.template import RequestContext
 from django.contrib.auth.models import User
 
-from xSACdb.roles.decorators import require_training_officer
+from xSACdb.roles.decorators import require_instructor
 from xSACdb.roles.mixins import RequireTrainingOfficer
 
 from xsd_training.models import *
@@ -10,7 +10,7 @@ from xsd_training.forms import *
 
 import datetime
 
-
+@require_instructor
 def InstructorUpcoming(request):
     def get_upcoming_sessions_by_instructor(instructor):
         now=datetime.datetime.now()+datetime.timedelta(days=1)
@@ -37,6 +37,7 @@ def InstructorUpcoming(request):
         'upcoming_sessions':upcoming_sessions     
     }, context_instance=RequestContext(request))
 
+@require_instructor
 def TraineeNotesSearch(request):
     if 'surname' in request.GET:
         surname=request.GET['surname']
@@ -47,7 +48,7 @@ def TraineeNotesSearch(request):
         'trainees':trainees
     }, context_instance=RequestContext(request))
 
-
+@require_instructor
 def TraineeNotes(request, pk):
     user=get_object_or_404(User,pk=pk)
     trainee=user.get_profile()
