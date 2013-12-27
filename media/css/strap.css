@@ -50,13 +50,16 @@ background:url('/media/images/arrow_r.png') no-repeat 0 50%;
 }
 
 div.lesson-code {
-background:#8095C3;
-border: 1px solid #2253BB;
 border-radius:2px;
 padding:2px;
 width:30px;
 font-weight:bold;
 color:#fafafa;
+}
+
+.OceanDiver {
+background:#8095C3;
+border: 1px solid #2253BB;
 }
 
 .dl-break {

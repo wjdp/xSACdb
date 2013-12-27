@@ -1,7 +1,7 @@
 {% extends 'training_template.html' %}
 {% block training_content %}
 <div class="span3">
-<div class="lesson-code">{{lesson.code}}</div>{{lesson.title}}
+<div class="lesson-code {{ lesson.qualification|cut:" " }}">{{lesson.code}}</div>{{lesson.title}}
 <p class="mode">This is a {{lesson.get_mode_display|lower}} lesson.</p>
 <p>{{lesson.description}}</p>
 
