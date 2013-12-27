@@ -7,12 +7,12 @@
 
       <li class="nav-header">Your Training</li>
       <li   {% is_active_simple ui.page 'my_overview' %}>
-            <a href="{% url 'xsd_training.views.overview' %}">Overview</a></li>
+            <a href="{% url 'xsd_training.views.trainee.overview' %}">Overview</a></li>
       {% if profile.training_for %}
       <li   {% is_active_simple ui.page 'my_lessons' %}>
-            <a href="{% url 'xsd_training.views.lessons' %}">Lessons</a></li>{% endif %}
+            <a href="{% url 'xsd_training.views.trainee.lessons' %}">Lessons</a></li>{% endif %}
       <li   {% is_active_simple ui.page 'my_feedback' %}>
-            <a href="{% url 'xsd_training.views.all_feedback' %}">See All Feedback</a></li>
+            <a href="{% url 'xsd_training.views.trainee.all_feedback' %}">See All Feedback</a></li>
 
       <li class="nav-header">Skill Development Courses</li>
       <li   {% is_active_simple current_url 'SDCList' %}>
@@ -27,12 +27,10 @@
             <a href="{% url 'InstructorUpcoming' %}">Upcoming Lessons</a></li>
       <li   {% is_active_simple current_url 'TraineeNotesSearch' %} {% is_active_simple current_url 'TraineeNotes' %}>
             <a href="{% url 'TraineeNotesSearch' %}">See Trainee Notes</a></li>
-      <li><a href="#">Give Feedback</a></li>
       {% endif %}
 
       {% if is_training %}
       <li class="nav-header">Trainee Administration</li>
-      <li><a href="#">Records</a></li>
       <li   {% is_active_simple current_url 'TraineeGroupList' %}
             {% is_active_simple current_url 'TraineeGroupCreate' %}
             {% is_active_simple current_url 'TraineeGroupUpdate' %}
