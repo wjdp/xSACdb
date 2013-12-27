@@ -1,5 +1,5 @@
-xSACdb
-======
+![xSACdb](https://raw.github.com/wjdp/xSACdb/master/media/images/logo.gif)
+
 A web based database for managing BSAC branch clubs. It looks after membership details, training records, known sites and club trips.
 
 Current Issues
