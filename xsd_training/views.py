@@ -136,10 +136,21 @@ class SessionPlanner(RequireTrainingOfficer, UpdateView):
                 formset.save()
         return super(SessionPlanner, self).post(request, *args, **kwargs)
 
+    def get_success_url(self):
+        return reverse('SessionList')+'?last='+self.kwargs['pk']
+
 class SessionList(RequireTrainingOfficer, ListView):
     model=Session
     template_name='session_list.html'
     context_object_name='sessions'
+
+    def get_context_data(self, **kwargs):
+        context = super(SessionList, self).get_context_data(**kwargs)
+        if 'last' in self.request.GET:
+            context['last'] = int(self.request.GET['last'])
+        else:
+            context['last'] = 0
+        return context
 
 class SessionDelete(RequireTrainingOfficer, DeleteView):
     model=Session

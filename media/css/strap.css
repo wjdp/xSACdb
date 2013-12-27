@@ -259,3 +259,6 @@ ul.mini-sdc-list {
     text-decoration: none;
 }
 
+tr.last td, td.last {
+    background: #F2F1A5 !important;
+}

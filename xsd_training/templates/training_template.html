@@ -40,12 +40,11 @@
             <a href="{% url 'TraineeGroupList' %}">Groups</a></li>
 
       <li class="nav-header">Lesson Administration</li>
-      <li   {% is_active_simple current_url 'SessionCreate' %}>
-            <a href="{% url 'SessionCreate' %}">Plan a Session</a></li>
-      <li   {% is_active_simple current_url 'SessionPlanner' %}
+      <li   {% is_active_simple current_url 'SessionCreate' %}
+            {% is_active_simple current_url 'SessionPlanner' %}
             {% is_active_simple current_url 'SessionList' %}
             {% is_active_simple current_url 'SessionDelete' %}>
-            <a href="{% url 'SessionList' %}">Edit Sessions</a></li>
+            <a href="{% url 'SessionList' %}">Session Planning</a></li>
       
       <li><a href="#">Retrospectivly Add Lessons</a></li>
       
