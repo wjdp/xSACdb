@@ -1,11 +1,11 @@
 from django.db import models
 from datetime import date
 
-from django_facebook.models import FacebookProfileModel
+from django_facebook.models import FacebookModel
 
 from xsd_training.models import PerformedLesson
 
-class MemberProfile(FacebookProfileModel):
+class MemberProfile(FacebookModel):
     user = models.OneToOneField('auth.User')
     token = models.CharField(max_length=150, blank=True)
     new = models.BooleanField(default=True)

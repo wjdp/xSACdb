@@ -10,3 +10,4 @@ xsd_members/fixtures/*
 xsd_training/fixtures/*
 xSACdb/fixtures/*
 components/*
+local_files/*
