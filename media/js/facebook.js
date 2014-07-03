@@ -1,5 +1,5 @@
 
-
+var staticUrl = '/static/'
 
 /*
 Maps locale from django to Facebook

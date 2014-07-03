@@ -9,7 +9,7 @@
 <div class="span6">
 <h3>Trainees</h3>
     {% if psdc.trainees %}
-    <p>So far {{psdc.trainees.count}} people are attending this course.</p>
+    <p>So far {{psdc.trainees.count}} people are booked on this course.</p>
     <table class="table table-condensed table-striped">
         <tr><th>Name</th>{% if is_training %}<th>Qualification</th><th>Membership Issue</th>{% endif %}</tr>
     {% for user in psdc.trainees.all %}

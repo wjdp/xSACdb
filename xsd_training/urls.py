@@ -1,11 +1,11 @@
 from django.conf.urls import patterns, include, url
 from django.conf import settings
-from xsd_training.views import sessions, sdc, traineegroups
+from xsd_training.views import sessions, sdc, traineegroups, instructor
 
 urlpatterns = patterns('',
     url(r'^$', 'xsd_training.views.trainee.overview', name='training-overview')    ,
-    url(r'^lessons/all$', 'xsd_training.views.trainee.lessons', name='training-lessons')    ,
-    url(r'^lesson/(?P<id>.*)$', 'xsd_training.views.trainee.lesson_detail', name='lesson_detail'),
+    url(r'^lessons/$', 'xsd_training.views.trainee.lessons', name='training-lessons')    ,
+    url(r'^lessons/(?P<id>\d+)/$', 'xsd_training.views.trainee.lesson_detail', name='lesson_detail'),
     url(r'^feedback$', 'xsd_training.views.trainee.all_feedback'),
 
     url(r'^session/new/$', sessions.SessionCreate.as_view(), name='SessionCreate'),
@@ -17,7 +17,7 @@ urlpatterns = patterns('',
 
     url(r'^teaching/upcoming/$', 'xsd_training.views.instructor.InstructorUpcoming', name='InstructorUpcoming'),
     url(r'^teaching/notes/$', 'xsd_training.views.instructor.TraineeNotesSearch', name='TraineeNotesSearch'),
-    url(r'^teaching/notes/(?P<pk>\d+)/$', 'xsd_training.views.instructor.TraineeNotes', name='TraineeNotes'),
+    url(r'^teaching/notes/(?P<pk>\d+)/$', instructor.TraineeNotes, name='TraineeNotes'),
 
     url(r'^sdcs/$', sdc.SDCList.as_view(), name='SDCList'),
     url(r'^sdcs/reg-interest/$', 'xsd_training.views.sdc.sdc_register_interest', name='sdc_register_interest'),

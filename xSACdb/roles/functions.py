@@ -27,7 +27,7 @@ def is_trips(user):
 	groups=[2,3,4,7]
 	return is_allowed(user,groups)
 def is_sites(user):
-	groups=[2,5,7]
+	groups=[2,3,4,5,6,7]
 	return is_allowed(user,groups)
 def is_members(user):
 	groups=[2,3,6,7]
