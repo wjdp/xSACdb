@@ -113,7 +113,7 @@ class SessionList(RequireTrainingOfficer, ListView):
         return context
 
     def get_queryset(self):
-        qs = super(SessionList, self).get_queryset().order_by('when')
+        qs = super(SessionList, self).get_queryset().order_by('when').exclude(completed=True)
         return qs
 
 class SessionComplete(RequireTrainingOfficer,DetailView):

@@ -33,11 +33,11 @@ def lesson_detail(request, id):
     ui.page='my_lessons'
     ui.section='my'
     try:
-        pl=PerformedLesson.objects.get(trainee=request.user, lesson=lesson)
+        pls=PerformedLesson.objects.filter(trainee=request.user, lesson=lesson).order_by('date')
     except PerformedLesson.DoesNotExist: pl=None
     return render(request, 'lesson_detail.html', {
         'lesson':lesson,
-        'pl': pl,
+        'pls': pls,
         'ui':ui,
         }, context_instance=RequestContext(request))
 
