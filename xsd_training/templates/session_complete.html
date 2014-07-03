@@ -1,40 +1,57 @@
 {% extends 'training_template.html' %}
 {% block training_content %}
-<div class="span3">
-    <h2>{{psdc.sdc.title}}</h2>
-    <p>This skill development course is planned for {{psdc.datetime}}</p>
-    <p>{{psdc.notes|linebreaks}}</p>
-    
+<div class="span9">
+    <h1>Session Planning</h1>
+    <p>You are completing the session, which took place on {{session.when}} at {{session.where}}.</p>
 </div>
 <form action="." method="POST">
-{% csrf_token %}
-<div class="span6">
-<h3>Trainees</h3>
-    {% if psdc.trainees %}
-    <p>{{psdc.trainees.count}} people attended this course.</p>
-    <table class="table table-condensed table-striped">
-        <tr><th>Name</th><th>Completed</th></tr>
-    {% for user in psdc.trainees.all %}
-        <tr>
-            <td>{{user.get_full_name}}</td>
-            <td><input type="checkbox" name="user-{{user.pk}}" checked="true" /></td>
-            </tr>
-    {% endfor %}
+<div class="span7">
+    {{performed_lessons_formset.management_form}}
+    <table class="table table-condensed table-striped table-session">
+        <tr><th>Trainee</th><th>Lesson</th><th>Instructor</th><th>Completed?</th><th>Partial</th><th>Public Notes</th><th>Private Notes</th></tr>
+        {% for form in performed_lessons_formset %}
+        <tr><td>{{form.id}}{{form.instance.trainee.get_full_name}}</td><td>{{form.instance.lesson}}</td><td>{{form.instance.instructor.get_full_name}}</td>
+        <td>{{ form.completed }}</td>
+        <td>{{ form.partially_completed }}</td>
+        <td>{{ form.public_notes }}</td>
+        <td>{{ form.private_notes }}</td>
+        </tr>
+        {% empty %}
+        </table>
+        <h2 class="no-trainee">No Trainees Added Yet</h3>
+        {% endfor %}
+
     </table>
-    <p><strong>Checked</strong> indicates that the trainee attended the course and passed any assessment, they will immediately have this SDC show up on their profile as attained.</p>
-    <p><strong>Unchecked</strong> indicates that the trainee was a no-show or did not pass an assessment. They will not have the SDC show up on their profile.</p>
-    <p>Completion of an SDC happens once, after the SDC is completed it will be archived and those who did not complete will have their names scratched off the list.</p>
-    {% else %}
-    <p>No trainees are attended this course.</p>
-    {% endif %}
+
+    
+</div>
+
+{% csrf_token %}
+<div class="span2">
+    <p><strong>Completed?</strong></p>
+    <p>Checked indicates that the trainee attended and completed the lesson to the relevant skill performance standard, they will immediately have this lesson show up on their profile as completed.</p>
+    <p>Unchecked indicates that the trainee was a no-show or did not finish the lesson. If the lesson is not marked as partially completed it will be removed.</p>
+
+    <p><strong>Partial?</strong></p>
+    <p>Check partial if the lesson was partially completed, make a note as to how much of the lesson was completed. This will show up when the pool sheet is generated for the re-planned lesson.</p>
+
+    <p><strong>Notes</strong></p>
+    <p>Public notes are shown to the trainee and all instructors and database officers with the training permission. Private notes are not shown to the trainee.</p>
+
+    <p><strong>Saving and Completing</strong></p>
+    <p>You can save the progress of this form before 'completing the session'. After you complete the session you may not come back to this page and edit it later.</p>
+
 </div>
 {% if is_training %}
 <div class="span9 ">
 <div class="form-actions">
-        {% if not psdc.completed %}<a class="btn" href="{% url 'PerformedSDCDetail' psdc.pk %}"><i class="icon icon-remove"></i> Cancel</a>{% endif %}
+    <div class="btn-group pull-left">
+        <a class="btn" href="{% url 'SessionPlanner' session.pk %}"><i class="icon icon-remove"></i> Cancel</a>
+    </div>        
 
         <div class="btn-group pull-right">
-        <button type="submit" class="btn btn-success"><i class="icon icon-ok"></i> Complete Course</button>
+        <button type="submit" class="btn" name="save"><i class="icon icon-save"></i> Save Form</button>
+        <input type="submit" class="btn btn-success" name="complete" value="Complete Session"/>
         </div>
 </div>
 </form>

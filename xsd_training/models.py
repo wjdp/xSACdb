@@ -1,3 +1,5 @@
+import datetime
+
 from django.db import models
 from django.contrib.auth.models import User
 
@@ -11,6 +13,7 @@ class PerformedLesson(models.Model):
     instructor=models.ForeignKey('auth.User', related_name="pl_instructor", blank=True, null=True)
     trainee=models.ForeignKey('auth.User', related_name="pl_trainee")
     completed=models.BooleanField(default=False)
+    partially_completed=models.BooleanField(default=False)
     public_notes=models.TextField(blank=True)
     private_notes=models.TextField(blank=True)
 
@@ -132,6 +135,14 @@ class Session(models.Model):
     where=models.ForeignKey('xsd_sites.Site')
     notes=models.TextField(blank=True)
     created_by=models.ForeignKey('auth.User')
+
+    completed = models.BooleanField(default=False)
+
+    def in_past(self):
+        if self.when.replace(tzinfo=None) < datetime.datetime.now():
+            return True
+        else:
+            return False
 
     def get_absolute_url(self):
         return reverse('SessionPlanner', kwargs={'pk': self.pk})

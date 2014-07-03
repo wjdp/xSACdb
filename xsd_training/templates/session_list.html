@@ -17,7 +17,7 @@
         <td>{{session.performedlesson_set.all.count}}</td>
         <td class="action-icons">
         	<a href="{% url 'SessionPlanner' session.pk %}"><i class="icon-pencil"></i></a>
-        	<a href="{% url 'SessionPlanner' session.pk %}"><i class="icon-check-sign"></i></a>
+        	{% if session.in_past %}<a href="{% url 'SessionComplete' session.pk %}"><i class="icon-check-sign"></i></a>{% endif %}
         	<a href="{% url 'SessionDelete' session.pk %}"><i class="icon-trash"></i></a>
         </td>
         </tr>

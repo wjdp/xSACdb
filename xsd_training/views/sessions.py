@@ -2,8 +2,11 @@ from django.shortcuts import get_object_or_404
 
 from django.contrib.auth.models import User
 
+from django.shortcuts import redirect
+
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.views.generic.list import ListView
+from django.views.generic.detail import DetailView
 
 from django.core.urlresolvers import reverse_lazy
 
@@ -108,6 +111,94 @@ class SessionList(RequireTrainingOfficer, ListView):
         else:
             context['last'] = 0
         return context
+
+    def get_queryset(self):
+        qs = super(SessionList, self).get_queryset().order_by('when')
+        return qs
+
+class SessionComplete(RequireTrainingOfficer,DetailView):
+    model=Session
+    template_name='session_complete.html'
+    context_object_name='session'
+
+    def build_pls_formset(self, bare=False):
+        SessionCompleteFormSet = modelformset_factory(
+            PerformedLesson, form=SessionCompleteForm,
+            extra=0
+        )
+        if not bare:
+            formset=SessionCompleteFormSet(
+                queryset=PerformedLesson.objects
+                    .filter(session=self.object)
+            )
+        else:
+            formset = SessionCompleteFormSet
+        return formset
+
+    def get_context_data(self, **kwargs):
+        # Call the base implementation first to get a context
+        context = super(SessionComplete, self).get_context_data(**kwargs)
+        # Add our own custom context
+        context['performed_lessons_formset'] = self.build_pls_formset()
+        return context
+
+    def get_users(self,request):
+        users=[]
+        for item in request.POST:
+            if re.match('user',item):
+                user_pk=item[5:]
+                u=User.objects.get(pk=user_pk)
+                users.append(u)
+        return users
+
+    def set_pl(self, id, completed, partially_completed, public_notes, private_notes):
+        pl = id
+        if not completed and not partially_completed:
+            # This will be a no-show, so delete the PL
+            pl.delete()
+        else:
+            if completed and partially_completed:
+                completed = False # Mark as not completed if partially is ticked
+
+            # Stick data in object
+            pl.completed = completed
+            pl.partially_completed = partially_completed
+            pl.public_notes = public_notes
+            pl.private_notes = private_notes
+            # And save it
+            pl.save()
+
+    def set_pl_save(self, id, completed, partially_completed, public_notes, private_notes):
+        pl = id
+        if completed and partially_completed:
+            completed = False # Mark as not completed if partially is ticked
+
+        # Stick data in object
+        pl.completed = completed
+        pl.partially_completed = partially_completed
+        pl.public_notes = public_notes
+        pl.private_notes = private_notes
+        # And save it
+        pl.save()
+
+    def post(self, request, *args, **kwargs):
+            SessionCompleteFormSet = self.build_pls_formset(True) 
+            formset = SessionCompleteFormSet(request.POST)
+            print request.POST
+            if formset.is_valid():
+                if 'complete' in request.POST:
+                    for form in formset.cleaned_data:
+                        self.set_pl(form['id'], form['completed'], form['partially_completed'], form['public_notes'], form['private_notes'])
+                    this_session = self.get_object()
+                    this_session.completed = True
+                    this_session.save()
+                else:
+                    for form in formset.cleaned_data:
+                        self.set_pl_save(form['id'], form['completed'], form['partially_completed'], form['public_notes'], form['private_notes'])
+                    return self.get(request, *args, **kwargs)
+                return redirect(reverse_lazy('SessionList'))
+            else:
+                return self.get(request, *args, **kwargs)
 
 class SessionDelete(RequireTrainingOfficer, DeleteView):
     model=Session

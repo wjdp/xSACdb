@@ -11,6 +11,7 @@ urlpatterns = patterns('',
     url(r'^session/new/$', sessions.SessionCreate.as_view(), name='SessionCreate'),
     url(r'^session/list/$', sessions.SessionList.as_view(), name='SessionList'),
     url(r'^session/(?P<pk>\d+)/$', sessions.SessionPlanner.as_view(), name='SessionPlanner'),
+    url(r'^session/(?P<pk>\d+)/complete/$', sessions.SessionComplete.as_view(), name='SessionComplete'),
     url(r'^session/(?P<pk>\d+)/delete/$', sessions.SessionDelete.as_view(), name='SessionDelete'),
 
     url(r'^qualification/award/$', 'xsd_training.views.qualification.QualificationAward', name='QualificationAward'),
