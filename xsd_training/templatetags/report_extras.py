@@ -8,6 +8,8 @@ def build_lesson_row(lessons, user):
     lesson_row = ""
     for lesson in lessons:
         pls = PerformedLesson.objects.filter(lesson = lesson, trainee = user)
+        if lesson.qualification != user.memberprofile.training_for:
+            continue
         completed = False
         partially_completed = False
         mode = lesson.mode
@@ -18,8 +20,8 @@ def build_lesson_row(lessons, user):
         if completed:                lesson_row += '<td class="completed">'+lesson.code+'</td>' 
         elif partially_completed:    lesson_row += '<td class="partially_completed">'+lesson.code+'</td>'
         else:                        lesson_row += '<td class="nothing">'+lesson.code+'</td>'
-
-    return "<tr><th>" + mode + "</th>" + lesson_row + "</tr>"
+    if lesson_row == "": return "No 'Training For' value set<br />"
+    else: return "<tr><th>" + mode + "</th>" + lesson_row + "</tr>"
 
 
 

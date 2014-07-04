@@ -77,7 +77,7 @@ class MemberList(RequireMembersOfficer, OrderedListView):
 
 class NewMembers(MemberList):
     page_title='New Members'
-    page_description='New signups to the database, to remove them from this list use <div class="fake-button"><i class="icon-flag"></i> Remove New Flag</div> on their profile page'
+    page_description='New signups to the database, to remove them from this list use <div class="fake-button"><i class="icon-flag"></i> Remove New Flag</div> on their profile page. Before this you\'ll probably want to add details to their profile, it\'s kinda the point of the new flag.'
 
     def get_queryset(self):
         queryset=super(NewMembers, self).get_queryset()
