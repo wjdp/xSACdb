@@ -37,4 +37,6 @@ urlpatterns = patterns('',
 	    url(r'^update-requests/$', MemberUpdateRequestList.as_view(), name='MemberUpdateRequestList'),
 	    url(r'^update-requests/save/$', MemberUpdateRequestRespond.as_view(), name='MemberUpdateRequestRespond'),
 
+	    url(r'^reports/overview/$', 'xsd_members.views.reports_overview', name='ReportsOverview'),
+
 )

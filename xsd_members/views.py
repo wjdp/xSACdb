@@ -282,3 +282,14 @@ class MemberUpdateRequestList(RequireMembersOfficer, BaseUpdateRequestList):
 
 class MemberUpdateRequestRespond(RequireMembersOfficer, BaseUpdateRequestRespond):
     success_url=reverse_lazy('MemberUpdateRequestList')
+
+
+def reports_overview(request):
+    data = {}
+    data['member_count'] = MemberProfile.objects.all().count()
+    today=datetime.date.today()
+    data['member_count_forms'] = MemberProfile.objects.filter(Q(bsac_expiry__lte=today) | Q (bsac_expiry=None) | \
+            Q(club_expiry__lte=today) | Q(club_expiry=today) | \
+            Q(medical_form_expiry__lte=today) | Q(medical_form_expiry=None)).count()
+    return render(request, 'members_reports_overview.html', {'data':data,})
+
