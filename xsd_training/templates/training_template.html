@@ -36,8 +36,8 @@
             {% is_active_simple current_url 'TraineeGroupUpdate' %}
             {% is_active_simple current_url 'TraineeGroupDelete' %}>
             <a href="{% url 'TraineeGroupList' %}">Groups</a></li>
-      <li   {% is_active_simple current_url 'TraineeGroupList' %}>
-            <a href="{% url 'TraineeGroupList' %}">Progress Report</a></li>
+      <li   {% is_active_simple current_url 'TraineeGroupProgress' %}>
+            <a href="{% url 'TraineeGroupProgress' %}">Progress Report</a></li>
 
       <li class="nav-header">Lesson Administration</li>
       <li   {% is_active_simple current_url 'SessionCreate' %}

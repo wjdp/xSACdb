@@ -37,11 +37,11 @@ class MemberProfile(FacebookModel):
     club_expiry=models.DateField(blank=True, null=True)
     club_membership_type=models.ForeignKey('MembershipType', blank=True, null=True)
 
-    bsac_id=models.IntegerField(max_length=7,blank=True, null=True)
-    bsac_expiry=models.DateField(blank=True, null=True)
-    bsac_direct_member=models.BooleanField(default=False)
-    bsac_member_via_another_club=models.BooleanField(default=False)
-    bsac_direct_debit=models.BooleanField(default=False)
+    bsac_id=models.IntegerField(max_length=7,blank=True, null=True, verbose_name=u'BSAC ID')
+    bsac_expiry=models.DateField(blank=True, null=True, verbose_name=u'BSAC Expiry')
+    bsac_direct_member=models.BooleanField(default=False, verbose_name=u'BSAC Direct Member', help_text='Just a note, doesn\'t change anything yet')
+    bsac_member_via_another_club=models.BooleanField(default=False, verbose_name=u'BSAC member via another club', help_text='Just a note, doesn\'t change anything yet' )
+    bsac_direct_debit=models.BooleanField(default=False, verbose_name=u'BSAC Direct Debit')
 
     medical_form_expiry=models.DateField(blank=True, null=True)
 
@@ -84,6 +84,12 @@ class MemberProfile(FacebookModel):
         else: return False
     def performed_lessons_for_qualification(self, qualification):
         pass
+    def performed_lesson_ramble(self):
+        pls =  PerformedLesson.objects.filter(trainee=self.user)
+        ret = ""
+        for pl in pls:
+            ret += pl.lesson.code+' - '+str(pl.date)+'<br />'
+        return ret[:len(ret)-6]
 
     def missing_personal_details(self):
         if self.dob==None or self.address==None or self.postcode==None or self.home_phone==None \

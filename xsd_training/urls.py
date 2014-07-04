@@ -18,7 +18,7 @@ urlpatterns = patterns('',
 
     url(r'^teaching/upcoming/$', 'xsd_training.views.instructor.InstructorUpcoming', name='InstructorUpcoming'),
     url(r'^teaching/notes/$', 'xsd_training.views.instructor.TraineeNotesSearch', name='TraineeNotesSearch'),
-    url(r'^teaching/notes/(?P<pk>\d+)/$', instructor.TraineeNotes, name='TraineeNotes'),
+    url(r'^teaching/notes/(?P<pk>\d+)/$', instructor.TraineeNotes.as_view(), name='TraineeNotes'),
 
     url(r'^sdcs/$', sdc.SDCList.as_view(), name='SDCList'),
     url(r'^sdcs/reg-interest/$', 'xsd_training.views.sdc.sdc_register_interest', name='sdc_register_interest'),
@@ -34,6 +34,9 @@ urlpatterns = patterns('',
     url(r'^groups/new/$', traineegroups.TraineeGroupCreate.as_view(), name='TraineeGroupCreate'),
     url(r'^groups/(?P<pk>\d+)/$', traineegroups.TraineeGroupUpdate.as_view(), name='TraineeGroupUpdate'),
     url(r'^groups/(?P<pk>\d+)/delete/$', traineegroups.TraineeGroupDelete.as_view(), name='TraineeGroupDelete'),
+
+    url(r'^groups/progress/$', traineegroups.TraineeGroupProgress.as_view(), name='TraineeGroupProgress'),
+
 
 )
 

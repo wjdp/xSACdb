@@ -1,0 +1,15 @@
+{% if planned %}
+<table class="lessons planned table table-bordered table-condensed">
+    {% for l in planned %}
+    <tr>
+    <td>{% if l.0.description %}<a href="{% url 'lesson_detail' l.0.id %}">{% endif %}
+        {% if l.0.code %}{{l.0.code}} - {% endif %}{{l.0.title}}
+    {% if l.0.description %}</a>{% endif %}</td>
+    <td>{{l.1.date}}</td>
+    <td>{{l.1.session.where}}</td>
+    </tr>
+    {% endfor %}
+</table>
+{% else %}
+<p>No lessons planned.</p>
+{% endif %}

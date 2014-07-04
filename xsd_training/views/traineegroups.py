@@ -54,3 +54,11 @@ class TraineeGroupDelete(RequireTrainingOfficer,DeleteView):
     template_name='traineegroup_delete.html'
     context_object_name='tg'
     success_url = reverse_lazy('TraineeGroupList')
+
+class TraineeGroupProgress(TraineeGroupList):
+    template_name='traineegroup_progress.html'
+    def get_context_data(self, **kwargs):
+        context = super(TraineeGroupProgress, self).get_context_data(**kwargs)
+        if 'tg' in self.request.GET:
+            context['tg'] = TraineeGroup.objects.get(pk=self.request.GET['tg'])
+        return context

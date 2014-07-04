@@ -31,16 +31,12 @@
 
 	<div class="span5">
 		<h3><i class="icon-table"></i> Lessons</h3>
-		<table class="table">
-		<tr><th>Lesson</th><th>Date</th></tr>
-			{% for pl in pls %}
-			<tr><td>{{pl.lesson}}</td><td>{{pl.date}}</td></tr>
-			{% empty %}
-			<tr><td>No lessons past or future</td><td></td></tr>
-			{% endfor %}
 
-		</table>
-	</div>
+ <p><big>{{planned}}</big> lessons planned</p>
+ <p><big>{{partially_completed}}</big> lessons partially completed</p>
+ <p><big>{{completed}}</big> lessons completed</p>
+ <a class="btn"><i class="icon-list-alt"></i> See Full Lesson Breakdown</a>
+ </div>
 
 
 	

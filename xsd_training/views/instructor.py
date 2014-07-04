@@ -1,6 +1,7 @@
 from django.shortcuts import render, get_object_or_404
 from django.template import RequestContext
 from django.contrib.auth.models import User
+from django.views.generic import DetailView
 
 from xSACdb.roles.decorators import require_instructor
 from xSACdb.roles.mixins import RequireTrainingOfficer
@@ -48,12 +49,30 @@ def TraineeNotesSearch(request):
         'trainees':trainees
     }, context_instance=RequestContext(request))
 
-@require_instructor
-def TraineeNotes(request, pk):
-    user=get_object_or_404(User,pk=pk)
-    trainee=user.get_profile()
-    pls=PerformedLesson.objects.filter(trainee=user).order_by('date')
-    return render(request, 'trainee_notes.html', {
-        'trainee':trainee,
-        'pls':pls,
-    }, context_instance=RequestContext(request))
+class TraineeNotes(RequireTrainingOfficer, DetailView):
+    model = User
+    template_name = 'trainee_notes.html'
+    context_object_name = 'user'
+
+    def get_context_data(self, **kwargs):
+        # Call the base implementation first to get a context
+        context = super(TraineeNotes, self).get_context_data(**kwargs)
+        # Add in a QuerySet of all the books
+        context['trainee']    = self.get_object().memberprofile
+        pls        = PerformedLesson.objects.filter(trainee = self.get_object())
+        context['pls'] = pls
+        context['planned'] = pls.filter(completed = False, partially_completed = False).count()
+        context['partially_completed'] = pls.filter(completed = False, partially_completed = True).count()
+        context['completed'] = pls.filter(completed = True, partially_completed = False).count()
+        return context
+
+
+# @require_instructor
+# def TraineeNotes(request, pk):
+#     user=get_object_or_404(User,pk=pk)
+#     trainee=user.get_profile()
+#     pls=PerformedLesson.objects.filter(trainee=user).order_by('date')
+#     return render(request, 'trainee_notes.html', {
+#         'trainee':trainee,
+#         'pls':pls,
+#     }, context_instance=RequestContext(request))

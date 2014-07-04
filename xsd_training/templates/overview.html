@@ -2,48 +2,51 @@
 {% load lesson_extras %}
 {% block training_content %}
 
-<div class="span6">
-
+<div class="span4">
+    <p>Welcome to your club training logbook. From here you can lookup all your upcoming and past lessons including lesson feedback.
+    <hr />
+    <h3>Training Status</h3>
     {% if profile.training_for == None %}
     {# Not training #}
         {% if profile.top_qual == None %}
-            <h2>Training</h2>
             <p>You're currently unqualified and not registered for any training, if this is in error please make an update request. You can do so via the menu top right.</p>
         {% else %}
-            <h2>Training</h2>
             <p>You are a qualified <strong>{{profile.top_qual}}</strong> and are not registered for any further training</p>
         {% endif %}
 
 
     {% elif profile.top_qual == None %}
     {# In training #}
-        <p>You're currently unqualified and training for</p>
-        <h1>{{profile.training_for}}</h1>
+        <p>You're currently unqualified and training for:</p>
+        <p class='training_for qual-banner {{profile.training_for.code}}'>{{profile.training_for}}</p>
         {% else %}
         <p>You're a qualified</p>
-        <h1>{{profile.top_qual}}</h1>
-        {% if profile.training_for %}
+        <p class='qualified qual-banner {{profile.top_qual.code}}'>{{profile.top_qual}}</p>
+        {% if profile.training_for and profile.training_for != profile.top_qual %}
         <p>training for</p>
-        <h2>{{profile.training_for}}</h2>
+        <p class='training_for qual-banner {{profile.training_for.code}}'>{{profile.training_for}}</p>
         {% else %}
         <p>and you're not currently registered for any further training.</p>
         {% endif %}
     {% endif %}
 </div>
 
-<div class="span3">
+<div class="span5">
 <h3>Upcoming Training</h3>
 {% if profile.training_for != None %}
 <h4>Lessons</h4>
+{# templates/lesson_list_template_with_dates.html #}
+{% show_upcoming_lessons user %}
 {% endif %}
+
 
 <h4>SDCs</h4>
 {% if profile.upcoming_sdcs.exists %}
-<ul>
+<table class="lessons planned table table-bordered table-condensed">
 {% for psdc in profile.upcoming_sdcs %}
-<li>{{psdc.sdc}} on {{psdc.datetime}}</li>
+<tr><td>{{psdc.sdc}}</td> <td>{{psdc.datetime}}</td></tr>
 {% endfor %}
-</ul>
+</table>
 {%else%}
 <p>You're not registered on any upcoming SDCs</p>
 {% endif %}

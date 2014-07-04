@@ -3,7 +3,7 @@ from django.contrib.auth.models import User
 from django.views.generic.base import View
 from django.views.generic.list import ListView
 from django.views.generic.detail import DetailView
-from django.views.generic.edit import FormView
+from django.views.generic.edit import FormView, DeleteView
 
 from django.forms.formsets import formset_factory
 
@@ -67,14 +67,17 @@ class MemberList(RequireMembersOfficer, OrderedListView):
     context_object_name='members'
     order_by='user__last_name'
     page_title='Club Membership Listing'
+    page_description='Our entire membership (that has registered for the database)'
 
     def get_context_data(self, **kwargs):
         context = super(MemberList, self).get_context_data(**kwargs)
         context['page_title'] = self.page_title
+        context['page_description'] = self.page_description
         return context
 
 class NewMembers(MemberList):
     page_title='New Members'
+    page_description='New signups to the database, to remove them from this list use <div class="fake-button"><i class="icon-flag"></i> Remove New Flag</div> on their profile page'
 
     def get_queryset(self):
         queryset=super(NewMembers, self).get_queryset()
@@ -83,6 +86,12 @@ class NewMembers(MemberList):
 
 class MembersExpiredFormsList(MemberList):
     page_title='Members With Expired Forms'
+    page_description='''<p><i class="icon-bsac-small expired"></i>is expired 
+        BSAC membership, <i class="icon-home expired"></i>is expired club 
+        membership and <i class="icon-medkit expired"></i>is an expired
+        medical form.</p>
+        <p>The easiest way of bulk adding forms is the Bulk Jobs > Add Forms
+        Tool.</p>'''
 
     def get_queryset(self):
         queryset=super(MembersExpiredFormsList, self).get_queryset()
@@ -94,6 +103,11 @@ class MembersExpiredFormsList(MemberList):
 
 class MembersMissingFieldsList(MemberList):
     page_title='Members With Missing Personal Fields'
+    page_description='''<p>The only reason a member will be on this list is
+        that they failed to fill out the form shown to them when they signed up
+        to the database. This form will be shown to them when they log in
+        again, they will not be able to use other parts of the database until
+        this form is completed.'''
 
     blank_fields=['address','postcode','home_phone','mobile_phone','next_of_kin_name','next_of_kin_relation','next_of_kin_phone']
 
@@ -189,6 +203,17 @@ class MemberEdit(RequireMembersOfficer, ModelFormView):
         context = super(MemberEdit, self).get_context_data(**kwargs)
         context['member'] = self.get_model()
         return context
+
+class MemberDelete(RequireMembersOfficer, DeleteView):
+    model=User
+    template_name='members_delete.html'
+    success_url = reverse_lazy('MembersList')
+    context_object_name='u'
+
+    # def get_context_data(self, **kwargs):
+    #     context = super(SessionDelete, self).get_context_data(**kwargs)
+    #     context['pls'] = PerformedLesson.objects.filter(session=self.object)
+    #     return context
 
 @require_members_officer
 def select_tool(request):

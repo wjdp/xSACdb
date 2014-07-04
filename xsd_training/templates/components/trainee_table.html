@@ -1,9 +1,10 @@
 <table class="table table-condensed table-striped">
-        <tr><th>Name</th><th>Qualification</th><th>Membership Issue</th></tr>
+        <tr><th>Name</th><th>Qualification</th><th>Training For</th><th>Membership Issue</th></tr>
     {% for user in trainees %}
         <tr>
-            <td><a href="{% url 'MemberDetail' user.pk %}">{{user.get_full_name}}</a></td>
+            <td><a href="{% url 'TraineeNotes' user.pk %}">{{user.get_full_name}}</a></td>
             <td>{{user.get_profile.top_qual}}</td>
+            <td>{{user.get_profile.training_for}}</td>
             <td>
             <a href="?remove-trainee={{user.pk}}" class="btn btn-danger btn-mini pull-right"><i class="icon icon-remove"></i></a>
             {% if user.get_profile.membership_problem %}

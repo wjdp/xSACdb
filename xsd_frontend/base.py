@@ -16,7 +16,7 @@ class BaseUpdateRequestList(ListView):
 
     def get_queryset(self):
         queryset=super(BaseUpdateRequestList, self).get_queryset()
-        queryset=queryset.filter(area=self.area)
+        queryset=queryset.filter(area=self.area).order_by('-sent')
         return queryset
     def get_context_data(self, **kwargs):
         context = super(BaseUpdateRequestList, self).get_context_data(**kwargs)

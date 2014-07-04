@@ -2,7 +2,7 @@
 {% block training_content %}
 <div class="span4">
     <div class="lesson-detail">
-        <div class="lesson-code {{ lesson.qualification|cut:" " }}">{{lesson.code}}</div>
+        <div class="lesson-code {{ lesson.qualification.code }}">{{lesson.code}}</div>
         <h3>{{lesson.title}}</h3>
         <p>{{lesson.description}}</p>
         <p class="mode">This is a {{lesson.get_mode_display|lower}} lesson.</p>

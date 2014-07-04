@@ -13,14 +13,14 @@
 			<a href="?action=remove-new-flag" class="btn btn-small" type="button"><i class="icon-flag"></i> Remove New Flag</a>
 			{% endif %}
 			<a href="{% url 'MemberEdit' member.user.pk %}" class="btn btn-small" type="button"><i class="icon-pencil"></i> Edit</a>
-			<a href="{% url 'MemberEdit' member.user.pk %}" class="btn btn-small" type="button"><i class="icon-trash"></i> Delete</a>
+			<a href="{% url 'MemberDelete' member.user.pk %}" class="btn btn-small" type="button"><i class="icon-trash"></i> Delete</a>
 			{% elif myself %}
 			<a href="{% url 'MyProfileEdit' %}" class="btn btn-small" type="button"><i class="icon-pencil"></i> Edit</a>
 			{% endif %}
 		</div>
 		</div>
 		
-		<p>{{member.user.first_name}} joined the database on {{member.user.date_joined|date}}. {{member.heshe}} was born on {{member.date_of_birth}} and is {{member.age}}.</p>
+		<p>{{member.user.first_name}} joined the database on {{member.user.date_joined|date}}. {{member.heshe}} was born on {{member.date_of_birth}} so is {{member.age}}.</p>
 
 		{% if member.membership_problem %}
 		<p>There are currently issues with {{member.user.first_name}}'s membership, see points with error icons below. Until this is fixed {{member.heshe|lower}} cannot go diving.</p>

@@ -21,16 +21,16 @@ def show_lessons(qualification, mode, user):
 
 from xsd_training.models import PerformedLesson
 
-@register.inclusion_tag('lesson_list_template.html')
+@register.inclusion_tag('lesson_list_template_with_dates.html')
 def show_upcoming_lessons(user):
-    pl_upcoming=PerformedLesson.objects.filter(trainee=user, completed=False)
+    pl_upcoming=PerformedLesson.objects.filter(trainee=user, completed=False, partially_completed=False).order_by('date')
 
     lessons=[]
 
     for pl in pl_upcoming:
-        lessons.append(pl.lesson)
+        lessons.append((pl.lesson,pl))
 
-    return {'lessons':lessons,'completed':None,}
+    return {'planned':lessons,'completed':None,}
 
 @register.filter
 def has_sdc(user,sdc):

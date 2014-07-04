@@ -71,10 +71,15 @@ color:#fafafa;
 float: left;
 }
 
-.OceanDiver {
+.OD {
 background:#8095C3;
 border: 1px solid #2253BB;
 }
+
+.SD { background: #FF8F1B }
+.DL { background: #00AA07 }
+.AD { background: #9C9C9C }
+.FC { background: #000000; }
 
 .lesson-detail .mode {
     font-size: 0.8em;
@@ -274,3 +279,43 @@ tr.last td, td.last {
 }
 
 .no-top {margin-top: 0}
+
+.qual-banner {
+    font-size: 1.2em;
+    font-weight: bold;
+    text-align: center;
+    padding: 10px 0;
+    color: #fff;
+    border-radius: 4px;
+    box-shadow: 0px 1px 2px #ccc;
+    margin: 0 50px 10px 30px;
+}
+
+.progress-table {
+
+}
+
+.progress-table td.completed {
+background: #54FF48 !important
+}
+
+.progress-table td.partially_completed {
+background: #FAFF68 !important
+}
+
+.progress-table td.nothing {
+background: #FFABAB !important
+}
+
+.fake-button {
+    display: inline;
+    border: 1px solid #666;
+    font-size: 0.8em;
+    padding: 5px 6px;
+    border-radius: 6px;
+    margin: 0 3px;
+}
+
+.prentend-p {
+    margin-bottom: 10px
+}
