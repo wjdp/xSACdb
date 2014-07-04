@@ -33,7 +33,7 @@
 			<tr><th>Club ID</th><td>{{ form.club_id.errors }}{{ form.club_id }}</td></tr>
 			<tr><th>Student ID</th><td>{{ form.student_id.errors }}{{ form.student_id }}</td></tr>
 			<tr><th>Membership Type</th><td>{{ form.club_membership_type.errors }}{{form.club_membership_type }}</td></tr>
-			<tr><th>Memberhsip Expiry Date</th><td>{{ form.club_expiry.errors }}{{form.club_expiry }}</td></tr>
+			<tr><th>Membership Expiry Date</th><td>{{ form.club_expiry.errors }}{{form.club_expiry }}</td></tr>
 			<tr><th>Medical Form Expiry Date</th><td>{{ form.medical_form_expiry.errors }}{{form.medical_form_expiry}}</td></tr>
 		</table>
 		{% else %}
@@ -75,7 +75,7 @@
 				{{ form.bsac_direct_member.errors }}{{form.bsac_direct_member|as_bootstrap}}
 				{{ form.bsac_member_via_another_club.errors }}{{form.bsac_member_via_another_club|as_bootstrap}}
 			</td></tr>
-			<tr><th>Membership Expiry Date</th><td>{{ form.bsac_expiry.errors }}{{form.bsac_expiry }}</td></tr>
+			<tr><th>BSAC Expiry Date</th><td>{{ form.bsac_expiry.errors }}{{form.bsac_expiry }}</td></tr>
 		</table>
 		{% else %}
 		<p>BSAC details can only be updated by a database officer. If there is an error please make an update request.</p>

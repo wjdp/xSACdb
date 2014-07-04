@@ -207,7 +207,7 @@ class MemberEdit(RequireMembersOfficer, ModelFormView):
 class MemberDelete(RequireMembersOfficer, DeleteView):
     model=User
     template_name='members_delete.html'
-    success_url = reverse_lazy('MembersList')
+    success_url = reverse_lazy('MemberList')
     context_object_name='u'
 
     # def get_context_data(self, **kwargs):
@@ -283,7 +283,7 @@ class MemberUpdateRequestList(RequireMembersOfficer, BaseUpdateRequestList):
 class MemberUpdateRequestRespond(RequireMembersOfficer, BaseUpdateRequestRespond):
     success_url=reverse_lazy('MemberUpdateRequestList')
 
-
+@require_members_officer
 def reports_overview(request):
     data = {}
     data['member_count'] = MemberProfile.objects.all().count()

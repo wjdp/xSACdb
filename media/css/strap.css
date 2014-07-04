@@ -71,15 +71,46 @@ color:#fafafa;
 float: left;
 }
 
-.OD {
+div.lesson-code.OD, .qual-banner.OD {
 background:#8095C3;
 border: 1px solid #2253BB;
 }
 
-.SD { background: #FF8F1B }
-.DL { background: #00AA07 }
-.AD { background: #9C9C9C }
-.FC { background: #000000; }
+div.lesson-code.SD, .qual-banner.SD { background: #FF8F1B }
+div.lesson-code.DL, .qual-banner.DL { background: #00AA07 }
+div.lesson-code.AD, .qual-banner.AD { background: #9C9C9C }
+div.lesson-code.FC, .qual-banner.FC { background: #000000; }
+
+.qual-banner {
+    font-size: 1.2em;
+    font-weight: bold;
+    text-align: center;
+    padding: 10px 0;
+    color: #fff;
+    border-radius: 4px;
+    box-shadow: 0px 1px 2px #ccc;
+    margin: 0 50px 10px 30px;
+}
+
+.qual_badge {
+    height:104px;
+    width:71px;
+    float: right;
+    -webkit-transform: rotate(8deg); 
+    -moz-transform: rotate(8deg); 
+    -o-transform: rotate(8deg);
+    -ms-transform: rotate(8deg); 
+    -webkit-filter: drop-shadow(0px 0px 1px #ccc); filter: drop-shadow(0px 0px 1px #ccc);
+    opacity: 0.5;
+    margin-left: 8px;
+
+}
+
+.qual_badge.OD {background: url('/media/images/qual_badges/od.png')}
+.qual_badge.SD {background: url('/media/images/qual_badges/sd.png')}
+.qual_badge.DL {background: url('/media/images/qual_badges/dl.png')}
+.qual_badge.AD {background: url('/media/images/qual_badges/ad.png')}
+.qual_badge.FC {background: url('/media/images/qual_badges/fc.png')}
 
 .lesson-detail .mode {
     font-size: 0.8em;
@@ -280,16 +311,7 @@ tr.last td, td.last {
 
 .no-top {margin-top: 0}
 
-.qual-banner {
-    font-size: 1.2em;
-    font-weight: bold;
-    text-align: center;
-    padding: 10px 0;
-    color: #fff;
-    border-radius: 4px;
-    box-shadow: 0px 1px 2px #ccc;
-    margin: 0 50px 10px 30px;
-}
+
 
 .progress-table {
 

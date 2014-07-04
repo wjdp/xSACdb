@@ -8,7 +8,7 @@
         {% if profile.membership_problem and not profile.no_expiry_data %}
         <div class="alert alert-block">
             <h4>Warning!</h4>
-            Some parts of your membership have expired. You'll need to correct this before you're allowed to dive with the club. Please contact [VP's Name] for more information.
+            Some parts of your membership have expired. You'll need to correct this before you're allowed to dive with the club. Please contact the VP for more information.
         </div>
         {% endif %}
 
@@ -59,18 +59,38 @@
     {% if profile.no_expiry_data %}
     <div class="alert alert-info">
         <h4>Welcome!</h4>
-        <p>It looks like you're new to the club. Before you can dive with us you need to be a member of NUSAC, a member of BSAC and have a complete medical form. You can get help with these things from [VP's Name] the vice-president.</p>
+        <p>It looks like you're new to the club. Before you can dive with us you need to be a member of UoNSSAC, a member of BSAC and have a complete medical form. You can get help with these things from the vice-president.</p>
     </div>
     {% else %}
     <ul class="membership-status">
-        <li class="{% if profile.club_expired %}fail{% else %}pass{% endif %}"><strong>NUSAC Membership</strong>
-            <span class="note">{% if profile.club_expired %}Expired{% else %}Expires{% endif %} on {{profile.club_expiry}}</span></li>
+        <li class="{% if profile.club_expired %}fail{% else %}pass{% endif %}"><strong>UoNSSAC Membership</strong>
+            <span class="note">{% if profile.club_expired %}Expired{% else %}Expires{% endif %} on {{profile.club_expiry}}</span>
+            {% if profile.club_expired %}<p><span class="note extra">Student members please renew at <a href="http://www.su.nottingham.ac.uk/sports/sport/subaqua/">su.nottingham.ac.uk</a>.</span></p>{% endif %}
+            </li>
+
+
 
             <li class="{% if profile.bsac_expired %}fail{% else %}pass{% endif %}"><strong>BSAC Membership</strong>
-                <span class="note">{% if profile.bsac_expired %}Expired{% else %}Expires{% endif %} on {{profile.bsac_expiry}}</span></li>
+                <span class="note">{% if profile.bsac_expired %}Expired{% else %}Expires{% endif %} on {{profile.bsac_expiry}}</span>
 
+                {% if profile.bsac_expired %}
+                <p><span class="note extra">
+                {% if profile.bsac_direct_member %}
+                You're a member of BSAC directly, please renew your membership and submit an update request when that's gone through.
+                {% elif profile.bsac_member_via_another_club %}
+                You're a member of BSAC via another club, please renew your membership and submit an update request when that's gone through.
+                {% elif profile.bsac_direct_debit %}
+                You're down as paying by direct debit, this record should be updated when your renewal is confirmed to the club.
+                {% else %}
+                Please see the VP for a BSAC renewal form.
+                {% endif %}
+                </span></p>
+                {% endif %}
+                </li>
                 <li class="{% if profile.medical_form_expired %}fail{% else %}pass{% endif %}"><strong>Medical Form</strong>
-                    <span class="note">{% if profile.medical_form_expired %}Expired{% else %}Expires{% endif %} on {{profile.medical_form_expiry}}</span></li>
+                    <span class="note">{% if profile.medical_form_expired %}Expired{% else %}Expires{% endif %} on {{profile.medical_form_expiry}}</span>
+                    {% if profile.medical_form_expired %}<p><span class="note extra">Form available at <a href="http://uksdmc.co.uk/">uksdmc.co.uk</a></span></p>{% endif %}
+                    </li>
                 </ul>
                 {% endif %}
             </div>

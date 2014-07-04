@@ -39,8 +39,8 @@ class MemberProfile(FacebookModel):
 
     bsac_id=models.IntegerField(max_length=7,blank=True, null=True, verbose_name=u'BSAC ID')
     bsac_expiry=models.DateField(blank=True, null=True, verbose_name=u'BSAC Expiry')
-    bsac_direct_member=models.BooleanField(default=False, verbose_name=u'BSAC Direct Member', help_text='Just a note, doesn\'t change anything yet')
-    bsac_member_via_another_club=models.BooleanField(default=False, verbose_name=u'BSAC member via another club', help_text='Just a note, doesn\'t change anything yet' )
+    bsac_direct_member=models.BooleanField(default=False, verbose_name=u'BSAC Direct Member', help_text='Adjusts the wording presented to the member when BSAC expires.')
+    bsac_member_via_another_club=models.BooleanField(default=False, verbose_name=u'BSAC member via another club', help_text='Adjusts the wording presented to the member when BSAC expires.' )
     bsac_direct_debit=models.BooleanField(default=False, verbose_name=u'BSAC Direct Debit')
 
     medical_form_expiry=models.DateField(blank=True, null=True)

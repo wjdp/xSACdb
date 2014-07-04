@@ -19,12 +19,14 @@
 			{% endif %}
 		</div>
 		</div>
-		
+		<div>
+		<div class="qual_badge {{member.top_qual.code}}"></div>
 		<p>{{member.user.first_name}} joined the database on {{member.user.date_joined|date}}. {{member.heshe}} was born on {{member.date_of_birth}} so is {{member.age}}.</p>
 
 		{% if member.membership_problem %}
 		<p>There are currently issues with {{member.user.first_name}}'s membership, see points with error icons below. Until this is fixed {{member.heshe|lower}} cannot go diving.</p>
 		{%endif%}
+		</div>
 		
 	</div>
 	<div class="span4">
@@ -47,7 +49,7 @@
 			{% if member.club_id %}<tr><th>Club ID</th><td>{{ member.club_id }}</td></tr>{% endif %}
 			{% if member.student_id %}<tr><th>Student ID</th><td>{{ member.student_id }}</td></tr>{% endif %}
 			<tr><th>Membership Type</th><td>{{member.club_membership_type }}</td></tr>
-			<tr><th>Memberhsip Expiry Date</th><td>{{member.club_expiry }}{% if member.club_expired %} <i class="icon-warning-sign red"></i>{% endif %}</td></tr>
+			<tr><th>Membership Expiry Date</th><td>{{member.club_expiry }}{% if member.club_expired %} <i class="icon-warning-sign red"></i>{% endif %}</td></tr>
 			<tr><th>Medical Form Expiry Date</th><td>{{member.medical_form_expiry}}{% if member.medical_form_expired %} <i class="icon-warning-sign red"></i>{% endif %}</td></tr>
 		</table>
 		{% else %}
@@ -95,7 +97,7 @@
 				{% elif member.bsac_member_via_another_club}Member of BSAC through another club
 				{% else %}Standard club member{% endif %}
 			</td></tr>
-			<tr><th>Membership Expiry Date</th><td>{{member.bsac_expiry }}{% if member.bsac_expired %} <i class="icon-warning-sign red"></i>{% endif %}</td></tr>
+			<tr><th>BSAC Expiry Date</th><td>{{member.bsac_expiry }}{% if member.bsac_expired %} <i class="icon-warning-sign red"></i>{% endif %}</td></tr>
 		</table>
 		{% else %}
 		<div class="alert alert-info">
