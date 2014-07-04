@@ -13,7 +13,7 @@ This member has access to all training records, all the permissions of an instru
 A trip organiser can create trips and edit their own.
 
 ## Site Administrator
-Can add/edit sites, trusted and qualified members.
+Can add/edit sites, trusted and qualified members. All non-ordinary roles are site admins.
 
 ## Members Officer/Moderator
 Can edit all members records, once a member joins you'll need to update fields that they can't, these people can.
