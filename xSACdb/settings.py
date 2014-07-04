@@ -53,6 +53,7 @@ LOGIN_EXEMPT_URLS = (
  r'^media/', # allow any URL under /media/*
  r'^static/', # allow any URL under /static/*
  r'^facebook/', # allow any URL under /facebook/*
+ r'^accounts/',
 ) 
 
 # Absolute filesystem path to the directory that will hold user-uploaded files.
@@ -137,6 +138,7 @@ TEMPLATE_DIRS = (
 AUTHENTICATION_BACKENDS = (
     'django.contrib.auth.backends.ModelBackend',
     'django_facebook.auth_backends.FacebookBackend',
+    'xSACdb.email_auth.EmailBackend',
 )
 
 FIXTURE_DIRS = (

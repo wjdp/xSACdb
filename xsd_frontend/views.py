@@ -1,3 +1,5 @@
+import base64
+
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
 from django.template import RequestContext
@@ -6,8 +8,10 @@ from datetime import date
 
 from xsd_members.forms import PersonalEditForm
 
-from forms import UpdateRequestMake
+from forms import UpdateRequestMake, UserRegisterForm
 from models import UpdateRequest
+
+from django.contrib.auth.models import User
 
 def dashboard(request):
     profile=request.user.get_profile()
@@ -43,9 +47,13 @@ def dashboard(request):
     }, context_instance=RequestContext(request))
 
 from xsd_frontend.forms import LoginForm 
+from django.contrib.auth import authenticate
+from django.contrib.auth import login as dj_login
 
 def login(request):
-    from django.contrib.auth import authenticate, login
+    if request.user.is_authenticated():
+        return redirect('/')
+    errors = None
     if request.method == 'POST' and request.POST:
         form=LoginForm(request.POST)
         username = request.POST['username']
@@ -53,23 +61,52 @@ def login(request):
         user = authenticate(username=username, password=password)
         if user is not None:
             if user.is_active:
-                login(request, user)
+                dj_login(request, user)
                 return redirect("/")
             else:
                 # Return a 'disabled account' error message
                 pass
         else:
-            form.errors.__all__=[u"Invalid username or password"]
+            errors = 'badauth'
+            print 'err'
             pass
     else:
         form=LoginForm()
-    return render(request,'frontend_login.html', {'form':form}, context_instance=RequestContext(request))
+    return render(request,'frontend_login.html', {'form':form, 'errors':errors}, context_instance=RequestContext(request))
 
 from django.contrib.auth import logout as auth_logout
 
 def logout(request):
    auth_logout(request)
    return redirect('/')
+
+def register(request):
+    if request.method == 'POST' and request.POST:
+        form = UserRegisterForm(request.POST)
+        if User.objects.filter(email=request.POST['email_address']).count() != 0:
+            form.errors['email_address']=['That email is already registered on this database.']
+        if len(request.POST['password'])<8:
+            form.errors['password']=['Password must be 8 or more characters long.']
+        else:
+            # Custom error checking ok
+            if form.is_valid():
+                #do valid stuff
+                new_user = User()
+                new_user.first_name = form.cleaned_data['first_name']
+                new_user.last_name = form.cleaned_data['last_name']
+                new_user.email = form.cleaned_data['email_address']
+                new_user.set_password(form.cleaned_data['password'])
+                new_user.username = base64.b64encode(new_user.email)
+                new_user.save()
+                user = authenticate(username=new_user.username, password=form.cleaned_data['password'])
+                del form.cleaned_data['password']
+                dj_login(request, user)
+                return redirect('/')
+            else:
+                pass
+    else:
+        form = UserRegisterForm()
+    return render(request,'frontend_register.html', {'form': form})
 
 def error403(request):
     return render(request, 'error403.html')

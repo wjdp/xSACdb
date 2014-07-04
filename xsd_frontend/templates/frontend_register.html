@@ -1,3 +1,5 @@
+{% load bootstrap_toolkit %}
+
 <!doctype html>
 
 <html>
@@ -5,8 +7,10 @@
 <head>
 	<title>xSACdb Login</title>
 	<meta charset="utf-8" />
-	<link href="/static/css/facebook.css" type="text/css" rel="stylesheet" media="all" />
 	<style type="text/css" media="screen">
+		*, *:before, *:after {
+  		-moz-box-sizing: border-box; -webkit-box-sizing: border-box; box-sizing: border-box;
+ 		}
 		* {margin: 0;padding: 0; font-family: 'Helvetica', 'Arial', sans;}
 		html, body {
 			height: 100%;
@@ -53,49 +57,62 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#4e5b89', end
 		.login {
 			background: rgba(255,255,255,0.7);
 			width:550px;
-			height: 150px;
-			overflow: hidden;
-			padding: 16px;
+			/*height: 150px;*/
+			/*overflow: auto;*/
+			padding: 16px 0 30px 16px;
 			position: relative;
 			margin: 0 auto;
-			margin-top: 5%;
+			margin-top: 1%;
 			border-radius: 3px;
 		}
-		.login-facebook, .login-conventional {
+		.login-facebook, .login-register {
 			float: left;
-			height: 150px;
 		}
 
 		.login-facebook {
-			width:60%;
-			border-right: 1px solid #f1f1f1;
+			width:50%;
+			height: 100%;
+			padding: 0 12px;
+		}
+		.login-facebook .inner {
+			position:absolute; top:50%; height:95px; margin-top:-48px;
+		}
+		.login-facebook p {
+			font-size: 10px;
+			padding: 0 2px;
+			margin-top: 8px;
+			color: #7D7B7B;
 		}
 		.login-facebook img {
-			padding: 52px 0 0 45px;
+			padding-left: 10px
 		}
 
-		.login-conventional {
+		.login-register {
 			font-size: 15px;
-			padding: 16px 0 0 35px;
-			width:28%;
+			padding: 16px 20px 0 6px;
+			width:50%;
+			border-right: 1px solid #f1f1f1;
+			font-size: 13px
+
 		}
-		.login-conventional input {
+		.login-register p {
+			margin-bottom: 12px
+		}
+		.login-register input {
 			padding: 3px;
 			margin: 4px;	
 			width: 100%;
 			border: 1px solid #ccc;
 			border-radius: 2px;
 		}
-		#id_username, #id_password {
-			width:95%;
-		}
-		.login-conventional .submit {
+		
+		.login-register .submit {
 			background:#548ac1;
 			color:white;
 			font-weight: bold;
 			border:none;
 		}
-		.login-conventional .register {
+		.login-register .register {
 			background:rgba(84,193,152,0.6);
 			color:white;
 			font-weight: bold;
@@ -143,7 +160,7 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#4e5b89', end
 }
 .banner {
 	margin: 0 auto;
-	margin-top: 8%;
+	margin-top: 1%;
 
 	height: 35px;
 	width:550px;
@@ -158,12 +175,19 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#4e5b89', end
 	font-weight: bold
 }
 .banner p {
-	margin-top: 8px
+	margin-top: 6px
 }
 .hidden {
 	visibility: hidden;
 }
-
+.clear {
+	clear: left;
+}
+ul.errorlist li {
+	color: #B11818;
+	list-style-type:none;
+	font-size: 11px;
+}
 #facebook_container {
 	display: block;
 	background: rgba(255,255,255,0.7);
@@ -188,10 +212,20 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#4e5b89', end
 	<img class="big-background-2">
 	<div class="overlay"></div>
 	
-	<div class="banner {% if not errors == 'badauth' %}hidden{% endif %}"><p>Your username and password didn't match. Please try again.</p></div>
+	<div class="banner {% if not form.errors %}hidden{% endif %}"><p>There were errors with your request, please correct them below.</p></div>
 
  	<div class="login">
+		<div class="login-register">
+		<p>You are setting up an unlinked account on the club database, if you are likely to forget your password please use the Facebook login instead.</p>
+		<form action='.' method="POST">
+			{% csrf_token %}
+			{{form}}
+			<input class="register" type="submit" value="Register" />
+		</form>
+		</div>	
+
 		<div class="login-facebook">
+		<div class="inner">
 			<form action="{% url 'facebook_connect' %}?facebook_login=1" method="post">
 				<a href="javascript:void(0);" style="font-size: 20px;" onclick="F.connect(this.parentNode);">
 					<img src="/media/images/fb_button.png" alt="Login with Facebook" />					
@@ -201,18 +235,11 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#4e5b89', end
 				<input type="hidden" value="{{ request.path }}" name="error_next" />
 				{% csrf_token %}
 			</form>
+			<p>Facebook is used for login, only your name, mobile, date of birth and profile picture is collected for the creation of your record.</p>
+			</div>
 		</div>
-		<div class="login-conventional">
-			
-			<form action="" method="post">{% csrf_token %}
-				<p><input id="id_username" name="username" type="text" placeholder="Email" /></p>
-				<p><input id="id_password" name="password" type="password" placeholder="Password" /></p>
-				<input class="submit" type="submit" value="Login" />
-			</form>
-			<form action="/accounts/register">
-				<input class="register" type="submit" value="Register" />
-			</form>
-		</div>
+
+		<div class="clear"></div>
 
 	</div>
 
