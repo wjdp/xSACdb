@@ -1,6 +1,10 @@
 from models import *
 from xsd_members.models import MemberProfile
+from xsd_training.models import Qualification
+from django.contrib.auth.models import User
 from django import forms
+
+from xSACdb.form_fields import UserModelChoiceField
 
 class PerformedSDCCreateForm(forms.ModelForm):
     class Meta:
@@ -41,3 +45,17 @@ class SessionCompleteForm(forms.ModelForm):
 
 class TraineeGroupSelectForm(forms.Form):
     traineegroup=forms.ModelChoiceField(queryset=TraineeGroup.objects.all(), label='Trainee Group')
+
+class TraineeSelectForm(forms.Form):
+    trainee = UserModelChoiceField(queryset = User.objects.all().order_by('last_name'))
+    qualification = forms.ModelChoiceField(queryset = Qualification.objects.all().exclude(instructor_qualification=True))
+
+class TraineeLessonCompletionDateForm(forms.ModelForm):
+    # Need processing for is not partial, is complete
+    lesson_data = None
+    already_partial = False
+    already_completed = False
+    display = True
+    class Meta:
+        model = PerformedLesson
+        fields = ['date', 'partially_completed', 'public_notes', 'private_notes']

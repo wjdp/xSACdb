@@ -11,6 +11,7 @@
 <div class="span5">
     {% if pls %}
         {% for pl in pls %}
+            <div class="lesson-note">
             {% if pl.completed %}
             <h2>Lesson Completed</h2>
             <p>You completed this lesson on <strong>{{pl.get_date}}</strong>, your instructor was <strong>{{pl.instructor.get_full_name}}</strong>.</p>
@@ -38,6 +39,7 @@
             <p>The lesson is planned but there is no other information in the database at this time.</p>
             {%endif%}
             {% endif %}
+            </div>
         {% endfor %}
 
     {% else %}

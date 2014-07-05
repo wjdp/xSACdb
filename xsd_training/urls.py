@@ -1,6 +1,6 @@
 from django.conf.urls import patterns, include, url
 from django.conf import settings
-from xsd_training.views import sessions, sdc, traineegroups, instructor
+from xsd_training.views import sessions, sdc, traineegroups, instructor, retro
 
 urlpatterns = patterns('',
     url(r'^$', 'xsd_training.views.trainee.overview', name='training-overview')    ,
@@ -13,6 +13,8 @@ urlpatterns = patterns('',
     url(r'^session/(?P<pk>\d+)/$', sessions.SessionPlanner.as_view(), name='SessionPlanner'),
     url(r'^session/(?P<pk>\d+)/complete/$', sessions.SessionComplete.as_view(), name='SessionComplete'),
     url(r'^session/(?P<pk>\d+)/delete/$', sessions.SessionDelete.as_view(), name='SessionDelete'),
+
+    url(r'^retro/lessons/$', retro.RetroAddLessons.as_view(), name='RetroAddLessons'),
 
     url(r'^qualification/award/$', 'xsd_training.views.qualification.QualificationAward', name='QualificationAward'),
 

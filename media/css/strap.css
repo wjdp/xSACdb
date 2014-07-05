@@ -56,6 +56,24 @@ background:url('/media/images/arrow_r.png') no-repeat 0 50%;
     box-shadow: 0px 1px 1px 1px #ccc;
 }
 
+.lesson-note {
+    margin: 0 0 16px 0;
+    background:url('/media/images/bg/lesson_grain.fw.png') #F2E9C0;
+    padding: 10px 12px;
+    box-shadow: 0px 1px 1px 1px #ccc;
+}
+
+.lesson-note h2 {
+    margin: 0 0 0 0;
+    font-size:20px;
+}
+.lesson-note h3 {
+    margin: 16px -12px 0 -12px;
+    padding-left:12px;
+    font-size: 16px;
+    border-top: 1px solid #aaa;
+}
+
 .lesson-detail h3 {
     margin: -7px 0 0 42px;
     padding: 0;
@@ -340,4 +358,84 @@ background: #FFABAB !important
 
 .prentend-p {
     margin-bottom: 10px
+}
+
+.retro-select select {
+    width: 150px;
+}
+
+.retro-spreadsheet h4 {
+    font-size: 14px;
+    margin:0;
+    padding: 0;
+    line-height: 100%
+}
+.retro-spreadsheet p {
+    font-size: 9px;
+    margin:0;
+    padding: 0;
+    line-height: 100%
+}
+
+
+.retro-spreadsheet label {
+    font-size: 9px;
+    margin:0;
+    padding: 0;
+}
+
+.retro-spreadsheet input {
+    font-size: 11px;
+    padding:0;
+    height: 14px;
+    width: 100px;
+}
+
+.retro-spreadsheet textarea {
+    font-size: 11px;
+    line-height: 105%;
+}
+
+.retro-spreadsheet div.control-group {
+    margin:0;
+    padding: 0;
+}
+
+.retro-top {
+    height: 44px
+}
+
+.mode-TH {background: #FFFDA0}
+.mode-SW {background: #8AD35D}
+.mode-OW {background: #7D93C3}
+.mode-DP {background: #FFD8A0}
+.mode-XP {background: #DFA0D7}
+.mode-WS {background: #55CC39}
+.mode-PQ {background: #BBA433}
+.mode-XO {background: #3B35D2}
+.mode-AS {background: #D66262}
+
+.ret-form-actions {
+background: #fff;
+border-top: 2px solid #000;
+border-left: 2px solid #000;
+border-top-left-radius: 6px;
+position: fixed;
+bottom: 0;
+right: 0;
+padding: 8px;
+}
+
+.retro-spreadsheet ul.errorlist {
+    margin: 0
+}
+
+.retro-spreadsheet ul.errorlist li {
+    list-style-type:none;
+    background:red;
+    color:white;
+    font-weight: bold;
+    margin:0;
+    padding: 0;
+
 }
