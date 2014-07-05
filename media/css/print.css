@@ -1,0 +1,91 @@
+
+*{
+	font-family: "Calisto MT", "Bookman Old Style", Bookman, "Goudy Old Style", Garamond, "Hoefler Text", "Bitstream Charter", Georgia, serif;
+	margin:0;
+	padding: 0;
+	font-size: 13px
+}
+
+body {
+	margin: 1%;
+}
+
+h1 {
+	font-size: 20px;
+	text-align:center;
+	padding-bottom: 10px
+}
+h2 {
+	font-size: 16px;
+	text-align:center;
+}
+h3 {
+	font-size: 14px
+}
+h4 {
+	font-size: 12px
+}
+
+table.pool-sheet {
+	border-collapse: collapse;
+	width: 100%;
+}
+
+table.pool-sheet tr {
+	border-bottom: 1px solid #aaa;
+}
+
+table.pool-sheet th {
+	padding: 10px 3px;
+	background: #333;
+	color:#fff;
+}
+
+table.pool-sheet td {
+	padding: 0 3px;
+	border-left: 1px solid #aaa;
+	border-right: 1px solid #aaa;
+}
+
+table.pool-sheet td.trainee {
+	font-weight: bold;
+}
+
+table.pool-sheet .note-title {
+	font-size: 9px;
+	font-weight: bold;
+}
+table.pool-sheet .note {
+	font-size: 9px;
+	font-weight: lighter;
+}
+
+table.pool-sheet td.notes-cell {
+	padding: 0;
+}
+
+table.notes {
+	width: 100%;
+	border-collapse: collapse;
+
+}
+table.notes th {
+	font-size: 8px;
+	color:#000;
+	background: none;
+	padding:0;
+}
+table.notes td, table.notes th {
+	border: 1px solid #aaa;
+	padding: 4px;
+}
+
+table.pool-sheet td.comments {
+	width: 250px;
+	height: 60px;
+}
+
+
+table.pool-sheet td.signature {
+	width: 100px;
+}

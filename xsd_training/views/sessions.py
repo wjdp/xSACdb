@@ -2,7 +2,7 @@ from django.shortcuts import get_object_or_404
 
 from django.contrib.auth.models import User
 
-from django.shortcuts import redirect
+from django.shortcuts import redirect, render
 
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.views.generic.list import ListView
@@ -28,7 +28,7 @@ class SessionCreate(RequireTrainingOfficer, CreateView):
 
 class SessionPlanner(RequireTrainingOfficer, UpdateView):
     model=Session
-    fields=['when']
+    fields=['when', 'where', 'notes']
     template_name='session_edit.html'
 
     def pl_formset(self, bare=False):
@@ -209,3 +209,37 @@ class SessionDelete(RequireTrainingOfficer, DeleteView):
         context = super(SessionDelete, self).get_context_data(**kwargs)
         context['pls'] = PerformedLesson.objects.filter(session=self.object)
         return context
+
+def pool_sheet(request):
+    if request.GET:
+        form = PoolSheetOptions(request.GET)
+        if form.is_valid():
+            return pool_sheet_generate(request, form)
+    else:
+        form = PoolSheetOptions()
+
+    return render(request, 'pool_sheet.html', {'form':form})
+
+def pool_sheet_generate(request, form):
+    session = form.cleaned_data['session']
+    pls = PerformedLesson.objects.filter(session = session)
+    
+    pls_extended = []
+
+    number_of_notes = form.cleaned_data['number_of_notes']
+    for pl in pls:
+        recent_pls = PerformedLesson.objects.filter(trainee = pl.trainee, lesson__mode = pl.lesson.mode, completed=True).order_by('date')[:number_of_notes]
+        notes = []
+        for rpl in recent_pls:
+            if rpl.public_notes or rpl.private_notes: notes.append(rpl)
+        pls_extended.append((pl, notes))
+
+    
+    return render(request, 'pool_sheet_generate.html', {
+        'session': session,
+        'pls_extended': pls_extended,
+        'show_public_notes': form.cleaned_data['show_public_notes'],
+        'show_private_notes': form.cleaned_data['show_private_notes'],
+        'comments_column': form.cleaned_data['comments_column'],
+        'signature_column': form.cleaned_data['signature_column'],
+        })

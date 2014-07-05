@@ -41,7 +41,17 @@ class SessionCompleteForm(forms.ModelForm):
     class Meta:
         model = PerformedLesson
         fields = ['completed', 'partially_completed', 'public_notes', 'private_notes']
-    
+
+class PoolSheetOptions(forms.Form):
+    session = forms.ModelChoiceField(queryset = Session.objects.filter(completed=False), required=True)
+
+    show_public_notes = forms.BooleanField(initial=True, required=False)
+    show_private_notes = forms.BooleanField(initial=True, required=False)
+    number_of_notes = forms.IntegerField(min_value=0, initial=3, required=False)
+
+    comments_column = forms.BooleanField(initial=True, required=False)
+    signature_column = forms.BooleanField(initial=True, required=False)
+
 
 class TraineeGroupSelectForm(forms.Form):
     traineegroup=forms.ModelChoiceField(queryset=TraineeGroup.objects.all(), label='Trainee Group')

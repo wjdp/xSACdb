@@ -1,0 +1,45 @@
+{% extends 'print_template.html' %}
+
+{% block title %}Pool Sheet for {{session}}{% endblock %}
+
+{% block content %}
+
+<table class="pool-sheet">
+<th>Trainee</th><th>Lesson</th><th>Instructor</th>
+
+{% if show_public_notes or show_private_notes %}<th>Notes</th>{% endif %}
+{% if comments_column %}<th>Comments</th>{% endif %}
+{% if signature_column %}<th>Signature</th>{% endif %}
+
+{% for pl in pls_extended %}
+<tr>
+	<td class="trainee">{{pl.0.trainee.get_full_name}}</td>
+	<td>
+		<p>{{pl.0.lesson.code}}</p>
+		<p>{{pl.0.lesson.title}}</p>
+	</td>
+	<td>{{pl.0.instructor.get_full_name}}</td>
+	{% if show_public_notes or show_private_notes %}
+	<td class='notes-cell'>
+	<table class='notes'>
+	<tr><th></th>{% if show_public_notes %}<th>Public</th>{% endif %}{% if show_private_notes %}<th>Private</th>{% endif %}</tr>
+
+	{% for rpl in pl.1 %}
+	<tr>
+		<td class='note-title'>{{rpl.lesson.code}} on {{rpl.date}}</td>
+		{% if show_public_notes %}<td class='note'>{{rpl.public_notes}}</td>{% endif %}
+		{% if show_private_notes %}<td class='note'>{{rpl.private_notes}}</td>{% endif %}
+	
+	</tr>
+	{% endfor %}
+	</table>
+	</td>
+	{% endif %}
+	{% if comments_column %}<td class='comments'></td>{% endif %}
+	{% if signature_column %}<td class='signature'></td>{% endif %}
+</tr>
+{% endfor %}
+</table>
+
+
+{% endblock %}

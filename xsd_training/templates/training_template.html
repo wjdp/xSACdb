@@ -45,6 +45,8 @@
             {% is_active_simple current_url 'SessionList' %}
             {% is_active_simple current_url 'SessionDelete' %}>
             <a href="{% url 'SessionList' %}"><i class="icon-calendar icon-fixed-width"></i> Session Planning</a></li>
+      <li   {% is_active_simple current_url 'PoolSheet' %}>
+            <a href="{% url 'PoolSheet' %}"><i class="fa fa-file-o icon-fixed-width"></i> Create Pool Sheet</a></li>
 
       <li   {% is_active_simple current_url 'RetroAddLessons' %}>
             <a href="{% url 'RetroAddLessons' %}"><i class="icon-file-text-alt icon-fixed-width"></i> Retrospectively Add Lessons</a></li>

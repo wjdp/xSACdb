@@ -14,6 +14,9 @@ urlpatterns = patterns('',
     url(r'^session/(?P<pk>\d+)/complete/$', sessions.SessionComplete.as_view(), name='SessionComplete'),
     url(r'^session/(?P<pk>\d+)/delete/$', sessions.SessionDelete.as_view(), name='SessionDelete'),
 
+    url(r'^pool-sheet/$', 'xsd_training.views.sessions.pool_sheet', name='PoolSheet'),
+    url(r'^pool-sheet/generate$', 'xsd_training.views.sessions.pool_sheet_generate', name='PoolSheetGenerate'),
+
     url(r'^retro/lessons/$', retro.RetroAddLessons.as_view(), name='RetroAddLessons'),
 
     url(r'^qualification/award/$', 'xsd_training.views.qualification.QualificationAward', name='QualificationAward'),

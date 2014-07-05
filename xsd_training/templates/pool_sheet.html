@@ -1,0 +1,15 @@
+{% extends 'training_template.html' %}
+{% load lesson_extras %}
+{% load bootstrap_toolkit %}
+
+{% block training_content %}
+
+<div class="span9">
+<p>Pool sheets are printable sheets containing the lessons due to take place at a session. You'll probably want to print the sheet landscape.</p>
+<form action="." method="GET">
+{{ form|as_bootstrap }}
+<button type="submit" class="btn btn-primary"><i class="fa fa-file-text-o"></i> Create Pool Sheet</button>
+</form>
+</div>
+
+{% endblock %}
