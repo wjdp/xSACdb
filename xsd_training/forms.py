@@ -55,6 +55,8 @@ class PoolSheetOptions(forms.Form):
 
 class TraineeGroupSelectForm(forms.Form):
     traineegroup=forms.ModelChoiceField(queryset=TraineeGroup.objects.all(), label='Trainee Group')
+    only_main_three_modes = forms.BooleanField(initial=False)
+
 
 class TraineeSelectForm(forms.Form):
     trainee = UserModelChoiceField(queryset = User.objects.all().order_by('last_name'))
