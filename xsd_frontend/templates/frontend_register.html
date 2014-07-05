@@ -76,15 +76,22 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#4e5b89', end
 		}
 		.login-facebook .inner {
 			position:absolute; top:50%; height:95px; margin-top:-48px;
+			padding-right: 10px
 		}
 		.login-facebook p {
 			font-size: 10px;
-			padding: 0 2px;
+			padding: 0 7px;
 			margin-top: 8px;
 			color: #7D7B7B;
 		}
+
 		.login-facebook img {
-			padding-left: 10px
+			padding: 0 4px 4px 10px;
+			position: relative;
+		    -webkit-filter: drop-shadow(0px 1px 1px #888); filter: drop-shadow(0px 1px 1px #888);
+		}
+		.login-facebook img:active {
+			top:1px;
 		}
 
 		.login-register {
@@ -235,7 +242,7 @@ ul.errorlist li {
 				<input type="hidden" value="{{ request.path }}" name="error_next" />
 				{% csrf_token %}
 			</form>
-			<p>Facebook is used for login, only your name, mobile, date of birth and profile picture is collected for the creation of your record.</p>
+			<p>Facebook is used for login, only your name, and basic public profile information is used for the creation of your record.</p>
 			</div>
 		</div>
 

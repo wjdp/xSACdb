@@ -69,15 +69,26 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#4e5b89', end
 		.login-facebook {
 			width:60%;
 			border-right: 1px solid #f1f1f1;
+			height: 100%
 		}
 		.login-facebook img {
-			padding: 52px 0 0 45px;
+			padding: 52px 10px 10px 45px;
+			position: relative;
+		    -webkit-filter: drop-shadow(0px 1px 1px #888); filter: drop-shadow(0px 1px 1px #888);
+		}
+		.login-facebook img:active {
+			top:1px;
 		}
 
 		.login-conventional {
 			font-size: 15px;
-			padding: 16px 0 0 35px;
+			padding: 10px 0 0 35px;
 			width:28%;
+		}
+		.login-conventional p.message {
+			text-align: center;
+			font-size: 9px;
+			color: #666;
 		}
 		.login-conventional input {
 			padding: 3px;
@@ -205,6 +216,7 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#4e5b89', end
 		<div class="login-conventional">
 			
 			<form action="" method="post">{% csrf_token %}
+				<p class='message'>Local account login</p>
 				<p><input id="id_username" name="username" type="text" placeholder="Email" /></p>
 				<p><input id="id_password" name="password" type="password" placeholder="Password" /></p>
 				<input class="submit" type="submit" value="Login" />
