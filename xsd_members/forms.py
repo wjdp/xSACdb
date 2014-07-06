@@ -1,4 +1,6 @@
 from django import forms
+from django.contrib.auth.models import User
+
 from models import MemberProfile
 
 from django.forms.formsets import formset_factory
@@ -63,3 +65,18 @@ class FormExpiryForm(forms.Form):
 
 FormExpiryFormSet = formset_factory(FormExpiryForm)
 
+class MyUserAccountForm(forms.Form):
+    email = forms.EmailField()
+    new_password = forms.CharField(min_length=8, max_length=32, widget=forms.PasswordInput, required=False)
+    new_password_confirm = forms.CharField(min_length=8, max_length=32, widget=forms.PasswordInput, required=False)
+
+
+class UserAccountForm(forms.Form):
+    first_name = forms.CharField()
+    last_name = forms.CharField()
+    email = forms.EmailField()
+    username = forms.CharField()
+    new_password = forms.CharField(min_length=8, max_length=32, widget=forms.PasswordInput, required=False)
+
+
+    

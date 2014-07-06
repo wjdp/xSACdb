@@ -13,6 +13,7 @@
 			<a href="?action=remove-new-flag" class="btn btn-small" type="button"><i class="icon-flag"></i> Remove New Flag</a>
 			{% endif %}
 			<a href="{% url 'MemberEdit' member.user.pk %}" class="btn btn-small" type="button"><i class="icon-pencil"></i> Edit</a>
+			{% if member_useraccount_form %}<a href="#member_useraccount_modal" data-toggle="modal" class="btn btn-small" type="button"><i class="fa fa-key"></i> Account Settings</a>{% endif %}
 			<a href="{% url 'MemberDelete' member.user.pk %}" class="btn btn-small" type="button"><i class="icon-trash"></i> Delete</a>
 			{% elif myself %}
 			<a href="{% url 'MyProfileEdit' %}" class="btn btn-small" type="button"><i class="icon-pencil"></i> Edit</a>
@@ -106,5 +107,7 @@
 		</div>
 		{% endif %}
 	</div>
+
+{% include 'components/member_useraccount_modal.html' %}
 
 {% endblock %}

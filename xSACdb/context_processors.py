@@ -2,6 +2,7 @@ from django.core.urlresolvers import resolve
 from xSACdb.roles.functions import *
 
 from xsd_frontend.forms import UpdateRequestMake
+from xsd_members.forms import MyUserAccountForm
 
 def menu_perms(request):
     if request.user.is_authenticated():
@@ -10,6 +11,7 @@ def menu_perms(request):
         current_url = resolve(request.path_info).url_name
 
         update_request_form = UpdateRequestMake()
+        my_user_account_form = MyUserAccountForm()
 
         return {
             'request': request,
@@ -18,6 +20,7 @@ def menu_perms(request):
             'current_url':current_url,
 
             'update_request_form':update_request_form,
+            'my_user_account_form': my_user_account_form,
 
             'is_training':is_training(u),
             'is_trips':is_trips(u),
@@ -28,7 +31,7 @@ def menu_perms(request):
         }
     else: return {}
 
-
+# FIXME Why doubled up?
 def is_training(user):
     groups=[2,3,7]
     return is_allowed(user,groups)

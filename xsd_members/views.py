@@ -130,17 +130,55 @@ class MemberDetail(RequireMembersOfficer, DetailView):
     model=MemberProfile
     template_name='members_detail.html'
     context_object_name='member'
+    user = None
+    accounts_settings_open = False
+    member_useraccount_form = None
 
     def get_context_data(self, **kwargs):
         # Call the base implementation first to get a context
         context = super(MemberDetail, self).get_context_data(**kwargs)
         # Add in a QuerySet of all the books
         context['editable']        = True
+        if self.request.POST: context['account_settings_open'] = True
+        else: context['account_settings_open'] = False
+        if self.member_useraccount_form:
+            context['member_useraccount_form'] = self.member_useraccount_form
+        else:
+            context['member_useraccount_form'] = self.generate_account_form(self.user)
+
         return context
     def get_object(self):
         user_pk=self.kwargs['user__pk']
         user=User.objects.get(pk=user_pk)
-        return user.get_profile()
+        self.user = user
+        return user.memberprofile
+
+    def generate_account_form(self, user):
+        if self.request.POST:
+            return UserAccountForm(self.request.POST)
+        else:
+            return UserAccountForm(
+                initial = {
+                    'first_name': user.first_name,
+                    'last_name': user.last_name,
+                    'email': user.email,
+                    'username': user.username,
+                }
+            )
+
+    def process_account_form(self,user):
+        form = UserAccountForm(self.request.POST)
+        if form.is_valid():
+            user.first_name=form.cleaned_data['first_name']
+            user.last_name=form.cleaned_data['last_name']
+            user.email=form.cleaned_data['email']
+            user.username=form.cleaned_data['username']
+            if form.cleaned_data['new_password']!="":
+                user.set_password(form.cleaned_data['new_password'])
+                del form.cleaned_data['new_password']
+            user.save()
+            return True
+        return False
 
     def get(self, request, *args, **kwargs):
         if 'action' in request.GET:
@@ -151,6 +189,13 @@ class MemberDetail(RequireMembersOfficer, DetailView):
                 p.save()
 
         return super(MemberDetail, self).get(request, *args, **kwargs)
+
+    def post(self, request, *args, **kwargs):
+        self.get_object()
+        if self.process_account_form(self.user):
+            return redirect('.')
+        return super(MemberDetail, self).get(request, *args, **kwargs)
+
 
 class ModelFormView(FormView):
     def get_model(self):

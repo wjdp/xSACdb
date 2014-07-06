@@ -12,7 +12,7 @@ class BaseUpdateRequestList(ListView):
     area=""             # Again set by child view
     form_action=""      # Where to send the form
     custom_include=""
-    context_object_name="update_requests" # This is consistant
+    context_object_name="update_requests" # This is consistent
 
     def get_queryset(self):
         queryset=super(BaseUpdateRequestList, self).get_queryset()

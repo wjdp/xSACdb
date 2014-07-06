@@ -1,5 +1,6 @@
 {% extends 'base_template.html' %}
 {% load xsd_nav %}
+{% load training_todo_pips %}
 {% block content %}
 <div class="row">
 <div class="span3 section-nav">
@@ -21,12 +22,12 @@
             {% is_active_simple current_url 'PerformedSDCDetail' %}>
             <a href="{% url 'PerformedSDCList' %}"><i class="icon-calendar icon-fixed-width"></i> Upcoming Courses</a></li>
 
-      {% if profile.is_instructor or is_training %}
+      {% if is_training or profile.is_instructor %}
       <li class="nav-header">Your Teaching</li>
       <li   {% is_active_simple current_url 'InstructorUpcoming' %}>
             <a href="{% url 'InstructorUpcoming' %}"><i class="fa fa-clock-o icon-fixed-width"></i> Upcoming Lessons</a></li>
       <li   {% is_active_simple current_url 'TraineeNotesSearch' %} {% is_active_simple current_url 'TraineeNotes' %}>
-            <a href="{% url 'TraineeNotesSearch' %}"><i class="icon-trophy icon-fixed-width"></i> See Trainee Notes</a></li>
+            <a href="{% url 'TraineeNotesSearch' %}"><i class="fa fa-pencil-square-o icon-fixed-width"></i> See Trainee Notes</a></li>
       {% endif %}
 
       {% if is_training %}
@@ -38,6 +39,13 @@
             <a href="{% url 'TraineeGroupList' %}"><i class="fa fa-users icon-fixed-width"></i> Groups</a></li>
       <li   {% is_active_simple current_url 'TraineeGroupProgress' %}>
             <a href="{% url 'TraineeGroupProgress' %}"><i class="icon-flag-checkered icon-fixed-width"></i> Progress Report</a></li>
+      <li   {% is_active_simple current_url 'TrainingUpdateRequestList' %}>
+            <a href="{% url 'TrainingUpdateRequestList' %}">
+                  {% todo 'TrainingUpdateRequestList' %}
+                  <i class="fa fa-envelope-o icon-fixed-width"></i>
+                  Update Requests
+            </a>
+      </li>
 
       <li class="nav-header">Lesson Administration</li>
       <li   {% is_active_simple current_url 'SessionCreate' %}

@@ -17,7 +17,7 @@
 		<h3><i class="icon-envelope"></i> Contact Details</h3>
 		<table class="table">
 			<tr><th>Address</th><td>{{ form.address.errors }}{{form.address}}{{ form.postcode.errors }}{{form.postcode}}</td></tr>
-			<tr><th>Email</th><td>{% if is_members %}This can only be changed by the user.{% else %}This is changed under account settings.{% endif %}</td></tr>
+			<tr><th>Email</th><td>This is changed under account settings.</td></tr>
 			<tr><th>Home Phone</th><td>{{ form.home_phone.errors }}{{form.home_phone}}</td></tr>
 			<tr><th>Mobile Phone</th><td>{{ form.mobile_phone.errors }}{{form.mobile_phone}}</td></tr>
 
@@ -82,8 +82,8 @@
 		{% endif %}
 	</div>
 	</div>
-	<div class="form-actions span9">
-	    <input type="submit" class="btn btn-primary alignright" value="Save Changes" />
+	<div class="ret-form-actions">
+	    <button type="submit" class="btn btn-success alignright"><i class="icon-save"></i> Save Changes</button>
 </div>
 </form>
 {% endblock %}

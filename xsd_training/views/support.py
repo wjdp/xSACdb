@@ -2,14 +2,14 @@
 from django.views.generic import DetailView, View
 
 from django.shortcuts import get_object_or_404
-
+from django.core.urlresolvers import reverse_lazy
 import json
 
 from django.http import HttpResponse
 
 from django.contrib.auth.models import User
 from xsd_training.models import PerformedLesson, Lesson, Qualification
-from xSACdb.roles.mixins import RequireInstructor
+from xSACdb.roles.mixins import RequireInstructor, RequireTrainingOfficer
 
 
 class PerformedLessonDetailMouseover(RequireInstructor, DetailView):
@@ -79,3 +79,13 @@ class PerformedLessonDetailAPI(RequireInstructor, View):
                 ret[lesson.pk]=ret_lesson
             return HttpResponse(json.dumps(ret))
 
+from xsd_frontend.base import BaseUpdateRequestList, BaseUpdateRequestRespond
+
+class TrainingUpdateRequestList(RequireTrainingOfficer, BaseUpdateRequestList):
+    template_name="training_update_request.html"
+    area='tra'
+    form_action=reverse_lazy('TrainingUpdateRequestRespond')
+    custom_include='training_update_request_custom.html'
+
+class TrainingUpdateRequestRespond(RequireTrainingOfficer, BaseUpdateRequestRespond):
+    success_url=reverse_lazy('TrainingUpdateRequestList')

@@ -77,14 +77,14 @@ class MemberProfile(FacebookModel):
     
     _is_instructor_cached = None
     def is_instructor(self):
-        if _is_instructor_cached:
-            return _is_instructor_cached
+        if self._is_instructor_cached:
+            return self._is_instructor_cached
         else:
             if self.top_instructor_qual()==None:
-                _is_instructor_cached = False
+                self._is_instructor_cached = False
             else:
-                _is_instructor_cached = True
-            self.is_instructor()
+                self._is_instructor_cached = True
+            return self._is_instructor_cached
 
     def club_expired(self):
         if self.club_expiry==None or self.club_expiry <= date.today(): return True

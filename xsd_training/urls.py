@@ -45,6 +45,9 @@ urlpatterns = patterns('',
 
     url(r'^groups/progress/$', traineegroups.TraineeGroupProgress.as_view(), name='TraineeGroupProgress'),
 
+    url(r'^update-requests/$', support.TrainingUpdateRequestList.as_view(), name='TrainingUpdateRequestList'),
+    url(r'^update-requests/save/$', support.TrainingUpdateRequestRespond.as_view(), name='TrainingUpdateRequestRespond'),
+
 
 )
 

@@ -3,7 +3,6 @@ from django.db import models
 AREA_CHOICES = (
 	('mem', 'Membership Details and Renewal'),
 	('tra', 'Training Records'),
-	('qua', 'Awarding of Qualifications and SDCs'),
 	('sit', 'Dive Sites'),
 	('tri', 'Trips'),
 )
