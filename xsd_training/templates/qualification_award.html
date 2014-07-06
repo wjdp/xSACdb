@@ -1,5 +1,7 @@
 {% extends 'training_template.html' %}
 {% load lesson_extras %}
+{% load bootstrap_toolkit %}
+
 {% block training_content %}
 
 <div class="span9">
@@ -24,7 +26,10 @@
 {% if qual_form != None %}
 <form method="POST" action=".">
 {%csrf_token%}
-{{qual_form}}
+{{qual_form.qualification|as_bootstrap}}
+<div class="hidden">
+{{qual_form.selected_members|as_bootstrap}}
+</div>
 <div><button type="submit" class="btn btn-primary">Award</button></form></div>
 {% else %}
 <div class="alert alert-info">

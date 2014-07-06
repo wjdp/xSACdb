@@ -7,6 +7,7 @@ def show_lessons(qualification, mode, user):
     
     completed=[]
     planned=[]
+    partially_completed=[]
     uncompleted=[]
 
     for lesson in lessons:
@@ -14,10 +15,12 @@ def show_lessons(qualification, mode, user):
             completed.append(lesson)
         elif lesson.is_planned(user):
             planned.append(lesson)
+        elif lesson.is_partially_completed(user):
+            partially_completed.append(lesson)
         else:
             uncompleted.append(lesson)
 
-    return {'lessons':uncompleted,'completed':completed,'planned':planned,}
+    return {'lessons':uncompleted,'completed':completed,'planned':planned, 'partially_completed':'partially_completed'}
 
 from xsd_training.models import PerformedLesson
 

@@ -12,8 +12,11 @@ def overview(request):
     ui.page='my_overview'
     ui.section='my'
 
+    quals = Qualification.objects.filter(instructor_qualification=False)
+
     return render(request,'overview.html', {
-            'ui':ui     
+            'ui':ui,
+            'quals':quals,     
             }, context_instance=RequestContext(request))
 
 def lessons(request):

@@ -93,7 +93,17 @@
                     </li>
                 </ul>
                 {% endif %}
-            </div>
+<h4>Sections</h4>
+<ul class="quicklinks">
+<li class="members"><a href="{% url 'xsd_members.views.view_my_profile' %}">Club Profile</a></li>
+<li class="training"><a href="{% url 'xsd_training.views.trainee.overview' %}">Training Logbook</a></li>
+<li class="sites"><a href="{% url 'SitesOverview' %}">Site Database</a></li>
+<li class="trips"><a href="#">Trips List</a></li>
+</ul>
+
+</div>
+
+
             {% endblock %}
 
             {% block closing_js %}

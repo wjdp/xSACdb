@@ -10,6 +10,8 @@ urlpatterns = patterns('',
     url(r'^$', 'xsd_frontend.views.dashboard', name='dashboard'),
     url(r'^update-request/$', 'xsd_frontend.views.update_request', name='update_request'),
 
+    url(r'^design/$', 'xsd_frontend.views.design', name='design'),
+
     url(r'^accounts/login/$', 'xsd_frontend.views.login', name='login'),
     url(r'^accounts/register/$', 'xsd_frontend.views.register', name='login'),
     url(r'^accounts/logout/$', 'xsd_frontend.views.logout', name='logout'),

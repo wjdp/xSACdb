@@ -54,7 +54,10 @@ class MemberProfile(FacebookModel):
         if self.qualifications.count()==0: return None
         q=self.qualifications.all().exclude(instructor_qualification=True)
         c=q.count()-1
-        return q[c]
+        if c >= 0:
+            return q[c]
+        else:
+            return None
     def top_instructor_qual(self):
         q=self.qualifications.all().filter(instructor_qualification=True)
         if q.count()==0: return None

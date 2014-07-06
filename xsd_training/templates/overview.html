@@ -5,34 +5,20 @@
 <div class="span4">
     <p>Welcome to your club training logbook. From here you can lookup all your upcoming and past lessons including lesson feedback.
     <hr />
-    <h3>Training Status</h3>
-    {% if profile.training_for == None %}
-    {# Not training #}
-        {% if profile.top_qual == None %}
-            <p>You're currently unqualified and not registered for any training, if this is in error please make an update request. You can do so via the menu top right.</p>
-        {% else %}
-            <p>You are a qualified <strong>{{profile.top_qual}}</strong> and are not registered for any further training</p>
-        {% endif %}
+
+    {% for qual in quals %}
+    <div class="training_for qual-banner {{qual.code}}">
+    {% if profile.top_qual == qual %}<i class="indicator fa fa-star"></i>
+    {% elif profile.training_for == qual %}<i class="indicator fa fa-chevron-circle-right"></i>{% endif %}
+    {{qual.title}}</div>
+    {% endfor %}
 
 
-    {% elif profile.top_qual == None %}
-    {# In training #}
-        <p>You're currently unqualified and training for:</p>
-        <p class='training_for qual-banner {{profile.training_for.code}}'>{{profile.training_for}}</p>
-        {% else %}
-        <p>You're a qualified</p>
-        <p class='qualified qual-banner {{profile.top_qual.code}}'>{{profile.top_qual}}</p>
-        {% if profile.training_for and profile.training_for != profile.top_qual %}
-        <p>training for</p>
-        <p class='training_for qual-banner {{profile.training_for.code}}'>{{profile.training_for}}</p>
-        {% else %}
-        <p>and you're not currently registered for any further training.</p>
-        {% endif %}
-    {% endif %}
+
 </div>
 
 <div class="span5">
-<h3>Upcoming Training</h3>
+<h3 class="top-header">Upcoming Training</h3>
 {% if profile.training_for != None %}
 <h4>Lessons</h4>
 {# templates/lesson_list_template_with_dates.html #}

@@ -68,7 +68,6 @@ def login(request):
                 pass
         else:
             errors = 'badauth'
-            print 'err'
             pass
     else:
         form=LoginForm()
@@ -123,3 +122,6 @@ def update_request(request):
     response=HttpResponse(content="bad")
     response.status_code=400
     return response
+
+def design(request):
+    return render(request, 'design.html')

@@ -81,7 +81,7 @@ background:url('/media/images/arrow_r.png') no-repeat 0 50%;
 }
 
 div.lesson-code {
-border-radius:2px;
+border-radius:3px;
 padding:2px;
 width:30px;
 font-weight:bold;
@@ -90,14 +90,25 @@ float: left;
 }
 
 div.lesson-code.OD, .qual-banner.OD {
-background:#8095C3;
-border: 1px solid #2253BB;
+    background:#6A9ED2;
+    border: 1px solid #2253BB;
 }
-
-div.lesson-code.SD, .qual-banner.SD { background: #FF8F1B }
-div.lesson-code.DL, .qual-banner.DL { background: #00AA07 }
-div.lesson-code.AD, .qual-banner.AD { background: #9C9C9C }
-div.lesson-code.FC, .qual-banner.FC { background: #000000; }
+div.lesson-code.SD, .qual-banner.SD {
+    background: #ECA537;
+    border: 1px solid #BA6812;
+}
+div.lesson-code.DL, .qual-banner.DL {
+    background: #46832D;
+    border: 1px solid #054006;
+}
+div.lesson-code.AD, .qual-banner.AD {
+    background: #7D3E87;
+    border: 1px solid #3B1437;
+}
+div.lesson-code.FC, .qual-banner.FC {
+    background: #444;
+    border: 1px solid #0B0B0B;
+}
 
 .qual-banner {
     font-size: 1.2em;
@@ -107,7 +118,14 @@ div.lesson-code.FC, .qual-banner.FC { background: #000000; }
     color: #fff;
     border-radius: 4px;
     box-shadow: 0px 1px 2px #ccc;
-    margin: 0 50px 10px 30px;
+    margin: 0 0 10px 0;
+    position: relative;
+}
+
+.qual-banner i {
+    position: absolute;
+    left: 10px;
+    top:11px;
 }
 
 .qual_badge {
@@ -439,3 +457,46 @@ padding: 8px;
     padding: 0;
 
 }
+
+.top-header {
+    margin-top: 0;
+    line-height: normal;
+}
+
+ul.quicklinks {
+    width:100%;
+    margin: 0;
+    -moz-box-sizing: border-box; -webkit-box-sizing: border-box; box-sizing: border-box;
+}
+
+ul.quicklinks li {
+    width:40%;
+    background: #888;
+    float:left;
+    list-style-type: none;
+    margin-right: 10px;
+    margin-bottom: 10px;
+    border-radius: 6px;
+    -webkit-filter: drop-shadow(0px 0px 1px #ccc); filter: drop-shadow(0px 0px 1px #ccc);
+    position: relative;
+}
+
+ul.quicklinks li:active {
+    top:1px;
+}
+
+ul.quicklinks li a {
+    display: block;
+    width:100%;
+    height: 50px;
+    color: white;
+    text-decoration: none;
+    text-align: center;
+    font-weight: bold;
+    padding-top: 28px;
+}
+
+ul.quicklinks li.members {background: #0088CC}
+ul.quicklinks li.training {background: #DF3434}
+ul.quicklinks li.sites {background: #3BDC37}
+ul.quicklinks li.trips {color:#ccc;}

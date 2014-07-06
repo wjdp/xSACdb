@@ -29,5 +29,4 @@ class UserRegisterForm(forms.Form):
             self._errors["password_again"] = ['Passwords do not match']
             del form_data['password']
             del form_data['password_again']
-            print self._errors
         return form_data

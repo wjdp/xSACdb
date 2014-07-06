@@ -36,7 +36,6 @@ def show_lessons(user, only_main_three=False):
         lessons[mode[0]] = Lesson.objects.filter(mode=mode[0]).order_by('order')
 
     output = '<table class=" progress-table">\n'
-    print lessons
     for mode in Lesson.MODE_CHOICES:
         output += build_lesson_row(lessons[mode[0]], user)
 

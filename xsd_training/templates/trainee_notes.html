@@ -1,5 +1,7 @@
 {% extends 'training_template.html' %}
 {% load lesson_extras %}
+{% load report_extras %}
+{% load xsd_nav %}
 {% load bootstrap_toolkit %}
 
 {% block training_content %}
@@ -13,7 +15,7 @@
 		</div>
 		</div>
 		
-		<p>{{trainee.user.first_name}} joined the database on {{trainee.user.date_joined|date}}. {{trainee.heshe}} was born on {{trainee.date_of_birth}} therefore is {{trainee.age}}.</p>
+		<p>{{trainee.user.first_name}} joined the database on {{trainee.user.date_joined|date}}. {{trainee.heshe}} was born on {{trainee.date_of_birth}} so is {{trainee.age}}.</p>
 
 		{% if trainee.traineeship_problem %}
 		<p>There are currently issues with {{trainee.user.first_name}}'s traineeship, see points with error icons below. Until this is fixed {{trainee.heshe|lower}} cannot go diving.</p>
@@ -38,8 +40,13 @@
  <p><big>{{planned}}</big> lessons planned</p>
  <p><big>{{partially_completed}}</big> lessons partially completed</p>
  <p><big>{{completed}}</big> lessons completed</p>
- <a class="btn"><i class="icon-list-alt"></i> See Full Lesson Breakdown</a>
+ {% show_lessons trainee.user %}
+{% if is_training %}
+  <a href="{% url 'RetroAddLessons' %}?trainee={{trainee.user.pk}}&qualification={{trainee.training_for.pk}}" class="btn"><i class="fa fa-plus"></i> Retrospectively Add Lessons</a>
+{% endif %}
  </div>
+
+
 
 
 	

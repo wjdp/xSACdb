@@ -66,6 +66,11 @@ class Lesson(models.Model):
         if pl>0: return True
         else: return False
 
+    def is_partially_completed(self, user):
+        pl=PerformedLesson.objects.filter(trainee=user, lesson=self, partially_completed=True, completed=False).count()
+        if pl>0: return True
+        else: return False
+
 class Qualification(models.Model):
     code=models.CharField(max_length=3)
     title=models.CharField(max_length=50)

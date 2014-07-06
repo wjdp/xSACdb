@@ -267,8 +267,6 @@ class BulkAddForms(RequireMembersOfficer, View):
                 if form['bsac_expiry']: mp.bsac_expiry=form['bsac_expiry']
                 if form['medical_form_expiry']: mp.medical_form_expiry=form['medical_form_expiry']
                 mp.save()
-        else:
-            print "UNCLEAN!"
 
         return redirect(reverse('BulkAddForms'))
 

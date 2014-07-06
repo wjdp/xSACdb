@@ -87,7 +87,6 @@ class SessionPlanner(RequireTrainingOfficer, UpdateView):
         pl.delete()
 
     def post(self, request, *args, **kwargs):
-        print request.POST
         self.object = self.get_object()
         pl_formset=self.pl_formset(bare=True)
         if request.POST['form-TOTAL_FORMS']!=0:

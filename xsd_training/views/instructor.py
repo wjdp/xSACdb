@@ -4,7 +4,7 @@ from django.contrib.auth.models import User
 from django.views.generic import DetailView
 
 from xSACdb.roles.decorators import require_instructor
-from xSACdb.roles.mixins import RequireTrainingOfficer
+from xSACdb.roles.mixins import RequireInstructor
 
 from xsd_training.models import *
 from xsd_training.forms import *
@@ -49,7 +49,7 @@ def TraineeNotesSearch(request):
         'trainees':trainees
     }, context_instance=RequestContext(request))
 
-class TraineeNotes(RequireTrainingOfficer, DetailView):
+class TraineeNotes(RequireInstructor, DetailView):
     model = User
     template_name = 'trainee_notes.html'
     context_object_name = 'user'

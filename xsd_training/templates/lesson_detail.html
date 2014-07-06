@@ -14,7 +14,7 @@
             <div class="lesson-note">
             {% if pl.completed %}
             <h2>Lesson Completed</h2>
-            <p>You completed this lesson on <strong>{{pl.get_date}}</strong>, your instructor was <strong>{{pl.instructor.get_full_name}}</strong>.</p>
+            <p>You completed this lesson on <strong>{{pl.get_date}}</strong>{% if pl.instructor.get_full_name%}, your instructor was <strong>{{pl.instructor.get_full_name}}</strong>{%endif%}.</p>
             {% if pl.public_notes %}
             <h3>Notes</h3>
             <p class="notes">{{pl.public_notes}}</p>
@@ -22,7 +22,7 @@
 
             {% elif pl.partially_completed %}
             <h2>Lesson Partially Completed</h2>
-            <p>You partially completed this lesson on <strong>{{pl.get_date}}</strong>, your instructor was <strong>{{pl.instructor.get_full_name}}</strong>.</p>
+            <p>You partially completed this lesson on <strong>{{pl.get_date}}</strong>{% if pl.instructor.get_full_name%}, your instructor was <strong>{{pl.instructor.get_full_name}}</strong>{%endif%}.</p>
             {% if pl.public_notes %}
             <h3>Notes</h3>
             <p class="notes">{{pl.public_notes}}</p>
