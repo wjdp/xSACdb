@@ -35,7 +35,7 @@ def show_lessons(user, only_main_three=False):
     lessons = {}
 
     for mode in Lesson.MODE_CHOICES:
-        lessons[mode[0]] = Lesson.objects.filter(mode=mode[0]).order_by('order')
+        lessons[mode[0]] = Lesson.objects.filter(mode=mode[0]).order_by('order').prefetch_related('qualification')
 
     output = '<table class=" progress-table">\n'
     for mode in Lesson.MODE_CHOICES:

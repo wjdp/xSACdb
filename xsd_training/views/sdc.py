@@ -27,6 +27,9 @@ class SDCList(OrderedListView):
     context_object_name='sdcs'
     order_by='title'
 
+    def get_queryset(self):
+        return super(SDCList, self).get_queryset().prefetch_related('interested_members')
+
     def get_categories(self, top_qual):
         cats=SDC_TYPE_CHOICES
         categories=[]

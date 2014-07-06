@@ -1,12 +1,14 @@
 def is_allowed(user,groups):
-	for group in user.groups.all():
-	    if group.pk in groups:
+	# FIXME Fetches whole memberprofile, wasteful!
+	user_groups = user.memberprofile.user_groups_values()
+	for group in user_groups:
+	    if group in groups:
 	        return True
 	return False
 
 # Training: 2,3,7
 # Trips: 2,3,4,7
-# Sites: 2,5,7
+# Sites: 2,3,4,5,6,7
 # Members: 2,3,6,7
 # Diving Off: 2,7
 # Admin: 2

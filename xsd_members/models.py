@@ -50,23 +50,41 @@ class MemberProfile(FacebookModel):
     def __unicode__(self):
         return self.user.first_name + " " + self.user.last_name
 
+    _top_qual_cached = None
     def top_qual(self):
-        if self.qualifications.count()==0: return None
-        q=self.qualifications.all().exclude(instructor_qualification=True)
-        c=q.count()-1
-        if c >= 0:
-            return q[c]
+        if self._top_qual_cached:
+            return self._top_qual_cached
         else:
-            return None
-    def top_instructor_qual(self):
-        q=self.qualifications.all().filter(instructor_qualification=True)
-        if q.count()==0: return None
-        c=q.count()-1
-        return q[c]
+            if self.qualifications.count()==0: return None
+            q=self.qualifications.all().exclude(instructor_qualification=True)
+            c=q.count()-1
+            if c >= 0:
+                self._top_qual_cached = q[c]
+                return q[c]
+            else:
+                return None
 
+    _top_instructor_qual_cached = None
+    def top_instructor_qual(self):
+        if self._top_instructor_qual_cached:
+            return self._top_instructor_qual_cached
+        else:
+            q=self.qualifications.all().filter(instructor_qualification=True)
+            if q.count()==0: return None
+            c=q.count()-1
+            self._top_instructor_qual_cached = q[c]
+            return self.top_instructor_qual()
+    
+    _is_instructor_cached = None
     def is_instructor(self):
-        if self.top_instructor_qual()==None: return False
-        else: return True
+        if _is_instructor_cached:
+            return _is_instructor_cached
+        else:
+            if self.top_instructor_qual()==None:
+                _is_instructor_cached = False
+            else:
+                _is_instructor_cached = True
+            self.is_instructor()
 
     def club_expired(self):
         if self.club_expiry==None or self.club_expiry <= date.today(): return True
@@ -124,6 +142,15 @@ class MemberProfile(FacebookModel):
     def upcoming_sdcs(self):
         from xsd_training.models import PerformedSDC
         return PerformedSDC.objects.filter(trainees=self.user, completed=False)
+
+    _cached_user_group_values = 0
+    def user_groups_values(self):
+        if self._cached_user_group_values != 0:
+            return self._cached_user_group_values
+        else:
+            self._cached_user_group_values = [x['id'] for x in self.user.groups.all().values()]
+            return self.user_groups_values()
+
 
 from django.contrib.auth.models import User
 from django.db.models.signals import post_save

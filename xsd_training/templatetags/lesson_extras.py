@@ -37,7 +37,7 @@ def show_upcoming_lessons(user):
 
 @register.filter
 def has_sdc(user,sdc):
-    if sdc in user.get_profile().sdcs.all(): return True
+    if sdc in user.memberprofile.sdcs.all(): return True
     else: return False
 
 @register.filter

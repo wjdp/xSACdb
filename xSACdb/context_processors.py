@@ -6,7 +6,7 @@ from xsd_frontend.forms import UpdateRequestMake
 def menu_perms(request):
     if request.user.is_authenticated():
         u=request.user
-        p=u.get_profile()
+        p=u.memberprofile
         current_url = resolve(request.path_info).url_name
 
         update_request_form = UpdateRequestMake()
