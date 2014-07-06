@@ -16,11 +16,11 @@
         <tr>
             <td>{% if is_training %}<a href="{% url 'MemberDetail' user.pk %}">{{user.get_full_name}}</a>
             {% else %}{{user.get_full_name}} {% endif %}</td>
-            {% if is_training %}<td>{{user.get_profile.top_qual}}</td>
-            <td>{% if user.get_profile.membership_problem %}
+            {% if is_training %}<td>{{user.memberprofile.top_qual}}</td>
+            <td>{% if user.memberprofile.membership_problem %}
             <div class="popover-button error" data-title="Problems With Membership"
             
-            data-content="{{user.first_name}}'s {% if user.get_profile.no_expiry_data %}has not got any forms with the club, probably a new member {% elif user.get_profile.bsac_expired %}BSAC membership has expired, {% elif user.get_profile.club_expired %}club membership has expired, {% elif user.get_profile.club_expired %}medical form has expired.{% endif %}"
+            data-content="{{user.first_name}}'s {% if user.memberprofile.no_expiry_data %}has not got any forms with the club, probably a new member {% elif user.memberprofile.bsac_expired %}BSAC membership has expired, {% elif user.memberprofile.club_expired %}club membership has expired, {% elif user.memberprofile.club_expired %}medical form has expired.{% endif %}"
 
             data-trigger="hover" data-placement="top">Yes</div>
             {% endif %}</td>{% endif %}

@@ -70,7 +70,7 @@ class TraineeNotes(RequireInstructor, DetailView):
 # @require_instructor
 # def TraineeNotes(request, pk):
 #     user=get_object_or_404(User,pk=pk)
-#     trainee=user.get_profile()
+#     trainee=user.memberprofile
 #     pls=PerformedLesson.objects.filter(trainee=user).order_by('date')
 #     return render(request, 'trainee_notes.html', {
 #         'trainee':trainee,

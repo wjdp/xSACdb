@@ -19,7 +19,7 @@
 	{% for trainee in trainees %}
 	<tr>
 		<td><a href="{% url 'TraineeNotes' trainee.pk %}">{{trainee.get_full_name}}</a></td>
-		<td>{{trainee.get_profile.top_qual}}</td>
+		<td>{{trainee.memberprofile.top_qual}}</td>
 	</tr>
 	{% endfor %}
 	</table>

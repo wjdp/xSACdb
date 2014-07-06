@@ -40,7 +40,7 @@ class SDCList(OrderedListView):
         return categories
 
     def get_context_data(self, **kwargs):
-        self.categories=self.get_categories(self.request.user.get_profile().top_qual())
+        self.categories=self.get_categories(self.request.user.memberprofile.top_qual())
         context = super(SDCList, self).get_context_data(**kwargs)
         context['categories']=self.categories
         return context
@@ -126,7 +126,7 @@ class PerformedSDCComplete(RequireTrainingOfficer,DetailView):
         psdc=self.get_object()
         sdc=psdc.sdc
         for user in users:
-            p=user.get_profile()
+            p=user.memberprofile
             p.sdcs.add(sdc)
             p.save()
         for user in psdc.trainees.all():
