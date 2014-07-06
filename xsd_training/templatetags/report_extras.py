@@ -18,9 +18,11 @@ def build_lesson_row(lessons, user):
             if pl.partially_completed: partially_completed = True
         if lesson.code: code_o = lesson.code
         else: code_o = lesson.title
-        if completed:                lesson_row += '<td class="completed">'+code_o+'</td>' 
-        elif partially_completed:    lesson_row += '<td class="partially_completed">'+code_o+'</td>'
-        else:                        lesson_row += '<td class="nothing">'+code_o+'</td>'
+        lesson_row += '<td data-pl='+lesson.pk
+        if completed:                lesson_row += ' class="completed">' 
+        elif partially_completed:    lesson_row += ' class="partially_completed">'
+        else:                        lesson_row += ' class="nothing">'
+        lesson_row += code_o+'</td>'
     if lesson_row == "": return ""
     else: return "<tr><th>" + mode + "</th>" + lesson_row + "</tr>"
 

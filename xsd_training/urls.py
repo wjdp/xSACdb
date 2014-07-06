@@ -1,12 +1,14 @@
 from django.conf.urls import patterns, include, url
 from django.conf import settings
-from xsd_training.views import sessions, sdc, traineegroups, instructor, retro
+from xsd_training.views import sessions, sdc, traineegroups, instructor, retro, support
 
 urlpatterns = patterns('',
     url(r'^$', 'xsd_training.views.trainee.overview', name='training-overview')    ,
     url(r'^lessons/$', 'xsd_training.views.trainee.lessons', name='training-lessons')    ,
     url(r'^lessons/(?P<id>\d+)/$', 'xsd_training.views.trainee.lesson_detail', name='lesson_detail'),
     url(r'^feedback$', 'xsd_training.views.trainee.all_feedback'),
+
+    url(r'^pl-mouseover/$',support.PerformedLessonDetailMouseover.as_view(), name='PerformedLessonDetailMouseover'),
 
     url(r'^session/new/$', sessions.SessionCreate.as_view(), name='SessionCreate'),
     url(r'^session/list/$', sessions.SessionList.as_view(), name='SessionList'),
