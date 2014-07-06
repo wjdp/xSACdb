@@ -108,7 +108,10 @@ def register(request):
     return render(request,'frontend_register.html', {'form': form})
 
 def error403(request):
-    return render(request, 'error403.html')
+    return render(request, 'error403.html', status=403)
+def error404(request):
+    return render(request, 'error404.html', status=404)
+
 
 def update_request(request):
     if request.POST:

@@ -10,6 +10,11 @@ class RequireGroup(object):
             return super(RequireGroup, self).dispatch(request, *args, **kwargs)
         else:
             raise PermissionDenied
+    # def get(self, request, *args, **kwargs):
+    #     if self.is_allowed(request.user):
+    #         return super(RequireGroup, self).get(request, *args, **kwargs)
+    #     else:
+    #         raise PermissionDenied
 
 class RequireInstructor(RequireGroup):
     def is_allowed(self,user):

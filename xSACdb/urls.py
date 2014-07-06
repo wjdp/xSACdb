@@ -5,6 +5,7 @@ from django.contrib import admin
 admin.autodiscover()
 
 handler403='xsd_frontend.views.error403'
+handler404='xsd_frontend.views.error404'
 
 urlpatterns = patterns('',
     url(r'^$', 'xsd_frontend.views.dashboard', name='dashboard'),

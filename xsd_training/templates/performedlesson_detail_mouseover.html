@@ -65,8 +65,10 @@ background-image: -webkit-linear-gradient(bottom, #F0ACA3 0%, #DE5D5D 100%);
 background-image: -ms-linear-gradient(bottom, #F0ACA3 0%, #DE5D5D 100%);
 background-image: linear-gradient(to bottom, #F0ACA3 0%, #DE5D5D 100%);
 }
+.clear {clear:left; border-bottom: 1px solid #ccc; margin-bottom: 3px}
 </style>
-<div class="banner {%if pl.completed %}completed{%elif pl.partially_completed %}partial{%else%}not{% endif %}">{{pl.lesson}}</div>
+<div class="banner {%if is_completed %}completed{%elif is_partially_completed %}partial{%else%}not{% endif %}">{{lesson}}</div>
+{% for pl in pls %}
 <div class="half">
 	<p><i class="fa fa-calendar-o icon-fixed-width"></i> {{pl.date}}</p>
 	{% if pl.session %}<p><i class="fa fa-map-marker icon-fixed-width"></i> {{pl.session}}</p>
@@ -79,3 +81,5 @@ background-image: linear-gradient(to bottom, #F0ACA3 0%, #DE5D5D 100%);
 <p class="public"><i class="fa fa-unlock icon-fixed-width"></i>  {{pl.public_notes}}</p>
 <p class="private"><i class="fa fa-lock icon-fixed-width"></i> {{pl.private_notes}}</p>
 </div>
+<div class="clear"></div>
+{% endfor %}

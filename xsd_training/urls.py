@@ -9,6 +9,7 @@ urlpatterns = patterns('',
     url(r'^feedback$', 'xsd_training.views.trainee.all_feedback'),
 
     url(r'^pl-mouseover/$',support.PerformedLessonDetailMouseover.as_view(), name='PerformedLessonDetailMouseover'),
+    url(r'^pl-mouseover-api/$',support.PerformedLessonDetailAPI.as_view(), name='PerformedLessonDetailAPI'),
 
     url(r'^session/new/$', sessions.SessionCreate.as_view(), name='SessionCreate'),
     url(r'^session/list/$', sessions.SessionList.as_view(), name='SessionList'),
