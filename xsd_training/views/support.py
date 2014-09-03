@@ -11,7 +11,7 @@ from django.contrib.auth.models import User
 from xsd_training.models import PerformedLesson, Lesson, Qualification
 from xSACdb.roles.mixins import RequireInstructor, RequireTrainingOfficer
 
-
+# This was slow, pretty sure it's no longer used
 class PerformedLessonDetailMouseover(RequireInstructor, DetailView):
     model = PerformedLesson
     template_name = 'performedlesson_detail_mouseover.html'
@@ -39,6 +39,7 @@ class PerformedLessonDetailMouseover(RequireInstructor, DetailView):
         context['is_partially_completed'] = self.is_partially_completed
         return context
 
+# Provides data to JS in progress reports
 class PerformedLessonDetailAPI(RequireInstructor, View):
     def get(self, request, *args, **kwargs):
         if 't' in self.request.GET:
