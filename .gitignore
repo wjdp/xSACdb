@@ -11,3 +11,4 @@ xsd_training/fixtures/*
 xSACdb/fixtures/*
 components/*
 local_files/*
+static/*

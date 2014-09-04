@@ -26,7 +26,7 @@ USE_TZ = True
 LOGIN_URL = '/accounts/login/'
 
 LOGIN_EXEMPT_URLS = (
- r'^media/', # allow any URL under /media/*
+ # r'^media/', # allow any URL under /media/* This has facebook avatars, so NO!
  r'^static/', # allow any URL under /static/*
  r'^facebook/', # allow any URL under /facebook/*
  r'^accounts/',
@@ -59,6 +59,7 @@ STATICFILES_DIRS = (
     # Put strings here, like "/home/html/static" or "C:/www/django/static".
     # Always use forward slashes, even on Windows.
     # Don't forget to use absolute paths, not relative paths.
+    PROJECT_PATH + '/static_global/',
 )
 
 # List of finder classes that know how to find static files in
@@ -105,7 +106,7 @@ TEMPLATE_DIRS = (
     # Put strings here, like "/home/html/django_templates" or "C:/www/django/templates".
     # Always use forward slashes, even on Windows.
     # Don't forget to use absolute paths, not relative paths.
-    PROJECT_PATH + '/templates',
+    PROJECT_PATH + '/templates_global',
 )
 
 AUTHENTICATION_BACKENDS = (

@@ -51,14 +51,14 @@ background:url('/media/images/arrow_r.png') no-repeat 0 50%;
 
 .lesson-detail {
     margin: ;
-    background:url('/media/images/bg/lesson_grain.fw.png') #a8c7d9;
+    background:url('/media/images/lesson_grain.fw.png') #a8c7d9;
     padding: 10px 12px;
     box-shadow: 0px 1px 1px 1px #ccc;
 }
 
 .lesson-note {
     margin: 0 0 16px 0;
-    background:url('/media/images/bg/lesson_grain.fw.png') #F2E9C0;
+    background:url('/media/images/lesson_grain.fw.png') #F2E9C0;
     padding: 10px 12px;
     box-shadow: 0px 1px 1px 1px #ccc;
 }
