@@ -91,7 +91,7 @@ facebookClass.prototype = {
                 <div id="facebook_wrapper">\
                     <div id="facebook_lightbox">\
                         <div id="facebook_message" />{{ message }}</div>\
-                        <img id="facebook_loading" src="/media/images/facebook_loading.gif" alt="..."/>\
+                        <img id="facebook_loading" src="/static/images/facebook_loading.gif" alt="..."/>\
                         <div id="facebook_close" style="display: none" onclick="document.getElementById(\'facebook_container\').style.display=\'none\';"></div>\
                     </div>\
                 </div>';

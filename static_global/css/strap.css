@@ -25,10 +25,10 @@ li.fail span.note {
     color:#B94A48;
 }
 li.pass {
-    background:url('/media/images/tick.png') no-repeat top left;
+    background:url('/static/images/tick.png') no-repeat top left;
 }
 li.fail {
-    background:url('/media/images/error.png') no-repeat top left;
+    background:url('/static/images/error.png') no-repeat top left;
 }
 
 ul.lessons {
@@ -39,26 +39,26 @@ padding-left:20px;
 list-style-type:none;
 }
 ul.planned li {
-background:url('/media/images/clock16.png') no-repeat 0 50%;
+background:url('/static/images/clock16.png') no-repeat 0 50%;
 }
 ul.completed li {
-background:url('/media/images/tick16.png') no-repeat 0 50%;
+background:url('/static/images/tick16.png') no-repeat 0 50%;
 opacity:0.5;
 }
 ul.uncompleted li {
-background:url('/media/images/arrow_r.png') no-repeat 0 50%;
+background:url('/static/images/arrow_r.png') no-repeat 0 50%;
 }
 
 .lesson-detail {
     margin: ;
-    background:url('/media/images/lesson_grain.fw.png') #a8c7d9;
+    background:url('/static/images/lesson_grain.fw.png') #a8c7d9;
     padding: 10px 12px;
     box-shadow: 0px 1px 1px 1px #ccc;
 }
 
 .lesson-note {
     margin: 0 0 16px 0;
-    background:url('/media/images/lesson_grain.fw.png') #F2E9C0;
+    background:url('/static/images/lesson_grain.fw.png') #F2E9C0;
     padding: 10px 12px;
     box-shadow: 0px 1px 1px 1px #ccc;
 }
@@ -141,11 +141,11 @@ div.lesson-code.FC, .qual-banner.FC {
     margin-left: 8px;
 }
 
-.qual_badge.OD {background: url('/media/images/qual_badges/od.png')}
-.qual_badge.SD {background: url('/media/images/qual_badges/sd.png')}
-.qual_badge.DL {background: url('/media/images/qual_badges/dl.png')}
-.qual_badge.AD {background: url('/media/images/qual_badges/ad.png')}
-.qual_badge.FC {background: url('/media/images/qual_badges/fc.png')}
+.qual_badge.OD {background: url('/static/images/qual_badges/od.png')}
+.qual_badge.SD {background: url('/static/images/qual_badges/sd.png')}
+.qual_badge.DL {background: url('/static/images/qual_badges/dl.png')}
+.qual_badge.AD {background: url('/static/images/qual_badges/ad.png')}
+.qual_badge.FC {background: url('/static/images/qual_badges/fc.png')}
 
 .lesson-detail .mode {
     font-size: 0.8em;
@@ -550,7 +550,7 @@ list-style: none;
 ul.formatted li
 {
 padding-left: 12px;
-background-image: url(/media/images/arrow.gif);
+background-image: url(/static/images/arrow.gif);
 background-repeat: no-repeat;
 background-position: 0 7px;
 }

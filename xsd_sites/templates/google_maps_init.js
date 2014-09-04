@@ -12,7 +12,7 @@ function initialize() {
   });
 
   // {% for site in sites %}
-  // var image = '/media/images/map_icon.png';
+  // var image = '/static/images/map_icon.png';
   // var myLatLng = new google.maps.LatLng({{site.location.latitude}}, {{site.location.longitude}});
   // var siteMarker = new google.maps.Marker({
   //   position: myLatLng,
@@ -23,13 +23,13 @@ function initialize() {
   {% for site in sites %}
   var point = new google.maps.LatLng({{site.location.latitude}},{{site.location.longitude}});
   {% if site.type == 'TR' %}
-    var image = '/media/images/map/training_marker.png';
+    var image = '/static/images/map/training_marker.png';
   {% elif site.type == 'IN' %}
-    var image = '/media/images/map/inland_marker.png';
+    var image = '/static/images/map/inland_marker.png';
   {% elif site.type == 'OF' %}
-    var image = '/media/images/map/offshore_marker.png';
+    var image = '/static/images/map/offshore_marker.png';
   {% else %}
-    var image = '/media/images/missing-asset.png';
+    var image = '/static/images/missing-asset.png';
   {% endif %}
   
   var marker = new google.maps.Marker({
@@ -70,7 +70,7 @@ function initialize() {
 
     {% for site in sites %}
     var point = new google.maps.LatLng({{site.location.latitude}},{{site.location.longitude}});
-    var image = '/media/map_icon.png';
+    var image = '/static/map_icon.png';
     var marker = new google.maps.Marker({
       position: point,
       map: map,
