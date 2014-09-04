@@ -1,0 +1,37 @@
+{% extends 'about_template.html' %}
+
+{% block about_content %}
+<div class="row">
+	<div class="span3">
+		<img src="/media/images/fun/protect-and-serve.jpg" alt="Database Officers: To Protect and Serve" />
+		<p>Officers are assigned roles on the {{l10n_club.name}} database, they have additional privileges on this site. Usually database officers are members of the committee.</p>
+		<p>Names may appear under multiple ranks</p>
+	</div>
+
+	<div class="span3 roles">
+		<h4>Administrators</h4>
+		<p>Can do pretty much everything.</p>
+		<ul class="formatted">{% for u in admins %}<li>{{u.get_full_name}}</li>{% endfor %}</ul>
+		<h4>Diving Officers</h4>
+		<p>A messy combination of members and training officers, pretty much an administrator with a few things stripped back.</p>
+		<ul class="formatted">{% for u in dos %}<li>{{u.get_full_name}}</li>{% endfor %}</ul>
+		<h4>Members Officers</h4>
+		<p>Can view and edit members records, responds to member update requests.</p>
+		<ul class="formatted">{% for u in mos %}<li>{{u.get_full_name}}</li>{% endfor %}</ul>
+		<h4>Training Officers</h4>
+		<p>Can view member training records, can do a lot of stuff to do with training (lessons, qualifications etc).</p>
+		<ul class="formatted">{% for u in tos %}<li>{{u.get_full_name}}</li>{% endfor %}</ul>
+	</div>
+	<div class="span3 roles">
+		<h4>Instructors</h4>
+		<p>Can view training records and trainee notes.</p>
+		<ul class="formatted">{% for u in instructors %}<li>{{u.get_full_name}}</li>{% endfor %}</ul>
+		<h4>Trip Administrators</h4>
+		<p>Can view and edit trip records, along with some attendee details of trips they are running.</p>
+		<ul class="formatted">{% for u in tas %}<li>{{u.get_full_name}}</li>{% endfor %}</ul>
+		<h4>Site Administrators</h4>
+		<p>Can add and edit sites.</p>
+		<ul class="formatted">{% for u in sas %}<li>{{u.get_full_name}}</li>{% endfor %}</ul>
+	</div>
+</div>
+{% endblock %}

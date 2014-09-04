@@ -11,14 +11,16 @@
 		{% if trainee.image %}<img src="{{trainee.image.url}}" alt="Profile Picture" class="alignright" />{%endif%}
 		<h2>{{trainee}}</h2>
 		<div class="btn-group btn-mini">
-			<a href="{% url 'MemberDetail' trainee.user.pk %}" class="btn btn-small" type="button"><i class="icon-search"></i> View Member Profile</a>
+			{% if is_members %}<a href="{% url 'MemberDetail' trainee.user.pk %}" class="btn btn-small" type="button"><i class="icon-search"></i> View Member Profile</a>{% endif %}
 		</div>
 		</div>
 		
-		<p>{{trainee.user.first_name}} joined the database on {{trainee.user.date_joined|date}}. {{trainee.heshe}} was born on {{trainee.date_of_birth}} so is {{trainee.age}}.</p>
+		<p>{{trainee.user.first_name}} joined the database on {{trainee.user.date_joined|date}}.</p>
 
-		{% if trainee.traineeship_problem %}
-		<p>There are currently issues with {{trainee.user.first_name}}'s traineeship, see points with error icons below. Until this is fixed {{trainee.heshe|lower}} cannot go diving.</p>
+		{% if trainee.membership_problem %}
+		<div class="alert alert-error">
+			<i class="fa fa-exclamation-triangle"></i> <strong>Uh-oh</strong> There are currently issues with {{trainee.user.first_name}}'s membership, until this is rectified {{trainee.heshe|lower}} cannot go diving.
+		</div>
 		{%endif%}
 		
 	</div>

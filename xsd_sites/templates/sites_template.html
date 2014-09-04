@@ -7,8 +7,8 @@
       <li class="nav-header">View Sites</li>
       <li {% is_active_simple current_url 'SitesOverview' %}>
       <a href="{% url 'SitesOverview' %}"><i class="fa fa-map-marker icon-fixed-width"></i> Sites Overview</a></li>
-      <li {% is_active_simple current_url 'SitesSearch' %}>
-      <a href="{% url 'SitesOverview' %}"><i class="fa fa-search icon-fixed-width"></i> Search for a Site</a></li>
+      <li class="nyi">
+      <a href="#"><i class="fa fa-search icon-fixed-width"></i> Search for a Site</a></li>
 
       {% if is_sites %}
       <li class="nav-header">Edit Sites</li>

@@ -1,4 +1,6 @@
 from django.core.urlresolvers import resolve
+from django.conf import settings
+
 from xSACdb.roles.functions import *
 
 from xsd_frontend.forms import UpdateRequestMake
@@ -13,11 +15,15 @@ def menu_perms(request):
         update_request_form = UpdateRequestMake()
         my_user_account_form = MyUserAccountForm()
 
+        l10n_club = settings.CLUB
+
         return {
             'request': request,
             'user': u,
             'profile': p,
             'current_url':current_url,
+
+            'l10n_club': l10n_club,
 
             'update_request_form':update_request_form,
             'my_user_account_form': my_user_account_form,

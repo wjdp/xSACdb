@@ -139,7 +139,6 @@ div.lesson-code.FC, .qual-banner.FC {
     -webkit-filter: drop-shadow(0px 0px 1px #ccc); filter: drop-shadow(0px 0px 1px #ccc);
     opacity: 0.5;
     margin-left: 8px;
-
 }
 
 .qual_badge.OD {background: url('/media/images/qual_badges/od.png')}
@@ -500,3 +499,63 @@ ul.quicklinks li.members {background: #0088CC}
 ul.quicklinks li.training {background: #DF3434}
 ul.quicklinks li.sites {background: #3BDC37}
 ul.quicklinks li.trips {color:#ccc;}
+
+div.django-credit {
+    background: #092e20;
+    overflow: hidden;
+    padding: 16px
+}
+div.django-credit p {
+    color: #eee;
+    margin-top:16px;
+    font-style: 16px
+}
+div.django-credit a {
+    color: #fff
+}
+div.django-credit img {
+    float: left;
+    padding-right: 36px;
+}
+
+.big-scary-warning {
+
+}
+.big-scary-warning h1 {
+    background: red;
+    color: white;
+    text-align: center;
+    padding: 12px 0;
+}
+
+.roles p {
+    font-size: 12px
+}
+
+.roles h4 {
+    margin-top: 0;
+    margin-bottom:1px;
+}
+.roles ul {
+    margin-bottom:18px;
+}
+
+ul.formatted
+{
+margin-left: 0;
+padding-left: 0;
+list-style: none;
+}
+
+ul.formatted li
+{
+padding-left: 12px;
+background-image: url(/media/images/arrow.gif);
+background-repeat: no-repeat;
+background-position: 0 7px;
+}
+
+li.nyi a {
+    color: #ccc;
+    cursor: not-allowed;
+}

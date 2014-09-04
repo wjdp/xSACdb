@@ -3,7 +3,7 @@
 <html>
 <head>
     {% block pre_head %}{% endblock %}
-    <title>{% block title %}xSACdb Default Template{% endblock %}</title>
+    <title>{% block title %}{{l10n_club.name}} Database{% endblock %}</title>
     <meta charset="utf-8" />
 
     <link rel="stylesheet" type="text/css" media="screen" href="/media/bootstrap/css/bootstrap.min.css" />
@@ -14,12 +14,12 @@
     </style>
     <link rel="stylesheet" type="text/css" media="screen" href="/media/bootstrap/css/bootstrap-responsive.min.css" />
     <link rel="stylesheet" href="/media/css/font-awesome.min.css">
-    <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
     <link rel="stylesheet" type="text/css" media="screen" href="/media/css/strap.css" />
 
     <link rel="stylesheet" type="text/css" media="screen" href="/media/css/token-input-facebook.css" />
 
     <script type="text/javascript" src="/media/js/jquery.js"></script>
+    <script type="text/javascript" src="/media/js/jquery.forms.js"></script>
     <script type="text/javascript" src="/media/js/jquery.cookie.js"></script>
     <script type="text/javascript" src="/media/js/jquery.tokeninput.js"></script>
     <script type="text/javascript" src="/media/bootstrap/js/bootstrap.min.js"></script>
@@ -31,7 +31,7 @@
 <div class="navbar navbar-inverse navbar-fixed-top">
     <div class="navbar-inner">
         <div class="container">
-            <a class="brand" href="#">xSACdb Dev Version</a>
+            <a class="brand" href="#">{{l10n_club.name}} Database</a>
             <ul class="nav">
                 <li {% is_active_simple ui.app 'home' %}><a href="/">Home</a></li>
                 <li {% is_active_simple ui.app 'profile' %}><a href="{% url 'xsd_members.views.view_my_profile' %}">Profile</a></li>
@@ -39,16 +39,16 @@
                 <li {% is_active_simple ui.app 'training' %}><a href="{% url 'xsd_training.views.trainee.overview' %}">Training</a></li>
                 <li {% is_active_simple ui.app 'sites' %}><a href="{% url 'SitesOverview' %}">Sites</a></li>
                 {# <li {% is_active_simple ui.app 'trips' %}><a href="{% url 'TripList' %}">Trips</a></li> #}
-                {% if is_admin %}<li><a href="/admin">Admin</a></li>{% endif %}
+                <li><a href="{% url 'AboutView' %}">About</a></li>
             </ul>
             <ul class="pull-right nav">
                 <li><a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                    {{request.user.get_full_name}} <b class="caret"></b></a>
+                    <strong><i class="fa fa-user"></i> {{request.user.get_full_name}}</strong> <b class="caret"></b></a>
                     <ul class="dropdown-menu" role="menu">
-                        <li><a href="#update_request_modal" data-toggle="modal">Request An Update To Records</a></li>
-                        <li><a href="#update_account_modal" data-toggle="modal">Account Settings</a></li>
+                        <li><a href="#update_request_modal" data-toggle="modal"><i class="fa fa-envelope-o icon-fixed-width"></i> Request An Update To Records</a></li>
+                        <li><a href="#update_account_modal" data-toggle="modal"><i class="fa fa-cog icon-fixed-width"></i> Account Settings</a></li>
                         <li class="divider"></li>
-                        <li><a href="/accounts/logout">Logout of Database</a></li>
+                        <li><a href="/accounts/logout icon-fixed-width"><i class="fa fa-sign-out"></i> Logout of Database</a></li>
                     </ul>
                 </li>
             </ul>

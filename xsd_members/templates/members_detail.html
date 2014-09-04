@@ -22,10 +22,13 @@
 		</div>
 		<div>
 		<div class="qual_badge {{member.top_qual.code}}"></div>
-		<p>{{member.user.first_name}} joined the database on {{member.user.date_joined|date}}. {{member.heshe}} was born on {{member.date_of_birth}} so is {{member.age}}.</p>
+		<p>{{member.user.first_name}} joined the database on {{member.user.date_joined|date}}.</p>
+		<p>{{member.heshe}} was born on {{member.date_of_birth}}.</p>
 
 		{% if member.membership_problem %}
-		<p>There are currently issues with {{member.user.first_name}}'s membership, see points with error icons below. Until this is fixed {{member.heshe|lower}} cannot go diving.</p>
+		<div class="alert alert-error">
+			<i class="fa fa-exclamation-triangle"></i> <strong>Uh-oh</strong> There are currently issues with {{member.user.first_name}}'s membership. Until this is fixed {{member.heshe|lower}} cannot go diving.
+		</div>
 		{%endif%}
 		</div>
 		
@@ -55,8 +58,7 @@
 		</table>
 		{% else %}
 		<div class="alert alert-info">
-			<h4>Joining The Club</h4>
-			<p>It looks like you're new here, in order to take part in club activities you need to be a paying member, contact [VP] for more information.</p>
+			<strong>Joining The Club</strong> It looks like you're new here, in order to take part in club activities you need to be a paying member, contact the committee for more information.
 		</div>
 		{% endif %}
 	</div>
@@ -102,8 +104,7 @@
 		</table>
 		{% else %}
 		<div class="alert alert-info">
-			<h4>Joining BSAC</h4>
-			<p>This scuba club is part of the larger British Sub Aqua Club, you must also hold a membership with BSAC to participate.</p>
+			<strong>Joining BSAC</strong> This scuba club is a branch of the larger British Sub Aqua Club, you must also hold a membership with BSAC to participate.
 		</div>
 		{% endif %}
 	</div>

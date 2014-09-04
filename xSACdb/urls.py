@@ -29,6 +29,8 @@ urlpatterns = patterns('',
 
     url(r'^trips/', include('xsd_trips.urls')),
 
+    url(r'^about/', include('xsd_about.urls')),
+
     url(r'^media/(?P<path>.*)$', 'django.views.static.serve',
         {'document_root': settings.STATIC_DOC_ROOT}),
     url(r'^admin/doc/', include('django.contrib.admindocs.urls')),
