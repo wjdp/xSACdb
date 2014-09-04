@@ -25,19 +25,19 @@
 		
 	</div>
 	<div class="span4">
-		<h3><i class="icon-envelope"></i> Contact Details</h3>
+		<h3><i class="fa fa-envelope"></i> Contact Details</h3>
 		<table class="table">
-			<tr><th>Address</th><td>{% if not trainee.address or trainee.post_code %}<i class="icon-warning-sign red"></i>{% else %}{{trainee.formatted_address|safe}}<br />{{trainee.postcode}}{% endif %}</td></tr>
-			<tr><th>Email</th><td>{{trainee.user.email}}{% if not trainee.user.email %} <i class="icon-warning-sign red"></i>{% endif %}</td></tr>
-			<tr><th>Home Phone</th><td>{{trainee.home_phone}}{% if not trainee.home_phone %} <i class="icon-warning-sign red"></i>{% endif %}</td></tr>
-			<tr><th>Mobile Phone</th><td>{{trainee.mobile_phone}}{% if not trainee.mobile_phone %} <i class="icon-warning-sign red"></i>{% endif %}</td></tr>
+			<tr><th>Address</th><td>{% if not trainee.address or trainee.post_code %}<i class="fa fa-exclamation-triangle red"></i>{% else %}{{trainee.formatted_address|safe}}<br />{{trainee.postcode}}{% endif %}</td></tr>
+			<tr><th>Email</th><td>{{trainee.user.email}}{% if not trainee.user.email %} <i class="fa fa-exclamation-triangle red"></i>{% endif %}</td></tr>
+			<tr><th>Home Phone</th><td>{{trainee.home_phone}}{% if not trainee.home_phone %} <i class="fa fa-exclamation-triangle red"></i>{% endif %}</td></tr>
+			<tr><th>Mobile Phone</th><td>{{trainee.mobile_phone}}{% if not trainee.mobile_phone %} <i class="fa fa-exclamation-triangle red"></i>{% endif %}</td></tr>
 
 		</table>
 	</div>
 
 
 	<div class="span5">
-		<h3><i class="icon-table"></i> Lessons</h3>
+		<h3><i class="fa fa-table"></i> Lessons</h3>
 
  <p><big>{{planned}}</big> lessons planned</p>
  <p><big>{{partially_completed}}</big> lessons partially completed</p>
@@ -53,7 +53,7 @@
 
 	
 	<div class="span4">
-		<h3><i class="icon-trophy"></i> Qualification Details</h3>
+		<h3><i class="fa fa-trophy"></i> Qualification Details</h3>
 		<table class="table">
 			<tr><th>Current Qualification</th><td>{{ trainee.top_qual }}</td></tr>
 			<tr><th>Training For</th><td>{{ trainee.training_for }}</td></tr>
@@ -61,7 +61,11 @@
 			<tr><th>Instructor Qualification</th><td>{{ trainee.top_instructor_qual }}</td></tr>
 			<tr><th>Instructor Number</th><td>{{ trainee.instructor_number }}</td></tr>
 			{% endif %}
-			<tr><th>SDCs</th><td>{{ trainee.sdcs.all }}</td></tr>
+			<tr><th>SDCs</th><td>
+				<ul class="mini-sdc-list-training">
+				{% for sdc in trainee.sdcs.all %}<li>{{sdc}}</li>{% endfor %}
+				</ul>
+			</td></tr>
 
 		</table>
 	</div>

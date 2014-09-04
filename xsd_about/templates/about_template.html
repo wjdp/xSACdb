@@ -6,20 +6,20 @@
     <ul class="nav nav-list">
       <li class="nav-header">About</li>
       <li {% is_active_simple current_url 'AboutView' %}>
-      <a href="{% url 'AboutView' %}"><i class="fa fa-info-circle icon-fixed-width"></i> About xSACdb</a></li>
+      <a href="{% url 'AboutView' %}"><i class="fa fa-info-circle fa-fw"></i> About xSACdb</a></li>
       <li {% is_active_simple current_url 'DatabaseOfficers' %}>
-      <a href="{% url 'DatabaseOfficers' %}"><i class="fa fa-shield icon-fixed-width"></i> Database Officers</a></li>
+      <a href="{% url 'DatabaseOfficers' %}"><i class="fa fa-shield fa-fw"></i> Database Officers</a></li>
 
       {% if is_admin %}
       <li class="nav-header">xSACdb Administration</li>
       <li class="nyi">
-      <a href="{% url 'AllUpdateRequests' %}"><i class="fa fa-envelope-o icon-fixed-width"></i> All Update Requests</a></li>
+      <a href="{% url 'AllUpdateRequests' %}"><i class="fa fa-envelope-o fa-fw"></i> All Update Requests</a></li>
       <li class="nyi">
-      <a href="{% url 'AssignRoles' %}"><i class="fa fa-asterisk icon-fixed-width"></i> Assign Roles</a></li>
+      <a href="{% url 'AssignRoles' %}"><i class="fa fa-asterisk fa-fw"></i> Assign Roles</a></li>
       <li class="nyi">
-      <a href="{% url 'ApplicationTools' %}"><i class="fa fa-wrench icon-fixed-width"></i> Application Tools</a></li>
+      <a href="{% url 'ApplicationTools' %}"><i class="fa fa-wrench fa-fw"></i> Application Tools</a></li>
       <li {% is_active_simple current_url 'DjangoAdminWarning' %}>
-      <a href="{% url 'DjangoAdminWarning' %}"><i class="fa fa-cogs icon-fixed-width"></i> Debug Backend</a></li>
+      <a href="{% url 'DjangoAdminWarning' %}"><i class="fa fa-cogs fa-fw"></i> Debug Backend</a></li>
 
       {% endif %}
 

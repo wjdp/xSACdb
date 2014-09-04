@@ -154,7 +154,7 @@ class Session(models.Model):
         return reverse('SessionPlanner', kwargs={'pk': self.pk})
 
     def __unicode__(self):
-        return str(self.when) + " at " + self.where.__unicode__()
+        return self.whenstrftime('%a %d %b %Y %H:%M') + " at " + self.where.__unicode__()
 
 class TraineeGroup(models.Model):
     name=models.CharField(max_length=64, unique=True)

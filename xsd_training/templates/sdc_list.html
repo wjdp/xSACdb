@@ -4,7 +4,9 @@
 
 <div class="span9">
 <p>This is the list of all SDCs that BSAC currently offer, expand an item to find out more and to register your interest. Once you've completed an SDC, and passed the assessment if applicable, a little tick will show next to the title.</p>
+</div>
 
+<div class="span7">
 {% if sdcs %}
 {% for cat in categories %}
 <h4>{{cat.cat_name}}</h4>
@@ -24,14 +26,14 @@
                 {{sdc.interested_members.count}}
             {% endif %}
             {% if user|has_sdc:sdc %}
-            <i class="sdc-has icon-ok" title="You have completed this SDC"></i>
+            <i class="sdc-has fa fa-check fa-fw" title="You have completed this SDC"></i>
         	{% else %}
             {% if sdc.other_requirements and profile|cando_sdc:sdc %}
-            <i class="sdc-other-requirements icon-adjust" title="This SDC has custom requirements"></i>
+            <i class="sdc-other-requirements fa fa-adjust fa-fw" title="This SDC has custom requirements"></i>
             {% elif not sdc.other_requirements and profile|cando_sdc:sdc %}
-            <i class="sdc-cando icon-circle" title="You can do this SDC"></i>
+            <i class="sdc-cando fa fa-circle fa-fw" title="You can do this SDC"></i>
             {% else %}
-            <i class="sdc-cantdo icon-circle-blank" title="You currently do not have the BSAC qualification to undertake this SDC"></i>
+            <i class="sdc-cantdo fa fa-circle-o fa-fw" title="You currently do not have the BSAC qualification to undertake this SDC"></i>
             {% endif %}
             {% endif %}{{sdc.title}}</div>
 
@@ -67,6 +69,28 @@
 {% else %}
 <p>You currently have not completed any SDCs.</p>
 {% endif %}
+</div>
+
+<div class="span2 sdc-key">
+<table class="table">
+                <tr>
+                    <td><i class="sdc-has fa fa-check fa-fw" title="You have completed this SDC"></i></td>
+                    <td>SDC Attained</td>
+                </tr>
+                
+                <tr>
+                    <td><i class="sdc-cando fa fa-circle fa-fw" title="You can do this SDC"></i></td>
+                    <td>You could do this SDC</td>
+                </tr>
+                <tr>
+                    <td><i class="sdc-cantdo fa fa-circle-o fa-fw" title="You currently do not have the BSAC qualification to undertake this SDC"></i></td>
+                    <td>Your qualification is too low to do this SDC</td>
+                </tr>
+                <tr>
+                    <td><i class="sdc-other-requirements fa fa-adjust fa-fw" title="This SDC has custom requirements"></td>
+                    <td>This SDC has complex requirements</td>
+                </tr>
+            </table>
 </div>
 
 {% endblock %}

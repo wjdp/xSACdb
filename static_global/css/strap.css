@@ -2,6 +2,9 @@ html {
     overflow-y: scroll;
 }
 
+body {
+   padding-top: 56px; /* 60px to make the container go all the way to the bottom of the topbar */
+}
 
 .alignleft {float: left}
 .alignright {float: right}
@@ -181,7 +184,25 @@ columns:2;
 -moz-columns:2; /* Firefox */
 } 
 
-#map-canvas { height: 350px }
+#map-canvas {
+    height: 450px;
+    margin-bottom: 16px;
+}
+#map-canvas img {
+    /* Fix silly BS GM issue*/
+    max-width: inherit 
+}
+
+#site-info {
+    background: url('/static/images/noise-low.png') #E4C677;
+    margin-left: 0; 
+    padding-left: 20px;
+    box-shadow: 0px 1px 2px 1px #ccc;
+}
+
+#site-info div:first-child{
+    margin-left: 0
+}
 
 .sdc-info {
     font-size: 0.8em;
@@ -268,6 +289,7 @@ textarea {
     color:#EDDA47;
 }
 .sdc-has {
+    color: #394D1A
 }
 .sdc-other-requirements {
     color:#999;
@@ -282,11 +304,16 @@ textarea {
     margin-top: 0;
 }
 
-ul.mini-sdc-list {
+.sdc-key {
+    position: fixed
+    right: 0;
+}
+
+ul.mini-sdc-list, ul.mini-sdc-list-training {
     margin: 0
 }
 
-.mini-sdc-list li {
+.mini-sdc-list li, .mini-sdc-list-training li {
     display: inline-block;
     background: #358dc5;
     padding: 0 4px;
@@ -295,6 +322,10 @@ ul.mini-sdc-list {
     list-style-type: none;
     font-size: 0.8em;
     margin-right: 7px;
+}
+
+.mini-sdc-list-training li {
+    background: #E47F41;
 }
 
 .formbox {
@@ -559,3 +590,17 @@ li.nyi a {
     color: #ccc;
     cursor: not-allowed;
 }
+
+.push-left {
+    float: left;
+    padding: 10px 16px 10px 0;
+}
+.push-right {
+    float: right;
+    padding: 10px 0 10px 16px;
+}
+
+hr {
+    clear: both;
+}
+

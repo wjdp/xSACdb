@@ -2,6 +2,8 @@ from local_settings import *
 
 import os
 
+ADMIN_MEDIA_PREFIX = ''
+
 GOOGLE_MAPS_API_KEY=''
 
 PROJECT_PATH = os.path.join(os.path.dirname(__file__),'..')

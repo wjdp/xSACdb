@@ -70,16 +70,16 @@ background-image: linear-gradient(to bottom, #F0ACA3 0%, #DE5D5D 100%);
 <div class="banner {%if is_completed %}completed{%elif is_partially_completed %}partial{%else%}not{% endif %}">{{lesson}}</div>
 {% for pl in pls %}
 <div class="half">
-	<p><i class="fa fa-calendar-o icon-fixed-width"></i> {{pl.date}}</p>
-	{% if pl.session %}<p><i class="fa fa-map-marker icon-fixed-width"></i> {{pl.session}}</p>
-						<p><i class="fa fa-user icon-fixed-width"></i> {{pl.instructor.get_full_name}}</p>
-	{% else %}<p><i class="fa fa-map-marker icon-fixed-width"></i> <em>Lesson added retrospectively</em></p>
-		<p><i class="fa fa-user icon-fixed-width"></i> <em>Lesson added retrospectively</em></p>
+	<p><i class="fa fa-calendar-o fa-fw"></i> {{pl.date}}</p>
+	{% if pl.session %}<p><i class="fa fa-map-marker fa-fw"></i> {{pl.session}}</p>
+						<p><i class="fa fa-user fa-fw"></i> {{pl.instructor.get_full_name}}</p>
+	{% else %}<p><i class="fa fa-map-marker fa-fw"></i> <em>Lesson added retrospectively</em></p>
+		<p><i class="fa fa-user fa-fw"></i> <em>Lesson added retrospectively</em></p>
 	{% endif %}
 </div>
 <div class="half">
-<p class="public"><i class="fa fa-unlock icon-fixed-width"></i>  {{pl.public_notes}}</p>
-<p class="private"><i class="fa fa-lock icon-fixed-width"></i> {{pl.private_notes}}</p>
+<p class="public"><i class="fa fa-unlock fa-fw"></i>  {{pl.public_notes}}</p>
+<p class="private"><i class="fa fa-lock fa-fw"></i> {{pl.private_notes}}</p>
 </div>
 <div class="clear"></div>
 {% endfor %}

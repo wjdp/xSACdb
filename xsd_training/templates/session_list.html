@@ -16,9 +16,9 @@
         <td>{{session.where}}</td>
         <td>{{session.performedlesson_set.all.count}}</td>
         <td class="action-icons">
-        	<a href="{% url 'SessionPlanner' session.pk %}"><i class="icon-pencil"></i></a>
-        	{% if session.in_past %}<a href="{% url 'SessionComplete' session.pk %}"><i class="icon-check-sign"></i></a>{% endif %}
-        	<a href="{% url 'SessionDelete' session.pk %}"><i class="icon-trash"></i></a>
+        	<a href="{% url 'SessionPlanner' session.pk %}"><i class="fa fa-pencil-square fa-fw"></i></a>
+        	{% if session.in_past %}<a href="{% url 'SessionComplete' session.pk %}"><i class="fa fa-check-square fa-fw"></i></a>{% endif %}
+        	<a href="{% url 'SessionDelete' session.pk %}"><i class="fa fa-trash fa-fw"></i></a>
         </td>
         </tr>
 {% endfor %}
@@ -36,9 +36,9 @@
 <div class="span2">
 	<h4>Key</h4>
 	<table>
-	<tr><td class="action-icons"><a href="#"><i class="icon-pencil"></i></a></td><td>Edit</td></tr>
-	<tr><td class="action-icons"><a href="#"><i class="icon-check-sign"></i></a></td><td>Complete Session</td></tr>
-	<tr><td class="action-icons"><a href="#"><i class="icon-trash"></i></a></td><td>Delete</td></tr>
+	<tr><td class="action-icons"><a href="#"><i class="fa fa-pencil-square fa-fw"></i></a></td><td>Edit</td></tr>
+	<tr><td class="action-icons"><a href="#"><i class="fa fa-check-square fa-fw"></i></a></td><td>Complete Session</td></tr>
+	<tr><td class="action-icons"><a href="#"><i class="fa fa-trash fa-fw"></i></a></td><td>Delete</td></tr>
 	<tr><td class="last"></td><td>Just Edited</td>
 	</table>
 

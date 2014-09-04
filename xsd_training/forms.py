@@ -5,6 +5,8 @@ from django.contrib.auth.models import User
 from django import forms
 
 from xSACdb.form_fields import UserModelChoiceField
+# from xSACdb.widgets import AdminDateWidget
+from django.contrib.admin.widgets import AdminDateWidget
 
 class PerformedSDCCreateForm(forms.ModelForm):
     class Meta:
@@ -25,13 +27,17 @@ class SessionCreateForm(forms.ModelForm):
 	class Meta:
 		model=Session
 		fields=['when','where','notes','created_by']
+        widgets = {
+            'when': AdminDateWidget(),
+        }
 
 class SessionPLMapForm(forms.ModelForm):	# Used for mapping trainees to lessons and instructors in a Session
     def __init__(self,*args,**kwargs):
     	super(SessionPLMapForm, self).__init__(*args,**kwargs)
 
         # Exclude experience dives from the selection
-    	self.fields['lesson'].queryset=Lesson.objects.exclude(mode='XP').order_by('qualification','mode')
+        self.fields['lesson'].queryset=Lesson.objects.exclude(mode='XP').order_by('qualification','mode')
+        # self.fields['instructor'].queryset=MemberProfile.objects.all()
 
     class Meta:
         model = PerformedLesson
@@ -55,7 +61,7 @@ class PoolSheetOptions(forms.Form):
 
 class TraineeGroupSelectForm(forms.Form):
     traineegroup=forms.ModelChoiceField(queryset=TraineeGroup.objects.all(), label='Trainee Group')
-    only_main_three_modes = forms.BooleanField(initial=False)
+    # only_main_three_modes = forms.BooleanField(initial=False)
 
 
 class TraineeSelectForm(forms.Form):

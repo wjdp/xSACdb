@@ -33,7 +33,7 @@
             <tr><th>Trainee</th><th>Lesson</th><th>Instructor</th><th></th></tr>
             {% for form in performed_lessons_formset %}
             <tr><td>{{form.id}}{{form.instance.trainee.get_full_name}}</td><td>{{form.lesson}}</td><td>{{form.instructor}}</td>
-            <td><a href="?remove-trainee={{form.instance.trainee.pk}}" class="btn btn-danger btn-mini pull-right"><i class="icon icon-remove"></i></a></td>
+            <td><a href="?remove-trainee={{form.instance.trainee.pk}}" class="btn btn-danger btn-mini pull-right"><i class="fa fa-remove"></i></a></td>
             </tr>
             {% empty %}
             </table>
@@ -43,8 +43,8 @@
         </table>
         <div class="form-actions ">
 
-            <button type="submit" class="btn btn-primary alignright"><i class="icon icon-save"></i>  Save</button>
-            {% if session.in_past %}<a class="btn" href="{% url 'SessionComplete' session.pk %}"><i class="icon icon-ok"></i> Complete Session</a>{% endif %}
+            <button type="submit" class="btn btn-primary alignright"><i class="fa fa-save"></i>  Save</button>
+            {% if session.in_past %}<a class="btn" href="{% url 'SessionComplete' session.pk %}"><i class="fa fa-check-square"></i> Complete Session</a>{% endif %}
 
         </div>
 

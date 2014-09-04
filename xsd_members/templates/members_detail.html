@@ -34,12 +34,12 @@
 		
 	</div>
 	<div class="span4">
-		<h3><i class="icon-envelope"></i> Contact Details</h3>
+		<h3><i class="fa fa-envelope"></i> Contact Details</h3>
 		<table class="table">
-			<tr><th>Address</th><td>{% if not member.address or member.post_code %}<i class="icon-warning-sign red"></i>{% else %}{{member.formatted_address|safe}}<br />{{member.postcode}}{% endif %}</td></tr>
-			<tr><th>Email</th><td>{{member.user.email}}{% if not member.user.email %} <i class="icon-warning-sign red"></i>{% endif %}</td></tr>
-			<tr><th>Home Phone</th><td>{{member.home_phone}}{% if not member.home_phone %} <i class="icon-warning-sign red"></i>{% endif %}</td></tr>
-			<tr><th>Mobile Phone</th><td>{{member.mobile_phone}}{% if not member.mobile_phone %} <i class="icon-warning-sign red"></i>{% endif %}</td></tr>
+			<tr><th>Address</th><td>{% if not member.address or member.post_code %}<i class="fa fa-exclamation-triangle red"></i>{% else %}{{member.formatted_address|safe}}<br />{{member.postcode}}{% endif %}</td></tr>
+			<tr><th>Email</th><td>{{member.user.email}}{% if not member.user.email %} <i class="fa fa-exclamation-triangle red"></i>{% endif %}</td></tr>
+			<tr><th>Home Phone</th><td>{{member.home_phone}}{% if not member.home_phone %} <i class="fa fa-exclamation-triangle red"></i>{% endif %}</td></tr>
+			<tr><th>Mobile Phone</th><td>{{member.mobile_phone}}{% if not member.mobile_phone %} <i class="fa fa-exclamation-triangle red"></i>{% endif %}</td></tr>
 
 		</table>
 	</div>
@@ -47,14 +47,14 @@
 
 
 	<div class="span5">
-		<h3><i class="icon-home"></i> Club Details</h3>
+		<h3><i class="fa fa-home"></i> Club Details</h3>
 		{% if member.club_expiry or not myself %}
 		<table class="table">
 			{% if member.club_id %}<tr><th>Club ID</th><td>{{ member.club_id }}</td></tr>{% endif %}
 			{% if member.student_id %}<tr><th>Student ID</th><td>{{ member.student_id }}</td></tr>{% endif %}
 			<tr><th>Membership Type</th><td>{{member.club_membership_type }}</td></tr>
-			<tr><th>Membership Expiry Date</th><td>{{member.club_expiry }}{% if member.club_expired %} <i class="icon-warning-sign red"></i>{% endif %}</td></tr>
-			<tr><th>Medical Form Expiry Date</th><td>{{member.medical_form_expiry}}{% if member.medical_form_expired %} <i class="icon-warning-sign red"></i>{% endif %}</td></tr>
+			<tr><th>Membership Expiry Date</th><td>{{member.club_expiry }}{% if member.club_expired %} <i class="fa fa-exclamation-triangle red"></i>{% endif %}</td></tr>
+			<tr><th>Medical Form Expiry Date</th><td>{{member.medical_form_expiry}}{% if member.medical_form_expired %} <i class="fa fa-exclamation-triangle red"></i>{% endif %}</td></tr>
 		</table>
 		{% else %}
 		<div class="alert alert-info">
@@ -64,15 +64,15 @@
 	</div>
 
 	<div class="span4">
-		<h3><i class="icon-user"></i> Next of Kin</h3>
+		<h3><i class="fa fa-user"></i> Next of Kin</h3>
 		<table class="table">
-			<tr><th>Name</th><td>{{ member.next_of_kin_name }}{% if not member.next_of_kin_name %} <i class="icon-warning-sign red"></i>{% endif %}</td></tr>
-			<tr><th>Relation</th><td>{{ member.next_of_kin_relation }}{% if not member.next_of_kin_relation %} <i class="icon-warning-sign red"></i>{% endif %}</td></tr>
-			<tr><th>Phone</th><td>{{ member.next_of_kin_phone }}{% if not member.next_of_kin_phone %} <i class="icon-warning-sign red"></i>{% endif %}</td></tr>
+			<tr><th>Name</th><td>{{ member.next_of_kin_name }}{% if not member.next_of_kin_name %} <i class="fa fa-exclamation-triangle red"></i>{% endif %}</td></tr>
+			<tr><th>Relation</th><td>{{ member.next_of_kin_relation }}{% if not member.next_of_kin_relation %} <i class="fa fa-exclamation-triangle red"></i>{% endif %}</td></tr>
+			<tr><th>Phone</th><td>{{ member.next_of_kin_phone }}{% if not member.next_of_kin_phone %} <i class="fa fa-exclamation-triangle red"></i>{% endif %}</td></tr>
 		</table>
 	</div>
 	<div class="span5">
-		<h3><i class="icon-trophy"></i> Qualification Details</h3>
+		<h3><i class="fa fa-trophy"></i> Qualification Details</h3>
 		<table class="table">
 			<tr><th>Current Qualification</th><td>{{ member.top_qual }}</td></tr>
 			<tr><th>Training For</th><td>{{ member.training_for }}</td></tr>
@@ -100,7 +100,7 @@
 				{% elif member.bsac_member_via_another_club}Member of BSAC through another club
 				{% else %}Standard club member{% endif %}
 			</td></tr>
-			<tr><th>BSAC Expiry Date</th><td>{{member.bsac_expiry }}{% if member.bsac_expired %} <i class="icon-warning-sign red"></i>{% endif %}</td></tr>
+			<tr><th>BSAC Expiry Date</th><td>{{member.bsac_expiry }}{% if member.bsac_expired %} <i class="fa fa-exclamation-triangle red"></i>{% endif %}</td></tr>
 		</table>
 		{% else %}
 		<div class="alert alert-info">
