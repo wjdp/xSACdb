@@ -29,6 +29,8 @@ urlpatterns = patterns('',
 
     url(r'^trips/', include('xsd_trips.urls')),
 
+    url(r'^kit/', include('xsd_kit.urls')),
+
     url(r'^about/', include('xsd_about.urls')),
 
     url(r'^media/(?P<path>.*)$', 'django.views.static.serve',

@@ -6,22 +6,25 @@
 
 <div class="span9">
 	<p>Pop a surname, or part of one, into the box below and hit search. BAM!</p>
-	<form action="." method="GET">
-	<div class="input-append">
-    	<input type="text" name="surname" />ar
-    	<button type="submit" class="btn btn-primary">Search</button>
-    </div>
-	</form>
+	<div class="formbox">
+		<form action="." method="GET">
+			{% csrf_token %}
+			<div class="form-horizontal">
+			<input id="id_surname" type="text" name="surname" maxlength="50" />
+				<button type="submit" class="btn btn-primary">Search</button>
+			</div>	
+		</form>
+	</div>
 	{% if trainees %}
 	<table class="table table-condensed table-striped">
-	<tr><th>Name</th><th>Qualification</th></tr>
+		<tr><th>Name</th><th>Qualification</th></tr>
 
-	{% for trainee in trainees %}
-	<tr>
-		<td><a href="{% url 'TraineeNotes' trainee.pk %}">{{trainee.get_full_name}}</a></td>
-		<td>{{trainee.memberprofile.top_qual}}</td>
-	</tr>
-	{% endfor %}
+		{% for trainee in trainees %}
+		<tr>
+			<td><a href="{% url 'TraineeNotes' trainee.pk %}">{{trainee.get_full_name}}</a></td>
+			<td>{{trainee.memberprofile.top_qual}}</td>
+		</tr>
+		{% endfor %}
 	</table>
 
 	{% endif %}

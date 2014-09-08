@@ -15,6 +15,7 @@ def menu_perms(request):
         update_request_form = UpdateRequestMake()
         my_user_account_form = MyUserAccountForm()
 
+        DEBUG = settings.DEBUG
         l10n_club = settings.CLUB
 
         return {
@@ -24,6 +25,7 @@ def menu_perms(request):
             'current_url':current_url,
 
             'l10n_club': l10n_club,
+            'DEBUG': DEBUG,
 
             'update_request_form':update_request_form,
             'my_user_account_form': my_user_account_form,

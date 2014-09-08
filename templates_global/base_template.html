@@ -30,11 +30,15 @@
             <a class="brand" href="#">{{l10n_club.name}} Database</a>
             <ul class="nav">
                 <li {% is_active_simple ui.app 'home' %}><a href="/">Home</a></li>
-                <li {% is_active_simple ui.app 'profile' %}><a href="{% url 'xsd_members.views.view_my_profile' %}">Profile</a></li>
+                {% if not is_members %}<li {% is_active_simple ui.app 'profile' %}><a href="{% url 'xsd_members.views.view_my_profile' %}">Profile</a></li>{% endif %}
                 {% if is_members %}<li {% is_active_simple ui.app 'members' %}><a href="{% url 'xsd_members.views.admin' %}">Members</a></li>{% endif %}
                 <li {% is_active_simple ui.app 'training' %}><a href="{% url 'xsd_training.views.trainee.overview' %}">Training</a></li>
+                {% if DEBUG %}
+                <li {% is_active_simple ui.app 'trips' %}><a href="{% url 'TripList' %}">Trips</a></li>
+                <li {% is_active_simple ui.app 'kit' %}><a href="{% url 'KitOverview' %}">Kit</a></li>
+                {% endif %}
                 <li {% is_active_simple ui.app 'sites' %}><a href="{% url 'SitesOverview' %}">Sites</a></li>
-                {# <li {% is_active_simple ui.app 'trips' %}><a href="{% url 'TripList' %}">Trips</a></li> #}
+                
                 <li><a href="{% url 'AboutView' %}">About</a></li>
             </ul>
             <ul class="pull-right nav">

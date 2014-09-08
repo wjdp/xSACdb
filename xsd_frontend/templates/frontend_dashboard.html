@@ -63,14 +63,14 @@
     {% else %}
     <ul class="membership-status">
         <li class="{% if profile.club_expired %}fail{% else %}pass{% endif %}"><strong>{{l10n_club.name}} Membership</strong>
-            <span class="note">{% if profile.club_expired %}Expired{% else %}Expires{% endif %} on {{profile.club_expiry}}</span>
+            <p><span class="note">{% if profile.club_expired %}Expired{% else %}Expires{% endif %} on {{profile.club_expiry}}</span></p>
             {% if profile.club_expired %}<p><span class="note extra">Student members please renew at <a href="http://www.su.nottingham.ac.uk/sports/sport/subaqua/">su.nottingham.ac.uk</a>.</span></p>{% endif %}
             </li>
 
 
 
             <li class="{% if profile.bsac_expired %}fail{% else %}pass{% endif %}"><strong>BSAC Membership</strong>
-                <span class="note">{% if profile.bsac_expired %}Expired{% else %}Expires{% endif %} on {{profile.bsac_expiry}}</span>
+                <p><span class="note">{% if profile.bsac_expired %}Expired{% else %}Expires{% endif %} on {{profile.bsac_expiry}}</span></p>
 
                 {% if profile.bsac_expired %}
                 <p><span class="note extra">
@@ -87,7 +87,7 @@
                 {% endif %}
                 </li>
                 <li class="{% if profile.medical_form_expired %}fail{% else %}pass{% endif %}"><strong>Medical Form</strong>
-                    <span class="note">{% if profile.medical_form_expired %}Expired{% else %}Expires{% endif %} on {{profile.medical_form_expiry}}</span>
+                    <p><span class="note">{% if profile.medical_form_expired %}Expired{% else %}Expires{% endif %} on {{profile.medical_form_expiry}}</span></p>
                     {% if profile.medical_form_expired %}<p><span class="note extra">Form available at <a href="http://uksdmc.co.uk/">uksdmc.co.uk</a></span></p>{% endif %}
                     </li>
                 </ul>

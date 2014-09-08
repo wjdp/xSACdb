@@ -144,6 +144,7 @@ INSTALLED_APPS = (
     'xsd_training',
     'xsd_trips',
     'xsd_sites',
+    'xsd_kit',
     'xsd_about',
 )
 

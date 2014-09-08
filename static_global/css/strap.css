@@ -19,7 +19,7 @@ ul.membership-status strong {
 ul.membership-status li {
     list-style-type:none;
     padding-left:40px;
-    padding-bottom:5px
+    margin-bottom:8px
 }
 ul.membership-status span.note {
     font-size:0.9em;
@@ -32,6 +32,10 @@ li.pass {
 }
 li.fail {
     background:url('/static/images/error.png') no-repeat top left;
+}
+
+.membership-status p {
+    margin-bottom: 0
 }
 
 ul.lessons {
@@ -604,3 +608,7 @@ hr {
     clear: both;
 }
 
+img.about-logo {
+    width: 90%;
+    margin-bottom: 16px;
+}
