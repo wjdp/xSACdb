@@ -209,6 +209,7 @@ class SessionDelete(RequireTrainingOfficer, DeleteView):
         context['pls'] = PerformedLesson.objects.filter(session=self.object)
         return context
 
+@require_training_officer
 def pool_sheet(request):
     if request.GET:
         form = PoolSheetOptions(request.GET)
@@ -219,6 +220,7 @@ def pool_sheet(request):
 
     return render(request, 'pool_sheet.html', {'form':form})
 
+@require_training_officer
 def pool_sheet_generate(request, form):
     session = form.cleaned_data['session']
     pls = PerformedLesson.objects.filter(session = session)
