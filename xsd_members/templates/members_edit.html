@@ -14,7 +14,7 @@
 		{% endif %}
 	</div>
 	<div class="span4">
-		<h3><i class="icon-envelope"></i> Contact Details</h3>
+		<h3><i class="fa fa-envelope"></i> Contact Details</h3>
 		<table class="table">
 			<tr><th>Address</th><td>{{ form.address.errors }}{{form.address}}{{ form.postcode.errors }}{{form.postcode}}</td></tr>
 			<tr><th>Email</th><td>This is changed under account settings.</td></tr>
@@ -27,7 +27,7 @@
 
 
 	<div class="span5">
-		<h3><i class="icon-home"></i> Club Details</h3>
+		<h3><i class="fa fa-home"></i> Club Details</h3>
 		{% if is_members %}
 		<table class="table">
 			<tr><th>Club ID</th><td>{{ form.club_id.errors }}{{ form.club_id }}</td></tr>
@@ -42,7 +42,7 @@
 	</div>
 
 	<div class="span4">
-		<h3><i class="icon-user"></i> Next of Kin</h3>
+		<h3><i class="fa fa-user"></i> Next of Kin</h3>
 		<table class="table">
 			<tr><th>Name</th><td>{{ form.next_of_kin_name.errors }}{{ form.next_of_kin_name }}</td></tr>
 			<tr><th>Relation</th><td>{{ form.next_of_kin_relation.errors }}{{ form.next_of_kin_relation }}</td></tr>
@@ -51,7 +51,7 @@
 	</div>
 	<div class="span5">
 	
-		<h3><i class="icon-trophy"></i> Qualification Details</h3>
+		<h3><i class="fa fa-trophy"></i> Qualification Details</h3>
 		{% if is_members %}
 		<table class="table">
 			<tr><th>Current Qualification</th><td>Qualifications are added in the training module</td></tr>

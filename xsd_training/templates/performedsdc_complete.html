@@ -31,10 +31,10 @@
 {% if is_training %}
 <div class="span9 ">
 <div class="form-actions">
-        {% if not psdc.completed %}<a class="btn" href="{% url 'PerformedSDCDetail' psdc.pk %}"><i class="icon icon-remove"></i> Cancel</a>{% endif %}
+        {% if not psdc.completed %}<a class="btn" href="{% url 'PerformedSDCDetail' psdc.pk %}"><i class="fa fa-remove"></i> Cancel</a>{% endif %}
 
         <div class="btn-group pull-right">
-        <button type="submit" class="btn btn-success"><i class="icon icon-ok"></i> Complete Course</button>
+        <button type="submit" class="btn btn-success"><i class=" fa fa-ok"></i> Complete Course</button>
         </div>
 </div>
 </form>

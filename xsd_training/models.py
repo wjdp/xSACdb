@@ -54,7 +54,7 @@ class Lesson(models.Model):
         return self.code + " - " + self.title
 
     class Meta:
-        ordering = ['qualification','order']
+        ordering = ['qualification','mode','order']
 
     def is_completed(self, user):
         pl=PerformedLesson.objects.filter(trainee=user, lesson=self, completed=True).count()
@@ -140,7 +140,7 @@ class Session(models.Model):
     when=models.DateTimeField()
     where=models.ForeignKey('xsd_sites.Site')
     notes=models.TextField(blank=True)
-    created_by=models.ForeignKey('auth.User')
+    created_by=models.ForeignKey('auth.User', blank=True, null=True)
 
     completed = models.BooleanField(default=False)
 
@@ -156,6 +156,14 @@ class Session(models.Model):
     def __unicode__(self):
         return self.when.strftime('%a %d %b %Y %H:%M') + " at " + self.where.__unicode__()
 
+    def save(self, *args, **kwargs):
+        if self.created_by == None:
+            self.created_by = User.objects.get(pk=2)
+        return super(Session, self).save(*args, **kwargs)
+
+    class Meta:
+        ordering=['when']
+
 class TraineeGroup(models.Model):
     name=models.CharField(max_length=64, unique=True)
     trainees=models.ManyToManyField(User, blank=True)
@@ -168,3 +176,6 @@ class TraineeGroup(models.Model):
 
     def __unicode__(self):
         return self.name
+
+    class Meta:
+        ordering=['name']

@@ -77,7 +77,7 @@ class MemberList(RequireMembersOfficer, OrderedListView):
 
 class NewMembers(MemberList):
     page_title='New Members'
-    page_description='New signups to the database, to remove them from this list use <div class="fake-button"><i class="icon-flag"></i> Remove New Flag</div> on their profile page. Before this you\'ll probably want to add details to their profile, it\'s kinda the point of the new flag.'
+    page_description='New signups to the database, to remove them from this list use <div class="fake-button"><i class="fa fa-flag"></i> Remove New Flag</div> on their profile page. Before this you\'ll probably want to add details to their profile, it\'s kinda the point of the new flag.'
 
     def get_queryset(self):
         queryset=super(NewMembers, self).get_queryset()
@@ -87,8 +87,8 @@ class NewMembers(MemberList):
 class MembersExpiredFormsList(MemberList):
     page_title='Members With Expired Forms'
     page_description='''<p><i class="icon-bsac-small expired"></i>is expired 
-        BSAC membership, <i class="icon-home expired"></i>is expired club 
-        membership and <i class="icon-medkit expired"></i>is an expired
+        BSAC membership, <i class="fa fa-home expired"></i>is expired club 
+        membership and <i class="fa fa-medkit expired"></i>is an expired
         medical form.</p>
         <p>The easiest way of bulk adding forms is the Bulk Jobs > Add Forms
         Tool.</p>'''

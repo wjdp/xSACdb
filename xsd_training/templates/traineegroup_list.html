@@ -16,7 +16,7 @@
     <tr>
         <td>{{group.name}}</td>
         <td>{{group.trainees_list}}</td>
-        <td class="action-icons"><a href="{% url 'TraineeGroupUpdate' group.pk %}"><i class="icon-pencil"></i></a> <a href="{% url 'TraineeGroupDelete' group.pk %}"><i class="icon-trash"></i></a></td>
+        <td class="action-icons"><a href="{% url 'TraineeGroupUpdate' group.pk %}"><i class="fa fa-pencil"></i></a> <a href="{% url 'TraineeGroupDelete' group.pk %}"><i class="fa fa-trash"></i></a></td>
 
         </tr>
 {% endfor %}

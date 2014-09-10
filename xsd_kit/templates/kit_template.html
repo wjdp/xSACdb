@@ -7,23 +7,25 @@
       <li class="nav-header">Kit</li>
       <li {% is_active_simple current_url 'KitOverview' %}>
       <a href="{% url 'KitOverview' %}"><i class="fa fa-tachometer fa-fw"></i> Overview</a></li>
+      <li {% is_active_simple current_url 'KitClubKit' %}>
+      <a href="{% url 'KitClubKit' %}"><i class="fa fa-tags fa-fw"></i> Club Kit</a></li>
       <li class="nyi">
-      <a href="#"><i class="fa fa-circle fa-fw"></i> Club Kit</a></li>
+      <a href="#"><i class="fa fa-users fa-fw"></i> Members Kit</a></li>
+
+      <li class="nav-header">My Bits</li>
       <li class="nyi">
-      <a href="#"><i class="fa fa-circle fa-fw"></i> Members Kit</a></li>
+      <a href="#"><i class="fa fa-tag fa-fw"></i> My Kit</a></li>
       <li class="nyi">
-      <a href="#"><i class="fa fa-circle fa-fw"></i> My Kit</a></li>
-      <li class="nyi">
-      <a href="#"><i class="fa fa-circle fa-fw"></i> My Requests</a></li>
+      <a href="#"><i class="fa fa-inbox fa-fw"></i> Kit Requests</a></li>
 
       {% if is_admin %}
       <li class="nav-header">Kit Administration</li>
       <li class="nyi">
-      <a href="#"><i class="fa fa-circle fa-fw"></i> Club Kit</a></li>
+      <a href="#"><i class="fa fa-tags fa-fw"></i> Club Kit</a></li>
       <li class="nyi">
-      <a href="#"><i class="fa fa-circle fa-fw"></i> Kit Requests</a></li>
+      <a href="#"><i class="fa fa-inbox fa-fw"></i> Kit Requests</a></li>
       <li class="nyi">
-      <a href="#"><i class="fa fa-circle fa-fw"></i> Reporting</a></li>
+      <a href="#"><i class="fa fa-bar-chart-o fa-fw"></i> Reporting</a></li>
 
       {% endif %}
 

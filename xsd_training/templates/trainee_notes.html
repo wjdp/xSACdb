@@ -11,7 +11,7 @@
 		{% if trainee.image %}<img src="{{trainee.image.url}}" alt="Profile Picture" class="alignright" />{%endif%}
 		<h2>{{trainee}}</h2>
 		<div class="btn-group btn-mini">
-			{% if is_members %}<a href="{% url 'MemberDetail' trainee.user.pk %}" class="btn btn-small" type="button"><i class="icon-search"></i> View Member Profile</a>{% endif %}
+			{% if is_members %}<a href="{% url 'MemberDetail' trainee.user.pk %}" class="btn btn-small" type="button"><i class="fa fa-search"></i> View Member Profile</a>{% endif %}
 		</div>
 		</div>
 		

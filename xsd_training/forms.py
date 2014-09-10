@@ -26,7 +26,7 @@ class QualificationSelectForm(forms.Form):
 class SessionCreateForm(forms.ModelForm):
 	class Meta:
 		model=Session
-		fields=['when','where','notes','created_by']
+		fields=['when','where','notes']
         widgets = {
             'when': AdminDateWidget(),
         }

@@ -612,3 +612,16 @@ img.about-logo {
     width: 90%;
     margin-bottom: 16px;
 }
+
+.loan-create {
+    background: #B7CDEC;
+    border: 1px solid #647899;
+    border-radius: 4px;
+    padding: 12px;
+    min-height: 400px
+}
+
+#kit-table_wrapper select {
+    width: 60px;
+}
+
