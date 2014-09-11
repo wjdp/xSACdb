@@ -55,7 +55,8 @@ class TraineeGroupDelete(RequireTrainingOfficer,DeleteView):
     context_object_name='tg'
     success_url = reverse_lazy('TraineeGroupList')
 
-class TraineeGroupProgress(RequireTrainingOfficer, TraineeGroupList):
+# RequireTrainingOfficer is inherited
+class TraineeGroupProgress(TraineeGroupList):
     template_name='traineegroup_progress.html'
     def get_context_data(self, **kwargs):
         context = super(TraineeGroupProgress, self).get_context_data(**kwargs)

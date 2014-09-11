@@ -31,7 +31,7 @@
 		{% if is_members %}
 		<table class="table">
 			<tr><th>Club ID</th><td>{{ form.club_id.errors }}{{ form.club_id }}</td></tr>
-			<tr><th>Student ID</th><td>{{ form.student_id.errors }}{{ form.student_id }}</td></tr>
+			{% if l10n_club.student %}<tr><th>Student ID</th><td>{{ form.student_id.errors }}{{ form.student_id }}</td></tr>{% endif %}
 			<tr><th>Membership Type</th><td>{{ form.club_membership_type.errors }}{{form.club_membership_type }}</td></tr>
 			<tr><th>Membership Expiry Date</th><td>{{ form.club_expiry.errors }}{{form.club_expiry }}</td></tr>
 			<tr><th>Medical Form Expiry Date</th><td>{{ form.medical_form_expiry.errors }}{{form.medical_form_expiry}}</td></tr>

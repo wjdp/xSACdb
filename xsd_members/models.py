@@ -9,6 +9,8 @@ class MemberProfile(FacebookModel):
     user = models.OneToOneField('auth.User')
     token = models.CharField(max_length=150, blank=True)
     new = models.BooleanField(default=True)
+
+    # This is being used to 'approve' new members
     new_notify = models.BooleanField(default=True)
 
     address = models.TextField(blank=True)
@@ -167,3 +169,21 @@ class MembershipType(models.Model):
 
     def __unicode__(self):
         return self.name
+
+    class Meta:
+        ordering = ['name']
+
+class Mailing(models.Model):
+    title = models.CharField(max_length=64)
+    sender = models.ForeignKey('auth.User', related_name='sender')
+    recipients = models.ManyToManyField('auth.User', related_name='recipients_set')
+    message = models.TextField()
+    is_public = models.BooleanField(help_text='Message can be viewed by all members')
+
+    class Meta:
+        verbose_name = 'Mailing'
+        verbose_name_plural = 'Mailings'
+
+    def __unicode__(self):
+        pass
+    

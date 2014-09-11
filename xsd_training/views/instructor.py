@@ -65,14 +65,3 @@ class TraineeNotes(RequireInstructor, DetailView):
         context['partially_completed'] = pls.filter(completed = False, partially_completed = True).count()
         context['completed'] = pls.filter(completed = True, partially_completed = False).count()
         return context
-
-
-# @require_instructor
-# def TraineeNotes(request, pk):
-#     user=get_object_or_404(User,pk=pk)
-#     trainee=user.memberprofile
-#     pls=PerformedLesson.objects.filter(trainee=user).order_by('date')
-#     return render(request, 'trainee_notes.html', {
-#         'trainee':trainee,
-#         'pls':pls,
-#     }, context_instance=RequestContext(request))

@@ -1,15 +1,29 @@
+########################
+# xSACdb Configuration #
+########################
+
+# Make a copy of this file as `local_settings.py`
+# The server will not start without doing this
+
+# Club config
 CLUB = {
+    # Name of your club
 	'name': 'UoNSSAC',
+
+    # Are you a student club? This adds fields like student ID to the member records
+    'student': True, 
 }
 
 
 # Make this FALSE for deployment
 DEBUG = True
 
+# Send error reports to
 ADMINS = (
     # ('Your Name', 'your_email@example.com'),
 )
 
+# Your database config
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3', # Add 'postgresql_psycopg2', 'mysql', 'sqlite3' or 'oracle'.
@@ -35,6 +49,6 @@ LANGUAGE_CODE = 'en-gb'
 # Generate one here: http://www.miniwebtool.com/django-secret-key-generator/
 SECRET_KEY = ''
 
-# django_facebook settings
+# django_facebook settings, grab these from your facebook app config
 FACEBOOK_APP_ID=0
 FACEBOOK_APP_SECRET=""
