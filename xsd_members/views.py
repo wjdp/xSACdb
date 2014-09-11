@@ -28,7 +28,7 @@ import StringIO
 import csv
 
 def view_my_profile(request):
-    profile=request.user.get_profile
+    profile=request.user.memberprofile
     editable=True
     return render(request,'members_detail.html',{
         'member':profile,
@@ -220,7 +220,7 @@ class MyProfileEdit(ModelFormView):
     success_url=reverse_lazy('my-profile')
 
     def get_model(self):
-        return self.request.user.get_profile()
+        return self.request.user.memberprofile
 
     def get_context_data(self, **kwargs):
         context = super(MyProfileEdit, self).get_context_data(**kwargs)
@@ -242,7 +242,7 @@ class MemberEdit(RequireMembersOfficer, ModelFormView):
 
     def get_model(self):
         user=self.get_user()
-        return user.get_profile()
+        return user.memberprofile
 
     def get_context_data(self, **kwargs):
         context = super(MemberEdit, self).get_context_data(**kwargs)

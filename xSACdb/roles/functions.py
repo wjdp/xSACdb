@@ -17,7 +17,7 @@ def is_instructor(user):	#User is either by having a qualification or being trai
 	groups=[2,3,7]
 	if is_allowed(user,groups):
 		return True
-	elif user.get_profile().is_instructor():
+	elif user.memberprofile.is_instructor():
 		return True
 	else:
 		return False

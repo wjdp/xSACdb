@@ -14,7 +14,7 @@ from models import UpdateRequest
 from django.contrib.auth.models import User
 
 def dashboard(request):
-    profile=request.user.get_profile()
+    profile=request.user.memberprofile
     newbie=profile.new
 
     repost=False
