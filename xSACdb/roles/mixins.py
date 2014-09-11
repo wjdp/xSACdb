@@ -16,6 +16,10 @@ class RequireGroup(object):
     #     else:
     #         raise PermissionDenied
 
+class RequireVerified(RequireGroup):
+    def is_allowed(self,user):
+        return is_verified(user)
+
 class RequireInstructor(RequireGroup):
     def is_allowed(self,user):
         return is_instructor(user)

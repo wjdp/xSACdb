@@ -57,7 +57,7 @@
     <h2 class="top-header">Membership</h2>
     {% if profile.no_expiry_data %}
     <div class="alert alert-info">
-        <strong>Welcome!</strong>
+        <i class="fa fa-thumbs-up"></i> <strong>Welcome!</strong>
         It looks like you're new. Before you can dive with us you need to be a member of the club, a member of BSAC and have a submitted medical form. You can get help with these things from the committee.
     </div>
     {% else %}
@@ -92,6 +92,9 @@
                     </li>
                 </ul>
                 {% endif %}
+        {% if not_yet_verified %}
+        <div class="alert alert-info"><strong><i class="fa fa-lock"></i> Sorry!</strong> Your account has not yet been verified by the database officers. Until this happens you won't be able to access most areas of the database.</div>
+        {% endif %}
 <h4>Sections</h4>
 <ul class="quicklinks">
 <li class="members"><a href="{% url 'xsd_members.views.view_my_profile' %}">Club Profile</a></li>

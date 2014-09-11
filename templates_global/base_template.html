@@ -29,17 +29,17 @@
         <div class="container">
             <a class="brand" href="#">{{l10n_club.name}} Database</a>
             <ul class="nav">
-                <li {% is_active_simple ui.app 'home' %}><a href="/">Home</a></li>
-                {% if not is_members %}<li {% is_active_simple ui.app 'profile' %}><a href="{% url 'xsd_members.views.view_my_profile' %}">Profile</a></li>{% endif %}
-                {% if is_members %}<li {% is_active_simple ui.app 'members' %}><a href="{% url 'xsd_members.views.admin' %}">Members</a></li>{% endif %}
-                <li {% is_active_simple ui.app 'training' %}><a href="{% url 'xsd_training.views.trainee.overview' %}">Training</a></li>
+                <li {% is_active_simple ui.app 'home' %}><a href="/"><i class="fa fa-home"></i> Home</a></li>
+                {% if not is_members %}<li {% is_active_simple ui.app 'profile' %}><a href="{% url 'xsd_members.views.view_my_profile' %}"><i class="fa fa-user"></i> Profile</a></li>{% endif %}
+                {% if is_members %}<li {% is_active_simple ui.app 'members' %}><a href="{% url 'xsd_members.views.admin' %}"><i class="fa fa-user"></i> Members</a></li>{% endif %}
+                {% if is_verified %}<li {% is_active_simple ui.app 'training' %}><a href="{% url 'xsd_training.views.trainee.overview' %}"><i class="fa fa-mortar-board"></i> Training</a></li>{% endif %}
                 {% if DEBUG %}
-                <li {% is_active_simple ui.app 'trips' %}><a href="{% url 'TripList' %}">Trips</a></li>
-                <li {% is_active_simple ui.app 'kit' %}><a href="{% url 'KitOverview' %}">Kit</a></li>
+                {% if is_verified %}<li {% is_active_simple ui.app 'trips' %}><a href="{% url 'TripList' %}"><i class="fa fa-home"></i> Trips</a></li>{% endif %}
+                {% if is_verified %}<li {% is_active_simple ui.app 'kit' %}><a href="{% url 'KitOverview' %}"><i class="fa fa-tags"></i> Kit</a></li>{% endif %}
                 {% endif %}
-                <li {% is_active_simple ui.app 'sites' %}><a href="{% url 'SitesOverview' %}">Sites</a></li>
+                {% if is_verified %}<li {% is_active_simple ui.app 'sites' %}><a href="{% url 'SitesOverview' %}"><i class="fa fa-map-marker"></i> Sites</a></li>{% endif %}
                 
-                <li><a href="{% url 'AboutView' %}">About</a></li>
+                {% if is_verified %}<li><a href="{% url 'AboutView' %}"><i class="fa fa-info-circle"></i> About</a></li>{% endif %}
             </ul>
             <ul class="pull-right nav">
                 <li><a href="#" class="dropdown-toggle" data-toggle="dropdown">

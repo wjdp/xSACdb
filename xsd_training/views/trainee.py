@@ -2,10 +2,12 @@ from django.shortcuts import render, get_object_or_404
 from django.template import RequestContext
 
 from xSACdb.ui import xsdUI
+from xSACdb.roles.decorators import require_verified
 
 from xsd_training.models import *
 from xsd_training.forms import *
 
+@require_verified
 def overview(request):
     ui=xsdUI
     ui.app='training'
@@ -19,6 +21,7 @@ def overview(request):
             'quals':quals,     
             }, context_instance=RequestContext(request))
 
+@require_verified
 def lessons(request):
     ui=xsdUI
     ui.app='training'
@@ -29,6 +32,7 @@ def lessons(request):
             'ui':ui     
             }, context_instance=RequestContext(request))
 
+@require_verified
 def lesson_detail(request, id):
     lesson=get_object_or_404(Lesson, id=id)
     ui=xsdUI
@@ -44,6 +48,7 @@ def lesson_detail(request, id):
         'ui':ui,
         }, context_instance=RequestContext(request))
 
+@require_verified
 def all_feedback(request):
     ui=xsdUI
     ui.app='training'

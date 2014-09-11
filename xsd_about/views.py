@@ -3,10 +3,12 @@ from django.views.generic.base import TemplateView
 
 from django.contrib.auth.models import User, Group
 
-class AboutView(TemplateView):
+from xSACdb.roles.mixins import RequireAdministrator, RequireVerified
+
+class AboutView(RequireVerified, TemplateView):
 	template_name='about_about.html'
 
-class DatabaseOfficersView(TemplateView):
+class DatabaseOfficersView(RequireVerified, TemplateView):
 	template_name='about_database_officers.html'
 	def get_users_in_role(self, role):
 		return Group.objects.get(pk=role).user_set.all()

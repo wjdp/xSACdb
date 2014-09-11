@@ -30,6 +30,7 @@ def menu_perms(request):
             'update_request_form':update_request_form,
             'my_user_account_form': my_user_account_form,
 
+            'is_verified':is_verified(u),
             'is_training':is_training(u),
             'is_trips':is_trips(u),
             'is_sites':is_sites(u),

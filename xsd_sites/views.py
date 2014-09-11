@@ -6,17 +6,17 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.core import serializers
 from django.core.urlresolvers import reverse, reverse_lazy
 
-from xSACdb.roles.decorators import require_site_administrator
-from xSACdb.roles.mixins import RequireSiteAdministrator
+from xSACdb.roles.decorators import require_site_administrator, require_verified
+from xSACdb.roles.mixins import RequireSiteAdministrator, RequireVerified
 
 from models import *
 
-class SitesOverview(ListView):
+class SitesOverview(RequireVerified, ListView):
     model=Site
     template_name='sites_overview.html'
     context_object_name='sites'
 
-class SitesSearch(ListView):
+class SitesSearch(RequireVerified, ListView):
     model=Site
     template_name="sites_overview.html"
     context_object_name='sites'
@@ -57,6 +57,7 @@ class SiteUpdate(RequireSiteAdministrator, UpdateView):
         context['page_title'] = self.page_title
         return context
 
+@require_verified
 def sitedetail_json(request,pk):
     site=get_object_or_404(Site, pk=pk)
     json_site=serializers.serialize("json",[site, ])

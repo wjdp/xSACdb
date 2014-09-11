@@ -9,8 +9,8 @@ from django.views.generic.detail import DetailView
 from django.core.urlresolvers import reverse_lazy
 
 from xSACdb.view_helpers import OrderedListView
-from xSACdb.roles.decorators import require_training_officer
-from xSACdb.roles.mixins import RequireTrainingOfficer
+from xSACdb.roles.decorators import require_training_officer, require_verified
+from xSACdb.roles.mixins import RequireTrainingOfficer, RequireVerified
 
 from xsd_training.models import *
 from xsd_training.forms import *
@@ -21,7 +21,7 @@ from xsd_members.bulk_select import get_bulk_members
 import re
 
 
-class SDCList(OrderedListView):
+class SDCList(RequireVerified, OrderedListView):
     model=SDC
     template_name='sdc_list.html'
     context_object_name='sdcs'
@@ -45,7 +45,7 @@ class SDCList(OrderedListView):
         context['categories']=self.categories
         return context
 
-
+@require_verified
 def sdc_register_interest(request):
     if request.POST:
         user=request.user
@@ -66,7 +66,7 @@ class PerformedSDCCreate(RequireTrainingOfficer, CreateView):
     template_name='performedsdc_create.html'
     form_class=PerformedSDCCreateForm
 
-class PerformedSDCList(ListView):
+class PerformedSDCList(RequireVerified, ListView):
     model=PerformedSDC
     template_name='performedsdc_list.html'
     context_object_name='psdc'
@@ -76,7 +76,7 @@ class PerformedSDCList(ListView):
         queryset=queryset.filter(completed=False)
         return queryset
 
-class PerformedSDCDetail(DetailView):
+class PerformedSDCDetail(RequireVerified, DetailView):
     model=PerformedSDC
     template_name='performedsdc_detail.html'
     context_object_name='psdc'

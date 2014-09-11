@@ -3,6 +3,7 @@ import base64
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
 from django.template import RequestContext
+from django.contrib.auth.models import User
 
 from datetime import date
 
@@ -11,11 +12,14 @@ from xsd_members.forms import PersonalEditForm
 from forms import UpdateRequestMake, UserRegisterForm
 from models import UpdateRequest
 
-from django.contrib.auth.models import User
+from xSACdb.roles.functions import is_verified
+
 
 def dashboard(request):
     profile=request.user.memberprofile
     newbie=profile.new
+
+    not_yet_verified = not is_verified(request.user)
 
     repost=False
 
@@ -44,6 +48,7 @@ def dashboard(request):
         'newbie':newbie,
         'repost':repost,
         'urs':urs,
+        'not_yet_verified': not_yet_verified,
     }, context_instance=RequestContext(request))
 
 from xsd_frontend.forms import LoginForm 

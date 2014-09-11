@@ -1,9 +1,11 @@
 from django.shortcuts import render
 from django.views.generic import ListView 
 
+from xSACdb.roles.mixins import RequireVerified
+
 from models import *
 
-class ClubKitListView(ListView):
+class ClubKitListView(RequireVerified, ListView):
 	model = Kit
 	template_name = 'kit_club_kit.html'
 	context_object_name = 'kits'

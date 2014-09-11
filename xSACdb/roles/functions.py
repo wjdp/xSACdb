@@ -13,6 +13,9 @@ def is_allowed(user,groups):
 # Diving Off: 2,7
 # Admin: 2
 
+def is_verified(user):
+	return not user.memberprofile.new_notify
+
 def is_instructor(user):	#User is either by having a qualification or being training
 	groups=[2,3,7]
 	if is_allowed(user,groups):
