@@ -4,6 +4,7 @@ from datetime import date
 from django_facebook.models import FacebookModel
 
 from xsd_training.models import PerformedLesson
+from xSACdb.data_helpers import disable_for_loaddata
 
 class MemberProfile(FacebookModel):
     user = models.OneToOneField('auth.User')
@@ -158,6 +159,7 @@ from django.contrib.auth.models import User
 from django.db.models.signals import post_save
 
 #Make sure we create a MemberProfile when creating a User
+@disable_for_loaddata
 def create_facebook_profile(sender, instance, created, **kwargs):
     if created:
         MemberProfile.objects.create(user=instance)
