@@ -50,7 +50,7 @@ function initialize() {
                 document.getElementById('site-mintemp').innerHTML="<i class='fa fa-chevron-circle-down fa-fw'></i> {{site.min_temp}}&deg;C"
                 document.getElementById('site-maxtemp').innerHTML=" <i class='fa fa-chevron-circle-up fa-fw'></i> {{site.max_temp}}&deg;C"
                 document.getElementById('site-maxdepth').innerHTML="<i class='fa fa-long-arrow-down fa-fw'></i> {{site.max_depth}}m"
-                document.getElementById('site-facilities').innerHTML="<i class='fa fa-life-buoy fa-fw'></i> {{site.facilities}}"
+                document.getElementById('site-facilities').innerHTML="<i class='fa fa-life-buoy fa-fw'></i> {{site.facilities|linebreaks}}"
               });
   google.maps.event.addListener(marker, 'mouseover', function() {
                 // this['infowindow'].open(map, this);

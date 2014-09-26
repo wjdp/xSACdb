@@ -10,6 +10,7 @@ from xSACdb.roles.decorators import require_site_administrator, require_verified
 from xSACdb.roles.mixins import RequireSiteAdministrator, RequireVerified
 
 from models import *
+from forms import *
 
 class SitesOverview(RequireVerified, ListView):
     model=Site
@@ -49,6 +50,7 @@ class SiteUpdate(RequireSiteAdministrator, UpdateView):
     template_name="sites_update.html"
     context_object_name='sites'
     success_url=reverse_lazy('SitesList')
+    form_class = SiteForm
 
     page_title='Edit a Site'
 
