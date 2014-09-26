@@ -10,4 +10,4 @@ class MailingAdmin(admin.ModelAdmin):
 
 admin.site.register(MemberProfile, MemberAdmin)
 admin.site.register(MembershipType, MembershipTypeAdmin)
-admin.site.register(Mailing, MailingAdmin)
+# admin.site.register(Mailing, MailingAdmin)
