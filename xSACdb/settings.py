@@ -44,7 +44,7 @@ MEDIA_ROOT = PROJECT_PATH + '/media/'
 MEDIA_URL = '/media/'
 
 # Media files (css, images etc) for development server
-STATIC_DOC_ROOT = PROJECT_PATH + '/media/'
+STATIC_DOC_ROOT = PROJECT_PATH + '/static/'
 
 # Absolute path to the directory static files should be collected to.
 # Don't put anything in this directory yourself; store your static files
@@ -137,7 +137,7 @@ INSTALLED_APPS = (
     'tastypie',
     'geoposition',
 
-    # 'debug_toolbar',
+    'debug_toolbar',
 
     'xsd_frontend',
     'xsd_members',
@@ -173,11 +173,15 @@ LOGGING = {
             'level': 'ERROR',
             'filters': ['require_debug_false'],
             'class': 'django.utils.log.AdminEmailHandler'
-        }
+        },
+        'console': {
+            'level': 'DEBUG',
+            'class': 'logging.StreamHandler',
+        },
     },
     'loggers': {
         'django.request': {
-            'handlers': ['mail_admins'],
+            'handlers': ['mail_admins','console'],
             'level': 'ERROR',
             'propagate': True,
         },

@@ -1,4 +1,5 @@
 {% load xsd_nav %}
+{% load staticfiles %}
 <!doctype html>
 <html>
 <head>
@@ -6,20 +7,20 @@
     <title>{% block title %}{{l10n_club.name}} Database{% endblock %}</title>
     <meta charset="utf-8" />
 
-    <link rel="stylesheet" type="text/css" media="screen" href="/static/bootstrap/css/bootstrap.min.css" />
+    <link rel="stylesheet" type="text/css" media="screen" href="{% static 'bootstrap/css/bootstrap.min.css' %}" />
 
-    <link rel="stylesheet" type="text/css" media="screen" href="/static/bootstrap/css/bootstrap-responsive.min.css" />
-    <link rel="stylesheet" href="/static/css/font-awesome.min.css">
-    <link rel="stylesheet" type="text/css" media="screen" href="/static/css/strap.css" />
+    <link rel="stylesheet" type="text/css" media="screen" href="{% static 'bootstrap/css/bootstrap-responsive.min.css' %}" />
+    <link rel="stylesheet" href="{% static 'css/font-awesome.min.css' %}">
+    <link rel="stylesheet" type="text/css" media="screen" href="{% static 'css/strap.css' %}" />
 
-    <link rel="stylesheet" type="text/css" media="screen" href="/static/css/token-input-facebook.css" />
+    <link rel="stylesheet" type="text/css" media="screen" href="{% static 'css/token-input-facebook.css' %}" />
 
-    <script type="text/javascript" src="/static/js/jquery.js"></script>
-    <script type="text/javascript" src="/static/js/jquery.forms.js"></script>
-    <script type="text/javascript" src="/static/js/jquery.cookie.js"></script>
-    <script type="text/javascript" src="/static/js/jquery.tokeninput.js"></script>
-    <script type="text/javascript" src="/static/bootstrap/js/bootstrap.min.js"></script>
-    <script type="text/javascript" src="/static/js/css_extra.js"></script>
+    <script type="text/javascript" src="{% static 'js/jquery.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/jquery.forms.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/jquery.cookie.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/jquery.tokeninput.js' %}"></script>
+    <script type="text/javascript" src="{% static 'bootstrap/js/bootstrap.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/css_extra.js' %}"></script>
 
     {% block post_head %}{% endblock %}
 </head>

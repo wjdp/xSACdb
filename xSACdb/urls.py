@@ -4,9 +4,6 @@ from django.conf import settings
 from django.contrib import admin
 admin.autodiscover()
 
-handler403='xsd_frontend.views.error403'
-handler404='xsd_frontend.views.error404'
-
 urlpatterns = patterns('',
     url(r'^$', 'xsd_frontend.views.dashboard', name='dashboard'),
     url(r'^update-request/$', 'xsd_frontend.views.update_request', name='update_request'),
@@ -33,9 +30,10 @@ urlpatterns = patterns('',
 
     url(r'^about/', include('xsd_about.urls')),
 
-    url(r'^media/(?P<path>.*)$', 'django.views.static.serve',
-        {'document_root': settings.STATIC_DOC_ROOT}),
-    url(r'^admin/doc/', include('django.contrib.admindocs.urls')),
+    # Can be enabled for serving static files (dev only)
+    # url(r'^static/(?P<path>.*)$', 'django.views.static.serve',
+    #     {'document_root': settings.STATIC_DOC_ROOT}),
 
+    url(r'^admin/doc/', include('django.contrib.admindocs.urls')),
     url(r'^admin/', include(admin.site.urls)),
 )

@@ -1,4 +1,4 @@
-from django.core.urlresolvers import resolve
+from django.core.urlresolvers import resolve, Resolver404
 from django.conf import settings
 
 from xSACdb.roles.functions import *
@@ -10,7 +10,10 @@ def menu_perms(request):
     if request.user.is_authenticated():
         u=request.user
         p=u.memberprofile
-        current_url = resolve(request.path_info).url_name
+        try:
+            current_url = resolve(request.path_info).url_name
+        except Resolver404:
+            current_url = ''
 
         update_request_form = UpdateRequestMake()
         my_user_account_form = MyUserAccountForm()
