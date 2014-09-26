@@ -4,9 +4,14 @@ from django.views.generic.base import TemplateView
 from django.contrib.auth.models import User, Group
 
 from xSACdb.roles.mixins import RequireAdministrator, RequireVerified
+from xSACdb.version import *
 
 class AboutView(RequireVerified, TemplateView):
 	template_name='about_about.html'
+	def get_context_data(self, **kwargs):
+	    context = super(AboutView, self).get_context_data(**kwargs)
+	    context['version'] = VERSION
+	    return context
 
 class DatabaseOfficersView(RequireVerified, TemplateView):
 	template_name='about_database_officers.html'
