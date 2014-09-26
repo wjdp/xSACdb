@@ -183,7 +183,6 @@ class SessionComplete(RequireTrainingOfficer,DetailView):
     def post(self, request, *args, **kwargs):
             SessionCompleteFormSet = self.build_pls_formset(True) 
             formset = SessionCompleteFormSet(request.POST)
-            print request.POST
             if formset.is_valid():
                 if 'complete' in request.POST:
                     for form in formset.cleaned_data:

@@ -15,7 +15,6 @@ def todo(item):
     if item == 'MemberUpdateRequestList':
         view = MemberUpdateRequestList()
         x= MemberUpdateRequestList.get_queryset(view).filter(completed=False, area='mem').count()
-        print x
         if x>0:
             return '<div class="pull-right badge badge-important">'+str(x)+'</div>'
         else: return ""
