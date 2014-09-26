@@ -137,7 +137,7 @@ INSTALLED_APPS = (
     'tastypie',
     'geoposition',
 
-    'debug_toolbar',
+    # 'debug_toolbar',
 
     'xsd_frontend',
     'xsd_members',

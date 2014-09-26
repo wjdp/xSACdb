@@ -1,229 +1,56 @@
+{% load staticfiles %}
 <!doctype html>
-
 <html>
-
 <head>
-	<title>xSACdb Login</title>
+	<title>Database</title>
 	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, user-scalable=no" />
+	<meta name="apple-mobile-web-app-capable" content="yes">
+	<meta name="apple-mobile-web-app-status-bar-style" content="black">
+
+	<link rel="apple-touch-icon" href="{% static 'images/apple-touch-icons/posi.png' %}">
+
 	<link href="/static/css/facebook.css" type="text/css" rel="stylesheet" media="all" />
-	<style type="text/css" media="screen">
-		* {margin: 0;padding: 0; font-family: 'Helvetica', 'Arial', sans;}
-		html, body {
-			height: 100%;
-			min-width: 600px;
-		}
-		body {
-			background: #4e5b89; /* Old browsers */
-background: -moz-linear-gradient(top, #4e5b89 0%, #2d3860 100%); /* FF3.6+ */
-background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#4e5b89), color-stop(100%,#2d3860)); /* Chrome,Safari4+ */
-background: -webkit-linear-gradient(top, #4e5b89 0%,#2d3860 100%); /* Chrome10+,Safari5.1+ */
-background: -o-linear-gradient(top, #4e5b89 0%,#2d3860 100%); /* Opera 11.10+ */
-background: -ms-linear-gradient(top, #4e5b89 0%,#2d3860 100%); /* IE10+ */
-background: linear-gradient(to bottom, #4e5b89 0%,#2d3860 100%); /* W3C */
-filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#4e5b89', endColorstr='#2d3860',GradientType=0 ); /* IE6-9 */
-			height: 100%;
-			overflow: hidden;
-		}
-
-		.big-background-1,.big-background-2 {
-			width: 150%;
-			min-height: 1100px;
-			position: absolute;
-			top:0;
-			left:0;
-			
-
-			-webkit-transition: opacity 5s;
-			-moz-transition: opacity 5s;     
-			transition: opacity 5s; 
-		}
-		.overlay {
-			position: absolute;
-			left: 0; top: 0;
-			width:100%; height: 100%;
-			z-index: -1;
-		}
-		.big-background-1 {z-index: -10;opacity: 0;}
-		.big-background-2 {
-			z-index: -20;
-			top:-200px;
-			left:-400px;
-		}
-
-		.login {
-			background: rgba(255,255,255,0.7);
-			width:550px;
-			height: 150px;
-			overflow: hidden;
-			padding: 16px;
-			position: relative;
-			margin: 0 auto;
-			margin-top: 5%;
-			border-radius: 3px;
-		}
-		.login-facebook, .login-conventional {
-			float: left;
-			height: 150px;
-		}
-
-		.login-facebook {
-			width:60%;
-			border-right: 1px solid #f1f1f1;
-			height: 100%
-		}
-		.login-facebook img {
-			padding: 52px 10px 10px 45px;
-			position: relative;
-		    -webkit-filter: drop-shadow(0px 1px 1px #888); filter: drop-shadow(0px 1px 1px #888);
-		}
-		.login-facebook img:active {
-			top:1px;
-		}
-
-		.login-conventional {
-			font-size: 15px;
-			padding: 10px 0 0 35px;
-			width:28%;
-		}
-		.login-conventional p.message {
-			text-align: center;
-			font-size: 9px;
-			color: #666;
-		}
-		.login-conventional input {
-			padding: 3px;
-			margin: 4px;	
-			width: 100%;
-			border: 1px solid #ccc;
-			border-radius: 2px;
-		}
-		#id_username, #id_password {
-			width:95%;
-		}
-		.login-conventional .submit {
-			background:#548ac1;
-			color:white;
-			font-weight: bold;
-			border:none;
-		}
-		.login-conventional .register {
-			background:rgba(84,193,152,0.6);
-			color:white;
-			font-weight: bold;
-			border:none;
-		}
-
-		
-.slow-slide {
-  -webkit-animation: slow-slide 50s 1; /* Safari 4+ */
-  -moz-animation:    slow-slide 50s 1; /* Fx 5+ */
-  -o-animation:      slow-slide 50s 1; /* Opera 12+ */
-  animation:         slow-slide 50s 1; /* IE 10+ */
-}
-
-@-webkit-keyframes slow-slide {
-  100% { -webkit-transform: translate(-400px,-200px); }
-}
-@-moz-keyframes slow-slide {
-  100% { -webkit-transform: translate(-400px,-200px); }
-}
-@-o-keyframes slow-slide {
-  100% { -webkit-transform: translate(-400px,-200px); }
-}
-@keyframes slow-slide {
-  100% { transform: translate(-400px,-200px); }
-}
-.slow-slide-rev {
-  -webkit-animation: slow-slide-rev 50s 1; /* Safari 4+ */
-  -moz-animation:    slow-slide-rev 50s 1; /* Fx 5+ */
-  -o-animation:      slow-slide-rev 50s 1; /* Opera 12+ */
-  animation:         slow-slide-rev 50s 1; /* IE 10+ */
-}
-
-@-webkit-keyframes slow-slide-rev {
-  100% { -webkit-transform: translate(400px,200px); }
-}
-@-moz-keyframes slow-slide-rev {
-  100% { -webkit-transform: translate(400px,200px); }
-}
-@-o-keyframes slow-slide-rev {
-  100% { -webkit-transform: translate(400px,200px); }
-}
-@keyframes slow-slide-rev {
-  100% { transform: translate(400px,200px); }
-}
-.banner {
-	margin: 0 auto;
-	margin-top: 8%;
-
-	height: 35px;
-	width:550px;
-	padding: 5px 16px 0 16px;
-	border-radius: 3px;
-	background: white;
-	text-align: center;
-	opacity: 0.8;
-	font-size: 0.8em;
-	background-color: #FF6064;
-	color: #fff;
-	font-weight: bold
-}
-.banner p {
-	margin-top: 8px
-}
-.hidden {
-	visibility: hidden;
-}
-
-#facebook_container {
-	display: block;
-	background: rgba(255,255,255,0.7);
-	width:550px;
-	border-radius: 3px;
-	margin: 32px auto;
-	text-align: center;
-	padding: 18px 16px 12px 16px;
-}
-#facebook_message {
-	color: #222;
-}
-#facebook_loading {
-	margin-top:12px;
-}
-	</style>
+	<link href="/static/cssb/login.css" type="text/css" rel="stylesheet" media="all" />
+	
 	<script type="text/javascript" src="/static/js/jquery.js"></script>
 </head>
-
 <body>
 	<img class="big-background-1">
 	<img class="big-background-2">
-	<div class="overlay"></div>
-	
+	<div class="mobile-background"></div>
+	{# <div class="overlay"></div> #}
+	<div class="title"><img src="{% static 'images/uonssac.png' %} " /></div>
 	<div class="banner {% if not errors == 'badauth' %}hidden{% endif %}"><p>Your username and password didn't match. Please try again.</p></div>
-
  	<div class="login">
 		<div class="login-facebook">
-			<form action="{% url 'facebook_connect' %}?facebook_login=1" method="post">
-				<a href="javascript:void(0);" style="font-size: 20px;" onclick="F.connect(this.parentNode);">
-					<img src="/static/images/fb_button.png" alt="Login with Facebook" />					
-				</a>
-				<input type="hidden" value="{{ request.path }}" name="next" />
-				<input type="hidden" value="{{ request.path }}" name="register_next" />
-				<input type="hidden" value="{{ request.path }}" name="error_next" />
-				{% csrf_token %}
-			</form>
+			<p class='message facebook-switch'>Facebook</p>
+			<div class="mob-collapse-facebook">
+				<form action="{% url 'facebook_connect' %}?facebook_login=1" method="post">
+					<a href="javascript:void(0);" style="font-size: 20px;" onclick="F.connect(this.parentNode);" class="fb-login">
+						<img src="/static/images/fb_button.png" alt="Login with Facebook" />					
+					</a>
+					<input type="hidden" value="{{ request.path }}" name="next" />
+					<input type="hidden" value="{{ request.path }}" name="register_next" />
+					<input type="hidden" value="{{ request.path }}" name="error_next" />
+					{% csrf_token %}
+				</form>
+			</div>
 		</div>
 		<div class="login-conventional">
-			
-			<form action="" method="post">{% csrf_token %}
-				<p class='message'>Local account login</p>
-				<p><input id="id_username" name="username" type="text" placeholder="Email" /></p>
-				<p><input id="id_password" name="password" type="password" placeholder="Password" /></p>
-				<input class="submit" type="submit" value="Login" />
-			</form>
-			<form action="/accounts/register">
-				<input class="register" type="submit" value="Register" />
-			</form>
+			<p class='message conventional-switch'>Local Accounts</p>
+			<div class="mob-collapse-conventional mob-collapse-hidden">			
+				<form action="" method="post">
+					{% csrf_token %}
+					<p><input id="id_username" name="username" type="text" placeholder="Email" /></p>
+					<p><input id="id_password" name="password" type="password" placeholder="Password" /></p>
+					<input class="submit" type="submit" value="Login" />
+
+				</form>
+				<form action="/accounts/register">
+					<input class="register" type="submit" value="Register" />
+				</form>
+			</div>
 		</div>
 
 	</div>
@@ -279,11 +106,29 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#4e5b89', end
 			}
 
 		$(document).ready(function() {
-			images=shuffle(images)
-			startAMoving()
-			nextImageA()	
-			fadeInA();
-			again();
+			var is_mobile = true
+    		if( $('.big-background-1').css('display')!='none') {
+        		images=shuffle(images)
+				startAMoving()
+				nextImageA()	
+				fadeInA();
+				again();       
+				is_mobile = false
+    		}
+    		$('.facebook-switch').click(function() {
+    			$('.mob-collapse-conventional').addClass('mob-collapse-hidden')
+    			$('.mob-collapse-facebook').removeClass('mob-collapse-hidden')
+    		})
+    		$('.conventional-switch').click(function() {
+    			$('.mob-collapse-conventional').removeClass('mob-collapse-hidden')
+    			$('.mob-collapse-facebook').addClass('mob-collapse-hidden')
+    			if (is_mobile) {$("html, body").animate({ scrollTop: "300px" });}
+    		})
+    		$('.fb-login').click(function(event) {
+    			$('.mob-collapse-conventional').addClass('mob-collapse-hidden')
+    			$('.mob-collapse-facebook').addClass('mob-collapse-hidden')
+    		});
+    		
 		});
 </script>
 </body>

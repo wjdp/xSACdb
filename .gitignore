@@ -12,3 +12,7 @@ xSACdb/fixtures/*
 components/*
 local_files/*
 static/*
+cssb/*
+.sass-cache/*
+Gemfile.lock
+vendor/*
