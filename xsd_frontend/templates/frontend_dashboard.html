@@ -64,7 +64,7 @@
     <ul class="membership-status">
         <li class="{% if profile.club_expired %}fail{% else %}pass{% endif %}"><strong>{{l10n_club.name}} Membership</strong>
             <p><span class="note">{% if profile.club_expired %}Expired{% else %}Expires{% endif %} on {{profile.club_expiry}}</span></p>
-            {% if profile.club_expired %}<p><span class="note extra">{{l10n_club.how_to_renew|safe}}</a>.</span></p>{% endif %}
+            {% if profile.club_expired %}<p><span class="note extra">{{l10n_club.how_to_renew|safe}}</a></span></p>{% endif %}
         </li>
 
 

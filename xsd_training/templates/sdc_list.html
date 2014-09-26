@@ -14,11 +14,11 @@
 <table class="table table-condensed table-striped">
     <tr><th>Title</th></tr>
     {% for sdc in cat.sdcs %}
-    <tr>
+    <tr data-toggle="collapse" data-target="#sdc-info-{{sdc.id}}">
         <td>
         <div class="alignright" >
         	<i class="sdc-interested fa fa-star sdc-register-interest sdc-register-interest-true-{{sdc.id}}" title="You have indicated an interest in doing this SDC" {% if not user|has_sdc_interest:sdc %}style="display:none"{% endif %}></i>
-            {% if not user|has_sdc:sdc %}<i data-toggle="collapse" data-target="#sdc-info-{{sdc.id}}" class="fa fa-info-sign"></i>{% endif %}
+            {% if not user|has_sdc:sdc %}<i data-toggle="collapse" data-target="#sdc-info-{{sdc.id}}" class="fa fa-info-circle"></i>{% endif %}
         </div>
 
         <div class="sdc-title">

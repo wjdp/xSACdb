@@ -12,6 +12,9 @@ CLUB = {
 
     # Are you a student club? This adds fields like student ID to the member records
     'student': True, 
+
+    'how_to_renew': 'Renew at <a href="http://su.nottingham.ac.uk/sub-aqua">http://su.nottingham.ac.uk/sub-aqua</a>',
+    'bsac_club_renew': 'Contact the VP for details.',
 }
 
 
