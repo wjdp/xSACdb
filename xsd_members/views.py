@@ -90,7 +90,7 @@ class MembersExpiredFormsList(MemberList):
         BSAC membership, <i class="fa fa-home expired"></i>is expired club 
         membership and <i class="fa fa-medkit expired"></i>is an expired
         medical form.</p>
-        <p>The easiest way of bulk adding forms is the Bulk Jobs > Add Forms
+        <p>The easiest way of bulk adding forms is the Bulk Jobs <i class="fa fa-arrow-right"></i> Add Forms
         Tool.</p>'''
 
     def get_queryset(self):

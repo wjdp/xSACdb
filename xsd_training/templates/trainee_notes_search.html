@@ -21,8 +21,8 @@
 
 		{% for trainee in trainees %}
 		<tr>
-			<td><a href="{% url 'TraineeNotes' trainee.pk %}">{{trainee.get_full_name}}</a></td>
-			<td>{{trainee.memberprofile.top_qual}}</td>
+			<td><a href="{% url 'TraineeNotes' trainee.pk %}">{{trainee.first_name}} <strong>{{trainee.last_name}}</strong></a></td>
+			<td>{%if trainee.memberprofile.top_qual != None %}{{trainee.memberprofile.top_qual}}{% endif %}</td>
 		</tr>
 		{% endfor %}
 	</table>

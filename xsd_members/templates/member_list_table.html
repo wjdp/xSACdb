@@ -4,7 +4,7 @@
 {% for member in members %}
 	<tr>
 		<td><a href="{% url 'MemberDetail' member.user.pk %}">{{member.user.first_name}} <strong>{{member.user.last_name}}</strong></a></td>
-		<td>{{member.club_membership_type}}</td>
+		<td>{% if member.club_membership_type != None %}{{member.club_membership_type}}{% endif %}</td>
 		<td class="expiry-column">{% if member.bsac_expired %}<i class="icon-bsac-small expired" title="BSAC Expired: {{member.bsac_expiry}}"></i>{% endif %}</td>
 		<td class="expiry-column">{% if member.club_expired %}<i class="fa fa-home expired"  title="Club Expired: {{member.club_expiry}}"></i>{% endif %}</td>
 		<td class="expiry-column">{% if member.medical_form_expired %}<i class="fa fa-medkit expired" title="Medical Form Expired: {{member.medical_form_expiry}}">{% endif %}</td>
