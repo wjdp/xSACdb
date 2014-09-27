@@ -9,8 +9,6 @@
 	<meta name="apple-mobile-web-app-status-bar-style" content="black">
 
 	<link rel="apple-touch-icon" href="{% static 'images/apple-touch-icons/posi.png' %}">
-
-	<link href="/static/css/facebook.css" type="text/css" rel="stylesheet" media="all" />
 	<link href="/static/cssb/login.css" type="text/css" rel="stylesheet" media="all" />
 	
 	<script type="text/javascript" src="/static/js/jquery.js"></script>
@@ -19,13 +17,12 @@
 	<img class="big-background-1">
 	<img class="big-background-2">
 	<div class="mobile-background"></div>
-	{# <div class="overlay"></div> #}
 	<div class="title"><img src="{% static 'images/uonssac.png' %} " /></div>
 	<div class="banner {% if not errors == 'badauth' %}hidden{% endif %}"><p>Your username and password didn't match. Please try again.</p></div>
- 	<div class="login">
+	<div class="login">
 		<div class="login-facebook">
 			<p class='message facebook-switch'>Facebook</p>
-			<div class="mob-collapse-facebook">
+			<div class="mob-collapse-facebook {% if errors == 'badauth' %}mob-collapse-hidden{% endif %}">
 				<form action="{% url 'facebook_connect' %}?facebook_login=1" method="post">
 					<a href="javascript:void(0);" style="font-size: 20px;" onclick="F.connect(this.parentNode);" class="fb-login">
 						<img src="/static/images/fb_button.png" alt="Login with Facebook" />					
@@ -39,7 +36,7 @@
 		</div>
 		<div class="login-conventional">
 			<p class='message conventional-switch'>Local Accounts</p>
-			<div class="mob-collapse-conventional mob-collapse-hidden">			
+			<div class="mob-collapse-conventional {% if not errors == 'badauth' %}mob-collapse-hidden{% endif %}">			
 				<form action="" method="post">
 					{% csrf_token %}
 					<p><input id="id_username" name="username" type="text" placeholder="Email" /></p>
@@ -52,28 +49,40 @@
 				</form>
 			</div>
 		</div>
-
 	</div>
 
 	<script src="/static/js/facebook.js" type="text/javascript"></script>
-	{% include 'django_facebook/_facebook_js.html' %}
+	<div id="fb-root"></div>
+	<!--Some facebook code requires the fb-root div -->
+	<script>
+		facebookAppId = '454237798050818'; // MAJOR TODO this should be in settings, context info isn't getting through to this template!
+		facebookDefaultScope = ["email"];
+		staticUrl = 'http://database.uonsubaqua.com';
+		function facebookJSLoaded(){
+			FB.init({appId: facebookAppId, status: false, cookie: true, xfbml: true, oauth: true});
+		}
+		window.fbAsyncInit = facebookJSLoaded;
+		F = new facebookClass(facebookAppId);
+		F.load();
+	</script>
+
 
 	<script type="text/javascript">
 		var images=['/static/images/login_backgrounds/1.jpg','/static/images/login_backgrounds/2.jpg','/static/images/login_backgrounds/3.jpg','/static/images/login_backgrounds/4.jpg','/static/images/login_backgrounds/5.jpg','/static/images/login_backgrounds/6.jpg']
 		var i=0
 		var i_max=5
 		function shuffle(array) {
-  			var m = array.length, t, i;
+			var m = array.length, t, i;
   			// While there remain elements to shuffle
   			while (m) {
     			// Pick a remaining element…
     			i = Math.floor(Math.random() * m--);
 		    	// And swap it with the current element
-    			t = array[m];
-    			array[m] = array[i];
-    			array[i] = t;
-  			}
-  			return array;
+		    	t = array[m];
+		    	array[m] = array[i];
+		    	array[i] = t;
+		    }
+		    return array;
 		}	
 
 		function fadeOutA() {$( ".big-background-1" ).css({"opacity":"0"});}
@@ -95,41 +104,44 @@
 			$( ".big-background-2" ).attr( "src",nextImage() );
 		}
 
+		// Define main slideshow loop
 		function again() {
-				window.setTimeout(resetB, 10000);
-				window.setTimeout(fadeOutA, 30000);
-				window.setTimeout(startBMoving, 30000);
-				window.setTimeout(resetA, 40000);
-				window.setTimeout(fadeInA, 60000);
-				window.setTimeout(startAMoving, 60000);
-				window.setTimeout(again, 70000);
-			}
+			window.setTimeout(resetB, 10000);
+			window.setTimeout(fadeOutA, 30000);
+			window.setTimeout(startBMoving, 30000);
+			window.setTimeout(resetA, 40000);
+			window.setTimeout(fadeInA, 60000);
+			window.setTimeout(startAMoving, 60000);
+			window.setTimeout(again, 70000);
+		}
 
 		$(document).ready(function() {
 			var is_mobile = true
-    		if( $('.big-background-1').css('display')!='none') {
-        		images=shuffle(images)
+			if( $('.big-background-1').css('display')!='none') {
+				images=shuffle(images)
 				startAMoving()
 				nextImageA()	
 				fadeInA();
 				again();       
 				is_mobile = false
-    		}
-    		$('.facebook-switch').click(function() {
-    			$('.mob-collapse-conventional').addClass('mob-collapse-hidden')
-    			$('.mob-collapse-facebook').removeClass('mob-collapse-hidden')
-    		})
-    		$('.conventional-switch').click(function() {
-    			$('.mob-collapse-conventional').removeClass('mob-collapse-hidden')
-    			$('.mob-collapse-facebook').addClass('mob-collapse-hidden')
-    			if (is_mobile) {$("html, body").animate({ scrollTop: "300px" });}
-    		})
-    		$('.fb-login').click(function(event) {
-    			$('.mob-collapse-conventional').addClass('mob-collapse-hidden')
-    			$('.mob-collapse-facebook').addClass('mob-collapse-hidden')
-    		});
-    		
+			}
+			$('.facebook-switch').click(function() {
+				// When fb click, show fb hide local
+				$('.mob-collapse-conventional').addClass('mob-collapse-hidden')
+				$('.mob-collapse-facebook').removeClass('mob-collapse-hidden')
+			})
+			$('.conventional-switch').click(function() {
+				// The opposite
+				$('.mob-collapse-conventional').removeClass('mob-collapse-hidden')
+				$('.mob-collapse-facebook').addClass('mob-collapse-hidden')
+				if (is_mobile) {$("html, body").animate({ scrollTop: "300px" });}
+			})
+			$('.fb-login').click(function(event) {
+				// Hide both when fb login pressed
+				$('.mob-collapse-conventional').addClass('mob-collapse-hidden')
+				$('.mob-collapse-facebook').addClass('mob-collapse-hidden')
+			});
 		});
-</script>
+	</script>
 </body>
 </html>
