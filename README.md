@@ -1,4 +1,4 @@
-![xSACdb](https://raw.github.com/wjdp/xSACdb/master/static_global/images/logo.gif)
+![xSACdb](https://raw.githubusercontent.com/wjdp/xSACdb/master/xsd_about/static/images/logo.gif)
 
 A web based database for managing BSAC branch clubs. It looks after membership details, training records, known sites, kit and club trips.
 
@@ -12,6 +12,8 @@ Current Limitations
 
 - The application incorporates Facebook login in addition to local accounts. This, at this time, can't be easily disabled.
 
+- SASS files don't have a nice generation script
+
 Install
 -------
 xSACdb is a Python web application, it is built on the Django web framework. You can run it on any Linux/Mac and even Windows based system. You'll also need a MySQL or Postgres database server.
@@ -20,7 +22,11 @@ If you're unfamilier with running Python web services have a read up on those fi
 
 I recommend installing in a virtualenv container, this isolates the dependencies of xSACdb from the rest of your server. If you know what you're doing this'll get you up and running quickly (config needs doing first):
 
+Stick bourbon in `vendor/bourbon`
+
+	sass --watch xsd_frontend/static/sass/login.sass:xsd_frontend/static/cssb/login.css --load-path .
     pip install -r requirements.txt
+    ./manage.py collectstatic 
     ./manage.py syncdb  # Don't add a superuser now!
     ./manage.py migrate
     ./manage.py createsuperuser
