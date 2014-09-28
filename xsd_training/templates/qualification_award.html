@@ -8,32 +8,49 @@
 <p>This tool alows you to instantly award a qualifictaion. This should be done after an instructor has signed the trainee's physical qualification record.</p>
 </div>
 
-<div class="span5">
-<h3>Select Members</h3>
-{% if qual_form == None %}
-  {% include 'base/bulk_select_members.html' %}
+{% if not completed %}
+	<div class="span5">
+	<h3>Select Members</h3>
+	{% if qual_form == None %}
+	  {% include 'base/bulk_select_members.html' %}
+	{% else %}
+		<ul>
+		{%for member in selected_members %}
+		<li>{{member.user.get_full_name}}</li>
+		{%endfor%}
+		</ul>
+	{% endif %}
+	</div>
+
+	<div class="span4">
+	<h3>Select Qualification</h3>
+	{% if qual_form != None %}
+	<form method="POST" action=".">
+	{%csrf_token%}
+	{{qual_form.qualification|as_bootstrap}}
+	<div class="hidden">
+	{{qual_form.selected_members|as_bootstrap}}
+	</div>
+	<div><button type="submit" class="btn btn-primary">Award</button></form></div>
+	{% else %}
+	<div class="alert alert-info">
+	            Please select members first.
+	        </div>
+	</div>
+	{% endif %}
+
 {% else %}
-<ul>
-{%for member in selected_members %}
-<li>{{member.user.get_full_name}}</li>
-{%endfor%}
-</ul>
-{% endif %}
-</div>
-<div class="span4">
-<h3>Select Qualification</h3>
-{% if qual_form != None %}
-<form method="POST" action=".">
-{%csrf_token%}
-{{qual_form.qualification|as_bootstrap}}
-<div class="hidden">
-{{qual_form.selected_members|as_bootstrap}}
-</div>
-<div><button type="submit" class="btn btn-primary">Award</button></form></div>
-{% else %}
-<div class="alert alert-info">
-            Please select members first.
-        </div>
-</div>
+	<div class="span5">
+		<h3><i class="fa fa-check green"></i> Members</h3>
+		<ul>
+			{%for member in selected_members %}
+				<li>{{member.user.get_full_name}}</li>
+			{%endfor%}
+		</ul>
+	</div>
+	<div class="span4">
+		<h3><i class="fa fa-check green"></i> Qualification</h3>
+			<p>All awarded the <strong>{{qualification}}</strong> qualification.</p>
+	</div>
 {% endif %}
 {% endblock %}

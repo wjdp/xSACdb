@@ -28,8 +28,14 @@ def QualificationAward(request):
             for member in qual_form.cleaned_data['selected_members']:
                 member.qualifications.add(qual_form.cleaned_data['qualification'])
                 member.save()
+            return render(request, 'qualification_award.html', {
+                'completed': True,
+                'selected_members': qual_form.cleaned_data['selected_members'],
+                'qualification': qual_form.cleaned_data['qualification'],
+            }, context_instance=RequestContext(request))
 
     return render(request, 'qualification_award.html', {
         'qual_form': qual_form,
         'selected_members': selected_members,
+        'completed': False
     }, context_instance=RequestContext(request))

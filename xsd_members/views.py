@@ -49,7 +49,7 @@ class MemberSearch(RequireMembersOfficer, OrderedListView):
         if 'surname' in self.request.GET:
             surname=self.request.GET['surname']
             queryset=super(MemberSearch, self).get_queryset()
-            queryset=queryset.filter(user__last_name__contains=surname)
+            queryset=queryset.filter(user__last_name__icontains=surname)
         else:
             queryset=None
         return queryset

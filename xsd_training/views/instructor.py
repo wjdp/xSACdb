@@ -42,7 +42,7 @@ def InstructorUpcoming(request):
 def TraineeNotesSearch(request):
     if 'surname' in request.GET:
         surname=request.GET['surname']
-        trainees=User.objects.filter(last_name__contains=surname)
+        trainees=User.objects.filter(last_name__icontains=surname)
     else: trainees=None
 
     return render(request, 'trainee_notes_search.html', {
