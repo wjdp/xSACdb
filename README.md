@@ -1,13 +1,16 @@
-![xSACdb](https://raw.github.com/wjdp/xSACdb/master/static/images/logo.gif)
+![xSACdb](https://raw.github.com/wjdp/xSACdb/master/static_global/images/logo.gif)
 
-A web based database for managing BSAC branch clubs. It looks after membership details, training records, known sites and club trips.
+A web based database for managing BSAC branch clubs. It looks after membership details, training records, known sites, kit and club trips.
 
-Current Issues
---------------
+Current Limitations
+-------------------
 - **Trips** are not implemented
-- **Sites** are rather basic
-- **Training** still needs some of the admin features (managing qualifictions etc)
-- The **auth** system currently doesn't accept username based signups, I would like to have email based login too.
+- **Kit** is not implemented
+- **Sites** is rather basic
+
+- Most of the other bits are still in active development. The project is in production use as of September 2014 in a single club, this is being used to iron out problems with the implementation. The hope is to have a well rounded system by summer 2015. Releases for this club are tagged as nu-x.
+
+- The application incorporates Facebook login in addition to local accounts. This, at this time, can't be easily disabled.
 
 Install
 -------
@@ -15,18 +18,18 @@ xSACdb is a Python web application, it is built on the Django web framework. You
 
 If you're unfamilier with running Python web services have a read up on those first. xSACdb runs it's own web server which you then proxy access to using Apache/Nginx or some other public facing web server. You'll need to serve static files with your own web server.
 
-I recommend installing in a virtualenv container, this isolates the depenancies of xSACdb from the rest of your server. If you know what you're doing this'll get you up and running quickly (config needs doing first):
+I recommend installing in a virtualenv container, this isolates the dependencies of xSACdb from the rest of your server. If you know what you're doing this'll get you up and running quickly (config needs doing first):
 
     pip install -r requirements.txt
     ./manage.py syncdb  # Don't add a superuser now!
     ./manage.py migrate
     ./manage.py createsuperuser
     ./manage.py runserver
-    
-Deployment Caveats
-------------------
-You need to overwrite the default config in xSACdb, firstly if deploying publically ensure DEBUG is set to False. Then have a read through of the deployement checklist: https://docs.djangoproject.com/en/dev/howto/deployment/checklist/.
 
-It would be very nice for xSACdb to do this for you, it's on the to do list!
+You will need to make a copy of `local_settings.py.example` as `local_settings.py` and define your environment settings and club localisation options.
 
+It is advised to have a read through of the deployment checklist: https://docs.djangoproject.com/en/dev/howto/deployment/checklist/ before providing public access to the application.
 
+BSAC Data
+---------
+The application is distributed without any qualifications, lessons or SDCs. I've not fully looked into this but I'm guessing BSAC has copyright on that data. You'll have to put this in yourself.
