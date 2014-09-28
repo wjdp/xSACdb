@@ -5,7 +5,7 @@
 
 <div class="row">
 	<div class="span9">
-		<h2>Members Selection Tool</h2>
+		{{content|safe}}
 		<p>Type in the names below and then select them from the dropdown.</p>
 		<div class="formbox row-fluid">
 			<div class="span10">
@@ -14,7 +14,7 @@
 			<div class="span2">
 			<form action="." method="GET">
 				<input type="hidden" name="set" value="all" />
-				<input type="submit" class="btn" value="Everybody" />
+				<button type="submit" class="btn btn-inverse"><i class="fa fa-circle"></i> Everybody</button>
 			</form>
 			</div>
 		</div>

@@ -274,7 +274,7 @@ class BulkAddForms(RequireMembersOfficer, View):
         spreadsheet=False
         if 'set' in request.GET:
             if request.GET['set']=='all':
-                members=self.get_all_objects()
+                members=self.get_all_objects().order_by('user__last_name')
             spreadsheet=True
         elif 'names' in request.GET and request.GET['names']!='':
             from bulk_select import get_bulk_members
@@ -297,6 +297,7 @@ class BulkAddForms(RequireMembersOfficer, View):
         else:
             # First form
             return render(request,'members_bulk_select.html',{
+                'content':'<h3 class="no-top"><i class="fa fa-plus"></i> Bulk Add Forms</h3><p>This tool sets the expiry dates for club, BSAC and medical forms on multiple records. The record set can either be subset of members or the entire membership.</p>'
             },
             context_instance=RequestContext(request))
 
@@ -311,7 +312,14 @@ class BulkAddForms(RequireMembersOfficer, View):
                 if form['club_expiry']: mp.club_expiry=form['club_expiry']
                 if form['bsac_expiry']: mp.bsac_expiry=form['bsac_expiry']
                 if form['medical_form_expiry']: mp.medical_form_expiry=form['medical_form_expiry']
+
+                print form['club_expiry']
+                print form['bsac_expiry']
+                print form['medical_form_expiry']
+
                 mp.save()
+        else:
+            return render(request,'members_bulk_edit_forms_error.html', { }, context_instance=RequestContext(request))
 
         return redirect(reverse('BulkAddForms'))
 

@@ -2,20 +2,21 @@
 {% block members_content %}
 <div class="row">
 <div class="span9">
-	<h2>Bulk Add Forms</h2>
-	<p>Please enter the new expiry dates for the forms you wish to add. To not inlude a form leave that field blank.</p>
+	<p>Please enter the new expiry dates for the forms you wish to add. To not include a form leave that field blank. Dates must be in the format <strong>DD/MM/YYYY</strong>.</p>
+	<p>The fill <i class="fa fa-arrows" /></i> button copies all the values in that row into all rows.</p>
 	<form action="." method="POST">
 		{{ formset.management_form }}
 		<input type="hidden" name="userset" value="{{userset}}" />
 		{% csrf_token %}
 <table class="table table-condensed table-striped">
-	<tr><th>Name</th><th>Club Expiry</th><th>BSAC Expiry</th><th>Medical Form Expiry</th></tr>
+	<tr><th>Name</th><th>Club Expiry</th><th>BSAC Expiry</th><th>Medical Form Expiry</th><th>Fill</th></tr>
 {% for form in formset %}
 	<tr>{{form.user_id}}
 		<td>{{form.full_name}}</td>
 		<td>{{form.club_expiry}}</td>
 		<td>{{form.bsac_expiry}}</td>
 		<td>{{form.medical_form_expiry}}</td>
+		<td><a href="#" class="fill btn"><i class="fa fa-arrows" /></a></td>
 		</tr>
 {% endfor %}
 </table>
@@ -24,4 +25,17 @@
 </div>
 </div>
 </div>
+
+<script type="text/javascript">
+	$('a.fill').click(function(event) {
+		var club_expiry			= $('input:eq(1)', $(this).closest('tr')).val()
+		var bsac_expiry			= $('input:eq(2)', $(this).closest('tr')).val()
+		var medical_form_expiry	= $('input:eq(3)', $(this).closest('tr')).val()
+
+		$('input:eq(1)', $('a.fill').closest('tr')).val(club_expiry)
+		$('input:eq(2)', $('a.fill').closest('tr')).val(bsac_expiry)
+		$('input:eq(3)', $('a.fill').closest('tr')).val(medical_form_expiry)
+	});
+
+</script>
 {% endblock %}
