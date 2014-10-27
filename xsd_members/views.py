@@ -339,6 +339,13 @@ class MemberUpdateRequestList(RequireMembersOfficer, BaseUpdateRequestList):
     form_action=reverse_lazy('MemberUpdateRequestRespond')
     custom_include='members_update_request_custom.html'
 
+    def get_queryset(self, *args, **kwargs):
+        # Prefetch some stuff to cut down number of queries
+        q = super(MemberUpdateRequestList, self).get_queryset(*args, **kwargs)
+        q_prefetch = q.prefetch_related('request_made_by')
+        return q_prefetch
+
+
 class MemberUpdateRequestRespond(RequireMembersOfficer, BaseUpdateRequestRespond):
     success_url=reverse_lazy('MemberUpdateRequestList')
 

@@ -35,11 +35,11 @@
                 {% if is_members %}<li {% is_active_simple ui.app 'members' %}><a href="{% url 'xsd_members.views.admin' %}"><i class="fa fa-user"></i> Members</a></li>{% endif %}
                 {% if is_verified %}<li {% is_active_simple ui.app 'training' %}><a href="{% url 'xsd_training.views.trainee.overview' %}"><i class="fa fa-mortar-board"></i> Training</a></li>{% endif %}
                 {% if DEBUG %}
-                {% if is_verified %}<li {% is_active_simple ui.app 'trips' %}><a href="{% url 'TripList' %}"><i class="fa fa-home"></i> Trips</a></li>{% endif %}
+                {% if is_verified %}<li {% is_active_simple ui.app 'trips' %}><a href="{% url 'TripList' %}"><i class="fa fa-road"></i> Trips</a></li>{% endif %}
                 {% if is_verified %}<li {% is_active_simple ui.app 'kit' %}><a href="{% url 'KitOverview' %}"><i class="fa fa-tags"></i> Kit</a></li>{% endif %}
                 {% endif %}
                 {% if is_verified %}<li {% is_active_simple ui.app 'sites' %}><a href="{% url 'SitesOverview' %}"><i class="fa fa-map-marker"></i> Sites</a></li>{% endif %}
-                
+
                 {% if is_verified %}<li><a href="{% url 'AboutView' %}"><i class="fa fa-info-circle"></i> About</a></li>{% endif %}
             </ul>
             <ul class="pull-right nav">

@@ -51,7 +51,7 @@ def dashboard(request):
         'not_yet_verified': not_yet_verified,
     }, context_instance=RequestContext(request))
 
-from xsd_frontend.forms import LoginForm 
+from xsd_frontend.forms import LoginForm
 from django.contrib.auth import authenticate
 from django.contrib.auth import login as dj_login
 
