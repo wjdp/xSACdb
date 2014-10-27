@@ -10,7 +10,7 @@
 
 	<link rel="apple-touch-icon" href="{% static 'images/apple-touch-icons/posi.png' %}">
 	<link href="/static/cssb/login.css" type="text/css" rel="stylesheet" media="all" />
-	
+
 	<script type="text/javascript" src="/static/js/jquery.js"></script>
 </head>
 <body>
@@ -25,7 +25,7 @@
 			<div class="mob-collapse-facebook {% if errors == 'badauth' %}mob-collapse-hidden{% endif %}">
 				<form action="{% url 'facebook_connect' %}?facebook_login=1" method="post">
 					<a href="javascript:void(0);" style="font-size: 20px;" onclick="F.connect(this.parentNode);" class="fb-login">
-						<img src="/static/images/fb_button.png" alt="Login with Facebook" />					
+						<img src="/static/images/fb_button.png" alt="Login with Facebook" />
 					</a>
 					<input type="hidden" value="{{ request.path }}" name="next" />
 					<input type="hidden" value="{{ request.path }}" name="register_next" />
@@ -36,7 +36,7 @@
 		</div>
 		<div class="login-conventional">
 			<p class='message conventional-switch'>Local Accounts</p>
-			<div class="mob-collapse-conventional {% if not errors == 'badauth' %}mob-collapse-hidden{% endif %}">			
+			<div class="mob-collapse-conventional {% if not errors == 'badauth' %}mob-collapse-hidden{% endif %}">
 				<form action="" method="post">
 					{% csrf_token %}
 					<p><input id="id_username" name="username" type="text" placeholder="Email" /></p>
@@ -84,7 +84,7 @@
 		    	array[i] = t;
 		    }
 		    return array;
-		}	
+		}
 
 		function fadeOutA() {$( ".big-background-1" ).css({"opacity":"0"});}
 		function fadeInA() {$( ".big-background-1" ).css({"opacity":"1"});}
@@ -121,15 +121,20 @@
 			if( $('.big-background-1').css('display')!='none') {
 				images=shuffle(images)
 				startAMoving()
-				nextImageA()	
+				nextImageA()
 				fadeInA();
-				again();       
+				again();
 				is_mobile = false
 			}
 			$('.facebook-switch').click(function() {
 				// When fb click, show fb hide local
+				if (!$('.mob-collapse-facebook').hasClass('mob-collapse-hidden')) {
+					// If already open and header is clicked, simulate press of FB login button
+					$('.fb-login').click()
+				}
 				$('.mob-collapse-conventional').addClass('mob-collapse-hidden')
 				$('.mob-collapse-facebook').removeClass('mob-collapse-hidden')
+
 			})
 			$('.conventional-switch').click(function() {
 				// The opposite
