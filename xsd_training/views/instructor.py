@@ -35,7 +35,7 @@ def InstructorUpcoming(request):
     upcoming_sessions=get_upcoming_sessions_by_instructor(instructor)
 
     return render(request,'instructor_upcoming.html', {
-        'upcoming_sessions':upcoming_sessions     
+        'upcoming_sessions':upcoming_sessions
     }, context_instance=RequestContext(request))
 
 @require_instructor
@@ -43,6 +43,7 @@ def TraineeNotesSearch(request):
     if 'surname' in request.GET:
         surname=request.GET['surname']
         trainees=User.objects.filter(last_name__icontains=surname)
+        trainees = trainees.prefetch_related('memberprofile', 'memberprofile__top_qual_cached')
     else: trainees=None
 
     return render(request, 'trainee_notes_search.html', {

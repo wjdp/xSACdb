@@ -32,7 +32,7 @@ LOGIN_EXEMPT_URLS = (
  r'^static/', # allow any URL under /static/*
  r'^facebook/', # allow any URL under /facebook/*
  r'^accounts/',
-) 
+)
 
 # Absolute filesystem path to the directory that will hold user-uploaded files.
 # Example: "/home/media/media.lawrence.com/media/"
@@ -137,7 +137,7 @@ INSTALLED_APPS = (
     'tastypie',
     'geoposition',
 
-    # 'debug_toolbar',
+    'debug_toolbar',
 
     'xsd_frontend',
     'xsd_members',

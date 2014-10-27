@@ -96,25 +96,31 @@ color:#fafafa;
 float: left;
 }
 
-div.lesson-code.OD, .qual-banner.OD {
+div.lesson-code.OD, .qual-banner.OD, .OD-cell {
     background:#6A9ED2;
     border: 1px solid #2253BB;
 }
-div.lesson-code.SD, .qual-banner.SD {
+div.lesson-code.SD, .qual-banner.SD, .SD-cell {
     background: #ECA537;
     border: 1px solid #BA6812;
 }
-div.lesson-code.DL, .qual-banner.DL {
+div.lesson-code.DL, .qual-banner.DL, .DL-cell {
     background: #46832D;
     border: 1px solid #054006;
 }
-div.lesson-code.AD, .qual-banner.AD {
+div.lesson-code.AD, .qual-banner.AD, .AD-cell {
     background: #7D3E87;
     border: 1px solid #3B1437;
 }
-div.lesson-code.FC, .qual-banner.FC {
+div.lesson-code.FC, .qual-banner.FC, .FC-cell {
     background: #444;
     border: 1px solid #0B0B0B;
+}
+
+.OD-cell, .SD-cell, .DL-cell, .AD-cell, .FC-cell {
+    border: none;
+    color: #fff;
+    font-size:0px;
 }
 
 .qual-banner {
@@ -139,10 +145,10 @@ div.lesson-code.FC, .qual-banner.FC {
     height:104px;
     width:71px;
     float: right;
-    -webkit-transform: rotate(8deg); 
-    -moz-transform: rotate(8deg); 
+    -webkit-transform: rotate(8deg);
+    -moz-transform: rotate(8deg);
     -o-transform: rotate(8deg);
-    -ms-transform: rotate(8deg); 
+    -ms-transform: rotate(8deg);
     -webkit-filter: drop-shadow(0px 0px 1px #ccc); filter: drop-shadow(0px 0px 1px #ccc);
     opacity: 0.5;
     margin-left: 8px;
@@ -180,13 +186,13 @@ div.lesson-code.FC, .qual-banner.FC {
 columns:2;
 -webkit-columns:2; /* Safari and Chrome */
 -moz-columns:2; /* Firefox */
-} 
+}
 
 .col3 {
 columns:2;
 -webkit-columns:2; /* Safari and Chrome */
 -moz-columns:2; /* Firefox */
-} 
+}
 
 #map-canvas {
     height: 450px;
@@ -194,12 +200,12 @@ columns:2;
 }
 #map-canvas img {
     /* Fix silly BS GM issue*/
-    max-width: inherit 
+    max-width: inherit
 }
 
 #site-info {
     background: url('/static/images/noise-low.png') #E4C677;
-    margin-left: 0; 
+    margin-left: 0;
     padding-left: 20px;
     box-shadow: 0px 1px 2px 1px #ccc;
 }
@@ -630,4 +636,10 @@ img.about-logo {
 
 .break-up {
     margin-top: 16px
+}
+
+/* .flag-cell for member list table, cell is too big when only contains icon */
+.flag-cell {
+    width: 1px; /* TODO Bit hacky, check for support cross-browser */
+    color: #888;
 }

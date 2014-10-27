@@ -18,7 +18,7 @@ class MemberProfile(FacebookModel):
     postcode = models.CharField(max_length=11, blank=True)
     home_phone = models.CharField(max_length=20, blank=True)
     mobile_phone = models.CharField(max_length=20, blank=True)
-    
+
     next_of_kin_name = models.CharField(max_length=40, blank=True)
     next_of_kin_relation = models.CharField(max_length=20, blank=True)
     next_of_kin_phone = models.CharField(max_length=20, blank=True)
@@ -30,9 +30,9 @@ class MemberProfile(FacebookModel):
     training_for=models.ForeignKey('xsd_training.Qualification', blank=True, null=True, related_name='q_training_for')
     sdcs=models.ManyToManyField('xsd_training.SDC', blank=True)
     instructor_number=models.IntegerField(blank=True, null=True)
-    
+
     student_id=models.IntegerField(max_length=7,blank=True, null=True)
-    
+
     associate_id=models.IntegerField(max_length=7,blank=True, null=True)
     associate_expiry=models.DateField(blank=True, null=True)
 
@@ -53,41 +53,40 @@ class MemberProfile(FacebookModel):
     def __unicode__(self):
         return self.user.first_name + " " + self.user.last_name
 
-    _top_qual_cached = None
-    def top_qual(self):
-        if self._top_qual_cached:
-            return self._top_qual_cached
-        else:
+    top_qual_cached = models.ForeignKey('xsd_training.Qualification', blank=True, null=True, related_name='top_qual_cached')
+    def top_qual(self, nocache = False):
+        if nocache:
             if self.qualifications.count()==0: return None
             q=self.qualifications.all().exclude(instructor_qualification=True)
             c=q.count()-1
             if c >= 0:
-                self._top_qual_cached = q[c]
                 return q[c]
             else:
                 return None
-
-    _top_instructor_qual_cached = None
-    def top_instructor_qual(self):
-        if self._top_instructor_qual_cached:
-            return self._top_instructor_qual_cached
         else:
+            return self.top_qual_cached
+
+    top_instructor_qual_cached = models.ForeignKey('xsd_training.Qualification', blank=True, null=True, related_name='top_instructor_qual_cached')
+    def top_instructor_qual(self, nocache = False):
+        if nocache:
             q=self.qualifications.all().filter(instructor_qualification=True)
             if q.count()==0: return None
             c=q.count()-1
-            self._top_instructor_qual_cached = q[c]
-            return self.top_instructor_qual()
-    
-    _is_instructor_cached = None
-    def is_instructor(self):
-        if self._is_instructor_cached:
-            return self._is_instructor_cached
+            return q[c]
         else:
+            return self.top_instructor_qual_cached
+
+    is_instructor_cached = models.NullBooleanField(default=None, blank=True)
+    def is_instructor(self, nocache = False):
+        if nocache:
             if self.top_instructor_qual()==None:
-                self._is_instructor_cached = False
+                # No instructor quals, not an instructor
+                return False
             else:
-                self._is_instructor_cached = True
-            return self._is_instructor_cached
+                # instructor quals, is an instructor
+                return True
+        else:
+            return self.is_instructor_cached
 
     def club_expired(self):
         if self.club_expiry==None or self.club_expiry <= date.today(): return True
@@ -109,40 +108,50 @@ class MemberProfile(FacebookModel):
     def performed_lessons_for_qualification(self, qualification):
         pass
     def performed_lesson_ramble(self):
+        # TODO: A good comment here would be ideal!
         pls =  PerformedLesson.objects.filter(trainee=self.user)
         ret = ""
         for pl in pls:
             ret += pl.lesson.code+' - '+str(pl.date)+'<br />'
         return ret[:len(ret)-6]
 
+    PERSONAL_FIELDS = ['address','postcode','home_phone','mobile_phone','next_of_kin_name','next_of_kin_relation','next_of_kin_phone']
+
     def missing_personal_details(self):
-        if self.dob==None or self.address==None or self.postcode==None or self.home_phone==None \
-        or self.mobile_phone==None or self.next_of_kin_name==None or self.next_of_kin_relation==None \
-        or self.next_of_kin_relation==None or self.next_of_kin_phone==None:
-            return True
-        else:
-            return False
+        """If missing any personal details, flag up"""
+        for field in self.PERSONAL_FIELDS:
+            field_value = getattr(self, field)
+            if field_value == None or field_value == "":
+                return True
+        return False
 
     def dob(self):
+        """Alias for date_of_birth"""
         return self.date_of_birth
 
     def age(self):
+        """Calculate age"""
         today=date.today()
         num_years = int((today - self.date_of_birth).days / 365.25)
         return num_years
     def formatted_address(self):
+        """Return address with html <br /> instead of line breaks"""
         return self.address.replace("\n","<br />")
     def formatted_other_qualifications(self):
+        """Return other qualifications with html <br /> instead of line breaks"""
         return self.other_qualifications.replace("\n","<br />")
     def formatted_alergies(self):
+        """Return allergies with html <br /> instead of line breaks"""
         return self.alergies.replace("\n","<br />")
 
     def heshe(self):
+        """Returns a Proper capitalised pronoun for the user"""
         if self.gender=="m": return "He"
         if self.gender=="f": return "She"
         return "They"
 
     def upcoming_sdcs(self):
+        """Return upcoming SDCs for the user, does this belong here?"""
         from xsd_training.models import PerformedSDC
         return PerformedSDC.objects.filter(trainees=self.user, completed=False)
 
@@ -154,6 +163,14 @@ class MemberProfile(FacebookModel):
             self._cached_user_group_values = [x['id'] for x in self.user.groups.all().values()]
             return self.user_groups_values()
 
+    def save(self, *args, **kwargs):
+        self.cache_update()
+        super(MemberProfile, self).save(*args, **kwargs)
+    def cache_update(self):
+        """Compute and write the cached fields"""
+        self.top_qual_cached = self.top_qual(nocache=True)
+        self.top_instructor_qual_cached = self.top_instructor_qual(nocache=True)
+        self.is_instructor_cached = self.is_instructor(nocache=True)
 
 from django.contrib.auth.models import User
 from django.db.models.signals import post_save
@@ -188,4 +205,4 @@ class MembershipType(models.Model):
 
 #     def __unicode__(self):
 #         pass
-    
+

@@ -1,9 +1,23 @@
 {% if members %}
 <table class="table table-condensed table-hover">
-	<tr><th>Name</th><th>Membership Type</th><th colspan="3">Expiry</th></tr>
+	<tr><th class="flag-cell"></th><th class="flag-cell"></th><th>Name</th><th>Membership Type</th><th colspan="3">Expiry</th></tr>
 {% for member in members %}
 	<tr>
-		<td>{% if member.new_notify %}<i class="fa fa-flag"></i> {% endif %}<a href="{% url 'MemberDetail' member.user.pk %}">{{member.user.first_name}} <strong>{{member.user.last_name}}</strong></a></td>
+        <td class="flag-cell {{member.top_qual.code}}-cell" title="{{member.top_qual}}">
+            {{member.top_qual.code}}
+        </td>
+		<td class="flag-cell">
+            {% if member.missing_personal_details %}
+                <i class="fa fa-ban fa-fw red" title="Missinng personal fields"></i>
+            {% elif member.new_notify %}
+                <i class="fa fa-flag fa-fw" title="Unverified new member"></i>
+            {% elif member.is_instructor %}
+                <i class="fa fa-mortar-board fa-fw" title="Instrutor"></i>
+            {% endif %}
+        </td>
+
+        <td>
+            <a href="{% url 'MemberDetail' member.user.pk %}">{{member.user.first_name}} <strong>{{member.user.last_name}}</strong></a></td>
 		<td>{% if member.club_membership_type != None %}{{member.club_membership_type}}{% endif %}</td>
 		<td class="expiry-column">{% if member.bsac_expired %}<i class="icon-bsac-small expired" title="BSAC Expired: {{member.bsac_expiry}}"></i>{% endif %}</td>
 		<td class="expiry-column">{% if member.club_expired %}<i class="fa fa-home expired"  title="Club Expired: {{member.club_expiry}}"></i>{% endif %}</td>

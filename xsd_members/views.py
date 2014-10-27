@@ -50,8 +50,11 @@ class MemberSearch(RequireMembersOfficer, OrderedListView):
             surname=self.request.GET['surname']
             queryset=super(MemberSearch, self).get_queryset()
             queryset=queryset.filter(user__last_name__icontains=surname)
+            queryset = queryset.prefetch_related('user','top_qual_cached','club_membership_type')
         else:
             queryset=None
+
+
         return queryset
 
     def get_context_data(self, **kwargs):
@@ -74,6 +77,11 @@ class MemberList(RequireMembersOfficer, OrderedListView):
         context['page_title'] = self.page_title
         context['page_description'] = self.page_description
         return context
+    def get_queryset(self, *args, **kwargs):
+        # Prefetch some stuff to cut down number of queries
+        q = super(MemberList, self).get_queryset(*args, **kwargs)
+        q_prefetch = q.prefetch_related('user','top_qual_cached','club_membership_type')
+        return q_prefetch
 
 class NewMembers(MemberList):
     page_title='New Members'
@@ -86,8 +94,8 @@ class NewMembers(MemberList):
 
 class MembersExpiredFormsList(MemberList):
     page_title='Members With Expired Forms'
-    page_description='''<p><i class="icon-bsac-small expired"></i>is expired 
-        BSAC membership, <i class="fa fa-home expired"></i>is expired club 
+    page_description='''<p><i class="icon-bsac-small expired"></i>is expired
+        BSAC membership, <i class="fa fa-home expired"></i>is expired club
         membership and <i class="fa fa-medkit expired"></i>is an expired
         medical form.</p>
         <p>The easiest way of bulk adding forms is the Bulk Jobs <i class="fa fa-arrow-right"></i> Add Forms
@@ -109,12 +117,12 @@ class MembersMissingFieldsList(MemberList):
         again, they will not be able to use other parts of the database until
         this form is completed.'''
 
-    blank_fields=['address','postcode','home_phone','mobile_phone','next_of_kin_name','next_of_kin_relation','next_of_kin_phone']
+    blank_fields=MemberProfile.PERSONAL_FIELDS
 
     def build_queryset(self):
         qObj = None
         for field in self.blank_fields:
-            newQ = Q(**{field :  ''}) 
+            newQ = Q(**{field :  ''})
             if qObj is None:
                 qObj = newQ
             else:
@@ -268,7 +276,7 @@ def select_tool(request):
 
 class BulkAddForms(RequireMembersOfficer, View):
     model=MemberProfile
-    
+
 
     def get(self, request, *args, **kwargs):
         spreadsheet=False
