@@ -164,7 +164,8 @@ class MemberProfile(FacebookModel):
             return self.user_groups_values()
 
     def save(self, *args, **kwargs):
-        self.cache_update()
+        if self.pk:
+            self.cache_update()
         super(MemberProfile, self).save(*args, **kwargs)
     def cache_update(self):
         """Compute and write the cached fields"""
