@@ -9,9 +9,9 @@ class require_group(object):
     def is_allowed(self,user):
         return False
 
-    def __call__(self,request):
+    def __call__(self,request, *args, **kwargs):
         if self.is_allowed(request.user):
-            return self.f(request)
+            return self.f(request, *args, **kwargs)
         else:
             raise PermissionDenied
 
