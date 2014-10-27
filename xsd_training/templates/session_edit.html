@@ -13,6 +13,7 @@
         <input type="hidden" name="form_def" value="session" />
         <div class="row-fluid">
             <div class="span7">
+                {{ form.name|as_bootstrap  }}
                 {{ form.when|as_bootstrap  }}
                 {{ form.where|as_bootstrap  }}
             </div>

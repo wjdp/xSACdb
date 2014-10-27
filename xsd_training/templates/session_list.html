@@ -8,9 +8,10 @@
 <div class="span9">
 {% if sessions %}
 <table class="table table-condensed table-striped">
-    <tr><th>When</th><th>Where</th><th>Lessons Planned</th><th></th></tr>
+    <tr><th>Name</th><th>When</th><th>Where</th><th>Lessons Planned</th><th></th></tr>
 {% for session in sessions %}
     <tr{% ifequal last session.pk %} class="last"{% endifequal %}>
+        <td>{{session.name}}</td>
         <td>{{session.when}}</td>
         <td>{{session.where}}</td>
         <td>{{session.performedlesson_set.all.count}}</td>

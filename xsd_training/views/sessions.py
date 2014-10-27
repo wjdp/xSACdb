@@ -17,7 +17,7 @@ from xsd_training.models import *
 from xsd_training.forms import *
 import xsd_training.trainee_table as trainee_table
 
-from django.forms.models import modelformset_factory    
+from django.forms.models import modelformset_factory
 
 from xsd_members.bulk_select import get_bulk_members
 
@@ -28,7 +28,7 @@ class SessionCreate(RequireTrainingOfficer, CreateView):
 
 class SessionPlanner(RequireTrainingOfficer, UpdateView):
     model=Session
-    fields=['when', 'where', 'notes']
+    fields=['name', 'when', 'where', 'notes']
     template_name='session_edit.html'
 
     def pl_formset(self, bare=False):
@@ -181,7 +181,7 @@ class SessionComplete(RequireTrainingOfficer,DetailView):
         pl.save()
 
     def post(self, request, *args, **kwargs):
-            SessionCompleteFormSet = self.build_pls_formset(True) 
+            SessionCompleteFormSet = self.build_pls_formset(True)
             formset = SessionCompleteFormSet(request.POST)
             if formset.is_valid():
                 if 'complete' in request.POST:
@@ -223,7 +223,7 @@ def pool_sheet(request):
 def pool_sheet_generate(request, form):
     session = form.cleaned_data['session']
     pls = PerformedLesson.objects.filter(session = session)
-    
+
     pls_extended = []
 
     number_of_notes = form.cleaned_data['number_of_notes']
@@ -234,7 +234,7 @@ def pool_sheet_generate(request, form):
             if rpl.public_notes or rpl.private_notes: notes.append(rpl)
         pls_extended.append((pl, notes))
 
-    
+
     return render(request, 'pool_sheet_generate.html', {
         'session': session,
         'pls_extended': pls_extended,

@@ -49,7 +49,7 @@ class Lesson(models.Model):
     description=models.TextField(blank=True)
     max_depth=models.IntegerField(blank=True, null=True)
     activities=models.TextField(blank=True)
-    
+
     def __unicode__(self):
         return self.code + " - " + self.title
 
@@ -137,9 +137,10 @@ class PerformedSDC(models.Model):
         return reverse('PerformedSDCDetail', kwargs={'pk': self.pk})
 
 class Session(models.Model):
-    when=models.DateTimeField()
+    name=models.CharField(max_length=64, blank=True, help_text='Optional name for session')
+    when=models.DateTimeField(help_text='Formatted like: DD/MM/YYY HH:MM')
     where=models.ForeignKey('xsd_sites.Site')
-    notes=models.TextField(blank=True)
+    notes=models.TextField(blank=True, help_text='Viewable by instructors and trainees in session.')
     created_by=models.ForeignKey('auth.User', blank=True, null=True)
 
     completed = models.BooleanField(default=False)
@@ -154,7 +155,10 @@ class Session(models.Model):
         return reverse('SessionPlanner', kwargs={'pk': self.pk})
 
     def __unicode__(self):
-        return self.when.strftime('%a %d %b %Y %H:%M') + " at " + self.where.__unicode__()
+        if self.name:
+            return "'" + self.name + "' " + self.when.strftime('%a %d %b %Y %H:%M') + " at " + self.where.__unicode__()
+        else:
+            return self.when.strftime('%a %d %b %Y %H:%M') + " at " + self.where.__unicode__()
 
     def save(self, *args, **kwargs):
         if self.created_by == None:
