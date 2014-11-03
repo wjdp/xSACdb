@@ -97,23 +97,23 @@ float: left;
 }
 
 div.lesson-code.OD, .qual-banner.OD, .OD-cell {
-    background:#6A9ED2;
+    background:#6A9ED2 !important;
     border: 1px solid #2253BB;
 }
 div.lesson-code.SD, .qual-banner.SD, .SD-cell {
-    background: #ECA537;
+    background: #ECA537 !important;
     border: 1px solid #BA6812;
 }
 div.lesson-code.DL, .qual-banner.DL, .DL-cell {
-    background: #46832D;
+    background: #46832D !important;
     border: 1px solid #054006;
 }
 div.lesson-code.AD, .qual-banner.AD, .AD-cell {
-    background: #7D3E87;
+    background: #7D3E87 !important;
     border: 1px solid #3B1437;
 }
 div.lesson-code.FC, .qual-banner.FC, .FC-cell {
-    background: #444;
+    background: #444 !important;
     border: 1px solid #0B0B0B;
 }
 
