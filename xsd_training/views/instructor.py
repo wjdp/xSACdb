@@ -3,6 +3,9 @@ from django.template import RequestContext
 from django.contrib.auth.models import User
 from django.views.generic import DetailView
 
+from django.db.models import Q
+
+from xSACdb.view_helpers import OrderedListView
 from xSACdb.roles.decorators import require_instructor
 from xSACdb.roles.mixins import RequireInstructor
 
@@ -38,17 +41,41 @@ def InstructorUpcoming(request):
         'upcoming_sessions':upcoming_sessions
     }, context_instance=RequestContext(request))
 
-@require_instructor
-def TraineeNotesSearch(request):
-    if 'surname' in request.GET:
-        surname=request.GET['surname']
-        trainees=User.objects.filter(last_name__icontains=surname)
-        trainees = trainees.prefetch_related('memberprofile', 'memberprofile__top_qual_cached')
-    else: trainees=None
+# @require_instructor
+# def TraineeNotesSearch(request):
+#     if 'surname' in request.GET:
+#         surname=request.GET['surname']
+#         trainees=User.objects.filter(last_name__icontains=surname)
+#         trainees = trainees.prefetch_related('memberprofile', 'memberprofile__top_qual_cached')
+#     else: trainees=None
 
-    return render(request, 'trainee_notes_search.html', {
-        'trainees':trainees
-    }, context_instance=RequestContext(request))
+#     return render(request, 'trainee_notes_search.html', {
+#         'trainees':trainees
+#     }, context_instance=RequestContext(request))
+
+# Slightly messy xsd_members.MemberSearch but model is User rather than MP
+class TraineeNotesSearch(RequireInstructor, OrderedListView):
+    model=User
+    template_name='trainee_notes_search.html'
+    context_object_name='trainees'
+    order_by='last_name'
+
+    def get_queryset(self):
+        if 'surname' in self.request.GET:
+            name=self.request.GET['surname']
+            queryset=super(TraineeNotesSearch, self).get_queryset()
+            queryset=queryset.filter(
+                Q(last_name__icontains=name) |
+                Q(first_name__icontains=name)
+            )
+            queryset = queryset.prefetch_related(
+                'memberprofile',
+                'memberprofile__top_qual_cached',
+            )
+        else:
+            queryset=None
+
+        return queryset
 
 class TraineeNotes(RequireInstructor, DetailView):
     model = User

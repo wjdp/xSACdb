@@ -47,9 +47,12 @@ class MemberSearch(RequireMembersOfficer, OrderedListView):
 
     def get_queryset(self):
         if 'surname' in self.request.GET:
-            surname=self.request.GET['surname']
+            name=self.request.GET['surname']
             queryset=super(MemberSearch, self).get_queryset()
-            queryset=queryset.filter(user__last_name__icontains=surname)
+            queryset=queryset.filter(
+                Q(user__last_name__icontains=name) |
+                Q(user__first_name__icontains=name)
+            )
             queryset = queryset.prefetch_related('user','top_qual_cached','club_membership_type')
         else:
             queryset=None

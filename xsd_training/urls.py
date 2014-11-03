@@ -25,7 +25,7 @@ urlpatterns = patterns('',
     url(r'^qualification/award/$', 'xsd_training.views.qualification.QualificationAward', name='QualificationAward'),
 
     url(r'^teaching/upcoming/$', 'xsd_training.views.instructor.InstructorUpcoming', name='InstructorUpcoming'),
-    url(r'^teaching/notes/$', 'xsd_training.views.instructor.TraineeNotesSearch', name='TraineeNotesSearch'),
+    url(r'^teaching/notes/$', instructor.TraineeNotesSearch.as_view(), name='TraineeNotesSearch'),
     url(r'^teaching/notes/(?P<pk>\d+)/$', instructor.TraineeNotes.as_view(), name='TraineeNotes'),
 
     url(r'^sdcs/$', sdc.SDCList.as_view(), name='SDCList'),
