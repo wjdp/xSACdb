@@ -130,7 +130,8 @@ class MemberProfile(FacebookModel):
         return self.date_of_birth
 
     def age(self):
-        """Calculate age"""
+        """Calculate age, we ignore leap days/seconds etc and just
+        work out the 'social' age of the person"""
         if self.date_of_birth:
             today=date.today()
             year_diff = today.year - self.date_of_birth.year

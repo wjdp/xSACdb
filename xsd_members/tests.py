@@ -30,7 +30,7 @@ class MPFunctionality(TestCase):
             month = today.month,
             day = today.day,
         )
-        print t_years_ago
+
         self.mp.date_of_birth = t_years_ago
         self.assertEqual(self.mp.age(),test_age)
 
