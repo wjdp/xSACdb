@@ -5,14 +5,14 @@
 {% block training_content %}
 
 <div class="span9">
-	<p>Pop a surname, or part of one, into the box below and hit search. BAM!</p>
+	<p>Search by either first or last names.</p>
 	<div class="formbox">
 		<form action="." method="GET">
 			{% csrf_token %}
 			<div class="form-horizontal">
 			<input id="id_surname" type="text" name="surname" maxlength="50" />
 				<button type="submit" class="btn btn-primary">Search</button>
-			</div>	
+			</div>
 		</form>
 	</div>
 	{% if trainees %}
