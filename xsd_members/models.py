@@ -131,9 +131,20 @@ class MemberProfile(FacebookModel):
 
     def age(self):
         """Calculate age"""
-        today=date.today()
-        num_years = int((today - self.date_of_birth).days / 365.25)
-        return num_years
+        if self.date_of_birth:
+            today=date.today()
+            year_diff = today.year - self.date_of_birth.year
+            if today.month <= self.date_of_birth.month and \
+                today.day < self.date_of_birth.day:
+                # It's before this years birthday
+                age = year_diff - 1
+            else:
+                age = year_diff
+
+            return age
+        else:
+            # No DOB recorded.
+            return None
     def formatted_address(self):
         """Return address with html <br /> instead of line breaks"""
         return self.address.replace("\n","<br />")

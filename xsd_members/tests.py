@@ -21,10 +21,17 @@ class MPFunctionality(TestCase):
         self.assertEqual(self.mp, self.u.memberprofile)
 
     def test_age(self):
-        test_age = 21
         self.test_create_user()
-        t_years_ago = datetime.datetime.now - datetime.timedelta(days=365*test_age)
-        self.mp.dob = t_years_ago
+
+        test_age = 21
+        today = datetime.date.today()
+        t_years_ago =  datetime.date(
+            year = (today.year-test_age),
+            month = today.month,
+            day = today.day,
+        )
+        print t_years_ago
+        self.mp.date_of_birth = t_years_ago
         self.assertEqual(self.mp.age(),test_age)
 
     def test_personal_fields(self):
