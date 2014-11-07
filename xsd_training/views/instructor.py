@@ -1,4 +1,5 @@
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404, redirect
+from django.http import HttpResponse
 from django.template import RequestContext
 from django.contrib.auth.models import User
 from django.views.generic import DetailView
@@ -6,7 +7,7 @@ from django.views.generic import DetailView
 from django.db.models import Q
 
 from xSACdb.view_helpers import OrderedListView
-from xSACdb.roles.decorators import require_instructor
+from xSACdb.roles.decorators import require_instructor, require_training_officer
 from xSACdb.roles.mixins import RequireInstructor
 
 from xsd_training.models import *
@@ -77,6 +78,7 @@ class TraineeNotesSearch(RequireInstructor, OrderedListView):
 
         return queryset
 
+
 class TraineeNotes(RequireInstructor, DetailView):
     model = User
     template_name = 'trainee_notes.html'
@@ -92,4 +94,54 @@ class TraineeNotes(RequireInstructor, DetailView):
         context['planned'] = pls.filter(completed = False, partially_completed = False).count()
         context['partially_completed'] = pls.filter(completed = False, partially_completed = True).count()
         context['completed'] = pls.filter(completed = True, partially_completed = False).count()
+
+        # Forms for trainee updation
+        context['current_qual_form'] = MiniQualificationSetForm()
+        context['training_for_form'] = MiniTrainingForSetForm()
+        context['instructor_form'] = MiniInstructorQualificationSetForm()
+        context['sdc_form'] = MiniTraineeSDCAddForm()
         return context
+
+@require_training_officer
+def trainee_notes_set(request, pk):
+    if 'field' in request.GET:
+        trainee_profile = get_object_or_404(User, pk=pk).memberprofile
+        if request.GET['field']=='current_qual':
+            if request.GET['qualification']=="":
+                # Remove all
+                trainee_profile.remove_qualifications()
+            else:
+                # Set qual
+                q = get_object_or_404(Qualification, pk=request.GET['qualification'])
+                trainee_profile.set_qualification(q)
+            trainee_profile.save()
+        if request.GET['field']=='training_for':
+            if request.GET['qualification']=="":
+                # Remove
+                trainee_profile.training_for = None
+            else:
+                q = get_object_or_404(Qualification, pk=request.GET['qualification'])
+                trainee_profile.training_for = q
+            trainee_profile.save()
+        if request.GET['field']=='instructor_qual':
+            if request.GET['qualification']=="":
+                # Remove all
+                trainee_profile.remove_qualifications(instructor=True)
+            else:
+                q = get_object_or_404(Qualification, pk=request.GET['qualification'])
+                trainee_profile.set_qualification(q)
+                if request.GET['number'] != "":
+                    trainee_profile.instructor_number = int(request.GET['number'])
+            trainee_profile.save()
+        if request.GET['field']=='sdc':
+            sdc = get_object_or_404(SDC, pk=request.GET['sdc'])
+            trainee_profile.add_sdc(sdc)
+            trainee_profile.save()
+        if request.GET['field']=='remove_sdc':
+            sdc = get_object_or_404(SDC, pk=request.GET['sdc'])
+            trainee_profile.sdcs.remove(sdc)
+            trainee_profile.save()
+
+        return redirect(reverse('TraineeNotes', kwargs={'pk':pk}))
+    else:
+        return HttpResponse('No field specified')

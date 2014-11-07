@@ -130,10 +130,22 @@ class MemberProfile(FacebookModel):
         return self.date_of_birth
 
     def age(self):
-        """Calculate age"""
-        today=date.today()
-        num_years = int((today - self.date_of_birth).days / 365.25)
-        return num_years
+        """Calculate age, we ignore leap days/seconds etc and just
+        work out the 'social' age of the person"""
+        if self.date_of_birth:
+            today=date.today()
+            year_diff = today.year - self.date_of_birth.year
+            if today.month <= self.date_of_birth.month and \
+                today.day < self.date_of_birth.day:
+                # It's before this years birthday
+                age = year_diff - 1
+            else:
+                age = year_diff
+
+            return age
+        else:
+            # No DOB recorded.
+            return None
     def formatted_address(self):
         """Return address with html <br /> instead of line breaks"""
         return self.address.replace("\n","<br />")
@@ -149,6 +161,35 @@ class MemberProfile(FacebookModel):
         if self.gender=="m": return "He"
         if self.gender=="f": return "She"
         return "They"
+
+    def set_qualification(self, qual):
+        """Adds the qualification qual, if qual is lower than top_qual then
+        the higher qualifications are removed"""
+        instructor = qual.instructor_qualification
+
+        to_remove = self.qualifications.filter(
+            instructor_qualification = instructor,
+            rank__gt = qual.rank,
+        )
+
+        for q in to_remove:
+            self.qualifications.remove(q)
+
+        self.qualifications.add(qual)
+
+    def remove_qualifications(self, instructor=False):
+        quals = self.qualifications.filter(
+            instructor_qualification = instructor
+        )
+        for q in quals:
+            self.qualifications.remove(q)
+
+        if instructor:
+            self.instructor_number=None
+
+    def add_sdc(self, sdc):
+        if not sdc in self.sdcs.all():
+            self.sdcs.add(sdc)
 
     def upcoming_sdcs(self):
         """Return upcoming SDCs for the user, does this belong here?"""

@@ -1,6 +1,6 @@
 # Version file, currently manually updated
 
 VERSION = {
-	'tag': 'nu-5-bugfix-1',
-	'last_updated': '2014-10-14',
+	'tag': 'nu-7-devel',
+	'last_updated': 'Somepoint',
 }

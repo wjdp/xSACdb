@@ -15,7 +15,7 @@
 {% for group in tgs %}
     <tr>
         <td>{{group.name}}</td>
-        <td>{{group.trainees_list}}</td>
+        <td>{{group.trainees_list_with_links|safe}}</td>
         <td class="action-icons"><a href="{% url 'TraineeGroupUpdate' group.pk %}"><i class="fa fa-pencil"></i></a> <a href="{% url 'TraineeGroupDelete' group.pk %}"><i class="fa fa-trash"></i></a></td>
 
         </tr>
@@ -29,7 +29,7 @@
 <strong>Add New</strong>
 <form action="new/" method="post">{% csrf_token %}
 			<input type="text" name="name" placeholder="Name" />
-				
+
 			<button type="submit" class="btn alignright">Create</button>
 	</form>
 </div>

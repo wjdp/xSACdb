@@ -178,6 +178,15 @@ class TraineeGroup(models.Model):
             ret=ret+t.get_full_name()+", "
         return ret[:-2]
 
+    def trainees_list_with_links(self):
+        ret=''
+        for t in self.trainees.all():
+            print t
+            ret += '<a href=\"' + reverse('TraineeNotes', kwargs={'pk':t.pk}) + '\">' + \
+                t.get_full_name() + '</a>, '
+            print ret
+        return ret[:-2]
+
     def __unicode__(self):
         return self.name
 

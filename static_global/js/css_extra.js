@@ -40,8 +40,16 @@ $( document ).ready( function() {
 		$('#mouse_iframe').css({'display':'none'});
 	});
 
-	$(document).mousemove(function(e){
-     $('#mouse_iframe').css({'top':e.pageY+16, 'left':e.pageX-150});
-  });
+	// $(document).mousemove(function(e){
+
+ //     $('#mouse_iframe').css({'top':e.pageY+16, 'left':e.pageX-150});
+ //  });
+
+	$('.hidden-section-actual').hide()
+	$('.hidden-section-button').click(function(){
+		$('i', this).toggleClass('fa-plus')
+		$('i', this).toggleClass('fa-minus')
+		$(this).next(".hidden-section-actual").toggle('fast');
+	});
 
 });
