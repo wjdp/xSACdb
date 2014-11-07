@@ -1,5 +1,6 @@
-from django.shortcuts import redirect
+from django.shortcuts import redirect, render
 from django.http import HttpResponse
+from django.template import RequestContext
 from django.contrib.auth.models import User
 
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
@@ -142,3 +143,31 @@ class PerformedSDCDelete(RequireTrainingOfficer,DeleteView):
     template_name='performedsdc_delete.html'
     context_object_name='psdc'
     success_url = reverse_lazy('PerformedSDCList')
+
+@require_training_officer
+def SDCAward(request):
+    sdc_form=None
+    selected_members=None
+    template_name = 'sdc_award.html'
+
+    if 'names' in request.GET and request.GET['names']!='':
+        selected_members=get_bulk_members(request)
+        sdc_form=SDCSelectForm(initial={'selected_members':selected_members})
+
+    if request.POST:
+        sdc_form=SDCSelectForm(request.POST)
+        if sdc_form.is_valid():
+            for member in sdc_form.cleaned_data['selected_members']:
+                member.sdcs.add(sdc_form.cleaned_data['sdc'])
+                member.save()
+            return render(request, template_name, {
+                'completed': True,
+                'selected_members': sdc_form.cleaned_data['selected_members'],
+                'sdc': sdc_form.cleaned_data['sdc'],
+            }, context_instance=RequestContext(request))
+
+    return render(request, template_name, {
+        'sdc_form': sdc_form,
+        'selected_members': selected_members,
+        'completed': False
+    }, context_instance=RequestContext(request))
