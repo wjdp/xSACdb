@@ -643,3 +643,31 @@ img.about-logo {
     width: 1px; /* TODO Bit hacky, check for support cross-browser */
     color: #888;
 }
+
+/* hidden section */
+.hidden-section { position: relative;}
+.hidden-section-button {
+    background: #444;
+    font-size: 18px;
+    color: #fff;
+    font-weight: bold;
+    width: 35px;
+    text-align: center;
+    border-radius: 18px;
+
+    position: absolute;
+    right:0;
+    top:-20px;
+}
+
+.small-action-white {
+    display: inline;
+}
+
+.small-action-white a {
+    color: #fff;
+    text-decoration:none;
+}
+.small-action-white a:hover {
+    color: red;
+}

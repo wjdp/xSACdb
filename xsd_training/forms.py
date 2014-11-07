@@ -1,6 +1,6 @@
 from models import *
 from xsd_members.models import MemberProfile
-from xsd_training.models import Qualification
+from xsd_training.models import Qualification, SDC
 from django.contrib.auth.models import User
 from django import forms
 
@@ -77,3 +77,23 @@ class TraineeLessonCompletionDateForm(forms.ModelForm):
     class Meta:
         model = PerformedLesson
         fields = ['date', 'partially_completed', 'public_notes', 'private_notes']
+
+class MiniQualificationForm(forms.Form):
+    qualification = forms.ModelChoiceField(
+        queryset=Qualification.objects.filter(instructor_qualification=False), empty_label="X Remove")
+
+class MiniQualificationSetForm(MiniQualificationForm):
+    field = forms.CharField(widget=forms.HiddenInput(), initial='current_qual')
+
+class MiniTrainingForSetForm(MiniQualificationForm):
+    field = forms.CharField(widget=forms.HiddenInput(), initial='training_for')
+
+class MiniInstructorQualificationSetForm(MiniQualificationForm):
+    qualification = forms.ModelChoiceField(
+        queryset=Qualification.objects.filter(instructor_qualification=True), empty_label="X Remove")
+    number = forms.IntegerField()
+    field = forms.CharField(widget=forms.HiddenInput(), initial='instructor_qual')
+
+class MiniTraineeSDCAddForm(forms.Form):
+    sdc = forms.ModelChoiceField(queryset=SDC.objects.all())
+    field = forms.CharField(widget=forms.HiddenInput(), initial='sdc')

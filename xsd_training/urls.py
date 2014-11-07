@@ -27,6 +27,7 @@ urlpatterns = patterns('',
     url(r'^teaching/upcoming/$', 'xsd_training.views.instructor.InstructorUpcoming', name='InstructorUpcoming'),
     url(r'^teaching/notes/$', instructor.TraineeNotesSearch.as_view(), name='TraineeNotesSearch'),
     url(r'^teaching/notes/(?P<pk>\d+)/$', instructor.TraineeNotes.as_view(), name='TraineeNotes'),
+    url(r'^teaching/notes/(?P<pk>\d+)/set/$', 'xsd_training.views.instructor.trainee_notes_set', name='TraineeNotesSet'),
 
     url(r'^sdcs/$', sdc.SDCList.as_view(), name='SDCList'),
     url(r'^sdcs/reg-interest/$', 'xsd_training.views.sdc.sdc_register_interest', name='sdc_register_interest'),

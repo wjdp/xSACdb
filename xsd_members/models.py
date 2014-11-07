@@ -162,6 +162,35 @@ class MemberProfile(FacebookModel):
         if self.gender=="f": return "She"
         return "They"
 
+    def set_qualification(self, qual):
+        """Adds the qualification qual, if qual is lower than top_qual then
+        the higher qualifications are removed"""
+        instructor = qual.instructor_qualification
+
+        to_remove = self.qualifications.filter(
+            instructor_qualification = instructor,
+            rank__gt = qual.rank,
+        )
+
+        for q in to_remove:
+            self.qualifications.remove(q)
+
+        self.qualifications.add(qual)
+
+    def remove_qualifications(self, instructor=False):
+        quals = self.qualifications.filter(
+            instructor_qualification = instructor
+        )
+        for q in quals:
+            self.qualifications.remove(q)
+
+        if instructor:
+            self.instructor_number=None
+
+    def add_sdc(self, sdc):
+        if not sdc in self.sdcs.all():
+            self.sdcs.add(sdc)
+
     def upcoming_sdcs(self):
         """Return upcoming SDCs for the user, does this belong here?"""
         from xsd_training.models import PerformedSDC
