@@ -228,11 +228,20 @@ def pool_sheet_generate(request, form):
 
     number_of_notes = form.cleaned_data['number_of_notes']
     for pl in pls:
-        recent_pls = PerformedLesson.objects.filter(trainee = pl.trainee, lesson__mode = pl.lesson.mode, completed=True).order_by('date')[:number_of_notes]
-        notes = []
-        for rpl in recent_pls:
-            if rpl.public_notes or rpl.private_notes: notes.append(rpl)
-        pls_extended.append((pl, notes))
+        if pl.lesson:
+            # If lesson is specified for PL, get prev feedback
+            recent_pls = PerformedLesson.objects.filter(
+                trainee = pl.trainee,
+                lesson__mode = pl.lesson.mode,
+                completed=True
+            ).order_by('date')[:number_of_notes]
+            notes = []
+            for rpl in recent_pls:
+                if rpl.public_notes or rpl.private_notes: notes.append(rpl)
+            pls_extended.append((pl, notes))
+        else:
+            # Else don't bother
+            pls_extended.append((pl, None))
 
 
     return render(request, 'pool_sheet_generate.html', {
