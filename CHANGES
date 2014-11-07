@@ -1,5 +1,7 @@
 ---
-The CHANGES file is to be noted on when notable changes are made to the master. Usually the last commit of a merge should include an addition to this file. Change notes should be geared towards the managers of xSACdb instances.
+The CHANGES file is to be noted on when notable changes are made to the master.
+Usually the last commit of a merge should include an addition to this file.
+Change notes should be geared towards the managers of xSACdb instances.
 ---
 
 # nu-7 - WIP
