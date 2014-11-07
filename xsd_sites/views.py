@@ -28,6 +28,7 @@ class SiteCreate(RequireSiteAdministrator, CreateView):
     context_object_name='sites'
     page_title='Add a Site'
     success_url=reverse_lazy('SitesList')
+    form_class = SiteForm
 
     def get_context_data(self, **kwargs):
         context = super(SiteCreate, self).get_context_data(**kwargs)
