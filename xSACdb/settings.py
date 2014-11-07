@@ -187,3 +187,7 @@ LOGGING = {
     }
 }
 AUTH_PROFILE_MODULE='xsd_members.MemberProfile'
+
+TEST_FIXTURES = ['local_files/test_fixture.json',]
+
+SILENCED_SYSTEM_CHECKS=['1_6.W001']
