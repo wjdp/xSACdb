@@ -32,7 +32,7 @@ class TraineeGroupUpdate(RequireTrainingOfficer,DetailView):
 
     def get_context_data(self, **kwargs):
         context = super(TraineeGroupUpdate, self).get_context_data(**kwargs)
-        context['trainees'] = context['tg'].trainees.all() 
+        context['trainees'] = context['tg'].get_all_trainees() 
         return context
 
     def get(self, request, *args, **kwargs):
