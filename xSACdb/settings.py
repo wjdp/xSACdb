@@ -131,7 +131,6 @@ INSTALLED_APPS = (
     'django.contrib.admin',
     'django.contrib.admindocs',
 
-    'south',
     'django_facebook',
     'bootstrap_toolkit',
     'tastypie',
