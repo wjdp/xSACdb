@@ -140,6 +140,7 @@ INSTALLED_APPS = (
     'xsd_sites',
     'xsd_kit',
     'xsd_about',
+    'xsd_help',
 
     'allauth',
     'allauth.account',
