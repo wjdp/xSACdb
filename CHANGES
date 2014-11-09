@@ -20,6 +20,7 @@ Change notes should be geared towards the managers of xSACdb instances.
 [feature] Set SDCs on trainee record
 [bug] Pool sheets with undefined lessons would cause server error
 [feature] `Award SDC` page implemented, allows awarding a single SDC to multiple trainees
+[bug] Deleting member present in a session without assigned lessons caused server error
 
 # nu-6 - 2014/10/27
 
