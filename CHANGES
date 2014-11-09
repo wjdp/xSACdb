@@ -1,0 +1,56 @@
+---
+The CHANGES file is to be noted on when notable changes are made to the master.
+Usually the last commit of a merge should include an addition to this file.
+Change notes should be geared towards the managers of xSACdb instances.
+---
+
+# nu-7 - WIP
+
+[feature] Clicking Facebook title when open on login will activate login
+[enhancement] More profile data is cached, some pages will load faster
+[feature] Instructors are shown on the database officers page
+[feature] Planned sessions can have names
+[feature] Can search by first or last name in member search and trainee search
+[feature] Member table additional information and design improvements
+[bug] Members age was occasionally miscalculated, function performing this now adheres to the social norm of age
+[bug] Performed lesson mouseover popup now shows long comments and works when scrolling
+[feature] Group list page allows clicking on trainee names
+[feature] Set personal qualifications on trainee record
+[feature] Set instructor qualifications on trainee record
+[feature] Set SDCs on trainee record
+[bug] Pool sheets with undefined lessons would cause server error
+[feature] `Award SDC` page implemented, allows awarding a single SDC to multiple trainees
+[bug] Deleting member present in a session without assigned lessons caused server error
+[feature] Can have multiple lessons per trainee per session. Works on individual and group selections. Trainees in session list are now sorted by last name. (Trainees added individually cannot be added multiple times in the same selection, the process must be repeated.)
+
+# nu-6 - 2014/10/27
+
+[enhancement] Project refactoring
+
+# nu-5 - 2014/10/14
+
+[bug] Facebook app id failure
+[bug] Some views failed to load during permissions checking
+
+# nu-4 - 2014/09/28
+
+[enhancement] Reduce Facebook detail scope
+[enhancement] Add fill tool to bulk add forms
+[enhancement] Clean up bulk add forms
+[enhancement] Clean up qualification award
+
+# nu-3 - 2014/09/26
+
+[bug] SiteForm missing from VC
+
+# nu-2 - 2014/09/26
+
+[enhancement] Nice 404, 403, 500 pages
+[enhancement] Login page styling and layout improved, now using SASS
+[feature] Version numbering, inline with VC tags
+[enhancement] Some site fields are now multiline
+[bug] SDC icons displaying incorrectly
+
+# nu-1 ~ 2014/09/25
+
+Changes previous to this are not included
