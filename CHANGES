@@ -4,6 +4,8 @@ Usually the last commit of a merge should include an addition to this file.
 Change notes should be geared towards the managers of xSACdb instances.
 ---
 
+# nu-8 - WIP
+
 # nu-7 - 2014/11/09
 
 [feature] Clicking Facebook title when open on login will activate login
