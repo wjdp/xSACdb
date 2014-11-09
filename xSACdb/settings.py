@@ -138,6 +138,7 @@ INSTALLED_APPS = (
 
     # 'debug_toolbar',
 
+    'xsd_auth',
     'xsd_frontend',
     'xsd_members',
     'xsd_training',
@@ -192,7 +193,7 @@ LOGGING = {
     }
 }
 
-AUTH_USER_MODEL = 'auth.User'
+AUTH_USER_MODEL = 'xsd_auth.User'
 AUTH_PROFILE_MODULE = 'xsd_members.MemberProfile'
 
 TEST_FIXTURES = ['local_files/test_fixture.json',]

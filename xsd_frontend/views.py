@@ -101,9 +101,9 @@ def register(request):
                 new_user.last_name = form.cleaned_data['last_name']
                 new_user.email = form.cleaned_data['email_address']
                 new_user.set_password(form.cleaned_data['password'])
-                new_user.username = base64.b64encode(new_user.email)
+                # new_user.username = base64.b64encode(new_user.email)
                 new_user.save()
-                user = authenticate(username=new_user.username, password=form.cleaned_data['password'])
+                user = authenticate(email=new_user.email, password=form.cleaned_data['password'])
                 del form.cleaned_data['password']
                 dj_login(request, user)
                 return redirect('/')
