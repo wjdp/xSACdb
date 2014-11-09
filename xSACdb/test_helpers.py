@@ -2,7 +2,7 @@ from django.test import TestCase
 from django.test.client import Client
 from django.conf import settings
 
-from django.contrib.auth.models import User
+from django.contrib.auth import get_user_model
 
 from django.core.urlresolvers import reverse
 
@@ -17,7 +17,8 @@ class BaseTest(TestCase):
         self.setUp_user()
 
     def setUp_user(self):
-        user = User.objects.create_user(self.USERNAME, self.EMAIL, self.PASSWORD)
+        U = get_user_model()
+        user = U.objects.create_user(self.USERNAME, self.EMAIL, self.PASSWORD)
         user.first_name=self.FIRST_NAME
         user.last_name=self.LAST_NAME
         user.save()

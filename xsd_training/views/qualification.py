@@ -1,6 +1,5 @@
 from django.shortcuts import render
 from django.template import RequestContext
-from django.contrib.auth.models import User
 
 from xSACdb.roles.decorators import require_training_officer
 from xSACdb.roles.mixins import RequireTrainingOfficer

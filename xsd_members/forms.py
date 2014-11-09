@@ -1,5 +1,4 @@
 from django import forms
-from django.contrib.auth.models import User
 
 from models import MemberProfile
 
@@ -19,7 +18,7 @@ class PersonalEditForm(forms.ModelForm):
         self.fields['next_of_kin_name'].required = True
         self.fields['next_of_kin_relation'].required = True
         self.fields['next_of_kin_phone'].required = True
-        
+
 
     class Meta:
         model = MemberProfile
@@ -27,7 +26,7 @@ class PersonalEditForm(forms.ModelForm):
             'veggie','alergies','next_of_kin_name','next_of_kin_relation',
             'next_of_kin_phone']
         widgets =  {
-            'date_of_birth': forms.TextInput(attrs={'placeholder': 'dd/mm/yyyy', 'class':'input-block-level'}),    
+            'date_of_birth': forms.TextInput(attrs={'placeholder': 'dd/mm/yyyy', 'class':'input-block-level'}),
             'address': forms.Textarea(attrs={'rows':4, 'cols':11}),
             'alergies': forms.Textarea(attrs={'rows':4, 'cols':11}),
         }
@@ -79,4 +78,4 @@ class UserAccountForm(forms.Form):
     new_password = forms.CharField(min_length=8, max_length=32, widget=forms.PasswordInput, required=False)
 
 
-    
+

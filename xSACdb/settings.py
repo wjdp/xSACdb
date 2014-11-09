@@ -136,7 +136,7 @@ INSTALLED_APPS = (
     'tastypie',
     'geoposition',
 
-    'debug_toolbar',
+    # 'debug_toolbar',
 
     'xsd_frontend',
     'xsd_members',
@@ -184,9 +184,16 @@ LOGGING = {
             'level': 'ERROR',
             'propagate': True,
         },
+        'django_facebook.models': {
+            'handlers': ['mail_admins','console'],
+            'level': 'ERROR',
+            'propagate': True,
+        }
     }
 }
-AUTH_PROFILE_MODULE='xsd_members.MemberProfile'
+
+AUTH_USER_MODEL = 'auth.User'
+AUTH_PROFILE_MODULE = 'xsd_members.MemberProfile'
 
 TEST_FIXTURES = ['local_files/test_fixture.json',]
 

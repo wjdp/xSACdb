@@ -1,6 +1,6 @@
 from django.shortcuts import get_object_or_404
 
-from django.contrib.auth.models import User
+from django.contrib.auth import get_user_model
 
 from django.shortcuts import redirect, render
 
@@ -143,10 +143,11 @@ class SessionComplete(RequireTrainingOfficer,DetailView):
 
     def get_users(self,request):
         users=[]
+        U = get_user_model()
         for item in request.POST:
             if re.match('user',item):
                 user_pk=item[5:]
-                u=User.objects.get(pk=user_pk)
+                u=U.objects.get(pk=user_pk)
                 users.append(u)
         return users
 

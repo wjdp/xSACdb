@@ -1,7 +1,7 @@
 from django.shortcuts import redirect, render
 from django.http import HttpResponse
 from django.template import RequestContext
-from django.contrib.auth.models import User
+from django.contrib.auth import get_user_model
 
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.views.generic.list import ListView
@@ -53,9 +53,9 @@ def sdc_register_interest(request):
         sdc_id=request.POST['sdc_id']
         sdc=SDC.objects.get(pk=sdc_id)
         if request.POST['action']=="add":
-            sdc.interested_members.add(user) 
+            sdc.interested_members.add(user)
         elif request.POST['action']=="remove":
-            sdc.interested_members.remove(user) 
+            sdc.interested_members.remove(user)
         sdc.save()
         return HttpResponse(content="True")
     else:
@@ -115,10 +115,11 @@ class PerformedSDCComplete(RequireTrainingOfficer,DetailView):
 
     def get_users(self,request):
         users=[]
+        U = get_user_model()
         for item in request.POST:
             if re.match('user',item):
                 user_pk=item[5:]
-                u=User.objects.get(pk=user_pk)
+                u=U.objects.get(pk=user_pk)
                 users.append(u)
         return users
 
@@ -136,7 +137,7 @@ class PerformedSDCComplete(RequireTrainingOfficer,DetailView):
         psdc.completed=True
         psdc.save()
         return redirect(reverse('PerformedSDCList'))
-        
+
 
 class PerformedSDCDelete(RequireTrainingOfficer,DeleteView):
     model=PerformedSDC

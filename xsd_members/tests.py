@@ -1,7 +1,9 @@
 import datetime
 
 from django.test import TestCase, Client
-from django.contrib.auth.models import User, Group
+from django.contrib.auth.models import Group
+from django.test import TestCase
+from django.contrib.auth import get_user_model
 
 from xsd_members.models import MemberProfile
 from xsd_training.models import Lesson, PerformedLesson
@@ -11,14 +13,15 @@ class PresetUser(TestCase):
     EMAIL = 'bob@example.com'
     PASSWORD = 'correcthorsebatterystaple'
 
-    fixtures = ['local_files/test1.json']
+    fixtures = ['local_files/dj7.json']
 
     def setUp(self):
         self.make_user()
         self.make_pls()
 
     def make_user(self):
-        self.u = User.objects.create_user(
+        U = get_user_model()
+        self.u = U.objects.create_user(
             username=self.USERNAME,
             email=self.EMAIL,
             password=self.PASSWORD,

@@ -3,7 +3,7 @@ import base64
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
 from django.template import RequestContext
-from django.contrib.auth.models import User
+from django.contrib.auth import get_user_model
 
 from datetime import date
 
@@ -87,7 +87,8 @@ def logout(request):
 def register(request):
     if request.method == 'POST' and request.POST:
         form = UserRegisterForm(request.POST)
-        if User.objects.filter(email=request.POST['email_address']).count() != 0:
+        U = get_user_model()
+        if U.objects.filter(email=request.POST['email_address']).count() != 0:
             form.errors['email_address']=['That email is already registered on this database.']
         if len(request.POST['password'])<8:
             form.errors['password']=['Password must be 8 or more characters long.']
@@ -95,7 +96,7 @@ def register(request):
             # Custom error checking ok
             if form.is_valid():
                 #do valid stuff
-                new_user = User()
+                new_user = get_user_model()
                 new_user.first_name = form.cleaned_data['first_name']
                 new_user.last_name = form.cleaned_data['last_name']
                 new_user.email = form.cleaned_data['email_address']

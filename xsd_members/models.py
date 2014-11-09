@@ -1,13 +1,14 @@
 from django.db import models
 from datetime import date
 
+from django.conf import settings
 from django_facebook.models import FacebookModel
 
 from xsd_training.models import PerformedLesson
 from xSACdb.data_helpers import disable_for_loaddata
 
 class MemberProfile(FacebookModel):
-    user = models.OneToOneField('auth.User')
+    user = models.OneToOneField(settings.AUTH_USER_MODEL)
     token = models.CharField(max_length=150, blank=True)
     new = models.BooleanField(default=True)
 
@@ -213,7 +214,6 @@ class MemberProfile(FacebookModel):
         self.top_instructor_qual_cached = self.top_instructor_qual(nocache=True)
         self.is_instructor_cached = self.is_instructor(nocache=True)
 
-from django.contrib.auth.models import User
 from django.db.models.signals import post_save
 
 #Make sure we create a MemberProfile when creating a User
@@ -222,7 +222,7 @@ def create_facebook_profile(sender, instance, created, **kwargs):
     if created:
         MemberProfile.objects.create(user=instance)
 
-post_save.connect(create_facebook_profile, sender=User)
+post_save.connect(create_facebook_profile, sender=settings.AUTH_USER_MODEL)
 
 class MembershipType(models.Model):
     name=models.CharField(max_length=40)

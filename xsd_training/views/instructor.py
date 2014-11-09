@@ -1,7 +1,7 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.http import HttpResponse
 from django.template import RequestContext
-from django.contrib.auth.models import User
+from django.contrib.auth import get_user_model
 from django.views.generic import DetailView
 
 from django.db.models import Q
@@ -42,21 +42,9 @@ def InstructorUpcoming(request):
         'upcoming_sessions':upcoming_sessions
     }, context_instance=RequestContext(request))
 
-# @require_instructor
-# def TraineeNotesSearch(request):
-#     if 'surname' in request.GET:
-#         surname=request.GET['surname']
-#         trainees=User.objects.filter(last_name__icontains=surname)
-#         trainees = trainees.prefetch_related('memberprofile', 'memberprofile__top_qual_cached')
-#     else: trainees=None
-
-#     return render(request, 'trainee_notes_search.html', {
-#         'trainees':trainees
-#     }, context_instance=RequestContext(request))
-
 # Slightly messy xsd_members.MemberSearch but model is User rather than MP
 class TraineeNotesSearch(RequireInstructor, OrderedListView):
-    model=User
+    model = get_user_model()
     template_name='trainee_notes_search.html'
     context_object_name='trainees'
     order_by='last_name'
@@ -80,7 +68,7 @@ class TraineeNotesSearch(RequireInstructor, OrderedListView):
 
 
 class TraineeNotes(RequireInstructor, DetailView):
-    model = User
+    model = get_user_model()
     template_name = 'trainee_notes.html'
     context_object_name = 'user'
 
@@ -105,7 +93,7 @@ class TraineeNotes(RequireInstructor, DetailView):
 @require_training_officer
 def trainee_notes_set(request, pk):
     if 'field' in request.GET:
-        trainee_profile = get_object_or_404(User, pk=pk).memberprofile
+        trainee_profile = get_object_or_404(get_user_model(), pk=pk).memberprofile
         if request.GET['field']=='current_qual':
             if request.GET['qualification']=="":
                 # Remove all

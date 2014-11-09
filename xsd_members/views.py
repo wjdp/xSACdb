@@ -1,5 +1,4 @@
-from django.contrib.auth.models import User
-
+from django.contrib.auth import get_user_model
 from django.views.generic.base import View
 from django.views.generic.list import ListView
 from django.views.generic.detail import DetailView
@@ -160,7 +159,8 @@ class MemberDetail(RequireMembersOfficer, DetailView):
         return context
     def get_object(self):
         user_pk=self.kwargs['user__pk']
-        user=User.objects.get(pk=user_pk)
+        U = get_user_model()
+        user=U.objects.get(pk=user_pk)
         self.user = user
         return user.memberprofile
 
@@ -244,7 +244,7 @@ class MemberEdit(RequireMembersOfficer, ModelFormView):
 
     def get_user(self):
         pk=self.kwargs['pk']
-        user=get_object_or_404(User,pk=pk)
+        user=get_object_or_404(get_user_model(),pk=pk)
         return user
 
     def get_success_url(self):
@@ -261,7 +261,7 @@ class MemberEdit(RequireMembersOfficer, ModelFormView):
         return context
 
 class MemberDelete(RequireMembersOfficer, DeleteView):
-    model=User
+    model=get_user_model()
     template_name='members_delete.html'
     success_url = reverse_lazy('MemberList')
     context_object_name='u'

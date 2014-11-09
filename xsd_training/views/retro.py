@@ -1,6 +1,6 @@
 from django.shortcuts import get_object_or_404
 
-from django.contrib.auth.models import User
+from django.contrib.auth import get_user_model
 
 from django.shortcuts import redirect
 
@@ -14,7 +14,7 @@ from xSACdb.roles.mixins import RequireTrainingOfficer
 from xsd_training.models import *
 from xsd_training.forms import *
 
-from django.forms.models import formset_factory    
+from django.forms.models import formset_factory
 
 from xsd_members.bulk_select import get_bulk_members
 
@@ -53,7 +53,7 @@ class RetroAddLessons(RequireTrainingOfficer ,TemplateView):
 				form.already_completed = True
 				if POST_data:
 					form.display = False
-			
+
 			if POST_data and form.is_valid() and form.cleaned_data['date']==None:
 				form.display = False
 		return formset
@@ -92,10 +92,11 @@ class RetroAddLessons(RequireTrainingOfficer ,TemplateView):
 		return super(RetroAddLessons, self).get(request, *args, **kwargs)
 
 	def post(self, request, *args, **kwargs):
-		self.trainee = User.objects.get(pk=request.POST['trainee'])
+		U = get_user_model()
+		self.trainee = U.objects.get(pk=request.POST['trainee'])
 		self.qualification = Qualification.objects.get(pk=request.POST['qualification'])
 		self.formsets = self.retrive_all_formsets(self.trainee, self.qualification, request.POST)
-		
+
 		all_valid = True
 
 		for formset in self.formsets:

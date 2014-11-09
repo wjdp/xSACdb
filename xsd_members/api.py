@@ -2,7 +2,7 @@ from tastypie.resources import Resource, ModelResource
 from tastypie import fields, utils
 
 from models import MemberProfile
-from django.contrib.auth.models import User
+from django.contrib.auth import get_user_model
 
 from django.http import HttpResponse
 
@@ -10,7 +10,8 @@ import json
 
 class UserResource(ModelResource):
     class Meta:
-        queryset=User.objects.all()
+        U = get_user_model()
+        queryset=U.objects.all()
         resource_name='users'
         allowed_methods=['get']
         fields=['id','email','first_name','last_name','username']
@@ -36,7 +37,8 @@ class TokenInputResource(Resource):
     name=fields.CharField(attribute='name')
 
     def get_object_list(self, request):
-        queryset=User.objects.all()
+        U = get_user_model()
+        queryset=U.objects.all()
         data=[]
         for user in queryset:
             t=TokenInputUser()
@@ -54,7 +56,8 @@ class TokenInputResource(Resource):
 
 
 def tokeninput_json(request):
-    users=User.objects.all()
+    U = get_user_model()
+    users=U.objects.all()
     data=[]
     for user in users:
         t={"name":user.get_full_name(), "id":user.pk}
