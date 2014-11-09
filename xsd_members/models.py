@@ -105,14 +105,13 @@ class MemberProfile(FacebookModel):
         if self.club_expiry==None and self.bsac_expiry==None and self.medical_form_expiry==None:
             return True
         else: return False
-    def performed_lessons_for_qualification(self, qualification):
-        pass
     def performed_lesson_ramble(self):
         # TODO: A good comment here would be ideal!
-        pls =  PerformedLesson.objects.filter(trainee=self.user)
+        pls =  PerformedLesson.objects.filter(trainee=self.user).order_by('date')
         ret = ""
         for pl in pls:
-            ret += pl.lesson.code+' - '+str(pl.date)+'<br />'
+            if pl.lesson:
+                ret += pl.lesson.code+' - '+str(pl.date)+'<br />'
         return ret[:len(ret)-6]
 
     PERSONAL_FIELDS = ['address','postcode','home_phone','mobile_phone','next_of_kin_name','next_of_kin_relation','next_of_kin_phone']

@@ -2,14 +2,26 @@ import datetime
 
 from django.test import TestCase
 from django.contrib.auth.models import User
-from xsd_members.models import MemberProfile
 
-class MPFunctionality(TestCase):
-    def test_create_user(self):
+from xsd_members.models import MemberProfile
+from xsd_training.models import Lesson, PerformedLesson
+
+class PresetUser(TestCase):
+    USERNAME = 'bob'
+    EMAIL = 'bob@example.com'
+    PASSWORD = 'correcthorsebatterystaple'
+
+    fixtures = ['local_files/test1.json']
+
+    def setUp(self):
+        self.make_user()
+        self.make_pls()
+
+    def make_user(self):
         self.u = User.objects.create_user(
-            username='bob',
-            email='bob@example.com',
-            password='correcthorsebatterystaple',
+            username=self.USERNAME,
+            email=self.EMAIL,
+            password=self.PASSWORD,
         )
         self.u.first_name='Bob'
         self.u.last_name='Blobby'
@@ -18,11 +30,66 @@ class MPFunctionality(TestCase):
         self.mp = self.u.memberprofile
         self.mp.save()
 
+    def make_pls(self):
+        PLS = [
+            {
+                'trainee': self.u,
+                'lesson': Lesson.objects.get(code='OO3'),
+                'completed': False,
+                'partially_complted': False,
+                'public_notes': 'Note',
+                'private_notes': 'Note',
+            },
+            {
+                'trainee': self.u,
+                'lesson': Lesson.objects.get(code='OO3'),
+                'completed': True,
+                'partially_complted': False,
+                'public_notes': 'Note',
+                'private_notes': 'Note',
+            },
+            {
+                'trainee': self.u,
+                'lesson': Lesson.objects.get(code='OO3'),
+                'completed': False,
+                'partially_complted': True,
+                'public_notes': 'Note',
+                'private_notes': 'Note',
+            },
+            {
+                'trainee': self.u,
+                'lesson': None,
+                'completed': False,
+                'partially_complted': False,
+                'public_notes': 'Note',
+                'private_notes': 'Note',
+            },
+            {
+                'trainee': self.u,
+                'lesson': None,
+                'completed': False,
+                'partially_complted': False,
+                'public_notes': '',
+                'private_notes': '',
+            }
+        ]
+        for PL in PLS:
+            new_pl = PerformedLesson()
+            new_pl.trainee = PL['trainee']
+            new_pl.lesson = PL['lesson']
+            new_pl.completed = PL['completed']
+            new_pl.partially_complted = PL['partially_complted']
+            new_pl.public_notes = PL['public_notes']
+            new_pl.private_notes = PL['private_notes']
+            new_pl.save()
+
+
+class MPFunctionality(PresetUser):
+
+    def test_u_mp_relationship(self):
         self.assertEqual(self.mp, self.u.memberprofile)
 
     def test_age(self):
-        self.test_create_user()
-
         test_age = 21
         today = datetime.date.today()
         t_years_ago =  datetime.date(
@@ -35,7 +102,6 @@ class MPFunctionality(TestCase):
         self.assertEqual(self.mp.age(),test_age)
 
     def test_personal_fields(self):
-        self.test_create_user()
         # We have missing personal fields
         self.assertEqual(self.mp.missing_personal_details(), True)
         # Set all of them
@@ -50,6 +116,9 @@ class MPFunctionality(TestCase):
         # We now shouldn't have any
         self.assertEqual(self.mp.missing_personal_details(), False)
 
+    def test_performed_lesson_ramble(self):
+        out = self.mp.performed_lesson_ramble()
+        self.assertTrue('OO3' in out)
 
     def test_caching(self):
         pass

@@ -21,6 +21,7 @@ Change notes should be geared towards the managers of xSACdb instances.
 [bug] Pool sheets with undefined lessons would cause server error
 [feature] `Award SDC` page implemented, allows awarding a single SDC to multiple trainees
 [feature] Can have multiple lessons per trainee per session. Works on individual and group selections. Trainees in session list are now sorted by last name. (Trainees added individually cannot be added multiple times in the same selection, the process must be repeated.)
+[bug] Deleting member present in a session without assigned lessons caused server error
 
 # nu-6 - 2014/10/27
 
