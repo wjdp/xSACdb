@@ -28,6 +28,9 @@ class PerformedLesson(models.Model):
             self.date=self.session.when.date()
         super(PerformedLesson, self).save(*args, **kwargs)
 
+    class Meta:
+        ordering=['trainee__last_name']
+
 class Lesson(models.Model):
     MODE_CHOICES = (
                         ('TH', 'Theory'),
@@ -172,21 +175,26 @@ class TraineeGroup(models.Model):
     name=models.CharField(max_length=64, unique=True)
     trainees=models.ManyToManyField(User, blank=True)
 
+    TRAINEE_ORDER_BY='last_name'
+
     def trainees_list(self):
         ret=""
-        for t in self.trainees.all():
+        for t in self.trainees.all().order_by(self.TRAINEE_ORDER_BY):
             ret=ret+t.get_full_name()+", "
         return ret[:-2]
 
     def trainees_list_with_links(self):
         ret=''
-        for t in self.trainees.all():
+        for t in self.trainees.all().order_by(self.TRAINEE_ORDER_BY):
             print t
             ret += '<a href=\"' + reverse('TraineeNotes', kwargs={'pk':t.pk}) + '\">' + \
                 t.get_full_name() + '</a>, '
             print ret
         return ret[:-2]
 
+    def get_all_trainees(self):
+        return self.trainees.all().order_by(self.TRAINEE_ORDER_BY)
+        
     def __unicode__(self):
         return self.name
 

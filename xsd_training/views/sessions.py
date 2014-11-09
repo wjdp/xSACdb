@@ -57,33 +57,33 @@ class SessionPlanner(RequireTrainingOfficer, UpdateView):
             self.add_trainees(request)
         if 'traineegroup' in request.GET:
             self.add_trainee_group(request.GET['traineegroup'])
-        if 'remove-trainee' in request.GET:
-            self.remove_trainee(request.GET['remove-trainee'])
+        if 'remove-pl' in request.GET:
+            self.remove_pl(request.GET['remove-pl'])
         return super(SessionPlanner, self).get(request, *args, **kwargs)
 
     def add_trainees(self, request):
         members=get_bulk_members(request)
         for member in members:
-            check = PerformedLesson.objects.filter(session=self.object).filter(trainee=member.user)
-            if not check.exists():
-                pl=PerformedLesson()
-                pl.session=self.object
-                pl.trainee=member.user
-                pl.save()
+            # #4 Allow multiple trainees in session
+            # check = PerformedLesson.objects.filter(session=self.object).filter(trainee=member.user)
+            # if not check.exists():
+            pl=PerformedLesson()
+            pl.session=self.object
+            pl.trainee=member.user
+            pl.save()
 
     def add_trainee_group(self, group):
         tg=get_object_or_404(TraineeGroup, pk=group)
         for user in tg.trainees.all():
-            check = PerformedLesson.objects.filter(session=self.object).filter(trainee=user)
-            if not check.exists():
-                pl=PerformedLesson()
-                pl.session=self.object
-                pl.trainee=user
-                pl.save()
+            # check = PerformedLesson.objects.filter(session=self.object).filter(trainee=user)
+            # if not check.exists():
+            pl=PerformedLesson()    
+            pl.session=self.object
+            pl.trainee=user
+            pl.save()
 
-    def remove_trainee(self, trainee_pk):
-        trainee=get_object_or_404(User, pk=trainee_pk)
-        pl=get_object_or_404(PerformedLesson, session=self.object, trainee=trainee)
+    def remove_pl(self, pk):
+        pl=get_object_or_404(PerformedLesson, pk=pk)
         pl.delete()
 
     def post(self, request, *args, **kwargs):
