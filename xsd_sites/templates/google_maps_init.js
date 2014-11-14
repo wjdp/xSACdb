@@ -1,4 +1,4 @@
-<script type="text/javascript" src="http://maps.google.com/maps/api/js?key={{GOOGLE_MAPS_API_KEY}}&sensor=false"></script>
+<script type="text/javascript" src="//maps.google.com/maps/api/js?key={{GOOGLE_MAPS_API_KEY}}&sensor=false"></script>
 <script type="text/javascript">
 
 var map;
@@ -31,11 +31,11 @@ function initialize() {
   {% else %}
     var image = '/static/images/missing-asset.png';
   {% endif %}
-  
+
   var marker = new google.maps.Marker({
     position: point,
     map: map,
-    icon: image, 
+    icon: image,
     url: '/sites/' + {{site.id}},
     title: '{{ site.name }}',
   });
@@ -59,7 +59,7 @@ function initialize() {
                 // this['infowindow'].close(map, this);
 
               });
-  
+
   {% endfor %}
 
     // google.maps.event.addListenerOnce(map, 'tilesloaded', addMarkers);
@@ -74,7 +74,7 @@ function initialize() {
     var marker = new google.maps.Marker({
       position: point,
       map: map,
-      icon: image, 
+      icon: image,
       url: 'http://172.16.0.101:8882/zone/' + {{site.id}},
       title: '{{ site.id }}',
     });
@@ -97,7 +97,7 @@ function initialize() {
 
 
 
-    {% endfor %}    
+    {% endfor %}
 
   }
 
