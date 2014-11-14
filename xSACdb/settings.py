@@ -194,7 +194,7 @@ LOGGING = {
 }
 
 AUTH_USER_MODEL = 'xsd_auth.User'
-AUTH_PROFILE_MODULE = 'xsd_members.MemberProfile'
+AUTH_PROFILE_MODEL = 'xsd_members.MemberProfile'
 
 TEST_FIXTURES = ['local_files/test_fixture.json',]
 
