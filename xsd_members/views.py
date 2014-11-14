@@ -154,15 +154,10 @@ class MemberDetail(RequireMembersOfficer, DetailView):
         if self.member_useraccount_form:
             context['member_useraccount_form'] = self.member_useraccount_form
         else:
-            context['member_useraccount_form'] = self.generate_account_form(self.user)
+            context['member_useraccount_form'] = self.generate_account_form(
+                self.get_object().user)
 
         return context
-    def get_object(self):
-        user_pk=self.kwargs['user__pk']
-        U = get_user_model()
-        user=U.objects.get(pk=user_pk)
-        self.user = user
-        return user.memberprofile
 
     def generate_account_form(self, user):
         if self.request.POST:
@@ -177,7 +172,7 @@ class MemberDetail(RequireMembersOfficer, DetailView):
                 }
             )
 
-    def process_account_form(self,user):
+    def process_account_form(self, user):
         form = UserAccountForm(self.request.POST)
         if form.is_valid():
             user.first_name=form.cleaned_data['first_name']
@@ -203,7 +198,7 @@ class MemberDetail(RequireMembersOfficer, DetailView):
 
     def post(self, request, *args, **kwargs):
         self.get_object()
-        if self.process_account_form(self.user):
+        if self.process_account_form( self.get_object().user ):
             return redirect('.')
         return super(MemberDetail, self).get(request, *args, **kwargs)
 
