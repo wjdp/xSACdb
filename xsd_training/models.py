@@ -10,8 +10,8 @@ class PerformedLesson(models.Model):
     session=models.ForeignKey('Session', blank=True, null=True)
     date=models.DateField(blank=True, null=True)
     lesson=models.ForeignKey('Lesson', blank=True, null=True)
-    instructor=models.ForeignKey(settings.AUTH_USER_MODEL, related_name="pl_instructor", blank=True, null=True)
-    trainee=models.ForeignKey(settings.AUTH_USER_MODEL, related_name="pl_trainee")
+    instructor=models.ForeignKey(settings.AUTH_PROFILE_MODEL, related_name="pl_instructor", blank=True, null=True)
+    trainee=models.ForeignKey(settings.AUTH_PROFILE_MODEL, related_name="pl_trainee")
     completed=models.BooleanField(default=False)
     partially_completed=models.BooleanField(default=False)
     public_notes=models.TextField(blank=True)
@@ -105,7 +105,7 @@ class SDC(models.Model):
     category=models.CharField(choices=SDC_TYPE_CHOICES, max_length=3)
     other_requirements=models.BooleanField(default=False)
 
-    interested_members=models.ManyToManyField(settings.AUTH_USER_MODEL, blank=True)
+    interested_members=models.ManyToManyField(settings.AUTH_PROFILE_MODEL, blank=True)
 
     def __unicode__(self): return self.title
 
@@ -132,7 +132,7 @@ class PerformedSDC(models.Model):
     sdc=models.ForeignKey('SDC')
     datetime=models.DateTimeField(blank=True, null=True)
     notes=models.TextField(blank=True)
-    trainees=models.ManyToManyField(settings.AUTH_USER_MODEL, blank=True)
+    trainees=models.ManyToManyField(settings.AUTH_PROFILE_MODEL, blank=True)
     completed=models.BooleanField(default=False)
     # places = models.IntegerField()
 
@@ -144,7 +144,7 @@ class Session(models.Model):
     when=models.DateTimeField(help_text='Formatted like: DD/MM/YYY HH:MM')
     where=models.ForeignKey('xsd_sites.Site')
     notes=models.TextField(blank=True, help_text='Viewable by instructors and trainees in session.')
-    created_by=models.ForeignKey(settings.AUTH_USER_MODEL, blank=True, null=True)
+    created_by=models.ForeignKey(settings.AUTH_PROFILE_MODEL, blank=True, null=True)
 
     completed = models.BooleanField(default=False)
 
@@ -173,9 +173,9 @@ class Session(models.Model):
 
 class TraineeGroup(models.Model):
     name=models.CharField(max_length=64, unique=True)
-    trainees=models.ManyToManyField(settings.AUTH_USER_MODEL, blank=True)
+    trainees=models.ManyToManyField(settings.AUTH_PROFILE_MODEL, blank=True)
 
-    TRAINEE_ORDER_BY='last_name'
+    TRAINEE_ORDER_BY='user__last_name'
 
     def trainees_list(self):
         ret=""

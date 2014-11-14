@@ -204,6 +204,25 @@ class MemberProfile(FacebookModel):
             self._cached_user_group_values = [x['id'] for x in self.user.groups.all().values()]
             return self.user_groups_values()
 
+    def memberprofile(self):
+        """Legacy bit"""
+        print "WARNING: MemberProfile.memberprofile called"
+        return self
+
+    def first_name(self):
+        """Legacy bit"""
+        print "WARNING: MemberProfile.first_name called"
+        return self.user.first_name
+    def last_name(self):
+        """Legacy bit"""
+        print "WARNING: MemberProfile.last_name called"
+        return self.user.last_name
+    def get_full_name(self):
+        """Legacy bit"""
+        print "WARNING: MemberProfile.get_full_name called"
+        return "{} {}".format(self.first_name(), self.last_name())
+
+
     def save(self, *args, **kwargs):
         if self.pk:
             self.cache_update()
