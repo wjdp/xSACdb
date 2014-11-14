@@ -1,7 +1,5 @@
 from django.shortcuts import get_object_or_404
 
-from django.contrib.auth import get_user_model
-
 from django.shortcuts import redirect
 
 from django.views.generic import TemplateView
@@ -11,6 +9,7 @@ from django.core.urlresolvers import reverse_lazy
 from xSACdb.roles.decorators import require_training_officer
 from xSACdb.roles.mixins import RequireTrainingOfficer
 
+from xsd_members.models import MemberProfile
 from xsd_training.models import *
 from xsd_training.forms import *
 
@@ -47,9 +46,9 @@ class RetroAddLessons(RequireTrainingOfficer ,TemplateView):
 			formset = formset_blank(initial=initial_data, prefix=mode)
 		for lesson, form in zip(lessons, formset):
 			form.lesson_data = lesson
-			if PerformedLesson.objects.filter(trainee=trainee, lesson=lesson, partially_completed = True):
+			if PerformedLesson.objects.get_lessons(trainee=trainee, lesson=lesson, partially_completed = True):
 				form.already_partial = True
-			if PerformedLesson.objects.filter(trainee=trainee, lesson=lesson, completed = True):
+			if PerformedLesson.objects.get_lessons(trainee=trainee, lesson=lesson, completed = True):
 				form.already_completed = True
 				if POST_data:
 					form.display = False
@@ -92,8 +91,7 @@ class RetroAddLessons(RequireTrainingOfficer ,TemplateView):
 		return super(RetroAddLessons, self).get(request, *args, **kwargs)
 
 	def post(self, request, *args, **kwargs):
-		U = get_user_model()
-		self.trainee = U.objects.get(pk=request.POST['trainee'])
+		self.trainee = MemberProfile.objects.get(pk=request.POST['trainee'])
 		self.qualification = Qualification.objects.get(pk=request.POST['qualification'])
 		self.formsets = self.retrive_all_formsets(self.trainee, self.qualification, request.POST)
 

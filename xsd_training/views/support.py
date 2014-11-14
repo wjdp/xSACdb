@@ -7,7 +7,8 @@ import json
 
 from django.http import HttpResponse
 
-from django.contrib.auth import get_user_model
+from xsd_members.models import MemberProfile
+
 from xsd_training.models import PerformedLesson, Lesson, Qualification
 from xSACdb.roles.mixins import RequireInstructor, RequireTrainingOfficer
 
@@ -23,8 +24,7 @@ class PerformedLessonDetailMouseover(RequireInstructor, DetailView):
 
     def get_object(self, queryset=None):
         if 't' in self.request.GET and 'l' in self.request.GET:
-            U = get_user_model()
-            self.trainee = U.objects.get(pk=self.request.GET['t'])
+            self.trainee = MemberProfile.objects.get(pk=self.request.GET['t'])
             self.lesson = Lesson.objects.get(pk=self.request.GET['l'])
             qs = PerformedLesson.objects.filter(trainee = self.trainee, lesson = self.lesson)
             if self.lesson.is_completed(self.trainee):
@@ -44,8 +44,7 @@ class PerformedLessonDetailMouseover(RequireInstructor, DetailView):
 class PerformedLessonDetailAPI(RequireInstructor, View):
     def get(self, request, *args, **kwargs):
         if 't' in self.request.GET:
-            U = get_user_model()
-            trainee = U.objects.get(pk=self.request.GET['t'])
+            trainee = MemberProfile.objects.get(pk=self.request.GET['t'])
             qualification = Qualification.objects.get(pk=self.request.GET['q'])
 
             lessons = Lesson.objects.filter(qualification = qualification)

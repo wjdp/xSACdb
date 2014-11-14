@@ -1,7 +1,6 @@
 from models import *
 from xsd_members.models import MemberProfile
 from xsd_training.models import Qualification, SDC
-from django.contrib.auth import get_user_model
 from django import forms
 
 from xSACdb.form_fields import UserModelChoiceField
@@ -79,7 +78,7 @@ class TraineeGroupSelectForm(forms.Form):
 
 
 class TraineeSelectForm(forms.Form):
-    trainee = UserModelChoiceField(queryset = get_user_model().objects.all().order_by('last_name'))
+    trainee = UserModelChoiceField(queryset = MemberProfile.objects.all().order_by('user__last_name'))
     qualification = forms.ModelChoiceField(queryset = Qualification.objects.all().exclude(instructor_qualification=True))
 
 class TraineeLessonCompletionDateForm(forms.ModelForm):

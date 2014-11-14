@@ -140,7 +140,6 @@ class MemberDetail(RequireMembersOfficer, DetailView):
     model=MemberProfile
     template_name='members_detail.html'
     context_object_name='member'
-    user = None
     accounts_settings_open = False
     member_useraccount_form = None
 
@@ -237,18 +236,14 @@ class MemberEdit(RequireMembersOfficer, ModelFormView):
     template_name='members_edit.html'
     form_class=MemberEditForm
 
-    def get_user(self):
+    def get_model(self):
         pk=self.kwargs['pk']
-        user=get_object_or_404(get_user_model(),pk=pk)
-        return user
+        mp=get_object_or_404(MemberProfile,pk=pk)
+        return mp
 
     def get_success_url(self):
-        user = self.get_user()
-        return reverse('MemberDetail', kwargs={'user__pk':user.pk})
-
-    def get_model(self):
-        user=self.get_user()
-        return user.memberprofile
+        mp = self.get_model()
+        return reverse('MemberDetail', kwargs={'pk':mp.pk})
 
     def get_context_data(self, **kwargs):
         context = super(MemberEdit, self).get_context_data(**kwargs)
@@ -256,15 +251,10 @@ class MemberEdit(RequireMembersOfficer, ModelFormView):
         return context
 
 class MemberDelete(RequireMembersOfficer, DeleteView):
-    model=get_user_model()
+    model=MemberProfile
     template_name='members_delete.html'
     success_url = reverse_lazy('MemberList')
-    context_object_name='u'
-
-    # def get_context_data(self, **kwargs):
-    #     context = super(SessionDelete, self).get_context_data(**kwargs)
-    #     context['pls'] = PerformedLesson.objects.filter(session=self.object)
-    #     return context
+    context_object_name='member'
 
 @require_members_officer
 def select_tool(request):
@@ -274,7 +264,6 @@ def select_tool(request):
 
 class BulkAddForms(RequireMembersOfficer, View):
     model=MemberProfile
-
 
     def get(self, request, *args, **kwargs):
         spreadsheet=False
@@ -290,10 +279,10 @@ class BulkAddForms(RequireMembersOfficer, View):
             FormExpiryFormSet = formset_factory(FormExpiryForm, extra=0)
             initial=[]
             for member in members:
-                initial.append({'user_id':member.user.pk})
+                initial.append({'member_id':member.pk})
             formset=FormExpiryFormSet(initial=initial)
             for member,form in zip(members,formset):
-                form.full_name=member.user.get_full_name()
+                form.full_name=member.get_full_name()
 
             return render(request,'members_bulk_edit_forms.html',{
                 'page_title':'Bulk Select Results',
@@ -314,7 +303,7 @@ class BulkAddForms(RequireMembersOfficer, View):
         formset=FormExpiryFormSet(request.POST)
         if formset.is_valid():
             for form in formset.cleaned_data:
-                mp=MemberProfile.objects.get(user__pk=form['user_id'])
+                mp=MemberProfile.objects.get(pk=form['member_id'])
                 if form['club_expiry']: mp.club_expiry=form['club_expiry']
                 if form['bsac_expiry']: mp.bsac_expiry=form['bsac_expiry']
                 if form['medical_form_expiry']: mp.medical_form_expiry=form['medical_form_expiry']

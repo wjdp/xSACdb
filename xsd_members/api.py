@@ -37,13 +37,12 @@ class TokenInputResource(Resource):
     name=fields.CharField(attribute='name')
 
     def get_object_list(self, request):
-        U = get_user_model()
-        queryset=U.objects.all()
-        data=[]
-        for user in queryset:
-            t=TokenInputUser()
-            t.id=user.pk
-            t.name=user.first_name + " " + user.last_name
+        queryset = MemberProfile.objects.all()
+        data = []
+        for member in queryset:
+            t = TokenInputUser()
+            t.id = member.pk
+            t.name = member.get_full_name
             data.append(t)
         return data
 
@@ -56,12 +55,11 @@ class TokenInputResource(Resource):
 
 
 def tokeninput_json(request):
-    U = get_user_model()
-    users=U.objects.all()
+    members = MemberProfile.objects.all()
     data=[]
-    for user in users:
-        t={"name":user.get_full_name(), "id":user.pk}
+    for member in members:
+        t={"name":member.get_full_name(), "id":member.pk}
         data.append(t)
     json_data=json.dumps(data)
     js_version="var data = " + json_data + ";"
-    return HttpResponse(content=js_version, mimetype='text/javascript')
+    return HttpResponse(content=js_version, content_type='application/json')

@@ -55,8 +55,8 @@ class MemberEditForm(forms.ModelForm):
         }
 
 class FormExpiryForm(forms.Form):
-    user_id=forms.IntegerField()
-    user_id.widget=forms.HiddenInput()
+    member_id=forms.IntegerField()
+    member_id.widget=forms.HiddenInput()
     full_name=''
     club_expiry = forms.DateField(input_formats=['%d/%m/%Y'], required=False)
     bsac_expiry = forms.DateField(input_formats=['%d/%m/%Y'], required=False)

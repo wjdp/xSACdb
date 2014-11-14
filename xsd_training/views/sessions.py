@@ -1,7 +1,5 @@
 from django.shortcuts import get_object_or_404
 
-from django.contrib.auth import get_user_model
-
 from django.shortcuts import redirect, render
 
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
@@ -13,6 +11,7 @@ from django.core.urlresolvers import reverse_lazy
 from xSACdb.roles.decorators import require_training_officer
 from xSACdb.roles.mixins import RequireTrainingOfficer
 
+from xsd_members.models import MemberProfile
 from xsd_training.models import *
 from xsd_training.forms import *
 import xsd_training.trainee_table as trainee_table
@@ -62,24 +61,19 @@ class SessionPlanner(RequireTrainingOfficer, UpdateView):
         return super(SessionPlanner, self).get(request, *args, **kwargs)
 
     def add_trainees(self, request):
-        members=get_bulk_members(request)
+        members = get_bulk_members(request)
         for member in members:
-            # #4 Allow multiple trainees in session
-            # check = PerformedLesson.objects.filter(session=self.object).filter(trainee=member.user)
-            # if not check.exists():
-            pl=PerformedLesson()
-            pl.session=self.object
-            pl.trainee=member.user
+            pl = PerformedLesson()
+            pl.session = self.object
+            pl.trainee = member
             pl.save()
 
     def add_trainee_group(self, group):
         tg=get_object_or_404(TraineeGroup, pk=group)
-        for user in tg.trainees.all():
-            # check = PerformedLesson.objects.filter(session=self.object).filter(trainee=user)
-            # if not check.exists():
+        for trainee in tg.trainees.all():
             pl=PerformedLesson()
             pl.session=self.object
-            pl.trainee=user
+            pl.trainee=trainee
             pl.save()
 
     def remove_pl(self, pk):
@@ -141,15 +135,13 @@ class SessionComplete(RequireTrainingOfficer,DetailView):
         context['performed_lessons_formset'] = self.build_pls_formset()
         return context
 
-    def get_users(self,request):
-        users=[]
-        U = get_user_model()
+    def get_trainees(self, request):
+        trainees = []
         for item in request.POST:
-            if re.match('user',item):
-                user_pk=item[5:]
-                u=U.objects.get(pk=user_pk)
-                users.append(u)
-        return users
+            if re.match('trainee',item):
+                trainee_pk=item[5:]
+                trainees.append( MemberProfile.objects.get(pk=trainee_pk) )
+        return trainees
 
     def set_pl(self, id, completed, partially_completed, public_notes, private_notes):
         pl = id

@@ -2,20 +2,20 @@ from django import template
 register = template.Library()
 
 @register.inclusion_tag('lesson_list_template.html')
-def show_lessons(qualification, mode, user):
+def show_lessons(qualification, mode, mp):
     lessons=qualification.lessons_by_mode(mode=mode)
-    
+
     completed=[]
     planned=[]
     partially_completed=[]
     uncompleted=[]
 
     for lesson in lessons:
-        if lesson.is_completed(user):
+        if lesson.is_completed(mp):
             completed.append(lesson)
-        elif lesson.is_planned(user):
+        elif lesson.is_planned(mp):
             planned.append(lesson)
-        elif lesson.is_partially_completed(user):
+        elif lesson.is_partially_completed(mp):
             partially_completed.append(lesson)
         else:
             uncompleted.append(lesson)
@@ -25,8 +25,8 @@ def show_lessons(qualification, mode, user):
 from xsd_training.models import PerformedLesson
 
 @register.inclusion_tag('lesson_list_template_with_dates.html')
-def show_upcoming_lessons(user):
-    pl_upcoming=PerformedLesson.objects.filter(trainee=user, completed=False, partially_completed=False).order_by('date')
+def show_upcoming_lessons(mp):
+    pl_upcoming=PerformedLesson.objects.get_lessons(trainee=mp, completed=False, partially_completed=False).order_by('date')
 
     lessons=[]
 
@@ -36,17 +36,17 @@ def show_upcoming_lessons(user):
     return {'planned':lessons,'completed':None,}
 
 @register.filter
-def has_sdc(user,sdc):
-    if sdc in user.memberprofile.sdcs.all(): return True
+def has_sdc(mp,sdc):
+    if sdc in mp.sdcs.all(): return True
     else: return False
 
 @register.filter
-def has_sdc_interest(user,sdc):
-    if user in sdc.interested_members.all(): return True
+def has_sdc_interest(mp,sdc):
+    if mp in sdc.interested_members.all(): return True
     else: return False
 
 @register.filter
-def cando_sdc(profile,sdc):
+def cando_sdc(profile, sdc):
     if profile.top_qual()==None: my_rank=0
     else: my_rank=profile.top_qual().rank
     if sdc.min_qualification==None: sdc_rank=0

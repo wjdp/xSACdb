@@ -4,7 +4,7 @@
     <h2>{{psdc.sdc.title}}</h2>
     <p>This skill development course is planned for {{psdc.datetime}}</p>
     <p>{{psdc.notes|linebreaks}}</p>
-    
+
 </div>
 <div class="span6">
 <h3>Trainees</h3>
@@ -12,15 +12,15 @@
     <p>So far {{psdc.trainees.count}} people are booked on this course.</p>
     <table class="table table-condensed table-striped">
         <tr><th>Name</th>{% if is_training %}<th>Qualification</th><th>Membership Issue</th>{% endif %}</tr>
-    {% for user in psdc.trainees.all %}
+    {% for trainee in psdc.trainees.all %}
         <tr>
-            <td>{% if is_training %}<a href="{% url 'MemberDetail' user.pk %}">{{user.get_full_name}}</a>
-            {% else %}{{user.get_full_name}} {% endif %}</td>
-            {% if is_training %}<td>{{user.memberprofile.top_qual}}</td>
-            <td>{% if user.memberprofile.membership_problem %}
+            <td>{% if is_training %}<a href="{% url 'MemberDetail' trainee.pk %}">{{trainee.get_full_name}}</a>
+            {% else %}{{trainee.get_full_name}} {% endif %}</td>
+            {% if is_training %}<td>{{trainee.top_qual}}</td>
+            <td>{% if trainee.membership_problem %}
             <div class="popover-button error" data-title="Problems With Membership"
-            
-            data-content="{{user.first_name}}'s {% if user.memberprofile.no_expiry_data %}has not got any forms with the club, probably a new member {% elif user.memberprofile.bsac_expired %}BSAC membership has expired, {% elif user.memberprofile.club_expired %}club membership has expired, {% elif user.memberprofile.club_expired %}medical form has expired.{% endif %}"
+
+            data-content="{{trainee.first_name}}'s {% if trainee.no_expiry_data %}has not got any forms with the club, probably a new member {% elif trainee.bsac_expired %}BSAC membership has expired, {% elif trainee.club_expired %}club membership has expired, {% elif trainee.club_expired %}medical form has expired.{% endif %}"
 
             data-trigger="hover" data-placement="top">Yes</div>
             {% endif %}</td>{% endif %}

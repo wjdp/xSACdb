@@ -4,7 +4,7 @@
     <h2>{{psdc.sdc.title}}</h2>
     <p>This skill development course is planned for {{psdc.datetime}}</p>
     <p>{{psdc.notes|linebreaks}}</p>
-    
+
 </div>
 <form action="." method="POST">
 {% csrf_token %}
@@ -14,10 +14,10 @@
     <p>{{psdc.trainees.count}} people attended this course.</p>
     <table class="table table-condensed table-striped">
         <tr><th>Name</th><th>Completed</th></tr>
-    {% for user in psdc.trainees.all %}
+    {% for trainee in psdc.trainees.all %}
         <tr>
-            <td>{{user.get_full_name}}</td>
-            <td><input type="checkbox" name="user-{{user.pk}}" checked="true" /></td>
+            <td>{{trainee.get_full_name}}</td>
+            <td><input type="checkbox" name="trainee-{{trainee.pk}}" checked="true" /></td>
             </tr>
     {% endfor %}
     </table>

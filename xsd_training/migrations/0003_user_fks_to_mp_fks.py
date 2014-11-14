@@ -56,7 +56,7 @@ def migrate_m2m_user_to_mp(apps, schema_editor, changed_fields, model_name):
             muddled_users = user_data['{}_{}_{}'.format(table,field_name,obj.id)]
             profiles=[]
             if muddled_users != []:
-                print muddled_users
+                # print muddled_users
                 for muser in muddled_users:
                     # We actually have
                     mp = User.objects.get(pk=muser).memberprofile
@@ -68,16 +68,18 @@ def migrate_m2m_user_to_mp(apps, schema_editor, changed_fields, model_name):
 
 def store_sdcs(apps, schema_editor):
     store_m2m_user_data(apps, schema_editor, ['interested_members'], 'SDC')
-
 def store_traineegroups(apps, schema_editor):
     store_m2m_user_data(apps, schema_editor, ['trainees'], 'TraineeGroup')
+def store_performedsdcs(apps, schema_editor):
+    store_m2m_user_data(apps, schema_editor, ['trainees'], 'PerformedSDC')
 
 
 def migrate_sdcs(apps, schema_editor):
     migrate_m2m_user_to_mp(apps, schema_editor, ['interested_members'], 'SDC')
-
 def migrate_traineegroups(apps, schema_editor):
     migrate_m2m_user_to_mp(apps, schema_editor, ['trainees'], 'TraineeGroup')
+def migrate_performedsdcs(apps, schema_editor):
+    migrate_m2m_user_to_mp(apps, schema_editor, ['trainees'], 'PerformedSDC')
 
 
 class Migration(migrations.Migration):
@@ -92,6 +94,7 @@ class Migration(migrations.Migration):
         migrations.RunPython(migrate_pl),
         migrations.RunPython(store_sdcs),
         migrations.RunPython(store_traineegroups),
+        migrations.RunPython(store_performedsdcs),
         migrations.AlterField(
             model_name='performedlesson',
             name='instructor',
@@ -130,4 +133,5 @@ class Migration(migrations.Migration):
         ),
         migrations.RunPython(migrate_sdcs),
         migrations.RunPython(migrate_traineegroups),
+        migrations.RunPython(migrate_performedsdcs),
     ]
