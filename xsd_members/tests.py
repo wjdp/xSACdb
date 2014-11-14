@@ -1,7 +1,7 @@
 import datetime
 
-from django.test import TestCase
-from django.contrib.auth.models import User
+from django.test import TestCase, Client
+from django.contrib.auth.models import User, Group
 
 from xsd_members.models import MemberProfile
 from xsd_training.models import Lesson, PerformedLesson
@@ -29,6 +29,11 @@ class PresetUser(TestCase):
 
         self.mp = self.u.memberprofile
         self.mp.save()
+
+    def get_logged_in_client(self):
+        c = Client()
+        res = c.post('/accounts/login/', {'username':self.EMAIL, 'password':self.PASSWORD})
+        return c
 
     def make_pls(self):
         PLS = [
@@ -83,6 +88,14 @@ class PresetUser(TestCase):
             new_pl.private_notes = PL['private_notes']
             new_pl.save()
 
+class PresetAdminUser(PresetUser):
+    def setUp(self):
+        super(PresetAdminUser, self).setUp()
+        self.make_admin()
+    def make_admin(self):
+        g = Group.objects.get(pk=2)
+        self.u.groups.add(g)
+        self.u.save()
 
 class MPFunctionality(PresetUser):
 

@@ -54,7 +54,16 @@ class SessionCompleteForm(forms.ModelForm):
         fields = ['completed', 'partially_completed', 'public_notes', 'private_notes']
 
 class PoolSheetOptions(forms.Form):
+    # DB order_by on left, friendly UI option right
+    POOLSHEET_SORT_BY = (
+        ('instructor__last_name', 'Instructor'),
+        ('trainee__last_name', 'Trainee'),
+        ('lesson__order', 'Lesson'),
+    )
+
     session = forms.ModelChoiceField(queryset = Session.objects.filter(completed=False), required=True)
+
+    sort_by = forms.ChoiceField(choices = POOLSHEET_SORT_BY)
 
     show_public_notes = forms.BooleanField(initial=True, required=False)
     show_private_notes = forms.BooleanField(initial=True, required=False)

@@ -77,7 +77,7 @@ class SessionPlanner(RequireTrainingOfficer, UpdateView):
         for user in tg.trainees.all():
             # check = PerformedLesson.objects.filter(session=self.object).filter(trainee=user)
             # if not check.exists():
-            pl=PerformedLesson()    
+            pl=PerformedLesson()
             pl.session=self.object
             pl.trainee=user
             pl.save()
@@ -222,7 +222,8 @@ def pool_sheet(request):
 @require_training_officer
 def pool_sheet_generate(request, form):
     session = form.cleaned_data['session']
-    pls = PerformedLesson.objects.filter(session = session)
+    pls = PerformedLesson.objects.filter(session = session).order_by(
+        form.cleaned_data['sort_by'])
 
     pls_extended = []
 
