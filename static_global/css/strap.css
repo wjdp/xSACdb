@@ -198,7 +198,7 @@ columns:2;
     height: 450px;
     margin-bottom: 16px;
 }
-#map-canvas img {
+#map-canvas img, .gm-style img {
     /* Fix silly BS GM issue*/
     max-width: inherit
 }
