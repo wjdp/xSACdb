@@ -4,6 +4,7 @@ A web based database for managing BSAC branch clubs. It looks after membership d
 
 Current Limitations
 -------------------
+[![Gitter](https://badges.gitter.im/Join Chat.svg)](https://gitter.im/wjdp/xSACdb?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 - **Trips** are not implemented
 - **Kit** is not implemented
 - **Sites** is rather basic
