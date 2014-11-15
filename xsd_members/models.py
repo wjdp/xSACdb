@@ -8,13 +8,30 @@ from xsd_training.models import PerformedLesson
 from xSACdb.data_helpers import disable_for_loaddata
 
 class MemberProfile(FacebookModel):
-    user = models.OneToOneField(settings.AUTH_USER_MODEL)
+    """Model for representing members of the club, a user account has a O2O
+    relationship with this profile. The profile 'should' be able to exist
+    without a user."""
+
+    class Meta:
+        ordering = ['last_name', 'first_name']
+
+    user = models.OneToOneField(settings.AUTH_USER_MODEL, null=True,
+        blank=True)
+
+    # Not really sure if this is needed?
     token = models.CharField(max_length=150, blank=True)
+
     new = models.BooleanField(default=True)
 
     # This is being used to 'approve' new members
     new_notify = models.BooleanField(default=True)
 
+    # Migrated from user model
+    first_name = models.CharField(max_length=30)
+    last_name = models.CharField(max_length=30)
+    email = models.EmailField()
+
+    # Profile details
     address = models.TextField(blank=True)
     postcode = models.CharField(max_length=11, blank=True)
     home_phone = models.CharField(max_length=20, blank=True)
@@ -52,7 +69,7 @@ class MemberProfile(FacebookModel):
     other_qualifications = models.TextField(blank=True)
 
     def __unicode__(self):
-        return self.user.first_name + " " + self.user.last_name
+        return self.first_name + " " + self.last_name
 
     top_qual_cached = models.ForeignKey('xsd_training.Qualification', blank=True, null=True, related_name='top_qual_cached')
     def top_qual(self, nocache = False):
@@ -209,43 +226,48 @@ class MemberProfile(FacebookModel):
         print "WARNING: MemberProfile.memberprofile called"
         return self
 
-    def first_name(self):
-        """Transfer bit"""
-        return self.user.first_name
-    def last_name(self):
-        """Transfer bit"""
-        return self.user.last_name
     def get_full_name(self):
         """Transfer bit"""
-        return "{} {}".format(self.first_name(), self.last_name())
-    def email(self):
-        """Transfer bit"""
-        return self.user.email
+        return "{} {}".format(self.first_name, self.last_name)
     def date_joined(self):
         """Transfer bit"""
         return self.user.date_joined
 
-
-
     def save(self, *args, **kwargs):
+        """Saves changes to the model instance"""
         if self.pk:
             self.cache_update()
+        if self.user:
+            self.sync()
         super(MemberProfile, self).save(*args, **kwargs)
     def cache_update(self):
         """Compute and write the cached fields"""
         self.top_qual_cached = self.top_qual(nocache=True)
         self.top_instructor_qual_cached = self.top_instructor_qual(nocache=True)
         self.is_instructor_cached = self.is_instructor(nocache=True)
+    def seed(self, user):
+        """Seed a newly created MP with data from the user model"""
+        self.first_name = self.user.first_name
+        self.last_name = self.user.last_name
+        self.email = self.user.email
+    def sync(self):
+        self.user.first_name = self.first_name
+        self.user.last_name = self.last_name
+        self.user.email = self.email
+        # TODO check if actually changed
+        self.user.save()
 
 from django.db.models.signals import post_save
 
 #Make sure we create a MemberProfile when creating a User
 @disable_for_loaddata
-def create_facebook_profile(sender, instance, created, **kwargs):
+def create_member_profile(sender, instance, created, **kwargs):
     if created:
-        MemberProfile.objects.create(user=instance)
+        mp = MemberProfile.objects.create(user=instance)
+        mp.seed(instance)
+        mp.save()
 
-post_save.connect(create_facebook_profile, sender=settings.AUTH_USER_MODEL)
+post_save.connect(create_member_profile, sender=settings.AUTH_USER_MODEL)
 
 class MembershipType(models.Model):
     name=models.CharField(max_length=40)

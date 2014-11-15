@@ -42,15 +42,15 @@ class MemberSearch(RequireMembersOfficer, OrderedListView):
     model=MemberProfile
     template_name='members_search.html'
     context_object_name='members'
-    order_by='user__last_name'
+    order_by='last_name'
 
     def get_queryset(self):
         if 'surname' in self.request.GET:
             name=self.request.GET['surname']
             queryset=super(MemberSearch, self).get_queryset()
             queryset=queryset.filter(
-                Q(user__last_name__icontains=name) |
-                Q(user__first_name__icontains=name)
+                Q(last_name__icontains=name) |
+                Q(first_name__icontains=name)
             )
             queryset = queryset.prefetch_related('user','top_qual_cached','club_membership_type')
         else:
@@ -70,7 +70,7 @@ class MemberList(RequireMembersOfficer, OrderedListView):
     model=MemberProfile
     template_name='members_list.html'
     context_object_name='members'
-    order_by='user__last_name'
+    order_by='last_name'
     page_title='Club Membership Listing'
     page_description='Our entire membership (that has registered for the database)'
 
@@ -221,7 +221,7 @@ class ModelFormView(FormView):
 
 class MyProfileEdit(ModelFormView):
     template_name='members_edit.html'
-    form_class=MemberEditForm
+    form_class=PersonalEditForm
     success_url=reverse_lazy('my-profile')
 
     def get_model(self):
@@ -269,7 +269,7 @@ class BulkAddForms(RequireMembersOfficer, View):
         spreadsheet=False
         if 'set' in request.GET:
             if request.GET['set']=='all':
-                members=self.get_all_objects().order_by('user__last_name')
+                members=self.get_all_objects().order_by('last_name')
             spreadsheet=True
         elif 'names' in request.GET and request.GET['names']!='':
             from bulk_select import get_bulk_members

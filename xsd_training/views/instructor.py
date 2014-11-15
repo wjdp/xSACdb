@@ -47,15 +47,15 @@ class TraineeNotesSearch(RequireInstructor, OrderedListView):
     model = MemberProfile
     template_name='trainee_notes_search.html'
     context_object_name='trainees'
-    order_by='user__last_name'
+    order_by='last_name'
 
     def get_queryset(self):
         if 'surname' in self.request.GET:
             name=self.request.GET['surname']
             queryset=super(TraineeNotesSearch, self).get_queryset()
             queryset=queryset.filter(
-                Q(user__last_name__icontains=name) |
-                Q(user__first_name__icontains=name)
+                Q(last_name__icontains=name) |
+                Q(first_name__icontains=name)
             )
             queryset = queryset.prefetch_related(
                 'top_qual_cached',

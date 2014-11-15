@@ -8,23 +8,11 @@ class MemberSearchForm(forms.Form):
     surname=forms.CharField(max_length=50)
 
 class PersonalEditForm(forms.ModelForm):
-    def __init__(self, *args, **kwargs):
-        model = MemberProfile
-        self.fields['date_of_birth'].required = True
-        self.fields['home_phone'].required = True
-        self.fields['mobile_phone'].required = True
-        self.fields['address'].required = True
-        self.fields['postcode'].required = True
-        self.fields['next_of_kin_name'].required = True
-        self.fields['next_of_kin_relation'].required = True
-        self.fields['next_of_kin_phone'].required = True
-
-
     class Meta:
         model = MemberProfile
-        fields = ['date_of_birth','home_phone','mobile_phone','address','postcode',
+        fields = ['home_phone','mobile_phone','address','postcode',
             'veggie','alergies','next_of_kin_name','next_of_kin_relation',
-            'next_of_kin_phone']
+            'next_of_kin_phone', 'email']
         widgets =  {
             'date_of_birth': forms.TextInput(attrs={'placeholder': 'dd/mm/yyyy', 'class':'input-block-level'}),
             'address': forms.Textarea(attrs={'rows':4, 'cols':11}),
@@ -39,6 +27,18 @@ class PersonalEditForm(forms.ModelForm):
         self.fields['veggie'].required=False
         self.fields['alergies'].required=False
 
+class WelcomeScreenForm(PersonalEditForm):
+    class Meta:
+        model = MemberProfile
+        fields = ['date_of_birth', 'home_phone','mobile_phone','address','postcode',
+            'veggie','alergies','next_of_kin_name','next_of_kin_relation',
+            'next_of_kin_phone']
+        widgets =  {
+            'date_of_birth': forms.TextInput(attrs={'placeholder': 'dd/mm/yyyy', 'class':'input-block-level'}),
+            'address': forms.Textarea(attrs={'rows':4, 'cols':11}),
+            'alergies': forms.Textarea(attrs={'rows':4, 'cols':11}),
+        }
+
 class MemberEditForm(forms.ModelForm):
     class Meta:
         model = MemberProfile
@@ -48,7 +48,8 @@ class MemberEditForm(forms.ModelForm):
             'student_id','associate_id','associate_expiry', 'club_id',
             'club_expiry','club_membership_type','bsac_id','bsac_expiry',
             'bsac_direct_member','bsac_member_via_another_club',
-            'bsac_direct_debit','medical_form_expiry','other_qualifications']
+            'bsac_direct_debit','medical_form_expiry','other_qualifications',
+            'first_name', 'last_name', 'email', ]
         widgets = {
           'address': forms.Textarea(attrs={'rows':3, 'cols':40}),
           'alergies': forms.Textarea(attrs={'rows':4, 'cols':40}),

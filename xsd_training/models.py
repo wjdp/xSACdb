@@ -21,7 +21,7 @@ class PerformedLesson(models.Model):
     session=models.ForeignKey('Session', blank=True, null=True)
     date=models.DateField(blank=True, null=True)
     lesson=models.ForeignKey('Lesson', blank=True, null=True)
-    instructor=models.ForeignKey(settings.AUTH_PROFILE_MODEL, related_name="pl_instructor", blank=True, null=True)
+    instructor=models.ForeignKey(settings.AUTH_PROFILE_MODEL, related_name="pl_instructor", blank=True, null=True, limit_choices_to={'is_instructor_cached':True})
     trainee=models.ForeignKey(settings.AUTH_PROFILE_MODEL, related_name="pl_trainee")
     completed=models.BooleanField(default=False)
     partially_completed=models.BooleanField(default=False)
@@ -42,7 +42,7 @@ class PerformedLesson(models.Model):
         super(PerformedLesson, self).save(*args, **kwargs)
 
     class Meta:
-        ordering=['trainee__user__last_name']
+        ordering=['trainee__last_name']
 
 class Lesson(models.Model):
     MODE_CHOICES = (
@@ -188,7 +188,7 @@ class TraineeGroup(models.Model):
     name=models.CharField(max_length=64, unique=True)
     trainees=models.ManyToManyField(settings.AUTH_PROFILE_MODEL, blank=True)
 
-    TRAINEE_ORDER_BY='user__last_name'
+    TRAINEE_ORDER_BY='last_name'
 
     def trainees_list(self):
         ret=""

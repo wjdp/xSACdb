@@ -7,7 +7,7 @@ from django.contrib.auth import get_user_model
 
 from datetime import date
 
-from xsd_members.forms import PersonalEditForm
+from xsd_members.forms import WelcomeScreenForm
 
 from forms import UpdateRequestMake, UserRegisterForm
 from models import UpdateRequest
@@ -26,7 +26,7 @@ def dashboard(request):
     urs=UpdateRequest.objects.filter(request_made_by=request.user)
 
     if request.POST and newbie:
-        form=PersonalEditForm(request.POST, instance=profile)
+        form=WelcomeScreenForm(request.POST, instance=profile)
         if form.is_valid():
             form.save()
             profile.new=False
@@ -37,7 +37,7 @@ def dashboard(request):
             pass
     else:
         if newbie:
-            form=PersonalEditForm(instance=profile)
+            form=WelcomeScreenForm(instance=profile)
         else:
             form=None
 
@@ -96,15 +96,18 @@ def register(request):
             # Custom error checking ok
             if form.is_valid():
                 #do valid stuff
-                new_user = get_user_model()
-                new_user.first_name = form.cleaned_data['first_name']
-                new_user.last_name = form.cleaned_data['last_name']
-                new_user.email = form.cleaned_data['email_address']
-                new_user.set_password(form.cleaned_data['password'])
-                # new_user.username = base64.b64encode(new_user.email)
+                new_user = get_user_model().objects.create_user(
+                    first_name=form.cleaned_data['first_name'],
+                    last_name=form.cleaned_data['last_name'],
+                    email=form.cleaned_data['email_address'],
+                    password=form.cleaned_data['password']
+                )
                 new_user.save()
-                user = authenticate(email=new_user.email, password=form.cleaned_data['password'])
+
+                user = authenticate(username=form.cleaned_data['email_address'], password=form.cleaned_data['password'])
+
                 del form.cleaned_data['password']
+
                 dj_login(request, user)
                 return redirect('/')
             else:

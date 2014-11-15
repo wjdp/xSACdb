@@ -78,7 +78,7 @@ class TraineeGroupSelectForm(forms.Form):
 
 
 class TraineeSelectForm(forms.Form):
-    trainee = UserModelChoiceField(queryset = MemberProfile.objects.all().order_by('user__last_name'))
+    trainee = UserModelChoiceField(queryset = MemberProfile.objects.all().order_by('last_name'))
     qualification = forms.ModelChoiceField(queryset = Qualification.objects.all().exclude(instructor_qualification=True))
 
 class TraineeLessonCompletionDateForm(forms.ModelForm):

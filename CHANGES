@@ -6,6 +6,13 @@ Change notes should be geared towards the managers of xSACdb instances.
 
 # nu-8 - WIP
 
+[enhancement] Data structure re-jigging, allows upgrade of third-party background bits and skeleton members
+[feature] Instucture dropdown on session planning page shows full names and limits choices to instructors
+[feature] Poolsheets can be ordered by instructor, trainee or lesson
+[bug] Google maps not showing when site is HTTPS
+[bug] Google maps zoom function on edit page unusable, styling fix
+
+
 # nu-7 - 2014/11/09
 
 [feature] Clicking Facebook title when open on login will activate login
