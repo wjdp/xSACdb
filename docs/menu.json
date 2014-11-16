@@ -1,0 +1,27 @@
+{
+    "sections": [
+        {
+            "name": "Documentation",
+            "links": [
+                ["Home","index"]
+            ]
+        },
+        {
+            "name": "User Documentation",
+            "links": [
+                ["Accounts","accounts"],
+                ["The Dashboard","xsd_frontend/dashboard"],
+                ["My Profile","xsd_members/profile"],
+                ["Training Records","xsd_training/training_records"],
+                ["Looking at sites","xsd_sites/index"]
+            ]
+        },
+        {
+            "name": "Officer Documentation",
+            "links": [
+                ["Work In Progress","#"]
+
+            ]
+        }
+    ]
+}

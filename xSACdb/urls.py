@@ -30,6 +30,8 @@ urlpatterns = patterns('',
 
     url(r'^about/', include('xsd_about.urls')),
 
+    url(r'^help/', include('xsd_help.urls')),
+
     # Can be enabled for serving static files (dev only)
     # url(r'^static/(?P<path>.*)$', 'django.views.static.serve',
     #     {'document_root': settings.STATIC_DOC_ROOT}),
