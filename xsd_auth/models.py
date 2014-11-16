@@ -1,8 +1,11 @@
 import base64
+import hashlib
 
 from django.db import models
 
 from django.contrib.auth.models import AbstractUser, BaseUserManager
+
+from allauth.socialaccount.models import SocialAccount
 
 class UserManager(BaseUserManager):
     def create_user(self, first_name, last_name, email, password):
@@ -45,6 +48,16 @@ class User(AbstractUser):
 
     def get_profile(self):
         return self.memberprofile
+
+    def profile_image_url(self, size=70):
+        fb_uid = SocialAccount.objects.filter(user_id=self.pk, provider='facebook')
+
+        if len(fb_uid):
+            return "http://graph.facebook.com/{}/picture?width={}&height={}"\
+                .format(fb_uid[0].uid, size, size)
+
+        return "http://www.gravatar.com/avatar/{}?s={}".format(
+            hashlib.md5(self.email).hexdigest(), size)
 
     def __unicode__(self):
         return self.get_full_name()

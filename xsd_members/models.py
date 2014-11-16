@@ -2,12 +2,11 @@ from django.db import models
 from datetime import date
 
 from django.conf import settings
-from django_facebook.models import FacebookModel
 
 from xsd_training.models import PerformedLesson
 from xSACdb.data_helpers import disable_for_loaddata
 
-class MemberProfile(FacebookModel):
+class MemberProfile(models.Model):
     """Model for representing members of the club, a user account has a O2O
     relationship with this profile. The profile 'should' be able to exist
     without a user."""
@@ -32,6 +31,10 @@ class MemberProfile(FacebookModel):
     email = models.EmailField()
 
     # Profile details
+    date_of_birth = models.DateField(blank=True, null=True)
+    gender = models.CharField(max_length=1, choices=(
+        ('m', 'Male'), ('f', 'Female')), blank=True, null=True)
+
     address = models.TextField(blank=True)
     postcode = models.CharField(max_length=11, blank=True)
     home_phone = models.CharField(max_length=20, blank=True)
@@ -237,7 +240,7 @@ class MemberProfile(FacebookModel):
         """Saves changes to the model instance"""
         if self.pk:
             self.cache_update()
-        if self.user:
+        if self.pk and self.user:
             self.sync()
         super(MemberProfile, self).save(*args, **kwargs)
     def cache_update(self):
