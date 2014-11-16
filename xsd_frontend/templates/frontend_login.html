@@ -24,7 +24,6 @@
 		<div class="login-facebook">
 			<p class='message facebook-switch'>Facebook</p>
 			<div class="mob-collapse-facebook {% if errors == 'badauth' %}mob-collapse-hidden{% endif %}">
-				<!-- <form action="{% url 'facebook_connect' %}?facebook_login=1" method="post"> -->
 					<a href="{% provider_login_url "facebook" %}" class="fb-login">
 						<img src="/static/images/fb_button.png" alt="Login with Facebook" />
 					</a>
@@ -32,7 +31,6 @@
 					<input type="hidden" value="{{ request.path }}" name="register_next" />
 					<input type="hidden" value="{{ request.path }}" name="error_next" />
 					{% csrf_token %}
-				<!-- </form> -->
 			</div>
 		</div>
 		<div class="login-conventional">

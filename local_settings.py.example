@@ -11,7 +11,7 @@ CLUB = {
 	'name': 'UoNSSAC',
 
     # Are you a student club? This adds fields like student ID to the member records
-    'student': True, 
+    'student': True,
 
     'how_to_renew': 'Renew at <a href="http://su.nottingham.ac.uk/sub-aqua">http://su.nottingham.ac.uk/sub-aqua</a>',
     'bsac_club_renew': 'Contact the VP for details.',
@@ -52,6 +52,3 @@ LANGUAGE_CODE = 'en-gb'
 # Generate one here: http://www.miniwebtool.com/django-secret-key-generator/
 SECRET_KEY = ''
 
-# django_facebook settings, grab these from your facebook app config
-FACEBOOK_APP_ID=0
-FACEBOOK_APP_SECRET=""

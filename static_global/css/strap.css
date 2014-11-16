@@ -671,3 +671,6 @@ img.about-logo {
 .small-action-white a:hover {
     color: red;
 }
+.nav-list {
+    min-height: 400px
+}

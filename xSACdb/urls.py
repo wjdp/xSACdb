@@ -16,8 +16,6 @@ urlpatterns = patterns('',
 
     (r'^accounts/', include('allauth.urls')),
 
-    url(r'^facebook/', include('django_facebook.urls')),
-
     url(r'^profile/$', 'xsd_members.views.view_my_profile', name='my-profile'),
 
     url(r'^members/', include('xsd_members.urls')),

@@ -20,7 +20,6 @@ def menu_perms(request):
 
         DEBUG = settings.DEBUG
         l10n_club = settings.CLUB
-        facebook_id = settings.FACEBOOK_APP_ID
 
         return {
             'request': request,
@@ -30,7 +29,6 @@ def menu_perms(request):
 
             'DEBUG': DEBUG,
             'l10n_club': l10n_club,
-            'facebook_id': facebook_id,            
 
             'update_request_form':update_request_form,
             'my_user_account_form': my_user_account_form,

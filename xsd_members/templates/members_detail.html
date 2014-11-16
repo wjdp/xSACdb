@@ -5,7 +5,7 @@
 
 	<div class="span5">
 		<div class="titlebox">
-		{% if member.image %}<img src="{{member.image.url}}" alt="Profile Picture" class="alignright" />{%endif%}
+		{% if member.user %}<img src="{{member.user.profile_image_url}}" alt="Profile Picture" class="alignright" />{%endif%}
 		<h2>{{member}}</h2>
 		<div class="btn-group btn-mini">
 			{% if is_members %}
