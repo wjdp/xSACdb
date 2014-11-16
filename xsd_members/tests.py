@@ -1,5 +1,7 @@
 import datetime
 
+from django.conf import settings
+
 from django.test import TestCase, Client
 from django.contrib.auth.models import Group
 from django.test import TestCase
@@ -13,7 +15,7 @@ class PresetUser(TestCase):
     EMAIL = 'bob@example.com'
     PASSWORD = 'correcthorsebatterystaple'
 
-    fixtures = ['local_files/dj7.json']
+    fixtures = settings.TEST_FIXTURES
 
     def setUp(self):
         self.make_user()
@@ -22,12 +24,12 @@ class PresetUser(TestCase):
     def make_user(self):
         U = get_user_model()
         self.u = U.objects.create_user(
-            username=self.USERNAME,
             email=self.EMAIL,
             password=self.PASSWORD,
+            first_name='Bob',
+            last_name='Blobby',
         )
-        self.u.first_name='Bob'
-        self.u.last_name='Blobby'
+
         self.u.save()
 
         self.mp = self.u.memberprofile
@@ -41,7 +43,7 @@ class PresetUser(TestCase):
     def make_pls(self):
         PLS = [
             {
-                'trainee': self.u,
+                'trainee': self.u.memberprofile,
                 'lesson': Lesson.objects.get(code='OO3'),
                 'completed': False,
                 'partially_complted': False,
@@ -49,7 +51,7 @@ class PresetUser(TestCase):
                 'private_notes': 'Note',
             },
             {
-                'trainee': self.u,
+                'trainee': self.u.memberprofile,
                 'lesson': Lesson.objects.get(code='OO3'),
                 'completed': True,
                 'partially_complted': False,
@@ -57,7 +59,7 @@ class PresetUser(TestCase):
                 'private_notes': 'Note',
             },
             {
-                'trainee': self.u,
+                'trainee': self.u.memberprofile,
                 'lesson': Lesson.objects.get(code='OO3'),
                 'completed': False,
                 'partially_complted': True,
@@ -65,7 +67,7 @@ class PresetUser(TestCase):
                 'private_notes': 'Note',
             },
             {
-                'trainee': self.u,
+                'trainee': self.u.memberprofile,
                 'lesson': None,
                 'completed': False,
                 'partially_complted': False,
@@ -73,7 +75,7 @@ class PresetUser(TestCase):
                 'private_notes': 'Note',
             },
             {
-                'trainee': self.u,
+                'trainee': self.u.memberprofile,
                 'lesson': None,
                 'completed': False,
                 'partially_complted': False,

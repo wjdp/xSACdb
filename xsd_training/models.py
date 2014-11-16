@@ -157,7 +157,6 @@ class Session(models.Model):
     when=models.DateTimeField(help_text='Formatted like: DD/MM/YYYY HH:MM')
     where=models.ForeignKey('xsd_sites.Site')
     notes=models.TextField(blank=True, help_text='Viewable by instructors and trainees in session.')
-    created_by=models.ForeignKey(settings.AUTH_PROFILE_MODEL, blank=True, null=True)
 
     completed = models.BooleanField(default=False)
 
@@ -177,8 +176,6 @@ class Session(models.Model):
             return self.when.strftime('%a %d %b %Y %H:%M') + " at " + self.where.__unicode__()
 
     def save(self, *args, **kwargs):
-        # if self.created_by == None:
-        #     self.created_by = get_user_model().objects.get(pk=2)
         return super(Session, self).save(*args, **kwargs)
 
     class Meta:
