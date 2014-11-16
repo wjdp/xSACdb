@@ -237,7 +237,7 @@ class MemberProfile(FacebookModel):
         """Saves changes to the model instance"""
         if self.pk:
             self.cache_update()
-        if self.user:
+        if self.pk and self.user:
             self.sync()
         super(MemberProfile, self).save(*args, **kwargs)
     def cache_update(self):

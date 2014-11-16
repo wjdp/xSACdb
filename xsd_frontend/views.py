@@ -76,7 +76,9 @@ def login(request):
             pass
     else:
         form=LoginForm()
-    return render(request,'frontend_login.html', {'form':form, 'errors':errors}, context_instance=RequestContext(request))
+    return render(request,'frontend_login.html',
+        {'form':form, 'errors':errors, 'request': request},
+        context_instance=RequestContext(request))
 
 from django.contrib.auth import logout as auth_logout
 

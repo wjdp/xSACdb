@@ -95,7 +95,8 @@ TEMPLATE_CONTEXT_PROCESSORS = (
     'django.core.context_processors.media',
     'django.contrib.messages.context_processors.messages',
     'xSACdb.context_processors.menu_perms',
-    'django_facebook.context_processors.facebook',
+    'allauth.account.context_processors.account',
+    'allauth.socialaccount.context_processors.socialaccount',
 )
 
 
@@ -113,7 +114,7 @@ TEMPLATE_DIRS = (
 
 AUTHENTICATION_BACKENDS = (
     'django.contrib.auth.backends.ModelBackend',
-    'django_facebook.auth_backends.FacebookBackend',
+    'allauth.account.auth_backends.AuthenticationBackend',
     'xSACdb.email_auth.EmailBackend',
 )
 
@@ -131,7 +132,13 @@ INSTALLED_APPS = (
     'django.contrib.admin',
     'django.contrib.admindocs',
 
-    'django_facebook',
+    'allauth',
+    'allauth.account',
+    'allauth.socialaccount',
+    'allauth.socialaccount.providers.facebook',
+
+    'django_facebook', # To go
+
     'bootstrap_toolkit',
     'tastypie',
     'geoposition',
@@ -195,6 +202,17 @@ LOGGING = {
 
 AUTH_USER_MODEL = 'xsd_auth.User'
 AUTH_PROFILE_MODEL = 'xsd_members.MemberProfile'
+
+LOGIN_REDIRECT_URL = '/'
+ACCOUNT_LOGOUT_REDIRECT_URL = '/accounts/login'
+
+ACCOUNT_EMAIL_REQUIRED = True
+
+SOCIALACCOUNT_FORMS = {
+    'signup': 'xsd_auth.forms.SignupForm'
+}
+
+SOCIALACCOUNT_ADAPTER = 'xsd_auth.adapter.XSDSocialAccountAdapter'
 
 TEST_FIXTURES = ['local_files/test_fixture.json',]
 
