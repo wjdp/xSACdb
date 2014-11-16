@@ -11,12 +11,12 @@
 <table class="table table-condensed table-striped">
 	<tr><th>Name</th><th>Club Expiry</th><th>BSAC Expiry</th><th>Medical Form Expiry</th><th>Fill</th></tr>
 {% for form in formset %}
-	<tr>{{form.user_id}}
-		<td>{{form.full_name}}</td>
-		<td>{{form.club_expiry}}</td>
-		<td>{{form.bsac_expiry}}</td>
-		<td>{{form.medical_form_expiry}}</td>
-		<td><a href="#" class="fill btn"><i class="fa fa-arrows" /></a></td>
+		<tr>{{form.member_id}}
+			<td>{{form.full_name}}</td>
+			<td>{{form.club_expiry}}</td>
+			<td>{{form.bsac_expiry}}</td>
+			<td>{{form.medical_form_expiry}}</td>
+			<td><a href="#" class="fill btn"><i class="fa fa-arrows" /></a></td>
 		</tr>
 {% endfor %}
 </table>

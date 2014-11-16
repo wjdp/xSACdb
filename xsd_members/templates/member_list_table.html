@@ -17,7 +17,7 @@
         </td>
 
         <td>
-            <a href="{% url 'MemberDetail' member.user.pk %}">{{member.user.first_name}} <strong>{{member.user.last_name}}</strong></a></td>
+            <a href="{% url 'MemberDetail' member.pk %}">{{member.first_name}} <strong>{{member.last_name}}</strong></a></td>
 		<td>{% if member.club_membership_type != None %}{{member.club_membership_type}}{% endif %}</td>
 		<td class="expiry-column">{% if member.bsac_expired %}<i class="icon-bsac-small expired" title="BSAC Expired: {{member.bsac_expiry}}"></i>{% endif %}</td>
 		<td class="expiry-column">{% if member.club_expired %}<i class="fa fa-home expired"  title="Club Expired: {{member.club_expiry}}"></i>{% endif %}</td>

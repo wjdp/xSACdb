@@ -3,7 +3,6 @@
 *.pyc
 local_settings.py
 db.*
-ltools/*
 *.pyc
 media/images/facebook_profiles/*
 xsd_members/fixtures/*

@@ -7,9 +7,14 @@
 	<div class="span5">
 		<div class="titlebox">
 		{% if member.image %}<img src="{{member.image.url}}" alt="Profile Picture" class="alignright" />{%endif%}
+		{% if is_members %}
+		<h2>{{ form.first_name.errors }}{{form.first_name}} {{ form.last_name.errors }}{{form.last_name}}</h2>
+		{% else %}
 		<h2>{{member}}</h2>
+		{% endif %}
 		</div>
 		{% if is_members %}
+		{{form.date_of_birth.errors}}
 		<p>Date of Birth: {{form.date_of_birth}}</p>
 		{% endif %}
 	</div>
@@ -17,7 +22,7 @@
 		<h3><i class="fa fa-envelope"></i> Contact Details</h3>
 		<table class="table">
 			<tr><th>Address</th><td>{{ form.address.errors }}{{form.address}}{{ form.postcode.errors }}{{form.postcode}}</td></tr>
-			<tr><th>Email</th><td>This is changed under account settings.</td></tr>
+			<tr><th>Email</th><td>{{ form.email.errors }}{{form.email}}</td></tr>
 			<tr><th>Home Phone</th><td>{{ form.home_phone.errors }}{{form.home_phone}}</td></tr>
 			<tr><th>Mobile Phone</th><td>{{ form.mobile_phone.errors }}{{form.mobile_phone}}</td></tr>
 
@@ -50,19 +55,19 @@
 		</table>
 	</div>
 	<div class="span5">
-	
+
 		<h3><i class="fa fa-trophy"></i> Qualification Details</h3>
 		{% if is_members %}
 		<table class="table">
 			<tr><th>Current Qualification</th><td>Qualifications are added in the training module</td></tr>
 			<tr><th>Training For</th><td>{{ form.training_for.errors }}{{ form.training_for }}</td></tr>
-			
+
 			<tr><th>Instructor Qualification</th><td>Qualifications are added in the training module</td></tr>
 			<tr><th>Instructor Number</th><td>{{ form.instructor_number.errors }}{{ form.instructor_number }}</td></tr>
 		{% else %}
 		<p>Qualification details can only be updated by a database officer. If there is an error please make an update request.</p>
 		{% endif %}
-			
+
 		</table>
 	</div>
 	<div class="span4">

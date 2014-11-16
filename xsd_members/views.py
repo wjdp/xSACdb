@@ -1,5 +1,4 @@
-from django.contrib.auth.models import User
-
+from django.contrib.auth import get_user_model
 from django.views.generic.base import View
 from django.views.generic.list import ListView
 from django.views.generic.detail import DetailView
@@ -43,15 +42,15 @@ class MemberSearch(RequireMembersOfficer, OrderedListView):
     model=MemberProfile
     template_name='members_search.html'
     context_object_name='members'
-    order_by='user__last_name'
+    order_by='last_name'
 
     def get_queryset(self):
         if 'surname' in self.request.GET:
             name=self.request.GET['surname']
             queryset=super(MemberSearch, self).get_queryset()
             queryset=queryset.filter(
-                Q(user__last_name__icontains=name) |
-                Q(user__first_name__icontains=name)
+                Q(last_name__icontains=name) |
+                Q(first_name__icontains=name)
             )
             queryset = queryset.prefetch_related('user','top_qual_cached','club_membership_type')
         else:
@@ -71,7 +70,7 @@ class MemberList(RequireMembersOfficer, OrderedListView):
     model=MemberProfile
     template_name='members_list.html'
     context_object_name='members'
-    order_by='user__last_name'
+    order_by='last_name'
     page_title='Club Membership Listing'
     page_description='Our entire membership (that has registered for the database)'
 
@@ -141,7 +140,6 @@ class MemberDetail(RequireMembersOfficer, DetailView):
     model=MemberProfile
     template_name='members_detail.html'
     context_object_name='member'
-    user = None
     accounts_settings_open = False
     member_useraccount_form = None
 
@@ -155,14 +153,10 @@ class MemberDetail(RequireMembersOfficer, DetailView):
         if self.member_useraccount_form:
             context['member_useraccount_form'] = self.member_useraccount_form
         else:
-            context['member_useraccount_form'] = self.generate_account_form(self.user)
+            context['member_useraccount_form'] = self.generate_account_form(
+                self.get_object().user)
 
         return context
-    def get_object(self):
-        user_pk=self.kwargs['user__pk']
-        user=User.objects.get(pk=user_pk)
-        self.user = user
-        return user.memberprofile
 
     def generate_account_form(self, user):
         if self.request.POST:
@@ -177,7 +171,7 @@ class MemberDetail(RequireMembersOfficer, DetailView):
                 }
             )
 
-    def process_account_form(self,user):
+    def process_account_form(self, user):
         form = UserAccountForm(self.request.POST)
         if form.is_valid():
             user.first_name=form.cleaned_data['first_name']
@@ -203,7 +197,7 @@ class MemberDetail(RequireMembersOfficer, DetailView):
 
     def post(self, request, *args, **kwargs):
         self.get_object()
-        if self.process_account_form(self.user):
+        if self.process_account_form( self.get_object().user ):
             return redirect('.')
         return super(MemberDetail, self).get(request, *args, **kwargs)
 
@@ -227,7 +221,7 @@ class ModelFormView(FormView):
 
 class MyProfileEdit(ModelFormView):
     template_name='members_edit.html'
-    form_class=MemberEditForm
+    form_class=PersonalEditForm
     success_url=reverse_lazy('my-profile')
 
     def get_model(self):
@@ -242,18 +236,14 @@ class MemberEdit(RequireMembersOfficer, ModelFormView):
     template_name='members_edit.html'
     form_class=MemberEditForm
 
-    def get_user(self):
+    def get_model(self):
         pk=self.kwargs['pk']
-        user=get_object_or_404(User,pk=pk)
-        return user
+        mp=get_object_or_404(MemberProfile,pk=pk)
+        return mp
 
     def get_success_url(self):
-        user = self.get_user()
-        return reverse('MemberDetail', kwargs={'user__pk':user.pk})
-
-    def get_model(self):
-        user=self.get_user()
-        return user.memberprofile
+        mp = self.get_model()
+        return reverse('MemberDetail', kwargs={'pk':mp.pk})
 
     def get_context_data(self, **kwargs):
         context = super(MemberEdit, self).get_context_data(**kwargs)
@@ -261,15 +251,10 @@ class MemberEdit(RequireMembersOfficer, ModelFormView):
         return context
 
 class MemberDelete(RequireMembersOfficer, DeleteView):
-    model=User
+    model=MemberProfile
     template_name='members_delete.html'
     success_url = reverse_lazy('MemberList')
-    context_object_name='u'
-
-    # def get_context_data(self, **kwargs):
-    #     context = super(SessionDelete, self).get_context_data(**kwargs)
-    #     context['pls'] = PerformedLesson.objects.filter(session=self.object)
-    #     return context
+    context_object_name='member'
 
 @require_members_officer
 def select_tool(request):
@@ -280,12 +265,11 @@ def select_tool(request):
 class BulkAddForms(RequireMembersOfficer, View):
     model=MemberProfile
 
-
     def get(self, request, *args, **kwargs):
         spreadsheet=False
         if 'set' in request.GET:
             if request.GET['set']=='all':
-                members=self.get_all_objects().order_by('user__last_name')
+                members=self.get_all_objects().order_by('last_name')
             spreadsheet=True
         elif 'names' in request.GET and request.GET['names']!='':
             from bulk_select import get_bulk_members
@@ -295,10 +279,10 @@ class BulkAddForms(RequireMembersOfficer, View):
             FormExpiryFormSet = formset_factory(FormExpiryForm, extra=0)
             initial=[]
             for member in members:
-                initial.append({'user_id':member.user.pk})
+                initial.append({'member_id':member.pk})
             formset=FormExpiryFormSet(initial=initial)
             for member,form in zip(members,formset):
-                form.full_name=member.user.get_full_name()
+                form.full_name=member.get_full_name()
 
             return render(request,'members_bulk_edit_forms.html',{
                 'page_title':'Bulk Select Results',
@@ -319,7 +303,7 @@ class BulkAddForms(RequireMembersOfficer, View):
         formset=FormExpiryFormSet(request.POST)
         if formset.is_valid():
             for form in formset.cleaned_data:
-                mp=MemberProfile.objects.get(user__pk=form['user_id'])
+                mp=MemberProfile.objects.get(pk=form['member_id'])
                 if form['club_expiry']: mp.club_expiry=form['club_expiry']
                 if form['bsac_expiry']: mp.bsac_expiry=form['bsac_expiry']
                 if form['medical_form_expiry']: mp.medical_form_expiry=form['medical_form_expiry']

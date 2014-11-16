@@ -1,120 +1,53 @@
 # -*- coding: utf-8 -*-
-from south.utils import datetime_utils as datetime
-from south.db import db
-from south.v2 import SchemaMigration
-from django.db import models
+from __future__ import unicode_literals
+
+from django.db import models, migrations
+from django.conf import settings
 
 
-class Migration(SchemaMigration):
+class Migration(migrations.Migration):
 
-    def forwards(self, orm):
-        # Adding model 'Kit'
-        db.create_table(u'xsd_kit_kit', (
-            (u'id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
-            ('name', self.gf('django.db.models.fields.CharField')(max_length=64)),
-            ('type', self.gf('django.db.models.fields.CharField')(max_length=64)),
-            ('size', self.gf('django.db.models.fields.CharField')(max_length=64, blank=True)),
-            ('club_owned', self.gf('django.db.models.fields.BooleanField')()),
-            ('owner', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['auth.User'], null=True, blank=True)),
-            ('cost', self.gf('django.db.models.fields.DecimalField')(max_digits=9, decimal_places=2, blank=True)),
-            ('value', self.gf('django.db.models.fields.DecimalField')(max_digits=9, decimal_places=2, blank=True)),
-            ('purchase_date', self.gf('django.db.models.fields.DateField')(null=True, blank=True)),
-            ('test_date', self.gf('django.db.models.fields.DateField')(null=True, blank=True)),
-        ))
-        db.send_create_signal(u'xsd_kit', ['Kit'])
+    dependencies = [
+        migrations.swappable_dependency(settings.AUTH_USER_MODEL),
+    ]
 
-        # Adding model 'Loan'
-        db.create_table(u'xsd_kit_loan', (
-            (u'id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
-            ('member', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['auth.User'])),
-            ('approved', self.gf('django.db.models.fields.BooleanField')()),
-            ('notes', self.gf('django.db.models.fields.TextField')(blank=True)),
-            ('date_start', self.gf('django.db.models.fields.DateField')()),
-            ('date_end', self.gf('django.db.models.fields.DateField')()),
-        ))
-        db.send_create_signal(u'xsd_kit', ['Loan'])
-
-        # Adding M2M table for field kit on 'Loan'
-        m2m_table_name = db.shorten_name(u'xsd_kit_loan_kit')
-        db.create_table(m2m_table_name, (
-            ('id', models.AutoField(verbose_name='ID', primary_key=True, auto_created=True)),
-            ('loan', models.ForeignKey(orm[u'xsd_kit.loan'], null=False)),
-            ('kit', models.ForeignKey(orm[u'xsd_kit.kit'], null=False))
-        ))
-        db.create_unique(m2m_table_name, ['loan_id', 'kit_id'])
-
-
-    def backwards(self, orm):
-        # Deleting model 'Kit'
-        db.delete_table(u'xsd_kit_kit')
-
-        # Deleting model 'Loan'
-        db.delete_table(u'xsd_kit_loan')
-
-        # Removing M2M table for field kit on 'Loan'
-        db.delete_table(db.shorten_name(u'xsd_kit_loan_kit'))
-
-
-    models = {
-        u'auth.group': {
-            'Meta': {'object_name': 'Group'},
-            u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
-            'name': ('django.db.models.fields.CharField', [], {'unique': 'True', 'max_length': '80'}),
-            'permissions': ('django.db.models.fields.related.ManyToManyField', [], {'to': u"orm['auth.Permission']", 'symmetrical': 'False', 'blank': 'True'})
-        },
-        u'auth.permission': {
-            'Meta': {'ordering': "(u'content_type__app_label', u'content_type__model', u'codename')", 'unique_together': "((u'content_type', u'codename'),)", 'object_name': 'Permission'},
-            'codename': ('django.db.models.fields.CharField', [], {'max_length': '100'}),
-            'content_type': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['contenttypes.ContentType']"}),
-            u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
-            'name': ('django.db.models.fields.CharField', [], {'max_length': '50'})
-        },
-        u'auth.user': {
-            'Meta': {'object_name': 'User'},
-            'date_joined': ('django.db.models.fields.DateTimeField', [], {'default': 'datetime.datetime.now'}),
-            'email': ('django.db.models.fields.EmailField', [], {'max_length': '75', 'blank': 'True'}),
-            'first_name': ('django.db.models.fields.CharField', [], {'max_length': '30', 'blank': 'True'}),
-            'groups': ('django.db.models.fields.related.ManyToManyField', [], {'symmetrical': 'False', 'related_name': "u'user_set'", 'blank': 'True', 'to': u"orm['auth.Group']"}),
-            u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
-            'is_active': ('django.db.models.fields.BooleanField', [], {'default': 'True'}),
-            'is_staff': ('django.db.models.fields.BooleanField', [], {'default': 'False'}),
-            'is_superuser': ('django.db.models.fields.BooleanField', [], {'default': 'False'}),
-            'last_login': ('django.db.models.fields.DateTimeField', [], {'default': 'datetime.datetime.now'}),
-            'last_name': ('django.db.models.fields.CharField', [], {'max_length': '30', 'blank': 'True'}),
-            'password': ('django.db.models.fields.CharField', [], {'max_length': '128'}),
-            'user_permissions': ('django.db.models.fields.related.ManyToManyField', [], {'symmetrical': 'False', 'related_name': "u'user_set'", 'blank': 'True', 'to': u"orm['auth.Permission']"}),
-            'username': ('django.db.models.fields.CharField', [], {'unique': 'True', 'max_length': '30'})
-        },
-        u'contenttypes.contenttype': {
-            'Meta': {'ordering': "('name',)", 'unique_together': "(('app_label', 'model'),)", 'object_name': 'ContentType', 'db_table': "'django_content_type'"},
-            'app_label': ('django.db.models.fields.CharField', [], {'max_length': '100'}),
-            u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
-            'model': ('django.db.models.fields.CharField', [], {'max_length': '100'}),
-            'name': ('django.db.models.fields.CharField', [], {'max_length': '100'})
-        },
-        u'xsd_kit.kit': {
-            'Meta': {'ordering': "['type', 'size', 'name']", 'object_name': 'Kit'},
-            'club_owned': ('django.db.models.fields.BooleanField', [], {}),
-            'cost': ('django.db.models.fields.DecimalField', [], {'max_digits': '9', 'decimal_places': '2', 'blank': 'True'}),
-            u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
-            'name': ('django.db.models.fields.CharField', [], {'max_length': '64'}),
-            'owner': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['auth.User']", 'null': 'True', 'blank': 'True'}),
-            'purchase_date': ('django.db.models.fields.DateField', [], {'null': 'True', 'blank': 'True'}),
-            'size': ('django.db.models.fields.CharField', [], {'max_length': '64', 'blank': 'True'}),
-            'test_date': ('django.db.models.fields.DateField', [], {'null': 'True', 'blank': 'True'}),
-            'type': ('django.db.models.fields.CharField', [], {'max_length': '64'}),
-            'value': ('django.db.models.fields.DecimalField', [], {'max_digits': '9', 'decimal_places': '2', 'blank': 'True'})
-        },
-        u'xsd_kit.loan': {
-            'Meta': {'object_name': 'Loan'},
-            'approved': ('django.db.models.fields.BooleanField', [], {}),
-            'date_end': ('django.db.models.fields.DateField', [], {}),
-            'date_start': ('django.db.models.fields.DateField', [], {}),
-            u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
-            'kit': ('django.db.models.fields.related.ManyToManyField', [], {'to': u"orm['xsd_kit.Kit']", 'symmetrical': 'False'}),
-            'member': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['auth.User']"}),
-            'notes': ('django.db.models.fields.TextField', [], {'blank': 'True'})
-        }
-    }
-
-    complete_apps = ['xsd_kit']
+    operations = [
+        migrations.CreateModel(
+            name='Kit',
+            fields=[
+                ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
+                ('club_id', models.CharField(max_length=32)),
+                ('name', models.CharField(max_length=64)),
+                ('type', models.CharField(max_length=64, choices=[(b'WETS', b'Wetsuit'), (b'SEMI', b'Semidry'), (b'DRYS', b'Drysuit'), (b'BCD', b'BCD'), (b'WING', b'Wing'), (b'REGS', b'Regs'), (b'CYL', b'Cylinder'), (b'MASK', b'Mask'), (b'FINS', b'Fins'), (b'SNRK', b'Snorkel'), (b'COMP', b'Computer'), (b'TORH', b'Torch'), (b'SMB', b'SMB'), (b'DSMB', b'DSMB'), (b'REEL', b'Reel')])),
+                ('size', models.CharField(max_length=64, blank=True)),
+                ('club_owned', models.BooleanField()),
+                ('cost', models.DecimalField(null=True, max_digits=9, decimal_places=2, blank=True)),
+                ('value', models.DecimalField(null=True, max_digits=9, decimal_places=2, blank=True)),
+                ('purchase_date', models.DateField(null=True, blank=True)),
+                ('needs_testing', models.BooleanField()),
+                ('test_date', models.DateField(null=True, blank=True)),
+                ('owner', models.ForeignKey(blank=True, to=settings.AUTH_USER_MODEL, null=True)),
+            ],
+            options={
+                'ordering': ['type', 'size', 'club_id'],
+                'verbose_name': 'Kit',
+                'verbose_name_plural': 'Bits of kit',
+            },
+            bases=(models.Model,),
+        ),
+        migrations.CreateModel(
+            name='Loan',
+            fields=[
+                ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
+                ('approved', models.BooleanField()),
+                ('notes', models.TextField(blank=True)),
+                ('date_start', models.DateField()),
+                ('date_end', models.DateField()),
+                ('kit', models.ManyToManyField(to='xsd_kit.Kit')),
+                ('member', models.ForeignKey(to=settings.AUTH_USER_MODEL)),
+            ],
+            options={
+            },
+            bases=(models.Model,),
+        ),
+    ]

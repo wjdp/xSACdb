@@ -131,7 +131,6 @@ INSTALLED_APPS = (
     'django.contrib.admin',
     'django.contrib.admindocs',
 
-    'south',
     'django_facebook',
     'bootstrap_toolkit',
     'tastypie',
@@ -139,6 +138,7 @@ INSTALLED_APPS = (
 
     'debug_toolbar',
 
+    'xsd_auth',
     'xsd_frontend',
     'xsd_members',
     'xsd_training',
@@ -185,6 +185,17 @@ LOGGING = {
             'level': 'ERROR',
             'propagate': True,
         },
+        'django_facebook.models': {
+            'handlers': ['mail_admins','console'],
+            'level': 'ERROR',
+            'propagate': True,
+        }
     }
 }
-AUTH_PROFILE_MODULE='xsd_members.MemberProfile'
+
+AUTH_USER_MODEL = 'xsd_auth.User'
+AUTH_PROFILE_MODEL = 'xsd_members.MemberProfile'
+
+TEST_FIXTURES = ['local_files/test_fixture.json',]
+
+SILENCED_SYSTEM_CHECKS=['1_6.W001']

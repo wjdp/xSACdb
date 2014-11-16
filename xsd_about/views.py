@@ -1,7 +1,8 @@
 from django.shortcuts import render
 from django.views.generic.base import TemplateView
 
-from django.contrib.auth.models import User, Group
+from django.contrib.auth import get_user_model
+from django.contrib.auth.models import Group
 
 from xSACdb.roles.mixins import RequireAdministrator, RequireVerified
 from xSACdb.version import *
@@ -18,7 +19,8 @@ class DatabaseOfficersView(RequireVerified, TemplateView):
 	def get_users_in_role(self, role):
 		return Group.objects.get(pk=role).user_set.all()
 	def get_instructors(self):
-		return User.objects.filter(memberprofile__is_instructor_cached = True)
+		U = get_user_model()
+		return U.objects.filter(memberprofile__is_instructor_cached = True)
 	def get_context_data(self, **kwargs):
 	    context = super(DatabaseOfficersView, self).get_context_data(**kwargs)
 	    context['admins'] = self.get_users_in_role(2)

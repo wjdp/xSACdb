@@ -16,7 +16,7 @@
 	{% else %}
 		<ul>
 		{%for member in selected_members %}
-		<li>{{member.user.get_full_name}}</li>
+		<li>{{member.get_full_name}}</li>
 		{%endfor%}
 		</ul>
 	{% endif %}
@@ -44,7 +44,7 @@
 		<h3><i class="fa fa-check green"></i> Members</h3>
 		<ul>
 			{%for member in selected_members %}
-				<li>{{member.user.get_full_name}}</li>
+				<li>{{member.get_full_name}}</li>
 			{%endfor%}
 		</ul>
 	</div>

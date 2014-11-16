@@ -1,7 +1,11 @@
 import datetime
 
+from django.conf import settings
+
 from django.test import TestCase, Client
-from django.contrib.auth.models import User, Group
+from django.contrib.auth.models import Group
+from django.test import TestCase
+from django.contrib.auth import get_user_model
 
 from xsd_members.models import MemberProfile
 from xsd_training.models import Lesson, PerformedLesson
@@ -11,20 +15,21 @@ class PresetUser(TestCase):
     EMAIL = 'bob@example.com'
     PASSWORD = 'correcthorsebatterystaple'
 
-    fixtures = ['local_files/test1.json']
+    fixtures = settings.TEST_FIXTURES
 
     def setUp(self):
         self.make_user()
         self.make_pls()
 
     def make_user(self):
-        self.u = User.objects.create_user(
-            username=self.USERNAME,
+        U = get_user_model()
+        self.u = U.objects.create_user(
             email=self.EMAIL,
             password=self.PASSWORD,
+            first_name='Bob',
+            last_name='Blobby',
         )
-        self.u.first_name='Bob'
-        self.u.last_name='Blobby'
+
         self.u.save()
 
         self.mp = self.u.memberprofile
@@ -38,7 +43,7 @@ class PresetUser(TestCase):
     def make_pls(self):
         PLS = [
             {
-                'trainee': self.u,
+                'trainee': self.u.memberprofile,
                 'lesson': Lesson.objects.get(code='OO3'),
                 'completed': False,
                 'partially_complted': False,
@@ -46,7 +51,7 @@ class PresetUser(TestCase):
                 'private_notes': 'Note',
             },
             {
-                'trainee': self.u,
+                'trainee': self.u.memberprofile,
                 'lesson': Lesson.objects.get(code='OO3'),
                 'completed': True,
                 'partially_complted': False,
@@ -54,7 +59,7 @@ class PresetUser(TestCase):
                 'private_notes': 'Note',
             },
             {
-                'trainee': self.u,
+                'trainee': self.u.memberprofile,
                 'lesson': Lesson.objects.get(code='OO3'),
                 'completed': False,
                 'partially_complted': True,
@@ -62,7 +67,7 @@ class PresetUser(TestCase):
                 'private_notes': 'Note',
             },
             {
-                'trainee': self.u,
+                'trainee': self.u.memberprofile,
                 'lesson': None,
                 'completed': False,
                 'partially_complted': False,
@@ -70,7 +75,7 @@ class PresetUser(TestCase):
                 'private_notes': 'Note',
             },
             {
-                'trainee': self.u,
+                'trainee': self.u.memberprofile,
                 'lesson': None,
                 'completed': False,
                 'partially_complted': False,

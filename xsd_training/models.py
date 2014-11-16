@@ -1,21 +1,34 @@
 import datetime
 
 from django.db import models
-from django.contrib.auth.models import User
-
+from django.conf import settings
+from django.contrib.auth import get_user_model
 from django.core.urlresolvers import reverse
+
+class PerformedLessonManager(models.Manager):
+    def get_lessons(self, trainee, lesson=None, completed=None, partially_completed=None):
+        pls = self.filter(trainee=trainee)
+        if lesson is not None:
+            pls = pls.filter(lesson=lesson)
+        if completed is not None:
+            pls = pls.filter(completed=completed)
+        if partially_completed is not None:
+            pls = pls.filter(completed=partially_completed)
+        return pls
 
 
 class PerformedLesson(models.Model):
     session=models.ForeignKey('Session', blank=True, null=True)
     date=models.DateField(blank=True, null=True)
     lesson=models.ForeignKey('Lesson', blank=True, null=True)
-    instructor=models.ForeignKey('auth.User', related_name="pl_instructor", blank=True, null=True)
-    trainee=models.ForeignKey('auth.User', related_name="pl_trainee")
+    instructor=models.ForeignKey(settings.AUTH_PROFILE_MODEL, related_name="pl_instructor", blank=True, null=True, limit_choices_to={'is_instructor_cached':True})
+    trainee=models.ForeignKey(settings.AUTH_PROFILE_MODEL, related_name="pl_trainee")
     completed=models.BooleanField(default=False)
     partially_completed=models.BooleanField(default=False)
     public_notes=models.TextField(blank=True)
     private_notes=models.TextField(blank=True)
+
+    objects = PerformedLessonManager()
 
     #def __unicode__(self):
     #    ret = ("Lesson " + self.lesson.code + " at " +
@@ -59,18 +72,18 @@ class Lesson(models.Model):
     class Meta:
         ordering = ['qualification','mode','order']
 
-    def is_completed(self, user):
-        pl=PerformedLesson.objects.filter(trainee=user, lesson=self, completed=True).count()
+    def is_completed(self, mp):
+        pl=PerformedLesson.objects.filter(trainee=mp, lesson=self, completed=True).count()
         if pl>0: return True
         else: return False
 
-    def is_planned(self, user):
-        pl=PerformedLesson.objects.filter(trainee=user, lesson=self, completed=False).count()
+    def is_planned(self, mp):
+        pl=PerformedLesson.objects.filter(trainee=mp, lesson=self, completed=False).count()
         if pl>0: return True
         else: return False
 
-    def is_partially_completed(self, user):
-        pl=PerformedLesson.objects.filter(trainee=user, lesson=self, partially_completed=True, completed=False).count()
+    def is_partially_completed(self, mp):
+        pl=PerformedLesson.objects.filter(trainee=mp, lesson=self, partially_completed=True, completed=False).count()
         if pl>0: return True
         else: return False
 
@@ -105,7 +118,7 @@ class SDC(models.Model):
     category=models.CharField(choices=SDC_TYPE_CHOICES, max_length=3)
     other_requirements=models.BooleanField(default=False)
 
-    interested_members=models.ManyToManyField('auth.User', blank=True)
+    interested_members=models.ManyToManyField(settings.AUTH_PROFILE_MODEL, blank=True)
 
     def __unicode__(self): return self.title
 
@@ -132,7 +145,7 @@ class PerformedSDC(models.Model):
     sdc=models.ForeignKey('SDC')
     datetime=models.DateTimeField(blank=True, null=True)
     notes=models.TextField(blank=True)
-    trainees=models.ManyToManyField('auth.User', blank=True)
+    trainees=models.ManyToManyField(settings.AUTH_PROFILE_MODEL, blank=True)
     completed=models.BooleanField(default=False)
     # places = models.IntegerField()
 
@@ -141,10 +154,9 @@ class PerformedSDC(models.Model):
 
 class Session(models.Model):
     name=models.CharField(max_length=64, blank=True, help_text='Optional name for session')
-    when=models.DateTimeField(help_text='Formatted like: DD/MM/YYY HH:MM')
+    when=models.DateTimeField(help_text='Formatted like: DD/MM/YYYY HH:MM')
     where=models.ForeignKey('xsd_sites.Site')
     notes=models.TextField(blank=True, help_text='Viewable by instructors and trainees in session.')
-    created_by=models.ForeignKey('auth.User', blank=True, null=True)
 
     completed = models.BooleanField(default=False)
 
@@ -164,8 +176,6 @@ class Session(models.Model):
             return self.when.strftime('%a %d %b %Y %H:%M') + " at " + self.where.__unicode__()
 
     def save(self, *args, **kwargs):
-        if self.created_by == None:
-            self.created_by = User.objects.get(pk=2)
         return super(Session, self).save(*args, **kwargs)
 
     class Meta:
@@ -173,7 +183,7 @@ class Session(models.Model):
 
 class TraineeGroup(models.Model):
     name=models.CharField(max_length=64, unique=True)
-    trainees=models.ManyToManyField(User, blank=True)
+    trainees=models.ManyToManyField(settings.AUTH_PROFILE_MODEL, blank=True)
 
     TRAINEE_ORDER_BY='last_name'
 
@@ -194,7 +204,7 @@ class TraineeGroup(models.Model):
 
     def get_all_trainees(self):
         return self.trainees.all().order_by(self.TRAINEE_ORDER_BY)
-        
+
     def __unicode__(self):
         return self.name
 
