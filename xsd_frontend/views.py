@@ -116,7 +116,9 @@ def register(request):
                 pass
     else:
         form = UserRegisterForm()
-    return render(request,'frontend_register.html', {'form': form})
+    return render(request,'frontend_register.html',
+        {'request':request, 'form': form},
+        context_instance=RequestContext(request))
 
 def update_request(request):
     if request.POST:
