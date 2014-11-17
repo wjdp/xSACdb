@@ -15,6 +15,16 @@ class PerformedLessonManager(models.Manager):
         if partially_completed is not None:
             pls = pls.filter(completed=partially_completed)
         return pls
+    def get_teaching(self, instructor, lesson=None, completed=None,
+        partially_completed=None):
+        pls = self.filter(instructor=instructor)
+        if lesson is not None:
+            pls = pls.filter(lesson=lesson)
+        if completed is not None:
+            pls = pls.filter(completed=completed)
+        if partially_completed is not None:
+            pls = pls.filter(completed=partially_completed)
+        return pls
 
 
 class PerformedLesson(models.Model):

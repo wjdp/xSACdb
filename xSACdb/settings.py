@@ -214,6 +214,6 @@ SOCIALACCOUNT_FORMS = {
 
 SOCIALACCOUNT_ADAPTER = 'xsd_auth.adapter.XSDSocialAccountAdapter'
 
-TEST_FIXTURES = ['local_files/test_fixture.json',]
+TEST_FIXTURES = ['local_files/test_fixture.json','groups']
 
 SILENCED_SYSTEM_CHECKS=['1_6.W001']

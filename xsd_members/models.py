@@ -128,8 +128,8 @@ class MemberProfile(models.Model):
         else: return False
     def performed_lesson_ramble(self):
         # TODO: A good comment here would be ideal!
-        pls =  PerformedLesson.objects.filter(trainee=self.user).order_by('date')
-        ret = ""
+        pls = PerformedLesson.objects.get_lessons(trainee=self)
+        ret = ''
         for pl in pls:
             if pl.lesson:
                 ret += pl.lesson.code+' - '+str(pl.date)+'<br />'

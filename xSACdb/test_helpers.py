@@ -9,12 +9,10 @@ from django.core.urlresolvers import reverse
 
 class BaseTest(TestCase):
     USERNAME = 'billy'
-    PASSWORD = 'billy1234'
+    PASSWORD = 'correcthorsebatterystaple'
     EMAIL = 'billy_is_cool@example.com'
     FIRST_NAME = 'Billy'
     LAST_NAME = 'Bloggs'
-
-    fixtures = settings.TEST_FIXTURES
 
     def setUp(self):
         self.setUp_user()
@@ -29,6 +27,7 @@ class BaseTest(TestCase):
         )
         user.save()
         self.user = user
+        self.mp = user.memberprofile
 
     def login(self, c):
         """Login a client with USERNAME"""
@@ -49,6 +48,7 @@ class BaseTest(TestCase):
         return response.status_code
 
 class BaseAsGroupTest(BaseTest):
+    fixtures = ['groups']
     def setUp(self):
         super(BaseAsGroupTest, self).setUp()
         self.set_groups()
@@ -60,3 +60,6 @@ class BaseAsGroupTest(BaseTest):
 
 class BaseTrainingTest(BaseAsGroupTest):
     GROUPS=[3]
+
+class FixtureMixin(object):
+    fixtures = settings.TEST_FIXTURES
