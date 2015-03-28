@@ -33,7 +33,7 @@ class User(AbstractUser):
 
     def get_short_name(self):
         "Returns the short name for the user."
-        return self.first_name()
+        return self.get_first_name()
 
     def get_first_name(self):
         return self.memberprofile.first_name
