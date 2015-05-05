@@ -1,0 +1,56 @@
+---
+# Only the main Sass file needs front matter (the dashes are enough)
+---
+@charset "utf-8"
+
+
+// Site variables
+$baseline: 28px
+
+$body-font-stack: 'Open Sans', sans-serif
+$header-font-stack: 'Exo 2', sans-serif
+
+$font-size: 18px
+$font-size-compact: 13px
+$font-size-smallprint: 9px
+
+// fGrid Settings
+$grid-row-padding: $baseline
+$grid-column-count: 16
+
+// Colours
+
+$color-background: #f5f5f5
+$color-white: #f9f9f9
+$color-true-white: #fefefe
+$color-black: #1f1f1f
+$color-true-black: #0c0c0c
+$color-highlight: #F5E5AC
+$color-highlight-alt: #DDDCD7
+$color-grey: #aaa
+$color-minor: #555
+
+$color-brand: #2D76CD
+$color-brand-alt: darker($color-brand, 20%)
+$color-brand-second: #E9EE1D
+
+$color-highlight: rgba(255,246,126,0.8)
+
+$color-text: #2c2c2c
+$color-link: #20398E
+$color-link-visited: #4F2AA5
+$color-selection: #F8F488
+
+
+@import "../lib/bourbon/app/assets/stylesheets/bourbon"
+@import "../lib/fgrid/fgrid"
+
+// Import partials from `sass_dir` (defaults to `_sass`)
+
+@import "type"
+@import "layout"
+
+@import "header"
+@import "footer"
+
+@import "home"

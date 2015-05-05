@@ -1,0 +1,38 @@
+.site-header
+  background: $color-brand
+  padding: $baseline
+
+  @include grid-row
+
+  $site-title-size: 40px
+
+  .site-title
+    display: block
+    @include grid-x-col(6)
+
+  .site-title, .site-title span
+    font-family: $header-font-stack
+    color: $color-white
+    text-decoration: none
+
+    font-size: $site-title-size
+    line-height: $site-title-size + 10px
+    font-weight: 700
+    font-style: italic
+
+    @include text-shadow-effect($color-brand, 8px)
+    .sac
+      font-weight: 900
+
+  .site-nav
+    @include grid-x-col(10)
+    text-align: right
+    line-height: $site-title-size + 20px
+    .page-link
+      color: $color-white
+      text-decoration: none
+      font-weight: bold
+      font-variant: capitalize
+      @include all-but-last(margin-right, $baseline)
+
+

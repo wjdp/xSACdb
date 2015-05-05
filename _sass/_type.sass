@@ -1,0 +1,85 @@
+*, *:before, *:after
+  font-family: $body-font-stack
+  -webkit-tap-highlight-color: rgba(0,0,0,0)
+
+::selection
+  background: $color-selection
+
+body
+  color: $color-text
+  font-weight: 300
+
+@mixin block
+  // Element is a block, should have suitable bottom margin
+  margin-bottom: $baseline
+
+h1, h2, h3, h4, h5, h6, p, li, th, td
+  // Test this, make red or something and check whole site for
+  // non-selected elements.
+  &:last-child
+    // Remove bottom margins if element is last in it's container.
+    // The container should set it's own padding for this.
+    margin-bottom: 0
+
+h1, h2, h3, h4, h5, h6
+  font-family: $header-font-stack
+  @include block
+  font-weight: 100
+
+h1
+  font-size: 60px
+  line-height: $baseline * 3
+h2
+  font-size: 36px
+  line-height: $baseline * 2
+h3
+  font-size: 28px
+  line-height: $baseline
+h4
+  font-size: 20px
+  line-height: $baseline
+h5
+  font-size: 18px
+  line-height: $baseline
+h6
+  font-size: 12px
+  line-height: $baseline
+
+h2, .h2-baseline
+  line-height: $baseline * 2
+
+h4.h3-baseline
+  // If h3 is going to sit across from an h4 we can force double line-height
+  // line-height: $baseline * 2
+
+@mixin normal-text-nobr
+  line-height: $baseline
+  font-size: $font-size
+  margin-bottom: 0
+
+@mixin normal-text
+  @include normal-text-nobr
+  @include block
+
+@mixin compact-text-nobr
+  line-height: $baseline
+  font-size: $font-size-compact
+  margin-bottom: 0
+
+@mixin compact-text
+  @include compact-text-nobr
+  @include block
+
+p
+  @include normal-text
+
+.compact
+  @include compact-text
+
+.aside
+  @include compact-text
+  font-style: italic
+  color: $color-grey
+
+@mixin text-shadow-effect($colour, $jump: -2px)
+  text-shadow: 0px $jump darken($colour, 20%)

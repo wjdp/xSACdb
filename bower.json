@@ -1,0 +1,21 @@
+{
+  "name": "xSACdb",
+  "version": "0.0.0",
+  "authors": [
+    "Will Pimblett <will@fullaf.com>"
+  ],
+  "license": "(C)",
+  "homepage": "http://xSACdb.wjdp.uk",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "lib/",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "fgrid": "*",
+    "bourbon": "~4.2.2"
+  }
+}

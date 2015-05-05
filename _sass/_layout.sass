@@ -1,0 +1,44 @@
+*, *:before, *:after
+  margin: 0
+  padding: 0
+  -moz-box-sizing: border-box
+  -webkit-box-sizing: border-box
+  box-sizing: border-box
+
+html
+  overflow-y: scroll
+
+html, body
+  height: 100%
+
+body
+  background: $color-background
+
+.wrapper
+  // Generic wrap for non-stylised pages
+  @include grid-wrap
+
+.page, .post, .home
+  margin-top: $baseline * 2
+  margin-bottom: $baseline * 2
+
+
+.document
+  margin-top: $baseline
+  margin-bottom: 2 * $baseline
+
+.head
+  margin-bottom: $baseline
+
+.description
+  margin-bottom: $baseline
+
+.row
+  @include grid-row
+  // margin-bottom: $baseline
+  &:last-child
+    // The wrapper has this
+    margin-bottom: 0
+
+.no-break
+  margin-bottom: 2px
