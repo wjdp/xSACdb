@@ -20,6 +20,12 @@ class UserManager(BaseUserManager):
 
 class User(AbstractUser):
     objects = UserManager()
+
+    bsac_email = models.EmailField(blank=True)
+    bsac_password = models.CharField(max_length=128, blank=True)
+    # Y: Success, N: Failed, A: Awaiting, N: U & P not set,
+    bsac_state = models.CharField(max_length=1, default='N')
+
     class Meta:
         verbose_name = 'user'
         verbose_name_plural = 'users'
@@ -58,6 +64,15 @@ class User(AbstractUser):
 
         return "http://www.gravatar.com/avatar/{}?s={}".format(
             hashlib.md5(self.email).hexdigest(), size)
+
+    def set_bsac_auth(email, password):
+        self.bsac_email = email
+        self.bsac_password = password
+        if email == '':
+            self.bsac_state = 'N'
+        else:
+            self.bsac_state = 'A'
+        self.save()
 
     def __unicode__(self):
         return self.get_full_name()
