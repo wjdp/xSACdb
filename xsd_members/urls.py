@@ -30,7 +30,7 @@ urlpatterns = patterns('',
 	    url(r'^add/forms/$', BulkAddForms.as_view(), name='BulkAddForms'),
 
 	    url(r'^api/',include(members_api.urls)),
-	    url(r'^api/tokeninput-data/$', 'xsd_members.api.tokeninput_json', name='tokeninput-json'),
+	    url(r'^api/tokeninput-data.js$', 'xsd_members.api.tokeninput_json', name='tokeninput-json'),
 
 	    url(r'^select/$', 'xsd_members.views.select_tool', name='members-select-tool'),
 
