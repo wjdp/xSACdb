@@ -59,10 +59,10 @@ class User(AbstractUser):
         fb_uid = SocialAccount.objects.filter(user_id=self.pk, provider='facebook')
 
         if len(fb_uid):
-            return "http://graph.facebook.com/{}/picture?width={}&height={}"\
+            return "https://graph.facebook.com/{}/picture?width={}&height={}"\
                 .format(fb_uid[0].uid, size, size)
 
-        return "http://www.gravatar.com/avatar/{}?s={}".format(
+        return "https://www.gravatar.com/avatar/{}?s={}".format(
             hashlib.md5(self.email).hexdigest(), size)
 
     def set_bsac_auth(email, password):
