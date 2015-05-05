@@ -15,3 +15,4 @@ cssb/*
 .sass-cache/*
 Gemfile.lock
 vendor/*
+shell.py
