@@ -16,3 +16,5 @@ cssb/*
 Gemfile.lock
 vendor/*
 shell.py
+env/
+
