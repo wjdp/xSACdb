@@ -1,0 +1,24 @@
+image: ubuntu
+
+services:
+  - postgres
+
+# before_script:
+
+
+stages:
+  - build
+  - test
+  # - deploy
+
+python:
+  stage: build
+  script:
+    - virtualenv env
+    - source env/bin/activate
+    - pip install -r requirements.txt
+
+frontend:
+  stage: build
+  script:
+    - bower install
