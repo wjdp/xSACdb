@@ -22,3 +22,8 @@ frontend:
   stage: build
   script:
     - bower install --allow-root
+
+django:
+  stage: test
+  script:
+    - src/manage.py test
