@@ -17,4 +17,4 @@ Gemfile.lock
 vendor/*
 shell.py
 env/
-
+lib/
