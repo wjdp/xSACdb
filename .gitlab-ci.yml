@@ -21,4 +21,4 @@ python:
 frontend:
   stage: build
   script:
-    - bower install
+    - bower install --allow-root
