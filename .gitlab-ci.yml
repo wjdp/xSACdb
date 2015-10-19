@@ -29,4 +29,4 @@ django-test:
   stage: test
   script:
     - source env/bin/activate
-    - src/manage.py test
+    - src/manage.py test xSACdb xsd_about xsd_auth xsd_frontend xsd_help xsd_kit xsd_members xsd_sites xsd_training xsd_trips
