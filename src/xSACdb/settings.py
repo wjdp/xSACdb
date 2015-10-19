@@ -6,9 +6,11 @@ ADMIN_MEDIA_PREFIX = ''
 
 GOOGLE_MAPS_API_KEY=''
 
+# Define project paths
 PROJECT_PATH = os.path.join(os.path.dirname(__file__),'../..')
 SRC_PATH = os.path.join(os.path.dirname(__file__),'..')
 DIST_PATH = os.path.join(os.path.dirname(__file__),'../../dist')
+TMP_PATH = os.path.join(os.path.dirname(__file__),'../../tmp')
 
 TEMPLATE_DEBUG = DEBUG
 
@@ -216,6 +218,9 @@ SOCIALACCOUNT_FORMS = {
 
 SOCIALACCOUNT_ADAPTER = 'xsd_auth.adapter.XSDSocialAccountAdapter'
 
-TEST_FIXTURES = ['local_files/test_fixture.json','groups']
+TEST_FIXTURES = [
+    os.path.join(TMP_PATH, 'test_fixture'),
+    'groups',
+]
 
 SILENCED_SYSTEM_CHECKS=['1_6.W001']
