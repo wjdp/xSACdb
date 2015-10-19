@@ -18,3 +18,5 @@ vendor/*
 shell.py
 env/
 lib/
+tmp/
+dist/

@@ -6,7 +6,9 @@ ADMIN_MEDIA_PREFIX = ''
 
 GOOGLE_MAPS_API_KEY=''
 
-PROJECT_PATH = os.path.join(os.path.dirname(__file__),'..')
+PROJECT_PATH = os.path.join(os.path.dirname(__file__),'../..')
+SRC_PATH = os.path.join(os.path.dirname(__file__),'..')
+DIST_PATH = os.path.join(os.path.dirname(__file__),'../../dist')
 
 TEMPLATE_DEBUG = DEBUG
 
@@ -36,7 +38,7 @@ LOGIN_EXEMPT_URLS = (
 
 # Absolute filesystem path to the directory that will hold user-uploaded files.
 # Example: "/home/media/media.lawrence.com/media/"
-MEDIA_ROOT = PROJECT_PATH + '/media/'
+MEDIA_ROOT = DIST_PATH + '/media/'
 
 # URL that handles the media served from MEDIA_ROOT. Make sure to use a
 # trailing slash.
@@ -44,13 +46,13 @@ MEDIA_ROOT = PROJECT_PATH + '/media/'
 MEDIA_URL = '/media/'
 
 # Media files (css, images etc) for development server
-STATIC_DOC_ROOT = PROJECT_PATH + '/static/'
+STATIC_DOC_ROOT = DIST_PATH + '/static/'
 
 # Absolute path to the directory static files should be collected to.
 # Don't put anything in this directory yourself; store your static files
 # in apps' "static/" subdirectories and in STATICFILES_DIRS.
 # Example: "/home/media/media.lawrence.com/static/"
-STATIC_ROOT = PROJECT_PATH + '/static/'
+STATIC_ROOT = DIST_PATH + '/static/'
 
 # URL prefix for static files.
 # Example: "http://media.lawrence.com/static/"
@@ -61,7 +63,7 @@ STATICFILES_DIRS = (
     # Put strings here, like "/home/html/static" or "C:/www/django/static".
     # Always use forward slashes, even on Windows.
     # Don't forget to use absolute paths, not relative paths.
-    PROJECT_PATH + '/static_global/',
+    SRC_PATH + '/static_global/',
 )
 
 # List of finder classes that know how to find static files in
@@ -109,7 +111,7 @@ TEMPLATE_DIRS = (
     # Put strings here, like "/home/html/django_templates" or "C:/www/django/templates".
     # Always use forward slashes, even on Windows.
     # Don't forget to use absolute paths, not relative paths.
-    PROJECT_PATH + '/templates_global',
+    SRC_PATH + '/templates_global',
 )
 
 AUTHENTICATION_BACKENDS = (
@@ -119,7 +121,7 @@ AUTHENTICATION_BACKENDS = (
 )
 
 FIXTURE_DIRS = (
-    PROJECT_PATH+'/xSACdb/fixtures',
+    SRC_PATH+'/xSACdb/fixtures',
 )
 
 INSTALLED_APPS = (
