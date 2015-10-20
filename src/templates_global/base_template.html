@@ -1,4 +1,5 @@
 {% load xsd_nav %}
+{% load hijack_tags %}
 {% load staticfiles %}
 <!doctype html>
 <html>
@@ -8,6 +9,8 @@
     <meta charset="utf-8" />
 
     <link rel="stylesheet" type="text/css" media="screen" href="{% static 'bootstrap/css/bootstrap.min.css' %}" />
+
+    <link rel="stylesheet" type="text/css" href="{% static 'hijack/hijack-styles.css' %}" />
 
     <link rel="stylesheet" type="text/css" media="screen" href="{% static 'bootstrap/css/bootstrap-responsive.min.css' %}" />
     <link rel="stylesheet" href="{% static 'css/font-awesome.min.css' %}">
@@ -25,6 +28,8 @@
     {% block post_head %}{% endblock %}
 </head>
 <body>
+{{ request|hijackNotification }}
+
 <div class="navbar navbar-inverse navbar-fixed-top">
     <div class="navbar-inner">
         <div class="container">

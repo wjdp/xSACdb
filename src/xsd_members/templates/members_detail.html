@@ -14,6 +14,13 @@
 			{% endif %}
 			<a href="{% url 'MemberEdit' member.pk %}" class="btn btn-small" type="button"><i class="fa fa-pencil"></i> Edit</a>
 			{% if member_useraccount_form %}<a href="#member_useraccount_modal" data-toggle="modal" class="btn btn-small" type="button"><i class="fa fa-key"></i> Account Settings</a>{% endif %}
+
+			{% if request.user.is_superuser and member.user %}
+				<a href="/hijack/{{ member.user.pk }}/" class="btn btn-small" type="button">
+					<i class="fa fa-user-secret"></i> Hijack
+				</a>
+			{% endif %}
+
 			<a href="{% url 'MemberDelete' member.pk %}" class="btn btn-small" type="button"><i class="fa fa-trash"></i> Delete</a>
 			{% elif myself %}
 			<a href="{% url 'MyProfileEdit' %}" class="btn btn-small" type="button"><i class="fa fa-pencil"></i> Edit</a>

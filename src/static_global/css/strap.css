@@ -674,3 +674,10 @@ img.about-logo {
 .nav-list {
     min-height: 400px
 }
+
+#hijacked-warning {
+    top: initial;
+    bottom: 0;
+    border-bottom: none;
+    border-top: 2px solid #ae9e49;
+}
