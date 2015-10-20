@@ -236,6 +236,33 @@ class MemberProfile(models.Model):
         """Transfer bit"""
         return self.user.date_joined
 
+    def compute_training_for(self):
+        """Work out the highest level of lesson the trainee has done"""
+        pls = PerformedLesson.objects.get_lessons(trainee=self)
+        top_qual = None
+
+        for pl in pls:
+            if top_qual:
+                # Compare levels, set if above
+                if pl.lesson and pl.lesson.qualification.rank > top_qual.rank and not pl.lesson.qualification.instructor_qualification:
+                    top_qual = pl.lesson.qualification
+            else:
+                # No top_qual, if there is any data take
+                if pl.lesson and not pl.lesson.qualification.instructor_qualification:
+                    top_qual = pl.lesson.qualification
+
+        return top_qual
+
+    def update_training_for(self):
+        """Update the cached value"""
+        computed_qual = self.compute_training_for()
+        if computed_qual and not computed_qual.instructor_qualification:
+            if self.training_for:
+                if computed_qual.rank > self.training_for.rank:
+                    self.training_for = computed_qual
+            else:
+                self.training_for = computed_qual
+
     def save(self, *args, **kwargs):
         """Saves changes to the model instance"""
         if self.pk:
@@ -271,6 +298,16 @@ def create_member_profile(sender, instance, created, **kwargs):
         mp.save()
 
 post_save.connect(create_member_profile, sender=settings.AUTH_USER_MODEL)
+
+# Update training_for when a PerformedLesson is updated
+@disable_for_loaddata
+def trigger_update_training_for(sender, instance, created, **kwargs):
+    if instance.trainee and instance.lesson:
+        mp = instance.trainee
+        mp.update_training_for()
+        mp.save()
+
+post_save.connect(trigger_update_training_for, sender=PerformedLesson)
 
 class MembershipType(models.Model):
     name=models.CharField(max_length=40)

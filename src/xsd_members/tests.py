@@ -10,7 +10,7 @@ from django.contrib.auth import get_user_model
 from xSACdb.test_helpers import *
 
 from xsd_members.models import MemberProfile
-from xsd_training.models import Lesson, PerformedLesson
+from xsd_training.models import Lesson, PerformedLesson, Qualification
 
 class MPFunc(BaseTest):
 
@@ -104,9 +104,19 @@ class MPExternalFunc(FixtureMixin, BaseTest):
                 private_notes = PL['private_notes'],
             )
             new_pl.save()
+
     def test_performed_lesson_ramble(self):
         self.assertTrue(PerformedLesson.objects.get_lessons(
             trainee=self.mp).count() > 3)
         out = self.mp.performed_lesson_ramble()
         self.assertTrue(('OO2' in out) and ('OO3' in out) and
             ('OO4' in out))
+
+    def test_training_for(self):
+        # Crosses over into xsd_training.models.Qualification
+        # Checks the MemberProfile.update_training_for
+        # and the PerformedLesson save hook
+
+        ocean_diver = Qualification.objects.get(code='OD')
+        self.assertTrue(self.mp.training_for == ocean_diver)
+
