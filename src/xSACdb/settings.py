@@ -98,6 +98,7 @@ TEMPLATE_CONTEXT_PROCESSORS = (
     'django.core.context_processors.i18n',
     'django.core.context_processors.media',
     'django.contrib.messages.context_processors.messages',
+    'django.core.context_processors.request',
     'xSACdb.context_processors.menu_perms',
     'allauth.account.context_processors.account',
     'allauth.socialaccount.context_processors.socialaccount',
@@ -156,6 +157,7 @@ INSTALLED_APPS = (
     'geoposition',
 
     'debug_toolbar',
+    'hijack',
 )
 
 CACHES = {
@@ -224,3 +226,6 @@ TEST_FIXTURES = [
 ]
 
 SILENCED_SYSTEM_CHECKS=['1_6.W001']
+
+HIJACK_NOTIFY_USER = True
+SHOW_HIJACKUSER_IN_ADMIN = False
