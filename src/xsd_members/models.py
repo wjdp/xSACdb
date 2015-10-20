@@ -244,11 +244,11 @@ class MemberProfile(models.Model):
         for pl in pls:
             if top_qual:
                 # Compare levels, set if above
-                if pl.lesson and pl.lesson.qualification.rank > top_qual.rank:
+                if pl.lesson and pl.lesson.qualification.rank > top_qual.rank and not pl.lesson.qualification.instructor_qualification:
                     top_qual = pl.lesson.qualification
             else:
                 # No top_qual, if there is any data take
-                if pl.lesson:
+                if pl.lesson and not pl.lesson.qualification.instructor_qualification:
                     top_qual = pl.lesson.qualification
 
         return top_qual
@@ -256,7 +256,7 @@ class MemberProfile(models.Model):
     def update_training_for(self):
         """Update the cached value"""
         computed_qual = self.compute_training_for()
-        if computed_qual:
+        if computed_qual and not computed_qual.instructor_qualification:
             if self.training_for:
                 if computed_qual.rank > self.training_for.rank:
                     self.training_for = computed_qual
