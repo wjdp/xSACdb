@@ -8,5 +8,4 @@ class Command(BaseCommand):
         mps = MemberProfile.objects.all()
         for mp in mps:
             mp.update_training_for()
-            print "{}: {}".format(mp, mp.training_for)
             mp.save()
