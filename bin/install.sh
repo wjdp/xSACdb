@@ -10,7 +10,7 @@ virtualenv env
 
 source env/bin/activate
 
-pip install -rq requirements.txt
+pip install -q -r requirements.txt
 
 bower install -q --allow-root
 
