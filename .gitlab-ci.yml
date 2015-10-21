@@ -19,18 +19,24 @@ stages:
 
 django-validate:
   stage: test
+  tags:
+    - docker
   script:
     - source env/bin/activate
     - src/manage.py validate
 
 django-check:
   stage: test
+  tags:
+    - docker
   script:
     - source env/bin/activate
     - src/manage.py check
 
 django-test:
   stage: test
+  tags:
+    - docker
   script:
     - source env/bin/activate
     - src/manage.py test xSACdb xsd_about xsd_auth xsd_frontend xsd_help xsd_kit xsd_members xsd_sites xsd_training xsd_trips
