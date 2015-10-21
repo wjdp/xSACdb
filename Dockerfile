@@ -1,18 +1,9 @@
 FROM wjdp/flatcar
 
-RUN virtualenv env
+ADD . app
 
-RUN source env/bin/activate
+RUN /app/bin/install.sh
 
-RUN pip install -r requirements.txt
+EXPOSE 8000
 
-RUN bower install --allow-root
-
-RUN cp src/local_settings.py.example src/local_settings.py
-
-RUN mkdir tmp
-
-RUN src/manage.py migrate
-RUN src/manage.py collectstatic
-
-CMD src/runserver 0.0.0.0:80
+CMD /app/bin/run.sh
