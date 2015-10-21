@@ -6,7 +6,6 @@ DEBUG = False
 TEMPLATE_DEBUG = False
 
 from .common import *
-print DEBUG
 from local_settings import *
 
 if 'XSACDB_CONTAINER' in os.environ and os.environ['XSACDB_CONTAINER'] == 'DOCKER':
