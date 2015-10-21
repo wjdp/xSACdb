@@ -1,20 +1,21 @@
-from local_settings import *
+"""All settings common to debug and production"""
 
 import os
+from sys import path
 
 ADMIN_MEDIA_PREFIX = ''
 
 GOOGLE_MAPS_API_KEY=''
 
 # Define project paths
-PROJECT_PATH = os.path.join(os.path.dirname(__file__),'../..')
-SRC_PATH = os.path.join(os.path.dirname(__file__),'..')
-DIST_PATH = os.path.join(os.path.dirname(__file__),'../../dist')
-TMP_PATH = os.path.join(os.path.dirname(__file__),'../../tmp')
+PROJECT_PATH = os.path.join(os.path.dirname(__file__),'../../..')
+SRC_PATH  = os.path.join(PROJECT_PATH, 'src')
+DIST_PATH = os.path.join(PROJECT_PATH, 'dist')
+TMP_PATH  = os.path.join(PROJECT_PATH, 'tmp')
+CONF_PATH = os.path.join(PROJECT_PATH, 'conf')
 
-TEMPLATE_DEBUG = DEBUG
-
-MANAGERS = ADMINS
+# Add config dir to path
+path.append(CONF_PATH)
 
 SITE_ID = 1
 

@@ -1,8 +1,16 @@
 #!/bin/bash
 
+echo "[xSACdb] Checking directory structure"
 cd /app
+
 pwd
-ls
+ls -lah
+
+echo "/app/conf"
+ls -lah /app/conf
+
+echo "/app/media"
+ls -lah /app/media
 
 rm -rf env
 
@@ -10,13 +18,14 @@ virtualenv env
 
 source env/bin/activate
 
-pip install -r requirements.txt
+echo "[xSACdb] Installing python dependancies..."
+pip install -q -r requirements.txt
 
-bower install --allow-root
+echo "[xSACdb] Installing frontend dependancies..."
+bower install -q --allow-root
 
-cp src/local_settings.py.example src/local_settings.py
+echo "[xSACdb] Migrating database..."
+# src/manage.py migrate --noinput
 
-mkdir tmp
-
-src/manage.py migrate --noinput
-src/manage.py collectstatic --noinput
+echo "[xSACdb] Collecting static files..."
+# src/manage.py collectstatic --noinput

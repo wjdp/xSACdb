@@ -10,7 +10,6 @@ before_script:
   - pip install -q -r requirements.txt
   - echo "bower install"
   - bower install -q --allow-root
-  - cp src/local_settings.py.example src/local_settings.py
   - mkdir tmp
   - wget $TEST_FIXTURE -O tmp/test_fixture.json
 
