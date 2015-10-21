@@ -26,7 +26,7 @@ Stick bourbon in `vendor/bourbon`
 
 	sass --watch xsd_frontend/static/sass/login.sass:xsd_frontend/static/cssb/login.css --load-path .
     pip install -r requirements.txt
-    ./manage.py collectstatic 
+    ./manage.py collectstatic
     ./manage.py syncdb  # Don't add a superuser now!
     ./manage.py migrate
     ./manage.py createsuperuser
@@ -39,3 +39,15 @@ It is advised to have a read through of the deployment checklist: https://docs.d
 BSAC Data
 ---------
 The application is distributed without any qualifications, lessons or SDCs. I've not fully looked into this but I'm guessing BSAC has copyright on that data. You'll have to put this in yourself.
+
+dokku Config
+------------
+
+```
+dokku apps:create xsacdb
+dokku plugin:install https://github.com/dokku/dokku-postgres.git
+dokku postgres:create xsacdb-database
+dokku postgres:link xsacdb-database xsacdb
+dokku docker-options:add xsacdb run "-v /home/dokku/storage/xsacdb/conf:/app/conf"
+dokku docker-options:add xsacdb run "-v /home/dokku/storage/xsacdb/media:/app/media"
+```

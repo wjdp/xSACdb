@@ -1,30 +1,28 @@
-########################
-# xSACdb Configuration #
-########################
+from __future__ import absolute_import
 
-# Make a copy of this file as `local_settings.py`
-# The server will not start without doing this
+# Make this FALSE for deployment
+DEBUG = True
+
+from .common import *
 
 # Club config
 CLUB = {
     # Name of your club
-	'name': 'MadeUpSAC',
+    'name': 'MadeUpSAC',
 
     # Are you a student club? This adds fields like student ID to the member records
     'student': True,
 
-    'how_to_renew': 'Renew at <a href="http://su.university.ac.uk/sub-aqua">http://su.university.ac.uk/sub-aqua</a>',
+    'how_to_renew': 'Renew at <a href="http://su.nottingham.ac.uk/sub-aqua">http://su.nottingham.ac.uk/sub-aqua</a>',
     'bsac_club_renew': 'Contact the VP for details.',
 }
-
-
-# Make this FALSE for deployment
-DEBUG = True
 
 # Send error reports to
 ADMINS = (
     # ('Your Name', 'your_email@example.com'),
 )
+
+MANAGERS = ADMINS
 
 # Your database config
 DATABASES = {
@@ -51,4 +49,3 @@ LANGUAGE_CODE = 'en-gb'
 # Make this unique, and don't share it with anybody.
 # Generate one here: http://www.miniwebtool.com/django-secret-key-generator/
 SECRET_KEY = 'change me!'
-

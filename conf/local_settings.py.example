@@ -1,0 +1,36 @@
+########################
+# xSACdb Configuration #
+########################
+
+# Make a copy of this file as `local_settings.py`
+# The server will not start without doing this
+
+# Club config
+CLUB = {
+    # Name of your club
+	'name': 'MadeUpSAC',
+
+    # Are you a student club? This adds fields like student ID to the member records
+    'student': True,
+
+    'how_to_renew': 'Renew at <a href="http://su.university.ac.uk/sub-aqua">http://su.university.ac.uk/sub-aqua</a>',
+    'bsac_club_renew': 'Contact the VP for details.',
+}
+
+# Set this
+ALLOWED_HOSTS=['*']
+
+# Local time zone for this installation. Choices can be found here:
+# http://en.wikipedia.org/wiki/List_of_tz_zones_by_name
+# although not all choices may be available on all operating systems.
+# In a Windows environment this must be set to your system time zone.
+TIME_ZONE = 'Europe/London'
+
+# Language code for this installation. All choices can be found here:
+# http://www.i18nguy.com/unicode/language-identifiers.html
+LANGUAGE_CODE = 'en-gb'
+
+# Make this unique, and don't share it with anybody.
+# Generate one here: http://www.miniwebtool.com/django-secret-key-generator/
+SECRET_KEY = 'change me!'
+
