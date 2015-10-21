@@ -13,7 +13,7 @@ if 'XSACDB_CONTAINER' in os.environ and os.environ['XSACDB_CONTAINER'] == 'DOCKE
     # If in a docker container, parse the database URL
     DATABASES = {
         'default': dj_database_url.parse(
-            os.environ['XSACDB_CONTAINER']
+            os.environ['DATABASE_URL']
         )
     }
 
