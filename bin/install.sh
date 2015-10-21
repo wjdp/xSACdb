@@ -1,6 +1,8 @@
 #!/bin/bash
 
+echo "[xSACdb] Checking directory structure"
 cd /app
+
 pwd
 ls -lah
 
@@ -16,13 +18,14 @@ virtualenv env
 
 source env/bin/activate
 
-echo "Installing python dependancies..."
+echo "[xSACdb] Installing python dependancies..."
 pip install -q -r requirements.txt
 
-echo "Installing frontend dependancies..."
+echo "[xSACdb] Installing frontend dependancies..."
 bower install -q --allow-root
 
-mkdir tmp
+echo "[xSACdb] Migrating database..."
+# src/manage.py migrate --noinput
 
-src/manage.py migrate --noinput
-src/manage.py collectstatic --noinput
+echo "[xSACdb] Collecting static files..."
+# src/manage.py collectstatic --noinput

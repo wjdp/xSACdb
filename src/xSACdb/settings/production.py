@@ -15,6 +15,3 @@ if 'XSACDB_CONTAINER' in os.environ and os.environ['XSACDB_CONTAINER'] == 'DOCKE
             os.environ['DATABASE_URL']
         )
     }
-
-
-
