@@ -10,9 +10,9 @@ virtualenv env
 
 source env/bin/activate
 
-pip install -r requirements.txt
+pip install -rq requirements.txt
 
-bower install --allow-root
+bower install -q --allow-root
 
 cp src/local_settings.py.example src/local_settings.py
 
