@@ -22,7 +22,7 @@ django-frontend:
     - docker
   script:
     - source env/bin/activate
-    - src/manage.py collectstatic --no-input
+    - src/manage.py collectstatic --noinput
 
 django-check:
   stage: test
