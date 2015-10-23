@@ -16,13 +16,13 @@ before_script:
 stages:
   - test
 
-django-validate:
+django-frontend:
   stage: test
   tags:
     - docker
   script:
     - source env/bin/activate
-    - src/manage.py validate
+    - src/manage.py collectstatic --noinput
 
 django-check:
   stage: test
