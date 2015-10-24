@@ -11,7 +11,7 @@ before_script:
   - echo "bower install"
   - bower install -q --allow-root
   - mkdir tmp
-  - wget $TEST_FIXTURE -O tmp/test_fixture.json
+  - wget $BSAC_DATA -O tmp/bsac_data.yaml
 
 stages:
   - test
