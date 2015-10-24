@@ -224,9 +224,6 @@ class QualificationTest(BaseTrainingTest, TrainingTestToolsMixin):
     def test_lessons_by_mode(self):
         mode = "TH"
         lessons = self.OD.lessons_by_mode(mode=mode)
-        print Lesson.objects.all()
-        print Lesson.objects.filter(qualification=self.OD)
-        print self.OO1
         self.assertTrue(len(lessons) == 7)
 
 class PoolSheetGenerate(BaseTrainingTest):
