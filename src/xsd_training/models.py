@@ -13,7 +13,7 @@ class PerformedLessonManager(models.Manager):
         if completed is not None:
             pls = pls.filter(completed=completed)
         if partially_completed is not None:
-            pls = pls.filter(completed=partially_completed)
+            pls = pls.filter(partially_completed=partially_completed)
         return pls
     def get_teaching(self, instructor, lesson=None, completed=None,
         partially_completed=None):
@@ -23,7 +23,7 @@ class PerformedLessonManager(models.Manager):
         if completed is not None:
             pls = pls.filter(completed=completed)
         if partially_completed is not None:
-            pls = pls.filter(completed=partially_completed)
+            pls = pls.filter(partially_completed=partially_completed)
         return pls
 
 
