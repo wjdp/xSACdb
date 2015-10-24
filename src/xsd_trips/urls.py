@@ -5,5 +5,5 @@ from views import *
 
 urlpatterns = patterns('',
       url(r'^$', TripList.as_view(), name='TripList'),
-	    url(r'^new/$', TripCreate.as_view(), name='TripCreate'),
+        url(r'^new/$', TripCreate.as_view(), name='TripCreate'),
 )

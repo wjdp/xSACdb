@@ -16,5 +16,5 @@ def todo(item):
         view = TrainingUpdateRequestList()
         x = TrainingUpdateRequestList.get_queryset(view).filter(completed=False, area='tra').count()
         if x>0:
-        	return '<div class="pull-right badge badge-important">'+str(x)+'</div>'
+            return '<div class="pull-right badge badge-important">'+str(x)+'</div>'
         else: return ""
