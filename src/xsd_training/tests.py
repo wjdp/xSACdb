@@ -1,4 +1,4 @@
-from xSACdb.test_helpers import BaseAsGroupTest, FixtureMixin, BaseTest
+from xSACdb.test_helpers import BaseAsGroupTest, BaseTest
 from xsd_sites.tests import SiteTestToolsMixin
 
 from xsd_training.models import *
@@ -12,29 +12,33 @@ class BaseTrainingTest(BaseAsGroupTest):
     GROUPS=[3]
 
 class TrainingTestToolsMixin(object):
-    OD = Qualification.objects.get(code="OD")
-    SD = Qualification.objects.get(code="SD")
-    DL = Qualification.objects.get(code="DL")
-    AD = Qualification.objects.get(code="AD")
-    FC = Qualification.objects.get(code="FC")
 
-    ASI = Qualification.objects.get(code="AI")
-    PI = Qualification.objects.get(code="PI")
-    THI = Qualification.objects.get(code="THI")
-    AOI = Qualification.objects.get(code="AOI")
-    OWI = Qualification.objects.get(code="OWI")
-    AI = Qualification.objects.get(code="AVI")
-    NI = Qualification.objects.get(code="NI")
+    def trainingTestToolsSetUp(self):
+        self.OD = Qualification.objects.get(code="OD")
+        self.SD = Qualification.objects.get(code="SD")
+        self.DL = Qualification.objects.get(code="DL")
+        self.AD = Qualification.objects.get(code="AD")
+        self.FC = Qualification.objects.get(code="FC")
 
-    OO1 = Lesson.objects.get(code="OO1")
+        self.ASI = Qualification.objects.get(code="AI")
+        self.PI = Qualification.objects.get(code="PI")
+        self.THI = Qualification.objects.get(code="THI")
+        self.AOI = Qualification.objects.get(code="AOI")
+        self.OWI = Qualification.objects.get(code="OWI")
+        self.AI = Qualification.objects.get(code="AVI")
+        self.NI = Qualification.objects.get(code="NI")
 
-    def get_trainee(self, training_for=OD):
+        self.OO1 = Lesson.objects.get(code="OO1")
+
+    def get_trainee(self, training_for=None):
+        if not training_for: training_for=self.OD
         user = self.create_a_user()
         user.training_for = [training_for]
         user.save()
         return user.get_profile()
 
-    def get_instructor(self, qualification=OWI):
+    def get_instructor(self, qualification=None):
+        if not qualification: qualification=self.OWI
         user = self.create_a_user()
         mp = user.get_profile()
         mp.set_qualification(self.OWI)
@@ -71,6 +75,8 @@ class TrainingTestToolsMixin(object):
 
 
 class PerformedLessonTest(BaseTrainingTest, TrainingTestToolsMixin):
+    def setUp(self):
+        self.trainingTestToolsSetUp()
 
     def test_basic_pl(self):
         pl = self.create_basic_pl()
@@ -122,6 +128,9 @@ class PerformedLessonTest(BaseTrainingTest, TrainingTestToolsMixin):
         return False
 
 class PerformedLessonManagerTest(BaseTrainingTest, TrainingTestToolsMixin):
+    def setUp(self):
+        self.trainingTestToolsSetUp()
+
     def test_get_lessons(self):
         trainee = self.get_trainee()
         planned_lesson = self.create_basic_pl(trainee=trainee)
@@ -189,6 +198,9 @@ class PerformedLessonManagerTest(BaseTrainingTest, TrainingTestToolsMixin):
         self.assertTrue(planned_lesson in pls)
 
 class PerformedLessonWithSessionTest(BaseTrainingTest, TrainingTestToolsMixin, SiteTestToolsMixin):
+    def setUp(self):
+        self.trainingTestToolsSetUp()
+
     def test_save_with_session(self):
         pl = self.create_basic_pl()
         session = self.create_session(site=self.create_site())
@@ -196,8 +208,28 @@ class PerformedLessonWithSessionTest(BaseTrainingTest, TrainingTestToolsMixin, S
         pl.save()
         self.assertTrue(pl.date == session.when.date())
 
+class LessonTest(BaseTrainingTest, TrainingTestToolsMixin):
+    def setUp(self):
+        self.trainingTestToolsSetUp()
 
-class PoolSheetGenerate(BaseTrainingTest, FixtureMixin):
+    def test_unicode(self):
+        lesson = self.OO1
+        self.assertTrue(lesson.code in unicode(lesson))
+        self.assertTrue(lesson.title in unicode(lesson))
+
+class QualificationTest(BaseTrainingTest, TrainingTestToolsMixin):
+    def setUp(self):
+        self.trainingTestToolsSetUp()
+
+    def test_lessons_by_mode(self):
+        mode = "TH"
+        lessons = self.OD.lessons_by_mode(mode=mode)
+        print Lesson.objects.all()
+        print Lesson.objects.filter(qualification=self.OD)
+        print self.OO1
+        self.assertTrue(len(lessons) == 7)
+
+class PoolSheetGenerate(BaseTrainingTest):
     url_pool = '/training/pool-sheet/?session=18&sort_by=instructor__last_name&show_public_notes=on&show_private_notes=on&number_of_notes=3&comments_column=on&signature_column=on'
     url_ow = '/training/pool-sheet/?session=16&sort_by=instructor__last_name&show_public_notes=on&show_private_notes=on&number_of_notes=3&comments_column=on&signature_column=on'
     url_theory = '/training/pool-sheet/?session=10&sort_by=trainee__last_name&show_public_notes=on&show_private_notes=on&number_of_notes=3&comments_column=on&signature_column=on'

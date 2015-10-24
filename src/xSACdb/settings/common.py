@@ -226,7 +226,7 @@ SOCIALACCOUNT_FORMS = {
 SOCIALACCOUNT_ADAPTER = 'xsd_auth.adapter.XSDSocialAccountAdapter'
 
 TEST_FIXTURES = [
-    os.path.join(TMP_PATH, 'test_fixture.json'),
+    os.path.join(TMP_PATH, 'bsac_data.yaml'),
     'groups',
 ]
 

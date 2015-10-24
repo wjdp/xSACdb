@@ -47,7 +47,7 @@ class MPFunc(BaseTest):
     def test_caching(self):
         pass
 
-class MPExternalFunc(FixtureMixin, BaseTest):
+class MPExternalFunc(BaseTest):
     def setUp(self):
         super(MPExternalFunc, self).setUp()
         self.make_pls()

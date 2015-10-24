@@ -18,6 +18,8 @@ class BaseTest(TestCase):
     EMAIL = testdata.get_email()
     PASSWORD = testdata.get_str(128)
 
+    fixtures = settings.TEST_FIXTURES
+
     def setUp(self):
         self.setUp_user()
 
@@ -73,7 +75,6 @@ class BaseTest(TestCase):
 
 
 class BaseAsGroupTest(BaseTest):
-    fixtures = ['groups']
     def setUp(self):
         super(BaseAsGroupTest, self).setUp()
         self.set_groups()
@@ -82,6 +83,3 @@ class BaseAsGroupTest(BaseTest):
             g = Group.objects.get(pk=group)
             self.user.groups.add(g)
         self.user.save()
-
-class FixtureMixin(object):
-    fixtures = settings.TEST_FIXTURES
