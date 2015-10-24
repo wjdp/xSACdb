@@ -1,5 +1,6 @@
 import base64
 import hashlib
+from django.core.mail import send_mail
 
 from django.db import models
 
