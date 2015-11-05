@@ -1,10 +1,9 @@
 import random
 
-from django.test import TestCase
+from xSACdb.test_helpers import BaseTest
 from xsd_sites.models import *
 
 import testdata
-
 
 class SiteTestToolsMixin(object):
     def create_site(self):
@@ -15,9 +14,14 @@ class SiteTestToolsMixin(object):
         site.save()
         return site
 
-class SimpleTest(TestCase):
-    def test_basic_addition(self):
-        """
-        Tests that 1 + 1 always equals 2.
-        """
-        self.assertEqual(1 + 1, 2)
+class SiteTest(BaseTest):
+    def test_unicode(self):
+        name = testdata.get_str(128)
+        site = Site.objects.create(
+            name=name,
+            type=random.choice(SITE_TYPES),
+        )
+        site.save()
+
+        self.assertIsInstance(unicode(site), basestring)
+        self.assertEqual(unicode(site), name)

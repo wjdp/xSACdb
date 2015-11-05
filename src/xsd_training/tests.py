@@ -320,10 +320,11 @@ class TraineeGroupTest(BaseTraineeTest, TrainingTestToolsMixin):
         self.assertTrue(trainee2 in tg.get_all_trainees())
 
     def test_unicode(self):
-        tg = TraineeGroup.objects.create(name="My Fancy Group")
+        name = testdata.get_str(128)
+        tg = TraineeGroup.objects.create(name=name)
         tg.save()
 
-        self.assertEqual(unicode(tg), "My Fancy Group")
+        self.assertEqual(unicode(tg), name)
 
 
 
