@@ -198,9 +198,12 @@ class TraineeGroup(models.Model):
     TRAINEE_ORDER_BY='last_name'
 
     def trainees_list(self):
+        """returns a readable list of trainee full names separated by commas"""
         ret=""
         for t in self.trainees.all().order_by(self.TRAINEE_ORDER_BY):
             ret=ret+t.get_full_name()+", "
+
+        # chop off trailing comma
         return ret[:-2]
 
     def trainees_list_with_links(self):

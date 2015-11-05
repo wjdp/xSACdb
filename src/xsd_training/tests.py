@@ -226,6 +226,107 @@ class QualificationTest(BaseTrainingTest, TrainingTestToolsMixin):
         lessons = self.OD.lessons_by_mode(mode=mode)
         self.assertTrue(len(lessons) == 7)
 
+class PerformedSDCTest(BaseTraineeTest, TrainingTestToolsMixin):
+    def setUp(self):
+        self.trainingTestToolsSetUp()
+
+    def test_get_absolute_url(self):
+        psdc = PerformedSDC.objects.create(
+            sdc = SDC.objects.all()[0], # Lazily get the first SDC from BSAC data
+            datetime = self.get_random_date(),
+        )
+        psdc.save()
+        psdc.trainees.add(self.get_trainee(), self.get_trainee())
+        self.assertIsInstance(psdc.get_absolute_url(), basestring)
+
+class SessionTest(BaseTraineeTest, TrainingTestToolsMixin, SiteTestToolsMixin):
+    def setUp(self):
+        self.trainingTestToolsSetUp()
+
+    def test_complete(self):
+        sesh = self.create_session(site=self.create_site())
+        sesh.completed = True
+        sesh.save()
+        self.assertTrue(sesh.completed)
+
+    def test_in_past(self):
+        future_sesh = Session.objects.create(
+            name = testdata.get_str(str_size=128),
+            when = testdata.get_future_datetime(),
+            where = self.create_site(),
+        )
+        future_sesh.save()
+        past_sesh = Session.objects.create(
+            name = testdata.get_str(str_size=128),
+            when = testdata.get_past_datetime(),
+            where = self.create_site(),
+        )
+        past_sesh.save()
+        self.assertFalse(future_sesh.in_past())
+        self.assertTrue(past_sesh.in_past())
+
+    def test_get_absolute_url(self):
+        sesh = self.create_session(site=self.create_site())
+        self.assertIsInstance(sesh.get_absolute_url(), basestring)
+
+    def test_unicode(self):
+        sesh = Session.objects.create(
+            when = self.get_random_date(),
+            where = self.create_site()
+        )
+        self.assertIsInstance(unicode(sesh), basestring)
+        self.assertTrue(len(unicode(sesh)) > 5)
+        sesh.name = "SuperSession"
+        sesh.save()
+        self.assertIsInstance(unicode(sesh), basestring)
+        self.assertTrue(len(unicode(sesh)) > 5)
+        self.assertTrue("SuperSession" in unicode(sesh))
+
+class TraineeGroupTest(BaseTraineeTest, TrainingTestToolsMixin):
+    def setUp(self):
+        self.trainingTestToolsSetUp()
+
+    def test_trainees_list(self):
+        trainee1 = self.get_trainee()
+        trainee2 = self.get_trainee()
+        tg = TraineeGroup.objects.create()
+        tg.save()
+        tg.trainees.add(trainee1, trainee2)
+
+        self.assertIsInstance(tg.trainees_list(), basestring)
+        self.assertTrue(trainee1.get_full_name() in tg.trainees_list())
+        self.assertTrue(trainee2.get_full_name() in tg.trainees_list())
+
+    def test_trainees_list_with_links(self):
+        trainee1 = self.get_trainee()
+        trainee2 = self.get_trainee()
+        tg = TraineeGroup.objects.create()
+        tg.save()
+        tg.trainees.add(trainee1, trainee2)
+
+        self.assertIsInstance(tg.trainees_list(), basestring)
+        self.assertTrue(trainee1.get_full_name() in tg.trainees_list())
+        self.assertTrue(trainee2.get_full_name() in tg.trainees_list())
+        self.assertTrue("<a href=" in tg.trainees_list_with_links())
+
+    def test_get_all_trainees(self):
+        trainee1 = self.get_trainee()
+        trainee2 = self.get_trainee()
+        tg = TraineeGroup.objects.create()
+        tg.save()
+        tg.trainees.add(trainee1, trainee2)
+
+        self.assertTrue(trainee1 in tg.get_all_trainees())
+        self.assertTrue(trainee2 in tg.get_all_trainees())
+
+    def test_unicode(self):
+        tg = TraineeGroup.objects.create(name="My Fancy Group")
+        tg.save()
+
+        self.assertEqual(unicode(tg), "My Fancy Group")
+
+
+
 class PoolSheetGenerate(BaseTrainingTest):
     url_pool = '/training/pool-sheet/?session=18&sort_by=instructor__last_name&show_public_notes=on&show_private_notes=on&number_of_notes=3&comments_column=on&signature_column=on'
     url_ow = '/training/pool-sheet/?session=16&sort_by=instructor__last_name&show_public_notes=on&show_private_notes=on&number_of_notes=3&comments_column=on&signature_column=on'

@@ -233,7 +233,7 @@ class MemberProfile(models.Model):
 
     def get_full_name(self):
         """Transfer bit"""
-        return "{} {}".format(self.first_name, self.last_name)
+        return u"{} {}".format(self.first_name, self.last_name)
     def date_joined(self):
         """Transfer bit"""
         return self.user.date_joined
