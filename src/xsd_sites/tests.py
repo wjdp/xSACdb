@@ -1,16 +1,27 @@
-"""
-This file demonstrates writing tests using the unittest module. These will pass
-when you run "manage.py test".
+import random
 
-Replace this with more appropriate tests for your application.
-"""
+from xSACdb.test_helpers import BaseTest
+from xsd_sites.models import *
 
-from django.test import TestCase
+import testdata
 
+class SiteTestToolsMixin(object):
+    def create_site(self):
+        site = Site.objects.create(
+            name=testdata.get_str(128),
+            type=random.choice(SITE_TYPES),
+        )
+        site.save()
+        return site
 
-class SimpleTest(TestCase):
-    def test_basic_addition(self):
-        """
-        Tests that 1 + 1 always equals 2.
-        """
-        self.assertEqual(1 + 1, 2)
+class SiteTest(BaseTest):
+    def test_unicode(self):
+        name = testdata.get_str(128)
+        site = Site.objects.create(
+            name=name,
+            type=random.choice(SITE_TYPES),
+        )
+        site.save()
+
+        self.assertIsInstance(unicode(site), basestring)
+        self.assertEqual(unicode(site), name)

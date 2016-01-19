@@ -1,10 +1,12 @@
-from django.db import models
 from datetime import date
 
+from django.db import models
 from django.conf import settings
+from django.core.exceptions import ObjectDoesNotExist
 
 from xsd_training.models import PerformedLesson
 from xSACdb.data_helpers import disable_for_loaddata
+
 
 class MemberProfile(models.Model):
     """Model for representing members of the club, a user account has a O2O
@@ -198,6 +200,7 @@ class MemberProfile(models.Model):
         self.qualifications.add(qual)
 
     def remove_qualifications(self, instructor=False):
+        """Wipes all qualifications"""
         quals = self.qualifications.filter(
             instructor_qualification = instructor
         )
@@ -231,7 +234,7 @@ class MemberProfile(models.Model):
 
     def get_full_name(self):
         """Transfer bit"""
-        return "{} {}".format(self.first_name, self.last_name)
+        return u"{} {}".format(self.first_name, self.last_name)
     def date_joined(self):
         """Transfer bit"""
         return self.user.date_joined
@@ -242,21 +245,29 @@ class MemberProfile(models.Model):
         top_qual = None
 
         for pl in pls:
+            try:
+                if not pl.lesson and not pl.lesson.qualification.instructor_qualification:
+                    # Exclude PLs without lessons and PLs with instructor lessons
+                    continue
+            except ObjectDoesNotExist:
+                # Getting lots of `DoesNotExist: Lesson matching query does not exist.` when running tests
+                # AFAIK this doesn't get hit on live site. Addresses #102.
+                continue
+
             if top_qual:
                 # Compare levels, set if above
-                if pl.lesson and pl.lesson.qualification.rank > top_qual.rank and not pl.lesson.qualification.instructor_qualification:
+                if pl.lesson.qualification.rank > top_qual.rank:
                     top_qual = pl.lesson.qualification
             else:
                 # No top_qual, if there is any data take
-                if pl.lesson and not pl.lesson.qualification.instructor_qualification:
-                    top_qual = pl.lesson.qualification
+                top_qual = pl.lesson.qualification
 
         return top_qual
 
     def update_training_for(self):
         """Update the cached value"""
         computed_qual = self.compute_training_for()
-        if computed_qual and not computed_qual.instructor_qualification:
+        if computed_qual:
             if self.training_for:
                 if computed_qual.rank > self.training_for.rank:
                     self.training_for = computed_qual

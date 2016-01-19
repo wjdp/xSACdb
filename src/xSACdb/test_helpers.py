@@ -1,3 +1,6 @@
+import datetime
+from random import randrange
+
 from django.test import TestCase
 from django.test.client import Client
 from django.conf import settings
@@ -7,12 +10,15 @@ from django.contrib.auth.models import Group
 
 from django.core.urlresolvers import reverse
 
+import testdata
+
 class BaseTest(TestCase):
-    USERNAME = 'billy'
-    PASSWORD = 'correcthorsebatterystaple'
-    EMAIL = 'billy_is_cool@example.com'
-    FIRST_NAME = 'Billy'
-    LAST_NAME = 'Bloggs'
+    FIRST_NAME = testdata.get_name(name_count=1)
+    LAST_NAME = testdata.get_name(name_count=1)
+    EMAIL = testdata.get_email()
+    PASSWORD = testdata.get_str(128)
+
+    fixtures = settings.TEST_FIXTURES
 
     def setUp(self):
         self.setUp_user()
@@ -28,6 +34,25 @@ class BaseTest(TestCase):
         user.save()
         self.user = user
         self.mp = user.memberprofile
+
+    def get_random_date(self):
+        return datetime.date.fromtimestamp(randrange(-2284101485, 2284101485))
+
+    def get_future_date(self):
+        dt = testdata.get_future_datetime()
+        return datetime.date(dt.year, dt.month, dt.day)
+
+    def create_a_user(self):
+        """Make a random user, return them"""
+        U = get_user_model()
+        user = U.objects.create_user(
+            first_name = testdata.get_name(name_count=1),
+            last_name = testdata.get_name(name_count=1),
+            email = testdata.get_email(),
+            password = testdata.get_str(128),
+        )
+        user.save()
+        return user
 
     def login(self, c):
         """Login a client with USERNAME"""
@@ -47,8 +72,13 @@ class BaseTest(TestCase):
         response = c.get(reverse(view_name, kwargs=kwargs))
         return response.status_code
 
+    def assert200(self, url):
+        c = self.get_client()
+        response = c.get(url)
+        self.assertEqual(response.status_code, 200)
+
+
 class BaseAsGroupTest(BaseTest):
-    fixtures = ['groups']
     def setUp(self):
         super(BaseAsGroupTest, self).setUp()
         self.set_groups()
@@ -57,9 +87,3 @@ class BaseAsGroupTest(BaseTest):
             g = Group.objects.get(pk=group)
             self.user.groups.add(g)
         self.user.save()
-
-class BaseTrainingTest(BaseAsGroupTest):
-    GROUPS=[3]
-
-class FixtureMixin(object):
-    fixtures = settings.TEST_FIXTURES

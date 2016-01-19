@@ -1,13 +1,15 @@
-from django.shortcuts import render
-from django.views.generic import TemplateView
-
-import CommonMark
+import os
 import json
+import CommonMark
+
+from django.views.generic import TemplateView
+from django.conf import settings
+
 
 class HelpView(TemplateView):
     template_name='help_page.html'
     doc_path = 'docs/'
-    menu_file='docs/menu.json'
+    menu_file=os.path.join(settings.PROJECT_PATH, 'docs', 'menu.json')
 
     def get_page_name(self):
         if 'page' in self.kwargs:
