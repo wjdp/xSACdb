@@ -20,6 +20,8 @@ class TrainingTestToolsMixin(object):
         self.AD = Qualification.objects.get(code="AD")
         self.FC = Qualification.objects.get(code="FC")
 
+        self.PERSONAL_QUALS = [self.OD, self.SD, self.DL, self.AD, self.FC]
+
         self.ASI = Qualification.objects.get(code="AI")
         self.PI = Qualification.objects.get(code="PI")
         self.THI = Qualification.objects.get(code="THI")
@@ -28,7 +30,14 @@ class TrainingTestToolsMixin(object):
         self.AI = Qualification.objects.get(code="AVI")
         self.NI = Qualification.objects.get(code="NI")
 
+        self.INSTRUCTOR_QUALS = [self.ASI, self.PI, self.THI, self.AOI, self.OWI,
+            self.AI, self.NI]
+
         self.OO1 = Lesson.objects.get(code="OO1")
+        self.SO1 = Lesson.objects.get(code="SO1")
+
+        self.BOAT_HANDLING = SDC.objects.get(title="Boat Handling")
+        self.WRECK_APPRECIATION = SDC.objects.get(title="Wreck Appreciation")
 
     def get_trainee(self, training_for=None):
         if not training_for: training_for=self.OD

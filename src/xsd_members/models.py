@@ -200,6 +200,7 @@ class MemberProfile(models.Model):
         self.qualifications.add(qual)
 
     def remove_qualifications(self, instructor=False):
+        """Wipes all qualifications"""
         quals = self.qualifications.filter(
             instructor_qualification = instructor
         )

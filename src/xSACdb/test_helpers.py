@@ -38,6 +38,10 @@ class BaseTest(TestCase):
     def get_random_date(self):
         return datetime.date.fromtimestamp(randrange(-2284101485, 2284101485))
 
+    def get_future_date(self):
+        dt = testdata.get_future_datetime()
+        return datetime.date(dt.year, dt.month, dt.day)
+
     def create_a_user(self):
         """Make a random user, return them"""
         U = get_user_model()
