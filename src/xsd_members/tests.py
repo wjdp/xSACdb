@@ -7,7 +7,7 @@ from django.contrib.auth.models import Group
 from django.test import TestCase
 from django.contrib.auth import get_user_model
 
-from xSACdb.test_helpers import *
+from xSACdb.test_helpers import BaseTest, BaseAsGroupTest
 
 from xsd_members.models import MemberProfile
 from xsd_training.models import Lesson, PerformedLesson, Qualification
