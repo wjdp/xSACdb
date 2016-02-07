@@ -217,7 +217,7 @@ class MemberProfile(models.Model):
     def upcoming_sdcs(self):
         """Return upcoming SDCs for the user, does this belong here?"""
         from xsd_training.models import PerformedSDC
-        return PerformedSDC.objects.filter(trainees=self.user, completed=False)
+        return PerformedSDC.objects.filter(trainees=self, completed=False)
 
     _cached_user_group_values = 0
     def user_groups_values(self):
