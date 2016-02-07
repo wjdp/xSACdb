@@ -6,9 +6,7 @@ services:
 before_script:
   - virtualenv env
   - source env/bin/activate
-  - echo "pip install"
-  - pip install -q -r requirements.txt
-  - echo "bower install"
+  - pip install -qr requirements.txt
   - bower install -q --allow-root
   - mkdir tmp
   - wget $BSAC_DATA -O tmp/bsac_data.yaml

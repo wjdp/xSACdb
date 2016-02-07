@@ -7,9 +7,9 @@ from django.conf import settings
 
 
 class HelpView(TemplateView):
-    template_name='help_page.html'
-    doc_path = 'docs/'
-    menu_file=os.path.join(settings.PROJECT_PATH, 'docs', 'menu.json')
+    template_name = 'help_page.html'
+    doc_path = os.path.join(settings.PROJECT_PATH, 'docs')
+    menu_file = os.path.join(doc_path, 'menu.json')
 
     def get_page_name(self):
         if 'page' in self.kwargs:
@@ -18,8 +18,9 @@ class HelpView(TemplateView):
             return 'index'
 
     def retrieve_page(self, page):
+        page_path = os.path.join(self.doc_path, '{}.md'.format(page))
         try:
-            with open(self.doc_path + page + '.md', 'r') as content_file:
+            with open(page_path, 'r') as content_file:
                 content = content_file.read()
             return content
         except IOError:
@@ -28,8 +29,8 @@ class HelpView(TemplateView):
     def render_page(self, page):
         page_s = self.retrieve_page(page)
         if page_s:
-            parser = CommonMark.DocParser()
-            renderer = CommonMark.HTMLRenderer()
+            parser = CommonMark.Parser()
+            renderer = CommonMark.HtmlRenderer()
             ast = parser.parse(page_s)
             html = renderer.render(ast)
             return html
