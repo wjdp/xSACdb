@@ -54,16 +54,16 @@ class MemberProfile(models.Model):
     sdcs=models.ManyToManyField('xsd_training.SDC', blank=True)
     instructor_number=models.IntegerField(blank=True, null=True)
 
-    student_id=models.IntegerField(max_length=7,blank=True, null=True)
+    student_id=models.IntegerField(blank=True, null=True)
 
-    associate_id=models.IntegerField(max_length=7,blank=True, null=True)
+    associate_id=models.IntegerField(blank=True, null=True)
     associate_expiry=models.DateField(blank=True, null=True)
 
-    club_id=models.IntegerField(max_length=7,blank=True, null=True)
+    club_id=models.IntegerField(blank=True, null=True)
     club_expiry=models.DateField(blank=True, null=True)
     club_membership_type=models.ForeignKey('MembershipType', blank=True, null=True)
 
-    bsac_id=models.IntegerField(max_length=7,blank=True, null=True, verbose_name=u'BSAC ID')
+    bsac_id=models.IntegerField(blank=True, null=True, verbose_name=u'BSAC ID')
     bsac_expiry=models.DateField(blank=True, null=True, verbose_name=u'BSAC Expiry')
     bsac_direct_member=models.BooleanField(default=False, verbose_name=u'BSAC Direct Member', help_text='Adjusts the wording presented to the member when BSAC expires.')
     bsac_member_via_another_club=models.BooleanField(default=False, verbose_name=u'BSAC member via another club', help_text='Adjusts the wording presented to the member when BSAC expires.' )
