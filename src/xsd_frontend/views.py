@@ -135,3 +135,28 @@ def update_request(request):
 
 def design(request):
     return render(request, 'design.html')
+
+from django.views.generic import ListView
+from xSACdb.versioning import get_versions_for_model, get_changes_for_version, get_activity_feed_models
+
+class ActivityTable(ListView):
+    template_name = "activity_table.html"
+    paginate_by = 25
+
+    def get_queryset(self):
+        versions = get_versions_for_model(get_activity_feed_models())
+        return versions
+
+    def get_context_data(self, **kwargs):
+        # Call the base implementation first to get a context
+        context = super(ActivityTable, self).get_context_data(**kwargs)
+
+        items = []
+
+        for thisVersion in context['object_list']:
+            thisItem = get_changes_for_version(thisVersion, None)
+            items.append(thisItem)
+
+        context['object_list'] = items
+
+        return context
