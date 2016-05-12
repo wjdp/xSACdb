@@ -8,6 +8,7 @@
 		{% if member.user %}<img src="{{member.user.profile_image_url}}" alt="Profile Picture" class="alignright" />{%endif%}
 		<h2>{{member}}</h2>
 		<div class="btn-group btn-mini">
+
 			{% if is_members %}
 			{% if member.new_notify %}
 			<a href="?action=remove-new-flag" class="btn btn-small" type="button"><i class="fa fa-flag"></i> Remove New Flag</a>
@@ -16,15 +17,20 @@
 			{% if member_useraccount_form %}<a href="#member_useraccount_modal" data-toggle="modal" class="btn btn-small" type="button"><i class="fa fa-key"></i> Account Settings</a>{% endif %}
 
 			{% if request.user.is_superuser and member.user %}
-				<a href="/hijack/{{ member.user.pk }}/" class="btn btn-small" type="button">
-					<i class="fa fa-user-secret"></i> Hijack
-				</a>
+				<form style="display:inline" action="/hijack/{{ member.user.pk }}/" method="post">
+				    {% csrf_token %}
+				    <button class="btn btn-small" type="submit">
+				    	<i class="fa fa-user-secret"></i> Hijack
+				    </button>
+				</form>
 			{% endif %}
 
 			<a href="{% url 'MemberDelete' member.pk %}" class="btn btn-small" type="button"><i class="fa fa-trash"></i> Delete</a>
+
 			{% elif myself %}
 			<a href="{% url 'MyProfileEdit' %}" class="btn btn-small" type="button"><i class="fa fa-pencil"></i> Edit</a>
 			{% endif %}
+
 		</div>
 		</div>
 		<div>
