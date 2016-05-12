@@ -1,4 +1,4 @@
-![xSACdb](https://raw.githubusercontent.com/wjdp/xSACdb/master/xsd_about/static/images/logo.gif)
+![xSACdb](https://raw.githubusercontent.com/wjdp/xSACdb/develop/src/xsd_about/static/images/logo.gif)
 
 A web based database for managing BSAC branch clubs. It looks after membership details, training records, known sites, kit and club trips.
 
