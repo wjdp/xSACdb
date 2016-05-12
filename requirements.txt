@@ -14,6 +14,7 @@ django-debug-toolbar==1.4
 django-geoposition==0.2.2
 django-hijack==2.1.1
 django-tastypie==0.13.3
+django-reversion==1.10.2
 docutils==0.12
 gunicorn==19.5.0
 mimeparse==0.1.3

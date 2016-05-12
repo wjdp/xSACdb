@@ -159,6 +159,7 @@ INSTALLED_APPS = (
     'bootstrap_toolkit',
     'tastypie',
     'geoposition',
+    'reversion',
 
     'debug_toolbar',
     'hijack',

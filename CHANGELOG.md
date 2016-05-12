@@ -8,8 +8,9 @@ xSACdb instances. This project will soon adhere to [Semantic Versioning](http://
 ### Upgrading
 The following is needed to upgrade from nu-8 to unreleased
 - `src/manage.py migrate --fake-initial`. Faking is required for an upgrade to the authentication framework.
-- `src/manage.py update_mp_cached`
-- `src/manage.py update_mp_training_for`
+- `src/manage.py update_mp_cached` to initialise caches.
+- `src/manage.py update_mp_training_for` to set training_for fields based on new logic.
+- `src/manage.py createinitialrevisions` to create initial revisions for the version control system.
 
 Please note the `./manage.py` command has changed to `src/manage.py`
 
@@ -23,6 +24,7 @@ Please note the `./manage.py` command has changed to `src/manage.py`
 - Unique ID numbers are displayed on all objects in the database to aid with recognition. IDs are prefixed with
   letters to designate their type, for example members are M1234, sessions are S1234.
 - Instructor numbers are now prefixed with their code (OWI/AI/NI) automatically.
+- **Revision history** via django-reversion.
 
 ### Changed
 - Upgraded to Django 1.8 LTS.
