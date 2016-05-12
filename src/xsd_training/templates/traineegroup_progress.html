@@ -11,7 +11,7 @@
             <label for='tg'>Group</label>
             <select name='tg'>
             {% for tgi in tgs %}
-                <option value={{tgi.pk}} {%if tg == tgi%}selected{%endif%}>{{tgi.name}}</option>
+                <option value={{ tgi.pk }} {% if tg == tgi %}selected{% endif %}>{{ tgi }}</option>
             {% endfor %}
             </select>
 
@@ -31,7 +31,10 @@
         <td><i class="fa fa-user"></i>  <a href="{% url 'TraineeNotes' t.pk %}">{{t.get_full_name}}</a></td>
         <td>{{t.memberprofile.training_for}}</td>
         <td>{% show_lessons t %}
-        </tr>
+    </tr>
+    {% empty %}
+        {# TODO Pretty alert #}
+        No trainees in group
 {% endfor %}
 </table>
 {% endif %}

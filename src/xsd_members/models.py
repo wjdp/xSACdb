@@ -76,6 +76,9 @@ class MemberProfile(models.Model):
     def __unicode__(self):
         return self.first_name + " " + self.last_name
 
+    def uid(self):
+        return "M{:0>4d}".format(self.pk)
+
     top_qual_cached = models.ForeignKey('xsd_training.Qualification', blank=True, null=True, related_name='top_qual_cached')
     def top_qual(self, nocache = False):
         if nocache:

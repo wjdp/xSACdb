@@ -8,16 +8,16 @@
         </td>
 		<td class="flag-cell">
             {% if member.missing_personal_details %}
-                <i class="fa fa-ban fa-fw red" title="Missinng personal fields"></i>
+                <i class="fa fa-ban fa-fw red" title="Missing personal fields"></i>
             {% elif member.new_notify %}
                 <i class="fa fa-flag fa-fw" title="Unverified new member"></i>
             {% elif member.is_instructor %}
-                <i class="fa fa-mortar-board fa-fw" title="Instrutor"></i>
+                <i class="fa fa-mortar-board fa-fw" title="Instructor"></i>
             {% endif %}
         </td>
 
         <td>
-            <a href="{% url 'MemberDetail' member.pk %}">{{member.first_name}} <strong>{{member.last_name}}</strong></a></td>
+            <a href="{% url 'MemberDetail' member.pk %}" title="{{ member.uid }}">{{member.first_name}} <strong>{{member.last_name}}</strong></a></td>
 		<td>{% if member.club_membership_type != None %}{{member.club_membership_type}}{% endif %}</td>
 		<td class="expiry-column">{% if member.bsac_expired %}<i class="icon-bsac-small expired" title="BSAC Expired: {{member.bsac_expiry}}"></i>{% endif %}</td>
 		<td class="expiry-column">{% if member.club_expired %}<i class="fa fa-home expired"  title="Club Expired: {{member.club_expiry}}"></i>{% endif %}</td>

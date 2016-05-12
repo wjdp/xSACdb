@@ -21,6 +21,7 @@ $( document ).ready( function() {
 	function display_lesson_data(lesson_data) {
 		if ("pl" in lesson_data) {
 			$('#mouse_iframe .js-lesson').html(lesson_data['code'] + " - " + lesson_data['title'])
+			$('#mouse_iframe .js-uid').html(lesson_data['pl']['uid'])
 			$('#mouse_iframe .js-date').html(lesson_data['pl']['date'])
 			$('#mouse_iframe .js-session').html(lesson_data['pl']['session'])
 			$('#mouse_iframe .js-instructor').html(lesson_data['pl']['instructor'])

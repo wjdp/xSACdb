@@ -44,8 +44,13 @@ class PerformedLesson(models.Model):
     #    ret = ("Lesson " + self.lesson.code + " at " +
     #           str(self.session.when) + " instr by " +
     #           self.instructor.first_name + " " + self.instructor.last_name)
+
+    def uid(self):
+        return "PL{:0>4d}".format(self.pk)
+
     def get_date(self):
         return self.date  # legacy, will be removed
+
     def save(self, *args, **kwargs):
         if self.session:
             self.date=self.session.when.date()
@@ -130,7 +135,11 @@ class SDC(models.Model):
 
     interested_members=models.ManyToManyField(settings.AUTH_PROFILE_MODEL, blank=True)
 
-    def __unicode__(self): return self.title
+    def __unicode__(self):
+        return self.title
+
+    def uid(self):
+        return "PS{:0>4d}".format(self.pk)
 
     class Meta:
         verbose_name="SDC"
@@ -170,20 +179,24 @@ class Session(models.Model):
 
     completed = models.BooleanField(default=False)
 
+    def __unicode__(self):
+        if self.name:
+            #return "'" + self.name + "' " + self.when.strftime('%a %d %b %Y %H:%M') + " at " + self.where.__unicode__()
+            return "{} '{}' {} at {}".format(self.uid(), self.name, self.when.strftime('%a %d %b %Y %H:%M'), self.where)
+        else:
+            return "{} {} at {}".format(self.uid(), self.when.strftime('%a %d %b %Y %H:%M'), self.where)
+
+    def get_absolute_url(self):
+        return reverse('SessionPlanner', kwargs={'pk': self.pk})
+
+    def uid(self):
+        return "S{:0>4d}".format(self.pk)
+
     def in_past(self):
         if self.when.replace(tzinfo=None) < datetime.datetime.now():
             return True
         else:
             return False
-
-    def get_absolute_url(self):
-        return reverse('SessionPlanner', kwargs={'pk': self.pk})
-
-    def __unicode__(self):
-        if self.name:
-            return "'" + self.name + "' " + self.when.strftime('%a %d %b %Y %H:%M') + " at " + self.where.__unicode__()
-        else:
-            return self.when.strftime('%a %d %b %Y %H:%M') + " at " + self.where.__unicode__()
 
     def save(self, *args, **kwargs):
         return super(Session, self).save(*args, **kwargs)
@@ -196,6 +209,12 @@ class TraineeGroup(models.Model):
     trainees=models.ManyToManyField(settings.AUTH_PROFILE_MODEL, blank=True)
 
     TRAINEE_ORDER_BY='last_name'
+
+    def __unicode__(self):
+        return "{} {}".format(self.uid(), self.name)
+
+    def uid(self):
+        return "TG{:0>4d}".format(self.pk)
 
     def trainees_list(self):
         """returns a readable list of trainee full names separated by commas"""
@@ -215,9 +234,6 @@ class TraineeGroup(models.Model):
 
     def get_all_trainees(self):
         return self.trainees.all().order_by(self.TRAINEE_ORDER_BY)
-
-    def __unicode__(self):
-        return self.name
 
     class Meta:
         ordering=['name']

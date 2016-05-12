@@ -11,9 +11,10 @@
     <p>If they've had any involvement with the club you should really think twice before removing them! What if they start doing stuff with the club next year, what if they come back as alumni, what if people just like looking at their face?
 
     <table class="table">
-    <tr><th>Name</th><td>{{member.get_full_name}}</td></tr>
-    <tr><th>Joined Database</th><td>{{member.date_joined|date}}</td></tr>
-    <tr><th>Lesson records</th><td>{{member.performed_lesson_ramble|safe}}</td></tr>
+        <tr><th>UID</th><td>{{ member.uid }}</td></tr>
+        <tr><th>Name</th><td>{{ member.get_full_name }}</td></tr>
+        <tr><th>Joined Database</th><td>{{ member.date_joined|date }}</td></tr>
+        <tr><th>Lesson records</th><td>{{ member.performed_lesson_ramble|safe }}</td></tr>
     </table>
 
     <div class="form-actions">

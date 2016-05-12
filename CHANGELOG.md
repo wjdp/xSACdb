@@ -20,6 +20,8 @@ Please note the `./manage.py` command has changed to `src/manage.py`
   configs.
 - **Hijack feature**, super-users now have the ability to assume the identity of any other user on the site via a
   hijack button on profile pages. Useful for issue finding and testing how others see the web interface.
+- Unique ID numbers are displayed on all objects in the database to aid with recognition. IDs are prefixed with
+  letters to designate their type, for example members are M1234, sessions are S1234.
 
 ### Changed
 - Upgraded to Django 1.8 LTS.

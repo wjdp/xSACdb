@@ -1,8 +1,8 @@
 {% extends 'training_template.html' %}
 {% block training_content %}
 <div class="span9">
-    <h1>Session Planning</h1>
-    <p>You are completing the session, which took place on {{session.when}} at {{session.where}}.</p>
+    <h1>Complete {{ session.uid }}</h1>
+    <p>You are completing the session which took place on {{ session.when }} at {{ session.where }}.</p>
 </div>
 <form action="." method="POST">
 <div class="span7">

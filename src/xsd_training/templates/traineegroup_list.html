@@ -11,11 +11,12 @@
 <div class="span6">
 {% if tgs %}
 <table class="table table-condensed table-striped">
-    <tr><th>Group</th><th>Members</th><th></th></tr>
+    <tr><th></th><th>Group</th><th>Members</th><th></th></tr>
 {% for group in tgs %}
     <tr>
-        <td>{{group.name}}</td>
-        <td>{{group.trainees_list_with_links|safe}}</td>
+        <td>{{ group.uid }}</td>
+        <td>{{ group.name }}</td>
+        <td>{{ group.trainees_list_with_links|safe }}</td>
         <td class="action-icons"><a href="{% url 'TraineeGroupUpdate' group.pk %}"><i class="fa fa-pencil"></i></a> <a href="{% url 'TraineeGroupDelete' group.pk %}"><i class="fa fa-trash"></i></a></td>
 
         </tr>

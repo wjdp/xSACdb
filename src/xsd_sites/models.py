@@ -21,3 +21,6 @@ class Site(models.Model):
 
     def __unicode__(self):
         return self.name
+
+    def uid(self):
+        return "ST{:0>4d}".format(self.pk)

@@ -52,22 +52,20 @@ class PerformedLessonDetailAPI(RequireInstructor, View):
             ret = {}
 
             for lesson in lessons:
-                ret_lesson = {}
-                pls = None
                 if lesson.is_completed(trainee):
-                    ret_lesson['state'] = 'completed'
+                    lesson_state = 'completed'
                     pls = PerformedLesson.objects.filter(trainee = trainee, lesson = lesson, completed=True).order_by('date')[:1]
                 elif lesson.is_partially_completed(trainee):
-                    ret_lesson['state'] = 'partially_completed'
+                    lesson_state = 'partially_completed'
                     pls = PerformedLesson.objects.filter(trainee = trainee, lesson = lesson, partially_completed=True).order_by('date')[:1]
                 else:
-                    ret_lesson['state'] = 'not'
-                ret_lesson['code'] = lesson.code
-                ret_lesson['title'] = lesson.title
-                ret_lesson['mode'] = lesson.mode
+                    lesson_state = 'not'
+                    pls = None
+
                 if pls:
                     for pl in pls:
-                        ret_lesson['pl'] = {
+                        pl_data = {
+                                'uid': pl.uid(),
                                 'session': str(pl.session),
                                 'date': str(pl.date),
                                 'instructor': str(pl.instructor),
@@ -75,10 +73,19 @@ class PerformedLessonDetailAPI(RequireInstructor, View):
                                 'private_notes': str(pl.private_notes),
                             }
                         if pl.instructor:
-                            ret_lesson['pl']['instructor']=pl.instructor.get_full_name()
+                            pl_data['instructor']=pl.instructor.get_full_name()
+                else:
+                    pl_data = None
 
 
-                ret[lesson.pk]=ret_lesson
+                ret[lesson.pk] = {
+                    'code': lesson.code,
+                    'title': lesson.title,
+                    'mode': lesson.mode,
+                    'state': lesson_state,
+                    'pl': pl_data,
+                }
+
             return HttpResponse(json.dumps(ret))
 
 from xsd_frontend.base import BaseUpdateRequestList, BaseUpdateRequestRespond

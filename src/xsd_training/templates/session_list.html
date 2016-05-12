@@ -8,13 +8,14 @@
 <div class="span9">
 {% if sessions %}
 <table class="table table-condensed table-striped">
-    <tr><th>Name</th><th>When</th><th>Where</th><th>Lessons Planned</th><th></th></tr>
+    <tr><th></th><th>Name</th><th>When</th><th>Where</th><th>Lessons Planned</th><th></th></tr>
 {% for session in sessions %}
     <tr{% ifequal last session.pk %} class="last"{% endifequal %}>
-        <td>{{session.name}}</td>
-        <td>{{session.when}}</td>
-        <td>{{session.where}}</td>
-        <td>{{session.performedlesson_set.all.count}}</td>
+        <td>{{ session.uid }}</td>
+        <td>{{ session.name }}</td>
+        <td>{{ session.when }}</td>
+        <td>{{ session.where }}</td>
+        <td>{{ session.performedlesson_set.all.count }}</td>
         <td class="action-icons">
         	<a href="{% url 'SessionPlanner' session.pk %}"><i class="fa fa-pencil-square fa-fw"></i></a>
         	{% if session.in_past %}<a href="{% url 'SessionComplete' session.pk %}"><i class="fa fa-check-square fa-fw"></i></a>{% endif %}
