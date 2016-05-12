@@ -1,18 +1,46 @@
-The CHANGES file is to be noted on when notable changes are made to the master.
-Usually the last commit of a merge should include an addition to this file.
-Change notes should be geared towards the managers of xSACdb instances.
--------------------------------------------------------------------------------
+# CHANGELOG
 
-# nu-8 - WIP
+All notable changes to this project will be documented in this file. Notes should be geared towards the managers of
+xSACdb instances. This project will soon adhere to [Semantic Versioning](http://semver.org/).
+
+## [Unreleased]
+
+### Upgrading
+The following is needed to upgrade from nu-8 to unreleased
+- `src/manage.py migrate --fake-initial`. Faking is required for an upgrade to the authentication framework.
+- `src/manage.py update_mp_cached`
+- `src/manage.py update_mp_training_for`
+
+Please note the `./manage.py` command has changed to `src/manage.py`
+
+### Added
+- **Docker support**, Dockerfile for docker deployments added. Settings tweaked to allow for easy docker deployment.
+  Database settings now configurable by environment variables to allow for non-predetermined values.
+- **Static files** are now served by the application. Please remove aliases for /static and /media in your web server
+  configs.
+- **Hijack feature**, super-users now have the ability to assume the identity of any other user on the site via a
+  hijack button on profile pages. Useful for issue finding and testing how others see the web interface.
+
+### Changed
+- Upgraded to Django 1.8 LTS.
+- Major cleanup of project files. All source files now reside in the src/ directory. ./manage.py command is now
+  src/manage.py command. local_settings.py now lives in conf/ folder.
+- Much improvements to unit testing across the project. Automated testing via GitLab CI is now part of the development
+  pipeline.
+- **Training For field automation**, the training for field now automatically updates when a trainee has any lessons
+  assigned for a particular qualification. Will not overwrite with a lower ranked qualification.
+- Many third-party packages have been updated. django-allauth requires fake initials for it's migration from South.
+
+## [nu-8] - 2015-03-28
 
 [enhancement] Data structure re-jigging, allows upgrade of third-party background bits and skeleton members
-[feature] Instucture dropdown on session planning page shows full names and limits choices to instructors
+[feature] Instructor dropdown on session planning page shows full names and limits choices to instructors
 [feature] Poolsheets can be ordered by instructor, trainee or lesson
 [bug] Google maps not showing when site is HTTPS
 [bug] Google maps zoom function on edit page unusable, styling fix
 
 
-# nu-7 - 2014/11/09
+## [nu-7] - 2014-11-09
 
 [feature] Clicking Facebook title when open on login will activate login
 [enhancement] More profile data is cached, some pages will load faster
@@ -31,27 +59,27 @@ Change notes should be geared towards the managers of xSACdb instances.
 [feature] Can have multiple lessons per trainee per session. Works on individual and group selections. Trainees in session list are now sorted by last name. (Trainees added individually cannot be added multiple times in the same selection, the process must be repeated.)
 [bug] Deleting member present in a session without assigned lessons caused server error
 
-# nu-6 - 2014/10/27
+## [nu-6] - 2014-10-27
 
 [enhancement] Internal project refactoring
 
-# nu-5 - 2014/10/14
+## [nu-5] - 2014-10-14
 
 [bug] Facebook app id failure
 [bug] Some views failed to load during permissions checking
 
-# nu-4 - 2014/09/28
+## [nu-4] - 2014-09-28
 
 [enhancement] Reduce Facebook detail scope
 [enhancement] Add fill tool to bulk add forms
 [enhancement] Clean up bulk add forms
 [enhancement] Clean up qualification award
 
-# nu-3 - 2014/09/26
+## [nu-3] - 2014-09-26
 
 [bug] SiteForm missing from VC
 
-# nu-2 - 2014/09/26
+## [nu-2] - 2014-09-26
 
 [enhancement] Nice 404, 403, 500 pages
 [enhancement] Login page styling and layout improved, now using SASS
@@ -59,6 +87,6 @@ Change notes should be geared towards the managers of xSACdb instances.
 [enhancement] Some site fields are now multiline
 [bug] SDC icons displaying incorrectly
 
-# nu-1 ~ 2014/09/25
+## [nu-1] ~ 2014-09-25
 
 Changes previous to this are not included
