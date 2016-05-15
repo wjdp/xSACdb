@@ -66,11 +66,11 @@ class PerformedLessonDetailAPI(RequireInstructor, View):
                     for pl in pls:
                         pl_data = {
                                 'uid': pl.uid(),
-                                'session': str(pl.session),
-                                'date': str(pl.date),
-                                'instructor': str(pl.instructor),
-                                'public_notes': str(pl.public_notes),
-                                'private_notes': str(pl.private_notes),
+                                'session': unicode(pl.session),
+                                'date': unicode(pl.date),
+                                'instructor': unicode(pl.instructor),
+                                'public_notes': unicode(pl.public_notes),
+                                'private_notes': unicode(pl.private_notes),
                             }
                         if pl.instructor:
                             pl_data['instructor']=pl.instructor.get_full_name()
