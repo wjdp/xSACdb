@@ -1,3 +1,5 @@
+from __future__ import unicode_literals
+
 import base64
 import hashlib
 from django.core.mail import send_mail
