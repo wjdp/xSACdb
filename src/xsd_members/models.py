@@ -202,6 +202,9 @@ class MemberProfile(models.Model):
         for q in to_remove:
             self.qualifications.remove(q)
 
+        # TODO if qual is instructor_qual AND previous, lower ranking instructor
+        # qual is present THEN reset the instructor_number
+
         self.qualifications.add(qual)
 
     def remove_qualifications(self, instructor=False):

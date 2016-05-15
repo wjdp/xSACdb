@@ -63,8 +63,8 @@
 			<tr><th>Training For</th><td>{{ form.training_for.errors }}{{ form.training_for }}</td></tr>
 
 			<tr><th>Instructor Qualification</th><td>Qualifications are added in the training module</td></tr>
-			<tr><th>Instructor Number</th><td>{{ form.instructor_number.errors }}{{ form.instructor_number }}</td></tr>
-		{% else %}
+            <tr><th>Instructor Number</th><td>{{ form.instructor_number.errors }} {{ member.top_instructor_qual.code }} {{ form.instructor_number }}</td></tr>
+            {% else %}
 		<p>Qualification details can only be updated by a database officer. If there is an error please make an update request.</p>
 		{% endif %}
 

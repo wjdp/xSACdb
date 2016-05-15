@@ -13,7 +13,7 @@ class LessonAdmin(admin.ModelAdmin):
     list_filter=('qualification','mode')
 
 class QualificationAdmin(admin.ModelAdmin):
-    list_display=('title','rank','instructor_qualification') 
+    list_display=('code', 'title','rank','instructor_qualification')
     list_filter=('instructor_qualification',)
 
 class SDCAdmin(admin.ModelAdmin):

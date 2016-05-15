@@ -34,15 +34,15 @@ class TrainingTestToolsMixin(object):
 
         self.PERSONAL_QUALS = [self.OD, self.SD, self.DL, self.AD, self.FC]
 
-        self.ASI = Qualification.objects.get(code="AI")
+        self.ADI = Qualification.objects.get(code="ADI")
         self.PI = Qualification.objects.get(code="PI")
         self.THI = Qualification.objects.get(code="THI")
-        self.AOI = Qualification.objects.get(code="AOI")
+        self.AOWI = Qualification.objects.get(code="AOWI")
         self.OWI = Qualification.objects.get(code="OWI")
-        self.AI = Qualification.objects.get(code="AVI")
+        self.AI = Qualification.objects.get(code="AI")
         self.NI = Qualification.objects.get(code="NI")
 
-        self.INSTRUCTOR_QUALS = [self.ASI, self.PI, self.THI, self.AOI, self.OWI,
+        self.INSTRUCTOR_QUALS = [self.ADI, self.PI, self.THI, self.AOWI, self.OWI,
             self.AI, self.NI]
 
         self.OO1 = Lesson.objects.get(code="OO1")

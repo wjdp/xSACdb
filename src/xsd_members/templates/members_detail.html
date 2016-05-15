@@ -92,7 +92,14 @@
 			<tr><th>Training For</th><td>{{ member.training_for }}</td></tr>
 			{% if member.top_instructor_qual or not myself %}
 			<tr><th>Instructor Qualification</th><td>{{ member.top_instructor_qual }}</td></tr>
-			<tr><th>Instructor Number</th><td>{{ member.instructor_number }}</td></tr>
+
+			{% if member.top_instructor_qual.rank >= 37 %}
+            <tr>
+                <th>Instructor Number</th>
+                <td>{{ member.top_instructor_qual.code }} {{ member.instructor_number }}</td>
+            </tr>
+            {% endif %}
+
 			{% endif %}
 			<tr><th>SDCs</th><td>
 				<ul class="mini-sdc-list">

@@ -105,7 +105,7 @@ class Lesson(models.Model):
         else: return False
 
 class Qualification(models.Model):
-    code=models.CharField(max_length=3)
+    code=models.CharField(max_length=4, unique=True)
     title=models.CharField(max_length=50)
     rank=models.IntegerField()
     definition=models.TextField(blank=True)

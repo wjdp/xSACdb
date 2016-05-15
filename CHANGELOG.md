@@ -22,6 +22,7 @@ Please note the `./manage.py` command has changed to `src/manage.py`
   hijack button on profile pages. Useful for issue finding and testing how others see the web interface.
 - Unique ID numbers are displayed on all objects in the database to aid with recognition. IDs are prefixed with
   letters to designate their type, for example members are M1234, sessions are S1234.
+- Instructor numbers are now prefixed with their code (OWI/AI/NI) automatically.
 
 ### Changed
 - Upgraded to Django 1.8 LTS.
