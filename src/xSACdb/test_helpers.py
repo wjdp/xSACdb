@@ -35,6 +35,10 @@ class BaseTest(TestCase):
         self.user = user
         self.mp = user.memberprofile
 
+    def approve_user(self):
+        self.mp.new_notify = False
+        self.mp.save()
+
     def get_random_date(self):
         return datetime.date.fromtimestamp(randrange(-2284101485, 2284101485))
 
