@@ -1,9 +1,10 @@
 {% extends 'about_template.html' %}
+{% load staticfiles %}
 
 {% block about_content %}
 <div class="row">
 	<div class="span3">
-		<img src="/static/images/logo.gif" class="about-logo" />
+		<img src="{% static 'images/logo.gif' %}" class="about-logo" />
 		<p>xSACdb is an open source project built and maintained by <a href="http://wjdp.co.uk">Will Pimblett</a>.</p>
 		<p>As of some point recently the project contains around 14,000 lines of code. If you'd like to contribute please see the project's page <a href="http://github.com/wjdp/xSACdb">on <i class="fa fa-github"></i> GitHub</a>.</p>
 
@@ -15,7 +16,7 @@
 
 	<div class="span6">
 		<div class="django-credit">
-			<img src="/static/images/django-logo-negative.png" alt="Django" />
+			<img src="{% static 'images/django-logo-negative.png' %}" alt="Django" />
 			<p>xSACdb is powered by the fabulous <i class="fa fa-gittip"></i> <a href="http://djangoproject.com">Django web framework</a>, alongside additional projects.</p>
 		</div>
 		<h4>Powering xSACdb:</h4>

@@ -29,6 +29,7 @@
 {% endblock %}
 
 {% block post_head %}
+<!-- This is broken, datatables is now in lib/ but left unfixed as this section is NYI -->
 <link rel="stylesheet" type="text/css" media="screen" href="/static/css/jquery.dataTables.min.css" />
 <script type="text/javascript" src="/static/js/jquery.dataTables.min.js"></script>
 
@@ -47,7 +48,7 @@
     			a_href = a_href + kit_loan_list[i] + ",";
 			}
 			a_href = a_href.substring(0, a_href.length-1);
-			$('#loan-next-button').attr('href',a_href);	
+			$('#loan-next-button').attr('href',a_href);
     	}
     	$('.kit-add').click(function(){
     		$('.loan-intro').hide()
@@ -58,7 +59,7 @@
 			$('#kit-loan tr:last').after('<tr><td>'+kit_pk+'</td></tr>');
 			update_next_button();
 		});
-	});	
+	});
 
 </script>
 {% endblock %}

@@ -79,7 +79,7 @@ STATICFILES_FINDERS = (
 
 # Caching for Django Whitenoise
 # [TODO] Disabled until staticfiles are cleaned up, #99
-# STATICFILES_STORAGE = 'whitenoise.django.GzipManifestStaticFilesStorage'
+STATICFILES_STORAGE = 'whitenoise.django.GzipManifestStaticFilesStorage'
 
 # List of callables that know how to import templates from various sources.
 TEMPLATE_LOADERS = (

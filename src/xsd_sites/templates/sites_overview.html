@@ -1,4 +1,5 @@
 {% extends 'sites_template.html' %}
+{% load staticfiles %}
 {% load bootstrap_toolkit %}
 
 {% block post_head %}
@@ -19,15 +20,15 @@
 		<div class="span4">
 			<table class="table">
 				<tr>
-					<td><img src="/static/images/map/training_marker.png" /></td>
+					<td><img src="{% static 'images/map/training_marker.png' %}" /></td>
 					<td>Training site (classrooms, pools, pubs e.t.c.)</td>
 				</tr>
 				<tr>
-					<td><img src="/static/images/map/inland_marker.png" /></td>
+					<td><img src="{% static 'images/map/inland_marker.png' %}" /></td>
 					<td>Inland dive site</td>
 				</tr>
 				<tr>
-					<td><img src="/static/images/map/offshore_marker.png" /></td>
+					<td><img src="{% static 'images/map/offshore_marker.png' %}" /></td>
 					<td>Offshore dive site</td>
 				</tr>
 			</table>
