@@ -162,6 +162,7 @@ INSTALLED_APPS = (
     'debug_toolbar',
     'hijack',
     'compat',
+    'raven.contrib.django.raven_compat',
 )
 
 CACHES = {
@@ -233,3 +234,4 @@ SILENCED_SYSTEM_CHECKS=['1_6.W001']
 
 HIJACK_NOTIFY_USER = True
 HIJACK_DISPLAY_ADMIN_BUTTON = False
+
