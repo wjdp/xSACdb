@@ -36,7 +36,7 @@
 		<div>
 		<div class="qual_badge {{member.top_qual.code}}"></div>
         <p>{{ member.uid }}</p>
-		<p>{{member.first_name}} joined the database on {{member.date_joined|date}}.</p>
+		<p>{{member.first_name}} joined the database on {{member.date_joined|date}} and last logged in on {{member.user.last_login}}</p>
 		<p>{{member.heshe}} was born on {{member.date_of_birth}}.</p>
 
 		{% if member.membership_problem %}
