@@ -50,3 +50,5 @@ LANGUAGE_CODE = 'en-gb'
 # Make this unique, and don't share it with anybody.
 # Generate one here: http://www.miniwebtool.com/django-secret-key-generator/
 SECRET_KEY = 'change me!'
+
+RAVEN_CONFIG = {}

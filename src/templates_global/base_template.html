@@ -23,6 +23,14 @@
     <script type="text/javascript" src="{% static 'js/jquery.cookie.js' %}"></script>
     <script type="text/javascript" src="{% static 'js/jquery.tokeninput.js' %}"></script>
     <script type="text/javascript" src="{% static 'bootstrap/js/bootstrap.min.js' %}"></script>
+
+    {% if RAVEN_DSN %}
+    <script type="text/javascript" src="{% static 'raven-js/dist/raven.min.js' %}"></script>
+    <script type="text/javascript">
+        Raven.config('{{ RAVEN_DSN }}').install()
+    </script>
+    {% endif %}
+
     <script type="text/javascript" src="{% static 'js/css_extra.js' %}"></script>
 
     {% block post_head %}{% endblock %}

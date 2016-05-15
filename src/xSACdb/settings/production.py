@@ -10,7 +10,10 @@ from local_settings import *
 
 import raven
 
-RAVEN_CONFIG['release'] = raven.fetch_git_sha(PROJECT_PATH)
+if RAVEN_CONFIG:
+  RAVEN_CONFIG['release'] = raven.fetch_git_sha(PROJECT_PATH)
+else:
+  RAVEN_CONFIG = {}
 
 if 'XSACDB_CONTAINER' in os.environ and os.environ['XSACDB_CONTAINER'] == 'DOCKER':
     # If in a docker container, parse the database URL

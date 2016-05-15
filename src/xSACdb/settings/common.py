@@ -10,6 +10,7 @@ GOOGLE_MAPS_API_KEY=''
 # Define project paths
 PROJECT_PATH = os.path.join(os.path.dirname(__file__),'../../..')
 SRC_PATH  = os.path.join(PROJECT_PATH, 'src')
+LIB_PATH = os.path.join(PROJECT_PATH, 'lib')
 DIST_PATH = os.path.join(PROJECT_PATH, 'dist')
 TMP_PATH  = os.path.join(PROJECT_PATH, 'tmp')
 CONF_PATH = os.path.join(PROJECT_PATH, 'conf')
@@ -67,6 +68,7 @@ STATICFILES_DIRS = (
     # Always use forward slashes, even on Windows.
     # Don't forget to use absolute paths, not relative paths.
     os.path.join(SRC_PATH, 'static_global'),
+    LIB_PATH,
 )
 
 # List of finder classes that know how to find static files in
@@ -78,7 +80,6 @@ STATICFILES_FINDERS = (
 )
 
 # Caching for Django Whitenoise
-# [TODO] Disabled until staticfiles are cleaned up, #99
 STATICFILES_STORAGE = 'whitenoise.django.GzipManifestStaticFilesStorage'
 
 # List of callables that know how to import templates from various sources.

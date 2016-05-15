@@ -29,6 +29,7 @@ def menu_perms(request):
 
             'DEBUG': DEBUG,
             'l10n_club': l10n_club,
+            'RAVEN_DSN': settings.RAVEN_CONFIG.get('dsn_public', None),
 
             'update_request_form':update_request_form,
             'my_user_account_form': my_user_account_form,

@@ -19,6 +19,7 @@
   ],
   "dependencies": {
     "bourbon": "~4.2.5",
-    "datatables": "DataTables#^1.10.11"
+    "datatables": "DataTables#^1.10.11",
+    "raven-js": "^3.0.4"
   }
 }
