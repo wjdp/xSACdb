@@ -7,20 +7,9 @@ before_script:
   - virtualenv env
   - source env/bin/activate
   - pip install -qr requirements.txt
-  - bower install -q --allow-root
-  - mkdir tmp
-  - wget $BSAC_DATA -O tmp/bsac_data.yaml
 
 stages:
   - test
-
-django-frontend:
-  stage: test
-  tags:
-    - docker
-  script:
-    - source env/bin/activate
-    - src/manage.py collectstatic --noinput
 
 django-check:
   stage: test
@@ -35,5 +24,9 @@ django-test:
   tags:
     - docker
   script:
+    - bower install -q --allow-root
+    - mkdir tmp
+    - wget $BSAC_DATA -O tmp/bsac_data.yaml
     - source env/bin/activate
+    - src/manage.py collectstatic --noinput
     - src/manage.py test xSACdb xsd_about xsd_auth xsd_frontend xsd_help xsd_kit xsd_members xsd_sites xsd_training xsd_trips

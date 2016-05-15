@@ -1,5 +1,7 @@
 {% load bootstrap_toolkit %}
+{% load staticfiles %}
 {% load socialaccount %}
+
 <!doctype html>
 
 <html>
@@ -211,7 +213,7 @@ ul.errorlist li {
 	margin-top:12px;
 }
 	</style>
-	<script type="text/javascript" src="/static/js/jquery.js"></script>
+	<script type="text/javascript" src="{% static 'js/jquery.js' %}"></script>
 </head>
 
 <body>
@@ -234,7 +236,7 @@ ul.errorlist li {
 		<div class="login-facebook">
 		<div class="inner">
 				<a href="{% provider_login_url "facebook" %}">
-					<img src="/static/images/fb_button.png" alt="Login with Facebook" />
+					<img src="{% static 'images/fb_button.png' %}" alt="Login with Facebook" />
 				</a>
 				<input type="hidden" value="{{ request.path }}" name="next" />
 				<input type="hidden" value="{{ request.path }}" name="register_next" />
@@ -248,60 +250,5 @@ ul.errorlist li {
 
 	</div>
 
-	<script type="text/javascript">
-		var images=['/static/images/login_backgrounds/1.jpg','/static/images/login_backgrounds/2.jpg','/static/images/login_backgrounds/3.jpg','/static/images/login_backgrounds/4.jpg','/static/images/login_backgrounds/5.jpg','/static/images/login_backgrounds/6.jpg']
-		var i=0
-		var i_max=5
-		function shuffle(array) {
-  			var m = array.length, t, i;
-  			// While there remain elements to shuffle
-  			while (m) {
-    			// Pick a remaining element…
-    			i = Math.floor(Math.random() * m--);
-		    	// And swap it with the current element
-    			t = array[m];
-    			array[m] = array[i];
-    			array[i] = t;
-  			}
-  			return array;
-		}
-
-		function fadeOutA() {$( ".big-background-1" ).css({"opacity":"0"});}
-		function fadeInA() {$( ".big-background-1" ).css({"opacity":"1"});}
-		function resetA(){$( ".big-background-1" ).removeClass( "slow-slide" ); nextImageA();}
-		function resetB(){$( ".big-background-2" ).removeClass( "slow-slide-rev" ); nextImageB();}
-		function startAMoving() {$( ".big-background-1" ).addClass( "slow-slide" );}
-		function startBMoving() {$( ".big-background-2" ).addClass( "slow-slide-rev" );}
-
-		function nextImage() {
-			next=images[i]
-			i++;
-			return next
-		}
-		function nextImageA() {
-			$( ".big-background-1" ).attr( "src",nextImage() );
-		}
-		function nextImageB() {
-			$( ".big-background-2" ).attr( "src",nextImage() );
-		}
-
-		function again() {
-				window.setTimeout(resetB, 10000);
-				window.setTimeout(fadeOutA, 30000);
-				window.setTimeout(startBMoving, 30000);
-				window.setTimeout(resetA, 40000);
-				window.setTimeout(fadeInA, 60000);
-				window.setTimeout(startAMoving, 60000);
-				window.setTimeout(again, 70000);
-			}
-
-		$(document).ready(function() {
-			images=shuffle(images)
-			startAMoving()
-			nextImageA()
-			fadeInA();
-			again();
-		});
-</script>
 </body>
 </html>

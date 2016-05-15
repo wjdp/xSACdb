@@ -158,7 +158,8 @@ div.lesson-code.FC, .qual-banner.FC, .FC-cell {
 .qual_badge.SD {background: url('/static/images/qual_badges/sd.png')}
 .qual_badge.DL {background: url('/static/images/qual_badges/dl.png')}
 .qual_badge.AD {background: url('/static/images/qual_badges/ad.png')}
-.qual_badge.FC {background: url('/static/images/qual_badges/fc.png')}
+/* TODO make an FC badge */
+/*.qual_badge.FC {background: url('/static/images/qual_badges/ad.png')}*/
 
 .lesson-detail .mode {
     font-size: 0.8em;
