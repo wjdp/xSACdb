@@ -63,7 +63,6 @@ def sdc_register_interest(request):
 
 class PerformedSDCCreate(RequireTrainingOfficer, CreateView):
     model=PerformedSDC
-    fields=['sdc','datetime','notes']
     template_name='performedsdc_create.html'
     form_class=PerformedSDCCreateForm
 
