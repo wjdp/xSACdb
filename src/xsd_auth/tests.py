@@ -76,7 +76,7 @@ class UserTest(TestCase):
 
     def test_profile_image_url(self):
         user = self.create_user()
-        self.assertIsInstance(user.profile_image_url(), str)
+        self.assertIsInstance(user.profile_image_url(), basestring)
 
     def test_unicode(self):
         user = self.create_user()
