@@ -42,3 +42,7 @@ class RequireDivingOfficer(RequireGroup):
 class RequireAdministrator(RequireGroup):
     def is_allowed(self,user):
         return is_admin(user)
+
+class RequireTrusted(RequireGroup):
+    def is_allowed(self,user):
+        return is_trusted(user)

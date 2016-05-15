@@ -41,3 +41,7 @@ class require_diving_officer(require_group):
 class require_administrator(require_group):
     def is_allowed(self,user):
         return is_admin(user)
+
+class require_trusted(require_group):
+    def is_allowed(self, user):
+        return is_trusted(user)

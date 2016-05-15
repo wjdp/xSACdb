@@ -25,6 +25,11 @@ def is_instructor(user):    #User is either by having a qualification or being t
     else:
         return False
 
+def is_trusted(user):
+    # is the user trusted with personal data, added as a quick fix for #141
+    groups=[2,3,6,7]
+    return is_allowed(user, groups)
+
 def is_training(user):
     groups=[2,3,7]
     return is_allowed(user,groups)
