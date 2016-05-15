@@ -24,6 +24,10 @@ class TraineeGroupCreate(RequireTrainingOfficer,CreateView):
     template_name='traineegroup_create.html'
     success_url = reverse_lazy('TraineeGroupList')
 
+    # To fix "Django Using ModelFormMixin (base class of CreateUserView) without the 'fields' attribute is prohibited."
+    # See #139 Creating new training groups fails
+    fields = '__all__'
+
 class TraineeGroupUpdate(RequireTrainingOfficer,DetailView):
     model=TraineeGroup
     template_name='traineegroup_update.html'

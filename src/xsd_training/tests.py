@@ -1,3 +1,5 @@
+from django.core.urlresolvers import reverse
+
 from xSACdb.test_helpers import BaseAsGroupTest, BaseTest
 from xsd_sites.tests import SiteTestToolsMixin
 
@@ -335,6 +337,41 @@ class TraineeGroupTest(BaseTraineeTest, TrainingTestToolsMixin):
 
         self.assertEqual(unicode(tg), name)
 
+class TraineeGroupViewTest(BaseTrainingTest):
+    def setUp(self):
+        super(TraineeGroupViewTest, self).setUp()
+        self.LIST_URL = reverse('TraineeGroupList')
+
+    def test_list_tgs(self):
+        # Manually create a group and check the list page
+        TG_NAME = "TestTraineeGroup1"
+        tg = TraineeGroup.objects.create(name=TG_NAME)
+        c = self.get_client()
+        r = c.get(self.LIST_URL)
+        self.assertTrue(TG_NAME in r.content)
+        self.assertTrue("TG0001" in r.content)
+
+    def test_create_tg(self):
+        # Create group using HTTP and check it exists
+        TG_NAME = "TestTraineeGroup2"
+        url = reverse('TraineeGroupCreate')
+        c = self.get_client()
+        r = c.post(url, {'name': TG_NAME})
+        tg = TraineeGroup.objects.filter(name=TG_NAME)
+        self.assertEqual(len(tg), 1)
+
+    def test_detail_tg(self):
+        # Manually create a group and test detail page
+        TG_NAME = "TestTraineeGroup3"
+        tg = TraineeGroup.objects.create(name=TG_NAME)
+        url = reverse('TraineeGroupUpdate', kwargs={'pk': tg.pk})
+        c = self.get_client()
+        r = c.get(url)
+        self.assertEqual(r.status_code, 200)
+        self.assertTrue(TG_NAME in r.content)
+
+    #def test_delete_tg(self):
+        # Need to RX a CSRF form and submit it
 
 
 class PoolSheetGenerate(BaseTrainingTest):
