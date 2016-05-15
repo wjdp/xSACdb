@@ -1,23 +1,23 @@
 import base64
 import hashlib
-from django.core.mail import send_mail
-
-from django.db import models
-
-from django.contrib.auth.models import AbstractUser, BaseUserManager
 
 from allauth.socialaccount.models import SocialAccount
+from django.contrib.auth.models import AbstractUser, UserManager
+from django.core.mail import send_mail
+from django.db import models
 
-class UserManager(BaseUserManager):
+
+class UserManager(UserManager):
     def create_user(self, first_name, last_name, email, password):
         new_user = self.model(
-            first_name = first_name,
-            last_name = last_name,
-            email = email,
-            username = base64.b64encode(email)
+            first_name=first_name,
+            last_name=last_name,
+            email=email,
+            username=base64.b64encode(email)
         )
         new_user.set_password(password)
         return new_user
+
 
 class User(AbstractUser):
     objects = UserManager()
@@ -44,6 +44,7 @@ class User(AbstractUser):
 
     def get_first_name(self):
         return self.memberprofile.first_name
+
     def get_last_name(self):
         return self.memberprofile.last_name
 
@@ -60,7 +61,7 @@ class User(AbstractUser):
         fb_uid = SocialAccount.objects.filter(user_id=self.pk, provider='facebook')
 
         if len(fb_uid):
-            return "https://graph.facebook.com/{}/picture?width={}&height={}"\
+            return "https://graph.facebook.com/{}/picture?width={}&height={}" \
                 .format(fb_uid[0].uid, size, size)
 
         return "https://www.gravatar.com/avatar/{}?s={}".format(
