@@ -13,6 +13,7 @@ from forms import UpdateRequestMake, UserRegisterForm
 from models import UpdateRequest
 
 from xSACdb.roles.functions import is_verified
+from xSACdb.roles.mixins import RequireTrusted
 
 
 def dashboard(request):
@@ -139,7 +140,7 @@ def design(request):
 from django.views.generic import ListView
 from xSACdb.versioning import get_versions_for_model, get_changes_for_version, get_activity_feed_models
 
-class ActivityTable(ListView):
+class ActivityTable(RequireTrusted, ListView):
     template_name = "activity_table.html"
     paginate_by = 25
 
