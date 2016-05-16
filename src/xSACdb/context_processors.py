@@ -41,6 +41,7 @@ def menu_perms(request):
             'is_members':is_members(u),
             'is_diving_officer':is_diving_officer(u),
             'is_admin':is_admin(u),
+            'is_trusted': is_trusted(u),
         }
     else: return {}
 
