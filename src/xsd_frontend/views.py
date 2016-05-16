@@ -12,7 +12,8 @@ from xsd_members.forms import WelcomeScreenForm
 from forms import UpdateRequestMake, UserRegisterForm
 from models import UpdateRequest
 
-from xSACdb.roles.functions import is_verified
+from xSACdb.roles.functions import is_verified, is_trusted
+from xSACdb.roles.mixins import RequireTrusted
 
 
 def dashboard(request):
@@ -41,12 +42,25 @@ def dashboard(request):
         else:
             form=None
 
+    # TODO make a nice universal way of doing this
+
+    if is_trusted(request.user):
+        versions = get_versions_for_model(get_activity_feed_models())[:10]
+        versions2 = []
+        for thisVersion in versions:
+            thisItem = get_changes_for_version(thisVersion, None)
+            versions2.append(thisItem)
+    else:
+        versions = None
+        versions2 = None
+
     return render(request,'frontend_dashboard.html', {
         'request':request,
         'profile':profile,
         'form':form,
         'newbie':newbie,
         'repost':repost,
+        'versions': versions2,
         'urs':urs,
         'not_yet_verified': not_yet_verified,
     }, context_instance=RequestContext(request))
@@ -135,3 +149,29 @@ def update_request(request):
 
 def design(request):
     return render(request, 'design.html')
+
+from django.views.generic import ListView
+from xSACdb.versioning import get_versions_for_model, get_changes_for_version, get_activity_feed_models
+import reversion
+
+class ActivityTable(RequireTrusted, ListView):
+    template_name = "activity_table.html"
+    paginate_by = 25
+
+    def get_queryset(self):
+        versions = get_versions_for_model(get_activity_feed_models())
+        return versions
+
+    def get_context_data(self, **kwargs):
+        # Call the base implementation first to get a context
+        context = super(ActivityTable, self).get_context_data(**kwargs)
+
+        items = []
+
+        for thisVersion in context['object_list']:
+            thisItem = get_changes_for_version(thisVersion, None)
+            items.append(thisItem)
+
+        context['object_list'] = items
+
+        return context

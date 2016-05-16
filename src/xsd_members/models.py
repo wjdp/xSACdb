@@ -5,11 +5,14 @@ from datetime import date
 from django.db import models
 from django.conf import settings
 from django.core.exceptions import ObjectDoesNotExist
+from django.core.urlresolvers import reverse
+
+from reversion import revisions as reversion
 
 from xsd_training.models import PerformedLesson
 from xSACdb.data_helpers import disable_for_loaddata
 
-
+@reversion.register()
 class MemberProfile(models.Model):
     """Model for representing members of the club, a user account has a O2O
     relationship with this profile. The profile 'should' be able to exist
@@ -77,6 +80,9 @@ class MemberProfile(models.Model):
 
     def __unicode__(self):
         return self.first_name + " " + self.last_name
+
+    def get_absolute_url(self):
+        return reverse('MemberDetail', kwargs={'pk': self.pk})
 
     def uid(self):
         return "M{:0>4d}".format(self.pk)

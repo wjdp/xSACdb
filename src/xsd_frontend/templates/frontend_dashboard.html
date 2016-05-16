@@ -1,6 +1,7 @@
 {% extends "base_template.html" %}
 {% load bootstrap_toolkit %}
 {% load staticfiles %}
+{% load to_class_name from filters %}
 
 {% block content %}
 <div class="row">
@@ -16,7 +17,53 @@
         <h1 class="top-header">Hi {{request.user.first_name}}</h1>
         <p>This is the {{l10n_club.name}} database, through it we manage all our membership records, training, trips and hold information about dive sites known to the club.</p>
         <p>If you're down for doing training with the club you can see what lessons are coming up, and if you've had some you may receive feedback on your progress.</p>
+
         <hr />
+
+        {% if is_trusted %}
+            <table class="table table-striped">
+                <thead>
+                <tr>
+                    <td>Date</td>
+                    <td>Object</td>
+                    <td>Version ID</td>
+                    <td>User</td>
+                    <td>Changes</td>
+                    <td>Comment</td>
+                </tr>
+                </thead>
+                <tbody>
+                	{% for version in versions %}
+
+                            <tr>
+                                <td>{{ version.revision.date_created }}</td>
+                                <td>
+                                    <a href="{{ version.new.get_absolute_url }}">
+                                        {{version.new|to_class_name}} {{ version.new.pk|stringformat:"05d" }} {{ version.new }}
+                                    </a>
+                                </td>
+                           		<td>{{ version.version.pk }}|{{ version.revision.pk }}</td>
+                                <td>
+                                    <a href="{{ version.revision.user.profile.get_absolute_url }}">
+                                        {{ version.revision.user.get_full_name }}
+                                    </a>
+                                </td>
+                                <td>
+                                  {% if version.old == None %}
+                                    {{version.new|to_class_name}} Created
+                                  {% else %}
+                                    {% include 'version_changes.html' %}
+                                  {% endif %}                        </td>
+                                  <td>{{ version.revision.comment }}</td>
+                            </tr>
+
+        			{% endfor %}
+
+                </tbody>
+            </table>
+            <hr />
+        {% endif %}
+
         <h4>Update Requests</h4>
         <div class="accordion" id="accordion-ur">
          {% for ur in urs %}

@@ -14,7 +14,7 @@ urlpatterns = patterns('',
     url(r'^accounts/register/$', 'xsd_frontend.views.register', name='login'),
     url(r'^accounts/logout/$', 'xsd_frontend.views.logout', name='logout'),
 
-    (r'^accounts/', include('allauth.urls')),
+    url(r'^accounts/', include('allauth.urls')),
 
     url(r'^profile/$', 'xsd_members.views.view_my_profile', name='my-profile'),
 
@@ -31,6 +31,8 @@ urlpatterns = patterns('',
     url(r'^about/', include('xsd_about.urls')),
 
     url(r'^help/', include('xsd_help.urls')),
+
+    url(r'^', include('xsd_frontend.urls')),
 
     # Can be enabled for serving static files (dev only)
     # url(r'^static/(?P<path>.*)$', 'django.views.static.serve',

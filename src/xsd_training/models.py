@@ -4,8 +4,9 @@ import datetime
 
 from django.db import models
 from django.conf import settings
-from django.contrib.auth import get_user_model
 from django.core.urlresolvers import reverse
+
+from reversion import revisions as reversion
 
 class PerformedLessonManager(models.Manager):
     def get_lessons(self, trainee, lesson=None, completed=None, partially_completed=None):
@@ -28,7 +29,7 @@ class PerformedLessonManager(models.Manager):
             pls = pls.filter(partially_completed=partially_completed)
         return pls
 
-
+@reversion.register()
 class PerformedLesson(models.Model):
     session=models.ForeignKey('Session', blank=True, null=True)
     date=models.DateField(blank=True, null=True)
@@ -161,7 +162,7 @@ class SDCDisplay(object):
     sdc=None
     can_do=False
 
-
+@reversion.register()
 class PerformedSDC(models.Model):
     sdc=models.ForeignKey('SDC')
     datetime=models.DateTimeField(blank=True, null=True)
@@ -170,9 +171,16 @@ class PerformedSDC(models.Model):
     completed=models.BooleanField(default=False)
     # places = models.IntegerField()
 
+    def __unicode__(self):
+        if self.datetime:
+            return "{} @ {}".format(self.sdc, self.datetime)
+        else:
+            return "{} @ TBD".format(self.sdc)
+
     def get_absolute_url(self):
         return reverse('PerformedSDCDetail', kwargs={'pk': self.pk})
 
+@reversion.register()
 class Session(models.Model):
     name=models.CharField(max_length=64, blank=True, help_text='Optional name for session')
     when=models.DateTimeField(help_text='Formatted like: DD/MM/YYYY HH:MM')
@@ -206,6 +214,7 @@ class Session(models.Model):
     class Meta:
         ordering=['when']
 
+@reversion.register()
 class TraineeGroup(models.Model):
     name=models.CharField(max_length=64, unique=True)
     trainees=models.ManyToManyField(settings.AUTH_PROFILE_MODEL, blank=True)

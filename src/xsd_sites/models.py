@@ -1,6 +1,7 @@
 from __future__ import unicode_literals
 
 from django.db import models
+from reversion import revisions as reversion
 from geoposition.fields import GeopositionField
 
 SITE_TYPES = [
@@ -9,6 +10,7 @@ SITE_TYPES = [
     ('OF', 'Offshore Site'),
 ]
 
+@reversion.register()
 class Site(models.Model):
     name=models.CharField(max_length=40)
     type=models.CharField(max_length=2, choices = SITE_TYPES)
@@ -26,3 +28,4 @@ class Site(models.Model):
 
     def uid(self):
         return "ST{:0>4d}".format(self.pk)
+

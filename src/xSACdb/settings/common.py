@@ -95,6 +95,7 @@ MIDDLEWARE_CLASSES = (
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
+    'reversion.middleware.RevisionMiddleware',
     'xSACdb.middleware.LoginRequiredMiddleware'
 )
 
@@ -159,6 +160,7 @@ INSTALLED_APPS = (
     'bootstrap_toolkit',
     'tastypie',
     'geoposition',
+    'reversion',
 
     'debug_toolbar',
     'hijack',
@@ -236,3 +238,13 @@ SILENCED_SYSTEM_CHECKS=['1_6.W001']
 HIJACK_NOTIFY_USER = True
 HIJACK_DISPLAY_ADMIN_BUTTON = False
 
+## Models to show in the activity stream
+
+ACTIVITY_MODELS = [
+    ('xsd_members', 'MemberProfile'),
+    ('xsd_training', 'PerformedLesson'),
+    ('xsd_training', 'PerformedSDC'),
+    ('xsd_training', 'Session'),
+    ('xsd_training', 'TraineeGroup'),
+    ('xsd_sites', 'Site'),
+]
