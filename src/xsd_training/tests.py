@@ -46,6 +46,7 @@ class TrainingTestToolsMixin(object):
             self.AI, self.NI]
 
         self.OO1 = Lesson.objects.get(code="OO1")
+        self.OO2 = Lesson.objects.get(code="OO2")
         self.SO1 = Lesson.objects.get(code="SO1")
 
         self.BOAT_HANDLING = SDC.objects.get(title="Boat Handling")
@@ -275,6 +276,32 @@ class PerformedLessonTest(BaseTrainingTest, TrainingTestToolsMixin):
 
     def test_session_date_sync(self):
         return False
+
+    def test_pl_set_training_for(self):
+        # If the user doesn't have their training_for set, creating a PL should do this
+        trainee = self.create_a_user().memberprofile
+        # New member should have no training_for
+        self.assertEqual(trainee.training_for, None)
+        pl = self.create_basic_pl(trainee)
+        pl.save()
+        # PL was blank, still no training_for
+        self.assertEqual(trainee.training_for, None)
+        pl = self.create_basic_pl(trainee)
+        pl.lesson = self.OO1
+        pl.save()
+        # Now we have an OD lesson, should reflect
+        self.assertEqual(trainee.training_for, self.OD)
+        pl = self.create_basic_pl(trainee)
+        pl.lesson = self.SO1
+        pl.save()
+        # SD lesson added, again reflect
+        self.assertEqual(trainee.training_for, self.SD)
+        pl = self.create_basic_pl(trainee)
+        pl.lesson = self.OO2
+        pl.save()
+        # Add another OD, is lower ranked so should not change
+        self.assertEqual(trainee.training_for, self.SD)
+
 
 
 class PerformedLessonManagerTest(BaseTrainingTest, TrainingTestToolsMixin):
