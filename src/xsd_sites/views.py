@@ -16,6 +16,16 @@ class SitesOverview(RequireVerified, ListView):
     model=Site
     template_name='sites_overview.html'
     context_object_name='sites'
+    def get_context_data(self, **kwargs):
+        c = super(SitesOverview, self).get_context_data(**kwargs)
+        # Filter the sites returned to the view
+        sites = self.get_queryset()
+        sites_real = []
+        for site in sites:
+            if site.location:
+                sites_real.append(site)
+        c[self.context_object_name] = sites_real
+        return c
 
 class SitesSearch(RequireVerified, ListView):
     model=Site
