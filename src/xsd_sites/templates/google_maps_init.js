@@ -43,14 +43,14 @@ function initialize() {
   google.maps.event.addListener(marker, 'click', function() {
                 $("#site-info").show();
                 $("#site-info-blank").hide();
-                document.getElementById('site-name').innerHTML="{{site.name}}"
-                document.getElementById('site-address').innerHTML="{{site.address|linebreaks}}"
-                document.getElementById('site-phone').innerHTML="<i class='fa fa-phone-square fa-fw'></i> {{site.phone}}"
-                document.getElementById('site-email').innerHTML="<i class='fa fa-envelope-square fa-fw'></i> {{site.email}}"
-                document.getElementById('site-mintemp').innerHTML="<i class='fa fa-chevron-circle-down fa-fw'></i> {{site.min_temp}}&deg;C"
-                document.getElementById('site-maxtemp').innerHTML=" <i class='fa fa-chevron-circle-up fa-fw'></i> {{site.max_temp}}&deg;C"
-                document.getElementById('site-maxdepth').innerHTML="<i class='fa fa-long-arrow-down fa-fw'></i> {{site.max_depth}}m"
-                document.getElementById('site-facilities').innerHTML="<i class='fa fa-life-buoy fa-fw'></i> {{site.facilities|linebreaks}}"
+                document.getElementById('site-name').innerHTML="{{site.name|escapejs}}"
+                document.getElementById('site-address').innerHTML="{{site.address|linebreaks|escapejs}}"
+                document.getElementById('site-phone').innerHTML="<i class='fa fa-phone-square fa-fw'></i> {{site.phone|escapejs}}"
+                document.getElementById('site-email').innerHTML="<i class='fa fa-envelope-square fa-fw'></i> {{site.email|escapejs}}"
+                document.getElementById('site-mintemp').innerHTML="<i class='fa fa-chevron-circle-down fa-fw'></i> {{site.min_temp|escapejs}}&deg;C"
+                document.getElementById('site-maxtemp').innerHTML=" <i class='fa fa-chevron-circle-up fa-fw'></i> {{site.max_temp|escapejs}}&deg;C"
+                document.getElementById('site-maxdepth').innerHTML="<i class='fa fa-long-arrow-down fa-fw'></i> {{site.max_depth|escapejs}}m"
+                document.getElementById('site-facilities').innerHTML="<i class='fa fa-life-buoy fa-fw'></i> {{site.facilities|linebreaks|escapejs}}"
               });
   google.maps.event.addListener(marker, 'mouseover', function() {
                 // this['infowindow'].open(map, this);
