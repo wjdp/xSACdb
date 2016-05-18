@@ -12,17 +12,30 @@ from reversion import revisions as reversion
 from xsd_training.models import PerformedLesson
 from xSACdb.data_helpers import disable_for_loaddata
 
+class MemberProfileManager(models.Manager):
+    def all(self):
+        # Filtering is applied here to hide 'hidden' users
+        return super(MemberProfileManager, self).all().exclude(hidden=True)
+    
+    def all_actual(self):
+        return super(MemberProfileManager, self).all()
+
 @reversion.register()
 class MemberProfile(models.Model):
     """Model for representing members of the club, a user account has a O2O
     relationship with this profile. The profile 'should' be able to exist
     without a user."""
 
+    objects = MemberProfileManager()
+
     class Meta:
         ordering = ['last_name', 'first_name']
 
     user = models.OneToOneField(settings.AUTH_USER_MODEL, null=True,
         blank=True)
+
+    # Used to hide admin users
+    hidden = models.BooleanField(default=False)
 
     # Not really sure if this is needed?
     token = models.CharField(max_length=150, blank=True)
