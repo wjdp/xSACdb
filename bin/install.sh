@@ -1,5 +1,9 @@
 #!/bin/bash
 
+echo "[xSACdb] Ensure needed packages are installed"
+apt-get install -y python-pip python-dev supervisor ruby-dev nodejs npm imagemagick wget libpq-dev libjpeg-dev \
+    libjpeg8-dev
+
 echo "[xSACdb] Checking directory structure"
 cd /app
 
@@ -19,10 +23,10 @@ virtualenv env
 source env/bin/activate
 
 echo "[xSACdb] Installing python dependancies..."
-pip install -q -r requirements.txt
+pip install -r requirements.txt
 
 echo "[xSACdb] Installing frontend dependancies..."
-bower install -q --allow-root
+bower install --allow-root
 
 echo "[xSACdb] Migrating database..."
 # src/manage.py migrate --noinput

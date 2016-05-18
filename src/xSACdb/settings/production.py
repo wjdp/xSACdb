@@ -10,8 +10,9 @@ from local_settings import *
 
 import raven
 
-if RAVEN_CONFIG:
-  RAVEN_CONFIG['release'] = raven.fetch_git_sha(PROJECT_PATH)
+if 'RAVEN_CONFIG' in locals():
+    pass
+  # RAVEN_CONFIG['release'] = raven.fetch_git_sha(PROJECT_PATH)
 else:
   RAVEN_CONFIG = {}
 

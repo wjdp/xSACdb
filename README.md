@@ -46,12 +46,8 @@ dokku Config
 ```
 dokku apps:create xsacdb
 dokku plugin:install https://github.com/dokku/dokku-postgres.git
-dokku postgres:create xsacdb-database
-dokku postgres:link xsacdb-database xsacdb
-dokku docker-options:add xsacdb build "-v /storage/xsacdb/conf:/app/conf:ro"
-dokku docker-options:add xsacdb build "-v /storage/xsacdb/media:/app/media:ro"
-dokku docker-options:add xsacdb deploy "-v /storage/xsacdb/conf:/app/conf"
-dokku docker-options:add xsacdb deploy "-v /storage/xsacdb/media:/app/media"
-dokku docker-options:add xsacdb run "-v /storage/xsacdb/conf:/app/conf"
-dokku docker-options:add xsacdb run "-v /storage/xsacdb/media:/app/media"
+dokku postgres:create xsacdb
+dokku postgres:link xsacdb xsacdb
+dokku storage:mount xsacdb /storage/xsacdb/conf/:/app/conf/
+dokku storage:mount xsacdb /storage/xsacdb/media/:/app/media/
 ```
