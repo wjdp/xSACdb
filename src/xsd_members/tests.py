@@ -355,3 +355,14 @@ class MembershipTypeTest(BaseTest):
         a.save()
         self.assertEqual(a.name, unicode(a))
 
+
+class MembershipManagerTest(BaseTest):
+    def test_all(self):
+        u = self.create_a_user()
+        self.assertTrue(u.memberprofile in MemberProfile.objects.all())
+
+    def test_hidden(self):
+        u = self.create_a_user()
+        u.memberprofile.hidden = True
+        u.memberprofile.save()
+        self.assertFalse(u.memberprofile in MemberProfile.objects.all())
