@@ -13,15 +13,15 @@ input
   padding: 0
   font-family: 'Helvetica', 'Arial', sans
   box-sizing: border-box
- 
+
 html
   height: 100%
   overflow: hidden
-  @media #{$break-desktop}  
+  @media #{$break-desktop}
     min-width: 600px
 
 body
-  background: #4e5b89 
+  background: #4e5b89
   overflow: hidden
   @include background(linear-gradient(top, #4e5b89 0%, #2d3860 100%))
   padding-bottom: 10px
@@ -31,7 +31,7 @@ body
   display: none
   @media #{$break-phone}
     @include background(linear-gradient(top, #606D99 0%, #232C4C 80%))
-    display: block 
+    display: block
     position: fixed
     z-index: -20
     top: 0
@@ -84,7 +84,7 @@ body
 
 .login
   background: rgba(255, 255, 255, 0.7)
-  margin: 12px auto 0 auto
+  margin: 24px auto 0 auto
   border-radius: 3px
 
   @media #{$break-desktop}
@@ -112,7 +112,7 @@ body
     text-align: center
     p.message
       background: #548ac1
-    img  
+    img
       position: relative
       padding: 26px 0 10px 0
       @include filter(drop-shadow(0px 1px 1px #888))
@@ -149,7 +149,7 @@ body
       font-weight: bold
       border: none
     #id_username, #id_password
-      // width: 95%  
+      // width: 95%
 
 .mob-collapse-conventional, .mob-collapse-facebook
   overflow: hidden

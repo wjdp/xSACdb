@@ -25,6 +25,9 @@ Please note the `./manage.py` command has changed to `src/manage.py`
   letters to designate their type, for example members are M1234, sessions are S1234.
 - Instructor numbers are now prefixed with their code (OWI/AI/NI) automatically.
 - **Revision history** via django-reversion.
+- Field `hidden` in MemberProfile to hide member across entire site, useful for non-club supporting staff.
+- Simple logo customisation, specify your logo in `conf/static/images/logo.png`, a 300x300 PNG is ideal.
+- Support for error logging to [getsentry.com](getsentry.com).
 
 ### Changed
 - Upgraded to Django 1.8 LTS.
@@ -35,6 +38,11 @@ Please note the `./manage.py` command has changed to `src/manage.py`
 - **Training For field automation**, the training for field now automatically updates when a trainee has any lessons
   assigned for a particular qualification. Will not overwrite with a lower ranked qualification.
 - Many third-party packages have been updated. django-allauth requires fake initials for it's migration from South.
+
+### Fixed
+
+- Fixed: Map would fail to load in sites overview.
+- Fixed: Incompatibility with latest Dokku 0.5.x
 
 ## [nu-8] - 2015-03-28
 
