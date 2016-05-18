@@ -255,17 +255,13 @@ class MemberProfile(models.Model):
 
     def compute_training_for(self):
         """Work out the highest level of lesson the trainee has done"""
-        pls = PerformedLesson.objects.get_lessons(trainee=self)
+        # Get all PLs for this member, exclude any with no lesson re #102
+        pls = PerformedLesson.objects.get_lessons(trainee=self).exclude(lesson__isnull=True)
         top_qual = None
 
         for pl in pls:
-            try:
-                if not pl.lesson and not pl.lesson.qualification.instructor_qualification:
-                    # Exclude PLs without lessons and PLs with instructor lessons
-                    continue
-            except ObjectDoesNotExist:
-                # Getting lots of `DoesNotExist: Lesson matching query does not exist.` when running tests
-                # AFAIK this doesn't get hit on live site. Addresses #102.
+            if pl.lesson.qualification.instructor_qualification:
+                # Exclude PLs with instructor lessons
                 continue
 
             if top_qual:
@@ -276,6 +272,7 @@ class MemberProfile(models.Model):
                 # No top_qual, if there is any data take
                 top_qual = pl.lesson.qualification
 
+        # Return the top_qual found via iteration over PLs
         return top_qual
 
     def update_training_for(self):

@@ -298,8 +298,9 @@ class PerformedLessonTest(BaseTrainingTest, TrainingTestToolsMixin):
         self.assertEqual(trainee.training_for, self.SD)
         pl = self.create_basic_pl(trainee)
         pl.lesson = self.OO2
+        pl.completed = True
         pl.save()
-        # Add another OD, is lower ranked so should not change
+        # Add another OD and complete it, is lower ranked so should not change
         self.assertEqual(trainee.training_for, self.SD)
 
 
