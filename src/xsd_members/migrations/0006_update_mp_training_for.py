@@ -14,5 +14,6 @@ class Migration(migrations.Migration):
     ]
 
     operations = [
-        migrations.RunPython(update_mp_training_for),
+        # Cannot run this here as it breaks on any field modifications to MemberProfile :'(
+        #migrations.RunPython(update_mp_training_for),
     ]
