@@ -19,12 +19,13 @@
 		{% endif %}
 	</div>
 	<div class="span4">
-		<h3><i class="fa fa-envelope"></i> Contact Details</h3>
+		<h3><i class="fa fa-envelope"></i> Personal Details</h3>
 		<table class="table">
 			<tr><th>Address</th><td>{{ form.address.errors }}{{form.address}}{{ form.postcode.errors }}{{form.postcode}}</td></tr>
 			<tr><th>Email</th><td>{{ form.email.errors }}{{form.email}}</td></tr>
 			<tr><th>Home Phone</th><td>{{ form.home_phone.errors }}{{form.home_phone}}</td></tr>
 			<tr><th>Mobile Phone</th><td>{{ form.mobile_phone.errors }}{{form.mobile_phone}}</td></tr>
+			<tr><th>Allergies or other requirements</th><td>{{ form.alergies.errors }}{{form.alergies}}<br />{{ form.veggie|as_bootstrap }}</td></tr>
 
 		</table>
 	</div>
@@ -57,16 +58,19 @@
 	<div class="span5">
 
 		<h3><i class="fa fa-trophy"></i> Qualification Details</h3>
+        <table class="table">
 		{% if is_members %}
-		<table class="table">
+
 			<tr><th>Current Qualification</th><td>Qualifications are added in the training module</td></tr>
 			<tr><th>Training For</th><td>{{ form.training_for.errors }}{{ form.training_for }}</td></tr>
 
 			<tr><th>Instructor Qualification</th><td>Qualifications are added in the training module</td></tr>
             <tr><th>Instructor Number</th><td>{{ form.instructor_number.errors }} {{ member.top_instructor_qual.code }} {{ form.instructor_number }}</td></tr>
             {% else %}
-		<p>Qualification details can only be updated by a database officer. If there is an error please make an update request.</p>
+		<p>BSAC qualification details can only be updated by a database officer. If there is an error please make an update request.</p>
 		{% endif %}
+
+            <tr><th>Other Qualifications</th><td>{{ form.other_qualifications }}</td></tr>
 
 		</table>
 	</div>

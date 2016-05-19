@@ -12,11 +12,12 @@ class PersonalEditForm(forms.ModelForm):
         model = MemberProfile
         fields = ['home_phone','mobile_phone','address','postcode',
             'veggie','alergies','next_of_kin_name','next_of_kin_relation',
-            'next_of_kin_phone', 'email']
+            'next_of_kin_phone', 'email', 'other_qualifications']
         widgets =  {
             'date_of_birth': forms.TextInput(attrs={'placeholder': 'dd/mm/yyyy', 'class':'input-block-level'}),
             'address': forms.Textarea(attrs={'rows':4, 'cols':11}),
             'alergies': forms.Textarea(attrs={'rows':4, 'cols':11}),
+            'other_qualifications': forms.Textarea(attrs={'placeholder': 'PADI, CMAS, SSI e.t.c.', 'rows':4, 'cols':22}),
         }
 
     def __init__(self, *args, **kwargs):
@@ -45,13 +46,14 @@ class MemberEditForm(forms.ModelForm):
         fields = ['date_of_birth','home_phone','mobile_phone','address','postcode',
             'veggie','alergies','next_of_kin_name','next_of_kin_relation',
             'next_of_kin_phone','training_for','instructor_number',
-            'student_id','associate_id','associate_expiry', 'club_id',
+            'student_id',
             'club_expiry','club_membership_type','bsac_id','bsac_expiry',
             'bsac_direct_member','bsac_member_via_another_club',
             'bsac_direct_debit','medical_form_expiry','other_qualifications',
             'first_name', 'last_name', 'email', ]
         widgets = {
           'address': forms.Textarea(attrs={'rows':3, 'cols':40}),
+          'other_qualifications': forms.Textarea(attrs={'rows':3, 'cols':40}),
           'alergies': forms.Textarea(attrs={'rows':4, 'cols':40}),
         }
 

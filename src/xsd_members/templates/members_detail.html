@@ -48,12 +48,18 @@
 
 	</div>
 	<div class="span4">
-		<h3><i class="fa fa-envelope"></i> Contact Details</h3>
+		<h3><i class="fa fa-envelope"></i> Personal Details</h3>
 		<table class="table">
 			<tr><th>Address</th><td>{% if not member.address or member.post_code %}<i class="fa fa-exclamation-triangle red"></i>{% else %}{{member.formatted_address|safe}}<br />{{member.postcode}}{% endif %}</td></tr>
 			<tr><th>Email</th><td>{{member.email}}{% if not member.email %} <i class="fa fa-exclamation-triangle red"></i>{% endif %}</td></tr>
 			<tr><th>Home Phone</th><td>{{member.home_phone}}{% if not member.home_phone %} <i class="fa fa-exclamation-triangle red"></i>{% endif %}</td></tr>
 			<tr><th>Mobile Phone</th><td>{{member.mobile_phone}}{% if not member.mobile_phone %} <i class="fa fa-exclamation-triangle red"></i>{% endif %}</td></tr>
+			<tr><th>Allergies or other requirements</th>
+                <td>
+                    {{ member.alergies| linebreaks }}{% if not member.alergies %}<em>None</em><br />{% endif %}
+                    {% if member.veggie %}Vegetarian{% else %}Omnivore{% endif %}
+                </td>
+            </tr>
 
 		</table>
 	</div>
@@ -106,6 +112,8 @@
 				{% for sdc in member.sdcs.all %}<li>{{sdc}}</li>{% endfor %}
 				</ul>
 			</td></tr>
+            <tr><th>Other Qualifications</th><td>{{ member.other_qualifications | linebreaks }}</td></tr>
+
 
 		</table>
 	</div>
