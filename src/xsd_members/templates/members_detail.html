@@ -35,7 +35,6 @@
 		</div>
 		<div>
 		<div class="qual_badge {{member.top_qual.code}}"></div>
-        <p>{{ member.uid }}</p>
 		<p>{{member.first_name}} joined the database on {{member.date_joined|date}} and last logged in on {{member.user.last_login}}</p>
 		<p>{{member.heshe}} was born on {{member.date_of_birth}}.</p>
 
@@ -70,7 +69,7 @@
 		<h3><i class="fa fa-home"></i> Club Details</h3>
 		{% if member.club_expiry or not myself %}
 		<table class="table">
-			{% if member.club_id %}<tr><th>Club ID</th><td>{{ member.club_id }}</td></tr>{% endif %}
+			<tr><th>Club ID</th><td>{{ member.uid }}</td></tr>
 			{% if member.student_id %}<tr><th>Student ID</th><td>{{ member.student_id }}</td></tr>{% endif %}
 			<tr><th>Membership Type</th><td>{{member.club_membership_type }}</td></tr>
 			<tr><th>Membership Expiry Date</th><td>{{member.club_expiry }}{% if member.club_expired %} <i class="fa fa-exclamation-triangle red"></i>{% endif %}</td></tr>
