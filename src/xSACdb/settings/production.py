@@ -7,12 +7,12 @@ TEMPLATE_DEBUG = False
 
 from .common import *
 from local_settings import *
+from xSACdb.version import VERSION
 
-import raven
 
 if 'RAVEN_CONFIG' in locals():
-    pass
-  # RAVEN_CONFIG['release'] = raven.fetch_git_sha(PROJECT_PATH)
+    RAVEN_CONFIG['release'] = VERSION['tag']
+    RAVEN_CONFIG['site'] = CLUB['name']
 else:
   RAVEN_CONFIG = {}
 
