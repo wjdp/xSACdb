@@ -122,7 +122,7 @@
 		<h3><i class="icon-bsac"></i> BSAC Details</h3>
 		{% if member.bsac_expiry or not myself %}
 		<table class="table">
-			{% if member.bsac_id %}<tr><th>BSAC ID</th><td>A{{ member.bsac_id }}</td></tr>{% endif %}
+			<tr><th>BSAC ID</th><td>{% if member.bsac_id %}A{{ member.bsac_id }}{% else %}<i class="fa fa-exclamation-triangle red"></i>{% endif %}</td></tr>
 			<tr><th>Membership Type</th><td>
 				{% if member.bsac_direct_debit %}Pays by direct debit
 				{% elif member.bsac_direct_member %}Member of BSAC directly
