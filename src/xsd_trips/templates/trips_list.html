@@ -1,0 +1,11 @@
+{% extends 'trips_template.html' %}
+{% block trips_content %}
+<div class="span9">
+  <h1>Feature not yet implemented</h1>
+  <p>The trips module is not yet implemented.</p>
+
+  {% for trip in trips %}
+  {{trip.name}}<br />
+  {% endfor %}
+</div>
+{% endblock %}

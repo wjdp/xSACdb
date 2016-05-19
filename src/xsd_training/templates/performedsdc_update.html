@@ -1,0 +1,27 @@
+{% extends 'training_template.html' %}
+{% load staticfiles %}
+
+{% block training_content %}
+<div class="span3">
+    <form action="." method="POST">
+    {% csrf_token %}
+    <input type="hidden" name="action" value="detail" />
+    <h2>{{psdc.sdc}}</h2>
+    <p>This skill development course is planned for {{form.datetime}}</p>
+    <p>{{form.notes}}</p>
+
+    <input type="submit" class="btn btn-primary" value="Save Changes" />
+    </form>
+</div>
+<div class="span6">
+<h3>Trainees</h3>
+    {% include 'components/trainee_table.html' %}
+    <h4>Add Trainees</h4>
+    {% include 'base/bulk_select_members.html' %}
+</div>
+
+{% endblock %}
+
+{% block closing_js %}
+<script type="text/javascript" src="{% static 'js/sdc.js' %}"></script>
+{% endblock %}

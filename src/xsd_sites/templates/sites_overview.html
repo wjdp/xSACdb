@@ -1,0 +1,59 @@
+{% extends 'sites_template.html' %}
+{% load staticfiles %}
+{% load bootstrap_toolkit %}
+
+{% block post_head %}
+{% include 'google_maps_init.js' %}
+{% endblock %}
+
+{% block sites_content %}
+
+<div class="span9">
+	<div id="map-canvas">
+	</div>
+	<div class="row" id="site-info-blank">
+		<div class="span5">
+			<p>This is a collection of dive sites known to the club. Data on these sites is collated by the site admins. Click on any site to open details.</p>
+
+			<p>Be aware the site database software is not feature complete <i class="fa fa-smile-o"></i></p>
+		</div>
+		<div class="span4">
+			<table class="table">
+				<tr>
+					<td><img src="{% static 'images/map/training_marker.png' %}" /></td>
+					<td>Training site (classrooms, pools, pubs e.t.c.)</td>
+				</tr>
+				<tr>
+					<td><img src="{% static 'images/map/inland_marker.png' %}" /></td>
+					<td>Inland dive site</td>
+				</tr>
+				<tr>
+					<td><img src="{% static 'images/map/offshore_marker.png' %}" /></td>
+					<td>Offshore dive site</td>
+				</tr>
+			</table>
+		</div>
+	</div>
+	<div class="row" id="site-info">
+		<div class="span5">
+			<h2 id="site-name">Site Name</h2>
+			<p id="site-address">
+				Address<br />
+				Goes<br />
+				Here<br />
+			</p>
+			<p id="site-phone">01223 456 789</p>
+			<p id="site-email">email@address.com</p>
+		</div>
+		<div class="span3">
+			<h3>Site Details</h3>
+			<p id="site-facilities">
+				facilities go here
+			</p>
+			<p class="depth"><span id="site-maxdepth">30m</span></p>
+			<p class="temp"><span id="site-mintemp">-2</span><span id="site-maxtemp">15</span></p>
+		</div>
+	</div>
+
+</div>
+{% endblock %}

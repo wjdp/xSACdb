@@ -1,0 +1,72 @@
+{% extends 'training_template.html' %}
+{% load lesson_extras %}
+{% load bootstrap_toolkit %}
+
+{% block training_content %}
+
+<form action="" method="post">
+    <div class="span9">
+        <h1>{{ object.uid }} – Session Planning</h1>
+
+        <h2>Session Details</h2>
+        {% csrf_token %}
+        <input type="hidden" name="form_def" value="session" />
+        <div class="row-fluid">
+            <div class="span7">
+                {{ form.name|as_bootstrap  }}
+                {{ form.when|as_bootstrap  }}
+                {{ form.where|as_bootstrap  }}
+            </div>
+            <div class="span5">
+                {{ form.notes|as_bootstrap  }}
+            </div>
+
+        </div>
+    </div>
+    <div class="span9">
+        <h2>Trainees</h2>
+    </div>
+    <div class="span5">
+
+        {{performed_lessons_formset.management_form}}
+        <table class="table table-condensed table-striped table-session">
+            <tr><th>Trainee</th><th>Lesson</th><th>Instructor</th><th></th></tr>
+            {% for form in performed_lessons_formset %}
+            <tr><td>{{form.id}}{{form.instance.trainee.get_full_name}}</td><td>{{form.lesson}}</td><td>{{form.instructor}}</td>
+            <td><a href="?remove-pl={{form.instance.pk}}" class="btn btn-danger btn-mini pull-right"><i class="fa fa-remove"></i></a></td>
+            </tr>
+            {% empty %}
+            </table>
+            <h2 class="no-trainee">No Trainees Added Yet</h3>
+            {% endfor %}
+
+        </table>
+        <div class="form-actions ">
+
+            <button type="submit" class="btn btn-primary alignright"><i class="fa fa-save"></i>  Save</button>
+            {% if session.in_past %}<a class="btn" href="{% url 'SessionComplete' session.pk %}"><i class="fa fa-check-square"></i> Complete Session</a>{% endif %}
+
+        </div>
+
+
+    </div>
+</form>
+
+<div class="span4">
+    <h3 class="no-top">Add Trainees</h3>
+    <div>
+        Individually
+        {% include 'base/bulk_select_members.html' %}
+        <form method="GET" action=".">
+            <div class="form-horizontal">
+                {{traineegroup_select}}
+                <button type="submit" class="btn">Select</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+</div>
+
+
+{% endblock %}

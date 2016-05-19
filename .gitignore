@@ -15,3 +15,9 @@ cssb/*
 .sass-cache/*
 Gemfile.lock
 vendor/*
+shell.py
+env/
+lib/
+tmp/
+dist/
+.coverage

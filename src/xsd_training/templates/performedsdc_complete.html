@@ -1,0 +1,49 @@
+{% extends 'training_template.html' %}
+{% load staticfiles %}
+
+{% block training_content %}
+<div class="span3">
+    <h2>{{psdc.sdc.title}}</h2>
+    <p>This skill development course is planned for {{psdc.datetime}}</p>
+    <p>{{psdc.notes|linebreaks}}</p>
+
+</div>
+<form action="." method="POST">
+{% csrf_token %}
+<div class="span6">
+<h3>Trainees</h3>
+    {% if psdc.trainees %}
+    <p>{{psdc.trainees.count}} people attended this course.</p>
+    <table class="table table-condensed table-striped">
+        <tr><th>Name</th><th>Completed</th></tr>
+    {% for trainee in psdc.trainees.all %}
+        <tr>
+            <td>{{trainee.get_full_name}}</td>
+            <td><input type="checkbox" name="trainee-{{trainee.pk}}" checked="true" /></td>
+            </tr>
+    {% endfor %}
+    </table>
+    <p><strong>Checked</strong> indicates that the trainee attended the course and passed any assessment, they will immediately have this SDC show up on their profile as attained.</p>
+    <p><strong>Unchecked</strong> indicates that the trainee was a no-show or did not pass an assessment. They will not have the SDC show up on their profile.</p>
+    <p>Completion of an SDC happens once, after the SDC is completed it will be archived and those who did not complete will have their names scratched off the list.</p>
+    {% else %}
+    <p>No trainees are attended this course.</p>
+    {% endif %}
+</div>
+{% if is_training %}
+<div class="span9 ">
+<div class="form-actions">
+        {% if not psdc.completed %}<a class="btn" href="{% url 'PerformedSDCDetail' psdc.pk %}"><i class="fa fa-remove"></i> Cancel</a>{% endif %}
+
+        <div class="btn-group pull-right">
+        <button type="submit" class="btn btn-success"><i class=" fa fa-ok"></i> Complete Course</button>
+        </div>
+</div>
+</form>
+{% endif %}
+
+{% endblock %}
+
+{% block closing_js %}
+<script type="text/javascript" src="{% static 'js/sdc.js' %}"></script>
+{% endblock %}

@@ -1,0 +1,87 @@
+{% load xsd_nav %}
+{% load hijack_tags %}
+{% load staticfiles %}
+<!doctype html>
+<html>
+<head>
+    {% block pre_head %}{% endblock %}
+    <title>{% block title %}{{l10n_club.name}} Database{% endblock %}</title>
+    <meta charset="utf-8" />
+
+    <link rel="stylesheet" type="text/css" media="screen" href="{% static 'bootstrap/css/bootstrap.min.css' %}" />
+
+    <link rel="stylesheet" type="text/css" href="{% static 'hijack/hijack-styles.css' %}" />
+
+    <link rel="stylesheet" type="text/css" media="screen" href="{% static 'bootstrap/css/bootstrap-responsive.min.css' %}" />
+    <link rel="stylesheet" href="{% static 'css/font-awesome.min.css' %}">
+    <link rel="stylesheet" type="text/css" media="screen" href="{% static 'css/strap.css' %}" />
+
+    <link rel="stylesheet" type="text/css" media="screen" href="{% static 'css/token-input-facebook.css' %}" />
+
+    <script type="text/javascript" src="{% static 'js/jquery.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/jquery.forms.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/jquery.cookie.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/jquery.tokeninput.js' %}"></script>
+    <script type="text/javascript" src="{% static 'bootstrap/js/bootstrap.min.js' %}"></script>
+
+    {% if RAVEN_DSN %}
+    <script type="text/javascript" src="{% static 'raven-js/dist/raven.min.js' %}"></script>
+    <script type="text/javascript">
+        Raven.config('{{ RAVEN_DSN }}').install()
+    </script>
+    {% endif %}
+
+    <script type="text/javascript" src="{% static 'js/css_extra.js' %}"></script>
+
+    {% block post_head %}{% endblock %}
+</head>
+<body>
+{{ request|hijackNotification }}
+
+<div class="navbar navbar-inverse navbar-fixed-top">
+    <div class="navbar-inner">
+        <div class="container">
+            <a class="brand" href="#">{{l10n_club.name}} Database</a>
+            <ul class="nav">
+                <li {% is_active_simple ui.app 'home' %}><a href="/"><i class="fa fa-home"></i> Home</a></li>
+                {% if not is_members %}<li {% is_active_simple ui.app 'profile' %}><a href="{% url 'xsd_members.views.view_my_profile' %}"><i class="fa fa-user"></i> Profile</a></li>{% endif %}
+                {% if is_members %}<li {% is_active_simple ui.app 'members' %}><a href="{% url 'xsd_members.views.admin' %}"><i class="fa fa-user"></i> Members</a></li>{% endif %}
+                {% if is_verified %}<li {% is_active_simple ui.app 'training' %}><a href="{% url 'xsd_training.views.trainee.overview' %}"><i class="fa fa-mortar-board"></i> Training</a></li>{% endif %}
+                {% if DEBUG %}
+                {% if is_verified %}<li {% is_active_simple ui.app 'trips' %}><a href="{% url 'TripList' %}"><i class="fa fa-road"></i> Trips</a></li>{% endif %}
+                {% if is_verified %}<li {% is_active_simple ui.app 'kit' %}><a href="{% url 'KitOverview' %}"><i class="fa fa-tags"></i> Kit</a></li>{% endif %}
+                {% endif %}
+                {% if is_verified %}<li {% is_active_simple ui.app 'sites' %}><a href="{% url 'SitesOverview' %}"><i class="fa fa-map-marker"></i> Sites</a></li>{% endif %}
+
+                {% if is_verified %}<li><a href="{% url 'AboutView' %}"><i class="fa fa-info-circle"></i> About</a></li>{% endif %}
+            </ul>
+            <ul class="pull-right nav">
+              {% if DEBUG %}
+                <li><a href="{% url 'HelpView' %}"><i class="fa fa-question-circle"></i></a></li>
+              {% endif %}
+                <li><a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                    <i class="fa fa-user"></i> {{request.user.get_full_name}} <b class="caret"></b></a>
+                    <ul class="dropdown-menu" role="menu">
+                        <li><a href="#update_request_modal" data-toggle="modal"><i class="fa fa-envelope-o fa-fw"></i> Request An Update To Records</a></li>
+                        <li><a href="{% url 'account_change_password' %}"><i class="fa fa-cog fa-fw"></i> Account Settings</a></li>
+                        <li class="divider"></li>
+                        <li><a href="/accounts/logout"><i class="fa fa-sign-out fa-fw"></i> Logout of Database</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+<div class="container">
+{% block content %}
+No content
+{% endblock %}
+
+{% include 'update_request.html' %}
+{% include 'update_account.html' %}
+
+{% block closing_js %}{% endblock %}
+</div>
+</body>
+</html>

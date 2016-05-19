@@ -1,0 +1,22 @@
+{% extends 'training_template.html' %}
+{% load lesson_extras %}
+{% load bootstrap_toolkit %}
+
+{% block training_content %}
+
+<div class="span9">
+	<h1>Trainee Groups</h1>
+				<h2>{{ tg }}</h2>
+
+				{% include 'components/trainee_table.html' %}
+				<h4>Add Trainees</h4>
+    			{% include 'base/bulk_select_members.html' %}
+		<div class="form-actions ">
+			<a href=".." class="btn btn-primary alignright">Done</a>
+			<a href="{% url 'TraineeGroupDelete' tg.pk %}" class="btn btn-danger alignleft"><i class='fa fa-remove'></i> Delete Group</a>
+		</div>
+	</form>
+
+</div>
+
+{% endblock %}

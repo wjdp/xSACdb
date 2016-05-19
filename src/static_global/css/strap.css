@@ -1,0 +1,684 @@
+html {
+    overflow-y: scroll;
+}
+
+body {
+   padding-top: 56px; /* 60px to make the container go all the way to the bottom of the topbar */
+}
+
+.alignleft {float: left}
+.alignright {float: right}
+
+ul.membership-status {
+    margin-left:4px
+}
+ul.membership-status strong {
+    display:block;
+    font-size:1em;
+}
+ul.membership-status li {
+    list-style-type:none;
+    padding-left:40px;
+    margin-bottom:8px
+}
+ul.membership-status span.note {
+    font-size:0.9em;
+}
+li.fail span.note {
+    color:#B94A48;
+}
+li.pass {
+    background:url('/static/images/tick.png') no-repeat top left;
+}
+li.fail {
+    background:url('/static/images/error.png') no-repeat top left;
+}
+
+.membership-status p {
+    margin-bottom: 0
+}
+
+ul.lessons {
+margin-left:0;
+}
+ul.lessons li {
+padding-left:20px;
+list-style-type:none;
+}
+ul.planned li {
+background:url('/static/images/clock16.png') no-repeat 0 50%;
+}
+ul.completed li {
+background:url('/static/images/tick16.png') no-repeat 0 50%;
+opacity:0.5;
+}
+ul.uncompleted li {
+background:url('/static/images/arrow_r.png') no-repeat 0 50%;
+}
+
+.lesson-detail {
+    margin: ;
+    background:url('/static/images/lesson_grain.fw.png') #a8c7d9;
+    padding: 10px 12px;
+    box-shadow: 0px 1px 1px 1px #ccc;
+}
+
+.lesson-note {
+    margin: 0 0 16px 0;
+    background:url('/static/images/lesson_grain.fw.png') #F2E9C0;
+    padding: 10px 12px;
+    box-shadow: 0px 1px 1px 1px #ccc;
+}
+
+.lesson-note h2 {
+    margin: 0 0 0 0;
+    font-size:20px;
+}
+.lesson-note h3 {
+    margin: 16px -12px 0 -12px;
+    padding-left:12px;
+    font-size: 16px;
+    border-top: 1px solid #aaa;
+}
+
+.lesson-detail h3 {
+    margin: -7px 0 0 42px;
+    padding: 0;
+    font-size: 14px;
+}
+
+div.lesson-code {
+border-radius:3px;
+padding:2px;
+width:30px;
+font-weight:bold;
+color:#fafafa;
+float: left;
+}
+
+div.lesson-code.OD, .qual-banner.OD, .OD-cell {
+    background:#6A9ED2 !important;
+    border: 1px solid #2253BB;
+}
+div.lesson-code.SD, .qual-banner.SD, .SD-cell {
+    background: #ECA537 !important;
+    border: 1px solid #BA6812;
+}
+div.lesson-code.DL, .qual-banner.DL, .DL-cell {
+    background: #46832D !important;
+    border: 1px solid #054006;
+}
+div.lesson-code.AD, .qual-banner.AD, .AD-cell {
+    background: #7D3E87 !important;
+    border: 1px solid #3B1437;
+}
+div.lesson-code.FC, .qual-banner.FC, .FC-cell {
+    background: #444 !important;
+    border: 1px solid #0B0B0B;
+}
+
+.OD-cell, .SD-cell, .DL-cell, .AD-cell, .FC-cell {
+    border: none;
+    color: #fff;
+    font-size:0px;
+}
+
+.qual-banner {
+    font-size: 1.2em;
+    font-weight: bold;
+    text-align: center;
+    padding: 10px 0;
+    color: #fff;
+    border-radius: 4px;
+    box-shadow: 0px 1px 2px #ccc;
+    margin: 0 0 10px 0;
+    position: relative;
+}
+
+.qual-banner i {
+    position: absolute;
+    left: 10px;
+    top:11px;
+}
+
+.qual_badge {
+    height:104px;
+    width:71px;
+    float: right;
+    -webkit-transform: rotate(8deg);
+    -moz-transform: rotate(8deg);
+    -o-transform: rotate(8deg);
+    -ms-transform: rotate(8deg);
+    -webkit-filter: drop-shadow(0px 0px 1px #ccc); filter: drop-shadow(0px 0px 1px #ccc);
+    opacity: 0.5;
+    margin-left: 8px;
+}
+
+.qual_badge.OD {background: url('/static/images/qual_badges/od.png')}
+.qual_badge.SD {background: url('/static/images/qual_badges/sd.png')}
+.qual_badge.DL {background: url('/static/images/qual_badges/dl.png')}
+.qual_badge.AD {background: url('/static/images/qual_badges/ad.png')}
+/* TODO make an FC badge */
+/*.qual_badge.FC {background: url('/static/images/qual_badges/ad.png')}*/
+
+.lesson-detail .mode {
+    font-size: 0.8em;
+    font-style: italic;
+    margin-bottom: 4px;
+}
+
+.no-plan, .no-trainee {
+    color: #eee;
+    text-align: center;
+    text-shadow: 0px 1px 0px #cfcfcf;
+}
+
+.no-plan {
+    margin-top: 3em;
+}
+
+.dl-break {
+    margin-top: 1em;
+    padding-top: 0.8em;
+    border-top: 1px solid #ccc;
+}
+
+.col2 {
+columns:2;
+-webkit-columns:2; /* Safari and Chrome */
+-moz-columns:2; /* Firefox */
+}
+
+.col3 {
+columns:2;
+-webkit-columns:2; /* Safari and Chrome */
+-moz-columns:2; /* Firefox */
+}
+
+#map-canvas {
+    height: 450px;
+    margin-bottom: 16px;
+}
+#map-canvas img, .gm-style img {
+    /* Fix silly BS GM issue*/
+    max-width: inherit
+}
+
+#site-info {
+    background: url('/static/images/noise-low.png') #E4C677;
+    margin-left: 0;
+    padding-left: 20px;
+    box-shadow: 0px 1px 2px 1px #ccc;
+}
+
+#site-info div:first-child{
+    margin-left: 0
+}
+
+.sdc-info {
+    font-size: 0.8em;
+    margin-top: 0.2em;
+}
+
+.sdc-register-interest-true p {
+    font-weight: bold;
+}
+
+.error {
+    color:red;
+    font-weight: bold;
+}
+
+.nav-down {
+    height: 800px;
+}
+
+.red {
+    color: red
+}
+.green {
+    color: #4EAA2E
+}
+
+.titlebox {
+    padding: 0.7em 0.5em;
+    background: rgb(0, 136, 204);
+    margin-top:0.7em;
+    margin-bottom:0.8em;
+    color:white;
+    min-height: 72px;
+    border-radius: 3px
+
+}
+.titlebox.training{
+    background: #DF3434;
+}
+.titlebox h2 {
+    margin: 0 0 6px 0;
+    font-size: 29px;
+    margin-left: 5px;
+    font-weight: lighter;
+}
+.titlebox img {
+    border:2px solid #f5f5f5;
+    width:66px; height: 66px;
+    margin-right: 2px
+}
+
+i.icon-bsac {
+    width:22px;
+    height:25px;
+    display: inline-block;
+    background: url('../images/bsac_icon.gif') no-repeat;
+}
+i.icon-bsac-small {
+    width:16px;
+    height:18px;
+    display: inline-block;
+    background: url('../images/bsac_icon_small.gif') no-repeat;
+}
+i.expired {
+    color: red;
+    margin-right: 0.4em;
+    font-size: 1.2em;
+}
+.expiry-column {
+width: 24px;
+}
+
+
+textarea {
+    width:95%;
+}
+
+.rot45 {
+    transform: rotate(45deg);
+    -ms-transform:rotate(45deg);
+    -o-transform:rotate(45deg);
+    -webkit-transform:rotate(45deg);
+    -moz-transform:rotate(45deg);
+}
+
+.sdc-interested {
+    color:#EDDA47;
+}
+.sdc-has {
+    color: #394D1A
+}
+.sdc-other-requirements {
+    color:#999;
+}
+.sdc-cando {
+    color:#7BEB78;
+}
+.sdc-cantdo {
+    color:#FF8080;
+}
+.no-top {
+    margin-top: 0;
+}
+
+.sdc-key {
+    position: fixed
+    right: 0;
+}
+
+ul.mini-sdc-list, ul.mini-sdc-list-training {
+    margin: 0
+}
+
+.mini-sdc-list li, .mini-sdc-list-training li {
+    display: inline-block;
+    background: #358dc5;
+    padding: 0 4px;
+    color: #eee;
+    border-radius: 5px;
+    list-style-type: none;
+    font-size: 0.8em;
+    margin-right: 7px;
+}
+
+.mini-sdc-list-training li {
+    background: #E47F41;
+}
+
+.formbox {
+    background: #eee;
+    padding: 19px 14px 1px 14px;
+    border-radius: 4px;
+    box-shadow: 0px 1px 2px #ddd;
+    position: relative;
+}
+.formbox #id_surname {
+    width:75%;
+}
+
+.token-input-list-facebook {
+    display: inline-block;
+    border:1px solid #ccc !important;
+    border-radius:6px;
+    width:60% !important;
+
+}
+
+.token-input-submit {
+    margin-left: 8px;
+    margin-top: -26px;
+}
+
+.action-icons a {
+    color: #aaa;
+    margin-left: 8px;
+    font-size: 1.4em
+}
+
+.action-icons a:hover {
+    /*color:red;*/
+    text-shadow:0px -1px 6px yellow;
+    text-decoration: none;
+}
+
+tr.last td, td.last {
+    background: #F2F1A5 !important;
+}
+
+.table-session {
+    font-size:11px;
+}
+.table-session select {
+    width:100px;
+}
+
+.no-top {margin-top: 0}
+
+
+
+.progress-table {
+
+}
+
+.progress-table td.completed {
+background: #54FF48 !important
+}
+
+.progress-table td.partially_completed {
+background: #FAFF68 !important
+}
+
+.progress-table td.nothing {
+background: #FFABAB !important
+}
+
+.fake-button {
+    display: inline;
+    border: 1px solid #666;
+    font-size: 0.8em;
+    padding: 5px 8px;
+    border-radius: 4px;
+    margin: 0 3px;
+}
+
+.prentend-p {
+    margin-bottom: 10px
+}
+
+.retro-select select {
+    width: 150px;
+}
+
+.retro-spreadsheet h4 {
+    font-size: 14px;
+    margin:0;
+    padding: 0;
+    line-height: 100%
+}
+.retro-spreadsheet p {
+    font-size: 9px;
+    margin:0;
+    padding: 0;
+    line-height: 100%
+}
+
+
+.retro-spreadsheet label {
+    font-size: 9px;
+    margin:0;
+    padding: 0;
+}
+
+.retro-spreadsheet input {
+    font-size: 11px;
+    padding:0;
+    height: 14px;
+    width: 100px;
+}
+
+.retro-spreadsheet textarea {
+    font-size: 11px;
+    line-height: 105%;
+}
+
+.retro-spreadsheet div.control-group {
+    margin:0;
+    padding: 0;
+}
+
+.retro-top {
+    height: 44px
+}
+
+.mode-TH {background: #FFFDA0}
+.mode-SW {background: #8AD35D}
+.mode-OW {background: #7D93C3}
+.mode-DP {background: #FFD8A0}
+.mode-XP {background: #DFA0D7}
+.mode-WS {background: #55CC39}
+.mode-PQ {background: #BBA433}
+.mode-XO {background: #3B35D2}
+.mode-AS {background: #D66262}
+
+.ret-form-actions {
+background: #fff;
+border-top: 2px solid #000;
+border-left: 2px solid #000;
+border-top-left-radius: 6px;
+position: fixed;
+bottom: 0;
+right: 0;
+padding: 8px;
+}
+
+.retro-spreadsheet ul.errorlist {
+    margin: 0
+}
+
+.retro-spreadsheet ul.errorlist li {
+    list-style-type:none;
+    background:red;
+    color:white;
+    font-weight: bold;
+    margin:0;
+    padding: 0;
+
+}
+
+.top-header {
+    margin-top: 0;
+    line-height: normal;
+}
+
+ul.quicklinks {
+    width:100%;
+    margin: 0;
+    -moz-box-sizing: border-box; -webkit-box-sizing: border-box; box-sizing: border-box;
+}
+
+ul.quicklinks li {
+    width:40%;
+    background: #888;
+    float:left;
+    list-style-type: none;
+    margin-right: 10px;
+    margin-bottom: 10px;
+    border-radius: 6px;
+    -webkit-filter: drop-shadow(0px 0px 1px #ccc); filter: drop-shadow(0px 0px 1px #ccc);
+    position: relative;
+}
+
+ul.quicklinks li:active {
+    top:1px;
+}
+
+ul.quicklinks li a {
+    display: block;
+    width:100%;
+    height: 50px;
+    color: white;
+    text-decoration: none;
+    text-align: center;
+    font-weight: bold;
+    padding-top: 28px;
+}
+
+ul.quicklinks li.members {background: #0088CC}
+ul.quicklinks li.training {background: #DF3434}
+ul.quicklinks li.sites {background: #3BDC37}
+ul.quicklinks li.trips {color:#ccc;}
+
+div.django-credit {
+    background: #092e20;
+    overflow: hidden;
+    padding: 16px
+}
+div.django-credit p {
+    color: #eee;
+    margin-top:16px;
+    font-style: 16px
+}
+div.django-credit a {
+    color: #fff
+}
+div.django-credit img {
+    float: left;
+    padding-right: 36px;
+}
+
+.big-scary-warning {
+
+}
+.big-scary-warning h1 {
+    background: red;
+    color: white;
+    text-align: center;
+    padding: 12px 0;
+}
+
+.roles p {
+    font-size: 12px
+}
+
+.roles h4 {
+    margin-top: 0;
+    margin-bottom:1px;
+}
+.roles ul {
+    margin-bottom:18px;
+}
+
+ul.formatted
+{
+margin-left: 0;
+padding-left: 0;
+list-style: none;
+}
+
+ul.formatted li
+{
+padding-left: 12px;
+background-image: url(/static/images/arrow.gif);
+background-repeat: no-repeat;
+background-position: 0 7px;
+}
+
+li.nyi a {
+    color: #ccc;
+    cursor: not-allowed;
+}
+
+.push-left {
+    float: left;
+    padding: 10px 16px 10px 0;
+}
+.push-right {
+    float: right;
+    padding: 10px 0 10px 16px;
+}
+
+hr {
+    clear: both;
+}
+
+img.about-logo {
+    width: 90%;
+    margin-bottom: 16px;
+}
+
+.loan-create {
+    background: #B7CDEC;
+    border: 1px solid #647899;
+    border-radius: 4px;
+    padding: 12px;
+    min-height: 400px
+}
+
+#kit-table_wrapper select {
+    width: 60px;
+}
+
+.break-up {
+    margin-top: 16px
+}
+
+/* .flag-cell for member list table, cell is too big when only contains icon */
+.flag-cell {
+    width: 1px; /* TODO Bit hacky, check for support cross-browser */
+    color: #888;
+}
+
+/* hidden section */
+.hidden-section { position: relative;}
+.hidden-section-button {
+    background: #444;
+    font-size: 18px;
+    color: #fff;
+    font-weight: bold;
+    width: 35px;
+    text-align: center;
+    border-radius: 18px;
+
+    position: absolute;
+    right:0;
+    top:-20px;
+}
+
+.small-action-white {
+    display: inline;
+}
+
+.small-action-white a {
+    color: #fff;
+    text-decoration:none;
+}
+.small-action-white a:hover {
+    color: red;
+}
+.nav-list {
+    min-height: 400px
+}
+
+#hijacked-warning {
+    top: initial;
+    bottom: 0;
+    border-bottom: none;
+    border-top: 2px solid #ae9e49;
+}

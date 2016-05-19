@@ -1,0 +1,32 @@
+image: wjdp/flatcar
+
+services:
+  - postgres
+
+before_script:
+  - virtualenv env
+  - source env/bin/activate
+  - pip install -qr requirements.txt
+
+stages:
+  - test
+
+django-check:
+  stage: test
+  tags:
+    - docker
+  script:
+    - source env/bin/activate
+    - src/manage.py check
+
+django-test:
+  stage: test
+  tags:
+    - docker
+  script:
+    - bower install -q --allow-root
+    - mkdir tmp
+    - wget $BSAC_DATA -O tmp/bsac_data.yaml
+    - source env/bin/activate
+    - src/manage.py collectstatic --noinput
+    - src/manage.py test xSACdb xsd_about xsd_auth xsd_frontend xsd_help xsd_kit xsd_members xsd_sites xsd_training xsd_trips

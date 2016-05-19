@@ -1,0 +1,30 @@
+{% extends 'members_template.html' %}
+{% load bootstrap_toolkit %}
+
+{% block members_content %}
+
+<div class="span9">
+<h1>Delete Member: {{member.get_full_name}}</h1>
+<form action="" method="post">{% csrf_token %}
+    <p>Are you sure you want to delete this member?</p>
+
+    <p>If they've had any involvement with the club you should really think twice before removing them! What if they start doing stuff with the club next year, what if they come back as alumni, what if people just like looking at their face?
+
+    <table class="table">
+        <tr><th>UID</th><td>{{ member.uid }}</td></tr>
+        <tr><th>Name</th><td>{{ member.get_full_name }}</td></tr>
+        <tr><th>Joined Database</th><td>{{ member.date_joined|date }}</td></tr>
+        <tr><th>Lesson records</th><td>{{ member.performed_lesson_ramble|safe }}</td></tr>
+    </table>
+
+    <div class="form-actions">
+	    <input type="submit" class="btn btn-danger" value="Delete (I'm SuperDuper&trade; Sure)" />
+	    <a href="{% url 'MemberDetail' member.pk %}"  class="btn btn-success alignright">Bugger That, Cancel</a>
+	</div>
+</form>
+</div>
+
+
+{% endblock %}
+
+

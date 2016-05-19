@@ -1,0 +1,235 @@
+input {
+  -webkit-appearance: caret;
+  -moz-appearance: caret; }
+
+* {
+  margin: 0;
+  padding: 0;
+  font-family: "Helvetica", "Arial", sans;
+  box-sizing: border-box; }
+
+html {
+  height: 100%;
+  overflow: hidden; }
+  @media only screen and (min-width: 480px) {
+    html {
+      min-width: 600px; } }
+
+body {
+  background: #4e5b89;
+  overflow: hidden;
+  background: -webkit-linear-gradient(top, #4e5b89 0%, #2d3860 100%);
+  background: linear-gradient(to bottom, #4e5b89 0%, #2d3860 100%);
+  padding-bottom: 10px; }
+
+.mobile-background {
+  display: none; }
+  @media only screen and (max-width: 480px) {
+    .mobile-background {
+      background: -webkit-linear-gradient(top, #606D99 0%, #232C4C 80%);
+      background: linear-gradient(to bottom, #606D99 0%, #232C4C 80%);
+      display: block;
+      position: fixed;
+      z-index: -20;
+      top: 0;
+      left: 0;
+      width: 500px;
+      height: 700px; } }
+
+.big-background-1, .big-background-2 {
+  pointer-events: none; }
+  @media only screen and (min-width: 480px) {
+    .big-background-1, .big-background-2 {
+      width: 150%;
+      min-height: 1100px;
+      position: absolute;
+      top: 0;
+      left: 0;
+      -webkit-transition: opacity 5s;
+      -moz-transition: opacity 5s;
+      transition: opacity 5s; } }
+  @media only screen and (max-width: 480px) {
+    .big-background-1, .big-background-2 {
+      display: none; } }
+
+@media only screen and (min-width: 480px) {
+  .big-background-1 {
+    z-index: -10;
+    opacity: 0; } }
+
+@media only screen and (min-width: 480px) {
+  .big-background-2 {
+    z-index: -20;
+    top: -200px;
+    left: -400px; } }
+
+.title {
+  width: 90px;
+  margin: 12px auto 0 auto; }
+  .title img {
+    width: 100%; }
+  @media only screen and (min-width: 480px) {
+    .title {
+      width: 120px;
+      margin-top: 40px; } }
+
+.login {
+  background: rgba(255, 255, 255, 0.7);
+  margin: 24px auto 0 auto;
+  border-radius: 3px; }
+  @media only screen and (min-width: 480px) {
+    .login {
+      width: 350px;
+      overflow: hidden; } }
+  @media only screen and (max-width: 480px) {
+    .login {
+      width: 95%; } }
+  .login p.message {
+    text-align: center;
+    color: #fff;
+    font-size: 14px;
+    font-weight: bold;
+    width: 97%;
+    margin: 0 auto;
+    border-radius: 8px;
+    padding: 8px 0;
+    background: red;
+    cursor: pointer; }
+  .login .login-facebook, .login .login-conventional {
+    padding: 16px; }
+  .login .login-facebook {
+    text-align: center; }
+    .login .login-facebook p.message {
+      background: #548ac1; }
+    .login .login-facebook img {
+      position: relative;
+      padding: 26px 0 10px 0;
+      -webkit-filter: drop-shadow(0px 1px 1px #888);
+      filter: drop-shadow(0px 1px 1px #888); }
+      .login .login-facebook img:active {
+        top: 1px; }
+  .login .login-conventional {
+    font-size: 18px;
+    border-top: 3px solid #4e5b89; }
+    .login .login-conventional p.message {
+      background: #6DBB9D; }
+    .login .login-conventional input {
+      padding: 3px;
+      margin: 4px;
+      width: 97%;
+      border: 1px solid #ccc;
+      border-radius: 4px; }
+      @media only screen and (max-width: 480px) {
+        .login .login-conventional input {
+          height: 48px;
+          font-size: 16px;
+          border-radius: 8px;
+          padding: 7px 3px; } }
+    .login .login-conventional #id_username {
+      margin-top: 16px; }
+    .login .login-conventional .submit {
+      background: #548ac1;
+      color: white;
+      font-weight: bold;
+      border: none;
+      margin-top: 16px; }
+    .login .login-conventional .register {
+      background: rgba(84, 193, 152, 0.6);
+      color: white;
+      font-weight: bold;
+      border: none; }
+
+.mob-collapse-conventional, .mob-collapse-facebook {
+  overflow: hidden;
+  -webkit-transition: max-height 0.9s ease;
+  -moz-transition: max-height 0.9s ease;
+  transition: max-height 0.9s ease;
+  max-height: 500px; }
+
+.mob-collapse-hidden {
+  max-height: 0; }
+
+.banner {
+  margin: 12px auto 0 auto;
+  border-radius: 3px;
+  padding: 5px 16px 12px 16px;
+  border-radius: 3px;
+  background: white;
+  text-align: center;
+  opacity: 0.8;
+  font-size: 0.8em;
+  background-color: #FF6064;
+  color: #fff;
+  font-weight: bold; }
+  @media only screen and (min-width: 480px) {
+    .banner {
+      width: 350px;
+      overflow: hidden; } }
+  @media only screen and (max-width: 480px) {
+    .banner {
+      width: 95%; } }
+  .banner p {
+    margin-top: 8px; }
+
+.hidden {
+  display: none; }
+
+#facebook_container {
+  display: block;
+  background: rgba(255, 255, 255, 0.7);
+  margin: 12px auto 0 auto;
+  border-radius: 3px;
+  text-align: center;
+  padding: 18px 16px 12px 16px; }
+  @media only screen and (min-width: 480px) {
+    #facebook_container {
+      width: 350px;
+      overflow: hidden; } }
+  @media only screen and (max-width: 480px) {
+    #facebook_container {
+      width: 95%; } }
+
+#facebook_message {
+  color: #222; }
+
+#facebook_loading {
+  margin-top: 12px; }
+
+.slow-slide {
+  -webkit-animation: slow-slide 50s 1;
+  -moz-animation: slow-slide 50s 1;
+  animation: slow-slide 50s 1; }
+
+@-webkit-keyframes slow-slide {
+  100% {
+    -webkit-transform: translate(-400px, -200px); } }
+@-moz-keyframes slow-slide {
+  100% {
+    -moz-transform: translate(-400px, -200px); } }
+@keyframes slow-slide {
+  100% {
+    -webkit-transform: translate(-400px, -200px);
+    -moz-transform: translate(-400px, -200px);
+    -ms-transform: translate(-400px, -200px);
+    -o-transform: translate(-400px, -200px);
+    transform: translate(-400px, -200px); } }
+.slow-slide-rev {
+  -webkit-animation: slow-slide-rev 50s 1;
+  -moz-animation: slow-slide-rev 50s 1;
+  animation: slow-slide-rev 50s 1; }
+
+@-webkit-keyframes slow-slide-rev {
+  100% {
+    -webkit-transform: translate(400px, 200px); } }
+@-moz-keyframes slow-slide-rev {
+  100% {
+    -moz-transform: translate(400px, 200px); } }
+@keyframes slow-slide-rev {
+  100% {
+    -webkit-transform: translate(400px, 200px);
+    -moz-transform: translate(400px, 200px);
+    -ms-transform: translate(400px, 200px);
+    -o-transform: translate(400px, 200px);
+    transform: translate(400px, 200px); } }
+
+/*# sourceMappingURL=login.css.map */

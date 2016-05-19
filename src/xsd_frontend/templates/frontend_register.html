@@ -1,0 +1,254 @@
+{% load bootstrap_toolkit %}
+{% load staticfiles %}
+{% load socialaccount %}
+
+<!doctype html>
+
+<html>
+
+<head>
+	<title>xSACdb Login</title>
+	<meta charset="utf-8" />
+	<style type="text/css" media="screen">
+		*, *:before, *:after {
+  		-moz-box-sizing: border-box; -webkit-box-sizing: border-box; box-sizing: border-box;
+ 		}
+		* {margin: 0;padding: 0; font-family: 'Helvetica', 'Arial', sans;}
+		html, body {
+			height: 100%;
+			min-width: 600px;
+		}
+		body {
+			background: #4e5b89; /* Old browsers */
+background: -moz-linear-gradient(top, #4e5b89 0%, #2d3860 100%); /* FF3.6+ */
+background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#4e5b89), color-stop(100%,#2d3860)); /* Chrome,Safari4+ */
+background: -webkit-linear-gradient(top, #4e5b89 0%,#2d3860 100%); /* Chrome10+,Safari5.1+ */
+background: -o-linear-gradient(top, #4e5b89 0%,#2d3860 100%); /* Opera 11.10+ */
+background: -ms-linear-gradient(top, #4e5b89 0%,#2d3860 100%); /* IE10+ */
+background: linear-gradient(to bottom, #4e5b89 0%,#2d3860 100%); /* W3C */
+filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#4e5b89', endColorstr='#2d3860',GradientType=0 ); /* IE6-9 */
+			height: 100%;
+			overflow: hidden;
+		}
+
+		.big-background-1,.big-background-2 {
+			width: 150%;
+			min-height: 1100px;
+			position: absolute;
+			top:0;
+			left:0;
+
+
+			-webkit-transition: opacity 5s;
+			-moz-transition: opacity 5s;
+			transition: opacity 5s;
+		}
+		.overlay {
+			position: absolute;
+			left: 0; top: 0;
+			width:100%; height: 100%;
+			z-index: -1;
+		}
+		.big-background-1 {z-index: -10;opacity: 0;}
+		.big-background-2 {
+			z-index: -20;
+			top:-200px;
+			left:-400px;
+		}
+
+		.login {
+			background: rgba(255,255,255,0.7);
+			width:550px;
+			/*height: 150px;*/
+			/*overflow: auto;*/
+			padding: 16px 0 30px 16px;
+			position: relative;
+			margin: 0 auto;
+			margin-top: 1%;
+			border-radius: 3px;
+		}
+		.login-facebook, .login-register {
+			float: left;
+		}
+
+		.login-facebook {
+			width:50%;
+			height: 100%;
+			padding: 0 12px;
+		}
+		.login-facebook .inner {
+			position:absolute; top:50%; height:95px; margin-top:-48px;
+			padding-right: 10px
+		}
+		.login-facebook p {
+			font-size: 10px;
+			padding: 0 7px;
+			margin-top: 8px;
+			color: #7D7B7B;
+		}
+
+		.login-facebook img {
+			padding: 0 4px 4px 10px;
+			position: relative;
+		    -webkit-filter: drop-shadow(0px 1px 1px #888); filter: drop-shadow(0px 1px 1px #888);
+		}
+		.login-facebook img:active {
+			top:1px;
+		}
+
+		.login-register {
+			font-size: 15px;
+			padding: 16px 20px 0 6px;
+			width:50%;
+			border-right: 1px solid #f1f1f1;
+			font-size: 13px
+
+		}
+		.login-register p {
+			margin-bottom: 12px
+		}
+		.login-register input {
+			padding: 3px;
+			margin: 4px;
+			width: 100%;
+			border: 1px solid #ccc;
+			border-radius: 2px;
+		}
+
+		.login-register .submit {
+			background:#548ac1;
+			color:white;
+			font-weight: bold;
+			border:none;
+		}
+		.login-register .register {
+			background:rgba(84,193,152,0.6);
+			color:white;
+			font-weight: bold;
+			border:none;
+		}
+
+
+.slow-slide {
+  -webkit-animation: slow-slide 50s 1; /* Safari 4+ */
+  -moz-animation:    slow-slide 50s 1; /* Fx 5+ */
+  -o-animation:      slow-slide 50s 1; /* Opera 12+ */
+  animation:         slow-slide 50s 1; /* IE 10+ */
+}
+
+@-webkit-keyframes slow-slide {
+  100% { -webkit-transform: translate(-400px,-200px); }
+}
+@-moz-keyframes slow-slide {
+  100% { -webkit-transform: translate(-400px,-200px); }
+}
+@-o-keyframes slow-slide {
+  100% { -webkit-transform: translate(-400px,-200px); }
+}
+@keyframes slow-slide {
+  100% { transform: translate(-400px,-200px); }
+}
+.slow-slide-rev {
+  -webkit-animation: slow-slide-rev 50s 1; /* Safari 4+ */
+  -moz-animation:    slow-slide-rev 50s 1; /* Fx 5+ */
+  -o-animation:      slow-slide-rev 50s 1; /* Opera 12+ */
+  animation:         slow-slide-rev 50s 1; /* IE 10+ */
+}
+
+@-webkit-keyframes slow-slide-rev {
+  100% { -webkit-transform: translate(400px,200px); }
+}
+@-moz-keyframes slow-slide-rev {
+  100% { -webkit-transform: translate(400px,200px); }
+}
+@-o-keyframes slow-slide-rev {
+  100% { -webkit-transform: translate(400px,200px); }
+}
+@keyframes slow-slide-rev {
+  100% { transform: translate(400px,200px); }
+}
+.banner {
+	margin: 0 auto;
+	margin-top: 1%;
+
+	height: 35px;
+	width:550px;
+	padding: 5px 16px 0 16px;
+	border-radius: 3px;
+	background: white;
+	text-align: center;
+	opacity: 0.8;
+	font-size: 0.8em;
+	background-color: #FF6064;
+	color: #fff;
+	font-weight: bold
+}
+.banner p {
+	margin-top: 6px
+}
+.hidden {
+	visibility: hidden;
+}
+.clear {
+	clear: left;
+}
+ul.errorlist li {
+	color: #B11818;
+	list-style-type:none;
+	font-size: 11px;
+}
+#facebook_container {
+	display: block;
+	background: rgba(255,255,255,0.7);
+	width:550px;
+	border-radius: 3px;
+	margin: 32px auto;
+	text-align: center;
+	padding: 18px 16px 12px 16px;
+}
+#facebook_message {
+	color: #222;
+}
+#facebook_loading {
+	margin-top:12px;
+}
+	</style>
+	<script type="text/javascript" src="{% static 'js/jquery.js' %}"></script>
+</head>
+
+<body>
+	<!-- <img class="big-background-1"> -->
+	<!-- <img class="big-background-2"> -->
+	<div class="overlay"></div>
+
+	<div class="banner {% if not form.errors %}hidden{% endif %}"><p>There were errors with your request, please correct them below.</p></div>
+
+ 	<div class="login">
+		<div class="login-register">
+		<p>You are setting up an unlinked account on the {{l10n_club.name}} database, if you are likely to forget your details please use the Facebook connect login instead.</p>
+		<form action='.' method="POST">
+			{% csrf_token %}
+			{{form}}
+			<input class="register" type="submit" value="Register" />
+		</form>
+		</div>
+
+		<div class="login-facebook">
+		<div class="inner">
+				<a href="{% provider_login_url "facebook" %}">
+					<img src="{% static 'images/fb_button.png' %}" alt="Login with Facebook" />
+				</a>
+				<input type="hidden" value="{{ request.path }}" name="next" />
+				<input type="hidden" value="{{ request.path }}" name="register_next" />
+				<input type="hidden" value="{{ request.path }}" name="error_next" />
+				{% csrf_token %}
+			<p>Facebook is used for login, only your name, and basic public profile information is used for the creation of your record.</p>
+			</div>
+		</div>
+
+		<div class="clear"></div>
+
+	</div>
+
+</body>
+</html>

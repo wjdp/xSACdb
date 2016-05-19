@@ -1,0 +1,25 @@
+{
+  "name": "xsacdb",
+  "version": "latest",
+  "authors": [
+    "Will Pimblett <will@fullaf.com>"
+  ],
+  "description": "",
+  "main": "",
+  "moduleType": [],
+  "license": "See elsewhere",
+  "homepage": "http://xsacdb.wjdp.uk",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "bourbon": "~4.2.5",
+    "datatables": "DataTables#^1.10.11",
+    "raven-js": "^3.0.4"
+  }
+}
