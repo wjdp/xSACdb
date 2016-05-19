@@ -1,0 +1,26 @@
+.xsd-module-nav
+  @extend .nav
+  margin-bottom: 1rem
+
+  .active
+    border-left: 3px solid rgba(106, 106, 234, 0.42)
+    padding-left: 6px
+    margin-left: -9px
+
+.xsd-module-nav__header
+  color: #ccc // TODO set as var
+  text-transform: uppercase
+  font-size: 0.8em
+  font-weight: bold
+
+  margin-top: 2rem
+  padding-bottom: 0.5em
+  &:first-child
+    margin-top: 0
+
+.xsd-module-nav__item
+  @extend .nav-item
+  margin-bottom: 0.1rem
+
+.xsd-module-nav__link
+  @extend .nav-link

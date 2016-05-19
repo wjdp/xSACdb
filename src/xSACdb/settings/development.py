@@ -3,6 +3,7 @@ import os
 
 # Make this FALSE for deployment
 DEBUG = True
+TEMPLATE_DEBUG = True
 
 from .common import *
 

@@ -14,25 +14,25 @@ urlpatterns = patterns('',
     url(r'^accounts/register/$', 'xsd_frontend.views.register', name='login'),
     url(r'^accounts/logout/$', 'xsd_frontend.views.logout', name='logout'),
 
-    url(r'^accounts/', include('allauth.urls')),
+    url(r'^accounts/', include('allauth.urls', namespace='xsd_auth')),
 
     url(r'^profile/$', 'xsd_members.views.view_my_profile', name='my-profile'),
 
-    url(r'^members/', include('xsd_members.urls')),
+    url(r'^members/', include('xsd_members.urls', namespace='xsd_members')),
 
-    url(r'^training/', include('xsd_training.urls')),
+    url(r'^training/', include('xsd_training.urls', namespace='xsd_training')),
 
-    url(r'^sites/', include('xsd_sites.urls')),
+    url(r'^sites/', include('xsd_sites.urls', namespace='xsd_sites')),
 
-    url(r'^trips/', include('xsd_trips.urls')),
+    url(r'^trips/', include('xsd_trips.urls', namespace='xsd_trips')),
 
-    url(r'^kit/', include('xsd_kit.urls')),
+    url(r'^kit/', include('xsd_kit.urls', namespace='xsd_kit')),
 
-    url(r'^about/', include('xsd_about.urls')),
+    url(r'^about/', include('xsd_about.urls', namespace='xsd_about')),
 
-    url(r'^help/', include('xsd_help.urls')),
+    url(r'^help/', include('xsd_help.urls', namespace='xsd_help')),
 
-    url(r'^', include('xsd_frontend.urls')),
+    url(r'^', include('xsd_frontend.urls', namespace='xsd_frontend')),
 
     # Can be enabled for serving static files (dev only)
     # url(r'^static/(?P<path>.*)$', 'django.views.static.serve',

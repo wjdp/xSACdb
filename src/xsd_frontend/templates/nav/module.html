@@ -1,0 +1,24 @@
+<div class="xsd-module-column-nav">
+
+    <ul class="xsd-module-nav">
+    {% for nav_section in nav %}
+        <li class="xsd-module-nav__header">
+            {{ nav_section.title }}
+        </li>
+        {% for nav_item in nav_section.items %}
+            <li class="xsd-module-nav__item">
+                <a class="xsd-module-nav__link {% if nav_item.2 == url_name %}active{% endif %}" href="{% url nav_item.2 %}">
+                    {% if nav_item.1 %}<i class="{{ nav_item.1 }} fa-fw"></i>{% endif %}
+                    {{ nav_item.0 }}
+                </a>
+            </li>
+        {% endfor %}
+    {% endfor %}
+    </ul>
+
+    {% if DEBUG %}
+    <div class="xsd-debug-box">
+        <p>{{ namespace }}<br />{{ url_name }}</p>
+    </div>
+    {% endif %}
+</div>

@@ -7,8 +7,8 @@
             <a class="brand" href="#">{{l10n_club.name}} Database</a>
             <ul class="nav">
                 <li {% is_active_simple ui.app 'home' %}><a href="/"><i class="fa fa-home"></i> Home</a></li>
-                {% if not is_members %}<li {% is_active_simple ui.app 'profile' %}><a href="{% url 'xsd_members.views.view_my_profile' %}"><i class="fa fa-user"></i> Profile</a></li>{% endif %}
-                {% if is_members %}<li {% is_active_simple ui.app 'members' %}><a href="{% url 'xsd_members.views.admin' %}"><i class="fa fa-user"></i> Members</a></li>{% endif %}
+                {% if not is_members %}<li {% is_active_simple ui.app 'profile' %}><a href="{% url 'xsd_members:my-profile' %}"><i class="fa fa-user"></i> Profile</a></li>{% endif %}
+                {% if is_members %}<li {% is_active_simple ui.app 'members' %}><a href="{% url 'xsd_members:MemberSearch' %}"><i class="fa fa-user"></i> Members</a></li>{% endif %}
                 {% if is_verified %}<li {% is_active_simple ui.app 'training' %}><a href="{% url 'xsd_training.views.trainee.overview' %}"><i class="fa fa-mortar-board"></i> Training</a></li>{% endif %}
                 {% if DEBUG %}
                 {% if is_verified %}<li {% is_active_simple ui.app 'trips' %}><a href="{% url 'TripList' %}"><i class="fa fa-road"></i> Trips</a></li>{% endif %}
@@ -26,7 +26,7 @@
                     <i class="fa fa-user"></i> {{request.user.get_full_name}} <b class="caret"></b></a>
                     <ul class="dropdown-menu" role="menu">
                         <li><a href="#update_request_modal" data-toggle="modal"><i class="fa fa-envelope-o fa-fw"></i> Request An Update To Records</a></li>
-                        <li><a href="{% url 'account_change_password' %}"><i class="fa fa-cog fa-fw"></i> Account Settings</a></li>
+                        <li><a href="{% url 'xsd_auth:account_change_password' %}"><i class="fa fa-cog fa-fw"></i> Account Settings</a></li>
                         <li class="divider"></li>
                         <li><a href="/accounts/logout"><i class="fa fa-sign-out fa-fw"></i> Logout of Database</a></li>
                     </ul>
@@ -37,7 +37,7 @@
 </div>
 {% endcomment %}
 
-<nav class="navbar navbar-fixed-top navbar-dark bg-inverse">
+<nav class="navbar navbar-fixed-top navbar-dark bg-inverse" role="navigation">
     <div class="container">
         <a class="navbar-brand" href="/">{{ l10n_club.name }}</a>
         <ul class="nav navbar-nav">
@@ -50,33 +50,33 @@
 
             {% if is_members %}
             <li class="nav-item">
-                <a class="nav-link" href="{% url 'xsd_members.views.admin' %}"><i class="fa fa-user"></i> Members</a>
+                <a class="nav-link" href="{% url 'xsd_members:MemberSearch' %}"><i class="fa fa-user"></i> Members</a>
             </li>
             {% endif %}
 
             {% if is_verified %}
             <li class="nav-item active">
-                <a class="nav-link" href="{% url 'xsd_training.views.trainee.overview' %}"><i class="fa fa-mortar-board"></i> Training</a>
+                <a class="nav-link" href="{% url 'xsd_training:training-overview' %}"><i class="fa fa-mortar-board"></i> Training</a>
             </li>
             {% endif %}
 
             {% if DEBUG and is_verified %}
             <li class="nav-item">
-                <a class="nav-link" href="{% url 'TripList' %}"><i class="fa fa-road"></i> Trips</a>
+                <a class="nav-link" href="{% url 'xsd_trips:TripList' %}"><i class="fa fa-road"></i> Trips</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="{% url 'KitOverview' %}"><i class="fa fa-tags"></i> Kit</a>
+                <a class="nav-link" href="{% url 'xsd_kit:KitOverview' %}"><i class="fa fa-tags"></i> Kit</a>
             </li>
             {% endif %}
 
             {% if is_verified %}
             <li class="nav-item">
-                <a class="nav-link" href="{% url 'SitesOverview' %}"><i class="fa fa-map-marker"></i> Sites</a>
+                <a class="nav-link" href="{% url 'xsd_sites:SitesOverview' %}"><i class="fa fa-map-marker"></i> Sites</a>
             </li>
             {% endif %}
 
             <li class="nav-item">
-                <a class="nav-link" href="{% url 'AboutView' %}"><i class="fa fa-info-circle"></i> About</a>
+                <a class="nav-link" href="{% url 'xsd_about:AboutView' %}"><i class="fa fa-info-circle"></i> About</a>
             </li>
 
             <li class="nav-item dropdown pull-xs-right">
@@ -85,7 +85,7 @@
                 </a>
                 <div class="dropdown-menu">
                   <a class="dropdown-item" href="#"><i class="fa fa-envelope-o fa-fw"></i> Request An Update To Records</a>
-                  <a class="dropdown-item" href="{% url 'account_change_password' %}"><i class="fa fa-cog fa-fw"></i> Account Settings</a>
+                  <a class="dropdown-item" href="{% url 'xsd_auth:account_change_password' %}"><i class="fa fa-cog fa-fw"></i> Account Settings</a>
                   <div class="dropdown-divider"></div>
                   <a class="dropdown-item" href="/accounts/logout"><i class="fa fa-sign-out fa-fw"></i> Logout of Database</a>
                 </div>

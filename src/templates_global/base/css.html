@@ -3,19 +3,14 @@
 
 {% compress css %}
 
-<link rel="stylesheet" type="text/x-sass" media="screen" href="{% static 'tether/src/css/tether.sass' %}" />
-<link rel="stylesheet" type="text/x-sass" media="screen" href="{% static 'tether/src/css/tether-theme-basic.sass' %}" />
-<link rel="stylesheet" type="text/x-sass" media="screen" href="{% static 'tether/src/css/tether-theme-basic.sass' %}" />
-
-<link rel="stylesheet" type="text/x-scss" media="screen" href="{% static 'bootstrap/scss/bootstrap.scss' %}" />
-
+{# Non-Sassy Library stylesheets #}
 <link rel="stylesheet" type="text/css" media="screen" href="{% static 'datatables/media/css/jquery.dataTables.css' %}" />
 <link rel="stylesheet" type="text/css" media="screen" href="{% static 'datatables/media/css/dataTables.bootstrap4.css' %}" />
 
-<link rel="stylesheet" type="text/x-scss" media="screen" href="{% static 'font-awesome/scss/font-awesome.scss' %}" />
+{# Project stylesheets #}
+<link rel="stylesheet" type="text/x-sass" media="screen" href="{% static 'sass/build.sass' %}" />
 
 <link rel="stylesheet" type="text/css" media="screen" href="{% static 'css/strap.css' %}" />
-
 <link rel="stylesheet" type="text/css" media="screen" href="{% static 'css/token-input-facebook.css' %}" />
 
 {% endcompress %}

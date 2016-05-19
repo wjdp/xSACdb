@@ -5,8 +5,8 @@
 <div class="span3">
     <ul class="nav nav-list">
       <li class="nav-header"><i class="fa fa-cog"></i> Account Settings</li>
-      <li {% is_active_simple current_url 'account_change_password' %}>
-        <a href="{% url 'account_change_password' %}">
+      <li {% is_active_simple current_url 'xsd_auth:account_change_password' %}>
+        <a href="{% url 'xsd_auth:account_change_password' %}">
         <i class="fa fa-key fa-fw"></i> Change Password</a></li>
       <li {% is_active_simple current_url 'socialaccount_connections' %}>
         <a href="{% url 'socialaccount_connections' %}">
