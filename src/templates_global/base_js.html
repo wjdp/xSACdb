@@ -1,0 +1,24 @@
+{% load compress %}
+{% load staticfiles %}
+
+{% compress js %}
+
+<script type="text/javascript" src="{% static 'jquery/dist/jquery.js' %}"></script>
+<script type="text/javascript" src="{% static 'jquery-form/jquery.form.js' %}"></script>
+<script type="text/javascript" src="{% static 'jquery-tokeninput/src/jquery.tokeninput.js' %}"></script>
+<script type="text/javascript" src="{% static 'jquery-form/jquery.form.js' %}"></script>
+{#<script type="text/javascript" src="{% static 'js/jquery.cookie.js' %}"></script>#}
+
+<script type="text/javascript" src="{% static 'tether/dist/js/tether.js' %}"></script>
+<script type="text/javascript" src="{% static 'bootstrap/dist/js/bootstrap.js' %}"></script>
+
+{% if RAVEN_DSN %}
+<script type="text/javascript" src="{% static 'raven-js/dist/raven.min.js' %}"></script>
+<script type="text/javascript">
+    Raven.config('{{ RAVEN_DSN }}').install()
+</script>
+{% endif %}
+
+<script type="text/javascript" src="{% static 'js/css_extra.js' %}"></script>
+
+{% endcompress %}

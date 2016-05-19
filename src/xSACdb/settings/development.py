@@ -52,3 +52,6 @@ LANGUAGE_CODE = 'en-gb'
 SECRET_KEY = 'change me!'
 
 RAVEN_CONFIG = {}
+
+# Test css and js compression, True in prod
+#COMPRESS_ENABLED = True

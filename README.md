@@ -20,6 +20,7 @@ If you're unfamiliar with running Python web services have a read up on those fi
 I recommend installing in a virtualenv container, this isolates the dependencies of xSACdb from the rest of your server. If you know what you're doing this'll get you up and running quickly (config needs doing first):
 
     pip install -r requirements.txt
+    ./manage.py compress
     ./manage.py collectstatic
     ./manage.py migrate
     ./manage.py createsuperuser

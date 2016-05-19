@@ -77,11 +77,27 @@ STATICFILES_DIRS = (
 STATICFILES_FINDERS = (
     'django.contrib.staticfiles.finders.AppDirectoriesFinder',
     'django.contrib.staticfiles.finders.FileSystemFinder',
-#    'django.contrib.staticfiles.finders.DefaultStorageFinder',
+    'compressor.finders.CompressorFinder',
 )
 
 # Caching for Django Whitenoise
 STATICFILES_STORAGE = 'whitenoise.django.GzipManifestStaticFilesStorage'
+
+# django-compressor settings
+# Curly braces doubled to escape them when using str.format()
+COMPRESS_PRECOMPILERS = (
+    ('text/coffeescript', 'coffee --compile --stdio'),
+    ('text/x-sass', 'sass {{infile}} {{outfile}} --load-path {}'.format(LIB_PATH)),
+    ('text/x-scss', 'sass --scss {{infile}} {{outfile}} --load-path {}'.format(LIB_PATH)),
+)
+# Lets the compress management command do it's work
+COMPRESS_OFFLINE = True
+# Prevents rebuilds if the source is unchanged
+COMPRESS_CACHEABLE_PRECOMPILERS = (
+    'text/coffeescript',
+    'text/x-sass',
+    'text/x-scss',
+)
 
 # List of callables that know how to import templates from various sources.
 TEMPLATE_LOADERS = (
@@ -159,6 +175,7 @@ INSTALLED_APPS = (
     'allauth.socialaccount.providers.facebook',
 
     'bootstrap_toolkit',
+    'compressor',
     'tastypie',
     'geoposition',
     'reversion',
