@@ -1,0 +1,10 @@
+<head>
+    {% block pre_head %}{% endblock %}
+    <title>{% block title %}{{l10n_club.name}} Database{% endblock %}</title>
+    <meta charset="utf-8" />
+
+    {% include 'base/css.html' %}
+    {% include 'base/js.html' %}
+
+    {% block post_head %}{% endblock %}
+</head>
