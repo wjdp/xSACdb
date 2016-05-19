@@ -43,6 +43,8 @@ Please note the `./manage.py` command has changed to `src/manage.py`
 
 - Fixed: Map would fail to load in sites overview.
 - Fixed: Incompatibility with latest Dokku 0.5.x
+- Fixed: Member profile fields allergies, veggie and other_qualifications added to detail and edit pages. Bug fixed where
+  they were previously cleared by member updates. Will require manual data fixing.
 
 ## [nu-8] - 2015-03-28
 
