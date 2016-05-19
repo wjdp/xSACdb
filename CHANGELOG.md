@@ -3,7 +3,7 @@
 All notable changes to this project will be documented in this file. Notes should be geared towards the managers of
 xSACdb instances. This project will soon adhere to [Semantic Versioning](http://semver.org/).
 
-## [0.1.0] - Unreleased
+## [0.1.0] - 2016-05-19
 
 ### Upgrading
 The following is needed to upgrade from nu-8 to unreleased

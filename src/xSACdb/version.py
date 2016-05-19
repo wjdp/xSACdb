@@ -2,5 +2,5 @@
 
 VERSION = {
     'tag': '0.1.0',
-    'released': 'unreleased',
+    'released': '2016-05-19',
 }
