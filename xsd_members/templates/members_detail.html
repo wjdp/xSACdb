@@ -5,16 +5,16 @@
 
 	<div class="span5">
 		<div class="titlebox">
-		{% if member.image %}<img src="{{member.image.url}}" alt="Profile Picture" class="alignright" />{%endif%}
+		{% if member.user %}<img src="{{member.user.profile_image_url}}" alt="Profile Picture" class="alignright" />{%endif%}
 		<h2>{{member}}</h2>
 		<div class="btn-group btn-mini">
 			{% if is_members %}
 			{% if member.new_notify %}
 			<a href="?action=remove-new-flag" class="btn btn-small" type="button"><i class="fa fa-flag"></i> Remove New Flag</a>
 			{% endif %}
-			<a href="{% url 'MemberEdit' member.user.pk %}" class="btn btn-small" type="button"><i class="fa fa-pencil"></i> Edit</a>
+			<a href="{% url 'MemberEdit' member.pk %}" class="btn btn-small" type="button"><i class="fa fa-pencil"></i> Edit</a>
 			{% if member_useraccount_form %}<a href="#member_useraccount_modal" data-toggle="modal" class="btn btn-small" type="button"><i class="fa fa-key"></i> Account Settings</a>{% endif %}
-			<a href="{% url 'MemberDelete' member.user.pk %}" class="btn btn-small" type="button"><i class="fa fa-trash"></i> Delete</a>
+			<a href="{% url 'MemberDelete' member.pk %}" class="btn btn-small" type="button"><i class="fa fa-trash"></i> Delete</a>
 			{% elif myself %}
 			<a href="{% url 'MyProfileEdit' %}" class="btn btn-small" type="button"><i class="fa fa-pencil"></i> Edit</a>
 			{% endif %}
@@ -22,22 +22,22 @@
 		</div>
 		<div>
 		<div class="qual_badge {{member.top_qual.code}}"></div>
-		<p>{{member.user.first_name}} joined the database on {{member.user.date_joined|date}}.</p>
+		<p>{{member.first_name}} joined the database on {{member.date_joined|date}}.</p>
 		<p>{{member.heshe}} was born on {{member.date_of_birth}}.</p>
 
 		{% if member.membership_problem %}
 		<div class="alert alert-error">
-			<i class="fa fa-exclamation-triangle"></i> <strong>Uh-oh</strong> There are currently issues with {{member.user.first_name}}'s membership. Until this is fixed {{member.heshe|lower}} cannot go diving.
+			<i class="fa fa-exclamation-triangle"></i> <strong>Uh-oh</strong> There are currently issues with {{member.first_name}}'s membership. Until this is fixed {{member.heshe|lower}} cannot go diving.
 		</div>
 		{%endif%}
 		</div>
-		
+
 	</div>
 	<div class="span4">
 		<h3><i class="fa fa-envelope"></i> Contact Details</h3>
 		<table class="table">
 			<tr><th>Address</th><td>{% if not member.address or member.post_code %}<i class="fa fa-exclamation-triangle red"></i>{% else %}{{member.formatted_address|safe}}<br />{{member.postcode}}{% endif %}</td></tr>
-			<tr><th>Email</th><td>{{member.user.email}}{% if not member.user.email %} <i class="fa fa-exclamation-triangle red"></i>{% endif %}</td></tr>
+			<tr><th>Email</th><td>{{member.email}}{% if not member.email %} <i class="fa fa-exclamation-triangle red"></i>{% endif %}</td></tr>
 			<tr><th>Home Phone</th><td>{{member.home_phone}}{% if not member.home_phone %} <i class="fa fa-exclamation-triangle red"></i>{% endif %}</td></tr>
 			<tr><th>Mobile Phone</th><td>{{member.mobile_phone}}{% if not member.mobile_phone %} <i class="fa fa-exclamation-triangle red"></i>{% endif %}</td></tr>
 

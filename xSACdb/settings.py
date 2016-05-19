@@ -67,15 +67,15 @@ STATICFILES_DIRS = (
 # List of finder classes that know how to find static files in
 # various locations.
 STATICFILES_FINDERS = (
-    'django.contrib.staticfiles.finders.FileSystemFinder',
     'django.contrib.staticfiles.finders.AppDirectoriesFinder',
+    'django.contrib.staticfiles.finders.FileSystemFinder',
 #    'django.contrib.staticfiles.finders.DefaultStorageFinder',
 )
 
 # List of callables that know how to import templates from various sources.
 TEMPLATE_LOADERS = (
-    'django.template.loaders.filesystem.Loader',
     'django.template.loaders.app_directories.Loader',
+    'django.template.loaders.filesystem.Loader',
 #     'django.template.loaders.eggs.Loader',
 )
 
@@ -95,7 +95,8 @@ TEMPLATE_CONTEXT_PROCESSORS = (
     'django.core.context_processors.media',
     'django.contrib.messages.context_processors.messages',
     'xSACdb.context_processors.menu_perms',
-    'django_facebook.context_processors.facebook',
+    'allauth.account.context_processors.account',
+    'allauth.socialaccount.context_processors.socialaccount',
 )
 
 
@@ -113,7 +114,7 @@ TEMPLATE_DIRS = (
 
 AUTHENTICATION_BACKENDS = (
     'django.contrib.auth.backends.ModelBackend',
-    'django_facebook.auth_backends.FacebookBackend',
+    'allauth.account.auth_backends.AuthenticationBackend',
     'xSACdb.email_auth.EmailBackend',
 )
 
@@ -131,14 +132,7 @@ INSTALLED_APPS = (
     'django.contrib.admin',
     'django.contrib.admindocs',
 
-    'south',
-    'django_facebook',
-    'bootstrap_toolkit',
-    'tastypie',
-    'geoposition',
-
-    'debug_toolbar',
-
+    'xsd_auth',
     'xsd_frontend',
     'xsd_members',
     'xsd_training',
@@ -146,6 +140,18 @@ INSTALLED_APPS = (
     'xsd_sites',
     'xsd_kit',
     'xsd_about',
+    'xsd_help',
+
+    'allauth',
+    'allauth.account',
+    'allauth.socialaccount',
+    'allauth.socialaccount.providers.facebook',
+
+    'bootstrap_toolkit',
+    'tastypie',
+    'geoposition',
+
+    'debug_toolbar',
 )
 
 CACHES = {
@@ -185,6 +191,29 @@ LOGGING = {
             'level': 'ERROR',
             'propagate': True,
         },
+        'django_facebook.models': {
+            'handlers': ['mail_admins','console'],
+            'level': 'ERROR',
+            'propagate': True,
+        }
     }
 }
-AUTH_PROFILE_MODULE='xsd_members.MemberProfile'
+
+AUTH_USER_MODEL = 'xsd_auth.User'
+USER_MODEL = AUTH_USER_MODEL
+AUTH_PROFILE_MODEL = 'xsd_members.MemberProfile'
+
+LOGIN_REDIRECT_URL = '/'
+ACCOUNT_LOGOUT_REDIRECT_URL = '/accounts/login'
+
+ACCOUNT_EMAIL_REQUIRED = True
+
+SOCIALACCOUNT_FORMS = {
+    'signup': 'xsd_auth.forms.SignupForm'
+}
+
+SOCIALACCOUNT_ADAPTER = 'xsd_auth.adapter.XSDSocialAccountAdapter'
+
+TEST_FIXTURES = ['local_files/test_fixture.json','groups']
+
+SILENCED_SYSTEM_CHECKS=['1_6.W001']

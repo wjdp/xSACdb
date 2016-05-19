@@ -32,7 +32,7 @@ class TraineeGroupUpdate(RequireTrainingOfficer,DetailView):
 
     def get_context_data(self, **kwargs):
         context = super(TraineeGroupUpdate, self).get_context_data(**kwargs)
-        context['trainees'] = context['tg'].get_all_trainees() 
+        context['trainees'] = context['tg'].get_all_trainees()
         return context
 
     def get(self, request, *args, **kwargs):
@@ -45,8 +45,8 @@ class TraineeGroupUpdate(RequireTrainingOfficer,DetailView):
     def add_trainees(self, request):
         members=get_bulk_members(request)
         for member in members:
-            if member.user not in self.object.trainees.all():
-                self.object.trainees.add(member.user)
+            if member not in self.object.trainees.all():
+                self.object.trainees.add(member)
         self.object.save()
 
 class TraineeGroupDelete(RequireTrainingOfficer,DeleteView):

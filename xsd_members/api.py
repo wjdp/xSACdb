@@ -2,7 +2,7 @@ from tastypie.resources import Resource, ModelResource
 from tastypie import fields, utils
 
 from models import MemberProfile
-from django.contrib.auth.models import User
+from django.contrib.auth import get_user_model
 
 from django.http import HttpResponse
 
@@ -10,7 +10,8 @@ import json
 
 class UserResource(ModelResource):
     class Meta:
-        queryset=User.objects.all()
+        U = get_user_model()
+        queryset=U.objects.all()
         resource_name='users'
         allowed_methods=['get']
         fields=['id','email','first_name','last_name','username']
@@ -36,12 +37,12 @@ class TokenInputResource(Resource):
     name=fields.CharField(attribute='name')
 
     def get_object_list(self, request):
-        queryset=User.objects.all()
-        data=[]
-        for user in queryset:
-            t=TokenInputUser()
-            t.id=user.pk
-            t.name=user.first_name + " " + user.last_name
+        queryset = MemberProfile.objects.all()
+        data = []
+        for member in queryset:
+            t = TokenInputUser()
+            t.id = member.pk
+            t.name = member.get_full_name
             data.append(t)
         return data
 
@@ -54,11 +55,11 @@ class TokenInputResource(Resource):
 
 
 def tokeninput_json(request):
-    users=User.objects.all()
+    members = MemberProfile.objects.all()
     data=[]
-    for user in users:
-        t={"name":user.get_full_name(), "id":user.pk}
+    for member in members:
+        t={"name":member.get_full_name(), "id":member.pk}
         data.append(t)
     json_data=json.dumps(data)
     js_version="var data = " + json_data + ";"
-    return HttpResponse(content=js_version, mimetype='text/javascript')
+    return HttpResponse(content=js_version, content_type='application/json')

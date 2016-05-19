@@ -1,5 +1,5 @@
 {% load bootstrap_toolkit %}
-
+{% load socialaccount %}
 <!doctype html>
 
 <html>
@@ -35,11 +35,11 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#4e5b89', end
 			position: absolute;
 			top:0;
 			left:0;
-			
+
 
 			-webkit-transition: opacity 5s;
-			-moz-transition: opacity 5s;     
-			transition: opacity 5s; 
+			-moz-transition: opacity 5s;
+			transition: opacity 5s;
 		}
 		.overlay {
 			position: absolute;
@@ -107,12 +107,12 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#4e5b89', end
 		}
 		.login-register input {
 			padding: 3px;
-			margin: 4px;	
+			margin: 4px;
 			width: 100%;
 			border: 1px solid #ccc;
 			border-radius: 2px;
 		}
-		
+
 		.login-register .submit {
 			background:#548ac1;
 			color:white;
@@ -126,7 +126,7 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#4e5b89', end
 			border:none;
 		}
 
-		
+
 .slow-slide {
   -webkit-animation: slow-slide 50s 1; /* Safari 4+ */
   -moz-animation:    slow-slide 50s 1; /* Fx 5+ */
@@ -215,10 +215,10 @@ ul.errorlist li {
 </head>
 
 <body>
-	<img class="big-background-1">
-	<img class="big-background-2">
+	<!-- <img class="big-background-1"> -->
+	<!-- <img class="big-background-2"> -->
 	<div class="overlay"></div>
-	
+
 	<div class="banner {% if not form.errors %}hidden{% endif %}"><p>There were errors with your request, please correct them below.</p></div>
 
  	<div class="login">
@@ -229,19 +229,17 @@ ul.errorlist li {
 			{{form}}
 			<input class="register" type="submit" value="Register" />
 		</form>
-		</div>	
+		</div>
 
 		<div class="login-facebook">
 		<div class="inner">
-			<form action="{% url 'facebook_connect' %}?facebook_login=1" method="post">
-				<a href="javascript:void(0);" style="font-size: 20px;" onclick="F.connect(this.parentNode);">
-					<img src="/static/images/fb_button.png" alt="Login with Facebook" />					
+				<a href="{% provider_login_url "facebook" %}">
+					<img src="/static/images/fb_button.png" alt="Login with Facebook" />
 				</a>
 				<input type="hidden" value="{{ request.path }}" name="next" />
 				<input type="hidden" value="{{ request.path }}" name="register_next" />
 				<input type="hidden" value="{{ request.path }}" name="error_next" />
 				{% csrf_token %}
-			</form>
 			<p>Facebook is used for login, only your name, and basic public profile information is used for the creation of your record.</p>
 			</div>
 		</div>
@@ -249,9 +247,6 @@ ul.errorlist li {
 		<div class="clear"></div>
 
 	</div>
-
-	<script src="/static/js/facebook.js" type="text/javascript"></script>
-	{% include 'django_facebook/_facebook_js.html' %}
 
 	<script type="text/javascript">
 		var images=['/static/images/login_backgrounds/1.jpg','/static/images/login_backgrounds/2.jpg','/static/images/login_backgrounds/3.jpg','/static/images/login_backgrounds/4.jpg','/static/images/login_backgrounds/5.jpg','/static/images/login_backgrounds/6.jpg']
@@ -269,7 +264,7 @@ ul.errorlist li {
     			array[i] = t;
   			}
   			return array;
-		}	
+		}
 
 		function fadeOutA() {$( ".big-background-1" ).css({"opacity":"0"});}
 		function fadeInA() {$( ".big-background-1" ).css({"opacity":"1"});}
@@ -303,7 +298,7 @@ ul.errorlist li {
 		$(document).ready(function() {
 			images=shuffle(images)
 			startAMoving()
-			nextImageA()	
+			nextImageA()
 			fadeInA();
 			again();
 		});

@@ -18,7 +18,7 @@ def overview(request):
 
     return render(request,'overview.html', {
             'ui':ui,
-            'quals':quals,     
+            'quals':quals,
             }, context_instance=RequestContext(request))
 
 @require_verified
@@ -29,7 +29,7 @@ def lessons(request):
     ui.section='my'
 
     return render(request,'lessons.html', {
-            'ui':ui     
+            'ui':ui
             }, context_instance=RequestContext(request))
 
 @require_verified
@@ -40,7 +40,7 @@ def lesson_detail(request, id):
     ui.page='my_lessons'
     ui.section='my'
     try:
-        pls=PerformedLesson.objects.filter(trainee=request.user, lesson=lesson).order_by('date')
+        pls=PerformedLesson.objects.filter(trainee=request.user.memberprofile, lesson=lesson).order_by('date')
     except PerformedLesson.DoesNotExist: pl=None
     return render(request, 'lesson_detail.html', {
         'lesson':lesson,
@@ -54,7 +54,7 @@ def all_feedback(request):
     ui.app='training'
     ui.section='my'
     ui.page='my_feedback'
-    pls=PerformedLesson.objects.filter(trainee=request.user)
+    pls=PerformedLesson.objects.filter(trainee=request.user.memberprofile)
     pls=pls.exclude(public_notes="").order_by('-date')
 
     return render(request,'all_feedback.html', {

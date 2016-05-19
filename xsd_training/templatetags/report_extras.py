@@ -4,11 +4,11 @@ from xsd_training.models import *
 
 register = template.Library()
 
-def build_lesson_row(lessons, user):
+def build_lesson_row(lessons, mp):
     lesson_row = ""
     for lesson in lessons:
-        pls = PerformedLesson.objects.filter(lesson = lesson, trainee = user)
-        if lesson.qualification != user.memberprofile.training_for:
+        pls = PerformedLesson.objects.filter(lesson = lesson, trainee = mp)
+        if lesson.qualification != mp.training_for:
             continue
         completed = False
         partially_completed = False
@@ -18,8 +18,8 @@ def build_lesson_row(lessons, user):
             if pl.partially_completed: partially_completed = True
         if lesson.code: code_o = lesson.code
         else: code_o = lesson.title
-        lesson_row += '<td data-l='+str(lesson.pk)+" data-t="+str(user.pk)+" data-q="+str(lesson.qualification.pk)
-        if completed:                lesson_row += ' class="ljs completed">' 
+        lesson_row += '<td data-l='+str(lesson.pk)+" data-t="+str(mp.pk)+" data-q="+str(lesson.qualification.pk)
+        if completed:                lesson_row += ' class="ljs completed">'
         elif partially_completed:    lesson_row += ' class="ljs partially_completed">'
         else:                        lesson_row += ' class="ljs nothing">'
         lesson_row += code_o+'</td>'
@@ -29,9 +29,9 @@ def build_lesson_row(lessons, user):
 
 
 @register.simple_tag
-def show_lessons(user, only_main_three=False):
-    training_for = user.memberprofile.training_for
-    
+def show_lessons(mp, only_main_three=False):
+    training_for = mp.training_for
+
     lessons = {}
 
     for mode in Lesson.MODE_CHOICES:
@@ -39,7 +39,7 @@ def show_lessons(user, only_main_three=False):
 
     output = '<table class=" progress-table">\n'
     for mode in Lesson.MODE_CHOICES:
-        output += build_lesson_row(lessons[mode[0]], user)
+        output += build_lesson_row(lessons[mode[0]], mp)
 
     output += "</table>"
 

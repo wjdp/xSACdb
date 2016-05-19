@@ -17,15 +17,15 @@
     <tr data-toggle="collapse" data-target="#sdc-info-{{sdc.id}}">
         <td>
         <div class="alignright" >
-        	<i class="sdc-interested fa fa-star sdc-register-interest sdc-register-interest-true-{{sdc.id}}" title="You have indicated an interest in doing this SDC" {% if not user|has_sdc_interest:sdc %}style="display:none"{% endif %}></i>
-            {% if not user|has_sdc:sdc %}<i data-toggle="collapse" data-target="#sdc-info-{{sdc.id}}" class="fa fa-info-circle"></i>{% endif %}
+        	<i class="sdc-interested fa fa-star sdc-register-interest sdc-register-interest-true-{{sdc.id}}" title="You have indicated an interest in doing this SDC" {% if not profile|has_sdc_interest:sdc %}style="display:none"{% endif %}></i>
+            {% if not profile|has_sdc:sdc %}<i data-toggle="collapse" data-target="#sdc-info-{{sdc.id}}" class="fa fa-info-circle"></i>{% endif %}
         </div>
 
         <div class="sdc-title">
             {% if is_training %}
                 {{sdc.interested_members.count}}
             {% endif %}
-            {% if user|has_sdc:sdc %}
+            {% if profile|has_sdc:sdc %}
             <i class="sdc-has fa fa-check fa-fw" title="You have completed this SDC"></i>
         	{% else %}
             {% if sdc.other_requirements and profile|cando_sdc:sdc %}
@@ -39,20 +39,20 @@
 
         <div id="sdc-info-{{sdc.id}}" class="sdc-info collapse out">
 
-            <button class="btn btn-mini alignright sdc-register-interest sdc-register-interest-false-{{sdc.pk}}" data-sdc-id={{sdc.pk}} type="button" {% if user|has_sdc_interest:sdc %}style="display:none"{% endif %}>
+            <button class="btn btn-mini alignright sdc-register-interest sdc-register-interest-false-{{sdc.pk}}" data-sdc-id={{sdc.pk}} type="button" {% if profile|has_sdc_interest:sdc %}style="display:none"{% endif %}>
                 <i class="fa fa-hand-right"></i> I'm Interested In Doing This</button>
-            
+
             {{sdc.description|linebreaks}}
 
-            <div class="sdc-register-interest-true sdc-register-interest-true-{{sdc.id}}" {% if not user|has_sdc_interest:sdc %}style="display:none"{% endif %}>
+            <div class="sdc-register-interest-true sdc-register-interest-true-{{sdc.id}}" {% if not profile|has_sdc_interest:sdc %}style="display:none"{% endif %}>
                 <button class="btn btn-danger btn-mini alignright sdc-cancel-interest" data-sdc-id={{sdc.pk}} type="button"><i class="fa fa-hand-right fa fa-white"></i> I'm No Longer Interested</button>
                 <p>You have noted that you're interested in taking this course</p>
             </div>
             {% if is_training %}
                 <h4>Interested Members</h4>
                 <ul>
-                {% for user in sdc.interested_members.all %}
-                <li>{{user.get_full_name}}</li>
+                {% for member in sdc.interested_members.all %}
+                <li>{{member.get_full_name}}</li>
                 {% endfor %}
                 </ul>
             {% endif %}
@@ -77,7 +77,7 @@
                     <td><i class="sdc-has fa fa-check fa-fw" title="You have completed this SDC"></i></td>
                     <td>SDC Attained</td>
                 </tr>
-                
+
                 <tr>
                     <td><i class="sdc-cando fa fa-circle fa-fw" title="You can do this SDC"></i></td>
                     <td>You could do this SDC</td>

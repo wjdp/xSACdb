@@ -1,10 +1,11 @@
 from django.db import models
+from django.conf import settings
 
 class Trip(models.Model):
 	name=models.CharField(max_length=50)
 	date_from=models.DateField()
 	date_to=models.DateField()
-	trip_organiser=models.ForeignKey('auth.User')
+	trip_organiser=models.ForeignKey(settings.AUTH_USER_MODEL)
 	location=models.CharField(max_length=100)
 	cost=models.DecimalField(decimal_places=2, max_digits=6, blank=True, null=True)
 	notes=models.TextField(blank=True)
@@ -21,7 +22,7 @@ class Trip(models.Model):
 
 class TripAttendee(models.Model):
 	trip=models.ForeignKey('xsd_trips.Trip')
-	attendee=models.ForeignKey('auth.User')
+	attendee=models.ForeignKey(settings.AUTH_USER_MODEL)
 	accepted=models.BooleanField(default=False)
 	deposit_paid=models.BooleanField(default=False)
 	cost_paid=models.BooleanField(default=False)
@@ -31,4 +32,4 @@ class TripAttendee(models.Model):
 	def __unicode__(self):
 		return self.attendee.username + " on " + self.trip.name
 
-	
+

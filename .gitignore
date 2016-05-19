@@ -2,8 +2,7 @@
 *.pot
 *.pyc
 local_settings.py
-db.sqlite3
-ltools/*
+db.*
 *.pyc
 media/images/facebook_profiles/*
 xsd_members/fixtures/*

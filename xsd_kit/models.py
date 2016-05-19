@@ -1,4 +1,5 @@
 from django.db import models
+from django.conf import settings
 
 TYPE_CHOICES = (
     ('WETS','Wetsuit'),
@@ -23,12 +24,12 @@ class Kit(models.Model):
     name = models.CharField(max_length=64)
     type = models.CharField(max_length=64, choices=TYPE_CHOICES)
     size = models.CharField(max_length=64, blank=True)
-    club_owned = models.BooleanField(blank=True)
-    owner = models.ForeignKey('auth.User', blank=True, null=True)
+    club_owned = models.BooleanField(blank=True, default=True)
+    owner = models.ForeignKey(settings.AUTH_USER_MODEL, blank=True, null=True)
     cost = models.DecimalField(decimal_places=2, max_digits=9, blank=True, null=True)
     value = models.DecimalField(decimal_places=2, max_digits=9, blank=True, null=True)
     purchase_date = models.DateField(blank=True, null=True)
-    needs_testing = models.BooleanField(blank=True)
+    needs_testing = models.BooleanField(blank=True, default=False)
     test_date = models.DateField(blank=True, null=True)
 
     def __unicode__(self):
@@ -40,9 +41,9 @@ class Kit(models.Model):
         ordering=['type', 'size', 'club_id']
 
 class Loan(models.Model):
-    member = models.ForeignKey('auth.User')
+    member = models.ForeignKey(settings.AUTH_USER_MODEL)
     kit = models.ManyToManyField('Kit')
-    approved = models.BooleanField(blank=True)
+    approved = models.BooleanField(blank=True, default=False)
     notes = models.TextField(blank=True)
     date_start = models.DateField()
     date_end = models.DateField()

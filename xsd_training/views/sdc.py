@@ -1,7 +1,6 @@
 from django.shortcuts import redirect, render
 from django.http import HttpResponse
 from django.template import RequestContext
-from django.contrib.auth.models import User
 
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.views.generic.list import ListView
@@ -13,6 +12,7 @@ from xSACdb.view_helpers import OrderedListView
 from xSACdb.roles.decorators import require_training_officer, require_verified
 from xSACdb.roles.mixins import RequireTrainingOfficer, RequireVerified
 
+from xsd_members.models import MemberProfile
 from xsd_training.models import *
 from xsd_training.forms import *
 import xsd_training.trainee_table as trainee_table
@@ -49,13 +49,13 @@ class SDCList(RequireVerified, OrderedListView):
 @require_verified
 def sdc_register_interest(request):
     if request.POST:
-        user=request.user
+        member=request.user.memberprofile
         sdc_id=request.POST['sdc_id']
         sdc=SDC.objects.get(pk=sdc_id)
         if request.POST['action']=="add":
-            sdc.interested_members.add(user) 
+            sdc.interested_members.add(member)
         elif request.POST['action']=="remove":
-            sdc.interested_members.remove(user) 
+            sdc.interested_members.remove(member)
         sdc.save()
         return HttpResponse(content="True")
     else:
@@ -97,8 +97,8 @@ class PerformedSDCUpdate(RequireTrainingOfficer,UpdateView):
     def add_trainees(self, request):
         members=get_bulk_members(request)
         for member in members:
-            if member.user not in self.object.trainees.all():
-                self.object.trainees.add(member.user)
+            if member not in self.object.trainees.all():
+                self.object.trainees.add(member)
         self.object.save()
 
     def get(self, request, *args, **kwargs):
@@ -113,30 +113,28 @@ class PerformedSDCComplete(RequireTrainingOfficer,DetailView):
     template_name='performedsdc_complete.html'
     context_object_name='psdc'
 
-    def get_users(self,request):
-        users=[]
+    def get_trainees(self, request):
+        trainees = []
         for item in request.POST:
-            if re.match('user',item):
-                user_pk=item[5:]
-                u=User.objects.get(pk=user_pk)
-                users.append(u)
-        return users
+            if re.match('trainee',item):
+                trainee_pk=item[8:]
+                trainees.append( MemberProfile.objects.get(pk=trainee_pk) )
+        return trainees
 
     def post(self, request, *args, **kwargs):
-        users=self.get_users(request)
+        trainees = self.get_trainees(request)
         psdc=self.get_object()
         sdc=psdc.sdc
-        for user in users:
-            p=user.memberprofile
-            p.sdcs.add(sdc)
-            p.save()
-        for user in psdc.trainees.all():
-            if user not in users:
-                psdc.trainees.remove(user)
+        for trainee in trainees:
+            trainee.sdcs.add(sdc)
+            trainee.save()
+        for trainee in psdc.trainees.all():
+            if trainee not in trainees:
+                psdc.trainees.remove(trainee)
         psdc.completed=True
         psdc.save()
         return redirect(reverse('PerformedSDCList'))
-        
+
 
 class PerformedSDCDelete(RequireTrainingOfficer,DeleteView):
     model=PerformedSDC

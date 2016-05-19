@@ -6,7 +6,7 @@ import csv
 token_name='names'
 
 def get_some_objects(list):
-    return MemberProfile.objects.filter(user__pk__in=list)
+    return MemberProfile.objects.filter(pk__in=list)
 def parse_token_data(request_post):
     f = StringIO.StringIO(request_post[token_name])
     reader = csv.reader(f, delimiter=',')
