@@ -1,74 +1,18 @@
 {% extends 'base_template.html' %}
-{% load xsd_nav %}
+{% load navigation %}
 {% load members_todo_pips %}
+
 {% block content %}
-{% comment %}
-<div class="row">
-<div class="span3 nav-down">
-    <ul class="nav nav-list">
-      <li class="nav-header">Personal</li>
-      <li {% is_active_simple current_url 'my-profile' %} {% is_active_simple current_url 'MyProfileEdit' %}>
-      <a href="{% url 'my-profile' %}"><i class="fa fa-user fa-fw"></i> Your Profile</a></li>
+<div class="xsd-module-row">
 
-      {% if is_members %}
-      <li class="nav-header">Current Membership</li>
-      <li {% is_active_simple current_url 'MemberSearch' %}>
-      <a href="{% url 'MemberSearch' %}"><i class="fa fa-search fa-fw"></i> Search For Member</a></li>
-      <li {% is_active_simple current_url 'MemberList' %}>
-      <a href="{% url 'MemberList' %}"><i class="fa fa-th-list fa-fw"></i> Members Listing</a></li>
+    {% module_nav %}
 
-      <li class="nav-header">Records Needing Attention</li>
-      <li {% is_active_simple current_url 'NewMembers' %}>
-            <a href="{% url 'NewMembers' %}">
-                  {% todo 'NewMembers' %}
-                  <i class="fa fa-flag fa-fw"></i> New Members
-            </a>
-      </li>
-      <li {% is_active_simple current_url 'MemberUpdateRequestList' %}>
-            <a href="{% url 'MemberUpdateRequestList' %}">
-                  {% todo 'MemberUpdateRequestList' %}
-                  <i class="fa fa-envelope-o fa-fw"></i>
-                  Update Requests
-            </a>
-      </li>
-      <li {% is_active_simple current_url 'MembersMissingFieldsList' %}>
-            <a href="{% url 'MembersMissingFieldsList' %}">
-                  {% todo 'MembersMissingFieldsList' %}
-                  <i class="fa fa-ban fa-fw"></i>
-                  Members With Blank Fields
-            </a>
-      </li>
-      <li {% is_active_simple current_url 'MembersExpiredFormsList' %}>
-            <a href="{% url 'MembersExpiredFormsList' %}">
-                  {% todo 'MembersExpiredFormsList' %}
-                  <i class="fa fa-exclamation-triangle fa-fw"></i>
-                  Members With Expired Forms
-            </a>
-      </li>
+    <div class="xsd-module-column-content">
+    {% block members_content %}
+    No Content
+    {% endblock %}
+    </div>
 
-      <li class="nav-header">Bulk Jobs</li>
-      <li {% is_active_simple current_url 'BulkAddForms' %}>
-      <a href="{% url 'BulkAddForms' %}"><i class="fa fa-plus fa-fw"></i> Add Forms</a></li>
-
-      <li class="nav-header">Reporting</li>
-      <li {% is_active_simple current_url 'ReportsOverview' %}>
-      <a href="{% url 'ReportsOverview' %}"><i class="fa fa-bar-chart-o fa-fw"></i> Membership Overview</a></li>
-
-      <!-- <li class="nav-header">Manual Registration</li>
-      <li {% is_active_simple current_url 'NoPage' %}>
-      <a href="{% url 'MemberList' %}">Add User Only</a></li>
-      <li {% is_active_simple current_url 'NoPage' %}>
-      <a href="{% url 'MemberList' %}">Add Member</a></li> -->
-      {% endif %}
-
-    </ul>
-
-</div>
-{% endcomment %}
-
-{% block members_content %}
-No Content
-{% endblock %}
 </div>
 
 {% endblock %}

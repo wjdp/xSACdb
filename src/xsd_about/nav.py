@@ -16,7 +16,7 @@ NAV = (
             # ('All Update Requests', 'fa fa-cogs', 'DjangoAdminWarning', []),
             # ('Assign Roles', 'fa fa-cogs', 'DjangoAdminWarning', []),
             # ('ApplicationTools', 'fa fa-cogs', 'DjangoAdminWarning', []),
-            ('Debug Backend', 'fa fa-cogs', 'xsd_about:DjangoAdminWarning', []),
+            ('Django Backend', 'fa fa-cogs', 'xsd_about:DjangoAdminWarning', []),
         )
     },
 )

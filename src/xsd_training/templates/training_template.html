@@ -1,81 +1,18 @@
 {% extends 'base_template.html' %}
-{% load xsd_nav %}
+{% load navigation %}
 {% load training_todo_pips %}
+
 {% block content %}
-{% comment %}
-<div class="row">
-<div class="span3 section-nav">
-    <ul class="nav nav-list">
+<div class="xsd-module-row">
 
-      <li class="nav-header">Your Training</li>
-      <li   {% is_active_simple ui.page 'my_overview' %}>
-            <a href="{% url 'xsd_training.views.trainee.overview' %}"><i class="fa fa-tachometer fa-fw"></i> Overview</a></li>
-      {% if profile.training_for %}
-      <li   {% is_active_simple ui.page 'my_lessons' %}>
-            <a href="{% url 'xsd_training.views.trainee.lessons' %}"><i class="fa fa-mortar-board fa-fw"></i> Lessons</a></li>{% endif %}
-      <li   {% is_active_simple ui.page 'my_feedback' %}>
-            <a href="{% url 'xsd_training.views.trainee.all_feedback' %}"><i class="fa fa-comment fa-fw"></i> See All Feedback</a></li>
+    {% module_nav %}
 
-      <li class="nav-header">Skill Development Courses</li>
-      <li   {% is_active_simple current_url 'SDCList' %}>
-            <a href="{% url 'SDCList' %}"><i class="fa fa-list fa-fw"></i> All SDCs</a></li>
-      <li   {% is_active_simple current_url 'PerformedSDCList' %}
-            {% is_active_simple current_url 'PerformedSDCDetail' %}>
-            <a href="{% url 'PerformedSDCList' %}"><i class="fa fa-calendar fa-fw"></i> Upcoming Courses</a></li>
-
-      {% if is_training or profile.is_instructor %}
-      <li class="nav-header">Your Teaching</li>
-      <li   {% is_active_simple current_url 'InstructorUpcoming' %}>
-            <a href="{% url 'InstructorUpcoming' %}"><i class="fa fa-clock-o fa-fw"></i> Upcoming Lessons</a></li>
-      <li   {% is_active_simple current_url 'TraineeNotesSearch' %} {% is_active_simple current_url 'TraineeNotes' %}>
-            <a href="{% url 'TraineeNotesSearch' %}"><i class="fa fa-pencil-square-o fa-fw"></i> See Trainee Notes</a></li>
-      {% endif %}
-
-      {% if is_training %}
-      <li class="nav-header">Trainee Administration</li>
-      <li   {% is_active_simple current_url 'TraineeGroupList' %}
-            {% is_active_simple current_url 'TraineeGroupCreate' %}
-            {% is_active_simple current_url 'TraineeGroupUpdate' %}
-            {% is_active_simple current_url 'TraineeGroupDelete' %}>
-            <a href="{% url 'TraineeGroupList' %}"><i class="fa fa-users fa-fw"></i> Groups</a></li>
-      <li   {% is_active_simple current_url 'TraineeGroupProgress' %}>
-            <a href="{% url 'TraineeGroupProgress' %}"><i class="fa fa-flag-checkered fa-fw"></i> Progress Report</a></li>
-      <li   {% is_active_simple current_url 'TrainingUpdateRequestList' %}>
-            <a href="{% url 'TrainingUpdateRequestList' %}">
-                  {% todo 'TrainingUpdateRequestList' %}
-                  <i class="fa fa-envelope-o fa-fw"></i>
-                  Update Requests
-            </a>
-      </li>
-
-      <li class="nav-header">Lesson Administration</li>
-      <li   {% is_active_simple current_url 'SessionCreate' %}
-            {% is_active_simple current_url 'SessionPlanner' %}
-            {% is_active_simple current_url 'SessionList' %}
-            {% is_active_simple current_url 'SessionDelete' %}>
-            <a href="{% url 'SessionList' %}"><i class="fa fa-calendar fa-fw"></i> Session Planning</a></li>
-      <li   {% is_active_simple current_url 'PoolSheet' %}>
-            <a href="{% url 'PoolSheet' %}"><i class="fa fa-file-o fa-fw"></i> Create Pool Sheet</a></li>
-
-      <li   {% is_active_simple current_url 'RetroAddLessons' %}>
-            <a href="{% url 'RetroAddLessons' %}"><i class="fa fa-table fa-fw"></i> Retrospectively Add Lessons</a></li>
-
-      <li   {% is_active_simple current_url 'QualificationAward' %}>
-            <a href="{% url 'QualificationAward' %}"><i class="fa fa-trophy fa-fw"></i> Award Qualifications</a></li>
-
-      <li class="nav-header">SDC Administration</li>
-      <li   {% is_active_simple current_url 'PerformedSDCCreate' %}>
-            <a href="{% url 'PerformedSDCCreate' %}"><i class="fa fa-calendar fa-fw"></i> Plan an SDC</a></li>
-
-      <li {% is_active_simple current_url 'SDCAward' %}><a href="{% url 'SDCAward' %}"><i class="fa fa-trophy fa-fw"></i> Award SDCs</a></li>
-
-      {% endif %}
-    </ul>
+    <div class="xsd-module-column-content">
+    {% block training_content %}
+    No Content
+    {% endblock %}
+    </div>
 
 </div>
-{% endcomment %}
-{% block training_content %}
 
-{% endblock %}
-</div>
 {% endblock %}

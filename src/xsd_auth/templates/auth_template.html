@@ -1,24 +1,18 @@
 {% extends 'base_template.html' %}
-{% load xsd_nav %}
+{% load navigation %}
+
 {% block content %}
-<div class="row">
-<div class="span3">
-    <ul class="nav nav-list">
-      <li class="nav-header"><i class="fa fa-cog"></i> Account Settings</li>
-      <li {% is_active_simple current_url 'xsd_auth:account_change_password' %}>
-        <a href="{% url 'xsd_auth:account_change_password' %}">
-        <i class="fa fa-key fa-fw"></i> Change Password</a></li>
-      <li {% is_active_simple current_url 'socialaccount_connections' %}>
-        <a href="{% url 'socialaccount_connections' %}">
-        <i class="fa fa-facebook-square fa-fw"></i> Social Login</a></li>
+<div class="xsd-module-row">
 
-    </ul>
+    {% module_nav %}
+
+    <div class="xsd-module-column-content">
+    {% block auth_content %}
+    No Content
+    {% endblock %}
+    </div>
 
 </div>
-<div class="span9">
-{% block auth_content %}
-No Content
+
 {% endblock %}
-</div>
-</div>
-{% endblock %}
+

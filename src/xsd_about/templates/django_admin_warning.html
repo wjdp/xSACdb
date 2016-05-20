@@ -2,27 +2,26 @@
 
 {% block about_content %}
 <div class="big-scary-warning">
-	<div class="span9 ">
+	<div class="">
 		<h1><i class="fa fa-exclamation-triangle"></i> Here Be Dragons <i class="fa fa-exclamation-triangle"></i></h1>
 	</div>
-	<div class="span6">
-		<p>The debug backend is a very vanilla <a href="https://docs.djangoproject.com/en/dev/ref/contrib/admin/">Django admin site</a>, it is used to make modifications to the database when the xSACdb site just isn't cutting it. Be wary though!
+	<div class="col-sm-8">
+		<p>The backend is a very vanilla <a href="https://docs.djangoproject.com/en/dev/ref/contrib/admin/">Django admin site</a>, it is used to make modifications to the database when the xSACdb site just isn't cutting it. Be wary though!
 
 		<ul>
 			<li><strong>No Error Checking</strong> Beyond basic model validation checks there will be no proper error checking, you could very easily modify/delete something you didn't mean to. This could cause the main xSACdb application to crash or to malfunction.</li>
 			<li><strong>Security</strong> Changing settings can invalidate the security of this application.</li>
-			<li>Lastly <strong>Power, and lots of it</strong> Everything can be modified, useful and dangerous.</li>
 		</ul>
 
 		<p>You should only continue if you know what you're doing, or are being guided by someone who does!</p>
 	</div>
 
-	<div class="span3">
+	<div class="col-sm-4">
 		<div class="alert alert-block">
 		  <h4>Continue</h4>
 		  <p>If you've read all this and you promise to be careful.</p>
 		  <br />
-		  <a href="/admin/"  class="btn btn-warning">I Understand, take me to the scary debug admin area of which you speak.</a>
+		  <a href="/admin/"  class="btn btn-warning">I Understand</a>
 		</div>
 	</div>
 </div>

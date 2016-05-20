@@ -16,8 +16,6 @@ urlpatterns = patterns('',
 
     url(r'^accounts/', include('allauth.urls', namespace='xsd_auth')),
 
-    url(r'^profile/$', 'xsd_members.views.view_my_profile', name='my-profile'),
-
     url(r'^members/', include('xsd_members.urls', namespace='xsd_members')),
 
     url(r'^training/', include('xsd_training.urls', namespace='xsd_training')),
