@@ -44,7 +44,7 @@
         <div class="form-actions ">
 
             <button type="submit" class="btn btn-primary alignright"><i class="fa fa-save"></i>  Save</button>
-            {% if session.in_past %}<a class="btn" href="{% url 'SessionComplete' session.pk %}"><i class="fa fa-check-square"></i> Complete Session</a>{% endif %}
+            {% if session.in_past %}<a class="btn" href="{% url 'xsd_training:SessionComplete' session.pk %}"><i class="fa fa-check-square"></i> Complete Session</a>{% endif %}
 
         </div>
 

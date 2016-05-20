@@ -16,7 +16,7 @@ class MemberProfileManager(models.Manager):
     def all(self):
         # Filtering is applied here to hide 'hidden' users
         return super(MemberProfileManager, self).all().exclude(hidden=True)
-    
+
     def all_actual(self):
         return super(MemberProfileManager, self).all()
 
@@ -95,7 +95,7 @@ class MemberProfile(models.Model):
         return self.first_name + " " + self.last_name
 
     def get_absolute_url(self):
-        return reverse('MemberDetail', kwargs={'pk': self.pk})
+        return reverse('xsd_members:MemberDetail', kwargs={'pk': self.pk})
 
     def uid(self):
         return "M{:0>4d}".format(self.pk)

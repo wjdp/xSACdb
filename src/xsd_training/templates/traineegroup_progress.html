@@ -28,7 +28,7 @@
 <table class="table table-condensed table-striped">
 {% for t in tg.trainees.all %}
     <tr>
-        <td><i class="fa fa-user"></i>  <a href="{% url 'TraineeNotes' t.pk %}">{{t.get_full_name}}</a></td>
+        <td><i class="fa fa-user"></i>  <a href="{% url 'xsd_training:TraineeNotes' t.pk %}">{{t.get_full_name}}</a></td>
         <td>{{t.memberprofile.training_for}}</td>
         <td>{% show_lessons t %}
     </tr>

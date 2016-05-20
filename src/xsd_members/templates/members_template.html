@@ -2,6 +2,7 @@
 {% load xsd_nav %}
 {% load members_todo_pips %}
 {% block content %}
+{% comment %}
 <div class="row">
 <div class="span3 nav-down">
     <ul class="nav nav-list">
@@ -44,7 +45,7 @@
                   Members With Expired Forms
             </a>
       </li>
-      
+
       <li class="nav-header">Bulk Jobs</li>
       <li {% is_active_simple current_url 'BulkAddForms' %}>
       <a href="{% url 'BulkAddForms' %}"><i class="fa fa-plus fa-fw"></i> Add Forms</a></li>
@@ -60,11 +61,14 @@
       <a href="{% url 'MemberList' %}">Add Member</a></li> -->
       {% endif %}
 
-    </ul> 
+    </ul>
 
 </div>
+{% endcomment %}
+
 {% block members_content %}
 No Content
 {% endblock %}
 </div>
+
 {% endblock %}

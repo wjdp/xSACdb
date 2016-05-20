@@ -2,6 +2,7 @@
 {% load xsd_nav %}
 {% load training_todo_pips %}
 {% block content %}
+{% comment %}
 <div class="row">
 <div class="span3 section-nav">
     <ul class="nav nav-list">
@@ -58,20 +59,21 @@
 
       <li   {% is_active_simple current_url 'RetroAddLessons' %}>
             <a href="{% url 'RetroAddLessons' %}"><i class="fa fa-table fa-fw"></i> Retrospectively Add Lessons</a></li>
-      
+
       <li   {% is_active_simple current_url 'QualificationAward' %}>
             <a href="{% url 'QualificationAward' %}"><i class="fa fa-trophy fa-fw"></i> Award Qualifications</a></li>
 
       <li class="nav-header">SDC Administration</li>
       <li   {% is_active_simple current_url 'PerformedSDCCreate' %}>
             <a href="{% url 'PerformedSDCCreate' %}"><i class="fa fa-calendar fa-fw"></i> Plan an SDC</a></li>
-      
+
       <li {% is_active_simple current_url 'SDCAward' %}><a href="{% url 'SDCAward' %}"><i class="fa fa-trophy fa-fw"></i> Award SDCs</a></li>
 
       {% endif %}
-    </ul> 
+    </ul>
 
 </div>
+{% endcomment %}
 {% block training_content %}
 
 {% endblock %}

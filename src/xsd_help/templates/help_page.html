@@ -10,7 +10,7 @@
       <li class="nav-header">{{section.name}}</li>
       {% for item in section.links %}
         <li {% is_active_simple item.1 page_name %}>
-            <a href="{% url 'HelpView' %}{{item.1}}">{{item.0}}</a>
+            <a href="{% url 'xsd_help:HelpView' %}{{item.1}}">{{item.0}}</a>
         </li>
       {% endfor %}
       {% endfor %}

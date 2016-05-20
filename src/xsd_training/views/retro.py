@@ -118,7 +118,7 @@ class RetroAddLessons(RequireTrainingOfficer ,TemplateView):
                         new_pl.public_notes = form.cleaned_data['public_notes']
                         new_pl.private_notes = form.cleaned_data['private_notes']
                         new_pl.save()
-            return redirect(reverse_lazy('TraineeNotes', args=[self.trainee.pk]))
+            return redirect(reverse_lazy('xsd_training:TraineeNotes', args=[self.trainee.pk]))
 
 
         return super(RetroAddLessons, self).get(request, *args, **kwargs)

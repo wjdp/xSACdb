@@ -53,7 +53,7 @@ class ClassicLogin(BaseTest):
         # Correct login
         c=Client()
         self.assertTrue(c.login(username=self.user.username, password=self.PASSWORD))
-        response = c.get(reverse('dashboard'))
+        response = c.get(reverse('xsd_frontend:dashboard'))
         self.assertEqual(response.status_code, 200)
         self.assertEqual(response.context['user'], self.user)
 
@@ -61,7 +61,7 @@ class ClassicLogin(BaseTest):
         # Correct login
         c=Client()
         self.assertTrue(c.login(username=self.EMAIL, password=self.PASSWORD))
-        response = c.get(reverse('dashboard'))
+        response = c.get(reverse('xsd_frontend:dashboard'))
         self.assertEqual(response.status_code, 200)
         self.assertEqual(response.context['user'], self.user)
 
@@ -69,14 +69,14 @@ class ClassicLogin(BaseTest):
         # Correct login
         c=Client()
         self.assertFalse(c.login(username=self.user.username, password=self.PASSWORD+"#"))
-        response = c.get(reverse('dashboard'))
+        response = c.get(reverse('xsd_frontend:dashboard'))
         self.assertEqual(response.status_code, 302)
 
     def test_login_email_incorrect(self):
         # Correct login
         c=Client()
         self.assertFalse(c.login(username=self.EMAIL, password=self.PASSWORD+"#"))
-        response = c.get(reverse('dashboard'))
+        response = c.get(reverse('xsd_frontend:dashboard'))
         self.assertEqual(response.status_code, 302)
 
 class Dashboard(BaseTest):

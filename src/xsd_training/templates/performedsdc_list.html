@@ -11,7 +11,7 @@
     <tr><th>SDC</th><th>When</th><th>Trainees</th></tr>
 {% for p in psdc %}
     <tr>
-        <td><a href="{% url 'PerformedSDCDetail' p.pk %}">{{p.sdc.title}}</a></td>
+        <td><a href="{% url 'xsd_training:PerformedSDCDetail' p.pk %}">{{p.sdc.title}}</a></td>
         <td>{{p.datetime}}</td>
         <td>{{p.trainees.count}}</td>
 

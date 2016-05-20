@@ -17,9 +17,9 @@
         <td>{{ session.where }}</td>
         <td>{{ session.performedlesson_set.all.count }}</td>
         <td class="action-icons">
-        	<a href="{% url 'SessionPlanner' session.pk %}"><i class="fa fa-pencil-square fa-fw"></i></a>
-        	{% if session.in_past %}<a href="{% url 'SessionComplete' session.pk %}"><i class="fa fa-check-square fa-fw"></i></a>{% endif %}
-        	<a href="{% url 'SessionDelete' session.pk %}"><i class="fa fa-trash fa-fw"></i></a>
+        	<a href="{% url 'xsd_training:SessionPlanner' session.pk %}"><i class="fa fa-pencil-square fa-fw"></i></a>
+        	{% if session.in_past %}<a href="{% url 'xsd_training:SessionComplete' session.pk %}"><i class="fa fa-check-square fa-fw"></i></a>{% endif %}
+        	<a href="{% url 'xsd_training:SessionDelete' session.pk %}"><i class="fa fa-trash fa-fw"></i></a>
         </td>
         </tr>
 {% endfor %}
@@ -31,7 +31,7 @@
 <h4>Plan A Session</h4>
 <p>Sessions should be 'planned' ahead of time here. After a session is planned trainees will be able to see what lessons they are doing, and instructors will be able to see who they're teaching.</p>
 
-<p><a href="{% url 'SessionCreate' %}" class="btn"><i class="fa fa-plus"></i> Plan a Session</a></p>
+<p><a href="{% url 'xsd_training:SessionCreate' %}" class="btn"><i class="fa fa-plus"></i> Plan a Session</a></p>
 </div>
 
 <div class="span2">

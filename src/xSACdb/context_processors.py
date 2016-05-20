@@ -22,7 +22,10 @@ def menu_perms(request):
         l10n_club = settings.CLUB
 
         current_url_obj = resolve(request.path)
-        namespace = current_url_obj.namespaces[0]
+        if len(current_url_obj.namespaces) > 0:
+            namespace = current_url_obj.namespaces[0]
+        else:
+            namespace = None
 
         return {
             'request': request,

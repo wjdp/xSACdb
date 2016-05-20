@@ -16,7 +16,7 @@
         <tr><th>Name</th>{% if is_training %}<th>Qualification</th><th>Membership Issue</th>{% endif %}</tr>
     {% for trainee in psdc.trainees.all %}
         <tr>
-            <td>{% if is_training %}<a href="{% url 'MemberDetail' trainee.pk %}">{{trainee.get_full_name}}</a>
+            <td>{% if is_training %}<a href="{% url 'xsd_members:MemberDetail' trainee.pk %}">{{trainee.get_full_name}}</a>
             {% else %}{{trainee.get_full_name}} {% endif %}</td>
             {% if is_training %}<td>{{trainee.top_qual}}</td>
             <td>{% if trainee.membership_problem %}
@@ -36,11 +36,11 @@
 {% if is_training %}
 <div class="span9 ">
 <div class="form-actions">
-        {% if not psdc.completed %}<a class="btn" href="{% url 'PerformedSDCUpdate' psdc.pk %}"><i class="fa fa-pencil"></i> Edit</a>{% endif %}
+        {% if not psdc.completed %}<a class="btn" href="{% url 'xsd_training:PerformedSDCUpdate' psdc.pk %}"><i class="fa fa-pencil"></i> Edit</a>{% endif %}
 
         <div class="btn-group pull-right">
-        <a class="btn btn-danger" href="{% url 'PerformedSDCDelete' psdc.pk %}"><i class="fa fa-remove"></i> Cancel Course</a>
-        <a class="btn btn-success" href="{% url 'PerformedSDCComplete' psdc.pk %}"><i class="fa fa-ok"></i> Complete Course</a>
+        <a class="btn btn-danger" href="{% url 'xsd_training:PerformedSDCDelete' psdc.pk %}"><i class="fa fa-remove"></i> Cancel Course</a>
+        <a class="btn btn-success" href="{% url 'xsd_training:PerformedSDCComplete' psdc.pk %}"><i class="fa fa-ok"></i> Complete Course</a>
         </div>
 </div>
 {% endif %}

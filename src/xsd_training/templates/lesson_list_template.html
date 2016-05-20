@@ -2,7 +2,7 @@
 <ul class="lessons planned">
     {% for l in planned %}
     <li>
-    {% if l.description %}<a href="{% url 'lesson_detail' l.id %}">{% endif %}
+    {% if l.description %}<a href="{% url 'xsd_training:lesson_detail' l.id %}">{% endif %}
         {% if l.code %}{{l.code}} - {% endif %}{{l.title}}
     {% if l.description %}</a>{% endif %}
     </li>
@@ -13,7 +13,7 @@
 <ul class="lessons uncompleted">
     {% for l in lessons %}
     <li>
-    {% if l.description %}<a href="{% url 'lesson_detail' l.id %}">{% endif %}
+    {% if l.description %}<a href="{% url 'xsd_training:lesson_detail' l.id %}">{% endif %}
         {% if l.code %}{{l.code}} - {% endif %}{{l.title}}
     {% if l.description %}</a>{% endif %}
     </li>
@@ -24,7 +24,7 @@
 <ul class="lessons completed">
     {% for l in completed %}
     <li>
-    {% if l.description %}<a href="{% url 'lesson_detail' l.id %}">{% endif %}
+    {% if l.description %}<a href="{% url 'xsd_training:lesson_detail' l.id %}">{% endif %}
         {% if l.code %}{{l.code}} - {% endif %}{{l.title}}
     {% if l.description %}</a>{% endif %}
     </li>

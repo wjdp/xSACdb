@@ -17,7 +17,10 @@
         <td>{{ group.uid }}</td>
         <td>{{ group.name }}</td>
         <td>{{ group.trainees_list_with_links|safe }}</td>
-        <td class="action-icons"><a href="{% url 'TraineeGroupUpdate' group.pk %}"><i class="fa fa-pencil"></i></a> <a href="{% url 'TraineeGroupDelete' group.pk %}"><i class="fa fa-trash"></i></a></td>
+        <td class="action-icons">
+            <a href="{% url 'xsd_training:TraineeGroupUpdate' group.pk %}"><i class="fa fa-pencil"></i></a>
+            <a href="{% url 'xsd_training:TraineeGroupDelete' group.pk %}"><i class="fa fa-trash"></i></a>
+        </td>
 
         </tr>
 {% endfor %}

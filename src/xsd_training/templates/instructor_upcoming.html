@@ -17,7 +17,7 @@
         <td>
         	<table>{% for pl in pls %}
         	<tr>
-        		<td><a href="{% url 'TraineeNotes' pl.trainee.id %}">{{pl.trainee.get_full_name}}</a></td>
+        		<td><a href="{% url 'xsd_training:TraineeNotes' pl.trainee.id %}">{{pl.trainee.get_full_name}}</a></td>
         		<td>{{pl.lesson}}</td>
         	</tr>
         	{% endfor %}</table>

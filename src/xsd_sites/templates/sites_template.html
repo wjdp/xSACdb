@@ -1,6 +1,7 @@
 {% extends 'base_template.html' %}
 {% load xsd_nav %}
 {% block content %}
+{% comment %}
 <div class="row">
 <div class="span3">
     <ul class="nav nav-list">
@@ -18,11 +19,15 @@
       <a href="{% url 'SitesList' %}"><i class="fa fa-pencil fa-fw"></i> Edit Sites</a></li>
       {% endif %}
 
-    </ul> 
+    </ul>
 
 </div>
+{% endcomment %}
+
+
 {% block sites_content %}
 No Content
 {% endblock %}
 </div>
+
 {% endblock %}
