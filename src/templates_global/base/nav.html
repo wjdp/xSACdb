@@ -43,43 +43,43 @@
         <ul class="nav navbar-nav">
 
             {% if not is_members %}
-            <li class="nav-item">
+            <li class="nav-item {% if namespace == "xsd_members" %}active{% endif %}">
                 <a class="nav-link" href="{% url 'xsd_members.views.view_my_profile' %}"><i class="fa fa-user"></i> Profile</a>
             </li>
             {% endif %}
 
             {% if is_members %}
-            <li class="nav-item">
+            <li class="nav-item {% if namespace == "xsd_members" %}active{% endif %}">
                 <a class="nav-link" href="{% url 'xsd_members:MemberSearch' %}"><i class="fa fa-user"></i> Members</a>
             </li>
             {% endif %}
 
             {% if is_verified %}
-            <li class="nav-item active">
+            <li class="nav-item {% if namespace == "xsd_training" %}active{% endif %}">
                 <a class="nav-link" href="{% url 'xsd_training:training-overview' %}"><i class="fa fa-mortar-board"></i> Training</a>
             </li>
             {% endif %}
 
             {% if DEBUG and is_verified %}
-            <li class="nav-item">
+            <li class="nav-item {% if namespace == "xsd_trips" %}active{% endif %}">
                 <a class="nav-link" href="{% url 'xsd_trips:TripList' %}"><i class="fa fa-road"></i> Trips</a>
             </li>
-            <li class="nav-item">
+            <li class="nav-item {% if namespace == "xsd_kit" %}active{% endif %}">
                 <a class="nav-link" href="{% url 'xsd_kit:KitOverview' %}"><i class="fa fa-tags"></i> Kit</a>
             </li>
             {% endif %}
 
             {% if is_verified %}
-            <li class="nav-item">
+            <li class="nav-item {% if namespace == "xsd_sites" %}active{% endif %}">
                 <a class="nav-link" href="{% url 'xsd_sites:SitesOverview' %}"><i class="fa fa-map-marker"></i> Sites</a>
             </li>
             {% endif %}
 
-            <li class="nav-item">
+            <li class="nav-item {% if namespace == "xsd_about" %}active{% endif %}">
                 <a class="nav-link" href="{% url 'xsd_about:AboutView' %}"><i class="fa fa-info-circle"></i> About</a>
             </li>
 
-            <li class="nav-item dropdown pull-xs-right">
+            <li class="nav-item dropdown pull-xs-right  {% if namespace == "xsd_auth" %}active{% endif %}">
                 <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
                     {{request.user.get_full_name}} <b class="caret"></b>
                 </a>
