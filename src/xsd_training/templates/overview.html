@@ -4,11 +4,7 @@
 
 <div class="span4">
 	<p>Welcome to your club training logbook. From here you can lookup all your upcoming and past lessons including lesson feedback.</p>
-	{% if profile.top_qual == None and profile.training_for == None %}
-		<div class="alert alert-info">
-			<i class="fa fa-info-circle"></i> No data
-		</div>
-	{% else %}
+
 	<table class="table">
 		<tr><td><i class="indicator fa fa-chevron-circle-right"></i></td><td>Training For</td><td><i class="indicator fa fa-star"></td><td>Current Qualification</td></tr>
 	</table>
@@ -19,9 +15,6 @@
 		{{qual.title}}
 	</div>
 	{% endfor %}
-	{% endif %}
-
-
 
 </div>
 

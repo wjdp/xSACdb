@@ -5,6 +5,9 @@ xSACdb instances. This project will soon adhere to [Semantic Versioning](http://
 
 ## [0.1.1] - Unreleased
 
+### Changed
+- Display qualification list on training dash for users without any qualifications or training_for, #144
+
 ### Fixed
 - Updating planned SDC dates and notes fails.
 - Upcoming SDC sorted by date.
