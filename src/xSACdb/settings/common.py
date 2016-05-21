@@ -249,3 +249,6 @@ ACTIVITY_MODELS = [
     ('xsd_training', 'TraineeGroup'),
     ('xsd_sites', 'Site'),
 ]
+
+## TODO HACK, disable email sending to prevent #173 on servers without email provision
+EMAIL_BACKEND = 'django.core.mail.backends.dummy.EmailBackend'
