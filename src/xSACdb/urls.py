@@ -5,7 +5,6 @@ from django.contrib import admin
 admin.autodiscover()
 
 urlpatterns = patterns('',
-    url(r'^$', 'xsd_frontend.views.dashboard', name='dashboard'),
     url(r'^update-request/$', 'xsd_frontend.views.update_request', name='update_request'),
 
     url(r'^design/$', 'xsd_frontend.views.design', name='design'),

@@ -2,12 +2,16 @@
 {% load navigation %}
 {% load members_todo_pips %}
 
+{% block title %}test{% endblock %}
+
 {% block content %}
 <div class="xsd-module-row">
 
+    <div class="xsd-module-nav">
     {% module_nav %}
+    </div>
 
-    <div class="xsd-module-column-content">
+    <div class="xsd-module-content">
     {% block members_content %}
     No Content
     {% endblock %}

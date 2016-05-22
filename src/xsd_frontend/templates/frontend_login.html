@@ -30,7 +30,7 @@
 		<div class="login-facebook">
 			<p class='message facebook-switch'>Facebook</p>
 			<div class="mob-collapse-facebook {% if errors == 'badauth' %}mob-collapse-hidden{% endif %}">
-					<a href="{% provider_login_url "facebook" %}" class="fb-login">
+					<a href="{% comment %} # TODO fix FB Login {% provider_login_url "facebook" %}{% endcomment %}" class="fb-login">
 						<img src="{% static 'images/fb_button.png' %}" alt="Login with Facebook" />
 					</a>
 					<input type="hidden" value="{{ request.path }}" name="next" />

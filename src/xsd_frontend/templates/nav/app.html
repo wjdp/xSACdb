@@ -1,0 +1,35 @@
+{% load navigation %}
+
+<nav class="xsd-nav-app" role="navigation">
+    <div class="xsd-nav-app__container">
+        <div class="xsd-nav-app__hamburger">
+            <i class="fa fa-bars"></i>
+        </div>
+
+        <a class="xsd-nav-app__brand" href="/">
+            {{ l10n_club.name }}
+        </a>
+
+        <div class="xsd-nav-app__title" href="/">
+            {{ page_title }}
+        </div>
+
+        <ul class="xsd-nav-app__nav xsd-nav-app__nav--animate">
+
+            {% for app in app_list %}
+            <li class="xsd-nav-app__nav-item">
+                <a class="xsd-nav-app__nav-link" href="{% url app.url %}">
+                    <i class="{{ app.icon }}"></i>
+                    {{ app.title }}
+                </a>
+                <div class="xsd-nav-app__nav-module">
+                    {% app_module_nav app.app %}
+                </div>
+            </li>
+            {% endfor %}
+
+        </ul>
+    </div>
+</nav>
+
+<div class="xsd-nav-app__blur"></div>

@@ -2,16 +2,16 @@
 {% load xsd_nav %}
 
 {% block content %}
-<div class="xsd-module-nav">
-    <div class="xsd-module-column-nav">
-        <ul class="xsd-module-nav">
+<div class="xsd-nav-module">
+    <div class="xsd-module-nav">
+        <ul class="xsd-nav-module">
           {% for section in menu.sections %}
-              <li class="xsd-module-nav__header">
+              <li class="xsd-nav-module__header">
                   {{section.name}}
               </li>
               {% for item in section.links %}
-                  <li class="xsd-module-nav__item">
-                    <a class="xsd-module-nav__link {% if item.1 == page_name %}active{% endif %}"
+                  <li class="xsd-nav-module__item">
+                    <a class="xsd-nav-module__link {% if item.1 == page_name %}active{% endif %}"
                        href="{% url 'xsd_help:HelpView' %}{{ item.1 }}">
                         {{ item.0 }}
                     </a>
@@ -20,7 +20,7 @@
           {% endfor %}
        </ul>
     </div>
-    <div class="xsd-module-column-content">
+    <div class="xsd-module-content">
         {{ page|safe }}
     </div>
 </div>

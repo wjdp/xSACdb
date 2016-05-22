@@ -2,12 +2,23 @@
   @extend .container
 
 .xsd-module-row
-  @extend .row
+  @include make-row
 
-.xsd-module-column-nav
-  @extend .col-sm-3
+.xsd-module-nav
+  @extend .col-md-3
 
-.xsd-module-column-content
-  @extend .col-sm-9
-  @extend .row
+  // On mobile the app and module navs are combined
+  display: none
+  @include media-breakpoint-up(md)
+    display: block
 
+.xsd-module-content
+  @include make-col
+
+  @include make-col-span(12)
+
+  @include media-breakpoint-up(md)
+    @include make-col-span(9)
+
+.xsd-module-content__inner
+  @include make-row

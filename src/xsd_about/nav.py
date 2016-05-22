@@ -4,19 +4,19 @@ NAV = (
     {
         'title': 'About',
         'access': is_all,
-        'items': (
-            ('About xSACdb', 'fa fa-info-circle', 'xsd_about:AboutView', []),
-            ('Database Officers', 'fa fa-shield', 'xsd_about:DatabaseOfficers', []),
-        )
+        'items': [
+            ('About xSACdb', None, 'fa fa-info-circle', 'xsd_about:AboutView', []),
+            ('Database Officers', None, 'fa fa-shield', 'xsd_about:DatabaseOfficers', []),
+        ]
     },
     {
         'title': 'xSACdb Administration',
         'access': is_admin,
-        'items': (
-            # ('All Update Requests', 'fa fa-cogs', 'DjangoAdminWarning', []),
-            # ('Assign Roles', 'fa fa-cogs', 'DjangoAdminWarning', []),
-            # ('ApplicationTools', 'fa fa-cogs', 'DjangoAdminWarning', []),
-            ('Django Backend', 'fa fa-cogs', 'xsd_about:DjangoAdminWarning', []),
-        )
+        'items': [
+            # ('All Update Requests', None, 'fa fa-cogs', 'DjangoAdminWarning', []),
+            # ('Assign Roles', None, 'fa fa-cogs', 'DjangoAdminWarning', []),
+            # ('ApplicationTools', None, 'fa fa-cogs', 'DjangoAdminWarning', []),
+            ('Django Backend', None, 'fa fa-cogs', 'xsd_about:DjangoAdminWarning', []),
+        ]
     },
 )

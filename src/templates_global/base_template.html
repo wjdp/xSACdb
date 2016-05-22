@@ -1,5 +1,6 @@
 {% load hijack_tags %}
 {% load staticfiles %}
+{% load navigation %}
 <!doctype html>
 <html>
 {%  include 'base/header.html' %}
@@ -8,8 +9,7 @@
 
     {{ request|hijackNotification }}
 
-    {% include 'base/nav.html' %}
-
+    {% app_nav %}
     <div class="xsd-application-container">
         {% block content %}
         No content
