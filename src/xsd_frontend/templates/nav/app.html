@@ -17,10 +17,12 @@
         <ul class="xsd-nav-app__nav xsd-nav-app__nav--animate">
 
             {% for app in app_list %}
-            <li class="xsd-nav-app__nav-item">
+            <li class="xsd-nav-app__nav-item {% if app.active %}active selected{% endif %}" data-app-name="{{ app.app }}">
                 <a class="xsd-nav-app__nav-link" href="{% url app.url %}">
-                    <i class="{{ app.icon }}"></i>
-                    {{ app.title }}
+                    <div class="xsd-nav-app__nav-link-text">
+                        <i class="{{ app.icon }} fa-fw"></i>
+                        {{ app.title }}
+                    </div>
                 </a>
                 <div class="xsd-nav-app__nav-module">
                     {% app_module_nav app.app %}

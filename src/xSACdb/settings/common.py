@@ -87,7 +87,7 @@ STATICFILES_STORAGE = 'whitenoise.django.GzipManifestStaticFilesStorage'
 # Curly braces doubled to escape them when using str.format()
 COMPRESS_PRECOMPILERS = (
     ('text/coffeescript', 'coffee --compile --stdio'),
-    ('text/x-sass', 'sass {{infile}} {{outfile}} --sourcemap --load-path {}'.format(LIB_PATH)),
+    ('text/x-sass', 'sass {{infile}} {{outfile}} --load-path {}'.format(LIB_PATH)),
     ('text/x-scss', 'sass --scss {{infile}} {{outfile}} --load-path {}'.format(LIB_PATH)),
 )
 # Lets the compress management command do it's work

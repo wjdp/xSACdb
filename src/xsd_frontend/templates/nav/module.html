@@ -6,8 +6,10 @@
     {% for nav_item in nav_section.items %}
         <li class="xsd-nav-module__item">
             <a class="xsd-nav-module__link {% if nav_item.5 %}active{% endif %}" href="{% url nav_item.3 %}">
-                {% if nav_item.2 %}<i class="{{ nav_item.2 }} fa-fw"></i>{% endif %}
-                {{ nav_item.0 }}
+                <div class="xsd-nav-module__link-text">
+                    {% if nav_item.2 %}<i class="{{ nav_item.2 }} fa-fw"></i>{% endif %}
+                    {{ nav_item.0 }}
+                </div>
             </a>
         </li>
     {% endfor %}

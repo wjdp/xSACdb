@@ -52,6 +52,12 @@ def app_nav(context):
     current_url = resolve(context.request.path)
     namespace = current_url.namespaces[0]
     url_name = "{}:{}".format(namespace, current_url.url_name)
+
+    # Set active flag on active app
+    app_list = APP_LIST[:]
+    for app in app_list:
+        app['active'] = (app['app'] == namespace)
+
     context['app_list'] = APP_LIST
     context['page_title'] = get_page_title(get_module_nav_list(namespace, url_name), context)
     return context
