@@ -15,7 +15,7 @@
         </div>
 
         <ul class="xsd-nav-app__nav xsd-nav-app__nav--animate">
-
+            <div class="xsd-nav-app__nav-inner">
             {% for app in app_list %}
             <li class="xsd-nav-app__nav-item {% if app.active %}active selected{% endif %}" data-app-name="{{ app.app }}">
                 <a class="xsd-nav-app__nav-link" href="{% url app.url %}">
@@ -29,7 +29,7 @@
                 </div>
             </li>
             {% endfor %}
-
+            </div>
         </ul>
     </div>
 </nav>

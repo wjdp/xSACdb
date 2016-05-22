@@ -49,10 +49,10 @@ $sidenav-selection: rgba(43, 105, 255, 0.89)
     max-width: 400px
     left: 0
     top: 0
-    overflow: scroll
+    overflow: hidden
 
     background: $sidenav-bg
-    padding: 1rem 0
+    padding: 0
 
     will-change: transform
     transform: translateX(-102%)
@@ -77,6 +77,11 @@ $sidenav-selection: rgba(43, 105, 255, 0.89)
     transition: transform $nav-exit-time $nav-animate-curve // Fast exit
     &.xsd-nav-app__nav--visible
       transition: transform $nav-entry-time $nav-animate-curve // Slow entry
+
+  .xsd-nav-app__nav-inner
+
+  .xsd-nav-app__nav-inner--animate
+    transition: transform $nav-exit-time $nav-animate-curve // Fast exit
 
   // Makes the page black
   .xsd-nav-app__blur
@@ -103,7 +108,7 @@ $sidenav-selection: rgba(43, 105, 255, 0.89)
   // App selection
   $sidenav-link-pad-sides: 1rem
   $sidenav-link-pad: 0 $sidenav-link-pad-sides
-  $app-switch-speed: 0.4s
+  $app-switch-speed: 0.1s
   .xsd-nav-app__nav-item
     .xsd-nav-app__nav-module
       // Animated Selection
