@@ -38,6 +38,41 @@
 .xsd-nav-app__nav-module
   @include hide-md
 
+.xsd-nav-app__nav-help
+  @include media-breakpoint-up(md)
+    float: right !important
+    .text
+      display: none
+
+.xsd-nav-app__nav-item-xsd_auth
+  .xsd-nav-app__nav-item-xsd_auth__i-dropdown
+    display: none
+  @include media-breakpoint-up(md)
+    float: right !important
+    .xsd-nav-app__nav-link-icon
+      display: none
+    .xsd-nav-app__nav-item-xsd_auth__i-dropdown
+      display: inline
+
+    .dropdown-menu
+      min-width: 190px
+
+    .xsd-nav-module
+      list-style: none
+      padding: 0
+
+    .xsd-nav-module__header
+      font-size: 0
+      margin-top: 0.25rem
+      margin-bottom: 0.25rem
+      border-top: 1px solid #eee
+      &:first-child
+        display: none
+
+    .xsd-nav-module__item
+      padding: 0.5em
+
+
 .xsd-nav-app__activity-spinner
   @extend .navbar-brand
   display: none

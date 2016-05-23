@@ -203,6 +203,8 @@ class SideBarModuleNavigation
 $(document).ready ->
   console.log window.detectMQ('sm')
   if window.detectMQ('sm')
+    $('.xsd-nav-app__nav-item-xsd_auth').removeClass('dropdown')
+    $('.xsd-nav-app__nav-item-xsd_auth .xsd-nav-app__nav-module').removeClass('dropdown-menu')
     sideBarNav = new SideBarNav()
     window.sideBarNav = sideBarNav
     #sideBarNav.showNav()

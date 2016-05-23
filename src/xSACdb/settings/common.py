@@ -175,6 +175,7 @@ INSTALLED_APPS = (
     'allauth.socialaccount.providers.facebook',
 
     'bootstrap_toolkit',
+    'bootstrap3',
     'compressor',
     'tastypie',
     'geoposition',

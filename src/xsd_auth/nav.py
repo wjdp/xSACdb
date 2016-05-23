@@ -9,4 +9,11 @@ NAV = (
             ('Social Login', None, 'fa fa-facebook-square', 'xsd_auth:socialaccount_connections', []),
         ]
     },
+    {
+        'title': 'Session',
+        'access': is_all,
+        'items': [
+            ('Logout', None, 'fa fa-sign-out', 'xsd_auth:account_logout', []),
+        ]
+    },
 )

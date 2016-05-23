@@ -17,18 +17,51 @@
         <ul class="xsd-nav-app__nav xsd-nav-app__nav--animate">
             <div class="xsd-nav-app__nav-inner">
             {% for app in app_list %}
-            <li class="xsd-nav-app__nav-item {% if app.active %}active selected{% endif %}" data-app-name="{{ app.app }}">
-                <a class="xsd-nav-app__nav-link" href="{% url app.url %}">
+            <li class="xsd-nav-app__nav-item {% if app.active %}active selected{% endif %} xsd-nav-app__nav-item-{{ app.app }} {% if app.app == "xsd_auth" %}dropdown{% endif %}"
+                data-app-name="{{ app.app }}">
+                <a {% if app.app == "xsd_auth" %}data-toggle="dropdown"{% endif %}
+                   class="xsd-nav-app__nav-link"
+                   {% if app.url %}href="{% url app.url %}"{% endif %}>
                     <div class="xsd-nav-app__nav-link-text">
-                        <i class="{{ app.icon }} fa-fw"></i>
-                        {{ app.title }}
+                        <i class="{{ app.icon }} fa-fw xsd-nav-app__nav-link-icon"></i>
+                        {% if app.app == "xsd_auth" %}
+                            {{ request.user.get_full_name }}
+                            <i class="fa fa-caret-down xsd-nav-app__nav-item-xsd_auth__i-dropdown"></i>
+                        {% else %}
+                            {{ app.title }}
+                        {% endif %}
                     </div>
                 </a>
+                {% if app.app == "xsd_auth" %}
+                <div class="xsd-nav-app__nav-module dropdown-menu">
+                    {% app_module_nav app.app %}
+                </div>
+                {% else %}
                 <div class="xsd-nav-app__nav-module">
                     {% app_module_nav app.app %}
                 </div>
+                {% endif %}
             </li>
             {% endfor %}
+{#            <li class="xsd-nav-app__nav-item xsd-nav-app__nav-account" data-app-name="xsd-help">#}
+{#                <a class="xsd-nav-app__nav-link" href="/help/">#}
+{#                    <div class="xsd-nav-app__nav-link-text">#}
+{#                        {{ request.user.get_full_name }}#}
+{#                        <i class="fa fa-chevron-down"></i>#}
+{#                    </div>#}
+{#                </a>#}
+{#            </li>#}
+            <li class="xsd-nav-app__nav-item xsd-nav-app__nav-help" data-app-name="xsd-help">
+                <a class="xsd-nav-app__nav-link" href="/help/">
+                    <div class="xsd-nav-app__nav-link-text">
+                        <i class="fa fa-question-circle fa-fw"></i>
+                        <span class="text">Help</span>
+                    </div>
+                </a>
+                <div class="xsd-nav-app__nav-module">
+
+                </div>
+            </li>
             </div>
         </ul>
 

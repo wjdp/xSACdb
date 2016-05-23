@@ -54,4 +54,11 @@ APP_LIST = [
         'url': 'xsd_about:AboutView',
         'icon': 'fa fa-info-circle',
     },
+    {
+        'title': 'Account',
+        'access': is_all,
+        'app': 'xsd_auth',
+        'url': '',
+        'icon': 'fa fa-key',
+    },
 ]

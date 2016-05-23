@@ -16,15 +16,19 @@
 
 @include media-breakpoint-up(md)
   .xsd-module-nav
-    @include make-col(4)
+    @include make-col
+    @include make-col-span(4)
   .xsd-module-content
-    @include make-col(8)
+    @include make-col
+    @include make-col-span(8)
 
 @include media-breakpoint-up(lg)
   .xsd-module-nav
-    @include make-col(3)
+    @include make-col
+    @include make-col-span(3)
   .xsd-module-content
-    @include make-col(9)
+    @include make-col
+    @include make-col-span(9)
 
 .xsd-module-content__inner
   @include make-row
