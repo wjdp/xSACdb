@@ -6,12 +6,13 @@
 
 {% block training_content %}
 
-<div class="span5">
+<div class="row">
+<div class="col-md-6">
 		<div class="titlebox training">
 		{% if trainee.image %}<img src="{{trainee.image.url}}" alt="Profile Picture" class="alignright" />{%endif%}
 		<h2>{{trainee}}</h2>
 		<div class="btn-group btn-mini">
-			{% if is_members %}<a href="{% url 'MemberDetail' trainee.pk %}" class="btn btn-small" type="button"><i class="fa fa-search"></i> View Member Profile</a>{% endif %}
+			{% if is_members %}<a href="{% url 'xsd_members:MemberDetail' trainee.pk %}" class="btn btn-small" type="button"><i class="fa fa-search"></i> View Member Profile</a>{% endif %}
 		</div>
 		</div>
 
@@ -24,7 +25,7 @@
 		{%endif%}
 
 	</div>
-	<div class="span4">
+	<div class="col-md-6">
 		<h3><i class="fa fa-envelope"></i> Contact Details</h3>
 		<table class="table">
 			<tr><th>Address</th><td>{% if not trainee.address or trainee.post_code %}<i class="fa fa-exclamation-triangle red"></i>{% else %}{{trainee.formatted_address|safe}}<br />{{trainee.postcode}}{% endif %}</td></tr>
@@ -34,9 +35,9 @@
 
 		</table>
 	</div>
-
-
-	<div class="span5">
+</div>
+<div class="row">
+	<div class="col-md-6">
 		<h3><i class="fa fa-table"></i> Lessons</h3>
 
  <p><big>{{planned}}</big> lessons planned</p>
@@ -44,7 +45,7 @@
  <p><big>{{completed}}</big> lessons completed</p>
  {% show_lessons trainee %}
 {% if is_training %}
-  <a href="{% url 'RetroAddLessons' %}?trainee={{trainee.pk}}&qualification={{trainee.training_for.pk}}" class="btn"><i class="fa fa-plus"></i> Retrospectively Add Lessons</a>
+  <a href="{% url 'xsd_training:RetroAddLessons' %}?trainee={{trainee.pk}}&qualification={{trainee.training_for.pk}}" class="btn btn-secondary"><i class="fa fa-plus"></i> Retrospectively Add Lessons</a>
 {% endif %}
  </div>
 
@@ -52,14 +53,14 @@
 
 
 
-	<div class="span4">
+	<div class="col-md-6">
 		<h3><i class="fa fa-trophy"></i> Qualification Details</h3>
 		<table class="table">
 			<tr><th>Current Qualification</th><td>{{ trainee.top_qual }}
 				<div class="hidden-section">
 					<div class="hidden-section-button"><i class="fa fa-plus"></i></div>
 					<div class="hidden-section-actual">
-						<form action="{% url 'TraineeNotesSet' trainee.pk %}" method="GET">
+						<form action="{% url 'xsd_training:TraineeNotesSet' trainee.pk %}" method="GET">
 							{{current_qual_form.as_p}}
 							<input type="submit" value="Set Qual" />
 						</form>
@@ -70,7 +71,7 @@
 				<div class="hidden-section">
 					<div class="hidden-section-button"><i class="fa fa-plus"></i></div>
 					<div class="hidden-section-actual">
-						<form action="{% url 'TraineeNotesSet' trainee.pk %}" method="GET">
+						<form action="{% url 'xsd_training:TraineeNotesSet' trainee.pk %}" method="GET">
 							{{training_for_form.as_p}}
 							<input type="submit" value="Set TF" />
 						</form>
@@ -81,7 +82,7 @@
 				<div class="hidden-section">
 					<div class="hidden-section-button"><i class="fa fa-plus"></i></div>
 					<div class="hidden-section-actual">
-						<form action="{% url 'TraineeNotesSet' trainee.pk %}" method="GET">
+						<form action="{% url 'xsd_training:TraineeNotesSet' trainee.pk %}" method="GET">
 							{{instructor_form.as_p}}
 							<input type="submit" value="Set" />
 						</form>
@@ -95,13 +96,13 @@
 			<tr><th>SDCs</th><td>
 				<ul class="mini-sdc-list-training">
 				{% for sdc in trainee.sdcs.all %}<li>{{sdc}}
-					<div class="small-action-white"><a href="{% url 'TraineeNotesSet' trainee.pk %}?field=remove_sdc&sdc={{sdc.pk}}"><i class="fa fa-remove"></i></a></div>
+					<div class="small-action-white"><a href="{% url 'xsd_training:TraineeNotesSet' trainee.pk %}?field=remove_sdc&sdc={{sdc.pk}}"><i class="fa fa-remove"></i></a></div>
 				</li>{% endfor %}
 				</ul>
 				<div class="hidden-section">
 					<div class="hidden-section-button"><i class="fa fa-plus"></i></div>
 					<div class="hidden-section-actual">
-						<form action="{% url 'TraineeNotesSet' trainee.pk %}" method="GET">
+						<form action="{% url 'xsd_training:TraineeNotesSet' trainee.pk %}" method="GET">
 							{{sdc_form.as_p}}
 							<input type="submit" value="Add SDC" />
 						</form>
@@ -111,6 +112,7 @@
 
 		</table>
 	</div>
+</div>
 {% include 'components/pl-mouseover.html' %}
 
 

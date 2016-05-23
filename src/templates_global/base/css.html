@@ -1,0 +1,15 @@
+{% load staticfiles %}
+{% load compress %}
+
+{% compress css %}
+
+{# Non-Sassy Library stylesheets #}
+<link rel="stylesheet" type="text/css" media="screen" href="{% static 'datatables/media/css/jquery.dataTables.css' %}" />
+<link rel="stylesheet" type="text/css" media="screen" href="{% static 'datatables/media/css/dataTables.bootstrap4.css' %}" />
+
+{# Project stylesheets #}
+<link rel="stylesheet" type="text/x-sass" media="screen" href="{% static 'sass/build.sass' %}" />
+
+<link rel="stylesheet" type="text/css" media="screen" href="{% static 'css/strap.css' %}" />
+
+{% endcompress %}

@@ -1,4 +1,7 @@
 {% extends 'members_template.html' %}
+
+{% block title %}{{ member }}{% endblock %}
+
 {% block members_content %}
 {% load xsd_nav %}
 
@@ -13,7 +16,7 @@
 			{% if member.new_notify %}
 			<a href="?action=remove-new-flag" class="btn btn-small" type="button"><i class="fa fa-flag"></i> Remove New Flag</a>
 			{% endif %}
-			<a href="{% url 'MemberEdit' member.pk %}" class="btn btn-small" type="button"><i class="fa fa-pencil"></i> Edit</a>
+			<a href="{% url 'xsd_members:MemberEdit' member.pk %}" class="btn btn-small" type="button"><i class="fa fa-pencil"></i> Edit</a>
 			{% if member_useraccount_form %}<a href="#member_useraccount_modal" data-toggle="modal" class="btn btn-small" type="button"><i class="fa fa-key"></i> Account Settings</a>{% endif %}
 
 			{% if request.user.is_superuser and member.user %}
@@ -25,10 +28,10 @@
 				</form>
 			{% endif %}
 
-			<a href="{% url 'MemberDelete' member.pk %}" class="btn btn-small" type="button"><i class="fa fa-trash"></i> Delete</a>
+			<a href="{% url 'xsd_members:MemberDelete' member.pk %}" class="btn btn-small" type="button"><i class="fa fa-trash"></i> Delete</a>
 
 			{% elif myself %}
-			<a href="{% url 'MyProfileEdit' %}" class="btn btn-small" type="button"><i class="fa fa-pencil"></i> Edit</a>
+			<a href="{% url 'xsd_members:MyProfileEdit' %}" class="btn btn-small" type="button"><i class="fa fa-pencil"></i> Edit</a>
 			{% endif %}
 
 		</div>

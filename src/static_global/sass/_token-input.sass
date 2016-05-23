@@ -1,0 +1,103 @@
+// For member selection, modified version from token-input library
+
+.token-input-list
+  margin: 0
+  padding: 0
+
+  height: auto !important
+  height: 1%
+  min-height: 1px
+  overflow: hidden
+  z-index: 999
+
+  cursor: text
+  background: white
+  border: 1px solid #ccc
+  border-radius: 2px
+  list-style-type: none
+
+  clear: left
+
+
+  li input
+    @extend .form-control
+    width: 100% !important
+    border: 0
+
+.token-input-token
+  overflow: hidden
+  height: auto !important
+  margin: 3px
+  padding: 4px
+  background-color: $btn-primary-bg
+  color: white
+  white-space: nowrap
+
+  float: left
+
+  p
+    display: inline
+    margin: 0
+    padding: 0
+
+  span
+    // Remove item icon (x)
+    color: white
+    margin-left: 5px
+    font-weight: bold
+    cursor: pointer
+
+.token-input-selected-token
+  background: darken($btn-primary-bg, 15%)
+  color: white
+
+.token-input-input-token
+  float: left
+  margin: 0
+  padding: 0
+  list-style-type: none
+
+.token-input-dropdown
+  // message
+  position: absolute
+  background: #fff
+  overflow: hidden
+  cursor: default
+  z-index: 10
+
+  font-size: 0.85em
+
+  $border: 1px solid #ccc
+  border-left: $border
+  border-bottom: $border
+  border-right: $border
+
+  p
+    margin: 0
+    padding: 5px
+    font-weight: bold
+    color: #777
+
+  ul
+    margin: 0
+    padding: 0
+
+  ul li
+    background-color: #fff
+    padding: 3px
+    margin: 0
+    list-style-type: none
+
+  li.token-input-dropdown-item
+    background-color: #fff
+
+  ul li.token-input-dropdown-item2
+    background-color: #fff
+
+  ul li em
+    font-weight: bold
+    font-style: normal
+
+  ul li.token-input-selected-dropdown-item
+    background-color:  $btn-primary-bg
+    color: #fff

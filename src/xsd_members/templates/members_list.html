@@ -1,8 +1,8 @@
 {% extends 'members_template.html' %}
 {% block members_content %}
 <div class="row">
-<div class="span9">
-	<div class='prentend-p'>{{page_description|safe}}</div>
+<div class="col-md-12">
+	{{ page_description|safe }}
 	{% include 'member_list_table.html' %}
 </div>
 </div>

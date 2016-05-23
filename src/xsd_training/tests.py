@@ -99,7 +99,7 @@ class TrainingDashboardViewTest(BaseTraineeTest, TrainingTestToolsMixin):
     def setUp(self):
         super(TrainingDashboardViewTest, self).setUp()
         self.trainingTestToolsSetUp()
-        self.URL = reverse('training-overview')
+        self.URL = reverse('xsd_training:training-overview')
 
     def test_200(self):
         c = self.get_client()
@@ -135,7 +135,7 @@ class TrainingLessonsViewTest(BaseTraineeTest, TrainingTestToolsMixin):
     def setUp(self):
         super(TrainingLessonsViewTest, self).setUp()
         self.trainingTestToolsSetUp()
-        self.URL = reverse('training-lessons')
+        self.URL = reverse('xsd_training:training-lessons')
         self.mp.training_for = self.OD
         self.mp.save()
 
@@ -168,7 +168,7 @@ class TrainingLessonsViewTest(BaseTraineeTest, TrainingTestToolsMixin):
 class SDCListView(BaseTraineeTest):
     def setUp(self):
         super(SDCListView, self).setUp()
-        self.URL = reverse('SDCList')
+        self.URL = reverse('xsd_training:SDCList')
 
     def test_200(self):
         c = self.get_client()
@@ -187,7 +187,7 @@ class SDCListView(BaseTraineeTest):
 class PSDCListView(BaseTraineeTest):
     def setUp(self):
         super(PSDCListView, self).setUp()
-        self.URL = reverse('PerformedSDCList')
+        self.URL = reverse('xsd_training:PerformedSDCList')
 
     def setUp_single_SDC(self):
         sdc = SDC.objects.all()[0]
@@ -211,7 +211,7 @@ class PSDCListView(BaseTraineeTest):
 class InstructorUpcomingViewTest(BaseInstructorTest):
     def setUp(self):
         super(InstructorUpcomingViewTest, self).setUp()
-        self.URL = reverse('InstructorUpcoming')
+        self.URL = reverse('xsd_training:InstructorUpcoming')
 
     def test_200(self):
         c = self.get_client()
@@ -431,7 +431,7 @@ class PSDCPlanViewTest(BaseTrainingTest, TrainingTestToolsMixin):
     def setUp(self):
         super(PSDCPlanViewTest, self).setUp()
         self.trainingTestToolsSetUp()
-        self.URL = reverse('PerformedSDCCreate')
+        self.URL = reverse('xsd_training:PerformedSDCCreate')
 
     def test_200(self):
         c = self.get_client()
@@ -532,8 +532,8 @@ class TraineeGroupTest(BaseTraineeTest, TrainingTestToolsMixin):
 class TraineeGroupViewTest(BaseTrainingTest):
     def setUp(self):
         super(TraineeGroupViewTest, self).setUp()
-        self.LIST_URL = reverse('TraineeGroupList')
-        self.CREATE_URL = reverse('TraineeGroupCreate')
+        self.LIST_URL = reverse('xsd_training:TraineeGroupList')
+        self.CREATE_URL = reverse('xsd_training:TraineeGroupCreate')
 
     def test_list_tgs(self):
         # Manually create a group and check the list page
@@ -565,7 +565,7 @@ class TraineeGroupViewTest(BaseTrainingTest):
         # Manually create a group and test detail page
         TG_NAME = "TestTraineeGroup3"
         tg = TraineeGroup.objects.create(name=TG_NAME)
-        url = reverse('TraineeGroupUpdate', kwargs={'pk': tg.pk})
+        url = reverse('xsd_training:TraineeGroupUpdate', kwargs={'pk': tg.pk})
         c = self.get_client()
         r = c.get(url)
         self.assertEqual(r.status_code, 200)
@@ -592,7 +592,7 @@ class PoolSheetViewTest(BaseTrainingTest):
 
     def test_form(self):
         c = self.get_client()
-        url = reverse('PoolSheet')
+        url = reverse('xsd_training:PoolSheet')
         r = c.get(url)
         self.assertEqual(r.status_code, 200)
 

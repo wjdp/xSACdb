@@ -1,12 +1,12 @@
 {% load bootstrap_toolkit %}
 
 <div class="row">
-	<div class="span9">
+	<div class="col-md-12">
 		<h2>Update Requests</h2>
 		<div class="accordion" id="accordion-ur">
 
 			{% for ur in update_requests %}
-			
+
 			<div class="accordion-group">
 				<div class="accordion-heading">
 					<a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion-ur" href="#ur{{ur.pk}}">

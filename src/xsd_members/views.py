@@ -36,7 +36,7 @@ def view_my_profile(request):
         context_instance=RequestContext(request))
 
 def admin(request):
-    return redirect(reverse('MemberSearch'))
+    return redirect(reverse('xsd_members:MemberSearch'))
 
 class MemberSearch(RequireMembersOfficer, OrderedListView):
     model=MemberProfile
@@ -222,7 +222,7 @@ class ModelFormView(FormView):
 class MyProfileEdit(ModelFormView):
     template_name='members_edit.html'
     form_class=PersonalEditForm
-    success_url=reverse_lazy('my-profile')
+    success_url=reverse_lazy('xsd_members:my-profile')
 
     def get_model(self):
         return self.request.user.memberprofile
@@ -243,7 +243,7 @@ class MemberEdit(RequireMembersOfficer, ModelFormView):
 
     def get_success_url(self):
         mp = self.get_model()
-        return reverse('MemberDetail', kwargs={'pk':mp.pk})
+        return reverse('xsd_members:MemberDetail', kwargs={'pk':mp.pk})
 
     def get_context_data(self, **kwargs):
         context = super(MemberEdit, self).get_context_data(**kwargs)
@@ -253,7 +253,7 @@ class MemberEdit(RequireMembersOfficer, ModelFormView):
 class MemberDelete(RequireMembersOfficer, DeleteView):
     model=MemberProfile
     template_name='members_delete.html'
-    success_url = reverse_lazy('MemberList')
+    success_url = reverse_lazy('xsd_members:MemberList')
     context_object_name='member'
 
 @require_members_officer
@@ -316,14 +316,14 @@ class BulkAddForms(RequireMembersOfficer, View):
         else:
             return render(request,'members_bulk_edit_forms_error.html', { }, context_instance=RequestContext(request))
 
-        return redirect(reverse('BulkAddForms'))
+        return redirect(reverse('xsd_members:BulkAddForms'))
 
 from xsd_frontend.base import BaseUpdateRequestList, BaseUpdateRequestRespond
 
 class MemberUpdateRequestList(RequireMembersOfficer, BaseUpdateRequestList):
     template_name="members_update_request.html"
     area='mem'
-    form_action=reverse_lazy('MemberUpdateRequestRespond')
+    form_action=reverse_lazy('xsd_members:MemberUpdateRequestRespond')
     custom_include='members_update_request_custom.html'
 
     def get_queryset(self, *args, **kwargs):
@@ -334,7 +334,7 @@ class MemberUpdateRequestList(RequireMembersOfficer, BaseUpdateRequestList):
 
 
 class MemberUpdateRequestRespond(RequireMembersOfficer, BaseUpdateRequestRespond):
-    success_url=reverse_lazy('MemberUpdateRequestList')
+    success_url=reverse_lazy('xsd_members:MemberUpdateRequestList')
 
 @require_members_officer
 def reports_overview(request):

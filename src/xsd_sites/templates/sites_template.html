@@ -1,28 +1,19 @@
 {% extends 'base_template.html' %}
-{% load xsd_nav %}
+{% load navigation %}
+
 {% block content %}
-<div class="row">
-<div class="span3">
-    <ul class="nav nav-list">
-      <li class="nav-header">View Sites</li>
-      <li {% is_active_simple current_url 'SitesOverview' %}>
-      <a href="{% url 'SitesOverview' %}"><i class="fa fa-map-marker fa-fw"></i> Sites Overview</a></li>
-      <li class="nyi">
-      <a href="#"><i class="fa fa-search fa-fw"></i> Search for a Site</a></li>
+<div class="xsd-module-row">
 
-      {% if is_sites %}
-      <li class="nav-header">Edit Sites</li>
-      <li {% is_active_simple current_url 'SiteCreate' %}>
-      <a href="{% url 'SiteCreate' %}"><i class="fa fa-plus fa-fw"></i> Add a Site</a></li>
-      <li {% is_active_simple current_url 'SiteUpdate' %} {% is_active_simple current_url 'SitesList' %} >
-      <a href="{% url 'SitesList' %}"><i class="fa fa-pencil fa-fw"></i> Edit Sites</a></li>
-      {% endif %}
+    <div class="xsd-module-nav">
+    {% module_nav %}
+    </div>
 
-    </ul> 
+    <div class="xsd-module-content">
+    {% block sites_content %}
+    No Content
+    {% endblock %}
+    </div>
 
 </div>
-{% block sites_content %}
-No Content
-{% endblock %}
-</div>
+
 {% endblock %}

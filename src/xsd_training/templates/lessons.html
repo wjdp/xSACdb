@@ -1,9 +1,14 @@
 {% extends 'training_template.html' %}
 {% load lesson_extras %}
 {% block training_content %}
-<div class="span9"> <div class="training_for qual-banner {{profile.training_for.code}}"><i class="indicator fa fa-chevron-circle-right"></i>{{profile.training_for}}</div></div>
+<div class="col-md-12">
+    <div class="xsd-qual-banner xsd-qual-banner--{{profile.training_for.code}}">
+        <i class="indicator fa fa-chevron-circle-right"></i>
+        {{ profile.training_for }}
+    </div>
+</div>
 
-<div class="span5">
+<div class="col-lg-7">
 	<h4>Theory Lessons</h4>
 	{% show_lessons profile.training_for 'TH' profile %}
 	<h4>Sheltered Water Lessons</h4>
@@ -13,7 +18,7 @@
 	<h4>Dry Practical Lessons</h4>
 	{% show_lessons profile.training_for 'DP' profile %}
 </div>
-<div class="span4">
+<div class="col-lg-5">
 	<h4>Experience</h4>
 	<p>Experience dives can take place at any point, but you need to get them signed off by an instructor.</p>
 

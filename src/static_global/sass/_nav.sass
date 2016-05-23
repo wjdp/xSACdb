@@ -1,0 +1,213 @@
+.xsd-nav-app
+  @extend .navbar
+  @extend .navbar-fixed-top
+  @extend .navbar-dark
+  @extend .navbar-dark
+  @extend .bg-inverse
+
+.xsd-nav-app__container
+  @extend .container
+
+  @include media-breakpoint-down(sm)
+    // Override some bs padding
+    padding-left: 0
+    padding-right: 0
+
+.xsd-nav-app__brand
+  @extend .navbar-brand
+  @include hide-sm
+
+.xsd-nav-app__title
+  @extend .navbar-brand
+  @include hide-md
+
+.xsd-nav-app__hamburger
+  @extend .navbar-brand
+  @include hide-md
+
+.xsd-nav-app__nav
+  @extend .nav
+  @extend .navbar-nav
+
+.xsd-nav-app__nav-item
+  @extend .nav-item
+
+.xsd-nav-app__nav-link
+  @extend .nav-link
+
+.xsd-nav-app__nav-module
+  @include hide-md
+
+.xsd-nav-app__nav-help
+  @include media-breakpoint-up(md)
+    float: right !important
+    .text
+      display: none
+
+.xsd-nav-app__nav-item-xsd_auth
+  .xsd-nav-app__nav-item-xsd_auth__i-dropdown
+    display: none
+  @include media-breakpoint-up(md)
+    float: right !important
+    .xsd-nav-app__nav-link-icon
+      display: none
+    .xsd-nav-app__nav-item-xsd_auth__i-dropdown
+      display: inline
+
+    .dropdown-menu
+      min-width: 190px
+
+    .xsd-nav-module
+      list-style: none
+      padding: 0
+
+    .xsd-nav-module__header
+      font-size: 0
+      margin-top: 0.25rem
+      margin-bottom: 0.25rem
+      border-top: 1px solid #eee
+      &:first-child
+        display: none
+
+    .xsd-nav-module__item
+      padding: 0.5em
+
+
+.xsd-nav-app__activity-spinner
+  @extend .navbar-brand
+  display: none
+  float: right
+
+.xsd-nav-app__activity-spinner--spin
+  display: block
+
+
+// Mobile side nav
+$sidenav-bg: mix($gray-dark, black, 90%)
+$sidenav-selection: rgba(43, 105, 255, 0.89)
+@include media-breakpoint-down(sm)
+  .xsd-nav-app__nav
+    position: fixed
+    height: 100%
+    width: 75%
+    min-width: 300px
+    max-width: 400px
+    left: 0
+    top: 0
+    overflow: hidden
+
+    background: $sidenav-bg
+    padding: 0
+
+    will-change: transform
+    transform: translateX(-102%)
+
+    &.xsd-nav-app__nav--visible
+      transform: none
+
+    .xsd-nav-app__nav-item
+      // Reset from bootstrap
+      display: block
+      float: none
+      margin: 0
+
+    .xsd-nav-app__nav-item + .xsd-nav-app__nav-item
+      margin-left: 0
+
+  $nav-entry-time: 0.33s
+  $nav-exit-time: 0.20s
+  $nav-scroll-time: 0.4s
+  $nav-animate-curve: cubic-bezier(0,0,0.3,1)
+
+  .xsd-nav-app__nav--animate
+    transition: transform $nav-exit-time $nav-animate-curve // Fast exit
+    &.xsd-nav-app__nav--visible
+      transition: transform $nav-entry-time $nav-animate-curve // Slow entry
+
+  .xsd-nav-app__nav-inner
+
+  .xsd-nav-app__nav-inner--animate
+    // Inertial scrolling
+    transition: transform $nav-scroll-time $nav-animate-curve // Fast exit
+
+  // Makes the page black
+  .xsd-nav-app__blur
+    position: fixed
+    left: 0
+    top: 0
+    width: 100%
+    height: 100%
+
+    z-index: 100
+
+    background: #000
+    opacity: 0
+
+    pointer-events: none
+
+    transition: opacity $nav-exit-time cubic-bezier(0,0,0.3,1) // Fast exit
+
+    &.xsd-nav-app__blur--visible
+      pointer-events: auto
+      opacity: 0.8
+      transition: opacity $nav-entry-time cubic-bezier(0,0,0.3,1) // Slow entry
+
+  // App selection
+  $sidenav-link-pad-sides: 1rem
+  $sidenav-link-pad: 0 $sidenav-link-pad-sides
+  $app-switch-speed: 0.1s
+  .xsd-nav-app__nav-item
+    .xsd-nav-app__nav-module
+      // Animated Selection
+      overflow: hidden
+      transition: max-height $app-switch-speed $nav-animate-curve
+
+    .xsd-nav-app__nav-link
+      padding: 0.7rem $sidenav-link-pad-sides !important
+      background: mix($sidenav-bg, black, 90%)
+      .xsd-nav-app__nav-link-text
+        // Ensure clicks go to the parent element
+        pointer-events: none
+
+    &.active
+      .xsd-nav-app__nav-link
+        border-left: 3px solid $sidenav-selection
+        .xsd-nav-app__nav-link-text
+          position: relative
+          left: -3px
+
+    &.selected
+      transition: max-height $app-switch-speed $nav-animate-curve
+
+  // Each app's links
+  .xsd-nav-app__nav-module
+    background: $sidenav-bg
+
+    .xsd-nav-module
+      list-style: none
+      margin: 0
+      padding: 0
+
+    .xsd-nav-module__header
+      padding: $sidenav-link-pad
+      color: mix($sidenav-bg, white)
+      font-size: 0.7em
+      padding-top: 0.5em
+      text-transform: uppercase
+
+
+    .xsd-nav-module__link
+      display: block
+      padding: 0.5rem $sidenav-link-pad-sides
+
+      color: #eee
+      
+      &:hover
+        text-decoration: none
+
+      &.active
+        border-left: 3px solid $sidenav-selection
+        .xsd-nav-module__link-text
+          position: relative
+          left: -3px
+

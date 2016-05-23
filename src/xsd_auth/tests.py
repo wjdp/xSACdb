@@ -4,6 +4,7 @@ from django.test import TestCase
 from django.contrib.auth import authenticate
 import testdata
 
+from xSACdb.test_helpers import BaseTest
 from xsd_auth.models import User
 from xsd_members.models import MemberProfile
 
@@ -81,3 +82,15 @@ class UserTest(TestCase):
     def test_unicode(self):
         user = self.create_user()
         self.assertEqual(unicode(user), user.get_full_name())
+
+
+class PasswordChangeViewTest(BaseTest):
+    def test200(self):
+        self.assertEqual(self.get_page_status_code('xsd_auth:account_change_password'), 200)
+    # TODO test password change
+
+
+class SocialAccountConnectionsViewTest(BaseTest):
+    def test200(self):
+        self.assertEqual(self.get_page_status_code('xsd_auth:socialaccount_connections'), 200)
+    # TODO test more

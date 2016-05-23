@@ -13,6 +13,9 @@ def is_allowed(user,groups):
 # Diving Off: 2,7
 # Admin: 2
 
+def is_all(user):
+    return True
+
 def is_verified(user):
     return not user.memberprofile.new_notify
 

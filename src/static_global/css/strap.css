@@ -1,11 +1,3 @@
-html {
-    overflow-y: scroll;
-}
-
-body {
-   padding-top: 56px; /* 60px to make the container go all the way to the bottom of the topbar */
-}
-
 .alignleft {float: left}
 .alignright {float: right}
 
@@ -97,23 +89,23 @@ float: left;
 }
 
 div.lesson-code.OD, .qual-banner.OD, .OD-cell {
-    background:#6A9ED2 !important;
+    background:# !important;
     border: 1px solid #2253BB;
 }
 div.lesson-code.SD, .qual-banner.SD, .SD-cell {
-    background: #ECA537 !important;
+    background: # !important;
     border: 1px solid #BA6812;
 }
 div.lesson-code.DL, .qual-banner.DL, .DL-cell {
-    background: #46832D !important;
+    background: # !important;
     border: 1px solid #054006;
 }
 div.lesson-code.AD, .qual-banner.AD, .AD-cell {
-    background: #7D3E87 !important;
+    background: # !important;
     border: 1px solid #3B1437;
 }
 div.lesson-code.FC, .qual-banner.FC, .FC-cell {
-    background: #444 !important;
+    background: # !important;
     border: 1px solid #0B0B0B;
 }
 
@@ -264,28 +256,6 @@ columns:2;
     width:66px; height: 66px;
     margin-right: 2px
 }
-
-i.icon-bsac {
-    width:22px;
-    height:25px;
-    display: inline-block;
-    background: url('../images/bsac_icon.gif') no-repeat;
-}
-i.icon-bsac-small {
-    width:16px;
-    height:18px;
-    display: inline-block;
-    background: url('../images/bsac_icon_small.gif') no-repeat;
-}
-i.expired {
-    color: red;
-    margin-right: 0.4em;
-    font-size: 1.2em;
-}
-.expiry-column {
-width: 24px;
-}
-
 
 textarea {
     width:95%;

@@ -21,11 +21,19 @@ def menu_perms(request):
         DEBUG = settings.DEBUG
         l10n_club = settings.CLUB
 
+        current_url_obj = resolve(request.path)
+        if len(current_url_obj.namespaces) > 0:
+            namespace = current_url_obj.namespaces[0]
+        else:
+            namespace = None
+
         return {
             'request': request,
             'user': u,
             'profile': p,
-            'current_url':current_url,
+            'current_url':current_url, # TODO remove?
+            'current_url_obj':current_url_obj,
+            'namespace': namespace,
 
             'DEBUG': DEBUG,
             'l10n_club': l10n_club,

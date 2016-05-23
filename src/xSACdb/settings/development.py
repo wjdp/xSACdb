@@ -3,6 +3,7 @@ import os
 
 # Make this FALSE for deployment
 DEBUG = True
+TEMPLATE_DEBUG = True
 
 from .common import *
 
@@ -52,3 +53,6 @@ LANGUAGE_CODE = 'en-gb'
 SECRET_KEY = 'change me!'
 
 RAVEN_CONFIG = {}
+
+# Test css and js compression, True in prod
+#COMPRESS_ENABLED = True
