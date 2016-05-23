@@ -100,6 +100,12 @@ class SideBarNav
       window.e = e
       @sideBarAppSelection.touchEvent(e)
       @sideBarModuleNavigation.touchEvent(e)
+      @touchEvent(e)
+
+  touchEvent: ->
+    elem = e.srcElement
+    if elem.classList.contains('xsd-nav-app__blur')
+      @hideNav()
 
   update: =>
     if not @touchingSideNav
@@ -195,6 +201,8 @@ class SideBarModuleNavigation
       window.location = elem.parentElement.href
 
 $(document).ready ->
-  sideBarNav = new SideBarNav()
-#  sideBarNav.showNav()
-  window.sideBarNav = sideBarNav
+  console.log window.detectMQ('sm')
+  if window.detectMQ('sm')
+    sideBarNav = new SideBarNav()
+    window.sideBarNav = sideBarNav
+    #sideBarNav.showNav()

@@ -54,7 +54,8 @@ $sidenav-selection: rgba(43, 105, 255, 0.89)
   .xsd-nav-app__nav
     position: fixed
     height: 100%
-    width: 90%
+    width: 75%
+    min-width: 300px
     max-width: 400px
     left: 0
     top: 0
@@ -165,6 +166,9 @@ $sidenav-selection: rgba(43, 105, 255, 0.89)
       padding: 0.5rem $sidenav-link-pad-sides
 
       color: #eee
+      
+      &:hover
+        text-decoration: none
 
       &.active
         border-left: 3px solid $sidenav-selection
