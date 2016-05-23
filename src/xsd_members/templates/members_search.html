@@ -1,18 +1,22 @@
 {% extends 'members_template.html' %}
-{% load bootstrap_toolkit %}
+{% load bootstrap3 %}
 
 {% block title %}Member Search{% endblock %}
 
 {% block members_content %}
 <div class="row">
-	<div class="span9">
+	<div class="col-md-9">
 		<p>Search by either first or last names.</p>
 		<div class="formbox">
 			<form action="." method="GET">
 				{% csrf_token %}
 				<div class="form-horizontal">
-					{{search_form.surname}}
-					<button type="submit" class="btn btn-primary">Search</button>
+					{% bootstrap_field search_form.surname show_label=false %}
+					{% buttons %}
+                        <button type="submit" class="btn btn-primary">
+                          Search
+                        </button>
+                    {% endbuttons %}
 				</div>
 			</form>
 		</div>

@@ -14,7 +14,7 @@
 <h3>Trainees</h3>
     {% if psdc.trainees %}
     <p>{{psdc.trainees.count}} people attended this course.</p>
-    <table class="table table-condensed table-striped">
+    <table class="table table-sm table-striped">
         <tr><th>Name</th><th>Completed</th></tr>
     {% for trainee in psdc.trainees.all %}
         <tr>
@@ -31,9 +31,9 @@
     {% endif %}
 </div>
 {% if is_training %}
-<div class="span9 ">
+<div class="col-md-12 ">
 <div class="form-actions">
-        {% if not psdc.completed %}<a class="btn" href="{% url 'xsd_training:PerformedSDCDetail' psdc.pk %}"><i class="fa fa-remove"></i> Cancel</a>{% endif %}
+        {% if not psdc.completed %}<a class="btn btn-secondary" href="{% url 'xsd_training:PerformedSDCDetail' psdc.pk %}"><i class="fa fa-remove"></i> Cancel</a>{% endif %}
 
         <div class="btn-group pull-right">
         <button type="submit" class="btn btn-success"><i class=" fa fa-ok"></i> Complete Course</button>

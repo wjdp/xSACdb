@@ -1,16 +1,12 @@
 {% load staticfiles %}
+{% load navigation %}
 
-<head>
-    {% block pre_head %}{% endblock %}
-    <title>{% block title %}{{l10n_club.name}} Database{% endblock %}</title>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, user-scalable=no" />
+<title>{% page_title %}</title>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, user-scalable=no" />
 
-    <link rel="manifest" href="/manifest.json">
+<link rel="manifest" href="/manifest.json">
 
-    {% include 'base/css.html' %}
-    {% include 'base/js.html' %}
-
-    {% block post_head %}{% endblock %}
-</head>
+{% include 'base/css.html' %}
+{% include 'base/js.html' %}
 

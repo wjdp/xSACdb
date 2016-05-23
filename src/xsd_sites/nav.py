@@ -14,7 +14,7 @@ NAV = (
         'access': is_sites,
         'items': [
             ('Add Site', None, 'fa fa-plus', 'xsd_sites:SiteCreate', []),
-            ('Edit Sites', None, 'fa fa-pencil', 'xsd_sites:SitesList', []),
+            ('Edit Sites', 'object', 'fa fa-pencil', 'xsd_sites:SitesList', ['xsd_sites:SiteUpdate']),
         ]
     },
 )

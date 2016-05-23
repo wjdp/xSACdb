@@ -4,9 +4,8 @@
 
 {% block training_content %}
 
-<div class="span9">
-</div>
-<div class="span3">
+<div class="col-md-12">
+
 <form action="." method="get">
             <label for='tg'>Group</label>
             <select name='tg'>
@@ -15,17 +14,15 @@
             {% endfor %}
             </select>
 
-            <button type="submit" class="btn">Generate Report</button>
+            <button type="submit" class="btn btn-secondary">Generate Report</button>
 
     </form>
 <hr />
 <p>Select a trainee group to generate a report on their progress.</p>
-</div>
 
 
-<div class="span6">
 {% if tg %}
-<table class="table table-condensed table-striped">
+<table class="table table-sm table-striped">
 {% for t in tg.trainees.all %}
     <tr>
         <td><i class="fa fa-user"></i>  <a href="{% url 'xsd_training:TraineeNotes' t.pk %}">{{t.get_full_name}}</a></td>
@@ -38,6 +35,7 @@
 {% endfor %}
 </table>
 {% endif %}
+
 </div>
 
 {% include 'components/pl-mouseover.html' %}

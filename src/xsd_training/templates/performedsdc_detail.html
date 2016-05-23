@@ -2,17 +2,17 @@
 {% load staticfiles %}
 
 {% block training_content %}
-<div class="span3">
+<div class="col-lg-4">
     <h2>{{psdc.sdc.title}}</h2>
     <p>This skill development course is planned for {{psdc.datetime}}</p>
     <p>{{psdc.notes|linebreaks}}</p>
 
 </div>
-<div class="span6">
+<div class="col-lg-8">
 <h3>Trainees</h3>
     {% if psdc.trainees %}
     <p>So far {{psdc.trainees.count}} people are booked on this course.</p>
-    <table class="table table-condensed table-striped">
+    <table class="table table-sm table-striped">
         <tr><th>Name</th>{% if is_training %}<th>Qualification</th><th>Membership Issue</th>{% endif %}</tr>
     {% for trainee in psdc.trainees.all %}
         <tr>
@@ -34,9 +34,9 @@
     {% endif %}
 </div>
 {% if is_training %}
-<div class="span9 ">
+<div class="col-md-12 >
 <div class="form-actions">
-        {% if not psdc.completed %}<a class="btn" href="{% url 'xsd_training:PerformedSDCUpdate' psdc.pk %}"><i class="fa fa-pencil"></i> Edit</a>{% endif %}
+        {% if not psdc.completed %}<a class="btn btn-secondary" href="{% url 'xsd_training:PerformedSDCUpdate' psdc.pk %}"><i class="fa fa-pencil"></i> Edit</a>{% endif %}
 
         <div class="btn-group pull-right">
         <a class="btn btn-danger" href="{% url 'xsd_training:PerformedSDCDelete' psdc.pk %}"><i class="fa fa-remove"></i> Cancel Course</a>

@@ -15,7 +15,7 @@ NAV = (
         'access': is_all,
         'items': [
             ('All SDCs', None, 'fa fa-list', 'xsd_training:SDCList', []),
-            ('Lessons', None, 'fa fa-calendar', 'xsd_training:PerformedSDCList', ['xsd_training:PerformedSDCDetail']),
+            ('Upcoming Courses', None, 'fa fa-calendar', 'xsd_training:PerformedSDCList', ['xsd_training:PerformedSDCDetail']),
         ]
     },
     {

@@ -4,7 +4,7 @@
 
 {% block training_content %}
 
-<div class="span9">
+<div class="col-md-12">
 	<p>Search by either first or last names.</p>
 	<div class="formbox">
 		<form action="." method="GET">
@@ -16,7 +16,7 @@
 		</form>
 	</div>
 	{% if trainees %}
-	<table class="table table-condensed table-striped">
+	<table class="table table-sm table-striped">
 		<tr><th>Name</th><th>Qualification</th></tr>
 
 		{% for trainee in trainees %}

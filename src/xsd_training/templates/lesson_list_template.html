@@ -1,7 +1,8 @@
 {% if planned %}
-<ul class="lessons planned">
+<ul class="xsd-lesson-list xsd-lesson-list--planned">
     {% for l in planned %}
     <li>
+        <i class="fa fa-fw fa-clock-o"></i>
     {% if l.description %}<a href="{% url 'xsd_training:lesson_detail' l.id %}">{% endif %}
         {% if l.code %}{{l.code}} - {% endif %}{{l.title}}
     {% if l.description %}</a>{% endif %}
@@ -10,9 +11,10 @@
 </ul>
 {% endif %}
 {% if lessons %}
-<ul class="lessons uncompleted">
+<ul class="xsd-lesson-list xsd-lesson-list--uncompleted">
     {% for l in lessons %}
     <li>
+        <i class="fa fa-fw fa-circle-thin"></i>
     {% if l.description %}<a href="{% url 'xsd_training:lesson_detail' l.id %}">{% endif %}
         {% if l.code %}{{l.code}} - {% endif %}{{l.title}}
     {% if l.description %}</a>{% endif %}
@@ -21,9 +23,10 @@
 </ul>
 {% endif %}
 {% if completed %}
-<ul class="lessons completed">
+<ul class="xsd-lesson-list xsd-lesson-list--completed">
     {% for l in completed %}
     <li>
+        <i class="fa fa-fw fa-check"></i>
     {% if l.description %}<a href="{% url 'xsd_training:lesson_detail' l.id %}">{% endif %}
         {% if l.code %}{{l.code}} - {% endif %}{{l.title}}
     {% if l.description %}</a>{% endif %}
@@ -33,5 +36,5 @@
 {% endif %}
 
 {% if not planned and not lessons and not completed %}
-No Lessons in this category for this qualification.
+<p>No Lessons in this category for this qualification.</p>
 {% endif %}

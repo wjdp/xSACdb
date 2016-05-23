@@ -1,5 +1,5 @@
 {% if planned %}
-<table class="lessons planned table table-bordered table-condensed">
+<table class="lessons planned table table-bordered table-sm">
     {% for l in planned %}
     <tr>
     <td>{% if l.0.description %}<a href="{% url 'xsd_training:lesson_detail' l.0.id %}">{% endif %}
