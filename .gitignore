@@ -12,7 +12,8 @@ components/*
 local_files/*
 static/*
 cssb/*
-.sass-cache/*
+.sass-cache
+src/.sass-cache
 Gemfile.lock
 vendor/*
 shell.py

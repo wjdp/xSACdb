@@ -250,6 +250,7 @@ SOCIALACCOUNT_ADAPTER = 'xsd_auth.adapter.XSDSocialAccountAdapter'
 TEST_FIXTURES = [
     os.path.join(TMP_PATH, 'bsac_data.yaml'),
     'groups',
+    'socialapp-test',
 ]
 
 SILENCED_SYSTEM_CHECKS=['1_6.W001']

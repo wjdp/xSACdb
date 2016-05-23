@@ -90,9 +90,10 @@ def login(request):
             pass
     else:
         form=LoginForm()
-    return render(request,'frontend_login.html',
-        {'form':form, 'errors':errors, 'request': request},
-        context_instance=RequestContext(request))
+    return render(request,'frontend_login.html', {
+            'form':form,
+            'errors':errors
+        }, context_instance=RequestContext(request))
 
 from django.contrib.auth import logout as auth_logout
 
@@ -131,7 +132,7 @@ def register(request):
     else:
         form = UserRegisterForm()
     return render(request,'frontend_register.html',
-        {'request':request, 'form': form},
+        {'form': form},
         context_instance=RequestContext(request))
 
 def update_request(request):

@@ -13,7 +13,10 @@ urlpatterns = patterns('',
     url(r'^accounts/register/$', 'xsd_frontend.views.register', name='login'),
     url(r'^accounts/logout/$', 'xsd_frontend.views.logout', name='logout'),
 
+    # Bodge here as accounts/ URLS need to be avaliable under the xsd_auth
+    # namespace along with no namespace for access via external libs #185
     url(r'^accounts/', include('allauth.urls', namespace='xsd_auth')),
+    url(r'^accounts/', include('allauth.urls')),
 
     url(r'^members/', include('xsd_members.urls', namespace='xsd_members')),
 

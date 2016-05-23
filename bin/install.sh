@@ -27,6 +27,7 @@ pip install -r requirements.txt
 
 echo "[xSACdb] Installing frontend dependancies..."
 bower install --allow-root
+rm -rf lib/tether/examples
 
 echo "[xSACdb] Migrating database..."
 # src/manage.py migrate --noinput

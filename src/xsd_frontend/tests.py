@@ -82,4 +82,4 @@ class ClassicLogin(BaseTest):
 class Dashboard(BaseTest):
     VIEW_NAME = 'dashboard'
     def test_200(self):
-        self.assertEqual(self.get_page_status_code('dashboard'),200)
+        self.assertEqual(self.get_page_status_code('xsd_frontend:dashboard'),200)
