@@ -26,6 +26,8 @@ echo "[xSACdb] Installing python dependancies..."
 pip install -r requirements.txt
 
 echo "[xSACdb] Installing frontend dependancies..."
+gem install sass
+sass -v
 bower install --allow-root
 rm -rf lib/tether/examples
 

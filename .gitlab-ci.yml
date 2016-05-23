@@ -4,8 +4,10 @@ services:
   - postgres
 
 before_script:
+  - export XSACDB_ENVIRONMENT=TEST
   - virtualenv env
   - source env/bin/activate
+  - gem install sass
   - pip install -qr requirements.txt
 
 stages:
@@ -29,6 +31,6 @@ django-test:
     - mkdir tmp
     - wget $BSAC_DATA -O tmp/bsac_data.yaml
     - source env/bin/activate
-    - src/manage.py compress
     - src/manage.py collectstatic --noinput
+    - src/manage.py compress
     - src/manage.py test xSACdb xsd_about xsd_auth xsd_frontend xsd_help xsd_kit xsd_members xsd_sites xsd_training xsd_trips
