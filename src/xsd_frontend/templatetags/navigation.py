@@ -87,6 +87,8 @@ def app_nav(context):
         app['active'] = (app['app'] == namespace)
 
     context['app_list'] = APP_LIST
+    context['app'] = namespace
+
     if namespace:
         context['page_title'] = get_page_title(get_module_nav_list(namespace, url_name), context)
 

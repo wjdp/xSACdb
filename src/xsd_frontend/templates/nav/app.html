@@ -43,15 +43,7 @@
                 {% endif %}
             </li>
             {% endfor %}
-{#            <li class="xsd-nav-app__nav-item xsd-nav-app__nav-account" data-app-name="xsd-help">#}
-{#                <a class="xsd-nav-app__nav-link" href="/help/">#}
-{#                    <div class="xsd-nav-app__nav-link-text">#}
-{#                        {{ request.user.get_full_name }}#}
-{#                        <i class="fa fa-chevron-down"></i>#}
-{#                    </div>#}
-{#                </a>#}
-{#            </li>#}
-            <li class="xsd-nav-app__nav-item xsd-nav-app__nav-help" data-app-name="xsd-help">
+            <li class="xsd-nav-app__nav-item xsd-nav-app__nav-help {% if app == "xsd_help" %}active selected{% endif %}" data-app-name="xsd-help">
                 <a class="xsd-nav-app__nav-link" href="/help/">
                     <div class="xsd-nav-app__nav-link-text">
                         <i class="fa fa-question-circle fa-fw"></i>
@@ -59,10 +51,18 @@
                     </div>
                 </a>
                 <div class="xsd-nav-app__nav-module">
-
+                    <ul class="xsd-nav-module">
+                        <li class="xsd-nav-module__item">
+                            <a class="xsd-nav-module__link {% if app == "xsd_help" %}active{% endif %}" href="/help/">
+                                <div class="xsd-nav-module__link-text">
+                                    <i class="fa fa-question fa-fw"></i>
+                                    User Documentation
+                                </div>
+                            </a>
+                        </li>
+                    </ul>
                 </div>
             </li>
-            </div>
         </ul>
 
         <div class="xsd-nav-app__activity-spinner" id="activity-spinner">
