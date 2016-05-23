@@ -38,6 +38,15 @@
 .xsd-nav-app__nav-module
   @include hide-md
 
+.xsd-nav-app__activity-spinner
+  @extend .navbar-brand
+  display: none
+  float: right
+
+.xsd-nav-app__activity-spinner--spin
+  display: block
+
+
 // Mobile side nav
 $sidenav-bg: mix($gray-dark, black, 90%)
 $sidenav-selection: rgba(43, 105, 255, 0.89)
@@ -71,6 +80,7 @@ $sidenav-selection: rgba(43, 105, 255, 0.89)
 
   $nav-entry-time: 0.33s
   $nav-exit-time: 0.20s
+  $nav-scroll-time: 0.4s
   $nav-animate-curve: cubic-bezier(0,0,0.3,1)
 
   .xsd-nav-app__nav--animate
@@ -81,7 +91,8 @@ $sidenav-selection: rgba(43, 105, 255, 0.89)
   .xsd-nav-app__nav-inner
 
   .xsd-nav-app__nav-inner--animate
-    transition: transform $nav-exit-time $nav-animate-curve // Fast exit
+    // Inertial scrolling
+    transition: transform $nav-scroll-time $nav-animate-curve // Fast exit
 
   // Makes the page black
   .xsd-nav-app__blur

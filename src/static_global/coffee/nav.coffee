@@ -19,8 +19,8 @@ class SideBarNav
     @startTimestamp = null
     @animationLength = null
 
-    @minLimitY = 100
-    @maxLimitY = -1000
+    @minLimitY = 0
+    @maxLimitY
 
     @hamburgerEl.addEventListener('click', @showNav)
     @pageTitle.addEventListener('click', @showNav)
@@ -31,6 +31,10 @@ class SideBarNav
     document.addEventListener('touchend', @onTouchEnd)
 
     @sideBarAppSelection = new SideBarAppSelection(@)
+    @sideBarModuleNavigation = new SideBarModuleNavigation(@)
+
+  calcLimitY: ->
+    @maxLimitY = - Math.max(@sideNavInnerEl.offsetHeight - 200, 0)
 
   showNav: =>
     @sideNavEl.classList.add('xsd-nav-app__nav--visible')
@@ -57,6 +61,8 @@ class SideBarNav
     @currentY = @startY
     @currentYTranslate = @startY + @lastTranslateY
     @touchingSideNav = true
+
+    @calcLimitY()
 
     requestAnimationFrame(@update)
 
@@ -86,13 +92,14 @@ class SideBarNav
     # Inertial scrolling
     @sideNavInnerEl.classList.add('xsd-nav-app__nav-inner--animate')
     inertialScrollY = @translateY + Math.min(250, Math.pow(1.2, @spreadY) + 3*@spreadY)
-    console.log [@translateY - inertialScrollY]
-    @setTranslateY(inertialScrollY)
-    @lastTranslateY = inertialScrollY
+    @setTranslateY(inertialScrollY, true)
+    @lastTranslateY = @translateY
 
     # Click detection
     if Math.abs(@currentX - @startX) + Math.abs(@currentY - @startY) < 3
+      window.e = e
       @sideBarAppSelection.touchEvent(e)
+      @sideBarModuleNavigation.touchEvent(e)
 
   update: =>
     if not @touchingSideNav
@@ -106,9 +113,10 @@ class SideBarNav
 
     @setTranslateY(@currentYTranslate - @startY)
 
-  setTranslateY: (y) ->
-    y = Math.min(@minLimitY, y)
-    y = Math.max(@maxLimitY, y)
+  setTranslateY: (y, limits=false) ->
+    if limits
+      y = Math.min(@minLimitY, y)
+      y = Math.max(@maxLimitY, y)
     @translateY = y
     @sideNavInnerEl.style.transform = "translateY(#{y}px)"
 
@@ -117,9 +125,11 @@ class SideBarNav
       return
     @sideNavInnerEl.classList.add('xsd-nav-app__nav-inner--animate')
 
+    @calcLimitY()
+
     @translateY = -elem.offsetTop
     @lastTranslateY = @translateY
-    @setTranslateY(@translateY)
+    @setTranslateY(@translateY, true)
 
 
 class SideBarAppSelection
@@ -128,7 +138,8 @@ class SideBarAppSelection
 
     @allAppNodes     = document.querySelectorAll('.xsd-nav-app__nav-item')
     @currentAppNode  = document.querySelector('.xsd-nav-app__nav-item.active')
-    @currentAppName = @currentAppNode.dataset.appName
+    if @currentAppNode
+      @currentAppName = @currentAppNode.dataset.appName
 
     for appNode in @allAppNodes
       appNode.querySelector('a').addEventListener('click', @tapApp)
@@ -165,13 +176,25 @@ class SideBarAppSelection
         moduleNode.style.maxHeight = 0
     setTimeout ->
       @sideBarNav.scrollTo(currentAppNode)
-    , 100
+    , 100 + 60 # Need to wait for CSS transition because we need to know the height. Add some ms to account for delays
     return currentAppNode
 
   reset: ->
-    @selectApp(@currentAppName)
+    if @currentAppName
+      @selectApp(@currentAppName)
+
+class SideBarModuleNavigation
+  constructor: (sideBarNav) ->
+    @sideBarNav = sideBarNav
+
+  touchEvent: (e) =>
+    elem = e.srcElement
+    if elem.classList.contains('xsd-nav-module__link-text')
+      @sideBarNav.hideNav()
+      window.activitySpinner.showSpinner()
+      window.location = elem.parentElement.href
 
 $(document).ready ->
   sideBarNav = new SideBarNav()
-  sideBarNav.showNav()
+#  sideBarNav.showNav()
   window.sideBarNav = sideBarNav
