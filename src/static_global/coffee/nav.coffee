@@ -166,7 +166,11 @@ class SideBarAppSelection
 
   touchEvent: (e) ->
     elem = e.srcElement
-    if elem.classList.contains('xsd-nav-app__nav-link')
+    if elem.parentElement.dataset.appName == 'xsd-dashboard'
+      @sideBarNav.hideNav()
+      window.activitySpinner.showSpinner()
+      window.location = elem.href
+    else if elem.classList.contains('xsd-nav-app__nav-link')
       @selectApp(elem.parentElement.dataset.appName)
 
   selectApp: (appName) =>

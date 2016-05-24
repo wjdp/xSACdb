@@ -38,6 +38,9 @@
 .xsd-nav-app__nav-module
   @include hide-md
 
+.xsd-nav-app__nav-dashboard
+  display: none
+
 .xsd-nav-app__nav-help
   @include media-breakpoint-up(md)
     float: right !important
@@ -81,10 +84,13 @@
 .xsd-nav-app__activity-spinner--spin
   display: block
 
+@include media-breakpoint-up(lg)
+  .xsd-nav-app__title, .xsd-nav-app__nav-item
+    margin-right: 0.5em
 
 // Mobile side nav
 $sidenav-bg: mix($gray-dark, black, 90%)
-$sidenav-selection: rgba(43, 105, 255, 0.89)
+$sidenav-selection: $color-selection
 @include media-breakpoint-down(sm)
   .xsd-nav-app__nav
     position: fixed
@@ -178,6 +184,16 @@ $sidenav-selection: rgba(43, 105, 255, 0.89)
 
     &.selected
       transition: max-height $app-switch-speed $nav-animate-curve
+
+  .xsd-nav-app__nav-dashboard
+    // Sidenav application banner / dashboard
+    display: block
+    .xsd-nav-app__nav-link
+      padding-top: 5em !important
+      background: $color-sidenav-brand
+    &.active
+      .xsd-nav-app__nav-link
+        border-left-color: white
 
   // Each app's links
   .xsd-nav-app__nav-module

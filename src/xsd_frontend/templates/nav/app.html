@@ -16,6 +16,18 @@
 
         <ul class="xsd-nav-app__nav xsd-nav-app__nav--animate">
             <div class="xsd-nav-app__nav-inner">
+            <li class="xsd-nav-app__nav-item xsd-nav-app__nav-dashboard {% if app == "xsd_frontend" %}active selected{% endif %}" data-app-name="xsd-dashboard">
+                <a class="xsd-nav-app__nav-link" href="/">
+                    <div class="xsd-nav-app__nav-link-text">
+                        <i class="fa fa-fw fa-asterisk"></i>
+                        <span class="text">{{ l10n_club.name }}</span>
+                    </div>
+                </a>
+                <div class="xsd-nav-app__nav-module">
+
+                </div>
+            </li>
+
             {% for app in app_list %}
             <li class="xsd-nav-app__nav-item {% if app.active %}active selected{% endif %} xsd-nav-app__nav-item-{{ app.app }} {% if app.app == "xsd_auth" %}dropdown{% endif %}"
                 data-app-name="{{ app.app }}">
@@ -33,7 +45,7 @@
                     </div>
                 </a>
                 {% if app.app == "xsd_auth" %}
-                <div class="xsd-nav-app__nav-module dropdown-menu">
+                <div class="xsd-nav-app__nav-module dropdown-menu dropdown-menu-right">
                     {% app_module_nav app.app %}
                 </div>
                 {% else %}
