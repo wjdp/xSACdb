@@ -6,6 +6,8 @@ TEMPLATE_DEBUG = False
 
 from .common import *
 
+ALLOWED_HOSTS=['*']
+
 # Club config
 CLUB = {
     # Name of your club

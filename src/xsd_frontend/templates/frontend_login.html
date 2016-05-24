@@ -9,10 +9,10 @@
 	<meta name="viewport" content="width=device-width, user-scalable=no" />
 
     {% compress css %}
-	<link href="{% static 'sass/login.sass' %}" type="text/x-sass" rel="stylesheet" media="all" />
+	<link href="/static/sass/login.sass" type="text/x-sass" rel="stylesheet" media="all" />
     {% endcompress %}
     {% compress js %}
-    <script type="text/javascript" src="{% static 'jquery/dist/jquery.js' %}"></script>
+    <script type="text/javascript" src="/static/jquery/dist/jquery.js"></script>
     {% endcompress %}
 
 </head>
@@ -26,7 +26,7 @@
 		<div class="login-facebook">
 			<p class='message facebook-switch'>Facebook</p>
 			<div class="mob-collapse-facebook {% if errors == 'badauth' %}mob-collapse-hidden{% endif %}">
-					<a href="{% comment %} # TODO fix FB Login {% provider_login_url "facebook" %}{% endcomment %}" class="fb-login">
+					<a href="{% provider_login_url "facebook" %}" class="fb-login">
 						<img src="{% static 'images/fb_button.png' %}" alt="Login with Facebook" />
 					</a>
 					<input type="hidden" value="{{ request.path }}" name="next" />
