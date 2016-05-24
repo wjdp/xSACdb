@@ -10,22 +10,25 @@ def menu_perms(request):
     if request.user.is_authenticated():
         u=request.user
         p=u.memberprofile
+
         try:
+            # TODO Do we really need the url.url_name separate, go fix the code
             current_url = resolve(request.path_info).url_name
+            current_url_obj = resolve(request.path)
+            if len(current_url_obj.namespaces) > 0:
+                namespace = current_url_obj.namespaces[0]
+            else:
+                namespace = None
         except Resolver404:
             current_url = ''
+            current_url_obj = None
+            namespace = None
 
         update_request_form = UpdateRequestMake()
         my_user_account_form = MyUserAccountForm()
 
         DEBUG = settings.DEBUG
         l10n_club = settings.CLUB
-
-        current_url_obj = resolve(request.path)
-        if len(current_url_obj.namespaces) > 0:
-            namespace = current_url_obj.namespaces[0]
-        else:
-            namespace = None
 
         return {
             'request': request,

@@ -10,13 +10,17 @@
 
 <script type="text/javascript" src="/static/tether/dist/js/tether.js"></script>
 <script type="text/javascript" src="/static/bootstrap/dist/js/bootstrap.js"></script>
+<script type="text/javascript" src="/static/raven-js/dist/raven.min.js"></script>
+
+{% endcompress %}
 
 {% if RAVEN_DSN %}
-<script type="text/javascript" src="/static/raven-js/dist/raven.min.js"></script>
 <script type="text/javascript">
     Raven.config('{{ RAVEN_DSN }}').install()
 </script>
 {% endif %}
+
+{% compress js %}
 
 <script type="text/javascript" src="/static/js/css_extra.js"></script>
 <script type="text/coffeescript" src="/static/coffee/mq-detector.coffee"></script>
@@ -25,6 +29,7 @@
 
 {% endcompress %}
 
+{% compress js inline %}
 <script type="text/javascript">
 navigator.serviceWorker.register('/service-worker.js', { scope: '/' })
     .then(function(r) {
@@ -35,3 +40,4 @@ navigator.serviceWorker.register('/service-worker.js', { scope: '/' })
       console.error(whut);
     });
 </script>
+{% endcompress %}

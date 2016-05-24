@@ -33,5 +33,5 @@ requests-oauthlib==0.6.1
 six==1.10.0
 sqlparse==0.1.19
 testdata==0.6.8
-whitenoise==2.0.6 # 3.0 available
+whitenoise==3.1
 wsgiref==0.1.2

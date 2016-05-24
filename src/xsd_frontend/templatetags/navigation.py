@@ -1,7 +1,7 @@
 import importlib
 
 from django import template
-from django.core.urlresolvers import resolve
+from django.core.urlresolvers import resolve, Resolver404
 
 from xsd_frontend.nav import APP_LIST
 
@@ -51,10 +51,13 @@ def get_page_title(module_nav, context):
     return context['l10n_club']['name']
 
 def get_namespace(context):
-    current_url = resolve(context.request.path)
-    if len(current_url.namespaces) > 0:
-        return current_url.namespaces[0]
-    else:
+    try:
+        current_url = resolve(context.request.path)
+        if len(current_url.namespaces) > 0:
+            return current_url.namespaces[0]
+        else:
+            return ""
+    except Resolver404:
         return ""
 
 def get_app_title(namespace):
@@ -63,9 +66,12 @@ def get_app_title(namespace):
             return app['title']
 
 def get_url_name(context):
-    current_url = resolve(context.request.path)
-    namespace = get_namespace(context)
-    return "{}:{}".format(namespace, current_url.url_name)
+    try:
+        current_url = resolve(context.request.path)
+        namespace = get_namespace(context)
+        return "{}:{}".format(namespace, current_url.url_name)
+    except Resolver404:
+        return None
 
 @register.simple_tag(takes_context=True)
 def page_title(context):

@@ -151,6 +151,16 @@ def update_request(request):
 def design(request):
     return render(request, 'design.html')
 
+
+def handler400(request):
+    return render(request, '500.html', status=400)
+def handler403(request):
+    return render(request, '403.html', status=403)
+def handler404(request):
+    return render(request, '404.html', status=404)
+def handler500(request):
+    return render(request, '500.html', status=500)
+
 from django.views.generic import ListView
 from xSACdb.versioning import get_versions_for_model, get_changes_for_version, get_activity_feed_models
 import reversion

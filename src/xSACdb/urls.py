@@ -1,8 +1,12 @@
 from django.conf.urls import patterns, include, url
-from django.conf import settings
-
 from django.contrib import admin
+
 admin.autodiscover()
+
+handler400 = 'xsd_frontend.views.handler400'
+handler403 = 'xsd_frontend.views.handler403'
+handler404 = 'xsd_frontend.views.handler404'
+handler500 = 'xsd_frontend.views.handler500'
 
 urlpatterns = patterns('',
     url(r'^update-request/$', 'xsd_frontend.views.update_request', name='update_request'),
@@ -34,12 +38,10 @@ urlpatterns = patterns('',
 
     url(r'^', include('xsd_frontend.urls', namespace='xsd_frontend')),
 
-    # Can be enabled for serving static files (dev only)
-    # url(r'^static/(?P<path>.*)$', 'django.views.static.serve',
-    #     {'document_root': settings.STATIC_DOC_ROOT}),
-
     url(r'^hijack/', include('hijack.urls')),
 
     url(r'^admin/doc/', include('django.contrib.admindocs.urls')),
     url(r'^admin/', include(admin.site.urls)),
+
+    url(r'^404/$', 'django.views.defaults.page_not_found'),
 )
