@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file. Notes should be geared towards the managers of
 xSACdb instances. This project will soon adhere to [Semantic Versioning](http://semver.org/).
 
+## [0.2.0] - Unreleased
+
+### Added
+- If you're using Sentry for error logging user is asked for feedback when a 500 happens.
+
+### Changed
+- Upgraded the UI framework from Bootstrap v2 to v4, includes *significant UI improvements* especially on mobile.
+
 ## [0.1.1] - Unreleased
 
 ### Changed
