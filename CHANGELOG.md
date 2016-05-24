@@ -3,6 +3,11 @@
 All notable changes to this project will be documented in this file. Notes should be geared towards the managers of
 xSACdb instances. This project will soon adhere to [Semantic Versioning](http://semver.org/).
 
+## [0.1.1] - 2016-05-24
+
+### Fixed
+- Long email addresses would cause an exception when used for registering a local account. Issue #198.
+
 ## [0.1.0] - 2016-05-19
 
 ### Upgrading
@@ -40,7 +45,6 @@ Please note the `./manage.py` command has changed to `src/manage.py`
 - Many third-party packages have been updated. django-allauth requires fake initials for it's migration from South.
 
 ### Fixed
-
 - Fixed: Map would fail to load in sites overview.
 - Fixed: Incompatibility with latest Dokku 0.5.x
 - Fixed: Member profile fields allergies, veggie and other_qualifications added to detail and edit pages. Bug fixed where
