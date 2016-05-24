@@ -18,7 +18,6 @@ CLUB = {
     'how_to_renew': 'Renew at <a href="http://su.nottingham.ac.uk/sub-aqua">su.nottingham.ac.uk/sub-aqua</a>.',
     'bsac_club_renew': 'Contact the VP for details.',
     'medical_form_renew': 'Form available at <a href="http://uksdmc.co.uk/">uksdmc.co.uk</a>.',
-    'expired_message': "Some parts of your membership have expired. You'll need to correct this before you're allowed to dive with the club.",
 }
 
 # Send error reports to
