@@ -18,7 +18,7 @@
 		<p>{{trainee.first_name}} joined the database on {{trainee.date_joined|date}}.</p>
 
 		{% if trainee.membership_problem %}
-		<div class="alert alert-error">
+		<div class="alert alert-danger">
 			<i class="fa fa-exclamation-triangle"></i> <strong>Uh-oh</strong> There are currently issues with {{trainee.first_name}}'s membership, until this is rectified {{trainee.heshe|lower}} cannot go diving.
 		</div>
 		{%endif%}

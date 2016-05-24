@@ -235,7 +235,6 @@ columns:2;
 .titlebox {
     padding: 0.7em 0.5em;
     background: rgb(0, 136, 204);
-    margin-top:0.7em;
     margin-bottom:0.8em;
     color:white;
     min-height: 72px;
@@ -255,6 +254,10 @@ columns:2;
     border:2px solid #f5f5f5;
     width:66px; height: 66px;
     margin-right: 2px
+}
+
+.titlebox input {
+    color: #000
 }
 
 textarea {
