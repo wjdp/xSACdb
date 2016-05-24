@@ -1,0 +1,26 @@
+{% extends 'base_template.html' %}
+{% load markdown %}
+{% load bootstrap3 %}
+
+{% block content %}
+<div class="row">
+
+    <div class="col-md-4">
+        <h2>Update your profile</h2>
+        {{ l10n_club.dynamic_update_profile_blurb|markdown }}
+    </div>
+
+    <div class="col-md-8">
+        <form method="POST" action="">
+            {% csrf_token %}
+            {% bootstrap_form form %}
+            {% buttons %}
+                <button type="submit" class="btn btn-primary">
+                    Submit
+                </button>
+            {% endbuttons %}
+        </form>
+    </div>
+
+</div>
+{% endblock %}

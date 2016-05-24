@@ -348,6 +348,24 @@ class MemberProfileTest(BaseMemberTest, TrainingTestToolsMixin):
         self.assertEqual(self.mp.last_name, self.user.last_name)
         self.assertEqual(self.mp.email, self.user.email)
 
+    def test_mp_get_missing_field_list(self):
+        # We've not filled any of them
+        self.assertEqual(
+            len(self.mp.get_missing_field_list()),
+            len(self.mp.REQUIRED_FIELDS)
+        )
+
+        # Fill one in now
+        self.mp.next_of_kin_name = "Mary"
+        self.mp.save()
+
+        # There should be one less now
+        self.assertEqual(
+            len(self.mp.get_missing_field_list()),
+            len(self.mp.REQUIRED_FIELDS)-1
+        )
+
+
 class MembershipTypeTest(BaseTest):
     def test_unicode(self):
         NAME = testdata.get_str(128)
