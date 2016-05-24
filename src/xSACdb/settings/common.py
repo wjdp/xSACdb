@@ -124,7 +124,7 @@ TEMPLATE_CONTEXT_PROCESSORS = (
     'django.core.context_processors.media',
     'django.contrib.messages.context_processors.messages',
     'django.core.context_processors.request',
-    'xSACdb.context_processors.menu_perms',
+    'xSACdb.context_processors.xsd_vars',
 )
 
 
