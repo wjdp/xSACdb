@@ -74,6 +74,22 @@ navigator.serviceWorker.register('/service-worker.js', { scope: '/' })
     {{ request|hijackNotification }}
 
     {% if request.user.is_authenticated %}{% app_nav %}{% endif %}
+
+    <div class="xsd-messages">
+        {% if messages %}
+        <ul class="xsd-messages__list">
+            {% for message in messages %}
+            <li class="xsd-messages__message xsd-messages__message--{{ message.tags }} xsd-messages__message--{{ message.level }}">
+                <div class="xsd-messages__message-inner">
+                    <i class="xsd-messages__message-icon"></i>
+                    {{ message }}
+                </div>
+            </li>
+            {% endfor %}
+        </ul>
+        {% endif %}
+    </div>
+
     <div class="xsd-application-container">
         {% block content %}
         No content

@@ -4,6 +4,8 @@ from django.http import HttpResponse
 from django.shortcuts import render, redirect
 from django.template import RequestContext
 from django.contrib.auth import get_user_model
+from django.contrib import messages
+from django.conf import settings
 
 from datetime import date
 
@@ -45,6 +47,7 @@ def dashboard(request):
     # TODO make a nice universal way of doing this
 
     if is_trusted(request.user):
+        messages.add_message(request, messages.WARNING, settings.CLUB['expired_message'])
         versions = get_versions_for_model(get_activity_feed_models())[:10]
         versions2 = []
         for thisVersion in versions:
