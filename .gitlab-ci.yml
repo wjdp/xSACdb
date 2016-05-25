@@ -1,8 +1,13 @@
 image: wjdp/flatcar
 
 services:
-  - postgres
-  - redis
+  - postgres:latest
+  - redis:latest
+
+variables:
+  POSTGRES_DB: xsacdb
+  POSTGRES_USER: runner
+  POSTGRES_PASSWORD: ""
 
 before_script:
   - export XSACDB_ENVIRONMENT=TEST
@@ -32,6 +37,7 @@ django-test:
     - mkdir tmp
     - wget $BSAC_DATA -O tmp/bsac_data.yaml
     - source env/bin/activate
+    - src/manage.py migrate
     - src/manage.py collectstatic --noinput
     - src/manage.py compress
     - src/manage.py test xSACdb xsd_about xsd_auth xsd_frontend xsd_help xsd_kit xsd_members xsd_sites xsd_training xsd_trips

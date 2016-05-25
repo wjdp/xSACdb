@@ -6,7 +6,7 @@ TEMPLATE_DEBUG = False
 
 from .common import *
 
-ALLOWED_HOSTS=['*']
+ALLOWED_HOSTS = ['*']
 
 # Club config
 CLUB = {
@@ -30,12 +30,13 @@ MANAGERS = ADMINS
 # Your database config
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3', # Add 'postgresql_psycopg2', 'mysql', 'sqlite3' or 'oracle'.
-        'NAME': os.path.join(TMP_PATH, 'db.sqlite3'),                      # Or path to database file if using sqlite3.
-        'USER': '',                      # Not used with sqlite3.
-        'PASSWORD': '',                  # Not used with sqlite3.
-        'HOST': '',                      # Set to empty string for localhost. Not used with sqlite3.
-        'PORT': '',                      # Set to empty string for default. Not used with sqlite3.
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+    # Add 'postgresql_psycopg2', 'mysql', 'sqlite3' or 'oracle'.
+        'NAME': 'xsacdb',  # Or path to database file if using sqlite3.
+        'USER': 'runner',  # Not used with sqlite3.
+        'PASSWORD': '',  # Not used with sqlite3.
+        'HOST': 'postgres',  # Set to empty string for localhost. Not used with sqlite3.
+        'PORT': '',  # Set to empty string for default. Not used with sqlite3.
     }
 }
 
@@ -43,7 +44,7 @@ DATABASES = {
 CACHES = {
     'default': {
         'BACKEND': 'redis_cache.RedisCache',
-        'LOCATION': os.environ['REDIS_URL'],
+        'LOCATION': 'redis:6379',
     },
 }
 
@@ -71,4 +72,4 @@ SECRET_KEY = 'change me!'
 RAVEN_CONFIG = {}
 
 # Test css and js compression, True in prod
-#COMPRESS_ENABLED = True
+COMPRESS_ENABLED = True
