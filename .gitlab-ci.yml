@@ -2,6 +2,7 @@ image: wjdp/flatcar
 
 services:
   - postgres
+  - redis
 
 before_script:
   - export XSACDB_ENVIRONMENT=TEST

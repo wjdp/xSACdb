@@ -15,6 +15,8 @@ django-compat==1.0.11
 django-debug-toolbar==1.4
 django-geoposition==0.2.2
 django-hijack==2.1.1
+django-redis-cache==1.6.4
+django-rq==0.9.1
 django-tastypie==0.13.3
 django-reversion==1.10.2
 django_compressor==2.0
@@ -30,6 +32,7 @@ python-openid==2.2.5
 raven==5.17.0
 requests==2.10.0
 requests-oauthlib==0.6.1
+rq-scheduler==0.6.1
 six==1.10.0
 sqlparse==0.1.19
 testdata==0.6.8

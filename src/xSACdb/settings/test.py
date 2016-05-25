@@ -39,6 +39,21 @@ DATABASES = {
     }
 }
 
+# Cache data store
+CACHES = {
+    'default': {
+        'BACKEND': 'redis_cache.RedisCache',
+        'LOCATION': os.environ['REDIS_URL'],
+    },
+}
+
+# Background task queues, uses same connection as django-redis-cache
+RQ_QUEUES = {
+    'default': {
+        'USE_REDIS_CACHE': 'redis-cache',
+    },
+}
+
 # Local time zone for this installation. Choices can be found here:
 # http://en.wikipedia.org/wiki/List_of_tz_zones_by_name
 # although not all choices may be available on all operating systems.

@@ -30,12 +30,12 @@ MANAGERS = ADMINS
 # Your database config
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3', # Add 'postgresql_psycopg2', 'mysql', 'sqlite3' or 'oracle'.
-        'NAME': os.path.join(TMP_PATH, 'db.sqlite3'),                      # Or path to database file if using sqlite3.
-        'USER': '',                      # Not used with sqlite3.
-        'PASSWORD': '',                  # Not used with sqlite3.
-        'HOST': '',                      # Set to empty string for localhost. Not used with sqlite3.
-        'PORT': '',                      # Set to empty string for default. Not used with sqlite3.
+        'ENGINE': 'django.db.backends.sqlite3',  # Add 'postgresql_psycopg2', 'mysql', 'sqlite3' or 'oracle'.
+        'NAME': os.path.join(TMP_PATH, 'db.sqlite3'),  # Or path to database file if using sqlite3.
+        'USER': '',  # Not used with sqlite3.
+        'PASSWORD': '',  # Not used with sqlite3.
+        'HOST': '',  # Set to empty string for localhost. Not used with sqlite3.
+        'PORT': '',  # Set to empty string for default. Not used with sqlite3.
     }
 }
 
@@ -56,4 +56,39 @@ SECRET_KEY = 'change me!'
 RAVEN_CONFIG = {}
 
 # Test css and js compression, True in prod
-#COMPRESS_ENABLED = True
+# COMPRESS_ENABLED = True
+
+# Background task queues
+# RQ_QUEUES = {
+#     'default': {
+#         'HOST': 'localhost',
+#         'PORT': 6379,
+#         'DB': 0,
+#         'PASSWORD': '',
+#         'DEFAULT_TIMEOUT': 360,
+#     },
+#     # 'high': {
+#     #     'URL': os.getenv('REDISTOGO_URL', 'redis://localhost:6379/0'), # If you're on Heroku
+#     #     'DEFAULT_TIMEOUT': 500,
+#     # },
+#     # 'low': {
+#     #     'HOST': 'localhost',
+#     #     'PORT': 6379,
+#     #     'DB': 0,
+#     # }
+# }
+
+# Cache data store
+CACHES = {
+    'default': {
+        'BACKEND': 'redis_cache.RedisCache',
+        'LOCATION': 'localhost:6379',
+    },
+}
+
+# Background task queues, uses same connection as django-redis-cache
+RQ_QUEUES = {
+    'default': {
+        'USE_REDIS_CACHE': 'default',
+    },
+}

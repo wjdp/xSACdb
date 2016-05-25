@@ -33,6 +33,7 @@ urlpatterns = patterns('',
     url(r'^kit/', include('xsd_kit.urls', namespace='xsd_kit')),
 
     url(r'^about/', include('xsd_about.urls', namespace='xsd_about')),
+    url(r'^about/rq/', include('django_rq.urls')),
 
     url(r'^help/', include('xsd_help.urls', namespace='xsd_help')),
 
