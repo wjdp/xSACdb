@@ -89,7 +89,7 @@ class TrainingTestToolsMixin(object):
 
     def create_session(self, site):
         sesh = Session.objects.create(
-            name = testdata.get_str(str_size=128),
+            name = testdata.get_str(str_size=64),
             when = testdata.get_future_datetime(),
             where = site,
         )
@@ -454,13 +454,13 @@ class SessionTest(BaseTraineeTest, TrainingTestToolsMixin, SiteTestToolsMixin):
 
     def test_in_past(self):
         future_sesh = Session.objects.create(
-            name = testdata.get_str(str_size=128),
+            name = testdata.get_str(str_size=64),
             when = testdata.get_future_datetime(),
             where = self.create_site(),
         )
         future_sesh.save()
         past_sesh = Session.objects.create(
-            name = testdata.get_str(str_size=128),
+            name = testdata.get_str(str_size=64),
             when = testdata.get_past_datetime(),
             where = self.create_site(),
         )

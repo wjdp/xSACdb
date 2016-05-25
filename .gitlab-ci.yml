@@ -10,6 +10,7 @@ variables:
   POSTGRES_PASSWORD: ""
 
 before_script:
+  - locale
   - export XSACDB_ENVIRONMENT=TEST
   - virtualenv env
   - source env/bin/activate

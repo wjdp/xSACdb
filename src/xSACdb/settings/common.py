@@ -3,6 +3,9 @@
 import os
 from sys import path
 
+# Make HTTPResponse do unicode
+DEFAULT_CHARSET='utf-8'
+
 ADMIN_MEDIA_PREFIX = ''
 
 GOOGLE_MAPS_API_KEY = ''
