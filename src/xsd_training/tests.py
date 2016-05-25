@@ -1,5 +1,3 @@
-from __future__ import unicode_literals
-
 from django.core.urlresolvers import reverse
 
 from xSACdb.test_helpers import BaseAsGroupTest, BaseTest

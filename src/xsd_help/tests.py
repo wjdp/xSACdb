@@ -1,5 +1,3 @@
-from __future__ import unicode_literals
-
 from xSACdb.test_helpers import BaseTest
 from xsd_help.views import HelpView
 
