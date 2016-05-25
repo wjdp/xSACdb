@@ -1,4 +1,4 @@
-FROM wjdp/flatcar
+FROM wjdp/flatcar:latest
 
 ADD . /app
 COPY supervisord.conf /etc/supervisor/conf.d/supervisord.conf
