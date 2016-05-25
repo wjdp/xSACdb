@@ -9,7 +9,7 @@ class SiteTestToolsMixin(object):
     def create_site(self):
         site = Site.objects.create(
             name=testdata.get_str(128),
-            type=random.choice(SITE_TYPES),
+            type=random.choice(SITE_TYPES)[0],
         )
         site.save()
         return site
@@ -19,7 +19,7 @@ class SiteTest(BaseTest):
         name = testdata.get_str(128)
         site = Site.objects.create(
             name=name,
-            type=random.choice(SITE_TYPES),
+            type=random.choice(SITE_TYPES)[0],
         )
         site.save()
 
