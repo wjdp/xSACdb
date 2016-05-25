@@ -542,7 +542,6 @@ class TraineeGroupViewTest(BaseTrainingTest):
         c = self.get_client()
         r = c.get(self.LIST_URL)
         self.assertTrue(TG_NAME in r.content)
-        self.assertTrue(unicode(tg) in r.content)
 
     def test_create_tg(self):
         # Create group using HTTP and check it exists
