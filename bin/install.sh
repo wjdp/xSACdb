@@ -1,8 +1,9 @@
 #!/bin/bash
 
 echo "[xSACdb] Ensure needed packages are installed"
-apt-get install -y python-pip python-dev supervisor ruby-dev nodejs npm imagemagick wget libpq-dev libjpeg-dev \
-    libjpeg8-dev
+apt-get install -qqy python-pip python-dev supervisor ruby-dev nodejs npm imagemagick wget libpq-dev libjpeg-dev \
+    libjpeg8-dev supervisor
+gem install sass -q
 
 echo "[xSACdb] Checking directory structure"
 cd /app
@@ -23,16 +24,11 @@ virtualenv env
 source env/bin/activate
 
 echo "[xSACdb] Installing python dependancies..."
-pip install -r requirements.txt
+pip install -qr requirements.txt
 
 echo "[xSACdb] Installing frontend dependancies..."
-gem install sass
 sass -v
-bower install --allow-root
+bower install -q --allow-root
 rm -rf lib/tether/examples
 
-echo "[xSACdb] Migrating database..."
-# src/manage.py migrate --noinput
-
-echo "[xSACdb] Collecting static files..."
-# src/manage.py collectstatic --noinput
+echo "[xSACdb] install.sh complete!"

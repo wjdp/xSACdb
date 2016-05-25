@@ -1,6 +1,7 @@
 FROM wjdp/flatcar
 
 ADD . /app
+COPY supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 
 ENV XSACDB_ENVIRONMENT PRODUCTION
 ENV XSACDB_CONTAINER DOCKER

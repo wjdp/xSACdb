@@ -34,6 +34,6 @@ if 'XSACDB_CONTAINER' in os.environ and os.environ['XSACDB_CONTAINER'] == 'DOCKE
     # Background task queues, uses same connection as django-redis-cache
     RQ_QUEUES = {
         'default': {
-            'USE_REDIS_CACHE': 'redis-cache',
+            'USE_REDIS_CACHE': 'default',
         },
     }
