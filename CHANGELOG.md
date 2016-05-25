@@ -3,7 +3,8 @@
 All notable changes to this project will be documented in this file. Notes should be geared towards the managers of
 xSACdb instances. This project will soon adhere to [Semantic Versioning](http://semver.org/).
 
-## [0.1.1] - Unreleased
+
+## HEAD - Unreleased
 
 ### Changed
 - Display qualification list on training dash for users without any qualifications or training_for, #144
@@ -11,6 +12,12 @@ xSACdb instances. This project will soon adhere to [Semantic Versioning](http://
 ### Fixed
 - Updating planned SDC dates and notes fails.
 - Upcoming SDC sorted by date.
+
+
+## [0.1.1] - 2016-05-24
+
+### Fixed
+- Long email addresses would cause an exception when used for registering a local account. Issue #198.
 
 ## [0.1.0] - 2016-05-19
 
