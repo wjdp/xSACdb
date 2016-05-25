@@ -41,7 +41,12 @@
 
 {% if RAVEN_DSN %}
 <script type="text/javascript">
-    Raven.config('{{ RAVEN_DSN }}').install()
+    Raven.config('{{ RAVEN_DSN }}').install();
+    Raven.setUserContext({
+        email: '{{ request.user.email }}',
+        id: '{{ request.user.pk }}',
+        username: '{{ request.user.username }}'
+    });
 </script>
 {% endif %}
 
