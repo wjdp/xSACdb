@@ -5,15 +5,14 @@ from xsd_training.models import *
 
 
 class BaseTraineeTest(BaseTest):
-    def setUp(self):
-        super(BaseTraineeTest, self).setUp()
+    pass
 
 
 class BaseInstructorTest(BaseTraineeTest):
-    def setUp(self):
-        super(BaseInstructorTest, self).setUp()
+    def setUp_base(self):
         self.mp.set_qualification(Qualification.objects.get(code="OWI"))
         self.mp.save()
+        super(BaseInstructorTest, self).setUp_base()
 
 
 class BaseTrainingTest(AsGroupMixin, BaseTest):
@@ -21,9 +20,9 @@ class BaseTrainingTest(AsGroupMixin, BaseTest):
 
 
 class TrainingTestToolsMixin(object):
-    def setUp(self):
+    def setUp_base(self):
         self.trainingTestToolsSetUp()
-        super(TrainingTestToolsMixin, self).setUp()
+        super(TrainingTestToolsMixin, self).setUp_base()
 
     def trainingTestToolsSetUp(self):
         self.OD = Qualification.objects.get(code="OD")

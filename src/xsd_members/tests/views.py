@@ -18,7 +18,7 @@ class ProfileEditViewTest(ViewTestMixin, BaseTest):
     allowed_unverified = True
 
 
-class MemberSearchTest(AsGroupMixin, ViewTestMixin, BaseTest):
+class MemberSearchTest(ViewTestMixin, AsGroupMixin, BaseTest):
     GROUPS = [GROUP_MEMBERS]
     url_name = 'xsd_members:MemberSearch'
     view = MemberSearch
@@ -36,7 +36,7 @@ class MemberSearchTest(AsGroupMixin, ViewTestMixin, BaseTest):
         self.assertContains(r, u.last_name)#, html=True)
 
 
-class MemberDetailTest(AsGroupMixin, ViewTestMixin, BaseTest):
+class MemberDetailTest(ViewTestMixin, AsGroupMixin, BaseTest):
     GROUPS = [GROUP_MEMBERS]
     url_name = 'xsd_members:MemberDetail'
     view = MemberDetail
@@ -46,11 +46,11 @@ class MemberDetailTest(AsGroupMixin, ViewTestMixin, BaseTest):
         self.url_kwargs = {'pk': self.test_user.memberprofile.pk}
 
     def test_member_detail(self):
-        r = self.get_response()
+        r = self.response
         self.assertContains(r, self.test_user.first_name)#, html=True)
         self.assertContains(r, self.test_user.last_name)#
 
-class MemberEditTest(AsGroupMixin, ViewTestMixin, BaseTest):
+class MemberEditTest(ViewTestMixin, AsGroupMixin, BaseTest):
     GROUPS = [GROUP_MEMBERS]
     url_name = 'xsd_members:MemberEdit'
     view = MemberEdit
@@ -60,14 +60,14 @@ class MemberEditTest(AsGroupMixin, ViewTestMixin, BaseTest):
         self.url_kwargs = {'pk': self.test_user.memberprofile.pk}
 
     def test_member_detail(self):
-        r = self.get_response()
+        r = self.response
         self.assertContains(r, self.test_user.first_name)#, html=True)
         self.assertContains(r, self.test_user.last_name)#, html=True)
 
         # TODO perform an edit
 
 
-class MemberDeleteTest(AsGroupMixin, ViewTestMixin, BaseTest):
+class MemberDeleteTest(ViewTestMixin, AsGroupMixin, BaseTest):
     GROUPS = [GROUP_MEMBERS]
     url_name = 'xsd_members:MemberDelete'
     view = MemberDelete
@@ -77,14 +77,14 @@ class MemberDeleteTest(AsGroupMixin, ViewTestMixin, BaseTest):
         self.url_kwargs = {'pk': self.test_user.memberprofile.pk}
 
     def test_member_delete(self):
-        r = self.get_response()
+        r = self.response
         self.assertContains(r, self.test_user.first_name)#, html=True)
         self.assertContains(r, self.test_user.last_name)#, html=True)
 
         # TODO delete user
 
 
-class MemberListTest(AsGroupMixin, ViewTestMixin, BaseTest):
+class MemberListTest(ViewTestMixin, AsGroupMixin, BaseTest):
     GROUPS = [GROUP_MEMBERS]
     url_name = 'xsd_members:MemberList'
     view = MemberList
@@ -93,12 +93,12 @@ class MemberListTest(AsGroupMixin, ViewTestMixin, BaseTest):
         self.test_user = self.create_a_user()
 
     def test_member_in_list(self):
-        r = self.get_response()
+        r = self.response
         self.assertContains(r, self.test_user.first_name)#, html=True)
         self.assertContains(r, self.test_user.last_name)#, html=True)
 
 
-class NewMembersTest(AsGroupMixin, ViewTestMixin, BaseTest):
+class NewMembersTest(ViewTestMixin, AsGroupMixin, BaseTest):
     GROUPS = [GROUP_MEMBERS]
     url_name = 'xsd_members:NewMembers'
     view = NewMembers
@@ -107,7 +107,7 @@ class NewMembersTest(AsGroupMixin, ViewTestMixin, BaseTest):
         self.test_user = self.create_a_user()
 
     def test_member_in_list(self):
-        r = self.get_response()
+        r = self.response
         self.assertContains(r, self.test_user.first_name)#, html=True)
         self.assertContains(r, self.test_user.last_name)#, html=True)
 
@@ -119,7 +119,7 @@ class NewMembersTest(AsGroupMixin, ViewTestMixin, BaseTest):
         self.assertNotContains(r, self.test_user.last_name)#, html=True)
 
 
-class MembersExpiredFormsListTest(AsGroupMixin, ViewTestMixin, BaseTest):
+class MembersExpiredFormsListTest(ViewTestMixin, AsGroupMixin, BaseTest):
     GROUPS = [GROUP_MEMBERS]
     url_name = 'xsd_members:MembersExpiredFormsList'
     view = MembersExpiredFormsList
@@ -128,7 +128,7 @@ class MembersExpiredFormsListTest(AsGroupMixin, ViewTestMixin, BaseTest):
         self.test_user = self.create_a_user()
 
     def test_member_in_list(self):
-        r = self.get_response()
+        r = self.response
         self.assertContains(r, self.test_user.first_name)#, html=True)
         self.assertContains(r, self.test_user.last_name)#, html=True)
 
@@ -142,7 +142,7 @@ class MembersExpiredFormsListTest(AsGroupMixin, ViewTestMixin, BaseTest):
         self.assertNotContains(r, self.test_user.last_name)#, html=True)
 
 
-class BulkAddFormsTest(AsGroupMixin, ViewTestMixin, BaseTest):
+class BulkAddFormsTest(ViewTestMixin, AsGroupMixin, BaseTest):
     GROUPS = [GROUP_MEMBERS]
     url_name = 'xsd_members:BulkAddForms'
     view = BulkAddForms
@@ -150,7 +150,7 @@ class BulkAddFormsTest(AsGroupMixin, ViewTestMixin, BaseTest):
     # TODO test a bulk operation
 
 
-class TokenInputAPITest(AsGroupMixin, ViewTestMixin, BaseTest):
+class TokenInputAPITest(ViewTestMixin, AsGroupMixin, BaseTest):
     GROUPS = [GROUP_MEMBERS]
     url_name = 'xsd_members:tokeninput-json'
     view = BulkAddForms
@@ -167,11 +167,11 @@ class TokenInputAPITest(AsGroupMixin, ViewTestMixin, BaseTest):
     #     self.assertEqual(r.content_type, 'application/json')
 
     def test_member_in(self):
-        r = self.get_response()
+        r = self.response
         self.assertContains(r, json.dumps(self.test_user.get_full_name()))
 
 
-class ReportsOverviewTest(AsGroupMixin, ViewTestMixin, BaseTest):
+class ReportsOverviewTest(ViewTestMixin, AsGroupMixin, BaseTest):
     GROUPS = [GROUP_MEMBERS]
     url_name = 'xsd_members:ReportsOverview'
     template_name = 'members_reports_overview.html'

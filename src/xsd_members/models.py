@@ -1,5 +1,6 @@
 from __future__ import unicode_literals
 
+import warnings
 from datetime import date
 
 from django.db import models
@@ -260,7 +261,7 @@ class MemberProfile(models.Model):
 
     def memberprofile(self):
         """Legacy bit"""
-        print "WARNING: MemberProfile.memberprofile called"
+        warnings.warn("Stop using memberprofile.memberprofile", DeprecationWarning, stacklevel=2)
         return self
 
     def get_full_name(self):

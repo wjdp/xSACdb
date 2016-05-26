@@ -23,8 +23,17 @@ class BaseTest(TestCase):
 
     def setUp(self):
         self.setUp_user()
+
+        # Hooks to allow precise setUp ordering
+        if hasattr(self, 'setUp_base'):
+            # For running this prior to test setup and request prefetch
+            self.setUp_base()
         if hasattr(self, 'setUp_test'):
+            # Individual tests setup, keep flat
             self.setUp_test()
+
+    def setUp_base(self):
+        pass
 
     def setUp_user(self):
         U = get_user_model()
@@ -39,10 +48,6 @@ class BaseTest(TestCase):
         user.memberprofile.save()
         self.user = user
         self.mp = user.memberprofile
-
-    def approve_user(self):
-        self.mp.new_notify = False
-        self.mp.save()
 
     def get_random_date(self):
         return datetime.date.fromtimestamp(randrange(-2284101485, 2284101485))
@@ -101,8 +106,8 @@ class BaseAsGroupTest(BaseTest):
 
 
 class AsGroupMixin(object):
-    def setUp(self):
-        super(AsGroupMixin, self).setUp()
+    def setUp_base(self):
+        super(AsGroupMixin, self).setUp_base()
         self.set_groups()
 
     def set_groups(self):
@@ -141,18 +146,22 @@ class ViewTestMixin(object):
         response = client.get(self.get_url())
         return response
 
+    @property
+    def response(self):
+        return self.get_response()
+
     def test_200(self):
-        r = self.get_response()
+        r = self.response
         self.assertEqual(200, r.status_code)
 
     def test_template_used(self):
-        r = self.get_response()
+        r = self.response
         self.assertTemplateUsed(r, self.get_template_name())
 
     def test_unverified(self):
         self.user.memberprofile.new_notify = True
         self.user.memberprofile.save()
-        r = self.get_response()
+        r = self.get_response() # Need a fresh response this time around
         if self.allowed_unverified:
             self.assertEqual(200, r.status_code)
         else:
