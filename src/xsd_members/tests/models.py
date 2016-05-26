@@ -7,7 +7,7 @@ from xSACdb.test_helpers import BaseTest, BaseAsGroupTest
 from xsd_members.models import MemberProfile, MembershipType
 from xsd_training.models import Lesson, PerformedLesson, Qualification
 
-from xsd_training.tests import TrainingTestToolsMixin
+from xsd_training.tests.base import TrainingTestToolsMixin
 
 class BaseMemberTest(BaseTest):
     pass
