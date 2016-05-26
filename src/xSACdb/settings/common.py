@@ -4,7 +4,7 @@ import os
 from sys import path
 
 # Make HTTPResponse do unicode
-DEFAULT_CHARSET='utf-8'
+DEFAULT_CHARSET = 'utf-8'
 
 ADMIN_MEDIA_PREFIX = ''
 
@@ -32,7 +32,7 @@ USE_I18N = True
 USE_L10N = True
 
 # If you set this to False, Django will not use timezone-aware datetimes.
-USE_TZ = True
+USE_TZ = False
 
 LOGIN_URL = '/accounts/login/'
 

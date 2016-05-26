@@ -1,5 +1,6 @@
 from __future__ import unicode_literals
 
+import warnings
 from datetime import date
 
 from django.db import models
@@ -44,6 +45,10 @@ class MemberProfile(models.Model):
 
     # This is being used to 'approve' new members
     new_notify = models.BooleanField(default=True)
+
+    @property
+    def verified(self):
+        return not self.new_notify
 
     # Migrated from user model
     first_name = models.CharField(max_length=30)
@@ -256,7 +261,7 @@ class MemberProfile(models.Model):
 
     def memberprofile(self):
         """Legacy bit"""
-        print "WARNING: MemberProfile.memberprofile called"
+        warnings.warn("Stop using memberprofile.memberprofile", DeprecationWarning, stacklevel=2)
         return self
 
     def get_full_name(self):
