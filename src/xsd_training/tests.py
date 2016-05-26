@@ -87,7 +87,7 @@ class TrainingTestToolsMixin(object):
 
     def create_session(self, site):
         sesh = Session.objects.create(
-            name = testdata.get_str(str_size=128),
+            name = testdata.get_str(str_size=64),
             when = testdata.get_future_datetime(),
             where = site,
         )
@@ -452,13 +452,13 @@ class SessionTest(BaseTraineeTest, TrainingTestToolsMixin, SiteTestToolsMixin):
 
     def test_in_past(self):
         future_sesh = Session.objects.create(
-            name = testdata.get_str(str_size=128),
+            name = testdata.get_str(str_size=64),
             when = testdata.get_future_datetime(),
             where = self.create_site(),
         )
         future_sesh.save()
         past_sesh = Session.objects.create(
-            name = testdata.get_str(str_size=128),
+            name = testdata.get_str(str_size=64),
             when = testdata.get_past_datetime(),
             where = self.create_site(),
         )
@@ -526,7 +526,7 @@ class TraineeGroupTest(BaseTraineeTest, TrainingTestToolsMixin):
         tg = TraineeGroup.objects.create(name=name)
         tg.save()
 
-        self.assertEqual(unicode(tg), "TG0001 {}".format(name))
+        self.assertEqual(unicode(tg), "TG{:0>4d} {}".format(tg.pk, name))
 
 
 class TraineeGroupViewTest(BaseTrainingTest):
@@ -542,7 +542,6 @@ class TraineeGroupViewTest(BaseTrainingTest):
         c = self.get_client()
         r = c.get(self.LIST_URL)
         self.assertTrue(TG_NAME in r.content)
-        self.assertTrue("TG0001" in r.content)
 
     def test_create_tg(self):
         # Create group using HTTP and check it exists

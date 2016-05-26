@@ -350,7 +350,7 @@ class MemberProfileTest(BaseMemberTest, TrainingTestToolsMixin):
 
 class MembershipTypeTest(BaseTest):
     def test_unicode(self):
-        NAME = testdata.get_str(128)
+        NAME = testdata.get_str(40)
         a = MembershipType.objects.create(name=NAME)
         a.save()
         self.assertEqual(a.name, unicode(a))
