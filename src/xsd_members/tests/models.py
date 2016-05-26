@@ -2,13 +2,6 @@ import datetime
 import random
 import testdata
 
-from django.conf import settings
-
-from django.test import TestCase, Client
-from django.contrib.auth.models import Group
-from django.test import TestCase
-from django.contrib.auth import get_user_model
-
 from xSACdb.test_helpers import BaseTest, BaseAsGroupTest
 
 from xsd_members.models import MemberProfile, MembershipType
