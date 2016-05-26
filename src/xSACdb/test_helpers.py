@@ -78,19 +78,6 @@ class BaseTest(TestCase):
         c = Client()
         return self.login(c)
 
-    def get_page_status_code(self, view_name=None, kwargs=None):
-        if not view_name:
-            view_name = self.VIEW_NAME
-        c = self.get_client()
-
-        response = c.get(reverse(view_name, kwargs=kwargs))
-        return response.status_code
-
-    def assert200(self, url):
-        c = self.get_client()
-        response = c.get(url)
-        self.assertEqual(response.status_code, 200)
-
 
 class BaseAsGroupTest(BaseTest):
     # TODO migrate usage to AsGroupMixin and remove

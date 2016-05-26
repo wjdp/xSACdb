@@ -14,11 +14,13 @@ class HelpViewTest(ViewTestMixin, BaseTest):
 
     def test_render_help_page(self):
         helpView = HelpView()
+        client = self.get_client()
 
         for section in helpView.render_menu()['sections']:
             for link in section['links']:
                 url = '/help/{0}/'.format(link[1])
-                self.assert200(url)
+                response = client.get(url)
+                self.assertTemplateUsed(response, self.view.template_name)
 
     def test_page_not_found(self):
         url = '/help/not-a-real-page/'
