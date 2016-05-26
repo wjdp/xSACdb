@@ -1,5 +1,9 @@
-def is_allowed(user,groups):
-    # FIXME Fetches whole memberprofile, wasteful!
+def is_allowed(user, groups):
+    # FIXME Fetches whole memberprofile, wasteful! Make request select memberprofile every req
+    if not is_verified(user):
+        # Should be verified before any group stuff is allowed
+        return False
+
     user_groups = user.memberprofile.user_groups_values()
     for group in user_groups:
         if group in groups:
@@ -17,7 +21,7 @@ def is_all(user):
     return True
 
 def is_verified(user):
-    return not user.memberprofile.new_notify
+    return user.memberprofile.verified
 
 def is_instructor(user):    #User is either by having a qualification or being training
     groups=[2,3,7]

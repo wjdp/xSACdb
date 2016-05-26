@@ -45,6 +45,10 @@ class MemberProfile(models.Model):
     # This is being used to 'approve' new members
     new_notify = models.BooleanField(default=True)
 
+    @property
+    def verified(self):
+        return not self.new_notify
+
     # Migrated from user model
     first_name = models.CharField(max_length=30)
     last_name = models.CharField(max_length=30)

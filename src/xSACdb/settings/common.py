@@ -4,7 +4,7 @@ import os
 from sys import path
 
 # Make HTTPResponse do unicode
-DEFAULT_CHARSET='utf-8'
+DEFAULT_CHARSET = 'utf-8'
 
 ADMIN_MEDIA_PREFIX = ''
 
