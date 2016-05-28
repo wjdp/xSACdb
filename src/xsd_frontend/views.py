@@ -80,54 +80,35 @@ class PreauthLoginView(FormView):
     form_class = LoginForm
     success_url = '/'
 
-    # def get_form(self, form_class=None):
-    #     if form_class is None:
-    #         form_class = self.get_form_class()
-    #     return form_class(self.request, **self.get_form_kwargs())
-
     def form_valid(self, form):
         login(self.request, form.get_user())
         return super(PreauthLoginView, self).form_valid(form)
+
+class PreauthRegisterView(FormView):
+    template_name = 'preauth/register.html'
+    form_class = UserRegisterForm
+    success_url = '/'
+
+    def form_valid(self, form):
+        new_user = get_user_model().objects.create_user(
+            first_name=form.cleaned_data['first_name'],
+            last_name=form.cleaned_data['last_name'],
+            email=form.cleaned_data['email'],
+            password=form.cleaned_data['password']
+        )
+        new_user.save()
+        new_user_actual = authenticate(username=form.cleaned_data['email'],
+                                       password=form.cleaned_data['password'])
+        login(self.request, new_user_actual)
+        
+        return super(PreauthRegisterView, self).form_valid(None)
+
 
 from django.contrib.auth import logout as auth_logout
 
 def logout(request):
    auth_logout(request)
    return redirect('/')
-
-def register(request):
-    if request.method == 'POST' and request.POST:
-        form = UserRegisterForm(request.POST)
-        U = get_user_model()
-        if U.objects.filter(email=request.POST['email_address']).count() != 0:
-            form.errors['email_address']=['That email is already registered on this database.']
-        if len(request.POST['password'])<8:
-            form.errors['password']=['Password must be 8 or more characters long.']
-        else:
-            # Custom error checking ok
-            if form.is_valid():
-                #do valid stuff
-                new_user = get_user_model().objects.create_user(
-                    first_name=form.cleaned_data['first_name'],
-                    last_name=form.cleaned_data['last_name'],
-                    email=form.cleaned_data['email_address'],
-                    password=form.cleaned_data['password']
-                )
-                new_user.save()
-
-                user = authenticate(username=form.cleaned_data['email_address'], password=form.cleaned_data['password'])
-
-                del form.cleaned_data['password']
-
-                dj_login(request, user)
-                return redirect('/')
-            else:
-                pass
-    else:
-        form = UserRegisterForm()
-    return render(request,'frontend_register.html',
-        {'form': form},
-        context_instance=RequestContext(request))
 
 def update_request(request):
     if request.POST:

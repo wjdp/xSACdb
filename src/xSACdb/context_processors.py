@@ -9,7 +9,20 @@ from xsd_members.forms import MyUserAccountForm
 def xsd_vars(request):
     # General template variables used by our templates
 
+    try:
+        current_url = resolve(request.path)
+        if len(current_url.namespaces) > 0:
+            namespace = current_url.namespaces[0]
+        else:
+            namespace = None
+    except Resolver404:
+        current_url = None
+        namespace = None
+
     context = {
+        'current_url': current_url,
+        'namespace': namespace,
+
         'DEBUG': settings.DEBUG,
         'l10n_club': settings.CLUB,
         'RAVEN_DSN': settings.RAVEN_CONFIG.get('dsn_public', None),
@@ -17,15 +30,6 @@ def xsd_vars(request):
 
     if request.user.is_authenticated():
         # Only if user is logged in
-        try:
-            current_url = resolve(request.path)
-            if len(current_url.namespaces) > 0:
-                namespace = current_url.namespaces[0]
-            else:
-                namespace = None
-        except Resolver404:
-            current_url = None
-            namespace = None
 
         # TODO remove when we have a ticket framework
         update_request_form = UpdateRequestMake()
@@ -33,9 +37,6 @@ def xsd_vars(request):
 
         context.update({
             'profile': request.user.memberprofile,
-
-            'current_url': current_url,
-            'namespace': namespace,
 
             'update_request_form':update_request_form,
             'my_user_account_form': my_user_account_form,

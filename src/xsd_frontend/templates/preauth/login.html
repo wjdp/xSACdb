@@ -1,26 +1,30 @@
 {% extends 'preauth/base.html' %}
+{% load staticfiles %}
+
+{% block body_class %}xsd-preauth xsd-preauth--login{% endblock %}
+
+{% block preauth_back %}{% endblock %}
 
 {% block preauth_content %}
-    <h1>{{ l10n_club.name }}</h1>
-    <form action="." method="POST">
-        {% csrf_token %}
+    <div class="xsd-preauth-email-login {% if form.errors %}xsd-preauth-email-login--visible{% endif %}">
+        <div class="xsd-preauth-email-login__sign-in xsd-preauth-form xsd-preauth-form--login">
+            {% include 'preauth/login_form.html' %}
+        </div>
+    </div>
 
-        {% if form.errors %}
-        <p>The email or password you have entered is incorrect.</p>
-            {{ form.errors }}
-        {% endif %}
+    <div class="xsd-preauth-content xsd-preauth-content--login">
+        <div class="xsd-preauth-content__sign-in xsd-preauth-form xsd-preauth-form--login">
+            <h2>Sign in</h2>
+            {% include 'preauth/login_form.html' %}
+        </div>
+        <div class="xsd-preauth-content__onboard">
+            <h2>New Here?</h2>
+            <p>This is the club database for {{ l10n_club.name }}, to create an account click on the <a href="#">Facebook login button</a>, alternatively you can use your <a href="{% url 'xsd_frontend:register' %}">email address</a>.</p>
+        </div>
+    </div>
 
-        <label>
+    </div>
 
-            <input type="text" name="username" autocomplete="email" placeholder="Email">
-        </label>
-        <label>
-
-            <input type="password" name="password" autocomplete="email" placeholder="Password">
-        </label>
-
-        <button class="btn btn-primary" type="submit">Login</button>
-
-    </form>
+    <div class="xsd-preauth-blur {% if form.errors %}xsd-preauth-blur--visible{% endif %}"></div>
 
 {% endblock %}

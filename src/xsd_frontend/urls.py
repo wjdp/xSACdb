@@ -7,9 +7,7 @@ urlpatterns = patterns('',
     url(r'^$', 'xsd_frontend.views.dashboard', name='dashboard'),
 
     url(r'^accounts/login/$', PreauthLoginView.as_view(), name='login'),
-
-    # url(r'^accounts/login/$', 'xsd_frontend.views.login', name='login'),
-    url(r'^accounts/register/$', 'xsd_frontend.views.register', name='login'),
+    url(r'^accounts/register/$', PreauthRegisterView.as_view(), name='register'),
     url(r'^accounts/logout/$', 'xsd_frontend.views.logout', name='logout'),
 
     url(r'activity/$', ActivityTable.as_view(), name='activity_table'),
