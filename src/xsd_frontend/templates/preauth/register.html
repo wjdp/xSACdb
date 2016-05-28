@@ -1,0 +1,68 @@
+{% extends 'preauth/base.html' %}
+
+{% block preauth_content %}
+<div class="xsd-preauth-content">
+
+    <p>You can create an account via <a href="#">Facebook</a> or your email address.</p>
+
+    <div class="xsd-preauth-register-facebook">
+        {% include 'preauth/facebook_button.html' %}
+        <hr />
+    </div>
+
+    <div class="xsd-preauth-form">
+    <form action='.' method="POST">
+        {% csrf_token %}
+        {# Implement the form ourselves for customisation, not generally the best idea #}
+        <label>
+            {{ form.first_name.errors }}
+            <input type="text"
+               name="first_name"
+               class="form-control"
+               placeholder="First Name"
+               autocomplete="first-name"
+               {% if form.first_name.value %}value="{{ form.first_name.value }}"{% endif %}
+               required>
+        </label>
+
+        <label>
+            {{ form.last_name.errors }}
+            <input type="text"
+               name="last_name"
+               class="form-control"
+               placeholder="Last Name"
+               autocomplete="last-name"
+               {% if form.last_name.value %}value="{{ form.last_name.value }}"{% endif %}
+               required>
+        </label>
+
+        <label>
+            {{ form.email_address.errors }}
+            <input type="email"
+               name="email"
+               class="form-control"
+               placeholder="Email"
+               autocomplete="email"
+               {% if form.email_address.value %}value="{{ form.email_address.value }}"{% endif %}
+               required>
+        </label>
+
+        <label>
+            {{ form.password.errors }}
+            <input type="password"
+               name="password"
+               class="form-control"
+               placeholder="Password"
+               autocomplete="new-password"
+               required>
+        </label>
+
+        <button type="submit"
+                class="btn btn-primary">
+            Create account
+        </button>
+
+    </form>
+    </div>
+</div>
+{% endblock %}

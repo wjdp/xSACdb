@@ -54,6 +54,7 @@
 
 <script type="text/javascript" src="/static/js/css_extra.js"></script>
 <script type="text/coffeescript" src="/static/coffee/mq-detector.coffee"></script>
+<script type="text/coffeescript" src="/static/coffee/xsd-preauth.coffee"></script>
 <script type="text/coffeescript" src="/static/coffee/activity-spinner.coffee"></script>
 <script type="text/coffeescript" src="/static/coffee/nav.coffee"></script>
 
@@ -74,7 +75,8 @@ navigator.serviceWorker.register('/service-worker.js', { scope: '/' })
 
 {% block post_head %}{% endblock %}
 </head>
-<body>
+<body class="{% block body_class %}xsd{% endblock %}"
+      id="{{ current_url.namespace }}-{{ current_url.url_name }}">
 
     {{ request|hijackNotification }}
 
@@ -99,9 +101,6 @@ navigator.serviceWorker.register('/service-worker.js', { scope: '/' })
         {% block content %}
         No content
         {% endblock %}
-
-        {% include 'update_request.html' %}
-        {% include 'update_account.html' %}
     </div>
 
     {% block closing_js %}{% endblock %}

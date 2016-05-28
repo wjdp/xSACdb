@@ -1,6 +1,9 @@
 {% load navigation %}
+{% load cache %}
 
-<nav class="xsd-nav-app" role="navigation">
+{% cache 3600 app_nav app_nav_cache_id %}
+
+<nav class="xsd-nav-app" id="xsd-nav-app" role="navigation">
     <div class="xsd-nav-app__container">
         <div class="xsd-nav-app__hamburger">
             <i class="fa fa-bars"></i>
@@ -84,3 +87,5 @@
 </nav>
 
 <div class="xsd-nav-app__blur"></div>
+
+{% endcache %}

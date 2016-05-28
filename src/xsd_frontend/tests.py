@@ -25,29 +25,28 @@ class RegisterLogin(TestCase):
 
     def test_register_form(self):
         c = Client()
-        password = testdata.get_str(str_size=128)
+        password = testdata.get_str(str_size=8)
         post_data = {
             'first_name': testdata.get_name(name_count=2),
             'last_name': testdata.get_name(name_count=2),
-            'email_address': testdata.get_email(),
+            'email': testdata.get_email(),
             'password': password,
-            'password_again': password,
         }
         c.post('/accounts/register/', post_data)
 
         # Check user exists
-        self.assertEqual(User.objects.filter(email=post_data['email_address']).count(), 1)
+        self.assertEqual(User.objects.filter(email=post_data['email']).count(), 1)
 
         # Check user creation
-        u = User.objects.get(email=post_data['email_address'])
+        u = User.objects.get(email=post_data['email'])
         self.assertEqual(u.first_name, post_data['first_name'])
         self.assertEqual(u.last_name, post_data['last_name'])
-        self.assertEqual(u.email, post_data['email_address'])
+        self.assertEqual(u.email, post_data['email'])
 
         # Check profile creation
         self.assertEqual(u.memberprofile.first_name, post_data['first_name'])
         self.assertEqual(u.memberprofile.last_name, post_data['last_name'])
-        self.assertEqual(u.memberprofile.email, post_data['email_address'])
+        self.assertEqual(u.memberprofile.email, post_data['email'])
 
 
 class ClassicLogin(TestCase):
