@@ -1,4 +1,7 @@
 {% load navigation %}
+{% load cache %}
+
+{% cache 3600 app_nav app_nav_cache_id %}
 
 <nav class="xsd-nav-app" role="navigation">
     <div class="xsd-nav-app__container">
@@ -84,3 +87,5 @@
 </nav>
 
 <div class="xsd-nav-app__blur"></div>
+
+{% endcache %}

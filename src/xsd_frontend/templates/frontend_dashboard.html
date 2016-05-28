@@ -1,5 +1,6 @@
 {% extends "base_template.html" %}
 {% load bootstrap_toolkit %}
+{% load cache %}
 {% load staticfiles %}
 {% load to_class_name from filters %}
 
@@ -14,6 +15,7 @@
         <hr />
 
         {% if is_trusted %}
+        {% cache 360 activity-table-dash %}
             <table class="table table-striped">
                 <thead>
                 <tr>
@@ -55,6 +57,7 @@
                 </tbody>
             </table>
             <hr />
+        {% endcache %}
         {% endif %}
     </div>
     <div class="col-md-4">
