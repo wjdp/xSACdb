@@ -13,14 +13,7 @@ urlpatterns = patterns('',
 
     url(r'^design/$', 'xsd_frontend.views.design', name='design'),
 
-    url(r'^accounts/login/$', 'xsd_frontend.views.login', name='login'),
-    url(r'^accounts/register/$', 'xsd_frontend.views.register', name='login'),
-    url(r'^accounts/logout/$', 'xsd_frontend.views.logout', name='logout'),
-
-    # Bodge here as accounts/ URLS need to be avaliable under the xsd_auth
-    # namespace along with no namespace for access via external libs #185
-    url(r'^accounts/', include('allauth.urls', namespace='xsd_auth')),
-    url(r'^accounts/', include('allauth.urls')),
+    url(r'^', include('xsd_frontend.urls', namespace='xsd_frontend')),
 
     url(r'^members/', include('xsd_members.urls', namespace='xsd_members')),
 
@@ -37,7 +30,10 @@ urlpatterns = patterns('',
 
     url(r'^help/', include('xsd_help.urls', namespace='xsd_help')),
 
-    url(r'^', include('xsd_frontend.urls', namespace='xsd_frontend')),
+    # Bodge here as accounts/ URLS need to be avaliable under the xsd_auth
+    # namespace along with no namespace for access via external libs #185
+    url(r'^accounts/', include('allauth.urls', namespace='xsd_auth')),
+    url(r'^accounts/', include('allauth.urls')),
 
     url(r'^hijack/', include('hijack.urls')),
 

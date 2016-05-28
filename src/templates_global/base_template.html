@@ -99,9 +99,6 @@ navigator.serviceWorker.register('/service-worker.js', { scope: '/' })
         {% block content %}
         No content
         {% endblock %}
-
-        {% include 'update_request.html' %}
-        {% include 'update_account.html' %}
     </div>
 
     {% block closing_js %}{% endblock %}

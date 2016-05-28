@@ -8,6 +8,13 @@ from xsd_members.forms import MyUserAccountForm
 
 def xsd_vars(request):
     # General template variables used by our templates
+
+    context = {
+        'DEBUG': settings.DEBUG,
+        'l10n_club': settings.CLUB,
+        'RAVEN_DSN': settings.RAVEN_CONFIG.get('dsn_public', None),
+    }
+
     if request.user.is_authenticated():
         # Only if user is logged in
         try:
@@ -24,18 +31,11 @@ def xsd_vars(request):
         update_request_form = UpdateRequestMake()
         my_user_account_form = MyUserAccountForm()
 
-        DEBUG = settings.DEBUG
-        l10n_club = settings.CLUB
-
-        return {
+        context.update({
             'profile': request.user.memberprofile,
 
             'current_url': current_url,
             'namespace': namespace,
-
-            'DEBUG': DEBUG,
-            'l10n_club': l10n_club,
-            'RAVEN_DSN': settings.RAVEN_CONFIG.get('dsn_public', None),
 
             'update_request_form':update_request_form,
             'my_user_account_form': my_user_account_form,
@@ -48,5 +48,6 @@ def xsd_vars(request):
             'is_diving_officer':is_diving_officer(request.user),
             'is_admin':is_admin(request.user),
             'is_trusted': is_trusted(request.user),
-        }
-    else: return {}
+        })
+
+    return context

@@ -1,9 +1,11 @@
 from django import forms
+from django.contrib.auth.forms import AuthenticationForm
+
 from models import UpdateRequest
 
-class LoginForm(forms.Form):
-    username=forms.CharField(label='Email Address')
-    password=forms.CharField(widget=forms.PasswordInput)
+class LoginForm(AuthenticationForm):
+    username=forms.CharField(max_length=254, label='Email')
+    # password=forms.CharField(widget=forms.PasswordInput)
 
 class UpdateRequestMake(forms.ModelForm):
     class Meta:

@@ -1,0 +1,26 @@
+{% extends 'preauth/base.html' %}
+
+{% block preauth_content %}
+    <h1>{{ l10n_club.name }}</h1>
+    <form action="." method="POST">
+        {% csrf_token %}
+
+        {% if form.errors %}
+        <p>The email or password you have entered is incorrect.</p>
+            {{ form.errors }}
+        {% endif %}
+
+        <label>
+
+            <input type="text" name="username" autocomplete="email" placeholder="Email">
+        </label>
+        <label>
+
+            <input type="password" name="password" autocomplete="email" placeholder="Password">
+        </label>
+
+        <button class="btn btn-primary" type="submit">Login</button>
+
+    </form>
+
+{% endblock %}

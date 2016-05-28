@@ -9,6 +9,9 @@ from django.conf import settings
 
 from datetime import date
 
+from django.views.generic.base import TemplateView
+from django.views.generic.edit import FormView
+
 from xsd_members.forms import WelcomeScreenForm
 
 from forms import UpdateRequestMake, UserRegisterForm
@@ -70,33 +73,21 @@ def dashboard(request):
 
 from xsd_frontend.forms import LoginForm
 from django.contrib.auth import authenticate
-from django.contrib.auth import login as dj_login
+from django.contrib.auth import login
 
-def login(request):
-    if request.user.is_authenticated():
-        return redirect('/')
-    errors = None
-    if request.method == 'POST' and request.POST:
-        form=LoginForm(request.POST)
-        username = request.POST['username']
-        password = request.POST['password']
-        user = authenticate(username=username, password=password)
-        if user is not None:
-            if user.is_active:
-                dj_login(request, user)
-                return redirect("/")
-            else:
-                # Return a 'disabled account' error message
-                pass
-        else:
-            errors = 'badauth'
-            pass
-    else:
-        form=LoginForm()
-    return render(request,'frontend_login.html', {
-            'form':form,
-            'errors':errors
-        }, context_instance=RequestContext(request))
+class PreauthLoginView(FormView):
+    template_name = 'preauth/login.html'
+    form_class = LoginForm
+    success_url = '/'
+
+    # def get_form(self, form_class=None):
+    #     if form_class is None:
+    #         form_class = self.get_form_class()
+    #     return form_class(self.request, **self.get_form_kwargs())
+
+    def form_valid(self, form):
+        login(self.request, form.get_user())
+        return super(PreauthLoginView, self).form_valid(form)
 
 from django.contrib.auth import logout as auth_logout
 
