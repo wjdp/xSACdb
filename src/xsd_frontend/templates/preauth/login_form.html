@@ -1,0 +1,33 @@
+<form action="." method="POST">
+    {% csrf_token %}
+
+    {% if form.errors %}
+    <p class="xsd-preauth-email-login__errors">Email or password incorrect</p>
+    {% endif %}
+
+    <label>
+        <input class="form-control"
+               type="text"
+               name="username"
+               autocomplete="email"
+               placeholder="Email address">
+    </label>
+    <label>
+        <input class="form-control"
+               type="password"
+               name="password"
+               autocomplete="email"
+               placeholder="Password">
+    </label>
+
+    <div class="xsd-preauth-form__controls">
+        <div>
+            <a class="btn btn-secondary-outline"
+               href="{% url 'account_reset_password' %}">Forgot password</a>
+        </div>
+        <div>
+            <button class="btn btn-primary" type="submit">Login</button>
+        </div>
+    </div>
+
+</form>

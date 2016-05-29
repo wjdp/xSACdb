@@ -1,6 +1,6 @@
 from __future__ import unicode_literals
 
-import base64
+import random
 import hashlib
 
 from allauth.socialaccount.models import SocialAccount
@@ -15,7 +15,7 @@ class UserManager(UserManager):
             first_name=first_name,
             last_name=last_name,
             email=email,
-            username=base64.b64encode(email)
+            username=random.randrange(1000000000000000,9999999999999999)
         )
         new_user.set_password(password)
         return new_user

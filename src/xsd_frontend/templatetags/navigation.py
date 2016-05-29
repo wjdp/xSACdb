@@ -1,14 +1,25 @@
 import importlib
 
 from django import template
+from django.core.cache.utils import make_template_fragment_key
 from django.core.urlresolvers import resolve, Resolver404
+from django.core.cache import cache
 
 from xsd_frontend.nav import APP_LIST
 
 register = template.Library()
 
+
 #   0              1      2                    3                      4
 # ('About xSACdb', None, 'fa fa-info-circle', 'xsd_about:AboutView', ['xsd:about:OtherView']),
+
+def get_club_name(context):
+    if 'l10n_club' in context:
+        return context['l10n_club']['name']
+    else:
+        # TODO, log occurrences of this
+        return 'xSACdb'
+
 
 def get_module_nav_list(namespace, url_name):
     if not namespace:
@@ -48,7 +59,8 @@ def get_page_title(module_nav, context):
             else:
                 return active[0]
 
-    return context['l10n_club']['name']
+    return get_club_name(context)
+
 
 def get_namespace(context):
     try:
@@ -60,10 +72,12 @@ def get_namespace(context):
     except Resolver404:
         return ""
 
+
 def get_app_title(namespace):
     for app in APP_LIST:
         if app['app'] == namespace:
             return app['title']
+
 
 def get_url_name(context):
     try:
@@ -73,38 +87,48 @@ def get_url_name(context):
     except Resolver404:
         return None
 
+
 @register.simple_tag(takes_context=True)
 def page_title(context):
     namespace = get_namespace(context)
     url_name = get_url_name(context)
     module_nav = get_module_nav_list(namespace, url_name)
-    return "{} - {} - {} Database".format(get_page_title(module_nav, context), get_app_title(namespace), context['l10n_club']['name'])
+    return "{} - {} - {} Database".format(get_page_title(module_nav, context), get_app_title(namespace),
+                                          get_club_name(context))
 
 
 @register.inclusion_tag('nav/app.html', takes_context=True)
 def app_nav(context):
     """Renders the main nav, topnav on desktop, sidenav on mobile"""
-    namespace = get_namespace(context)
     url_name = get_url_name(context)
+    namespace = get_namespace(context)
 
-    # Set active flag on active app
-    app_list = APP_LIST[:]
-    for app in app_list:
-        app['active'] = (app['app'] == namespace)
+    cache_id = "{}:{}".format(context['request'].user.username, url_name)
+    cache_key = key = make_template_fragment_key('app_nav', [cache_id])
+    context['app_nav_cache_id'] = cache_id
 
-    context['app_list'] = APP_LIST
-    context['app'] = namespace
+    if not cache.get(cache_key):
+        # Set active flag on active app
+        app_list = APP_LIST[:]
+        for app in app_list:
+            app['active'] = (app['app'] == namespace)
 
-    if namespace:
-        context['page_title'] = get_page_title(get_module_nav_list(namespace, url_name), context)
+        context['app_list'] = APP_LIST
+        context['app'] = namespace
+
+
+        if namespace:
+            context['page_title'] = get_page_title(get_module_nav_list(namespace, url_name), context)
 
     return context
+
 
 @register.inclusion_tag('nav/module.html', takes_context=True)
 def app_module_nav(context, namespace):
     """Renders the modules within the app_nav"""
     context['nav'] = get_module_nav_list(namespace, get_url_name(context))
     return context
+
 
 @register.inclusion_tag('nav/module.html', takes_context=True)
 def module_nav(context):

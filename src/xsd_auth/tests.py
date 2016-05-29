@@ -1,10 +1,12 @@
-from __future__ import absolute_import
+from __future__ import absolute_import, unicode_literals
 
-from django.test import TestCase
-from django.contrib.auth import authenticate
 import testdata
+from allauth.account.views import password_change
+from allauth.socialaccount.views import connections
+from django.contrib.auth import authenticate
+from django.test import TestCase
 
-from xSACdb.test_helpers import BaseTest
+from xSACdb.test_helpers import BaseTest, ViewTestMixin
 from xsd_auth.models import User
 from xsd_members.models import MemberProfile
 
@@ -17,10 +19,10 @@ class UserTest(TestCase):
 
     def create_user(self):
         user = User.objects.create_user(
-                first_name=self.FIRST_NAME,
-                last_name=self.LAST_NAME,
-                email=self.EMAIL,
-                password=self.PASSWORD
+            first_name=self.FIRST_NAME,
+            last_name=self.LAST_NAME,
+            email=self.EMAIL,
+            password=self.PASSWORD
         )
         user.save()
         return user
@@ -84,13 +86,17 @@ class UserTest(TestCase):
         self.assertEqual(unicode(user), user.get_full_name())
 
 
-class PasswordChangeViewTest(BaseTest):
-    def test200(self):
-        self.assertEqual(self.get_page_status_code('xsd_auth:account_change_password'), 200)
+class PasswordChangeViewTest(ViewTestMixin, BaseTest):
+    view = password_change
+    url_name = 'xsd_auth:account_change_password'
+    template_name = 'account/password_change.html'
+    allowed_unverified = True
+
     # TODO test password change
 
 
-class SocialAccountConnectionsViewTest(BaseTest):
-    def test200(self):
-        self.assertEqual(self.get_page_status_code('xsd_auth:socialaccount_connections'), 200)
-    # TODO test more
+class SocialAccountConnectionsViewTest(ViewTestMixin, BaseTest):
+    view = connections
+    url_name = 'xsd_auth:socialaccount_connections'
+    template_name = 'socialaccount/connections.html'
+    allowed_unverified = True

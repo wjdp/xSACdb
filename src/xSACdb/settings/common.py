@@ -3,16 +3,19 @@
 import os
 from sys import path
 
+# Make HTTPResponse do unicode
+DEFAULT_CHARSET = 'utf-8'
+
 ADMIN_MEDIA_PREFIX = ''
 
-GOOGLE_MAPS_API_KEY=''
+GOOGLE_MAPS_API_KEY = ''
 
 # Define project paths
-PROJECT_PATH = os.path.join(os.path.dirname(__file__),'../../..')
-SRC_PATH  = os.path.join(PROJECT_PATH, 'src')
+PROJECT_PATH = os.path.join(os.path.dirname(__file__), '../../..')
+SRC_PATH = os.path.join(PROJECT_PATH, 'src')
 LIB_PATH = os.path.join(PROJECT_PATH, 'lib')
 DIST_PATH = os.path.join(PROJECT_PATH, 'dist')
-TMP_PATH  = os.path.join(PROJECT_PATH, 'tmp')
+TMP_PATH = os.path.join(PROJECT_PATH, 'tmp')
 CONF_PATH = os.path.join(PROJECT_PATH, 'conf')
 
 # Add config dir to path
@@ -29,15 +32,15 @@ USE_I18N = True
 USE_L10N = True
 
 # If you set this to False, Django will not use timezone-aware datetimes.
-USE_TZ = True
+USE_TZ = False
 
 LOGIN_URL = '/accounts/login/'
 
 LOGIN_EXEMPT_URLS = (
- # r'^media/', # allow any URL under /media/* This has facebook avatars, so NO!
- r'^static/', # allow any URL under /static/*
- r'^facebook/', # allow any URL under /facebook/*
- r'^accounts/',
+    # r'^media/', # allow any URL under /media/* This has facebook avatars, so NO!
+    r'^static/',  # allow any URL under /static/*
+    r'^facebook/',  # allow any URL under /facebook/*
+    r'^accounts/',
 )
 
 # Absolute filesystem path to the directory that will hold user-uploaded files.
@@ -103,7 +106,7 @@ COMPRESS_CACHEABLE_PRECOMPILERS = (
 TEMPLATE_LOADERS = (
     'django.template.loaders.app_directories.Loader',
     'django.template.loaders.filesystem.Loader',
-#     'django.template.loaders.eggs.Loader',
+    #     'django.template.loaders.eggs.Loader',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -126,7 +129,6 @@ TEMPLATE_CONTEXT_PROCESSORS = (
     'django.core.context_processors.request',
     'xSACdb.context_processors.xsd_vars',
 )
-
 
 ROOT_URLCONF = 'xSACdb.urls'
 
@@ -181,6 +183,7 @@ INSTALLED_APPS = (
     'tastypie',
     'geoposition',
     'reversion',
+    'django_rq',
 
     'debug_toolbar',
     'hijack',
@@ -221,12 +224,12 @@ LOGGING = {
     },
     'loggers': {
         'django.request': {
-            'handlers': ['mail_admins','console'],
+            'handlers': ['mail_admins', 'console'],
             'level': 'ERROR',
             'propagate': True,
         },
         'django_facebook.models': {
-            'handlers': ['mail_admins','console'],
+            'handlers': ['mail_admins', 'console'],
             'level': 'ERROR',
             'propagate': True,
         }
@@ -240,7 +243,11 @@ AUTH_PROFILE_MODEL = 'xsd_members.MemberProfile'
 LOGIN_REDIRECT_URL = '/'
 ACCOUNT_LOGOUT_REDIRECT_URL = '/accounts/login'
 
+ACCOUNT_AUTHENTICATION_METHOD = 'email'
 ACCOUNT_EMAIL_REQUIRED = True
+ACCOUNT_DEFAULT_HTTP_PROTOCOL = 'https'
+ACCOUNT_USERNAME_REQUIRED = False
+ACCOUNT_PASSWORD_MIN_LENGTH = True
 
 SOCIALACCOUNT_FORMS = {
     'signup': 'xsd_auth.forms.SignupForm'
@@ -254,7 +261,7 @@ TEST_FIXTURES = [
     'socialapp-test',
 ]
 
-SILENCED_SYSTEM_CHECKS=['1_6.W001']
+SILENCED_SYSTEM_CHECKS = ['1_6.W001']
 
 HIJACK_NOTIFY_USER = True
 HIJACK_DISPLAY_ADMIN_BUTTON = False

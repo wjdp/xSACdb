@@ -7,9 +7,14 @@ xSACdb instances. This project will soon adhere to [Semantic Versioning](http://
 
 ### Added
 - If you're using Sentry for error logging user is asked for feedback when a 500 happens.
+- Added task runner support. You now need to run some task runners and a task scheduler alongside the server.
+  This depends on Redis, a Redis server is needed and must be configured in local_settings.py for bare installs.
 
 ### Changed
 - Upgraded the UI framework from Bootstrap v2 to v4, includes *significant UI improvements* especially on mobile.
+- Redesigned, mobile friendly login and register pages.
+- Because we have Redis, cache backend has switched from in-memory to Redis.
+
 
 ## [0.1.1] - Unreleased
 

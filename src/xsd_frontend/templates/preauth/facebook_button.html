@@ -1,0 +1,6 @@
+{% load staticfiles %}
+{% load socialaccount %}
+<a href="{% provider_login_url "facebook" %}" type="button" class="btn btn-primary btn-lg xsd-preauth-facebook">
+    <img src="{% static 'images/facebook/FB-f-Logo__white_57.png' %}" />
+    Sign in using Facebook
+</a>

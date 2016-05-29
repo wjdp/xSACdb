@@ -1,0 +1,28 @@
+{% extends 'preauth/base.html' %}
+{% load staticfiles %}
+{% load socialaccount %}
+
+{% block body_class %}xsd-preauth xsd-preauth--login{% endblock %}
+
+{% block preauth_back %}{% endblock %}
+
+{% block preauth_content %}
+    <div class="xsd-preauth-email-login {% if form.errors %}xsd-preauth-email-login--visible{% endif %}">
+        <div class="xsd-preauth-email-login__sign-in xsd-preauth-form xsd-preauth-form--login">
+            {% include 'preauth/login_form.html' %}
+        </div>
+    </div>
+
+    <div class="xsd-preauth-content xsd-preauth-content--login">
+        <div class="xsd-preauth-content__sign-in xsd-preauth-form xsd-preauth-form--login">
+            <h2>Sign in</h2>
+            {% include 'preauth/login_form.html' %}
+        </div>
+        <div class="xsd-preauth-content__onboard">
+            <h2>New Here?</h2>
+            <p>This is the club database for {{ l10n_club.name }}, to create an account click on the <a href="{% provider_login_url "facebook" %}">Facebook login button</a>, alternatively you can use your <a href="{% url 'xsd_frontend:register' %}">email address</a>.</p>
+        </div>
+    </div>
+
+    <div class="xsd-preauth-blur {% if form.errors %}xsd-preauth-blur--visible{% endif %}"></div>
+{% endblock %}

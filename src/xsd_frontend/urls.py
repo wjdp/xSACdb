@@ -5,6 +5,11 @@ from views import *
 
 urlpatterns = patterns('',
     url(r'^$', 'xsd_frontend.views.dashboard', name='dashboard'),
+
+    url(r'^accounts/login/$', PreauthLoginView.as_view(), name='login'),
+    url(r'^accounts/register/$', PreauthRegisterView.as_view(), name='register'),
+    url(r'^accounts/logout/$', 'xsd_frontend.views.logout', name='logout'),
+
     url(r'activity/$', ActivityTable.as_view(), name='activity_table'),
     #url(r'^activity/feed/$', ActivityFeed.as_view(), name='activity_feed'),
 
