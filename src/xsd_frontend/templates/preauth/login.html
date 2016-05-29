@@ -1,5 +1,6 @@
 {% extends 'preauth/base.html' %}
 {% load staticfiles %}
+{% load socialaccount %}
 
 {% block body_class %}xsd-preauth xsd-preauth--login{% endblock %}
 
@@ -19,12 +20,9 @@
         </div>
         <div class="xsd-preauth-content__onboard">
             <h2>New Here?</h2>
-            <p>This is the club database for {{ l10n_club.name }}, to create an account click on the <a href="#">Facebook login button</a>, alternatively you can use your <a href="{% url 'xsd_frontend:register' %}">email address</a>.</p>
+            <p>This is the club database for {{ l10n_club.name }}, to create an account click on the <a href="{% provider_login_url "facebook" %}">Facebook login button</a>, alternatively you can use your <a href="{% url 'xsd_frontend:register' %}">email address</a>.</p>
         </div>
     </div>
 
-    </div>
-
     <div class="xsd-preauth-blur {% if form.errors %}xsd-preauth-blur--visible{% endif %}"></div>
-
 {% endblock %}

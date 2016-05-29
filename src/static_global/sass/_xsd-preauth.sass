@@ -2,13 +2,29 @@
   // Pages excluded from padding-top
   padding-top: 0
 
-  background: mix($brand-primary, black)
+  // Don't need persistent scroll bar on preauth
+  overflow-y: auto
 
   .xsd-application-container
     padding: 0
     color: white
 
 // GENERICS
+
+.xsd-preauth-bg
+  position: fixed
+  top: -2%
+  left: -2%
+  height: 104%
+  width: 104%
+  z-index: -100
+
+  background-color: mix($brand-primary, black)
+  background-image: url('/static/images/login_backgrounds/5.jpg')
+  background-blend-mode: color-dodge
+  background-repeat: no-repeat
+  background-size: cover
+  background-position: 25%
 
 .xsd-preauth-big-icon
   display: block
@@ -17,12 +33,14 @@
   opacity: 0.4
 
 .xsd-preauth-content
-  width: 90%
+  width: 100%
   margin: 0 auto
 
   max-width: 800px
 
-  padding-bottom: 2rem
+  padding: 5vw
+  background: rgba(255,255,255,0.7)
+  color: #333
 
 .xsd-preauth-logo
   margin: 0 auto
@@ -70,11 +88,10 @@
     right: 0
     left: inherit
 
-    background: white
-    border-top: 6px solid $brand-primary
-    color: #111
     padding: 2rem
-  
+    background: rgba(255, 255, 255, 0.9)
+    border-top: 6px solid $brand-primary
+
 .xsd-preauth-message
   text-align: center
 
@@ -95,13 +112,12 @@
     padding: 0.5em
     background: $brand-danger
     font-weight: bold
+    color: white
 
 
 .xsd-preauth-form__controls
   .btn
     width: 100%
-  .btn-secondary-outline
-    opacity: 0.5
 
 // SPECIFICS
 
@@ -114,6 +130,9 @@
     width: 70%
     min-width: 400px
     margin: 0 auto
+
+  .btn
+    box-shadow: 0px 2px 1px rgba(0,0,0,0.05)
 
   img
     // Facebook logo
@@ -148,7 +167,11 @@
   @include media-breakpoint-up(md)
     // Hide on medium and up
     display: none
-  
+
+  a
+    color: white
+    opacity: 0.7
+
   .xsd-preauth-login__alternate__email, .xsd-preauth-login__alternate__register
     @include make-col
     @include make-col-span(6)
@@ -159,9 +182,6 @@ $email-entry-time: 0.33s
 $email-exit-time: 0.22s
 
 @include media-breakpoint-down(sm)
-  a
-    color: #ccc
-
   .xsd-preauth-content--login
     display: none
 
@@ -190,6 +210,10 @@ $email-exit-time: 0.22s
     &.xsd-preauth-email-login--visible
       transform: translateY(0)
       transition: transform $email-entry-time cubic-bezier(0,0,0.3,1) // Slow entry
+
+  .xsd-preauth-form__controls
+    .btn-secondary-outline
+      opacity: 0.5
 
   // Makes the page black
   .xsd-preauth-blur

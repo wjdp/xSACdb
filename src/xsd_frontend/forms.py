@@ -25,15 +25,15 @@ class UserRegisterForm(forms.Form):
     email = forms.EmailField()
     password = forms.CharField(widget=forms.PasswordInput)
 
-    def clean_email_address(self):
+    def clean_email(self):
         form_data = self.cleaned_data
         if 'email' in form_data and User.objects.filter(email=form_data['email']):
-            self.add_error('email_address', 'An account on this site is already using that email address')
-        return form_data['email']
+            self.add_error('email', 'An account on this site is already using that email address')
+        return form_data.get('email', None)
 
     def clean_password(self):
         form_data = self.cleaned_data
         if 'password' in form_data and len(form_data['password']) < 8:
             self.add_error('password', 'Password must be at least 8 characters')
-        return form_data['password']
+        return form_data.get('password', None)
 

@@ -18,7 +18,7 @@ from forms import UpdateRequestMake, UserRegisterForm
 from models import UpdateRequest
 
 from xSACdb.roles.functions import is_verified, is_trusted
-from xSACdb.roles.mixins import RequireTrusted
+from xSACdb.roles.mixins import RequireTrusted, RequirePreauth
 
 
 def dashboard(request):
@@ -75,7 +75,7 @@ from xsd_frontend.forms import LoginForm
 from django.contrib.auth import authenticate
 from django.contrib.auth import login
 
-class PreauthLoginView(FormView):
+class PreauthLoginView(RequirePreauth, FormView):
     template_name = 'preauth/login.html'
     form_class = LoginForm
     success_url = '/'
@@ -84,7 +84,7 @@ class PreauthLoginView(FormView):
         login(self.request, form.get_user())
         return super(PreauthLoginView, self).form_valid(form)
 
-class PreauthRegisterView(FormView):
+class PreauthRegisterView(RequirePreauth, FormView):
     template_name = 'preauth/register.html'
     form_class = UserRegisterForm
     success_url = '/'

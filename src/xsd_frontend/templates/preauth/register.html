@@ -3,7 +3,7 @@
 {% block preauth_content %}
 <div class="xsd-preauth-content">
 
-    <p>You can create an account via <a href="#">Facebook</a> or your email address.</p>
+    <p>You can create an account via Facebook or your email address.</p>
 
     <div class="xsd-preauth-register-facebook">
         {% include 'preauth/facebook_button.html' %}
@@ -37,13 +37,13 @@
         </label>
 
         <label>
-            {{ form.email_address.errors }}
+            {{ form.email.errors }}
             <input type="email"
                name="email"
                class="form-control"
                placeholder="Email"
                autocomplete="email"
-               {% if form.email_address.value %}value="{{ form.email_address.value }}"{% endif %}
+               {% if form.email.value %}value="{{ form.email.value }}"{% endif %}
                required>
         </label>
 

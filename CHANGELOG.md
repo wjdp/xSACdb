@@ -12,7 +12,9 @@ xSACdb instances. This project will soon adhere to [Semantic Versioning](http://
 
 ### Changed
 - Upgraded the UI framework from Bootstrap v2 to v4, includes *significant UI improvements* especially on mobile.
+- Redesigned, mobile friendly login and register pages.
 - Because we have Redis, cache backend has switched from in-memory to Redis.
+
 
 ## [0.1.1] - Unreleased
 

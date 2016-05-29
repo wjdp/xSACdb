@@ -4,6 +4,7 @@
 {% block body_class %}xsd-preauth{% endblock %}
 
 {% block content %}
+    <div class="xsd-preauth-bg"></div>
     <h1 class="xsd-preauth-logo">
         <a href="{% url 'xsd_frontend:login' %}">
             <img src="{% static 'images/logo.png' %}" alt="{{ l10n_club.name }}" />
@@ -31,4 +32,3 @@
 
 {% endblock %}
 {% endblock %}
-eas
