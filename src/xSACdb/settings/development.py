@@ -92,3 +92,6 @@ RQ_QUEUES = {
         'USE_REDIS_CACHE': 'default',
     },
 }
+
+EMAIL_BACKEND = 'django.core.mail.backends.filebased.EmailBackend'
+EMAIL_FILE_PATH = 'tmp/emails/' # change this to a proper location
