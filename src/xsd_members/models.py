@@ -97,10 +97,11 @@ class MemberProfile(models.Model):
                                         level of risk, as such <strong>next of kin</strong> details are kept in case of\
                                          emergency. This data is only accessed when required. It will be taken in paper\
                                          form on trips.")
-    next_of_kin_relation = models.CharField(max_length=20, blank=True, help_text="Your relation to your next of kin")
+    next_of_kin_relation = models.CharField(max_length=20, blank=True)
     next_of_kin_phone = models.CharField(max_length=20, blank=True)
 
-    veggie = models.BooleanField(default=False, verbose_name='Vegetarian')
+    veggie = models.BooleanField(default=False, verbose_name='Vegetarian', help_text="Gives an indication to trip \
+                                                                            organisers for food requirements.")
     alergies = models.TextField(blank=True, verbose_name='Alergies and other requiements',
                                 help_text="This information is held for use by trip organisers. Please note anything \
                                            that would be important for both underwater activities and general trips, \
@@ -125,7 +126,8 @@ class MemberProfile(models.Model):
     bsac_direct_member = models.BooleanField(default=False, verbose_name=u'BSAC Direct Member',
                                              help_text='Adjusts the wording presented to the member when BSAC expires.')
     bsac_member_via_another_club = models.BooleanField(default=False, verbose_name=u'BSAC member via another club',
-                                                       help_text='Adjusts the wording presented to the member when BSAC expires.')
+                                                       help_text='Adjusts the wording presented to the member when \
+                                                       BSAC membership expires.')
     bsac_direct_debit = models.BooleanField(default=False, verbose_name=u'BSAC Direct Debit')
 
     medical_form_expiry = models.DateField(blank=True, null=True)

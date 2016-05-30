@@ -2,7 +2,6 @@ from django import forms
 from django.forms.formsets import formset_factory
 
 from models import MemberProfile
-from xSACdb.forms import DynForm
 
 
 class MemberSearchForm(forms.Form):
@@ -25,11 +24,10 @@ class PersonalEditForm(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
         super(PersonalEditForm, self).__init__(*args, **kwargs)
-        # Make all fields required, then take of the ones that are alright not to
-        for field in self.fields:
-            self.fields[field].required = True
-        self.fields['veggie'].required = False
-        self.fields['alergies'].required = False
+        # Make all REQUIRED_FIELDS required
+        for field in MemberProfile.REQUIRED_FIELDS:
+            if field in self.fields:
+                self.fields[field].required = True
 
 
 class WelcomeScreenForm(PersonalEditForm):
@@ -43,27 +41,6 @@ class WelcomeScreenForm(PersonalEditForm):
             'address': forms.Textarea(attrs={'rows': 4, 'cols': 11}),
             'alergies': forms.Textarea(attrs={'rows': 4, 'cols': 11}),
         }
-
-
-class DynamicUpdateProfileForm(DynForm):
-    def setUp(self, member_profile):
-        self.member_profile = member_profile
-        # Work out what fields we need given a MemberProfile and set them up
-        form_fields = {}
-        for REQUIRED_FIELD in member_profile.REQUIRED_FIELDS:
-            model_field = member_profile._meta.get_field(REQUIRED_FIELD)
-            form_fields[REQUIRED_FIELD] = model_field.formfield()
-            form_fields[REQUIRED_FIELD].required = True
-        for OPTIONAL_FIELD in member_profile.OPTIONAL_FIELDS:
-            model_field = member_profile._meta.get_field(OPTIONAL_FIELD)
-            form_fields[OPTIONAL_FIELD] = model_field.formfield()
-        self.setFields(form_fields)
-
-    def save(self):
-        for key, value in self.cleaned_data.iteritems():
-            setattr(self.member_profile, key, value)
-        self.member_profile.save()
-
 
 
 class MemberEditForm(forms.ModelForm):
