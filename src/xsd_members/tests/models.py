@@ -32,21 +32,6 @@ class MPFunc(BaseTest):
         self.mp.date_of_birth = t_years_ago
         self.assertEqual(self.mp.age(),test_age)
 
-    def test_personal_fields(self):
-        # We have missing personal fields
-        self.assertEqual(self.mp.missing_personal_details(), True)
-        # Set all of them
-        self.mp.address='Demo address'
-        self.mp.postcode='P0ST CDE'
-        self.mp.home_phone='555-SEXY'
-        self.mp.mobile_phone='07123456789'
-        self.mp.next_of_kin_name='Mary Bloggs'
-        self.mp.next_of_kin_relation='Mother dearest'
-        self.mp.next_of_kin_phone='01234 567890'
-        self.mp.save()
-        # We now shouldn't have any
-        self.assertEqual(self.mp.missing_personal_details(), False)
-
     def test_caching(self):
         pass
 
@@ -273,7 +258,7 @@ class MemberProfileTest(BaseMemberTest, TrainingTestToolsMixin):
         self.assertIsInstance(self.mp.formatted_alergies(), basestring)
 
     def test_heshe(self):
-        self.assertEqual(self.mp.heshe(), "They")
+        self.assertIsInstance(self.mp.heshe(), basestring)
 
     def test_remove_qualifications(self):
         self.mp.set_qualification(self.OD)
@@ -330,7 +315,6 @@ class MemberProfileTest(BaseMemberTest, TrainingTestToolsMixin):
 
         self.assertEqual(self.mp.training_for, self.SD)
 
-
     def test_mp_sync(self):
         self.mp.first_name = testdata.get_name(name_count=1)
         self.mp.last_name = testdata.get_name(name_count=1)
@@ -340,6 +324,23 @@ class MemberProfileTest(BaseMemberTest, TrainingTestToolsMixin):
         self.assertEqual(self.mp.first_name, self.user.first_name)
         self.assertEqual(self.mp.last_name, self.user.last_name)
         self.assertEqual(self.mp.email, self.user.email)
+
+    def test_mp_get_missing_field_list(self):
+        # We've filled all of them
+        self.assertEqual(
+            len(self.mp.get_missing_field_list()),
+            0
+        )
+
+        # Remove one now
+        self.mp.next_of_kin_name = ""
+        self.mp.save()
+
+        # There should be one less now
+        self.assertEqual(
+            len(self.mp.get_missing_field_list()),
+            1
+        )
 
 class MembershipTypeTest(BaseTest):
     def test_unicode(self):

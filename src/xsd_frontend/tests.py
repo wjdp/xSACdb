@@ -68,7 +68,11 @@ class ClassicLogin(TestCase):
         # Correct login with username
         c = Client()
         self.assertTrue(c.login(username=self.user.username, password=self.PASSWORD))
+        # Should be redirect
         response = c.get(reverse('xsd_frontend:dashboard'))
+        self.assertEqual(response.status_code, 302)
+        # To update profile view
+        response = c.get(reverse('xsd_members:DynamicUpdateProfile'))
         self.assertEqual(response.status_code, 200)
         self.assertEqual(response.context['user'], self.user)
 
@@ -76,7 +80,11 @@ class ClassicLogin(TestCase):
         # Correct login with email
         c = Client()
         self.assertTrue(c.login(username=self.EMAIL, password=self.PASSWORD))
+        # Should be redirect
         response = c.get(reverse('xsd_frontend:dashboard'))
+        self.assertEqual(response.status_code, 302)
+        # To update profile view
+        response = c.get(reverse('xsd_members:DynamicUpdateProfile'))
         self.assertEqual(response.status_code, 200)
         self.assertEqual(response.context['user'], self.user)
 

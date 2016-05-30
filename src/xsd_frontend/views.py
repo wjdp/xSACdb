@@ -23,29 +23,9 @@ from xSACdb.roles.mixins import RequireTrusted, RequirePreauth
 
 def dashboard(request):
     profile=request.user.memberprofile
-    newbie=profile.new
-
     not_yet_verified = not is_verified(request.user)
 
-    repost=False
-
     urs=UpdateRequest.objects.filter(request_made_by=request.user)
-
-    if request.POST and newbie:
-        form=WelcomeScreenForm(request.POST, instance=profile)
-        if form.is_valid():
-            form.save()
-            profile.new=False
-            profile.save()
-            return redirect('/')
-        else:
-            repost=True
-            pass
-    else:
-        if newbie:
-            form=WelcomeScreenForm(instance=profile)
-        else:
-            form=None
 
     # TODO make a nice universal way of doing this
 
@@ -63,9 +43,6 @@ def dashboard(request):
     return render(request,'frontend_dashboard.html', {
         'request':request,
         'profile':profile,
-        'form':form,
-        'newbie':newbie,
-        'repost':repost,
         'versions': versions2,
         'urs':urs,
         'not_yet_verified': not_yet_verified,

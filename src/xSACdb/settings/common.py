@@ -117,7 +117,8 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'reversion.middleware.RevisionMiddleware',
-    'xSACdb.middleware.LoginRequiredMiddleware'
+    'xSACdb.middleware.LoginRequiredMiddleware',
+    'xSACdb.middleware.NewbieProfileFormRedirectMiddleware',
 )
 
 TEMPLATE_CONTEXT_PROCESSORS = (
