@@ -25,8 +25,6 @@ def dashboard(request):
     profile=request.user.memberprofile
     not_yet_verified = not is_verified(request.user)
 
-    repost=False
-
     urs=UpdateRequest.objects.filter(request_made_by=request.user)
 
     # TODO make a nice universal way of doing this
@@ -45,7 +43,6 @@ def dashboard(request):
     return render(request,'frontend_dashboard.html', {
         'request':request,
         'profile':profile,
-        'repost':repost,
         'versions': versions2,
         'urs':urs,
         'not_yet_verified': not_yet_verified,

@@ -68,8 +68,6 @@ class MemberProfile(models.Model):
     # Not really sure if this is needed?
     token = models.CharField(max_length=150, blank=True)
 
-    new = models.BooleanField(default=True)
-
     # This is being used to 'approve' new members
     new_notify = models.BooleanField(default=True)
 

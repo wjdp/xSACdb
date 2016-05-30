@@ -1,5 +1,5 @@
 import datetime
-from random import randrange
+import random
 
 from django.test import TestCase
 from django.test.client import Client
@@ -45,16 +45,29 @@ class BaseTest(TestCase):
         )
         user.save()
         user.memberprofile.new_notify = False
+        user.memberprofile.date_of_birth = self.get_past_date()
+        user.memberprofile.gender = random.choice(('m', 'f'))
+        user.memberprofile.address = "addr line 1\naddr line 2"
+        user.memberprofile.postcode = "UHU ioIJ"
+        user.memberprofile.home_phone = "8219038210938"
+        user.memberprofile.mobile_phone = "8219031232138"
+        user.memberprofile.next_of_kin_name = testdata.get_name(2)
+        user.memberprofile.next_of_kin_relation = testdata.get_name(1)
+        user.memberprofile.next_of_kin_phone = "4684564564654564"
         user.memberprofile.save()
         self.user = user
         self.mp = user.memberprofile
 
     def get_random_date(self):
-        return datetime.date.fromtimestamp(randrange(-2284101485, 2284101485))
+        return datetime.date.fromtimestamp(random.randrange(-2284101485, 2284101485))
 
     def get_future_date(self):
         dt = testdata.get_future_datetime()
         return datetime.date(dt.year, dt.month, dt.day)
+
+    def get_past_date(self):
+        dt = testdata.get_past_datetime()
+        return datetime.date(max(1900, dt.year), dt.month, dt.day)
 
     def create_a_user(self):
         """Make a random user, return them"""
