@@ -33,8 +33,10 @@ class NewbieProfileFormRedirectMiddleware:
     def process_request(self, request):
         assert hasattr(request, 'user')
 
-        CACHE_KEY = 'newbie_form_bypasss_{}'.format(request.user.pk)
-        if cache.get(CACHE_KEY) == True:
+        CACHE_KEY = 'newbie_form_bypass_{}'.format(request.user.pk)
+        path = request.path_info.lstrip('/')
+
+        if cache.get(CACHE_KEY) == True or any(m.match(path) for m in EXEMPT_URLS):
             return
 
         if (request.user.is_authenticated() and request.user.memberprofile.get_missing_field_list() != []):

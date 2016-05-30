@@ -41,6 +41,7 @@ LOGIN_EXEMPT_URLS = (
     r'^static/',  # allow any URL under /static/*
     r'^facebook/',  # allow any URL under /facebook/*
     r'^accounts/',
+    r'^hijack/', # have their own protection
 )
 
 # Absolute filesystem path to the directory that will hold user-uploaded files.
@@ -248,7 +249,7 @@ ACCOUNT_AUTHENTICATION_METHOD = 'email'
 ACCOUNT_EMAIL_REQUIRED = True
 ACCOUNT_DEFAULT_HTTP_PROTOCOL = 'https'
 ACCOUNT_USERNAME_REQUIRED = False
-ACCOUNT_PASSWORD_MIN_LENGTH = True
+ACCOUNT_PASSWORD_MIN_LENGTH = 8
 
 SOCIALACCOUNT_FORMS = {
     'signup': 'xsd_auth.forms.SignupForm'
