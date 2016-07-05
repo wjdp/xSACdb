@@ -109,7 +109,12 @@ class TrainingDashboardViewTest(BaseTraineeTest, TrainingTestToolsMixin):
     def test_content(self):
         c = self.get_client()
         r = c.get(self.URL)
-        self.assertIn('No data', r.content)
+
+        self.assertIn('Ocean Diver', r.content)
+        self.assertIn('Sports Diver', r.content)
+        self.assertIn('Dive Leader', r.content)
+        self.assertIn('Advanced Diver', r.content)
+        self.assertIn('First Class Diver', r.content)
 
     def test_content_with_tf(self):
         # Set training_for so list appears

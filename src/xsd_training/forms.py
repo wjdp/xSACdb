@@ -15,7 +15,7 @@ class PerformedSDCCreateForm(forms.ModelForm):
 class PerformedSDCUpdateForm(forms.ModelForm):
     class Meta:
         model=PerformedSDC
-        fields= ('sdc', 'datetime', 'notes')
+        fields= ('datetime', 'notes')
 
 class QualificationSelectForm(forms.Form):
     qualification=forms.ModelChoiceField(queryset=Qualification.objects.all())

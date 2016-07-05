@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file. Notes should be geared towards the managers of
 xSACdb instances. This project will soon adhere to [Semantic Versioning](http://semver.org/).
 
+
+## [0.1.2] - 2016-07-05
+
+### Changed
+- Display qualification list on training dash for users without any qualifications or training_for, #144
+
+### Fixed
+- Updating planned SDC dates and notes fails.
+- Upcoming SDC sorted by date.
+- Server error when generating pool sheet, #223
+
+
 ## [0.1.1] - 2016-05-24
 
 ### Fixed

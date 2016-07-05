@@ -73,7 +73,7 @@ class PerformedSDCList(RequireVerified, ListView):
 
     def get_queryset(self):
         queryset=super(PerformedSDCList, self).get_queryset()
-        queryset=queryset.filter(completed=False)
+        queryset=queryset.filter(completed=False).order_by('datetime')
         return queryset
 
 class PerformedSDCDetail(RequireVerified, DetailView):

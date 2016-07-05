@@ -1,14 +1,15 @@
 {% extends 'training_template.html' %}
 {% load staticfiles %}
+{% load bootstrap_toolkit %}
 
 {% block training_content %}
 <div class="span3">
     <form action="." method="POST">
     {% csrf_token %}
     <input type="hidden" name="action" value="detail" />
-    <h2>{{psdc.sdc}}</h2>
-    <p>This skill development course is planned for {{form.datetime}}</p>
-    <p>{{form.notes}}</p>
+    <h2>{{ psdc.sdc }}</h2>
+    <p>This skill development course is planned for {{ form.datetime|as_bootstrap }}</p>
+    <p>{{ form.notes|as_bootstrap }}</p>
 
     <input type="submit" class="btn btn-primary" value="Save Changes" />
     </form>
