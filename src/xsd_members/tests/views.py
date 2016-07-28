@@ -41,23 +41,26 @@ class MemberDetailTest(ViewTestMixin, AsGroupMixin, BaseTest):
     url_name = 'xsd_members:MemberDetail'
     view = MemberDetail
 
-    def setUp_test(self):
-        self.test_user = self.create_a_user()
-        self.url_kwargs = {'pk': self.test_user.memberprofile.pk}
+    @classmethod
+    def setUp_test(cls):
+        cls.test_user = cls.create_a_user()
+        cls.url_kwargs = {'pk': cls.test_user.memberprofile.pk}
 
     def test_member_detail(self):
         r = self.response
         self.assertContains(r, self.test_user.first_name)#, html=True)
         self.assertContains(r, self.test_user.last_name)#
 
+
 class MemberEditTest(ViewTestMixin, AsGroupMixin, BaseTest):
     GROUPS = [GROUP_MEMBERS]
     url_name = 'xsd_members:MemberEdit'
     view = MemberEdit
 
-    def setUp_test(self):
-        self.test_user = self.create_a_user()
-        self.url_kwargs = {'pk': self.test_user.memberprofile.pk}
+    @classmethod
+    def setUp_test(cls):
+        cls.test_user = cls.create_a_user()
+        cls.url_kwargs = {'pk': cls.test_user.memberprofile.pk}
 
     def test_member_detail(self):
         r = self.response
@@ -72,9 +75,10 @@ class MemberDeleteTest(ViewTestMixin, AsGroupMixin, BaseTest):
     url_name = 'xsd_members:MemberDelete'
     view = MemberDelete
 
-    def setUp_test(self):
-        self.test_user = self.create_a_user()
-        self.url_kwargs = {'pk': self.test_user.memberprofile.pk}
+    @classmethod
+    def setUp_test(cls):
+        cls.test_user = cls.create_a_user()
+        cls.url_kwargs = {'pk': cls.test_user.memberprofile.pk}
 
     def test_member_delete(self):
         r = self.response
@@ -89,8 +93,9 @@ class MemberListTest(ViewTestMixin, AsGroupMixin, BaseTest):
     url_name = 'xsd_members:MemberList'
     view = MemberList
 
-    def setUp_test(self):
-        self.test_user = self.create_a_user()
+    @classmethod
+    def setUp_test(cls):
+        cls.test_user = cls.create_a_user()
 
     def test_member_in_list(self):
         r = self.response
@@ -103,8 +108,9 @@ class NewMembersTest(ViewTestMixin, AsGroupMixin, BaseTest):
     url_name = 'xsd_members:NewMembers'
     view = NewMembers
 
-    def setUp_test(self):
-        self.test_user = self.create_a_user()
+    @classmethod
+    def setUp_test(cls):
+        cls.test_user = cls.create_a_user()
 
     def test_member_in_list(self):
         r = self.response
@@ -124,8 +130,9 @@ class MembersExpiredFormsListTest(ViewTestMixin, AsGroupMixin, BaseTest):
     url_name = 'xsd_members:MembersExpiredFormsList'
     view = MembersExpiredFormsList
 
-    def setUp_test(self):
-        self.test_user = self.create_a_user()
+    @classmethod
+    def setUp_test(cls):
+        cls.test_user = cls.create_a_user()
 
     def test_member_in_list(self):
         r = self.response
@@ -155,8 +162,9 @@ class TokenInputAPITest(ViewTestMixin, AsGroupMixin, BaseTest):
     url_name = 'xsd_members:tokeninput-json'
     view = BulkAddForms
 
-    def setUp_test(self):
-        self.test_user = self.create_a_user()
+    @classmethod
+    def setUp_test(cls):
+        cls.test_user = cls.create_a_user()
 
     def test_template_used(self):
         # Does not use template, disable

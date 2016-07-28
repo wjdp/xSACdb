@@ -9,10 +9,11 @@ class BaseTraineeTest(BaseTest):
 
 
 class BaseInstructorTest(BaseTraineeTest):
-    def setUp_base(self):
-        self.mp.set_qualification(Qualification.objects.get(code="OWI"))
-        self.mp.save()
-        super(BaseInstructorTest, self).setUp_base()
+    @classmethod
+    def setUp_base(cls):
+        cls.mp.set_qualification(Qualification.objects.get(code="OWI"))
+        cls.mp.save()
+        super(BaseInstructorTest, cls).setUp_base()
 
 
 class BaseTrainingTest(AsGroupMixin, BaseTest):
@@ -20,36 +21,38 @@ class BaseTrainingTest(AsGroupMixin, BaseTest):
 
 
 class TrainingTestToolsMixin(object):
-    def setUp_base(self):
-        self.trainingTestToolsSetUp()
-        super(TrainingTestToolsMixin, self).setUp_base()
+    @classmethod
+    def setUp_base(cls):
+        cls.trainingTestToolsSetUp()
+        super(TrainingTestToolsMixin, cls).setUp_base()
 
-    def trainingTestToolsSetUp(self):
-        self.OD = Qualification.objects.get(code="OD")
-        self.SD = Qualification.objects.get(code="SD")
-        self.DL = Qualification.objects.get(code="DL")
-        self.AD = Qualification.objects.get(code="AD")
-        self.FC = Qualification.objects.get(code="FC")
+    @classmethod
+    def trainingTestToolsSetUp(cls):
+        cls.OD = Qualification.objects.get(code="OD")
+        cls.SD = Qualification.objects.get(code="SD")
+        cls.DL = Qualification.objects.get(code="DL")
+        cls.AD = Qualification.objects.get(code="AD")
+        cls.FC = Qualification.objects.get(code="FC")
 
-        self.PERSONAL_QUALS = [self.OD, self.SD, self.DL, self.AD, self.FC]
+        cls.PERSONAL_QUALS = [cls.OD, cls.SD, cls.DL, cls.AD, cls.FC]
 
-        self.ADI = Qualification.objects.get(code="ADI")
-        self.PI = Qualification.objects.get(code="PI")
-        self.THI = Qualification.objects.get(code="THI")
-        self.AOWI = Qualification.objects.get(code="AOWI")
-        self.OWI = Qualification.objects.get(code="OWI")
-        self.AI = Qualification.objects.get(code="AI")
-        self.NI = Qualification.objects.get(code="NI")
+        cls.ADI = Qualification.objects.get(code="ADI")
+        cls.PI = Qualification.objects.get(code="PI")
+        cls.THI = Qualification.objects.get(code="THI")
+        cls.AOWI = Qualification.objects.get(code="AOWI")
+        cls.OWI = Qualification.objects.get(code="OWI")
+        cls.AI = Qualification.objects.get(code="AI")
+        cls.NI = Qualification.objects.get(code="NI")
 
-        self.INSTRUCTOR_QUALS = [self.ADI, self.PI, self.THI, self.AOWI, self.OWI,
-                                 self.AI, self.NI]
+        cls.INSTRUCTOR_QUALS = [cls.ADI, cls.PI, cls.THI, cls.AOWI, cls.OWI,
+                                cls.AI, cls.NI]
 
-        self.OO1 = Lesson.objects.get(code="OO1")
-        self.OO2 = Lesson.objects.get(code="OO2")
-        self.SO1 = Lesson.objects.get(code="SO1")
+        cls.OO1 = Lesson.objects.get(code="OO1")
+        cls.OO2 = Lesson.objects.get(code="OO2")
+        cls.SO1 = Lesson.objects.get(code="SO1")
 
-        self.BOAT_HANDLING = SDC.objects.get(title="Boat Handling")
-        self.WRECK_APPRECIATION = SDC.objects.get(title="Wreck Appreciation")
+        cls.BOAT_HANDLING = SDC.objects.get(title="Boat Handling")
+        cls.WRECK_APPRECIATION = SDC.objects.get(title="Wreck Appreciation")
 
     def get_trainee(self, training_for=None):
         if not training_for: training_for = self.OD
