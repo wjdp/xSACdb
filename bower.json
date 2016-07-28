@@ -2,7 +2,7 @@
   "name": "xsacdb",
   "version": "latest",
   "authors": [
-    "Will Pimblett <will@fullaf.com>"
+    "Will Pimblett <will@wjdp.uk>"
   ],
   "description": "",
   "main": "",
@@ -20,7 +20,7 @@
   "dependencies": {
     "bourbon": "~4.2.5",
     "raven-js": "^3.0.4",
-    "bootstrap": "v4.0.0-alpha.2",
+    "bootstrap": "v4.0.0-alpha.3",
     "jquery": "^2.2.3",
     "jquery-tokeninput": "^1.7.0",
     "jquery-form": "^3.46.0",
