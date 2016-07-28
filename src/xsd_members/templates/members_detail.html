@@ -19,9 +19,9 @@
                     <i class="fa fa-pencil"></i> Edit
                 </a>
                 {% if member_useraccount_form %}
-                <a href="#member_useraccount_modal" data-toggle="modal" class="btn btn-secondary" type="button">
+                <button class="btn btn-secondary" data-toggle="modal" data-target="#member_useraccount_modal">
                     <i class="fa fa-key"></i> Account
-                </a>
+                </button>
                 {% endif %}
 
                 <a href="{% url 'xsd_members:MemberDelete' member.pk %}" class="btn btn-secondary" type="button">
@@ -153,6 +153,8 @@
 	</div>
 </div>
 
+{% if member_useraccount_form %}
 {% include 'components/member_useraccount_modal.html' %}
+{% endif %}
 
 {% endblock %}

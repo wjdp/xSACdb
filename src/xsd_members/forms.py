@@ -80,8 +80,5 @@ class MyUserAccountForm(forms.Form):
 
 
 class UserAccountForm(forms.Form):
-    first_name = forms.CharField()
-    last_name = forms.CharField()
-    email = forms.EmailField()
     username = forms.CharField()
     new_password = forms.CharField(min_length=8, max_length=32, widget=forms.PasswordInput, required=False)

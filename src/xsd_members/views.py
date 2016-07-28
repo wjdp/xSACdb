@@ -214,9 +214,6 @@ class MemberDetail(RequireMembersOfficer, DetailView):
     def process_account_form(self, user):
         form = UserAccountForm(self.request.POST)
         if form.is_valid():
-            user.first_name = form.cleaned_data['first_name']
-            user.last_name = form.cleaned_data['last_name']
-            user.email = form.cleaned_data['email']
             user.username = form.cleaned_data['username']
             if form.cleaned_data['new_password'] != "":
                 user.set_password(form.cleaned_data['new_password'])
