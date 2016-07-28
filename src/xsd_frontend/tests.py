@@ -1,3 +1,4 @@
+from django.core.cache import cache
 from django.test import TestCase
 from django.test.client import Client
 
@@ -64,9 +65,12 @@ class ClassicLogin(TestCase):
         )
         self.user.save()
 
+        # Clear cached state of newbie form, cache is shared between tests
+        cache.delete('newbie_form_bypass_{}'.format(self.user.pk))
+
     def test_login_username(self):
         # Correct login with username
-        c = Client()
+        c = self.client
         self.assertTrue(c.login(username=self.user.username, password=self.PASSWORD))
         # Should be redirect
         response = c.get(reverse('xsd_frontend:dashboard'))
@@ -78,7 +82,7 @@ class ClassicLogin(TestCase):
 
     def test_login_email(self):
         # Correct login with email
-        c = Client()
+        c = self.client
         self.assertTrue(c.login(username=self.EMAIL, password=self.PASSWORD))
         # Should be redirect
         response = c.get(reverse('xsd_frontend:dashboard'))
