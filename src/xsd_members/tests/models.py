@@ -112,6 +112,7 @@ class MemberProfileTest(BaseMemberTest, TrainingTestToolsMixin):
     def setUp(self):
         super(MemberProfileTest, self).setUp()
         self.trainingTestToolsSetUp()
+        self.setUpTestData()  # Class requires a new member profile for each test so we start with a clean slate
 
     def test_unicode(self):
         self.assertEqual(unicode(self.mp), u"{} {}".format(self.FIRST_NAME, self.LAST_NAME))

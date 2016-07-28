@@ -38,9 +38,10 @@ class TrainingLessonsViewTest(TrainingTestToolsMixin, ViewTestMixin, BaseTrainee
     url_name = 'xsd_training:training-lessons'
     template_name = 'lessons.html'
 
-    def setUp_test(self):
-        self.mp.training_for = self.OD
-        self.mp.save()
+    @classmethod
+    def setUp_test(cls):
+        cls.mp.training_for = cls.OD
+        cls.mp.save()
 
     def test_content(self):
         r = self.response
@@ -217,10 +218,11 @@ class TraineeGroupUpdate(ViewTestMixin, BaseTrainingTest):
     url_name = 'xsd_training:TraineeGroupUpdate'
     view = TraineeGroupUpdate
 
-    def setUp_test(self):
-        self.TG_NAME = "TESTGROUP"
-        tg = TraineeGroup.objects.create(name=self.TG_NAME)
-        self.url_kwargs = {'pk': tg.pk}
+    @classmethod
+    def setUp_test(cls):
+        cls.TG_NAME = "TESTGROUP"
+        tg = TraineeGroup.objects.create(name=cls.TG_NAME)
+        cls.url_kwargs = {'pk': tg.pk}
 
     def test_content(self):
         r = self.response
@@ -230,10 +232,11 @@ class TraineeGroupDelete(ViewTestMixin, BaseTrainingTest):
     url_name = 'xsd_training:TraineeGroupDelete'
     view = TraineeGroupDelete
 
-    def setUp_test(self):
-        self.TG_NAME = testdata.get_str(64)
-        tg = TraineeGroup.objects.create(name=self.TG_NAME)
-        self.url_kwargs = {'pk': tg.pk}
+    @classmethod
+    def setUp_test(cls):
+        cls.TG_NAME = testdata.get_str(64)
+        tg = TraineeGroup.objects.create(name=cls.TG_NAME)
+        cls.url_kwargs = {'pk': tg.pk}
 
     def test_delete(self):
         # TODO export this as DeleteViewTestMixin

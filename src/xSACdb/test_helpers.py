@@ -21,31 +21,34 @@ class BaseTest(TestCase):
 
     fixtures = settings.TEST_FIXTURES
 
-    def setUp(self):
-        self.setUp_user()
+    @classmethod
+    def setUpTestData(cls):
+        cls.setUp_user()
 
         # Hooks to allow precise setUp ordering
-        if hasattr(self, 'setUp_base'):
+        if hasattr(cls, 'setUp_base'):
             # For running this prior to test setup and request prefetch
-            self.setUp_base()
-        if hasattr(self, 'setUp_test'):
+            cls.setUp_base()
+        if hasattr(cls, 'setUp_test'):
             # Individual tests setup, keep flat
-            self.setUp_test()
+            cls.setUp_test()
 
-    def setUp_base(self):
+    @classmethod
+    def setUp_base(cls):
         pass
 
-    def setUp_user(self):
+    @classmethod
+    def setUp_user(cls):
         U = get_user_model()
         user = U.objects.create_user(
-            email=self.EMAIL,
-            password=self.PASSWORD,
-            first_name=self.FIRST_NAME,
-            last_name=self.LAST_NAME,
+            email=cls.EMAIL,
+            password=cls.PASSWORD,
+            first_name=cls.FIRST_NAME,
+            last_name=cls.LAST_NAME,
         )
         user.save()
         user.memberprofile.new_notify = False
-        user.memberprofile.date_of_birth = self.get_past_date()
+        user.memberprofile.date_of_birth = cls.get_past_date()
         user.memberprofile.gender = random.choice(('m', 'f'))
         user.memberprofile.address = "addr line 1\naddr line 2"
         user.memberprofile.postcode = "UHU ioIJ"
@@ -55,21 +58,25 @@ class BaseTest(TestCase):
         user.memberprofile.next_of_kin_relation = testdata.get_name(1)
         user.memberprofile.next_of_kin_phone = "4684564564654564"
         user.memberprofile.save()
-        self.user = user
-        self.mp = user.memberprofile
+        cls.user = user
+        cls.mp = user.memberprofile
 
-    def get_random_date(self):
+    @staticmethod
+    def get_random_date():
         return datetime.date.fromtimestamp(random.randrange(-2284101485, 2284101485))
 
-    def get_future_date(self):
+    @staticmethod
+    def get_future_date():
         dt = testdata.get_future_datetime()
         return datetime.date(dt.year, dt.month, dt.day)
 
-    def get_past_date(self):
+    @staticmethod
+    def get_past_date():
         dt = testdata.get_past_datetime()
         return datetime.date(max(1900, dt.year), dt.month, dt.day)
 
-    def create_a_user(self):
+    @staticmethod
+    def create_a_user():
         """Make a random user, return them"""
         U = get_user_model()
         user = U.objects.create_user(
@@ -88,8 +95,7 @@ class BaseTest(TestCase):
 
     def get_client(self):
         """Return a logged in and ready to go client"""
-        c = Client()
-        return self.login(c)
+        return self.login(self.client)
 
 
 class BaseAsGroupTest(BaseTest):
@@ -106,15 +112,17 @@ class BaseAsGroupTest(BaseTest):
 
 
 class AsGroupMixin(object):
-    def setUp_base(self):
-        super(AsGroupMixin, self).setUp_base()
-        self.set_groups()
+    @classmethod
+    def setUp_base(cls):
+        super(AsGroupMixin, cls).setUp_base()
+        cls.set_groups()
 
-    def set_groups(self):
-        for group in self.GROUPS:
+    @classmethod
+    def set_groups(cls):
+        for group in cls.GROUPS:
             g = Group.objects.get(pk=group)
-            self.user.groups.add(g)
-        self.user.save()
+            cls.user.groups.add(g)
+        cls.user.save()
 
 
 class ViewTestMixin(object):
