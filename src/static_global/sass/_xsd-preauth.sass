@@ -153,8 +153,7 @@
     @include make-row
 
     & > *
-      @include make-col
-      @include make-col-span(6)
+      @include make-col(6)
 
 .xsd-preauth-login__alternate
   // Login with email / New member? links
@@ -173,8 +172,7 @@
     opacity: 0.7
 
   .xsd-preauth-login__alternate__email, .xsd-preauth-login__alternate__register
-    @include make-col
-    @include make-col-span(6)
+    @include make-col(6)
     text-align: center
 
 
