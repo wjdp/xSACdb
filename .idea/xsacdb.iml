@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module type="PYTHON_MODULE" version="4">
+  <component name="FacetManager">
+    <facet type="django" name="Django">
+      <configuration>
+        <option name="rootFolder" value="$MODULE_DIR$/src" />
+        <option name="settingsModule" value="xSACdb/settings" />
+        <option name="manageScript" value="manage.py" />
+        <option name="environment" value="&lt;map/&gt;" />
+        <option name="commandsToSkip" value="" />
+      </configuration>
+    </facet>
+  </component>
+  <component name="NewModuleRootManager">
+    <content url="file://$MODULE_DIR$">
+      <sourceFolder url="file://$MODULE_DIR$/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/lib/bootstrap/scss" isTestSource="false" />
+      <excludeFolder url="file://$MODULE_DIR$/.idea" />
+      <excludeFolder url="file://$MODULE_DIR$/.sass-cache" />
+      <excludeFolder url="file://$MODULE_DIR$/dist" />
+      <excludeFolder url="file://$MODULE_DIR$/env" />
+      <excludeFolder url="file://$MODULE_DIR$/lib/bootstrap/dist" />
+      <excludeFolder url="file://$MODULE_DIR$/lib/bootstrap/grunt" />
+      <excludeFolder url="file://$MODULE_DIR$/lib/bootstrap/nuget" />
+      <excludeFolder url="file://$MODULE_DIR$/lib/font-awesome/css" />
+      <excludeFolder url="file://$MODULE_DIR$/lib/font-awesome/less" />
+      <excludeFolder url="file://$MODULE_DIR$/tmp" />
+    </content>
+    <orderEntry type="jdk" jdkName="Python 2.7.12 virtualenv at ~/local/xsacdb/env" jdkType="Python SDK" />
+    <orderEntry type="sourceFolder" forTests="false" />
+  </component>
+  <component name="TemplatesService">
+    <option name="TEMPLATE_CONFIGURATION" value="Jinja2" />
+    <option name="TEMPLATE_FOLDERS">
+      <list>
+        <option value="$MODULE_DIR$/src/xsd_kit/templates" />
+        <option value="$MODULE_DIR$/src/templates_global" />
+        <option value="$MODULE_DIR$/src/xsd_about/templates" />
+        <option value="$MODULE_DIR$/src/xsd_auth/templates" />
+        <option value="$MODULE_DIR$/src/xsd_frontend/templates" />
+        <option value="$MODULE_DIR$/src/xsd_help/templates" />
+        <option value="$MODULE_DIR$/src/xsd_members/templates" />
+        <option value="$MODULE_DIR$/src/xsd_sites/templates" />
+        <option value="$MODULE_DIR$/src/xsd_training/templates" />
+        <option value="$MODULE_DIR$/src/xsd_trips/templates" />
+      </list>
+    </option>
+  </component>
+</module>
