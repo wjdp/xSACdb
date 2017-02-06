@@ -2,6 +2,7 @@
 
 echo "[xSACdb] Checking directory structure"
 cd /app
+mkdir log
 
 pwd
 ls -lah
