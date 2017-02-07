@@ -1,5 +1,8 @@
 #!/bin/bash
 
+echo "[xSACdb] Setting up shell"
+cp /app/.bashrc /root/.bashrc
+
 echo "[xSACdb] Checking directory structure"
 cd /app
 mkdir log
