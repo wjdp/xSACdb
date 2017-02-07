@@ -1,6 +1,7 @@
 from __future__ import unicode_literals
 
 import warnings
+import random
 from datetime import date
 
 from django.conf import settings
@@ -74,6 +75,12 @@ class MemberProfile(models.Model):
     @property
     def verified(self):
         return not self.new_notify
+
+    def approve(self):
+        """
+        Set whatever property we need to approve this member.
+        """
+        self.new_notify = False
 
     # Migrated from user model
     first_name = models.CharField(max_length=30)
@@ -392,6 +399,38 @@ class MemberProfile(models.Model):
         self.first_name = self.user.first_name
         self.last_name = self.user.last_name
         self.email = self.user.email
+
+    def fake(self, fake):
+        self.date_of_birth = fake.date_time_between(start_date="-90y", end_date="-12y", tzinfo=None).date()
+        self.gender = random.choice(('m', 'f'))
+        self.address = fake.address()
+        self.postcode = fake.postcode()
+        self.home_phone = fake.phone_number()
+        self.mobile_phone = fake.phone_number()
+        self.next_of_kin_name = fake.name()
+        self.next_of_kin_relation = random.choice(('Mother', 'Father', 'Mum', 'Dad', 'Partner', 'Wife',
+                                                                 'Husband', 'Dog', 'Cat', 'Fish', 'Tortoise'))
+        self.next_of_kin_phone = fake.phone_number()
+
+        if fake.boolean(chance_of_getting_true=50):
+            self.student_id = random.randrange(1234567,9999999)
+
+        self.veggie = fake.boolean(chance_of_getting_true=10)
+        if fake.boolean(chance_of_getting_true=50):
+            self.alergies = fake.paragraph()
+
+        # Most people are current, 15% are out of date
+        if fake.boolean(chance_of_getting_true=85):
+            self.club_expiry = fake.date_time_between(start_date="-30d", end_date="+2y", tzinfo=None).date()
+            self.bsac_expiry = fake.date_time_between(start_date="-30d", end_date="+2y", tzinfo=None).date()
+            self.medical_form_expiry = fake.date_time_between(start_date="-30d", end_date="+2y", tzinfo=None).date()
+        else:
+            if fake.boolean(chance_of_getting_true=60):
+                self.club_expiry = fake.date_time_between(start_date="-6y", end_date="+1y", tzinfo=None).date()
+            if fake.boolean(chance_of_getting_true=60):
+                self.bsac_expiry = fake.date_time_between(start_date="-6y", end_date="+1y", tzinfo=None).date()
+            if fake.boolean(chance_of_getting_true=60):
+                self.medical_form_expiry = fake.date_time_between(start_date="-6y", end_date="+3y", tzinfo=None).date()
 
     def sync(self):
         self.user.first_name = self.first_name
