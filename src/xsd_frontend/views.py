@@ -30,7 +30,8 @@ def dashboard(request):
     # TODO make a nice universal way of doing this
 
     if is_trusted(request.user):
-        messages.add_message(request, messages.WARNING, settings.CLUB['expired_message'])
+        if request.user.memberprofile.membership_problem():
+            messages.add_message(request, messages.WARNING, settings.CLUB['expired_message'])
         versions = get_versions_for_model(get_activity_feed_models())[:10]
         versions2 = []
         for thisVersion in versions:
