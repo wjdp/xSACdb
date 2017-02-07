@@ -1,4 +1,4 @@
-image: wjdp/flatcar
+image: wjdp/xsacdb-image:v0.2.0-3
 
 services:
   - postgres:latest
@@ -17,10 +17,11 @@ before_script:
   - pip install -qr requirements.txt
 
 stages:
+  - check
   - test
 
 django-check:
-  stage: test
+  stage: check
   tags:
     - docker
   script:
@@ -35,7 +36,7 @@ django-test:
     - bower install -q --allow-root
     - rm -rf lib/tether/examples
     - mkdir tmp
-    - wget $BSAC_DATA -O tmp/bsac_data.yaml
+    - curl $BSAC_DATA > tmp/bsac_data.yaml
     - source env/bin/activate
     - src/manage.py migrate
     - src/manage.py collectstatic --noinput
