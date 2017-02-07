@@ -18,6 +18,7 @@ stages:
   - prepare
   - build
   - test
+  - deploy
 
 pip:
   stage: prepare
@@ -85,5 +86,21 @@ test:
     - source env/bin/activate
     - src/manage.py migrate
     - src/manage.py test xSACdb xsd_about xsd_auth xsd_frontend xsd_help xsd_kit xsd_members xsd_sites xsd_training xsd_trips
+  tags:
+    - docker
+
+deploy-next:
+  stage: deploy
+  only:
+    - release-0.2.0
+  script:
+    - mkdir -p ~/.ssh
+    - echo "$SSH_PRIVATE_KEY" | tr -d '\r' > ~/.ssh/id_rsa && chmod 600 ~/.ssh/id_rsa
+    - ssh-keyscan -H "$DEPLOY_HOST" >> ~/.ssh/known_hosts
+    - git branch && git branch -D master && git checkout -b master
+    - git push dokku@$DEPLOY_HOST:xsacdb-next master -f
+  environment:
+    name: xsacdb-next
+    url: https://next.xsacdb.wjdp.uk
   tags:
     - docker
