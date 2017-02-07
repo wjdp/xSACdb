@@ -3,6 +3,9 @@
 import os
 from sys import path
 
+# Staging tag, when DEBUG is false and this true allows some unsafe behaviour.
+STAGING = False
+
 # Make HTTPResponse do unicode
 DEFAULT_CHARSET = 'utf-8'
 
