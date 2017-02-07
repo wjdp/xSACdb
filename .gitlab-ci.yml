@@ -1,9 +1,5 @@
 image: wjdp/xsacdb-image:v0.2.0-4
 
-services:
-  - postgres:latest
-  - redis:latest
-
 variables:
   POSTGRES_DB: xsacdb
   POSTGRES_USER: runner
@@ -67,6 +63,9 @@ check:
 
 static:
   stage: build
+  services:
+    - postgres:latest
+    - redis:latest
   script:
     - source env/bin/activate
     - src/manage.py collectstatic --noinput
@@ -79,6 +78,9 @@ static:
 
 test:
   stage: test
+  services:
+    - postgres:latest
+    - redis:latest
   script:
     - source env/bin/activate
     - src/manage.py migrate
