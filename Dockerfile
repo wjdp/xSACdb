@@ -1,4 +1,4 @@
-FROM wjdp/xsacdb-image:v0.2.0-3
+FROM wjdp/xsacdb-image:v0.2.0-4 # Remember to update .gitlab-ci.yml too
 
 ADD . /app
 COPY supervisord.conf /etc/supervisor/conf.d/supervisord.conf
