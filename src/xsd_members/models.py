@@ -107,7 +107,8 @@ class MemberProfile(models.Model):
 
     veggie = models.BooleanField(default=False, verbose_name='Vegetarian', help_text="Gives an indication to trip \
                                                                             organisers for food requirements.")
-    alergies = models.TextField(blank=True, verbose_name='Alergies and other requiements',
+    # FIXME spelling
+    alergies = models.TextField(blank=True, verbose_name='Allergies and other requirements',
                                 help_text="This information is held for use by trip organisers. Please note anything \
                                            that would be important for both underwater activities and general trips, \
                                            details are held in confidence.")

@@ -58,7 +58,7 @@ class BaseTest(TestCase):
         user.memberprofile.home_phone = cls.fake.phone_number()
         user.memberprofile.mobile_phone = cls.fake.phone_number()
         user.memberprofile.next_of_kin_name = cls.fake.name()
-        user.memberprofile.next_of_kin_relation = cls.fake.name()
+        user.memberprofile.next_of_kin_relation = cls.fake.first_name()
         user.memberprofile.next_of_kin_phone = cls.fake.phone_number()
         user.memberprofile.save()
         cls.user = user
