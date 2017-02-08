@@ -1,7 +1,5 @@
 from __future__ import unicode_literals
 
-import testdata
-
 from xsd_sites.tests import SiteTestToolsMixin
 from .base import *
 
@@ -217,14 +215,14 @@ class SessionTest(BaseTraineeTest, TrainingTestToolsMixin, SiteTestToolsMixin):
 
     def test_in_past(self):
         future_sesh = Session.objects.create(
-            name=testdata.get_str(str_size=64),
-            when=testdata.get_future_datetime(),
+            name=self.fake.name(),
+            when=self.get_future_datetime(),
             where=self.create_site(),
         )
         future_sesh.save()
         past_sesh = Session.objects.create(
-            name=testdata.get_str(str_size=64),
-            when=testdata.get_past_datetime(),
+            name=self.fake.name(),
+            when=self.get_past_datetime(),
             where=self.create_site(),
         )
         past_sesh.save()

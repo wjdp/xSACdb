@@ -13,8 +13,6 @@ import random
 class Command(BaseCommand):
     help = 'Generates fake data for testing, demo site and development'
     fake = None
-
-    RANDOM_SEED = 'The quick brown fox jumped over the lazy ocean diver'
     FLUFFY_USER_COUNT = 99
 
     def setUp(self):
@@ -52,10 +50,10 @@ class Command(BaseCommand):
 
         self.setUp()
 
-        self.fake = Factory.create('en_GB')
+        self.fake = Factory.create(settings.FAKER_LOCALE)
         # Manually force seed, otherwise it's done by time, which could lead to inconsistent tests
-        self.fake.seed(self.RANDOM_SEED)
-        random.seed(self.RANDOM_SEED)
+        self.fake.seed(settings.RANDOM_SEED)
+        random.seed(settings.RANDOM_SEED)
 
         with transaction.atomic():
             self.stdout.write('Generating fake data...')

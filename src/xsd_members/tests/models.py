@@ -1,6 +1,5 @@
 import datetime
 import random
-import testdata
 
 from xSACdb.test_helpers import BaseTest, BaseAsGroupTest
 
@@ -317,9 +316,9 @@ class MemberProfileTest(BaseMemberTest, TrainingTestToolsMixin):
         self.assertEqual(self.mp.training_for, self.SD)
 
     def test_mp_sync(self):
-        self.mp.first_name = testdata.get_name(name_count=1)
-        self.mp.last_name = testdata.get_name(name_count=1)
-        self.mp.email = testdata.get_email()
+        self.mp.first_name = self.fake.first_name()
+        self.mp.last_name = self.fake.last_name()
+        self.mp.email = self.fake.email()
         self.mp.save()
 
         self.assertEqual(self.mp.first_name, self.user.first_name)
@@ -345,7 +344,7 @@ class MemberProfileTest(BaseMemberTest, TrainingTestToolsMixin):
 
 class MembershipTypeTest(BaseTest):
     def test_unicode(self):
-        NAME = testdata.get_str(40)
+        NAME = self.fake.name()
         a = MembershipType.objects.create(name=NAME)
         a.save()
         self.assertEqual(a.name, unicode(a))

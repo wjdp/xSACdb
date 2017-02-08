@@ -5,6 +5,8 @@ from sys import path
 
 # Staging tag, when DEBUG is false and this true allows some unsafe behaviour.
 STAGING = False
+FAKER_LOCALE = 'en_GB'
+RANDOM_SEED = 'The quick brown fox jumped over the lazy ocean diver'
 
 # Make HTTPResponse do unicode
 DEFAULT_CHARSET = 'utf-8'

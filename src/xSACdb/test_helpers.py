@@ -10,14 +10,17 @@ from django.contrib.auth.models import Group
 
 from django.core.urlresolvers import reverse
 
-import testdata
+from faker import Factory
 
 
 class BaseTest(TestCase):
-    FIRST_NAME = testdata.get_name(name_count=1)
-    LAST_NAME = testdata.get_name(name_count=1)
-    EMAIL = testdata.get_email()
-    PASSWORD = testdata.get_str(128)
+    fake = Factory.create(settings.FAKER_LOCALE)
+    fake.seed(settings.RANDOM_SEED)
+
+    FIRST_NAME = fake.first_name()
+    LAST_NAME = fake.last_name()
+    EMAIL = fake.email()
+    PASSWORD = fake.password()
 
     fixtures = settings.TEST_FIXTURES
 
@@ -50,13 +53,13 @@ class BaseTest(TestCase):
         user.memberprofile.new_notify = False
         user.memberprofile.date_of_birth = cls.get_past_date()
         user.memberprofile.gender = random.choice(('m', 'f'))
-        user.memberprofile.address = "addr line 1\naddr line 2"
-        user.memberprofile.postcode = "UHU ioIJ"
-        user.memberprofile.home_phone = "8219038210938"
-        user.memberprofile.mobile_phone = "8219031232138"
-        user.memberprofile.next_of_kin_name = testdata.get_name(2)
-        user.memberprofile.next_of_kin_relation = testdata.get_name(1)
-        user.memberprofile.next_of_kin_phone = "4684564564654564"
+        user.memberprofile.address = cls.fake.address()
+        user.memberprofile.postcode = cls.fake.postcode()
+        user.memberprofile.home_phone = cls.fake.phone_number()
+        user.memberprofile.mobile_phone = cls.fake.phone_number()
+        user.memberprofile.next_of_kin_name = cls.fake.name()
+        user.memberprofile.next_of_kin_relation = cls.fake.name()
+        user.memberprofile.next_of_kin_phone = cls.fake.phone_number()
         user.memberprofile.save()
         cls.user = user
         cls.mp = user.memberprofile
@@ -65,25 +68,31 @@ class BaseTest(TestCase):
     def get_random_date():
         return datetime.date.fromtimestamp(random.randrange(-2284101485, 2284101485))
 
-    @staticmethod
-    def get_future_date():
-        dt = testdata.get_future_datetime()
-        return datetime.date(dt.year, dt.month, dt.day)
+    @classmethod
+    def get_future_date(cls):
+        return cls.fake.date_time_between(start_date="now", end_date="+99y", tzinfo=None).date()
 
-    @staticmethod
-    def get_past_date():
-        dt = testdata.get_past_datetime()
-        return datetime.date(max(1900, dt.year), dt.month, dt.day)
+    @classmethod
+    def get_future_datetime(cls):
+        return cls.fake.date_time_between(start_date="now", end_date="+99y", tzinfo=None)
 
-    @staticmethod
-    def create_a_user():
+    @classmethod
+    def get_past_date(cls):
+        return cls.fake.date_time_between(start_date="-99y", end_date="now", tzinfo=None).date()
+
+    @classmethod
+    def get_past_datetime(cls):
+        return cls.fake.date_time_between(start_date="-99y", end_date="now", tzinfo=None)
+
+    @classmethod
+    def create_a_user(cls):
         """Make a random user, return them"""
         U = get_user_model()
         user = U.objects.create_user(
-            first_name=testdata.get_name(name_count=1),
-            last_name=testdata.get_name(name_count=1),
-            email=testdata.get_email(),
-            password=testdata.get_str(128),
+            first_name=cls.fake.first_name(),
+            last_name=cls.fake.last_name(),
+            email=cls.fake.email(),
+            password=cls.fake.password(),
         )
         user.save()
         return user

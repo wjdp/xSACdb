@@ -1,10 +1,11 @@
 from __future__ import absolute_import, unicode_literals
 
-import testdata
 from allauth.account.views import password_change
 from allauth.socialaccount.views import connections
+from django.conf import settings
 from django.contrib.auth import authenticate
 from django.test import TestCase
+from faker import Factory
 
 from xSACdb.test_helpers import BaseTest, ViewTestMixin
 from xsd_auth.models import User
@@ -12,10 +13,12 @@ from xsd_members.models import MemberProfile
 
 
 class UserTest(TestCase):
-    FIRST_NAME = testdata.get_name(name_count=1)
-    LAST_NAME = testdata.get_name(name_count=1)
-    EMAIL = testdata.get_email()
-    PASSWORD = testdata.get_str(128)
+    fake = Factory.create(settings.FAKER_LOCALE)
+    fake.seed(settings.RANDOM_SEED)
+    FIRST_NAME = fake.first_name()
+    LAST_NAME = fake.last_name()
+    EMAIL = fake.email()
+    PASSWORD = fake.password()
 
     def create_user(self):
         user = User.objects.create_user(

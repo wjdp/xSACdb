@@ -35,7 +35,6 @@ requests-oauthlib==0.7.0
 rq-scheduler==0.6.1
 six==1.10.0
 sqlparse==0.2.2
-testdata==0.6.13
 whitenoise==3.3.0
 wsgiref==0.1.2
 Faker==0.7.7

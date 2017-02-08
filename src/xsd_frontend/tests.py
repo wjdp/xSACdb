@@ -1,15 +1,15 @@
+from django.conf import settings
 from django.core.cache import cache
+from django.core.urlresolvers import reverse
 from django.test import TestCase
 from django.test.client import Client
-
-from django.core.urlresolvers import reverse
-
-from xsd_auth.models import User
+from faker import Factory
 
 from xSACdb.test_helpers import BaseTest, ViewTestMixin
+from xsd_auth.models import User
 
-import testdata
-
+fake = Factory.create(settings.FAKER_LOCALE)
+fake.seed(settings.RANDOM_SEED)
 
 class AccountsLogin(TestCase):
     def test_200(self):
@@ -26,11 +26,11 @@ class RegisterLogin(TestCase):
 
     def test_register_form(self):
         c = Client()
-        password = testdata.get_str(str_size=8)
+        password = fake.password()
         post_data = {
-            'first_name': testdata.get_name(name_count=2),
-            'last_name': testdata.get_name(name_count=2),
-            'email': testdata.get_email(),
+            'first_name': fake.first_name(),
+            'last_name': fake.last_name(),
+            'email': fake.email(),
             'password': password,
         }
         c.post('/accounts/register/', post_data)
@@ -51,10 +51,10 @@ class RegisterLogin(TestCase):
 
 
 class ClassicLogin(TestCase):
-    FIRST_NAME = testdata.get_name(name_count=1)
-    LAST_NAME = testdata.get_name(name_count=1)
-    EMAIL = testdata.get_email()
-    PASSWORD = testdata.get_str(128)
+    FIRST_NAME = fake.first_name()
+    LAST_NAME = fake.last_name()
+    EMAIL = fake.email()
+    PASSWORD = fake.password()
 
     def setUp(self):
         self.user = User.objects.create_user(
@@ -103,7 +103,7 @@ class ClassicLogin(TestCase):
     def test_login_email_incorrect(self):
         # Invalid login
         c = Client()
-        self.assertFalse(c.login(username=self.EMAIL, password=testdata.get_str(128)))
+        self.assertFalse(c.login(username=self.EMAIL, password=fake.password()))
         response = c.get(reverse('xsd_frontend:dashboard'))
         self.assertEqual(response.status_code, 302)
 

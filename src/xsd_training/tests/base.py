@@ -1,5 +1,3 @@
-import testdata
-
 from xSACdb.test_helpers import BaseTest, AsGroupMixin
 from xsd_training.models import *
 
@@ -89,8 +87,8 @@ class TrainingTestToolsMixin(object):
 
     def create_session(self, site):
         sesh = Session.objects.create(
-            name=testdata.get_str(str_size=64),
-            when=testdata.get_future_datetime(),
+            name=self.fake.name(),
+            when=self.get_future_datetime(),
             where=site,
         )
         sesh.save()

@@ -1,7 +1,5 @@
 from __future__ import unicode_literals
 
-import testdata
-
 from xSACdb.test_helpers import ViewTestMixin
 from xsd_training.views import *
 from .base import *
@@ -200,7 +198,7 @@ class TraineeGroupCreate(ViewTestMixin, BaseTrainingTest):
 
     def test_create(self):
         # TODO export this to a FormIntegrationTestMixin
-        TG_NAME = testdata.get_str(64)
+        TG_NAME = self.fake.name()
         c = self.get_client()
         r = c.post(self.get_url(), {'name': TG_NAME})
         tg = TraineeGroup.objects.filter(name=TG_NAME)
@@ -234,7 +232,7 @@ class TraineeGroupDelete(ViewTestMixin, BaseTrainingTest):
 
     @classmethod
     def setUp_test(cls):
-        cls.TG_NAME = testdata.get_str(64)
+        cls.TG_NAME = cls.fake.name()
         tg = TraineeGroup.objects.create(name=cls.TG_NAME)
         cls.url_kwargs = {'pk': tg.pk}
 
