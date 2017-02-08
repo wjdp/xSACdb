@@ -9,9 +9,10 @@ from xsd_frontend.nav import APP_LIST
 
 register = template.Library()
 
-
-#   0              1      2                    3                      4
-# ('About xSACdb', None, 'fa fa-info-circle', 'xsd_about:AboutView', ['xsd:about:OtherView']),
+# The structure of a navigation tuple is shown here:
+#   0              1           2                    3                      4                       5
+# ('About xSACdb', None,      'fa fa-info-circle', 'xsd_about:AboutView', ['xsd:about:OtherView']),
+#  Item title      title var  icon                 primary url            other urls
 
 def get_club_name(context):
     if 'l10n_club' in context:
@@ -21,18 +22,23 @@ def get_club_name(context):
         return 'xSACdb'
 
 
-def get_module_nav_list(namespace, url_name):
+def get_module_nav_list(namespace, url_name, user):
     if not namespace:
         return None
 
+    # Imports the navigation definition from the app/nav.py file
     try:
         nav_py = importlib.import_module("{}.nav".format(namespace))
     except ImportError:
         raise ImportError("Cannot locate nav definition module in {} namespace".format(namespace))
 
-    module_nav = nav_py.NAV
+    module_nav = []
 
-    for section in module_nav:
+    for section in nav_py.NAV:
+        print section['access']
+        if not section['access'](user):
+            # Skip adding if we don't have access
+            continue
         # Step through each item
         for (index, item) in enumerate(section['items']):
             # Find out if active, then apply this flag to the item list
@@ -40,6 +46,8 @@ def get_module_nav_list(namespace, url_name):
                 section['items'][index] = (item[0], item[1], item[2], item[3], item[4], True)
             else:
                 section['items'][index] = (item[0], item[1], item[2], item[3], item[4], False)
+        # Add processed section to returned list
+        module_nav.append(section)
 
     return module_nav
 
@@ -95,7 +103,7 @@ def get_url_name(context):
 def page_title(context):
     namespace = get_namespace(context)
     url_name = get_url_name(context)
-    module_nav = get_module_nav_list(namespace, url_name)
+    module_nav = get_module_nav_list(namespace, url_name, context.request.user)
     return "{} - {} - {} Database".format(get_page_title(module_nav, context), get_app_title(namespace),
                                           get_club_name(context))
 
@@ -106,22 +114,27 @@ def app_nav(context):
     url_name = get_url_name(context)
     namespace = get_namespace(context)
 
-    cache_id = "{}:{}".format(context['request'].user.username, context.request.path)
+    cache_id = "{}:{}x".format(context['request'].user.username, context.request.path)
     cache_key = make_template_fragment_key('app_nav', [cache_id])
     context['app_nav_cache_id'] = cache_id
 
     # Only bother doing this work if we don't have a cached template render
     if not cache.get(cache_key):
-        # Set active flag on active app
-        app_list = APP_LIST[:]
-        for app in app_list:
-            app['active'] = (app['app'] == namespace)
+        # Build an app list for the page and user
+        app_list = []
+        for app in APP_LIST:
+            # Check we have access
+            if app['access'](context.request.user):
+                # Set active flag if namespace matches
+                app['active'] = (app['app'] == namespace)
+                # Add to returned list
+                app_list.append(app)
 
-        context['app_list'] = APP_LIST
+        context['app_list'] = app_list
         context['app'] = namespace
 
         if namespace:
-            context['page_title'] = get_page_title(get_module_nav_list(namespace, url_name), context)
+            context['page_title'] = get_page_title(get_module_nav_list(namespace, url_name, context.request.user), context)
 
     return context
 
@@ -129,7 +142,7 @@ def app_nav(context):
 @register.inclusion_tag('nav/module.html', takes_context=True)
 def app_module_nav(context, namespace):
     """Renders the modules within the app_nav"""
-    context['nav'] = get_module_nav_list(namespace, get_url_name(context))
+    context['nav'] = get_module_nav_list(namespace, get_url_name(context), context.request.user)
     return context
 
 
@@ -142,6 +155,6 @@ def module_nav(context):
     url_name = get_url_name(context)
 
     context['namespace'] = namespace
-    context['nav'] = get_module_nav_list(namespace, url_name)
+    context['nav'] = get_module_nav_list(namespace, url_name, context.request.user)
 
     return context

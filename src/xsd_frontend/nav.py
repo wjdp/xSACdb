@@ -49,7 +49,7 @@ APP_LIST = [
     },
     {
         'title': 'About',
-        'access': is_all,
+        'access': is_verified,
         'app': 'xsd_about',
         'url': 'xsd_about:AboutView',
         'icon': 'fa fa-info-circle',
