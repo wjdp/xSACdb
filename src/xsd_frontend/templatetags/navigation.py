@@ -47,16 +47,19 @@ def get_module_nav_list(namespace, url_name):
 def get_page_title(module_nav, context):
     if module_nav:
         active = None
+        # Iterate over sections in module nav to find current item
+        # There must be a better way of doing this!
         for section in module_nav:
             for item in section['items']:
                 if item[5]:
                     active = item
-
+        # If we found the active page
         if active:
             if active[1] != None:
-                # Specified var
+                # This page has asked we look at a certain variable to get the page name
                 return context.get(active[1], active[0])
             else:
+                # We use the page name from the nav definition
                 return active[0]
 
     return get_club_name(context)
@@ -103,10 +106,11 @@ def app_nav(context):
     url_name = get_url_name(context)
     namespace = get_namespace(context)
 
-    cache_id = "{}:{}".format(context['request'].user.username, url_name)
-    cache_key = key = make_template_fragment_key('app_nav', [cache_id])
+    cache_id = "{}:{}".format(context['request'].user.username, context.request.path)
+    cache_key = make_template_fragment_key('app_nav', [cache_id])
     context['app_nav_cache_id'] = cache_id
 
+    # Only bother doing this work if we don't have a cached template render
     if not cache.get(cache_key):
         # Set active flag on active app
         app_list = APP_LIST[:]
@@ -115,7 +119,6 @@ def app_nav(context):
 
         context['app_list'] = APP_LIST
         context['app'] = namespace
-
 
         if namespace:
             context['page_title'] = get_page_title(get_module_nav_list(namespace, url_name), context)
