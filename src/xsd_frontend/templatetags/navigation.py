@@ -22,18 +22,23 @@ def get_club_name(context):
         return 'xSACdb'
 
 
-def get_module_nav_list(namespace, url_name):
+def get_module_nav_list(namespace, url_name, user):
     if not namespace:
         return None
 
+    # Imports the navigation definition from the app/nav.py file
     try:
         nav_py = importlib.import_module("{}.nav".format(namespace))
     except ImportError:
         raise ImportError("Cannot locate nav definition module in {} namespace".format(namespace))
 
-    module_nav = nav_py.NAV
+    module_nav = []
 
-    for section in module_nav:
+    for section in nav_py.NAV:
+        print section['access']
+        if not section['access'](user):
+            # Skip adding if we don't have access
+            continue
         # Step through each item
         for (index, item) in enumerate(section['items']):
             # Find out if active, then apply this flag to the item list
@@ -41,6 +46,8 @@ def get_module_nav_list(namespace, url_name):
                 section['items'][index] = (item[0], item[1], item[2], item[3], item[4], True)
             else:
                 section['items'][index] = (item[0], item[1], item[2], item[3], item[4], False)
+        # Add processed section to returned list
+        module_nav.append(section)
 
     return module_nav
 
@@ -96,7 +103,7 @@ def get_url_name(context):
 def page_title(context):
     namespace = get_namespace(context)
     url_name = get_url_name(context)
-    module_nav = get_module_nav_list(namespace, url_name)
+    module_nav = get_module_nav_list(namespace, url_name, context.request.user)
     return "{} - {} - {} Database".format(get_page_title(module_nav, context), get_app_title(namespace),
                                           get_club_name(context))
 
@@ -122,7 +129,7 @@ def app_nav(context):
         context['app'] = namespace
 
         if namespace:
-            context['page_title'] = get_page_title(get_module_nav_list(namespace, url_name), context)
+            context['page_title'] = get_page_title(get_module_nav_list(namespace, url_name, context.request.user), context)
 
     return context
 
@@ -130,7 +137,7 @@ def app_nav(context):
 @register.inclusion_tag('nav/module.html', takes_context=True)
 def app_module_nav(context, namespace):
     """Renders the modules within the app_nav"""
-    context['nav'] = get_module_nav_list(namespace, get_url_name(context))
+    context['nav'] = get_module_nav_list(namespace, get_url_name(context), context.request.user)
     return context
 
 
@@ -143,6 +150,6 @@ def module_nav(context):
     url_name = get_url_name(context)
 
     context['namespace'] = namespace
-    context['nav'] = get_module_nav_list(namespace, url_name)
+    context['nav'] = get_module_nav_list(namespace, url_name, context.request.user)
 
     return context
