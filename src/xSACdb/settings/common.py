@@ -201,9 +201,9 @@ INSTALLED_APPS = (
 
     'health_check',
     # 'health_check_celery',
-    'health_check_db',
-    'health_check_cache',
-    'health_check_storage',
+    'health_check.db',
+    'health_check.cache',
+    'health_check.storage',
 )
 
 CACHES = {
