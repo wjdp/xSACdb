@@ -9,9 +9,10 @@ from xsd_frontend.nav import APP_LIST
 
 register = template.Library()
 
-
-#   0              1      2                    3                      4
-# ('About xSACdb', None, 'fa fa-info-circle', 'xsd_about:AboutView', ['xsd:about:OtherView']),
+# The structure of a navigation tuple is shown here:
+#   0              1           2                    3                      4                       5
+# ('About xSACdb', None,      'fa fa-info-circle', 'xsd_about:AboutView', ['xsd:about:OtherView']),
+#  Item title      title var  icon                 primary url            other urls
 
 def get_club_name(context):
     if 'l10n_club' in context:

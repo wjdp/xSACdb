@@ -1,3 +1,8 @@
+from .groups import *
+
+# FIXME Replace with a permission based model...
+
+
 def is_allowed(user, groups):
     # FIXME Fetches whole memberprofile, wasteful! Make request select memberprofile every req
     if not is_verified(user):
@@ -10,21 +15,17 @@ def is_allowed(user, groups):
             return True
     return False
 
-# Training: 2,3,7
-# Trips: 2,3,4,7
-# Sites: 2,3,4,5,6,7
-# Members: 2,3,6,7
-# Diving Off: 2,7
-# Admin: 2
 
 def is_all(user):
     return True
 
+
 def is_verified(user):
     return user.memberprofile.verified
 
-def is_instructor(user):    #User is either by having a qualification or being training
-    groups=[2,3,7]
+
+def is_instructor(user):  # User is either by having a qualification or being training
+    groups = [GROUP_ADMIN, GROUP_TRAINING, GROUP_DO]
     if is_allowed(user, groups):
         return True
     elif user.memberprofile.is_instructor() and is_verified(user):
@@ -32,26 +33,38 @@ def is_instructor(user):    #User is either by having a qualification or being t
     else:
         return False
 
+
 def is_trusted(user):
     # is the user trusted with personal data, added as a quick fix for #141
-    groups=[2,3,6,7]
+    groups = [GROUP_ADMIN, GROUP_TRAINING, GROUP_MEMBERS, GROUP_DO]
     return is_allowed(user, groups)
 
+
 def is_training(user):
-    groups=[2,3,7]
+    groups = [GROUP_ADMIN, GROUP_TRAINING, GROUP_DO]
     return is_allowed(user, groups)
+
+
 def is_trips(user):
-    groups=[2,3,4,7]
+    groups = [GROUP_ADMIN, GROUP_TRAINING, GROUP_TRIPS, GROUP_DO]
     return is_allowed(user, groups)
+
+
 def is_sites(user):
-    groups=[2,3,4,5,6,7]
+    groups = [GROUP_ADMIN, GROUP_TRAINING, GROUP_TRIPS, GROUP_SITES, GROUP_MEMBERS, GROUP_DO]
     return is_allowed(user, groups)
+
+
 def is_members(user):
-    groups=[2,3,6,7]
+    groups = [GROUP_ADMIN, GROUP_TRAINING, GROUP_MEMBERS, GROUP_DO]
     return is_allowed(user, groups)
+
+
 def is_diving_officer(user):
-    groups=[2,7]
+    groups = [GROUP_ADMIN, GROUP_DO]
     return is_allowed(user, groups)
+
+
 def is_admin(user):
-    groups=[2]
+    groups = [GROUP_ADMIN]
     return is_allowed(user, groups)
