@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 import importlib
 
 from django import template
@@ -35,7 +37,6 @@ def get_module_nav_list(namespace, url_name, user):
     module_nav = []
 
     for section in nav_py.NAV:
-        print section['access']
         if not section['access'](user):
             # Skip adding if we don't have access
             continue
@@ -70,7 +71,7 @@ def get_page_title(module_nav, context):
                 # We use the page name from the nav definition
                 return active[0]
 
-    return get_club_name(context)
+    return None
 
 
 def get_namespace(context):
@@ -79,9 +80,9 @@ def get_namespace(context):
         if len(current_url.namespaces) > 0:
             return current_url.namespaces[0]
         else:
-            return ""
+            return None
     except Resolver404:
-        return ""
+        return None
 
 
 def get_app_title(namespace):
@@ -104,8 +105,13 @@ def page_title(context):
     namespace = get_namespace(context)
     url_name = get_url_name(context)
     module_nav = get_module_nav_list(namespace, url_name, context.request.user)
-    return "{} - {} - {} Database".format(get_page_title(module_nav, context), get_app_title(namespace),
-                                          get_club_name(context))
+    if get_app_title(namespace):
+        return u"{} – {} – {}".format(get_page_title(module_nav, context), get_app_title(namespace),
+                                               get_club_name(context))
+    elif get_page_title(module_nav, context):
+        return u"{} – {}".format(get_page_title(module_nav, context), get_club_name(context))
+    else:
+        return u"{}".format(get_club_name(context))
 
 
 @register.inclusion_tag('nav/app.html', takes_context=True)
