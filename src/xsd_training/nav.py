@@ -3,7 +3,7 @@ from xSACdb.roles.functions import *
 NAV = (
     {
         'title': 'Personal',
-        'access': is_all,
+        'access': is_verified,
         'items': [
             ('Overview', None, 'fa fa-tachometer', 'xsd_training:training-overview', []),
             ('Lessons', None, 'fa fa-mortar-board', 'xsd_training:training-lessons', []),
@@ -12,7 +12,7 @@ NAV = (
     },
     {
         'title': 'Skill Development Courses',
-        'access': is_all,
+        'access': is_verified,
         'items': [
             ('All SDCs', None, 'fa fa-list', 'xsd_training:SDCList', []),
             ('Upcoming Courses', None, 'fa fa-calendar', 'xsd_training:PerformedSDCList', ['xsd_training:PerformedSDCDetail']),

@@ -114,18 +114,23 @@ def app_nav(context):
     url_name = get_url_name(context)
     namespace = get_namespace(context)
 
-    cache_id = "{}:{}".format(context['request'].user.username, context.request.path)
+    cache_id = "{}:{}x".format(context['request'].user.username, context.request.path)
     cache_key = make_template_fragment_key('app_nav', [cache_id])
     context['app_nav_cache_id'] = cache_id
 
     # Only bother doing this work if we don't have a cached template render
     if not cache.get(cache_key):
-        # Set active flag on active app
-        app_list = APP_LIST[:]
-        for app in app_list:
-            app['active'] = (app['app'] == namespace)
+        # Build an app list for the page and user
+        app_list = []
+        for app in APP_LIST:
+            # Check we have access
+            if app['access'](context.request.user):
+                # Set active flag if namespace matches
+                app['active'] = (app['app'] == namespace)
+                # Add to returned list
+                app_list.append(app)
 
-        context['app_list'] = APP_LIST
+        context['app_list'] = app_list
         context['app'] = namespace
 
         if namespace:
