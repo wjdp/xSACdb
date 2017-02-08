@@ -5,16 +5,29 @@ xSACdb instances. This project will soon adhere to [Semantic Versioning](http://
 
 ## [0.2.0] - Unreleased
 
+Using Docker/Dokku support added in 0.1.0 we are recommending that all deployments of xSACdb are done via a Dokku
+server. This ensures that your production environment is identical to that used in development and testing. Deployments
+and upgrades are also much faster.
+
 ### Added
 - If you're using Sentry for error logging user is asked for feedback when a 500 happens.
 - Added task runner support. You now need to run some task runners and a task scheduler alongside the server.
   This depends on Redis, a Redis server is needed and must be configured in local_settings.py for bare installs.
+- Added styling to the application shell.
+- Added health check page `/health/`, provides 'ready-to-go' signal for Dokku deployment.
+- Added fake data generation for staging environments. See [next.xsacdb.wjdp.uk](https://next.xsacdb.wjdp.uk). Login as
+  su/su.
 
 ### Changed
-- Upgraded the UI framework from Bootstrap v2 to v4, includes *significant UI improvements* especially on mobile.
+- Upgraded the UI framework from Bootstrap v2 to v4, includes *significant UI improvements* especially on mobile. Some
+  areas of the site haven't quite been fully optimised for the new styling, this will come with later versions.
 - Redesigned, mobile friendly login and register pages.
 - Because we have Redis, cache backend has switched from in-memory to Redis.
 
+## Development
+- Tests have been optimised and now utilise the Faker library with a predefined seed to reliably generate test data.
+- Added PyCharm configuration
+- Added automatic deployment to next.xsacdb.wjdp.uk from development branch via CI job.
 
 ## [0.1.1] - Unreleased
 
