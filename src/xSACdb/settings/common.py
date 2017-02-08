@@ -46,7 +46,8 @@ LOGIN_EXEMPT_URLS = (
     r'^static/',  # allow any URL under /static/*
     r'^facebook/',  # allow any URL under /facebook/*
     r'^accounts/',
-    r'^hijack/', # have their own protection
+    r'^hijack/',  # have their own protection
+    r'^health/',  # Needs to be publicly accessible
 )
 
 # Absolute filesystem path to the directory that will hold user-uploaded files.
@@ -197,6 +198,12 @@ INSTALLED_APPS = (
     'hijack',
     'compat',
     'raven.contrib.django.raven_compat',
+
+    'health_check',
+    # 'health_check_celery',
+    'health_check.db',
+    'health_check.cache',
+    'health_check.storage',
 )
 
 CACHES = {
