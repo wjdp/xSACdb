@@ -20,6 +20,8 @@ CLUB = {
     'medical_form_renew': 'Form available at <a href="http://uksdmc.co.uk/">uksdmc.co.uk</a>.',
 }
 
+ALLOWED_HOSTS = ['*']
+
 # Send error reports to
 ADMINS = (
     # ('Your Name', 'your_email@example.com'),
