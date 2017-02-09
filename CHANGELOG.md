@@ -30,6 +30,9 @@ and upgrades are also much faster.
 - Redesigned, mobile friendly login and register pages.
 - Because we have Redis, cache backend has switched from in-memory to Redis.
 
+### Fixed
+- Bug #88, user instances are orphaned after their member profiles are deleted. Users are now deleted at the same time.
+
 ## Development
 - Tests have been optimised and now utilise the Faker library with a predefined seed to reliably generate test data.
 - Added PyCharm configuration

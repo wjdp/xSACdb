@@ -343,6 +343,7 @@ class MemberProfileTest(BaseMemberTest, TrainingTestToolsMixin):
         )
 
     def test_mp_delete(self):
+        # Bug #88, users are orphaned when their MP is deleted. Causes exceptions.
         mp_pk = self.mp.pk
         u_pk = self.user.pk
         self.mp.delete()
