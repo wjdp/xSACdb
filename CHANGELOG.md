@@ -9,6 +9,12 @@ Using Docker/Dokku support added in 0.1.0 we are recommending that all deploymen
 server. This ensures that your production environment is identical to that used in development and testing. Deployments
 and upgrades are also much faster.
 
+### Upgrade
+- Upgrade notes will now pertain to Dokku installations.
+- Orphaned users, users without member profiles, may exist in your database due to bug #88.
+  Run `manage delete_orphaned_users` in the shell to remove them. A summary of users followed by a y/n prompt will be
+  presented.
+
 ### Added
 - If you're using Sentry for error logging user is asked for feedback when a 500 happens.
 - Added task runner support. You now need to run some task runners and a task scheduler alongside the server.
@@ -23,6 +29,9 @@ and upgrades are also much faster.
   areas of the site haven't quite been fully optimised for the new styling, this will come with later versions.
 - Redesigned, mobile friendly login and register pages.
 - Because we have Redis, cache backend has switched from in-memory to Redis.
+
+### Fixed
+- Bug #88, user instances are orphaned after their member profiles are deleted. Users are now deleted at the same time.
 
 ## Development
 - Tests have been optimised and now utilise the Faker library with a predefined seed to reliably generate test data.

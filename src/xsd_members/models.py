@@ -1,13 +1,13 @@
 from __future__ import unicode_literals
 
-import warnings
 import random
+import warnings
 from datetime import date
 
+from django import forms
 from django.conf import settings
 from django.core.urlresolvers import reverse
 from django.db import models
-from django import forms
 from reversion import revisions as reversion
 
 from xSACdb.data_helpers import disable_for_loaddata
@@ -439,6 +439,13 @@ class MemberProfile(models.Model):
         self.user.email = self.email
         # TODO check if actually changed
         self.user.save()
+
+    def delete(self):
+        # When MP is deleted, we should also remove the user attached to it.
+        # Soon we will 'archive' profiles, rather than deleting them.
+        user = self.user
+        super(MemberProfile, self).delete()
+        user.delete()
 
 
 from django.db.models.signals import post_save
