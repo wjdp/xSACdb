@@ -342,6 +342,16 @@ class MemberProfileTest(BaseMemberTest, TrainingTestToolsMixin):
             1
         )
 
+    def test_mp_delete(self):
+        mp_pk = self.mp.pk
+        u_pk = self.user.pk
+        self.mp.delete()
+        # Check the MP is actually deleted
+        self.assertEqual(MemberProfile.objects.filter(pk=mp_pk).count(), 0)
+        # Check the associated user is also deleted
+        self.assertEqual(self.User.objects.filter(pk=u_pk).count(), 0)
+
+
 class MembershipTypeTest(BaseTest):
     def test_unicode(self):
         NAME = self.fake.name()

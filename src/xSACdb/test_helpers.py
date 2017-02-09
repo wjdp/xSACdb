@@ -24,6 +24,8 @@ class BaseTest(TestCase):
 
     fixtures = settings.TEST_FIXTURES
 
+    User = get_user_model()
+
     @classmethod
     def setUpTestData(cls):
         cls.setUp_user()
