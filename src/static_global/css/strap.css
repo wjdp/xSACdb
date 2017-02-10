@@ -423,17 +423,6 @@ background: #FFABAB !important
 .mode-XO {background: #3B35D2}
 .mode-AS {background: #D66262}
 
-.ret-form-actions {
-background: #fff;
-border-top: 2px solid #000;
-border-left: 2px solid #000;
-border-top-left-radius: 6px;
-position: fixed;
-bottom: 0;
-right: 0;
-padding: 8px;
-}
-
 .retro-spreadsheet ul.errorlist {
     margin: 0
 }
