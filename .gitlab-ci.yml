@@ -93,7 +93,7 @@ test:
 deploy-next:
   stage: deploy
   only:
-    - release-0.2.0
+    - deploy
   script:
     - mkdir -p ~/.ssh
     - echo "$SSH_PRIVATE_KEY" | tr -d '\r' > ~/.ssh/id_rsa && chmod 600 ~/.ssh/id_rsa
