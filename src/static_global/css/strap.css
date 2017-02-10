@@ -655,3 +655,8 @@ img.about-logo {
     border-bottom: none;
     border-top: 2px solid #ae9e49;
 }
+
+.hidden {
+    /* Hides controls on qual/SDC award form */
+    display: none;
+}
