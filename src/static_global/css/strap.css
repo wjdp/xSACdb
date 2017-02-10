@@ -88,33 +88,6 @@ color:#fafafa;
 float: left;
 }
 
-div.lesson-code.OD, .qual-banner.OD, .OD-cell {
-    background:# !important;
-    border: 1px solid #2253BB;
-}
-div.lesson-code.SD, .qual-banner.SD, .SD-cell {
-    background: # !important;
-    border: 1px solid #BA6812;
-}
-div.lesson-code.DL, .qual-banner.DL, .DL-cell {
-    background: # !important;
-    border: 1px solid #054006;
-}
-div.lesson-code.AD, .qual-banner.AD, .AD-cell {
-    background: # !important;
-    border: 1px solid #3B1437;
-}
-div.lesson-code.FC, .qual-banner.FC, .FC-cell {
-    background: # !important;
-    border: 1px solid #0B0B0B;
-}
-
-.OD-cell, .SD-cell, .DL-cell, .AD-cell, .FC-cell {
-    border: none;
-    color: #fff;
-    font-size:0px;
-}
-
 .qual-banner {
     font-size: 1.2em;
     font-weight: bold;
