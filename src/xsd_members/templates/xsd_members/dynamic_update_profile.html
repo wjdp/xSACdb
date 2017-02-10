@@ -1,0 +1,40 @@
+{% extends 'base_template.html' %}
+{% load markdown %}
+{% load bootstrap3 %}
+
+{% block content %}
+<div class="row">
+
+    <div class="col-md-4">
+        <h2>Update your profile</h2>
+        {{ l10n_club.dynamic_update_profile_blurb|markdown }}
+    </div>
+
+    <div class="col-md-8 form-layout xsd-members-dynamic-update-profile-form">
+        <form method="POST" action="">
+            {% csrf_token %}
+            {{ form.non_field_errors }}
+
+            {% for field in form %}
+                <div class="row">
+                    <label class="col-sm-4 col-lg-3" for="{{ field.id_for_label }}">
+                        <h5>{{ field.label }}</h5>
+                        {% if field.required %}<p><i class="fa fa-circle color-required"></i> Required</p>{% endif %}
+                    </label>
+                    <div class="col-sm-8 col-lg-9">
+                        {% bootstrap_field field show_help=False show_label=False %}
+                        {% if field.help_text %}<p class="help">{{ field.help_text|safe }}</p>{% endif %}
+                    </div>
+                </div>
+            {% endfor %}
+
+            {% buttons %}
+                <button type="submit" class="btn btn-primary btn-full">
+                    Update Profile
+                </button>
+            {% endbuttons %}
+        </form>
+    </div>
+
+</div>
+{% endblock %}

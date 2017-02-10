@@ -4,7 +4,7 @@
 
 {% block training_content %}
 
-<div class="span2 retro-select">
+<div class="col-md-12">
 <h3>Retro Tool</h3>
 	<p>Select a trainee to manually add lessons to their training record. The load times on this page may be long.</p>
 	<hr />
@@ -32,11 +32,11 @@
 	    <button type="submit" class="btn btn-primary alignright"><i class="fa fa-eye"></i> Check</button>
 	    {% endif %}
 	</div>
-<div class="span7">
+<div class="col-md-12">
 <input type="hidden" name="trainee" value="{{trainee.pk}}" />
 <input type="hidden" name="qualification" value="{{qualification.pk}}" />
 {% csrf_token %}
-	<table class="table table-condensed retro-spreadsheet">
+	<table class="table table-sm retro-spreadsheet">
 		{% for formset in formsets %}
 		<tr>
 		{{ formset.management_form }}
@@ -60,7 +60,7 @@
 					<p>This lesson is already partially completed</p>
 				{% endif %}
 			{{ form.as_p }}
-				
+
 			{% endif %}
 			</td></tr>
 			</table>
@@ -72,7 +72,7 @@
 	</table>
 </div>
 
-	
+
 
 </form>
 {% endif %}

@@ -1,6 +1,5 @@
 {% extends 'sites_template.html' %}
 {% load staticfiles %}
-{% load bootstrap_toolkit %}
 
 {% block post_head %}
 {% include 'google_maps_init.js' %}
@@ -8,7 +7,7 @@
 
 {% block sites_content %}
 
-<div class="span9">
+<div class="col-md-12">
 	<div id="map-canvas">
 	</div>
 	<div class="row" id="site-info-blank">

@@ -129,6 +129,6 @@ def trainee_notes_set(request, pk):
             trainee_profile.sdcs.remove(sdc)
             trainee_profile.save()
 
-        return redirect(reverse('TraineeNotes', kwargs={'pk':pk}))
+        return redirect(reverse('xsd_training:TraineeNotes', kwargs={'pk':pk}))
     else:
         return HttpResponse('No field specified')

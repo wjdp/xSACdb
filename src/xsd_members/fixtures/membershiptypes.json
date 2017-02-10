@@ -1,0 +1,30 @@
+[
+  {
+    "fields": {
+      "name": "Full"
+    },
+    "model": "xsd_members.membershiptype",
+    "pk": 1
+  },
+  {
+    "fields": {
+      "name": "Student"
+    },
+    "model": "xsd_members.membershiptype",
+    "pk": 2
+  },
+  {
+    "fields": {
+      "name": "Social"
+    },
+    "model": "xsd_members.membershiptype",
+    "pk": 3
+  },
+  {
+    "fields": {
+      "name": "Honorary"
+    },
+    "model": "xsd_members.membershiptype",
+    "pk": 4
+  }
+]

@@ -46,3 +46,12 @@ class RequireAdministrator(RequireGroup):
 class RequireTrusted(RequireGroup):
     def is_allowed(self,user):
         return is_trusted(user)
+
+from django.http import HttpResponseRedirect
+
+class RequirePreauth(object):
+    def dispatch(self, request, *args, **kwargs):
+        if request.user.is_authenticated():
+            return HttpResponseRedirect('/')
+        else:
+            return super(RequirePreauth, self).dispatch(request, *args, **kwargs)

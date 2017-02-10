@@ -90,7 +90,7 @@ class SessionPlanner(RequireTrainingOfficer, UpdateView):
         return super(SessionPlanner, self).post(request, *args, **kwargs)
 
     def get_success_url(self):
-        return reverse('SessionList')+'?last='+self.kwargs['pk']
+        return reverse('xsd_training:SessionList')+'?last='+self.kwargs['pk']
 
 class SessionList(RequireTrainingOfficer, ListView):
     model=Session
@@ -187,14 +187,14 @@ class SessionComplete(RequireTrainingOfficer,DetailView):
                     for form in formset.cleaned_data:
                         self.set_pl_save(form['id'], form['completed'], form['partially_completed'], form['public_notes'], form['private_notes'])
                     return self.get(request, *args, **kwargs)
-                return redirect(reverse_lazy('SessionList'))
+                return redirect(reverse_lazy('xsd_training:SessionList'))
             else:
                 return self.get(request, *args, **kwargs)
 
 class SessionDelete(RequireTrainingOfficer, DeleteView):
     model=Session
     template_name='session_confirm_delete.html'
-    success_url = reverse_lazy('SessionList')
+    success_url = reverse_lazy('xsd_training:SessionList')
 
     def get_context_data(self, **kwargs):
         context = super(SessionDelete, self).get_context_data(**kwargs)

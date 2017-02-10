@@ -1,6 +1,7 @@
 {% extends 'base_template.html' %}
-{% load xsd_nav %}
+
 {% block content %}
+{% comment %}
 <div class="row">
 <div class="span3 nav-down">
     <ul class="nav nav-list">
@@ -29,9 +30,10 @@
 
       {% endif %}
 
-    </ul> 
+    </ul>
 
 </div>
+{% endcomment %}
 {% block kit_content %}
 No Content
 {% endblock %}

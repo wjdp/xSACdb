@@ -4,10 +4,10 @@
 
 {% block training_content %}
 
-<div class="span9">
+<div class="col-md-12">
 {% if upcoming_sessions %}
 <p>Below are lessons you're down to teach. Select a student to see their notes.</p>
-<table class="table table-condensed table-striped">
+<table class="table table-sm table-striped">
     <tr><th>Session</th><th>Location</th><th>Notes</th><th>Your Trainees</th></tr>
 {% for session, pls in upcoming_sessions %}
     <tr>
@@ -17,7 +17,7 @@
         <td>
         	<table>{% for pl in pls %}
         	<tr>
-        		<td><a href="{% url 'TraineeNotes' pl.trainee.id %}">{{pl.trainee.get_full_name}}</a></td>
+        		<td><a href="{% url 'xsd_training:TraineeNotes' pl.trainee.id %}">{{pl.trainee.get_full_name}}</a></td>
         		<td>{{pl.lesson}}</td>
         	</tr>
         	{% endfor %}</table>

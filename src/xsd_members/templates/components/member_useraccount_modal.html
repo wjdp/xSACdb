@@ -1,43 +1,46 @@
- {% load bootstrap_toolkit %}
+{% load bootstrap3 %}
 
- <div id="member_useraccount_modal" class="modal hide {% if not account_settings_open %}fade{% endif %}" tabindex="-1" role="dialog" aria-labelledby="new_user_modalLabel" aria-hidden="true" data-backdrop="static" data-keyboard="false">
-  <div class="modal-header">
-    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-    <h3 id="new_user_modalLabel">Account Settings</h3>
-</div>
-<form action="." method="POST">
-    <div class="modal-body">
-        <div class="row-fluid">
-        <div class="span6">
+<!-- Modal -->
+<div class="modal fade" id="member_useraccount_modal" tabindex="-1" role="dialog" aria-labelledby="new_user_modalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+        <form action="." method="POST">
         {% csrf_token %}
-        {{member_useraccount_form.first_name|as_bootstrap}}
-        {{member_useraccount_form.last_name|as_bootstrap}}
+        <div class="modal-content">
+              <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+                <h4 class="modal-title" id="new_user_modalLabel">Account Settings</h4>
         </div>
-        <div class="span5">
-            <h4 class="top-header">Name</h3>
-            <p>Should only be updated if there is an error, the member's name is used for recognition across the database.</p>
+        <div class="modal-body">
+            {% if member_useraccount_form.errors %}
+                {% bootstrap_form_errors member_useraccount_form %}
+            {% endif %}
+
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-md-6">
+                        {% bootstrap_field member_useraccount_form.username %}
+                        {% bootstrap_field member_useraccount_form.new_password %}
+                    </div>
+                    <div class="col-md-6">
+                        <h5>Authentication Details</h5>
+                        <p>Email or username can be used for login, alongside Facebook connect. Usernames are either generated from Facebook profiles or randomly.</p>
+                        <p>Usernames are generally not used and can be safely left alone, they are here for debugging purposes.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+            <button type="submit" class="btn btn-primary">Save changes</button>
         </div>
         </div>
-        <div class="row-fluid">
-        <div class="span6">
-        {% csrf_token %}
-        {{member_useraccount_form.email|as_bootstrap}}
-        {{member_useraccount_form.username|as_bootstrap}}
-        {{member_useraccount_form.new_password|as_bootstrap}}
-        </div>
-        <div class="span5">
-            <h4 class="top-header">Authentication Details</h3>
-            <p>Email or username can be used for login, alongside Facebook connect. Usernames are either generated from Facebook profiles or randomly.</p>
-            <p>Usernames are generally not used and can be safely left alone, they are here for debugging purposes.</p>
-        </div>
-        </div>
-    </div>  
-<div class="modal-footer">
-    <button class="btn btn-primary" type="submit">Save Changes</button>
-</div>
-</form>
+        </form>
+  </div>
 </div>
 
+{# Repoens when there are form errors #}
 {% if account_settings_open %}
 <script type="text/javascript">
     $(window).load(function(){

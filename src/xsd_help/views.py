@@ -7,7 +7,7 @@ from django.conf import settings
 
 
 class HelpView(TemplateView):
-    template_name = 'help_page.html'
+    template_name = 'xsd_help/page.html'
     doc_path = os.path.join(settings.PROJECT_PATH, 'docs')
     menu_file = os.path.join(doc_path, 'menu.json')
 

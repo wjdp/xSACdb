@@ -14,6 +14,8 @@ urlpatterns = patterns('',
         url(r'^profile/$', 'xsd_members.views.view_my_profile', name='my-profile'),
         url(r'^profile/edit/$', MyProfileEdit.as_view(), name='MyProfileEdit'),
 
+        url(r'^profile/update/$', DynamicUpdateProfile.as_view(), name='DynamicUpdateProfile'),
+
         url(r'^$', 'xsd_members.views.admin', name='members_admin'),
 
         url(r'^search/$', MemberSearch.as_view(), name='MemberSearch'),

@@ -5,7 +5,7 @@
 {% block training_content %}
 
 <form action="" method="post">
-    <div class="span9">
+    <div class="col-md-12">
         <h1>{{ object.uid }} – Session Planning</h1>
 
         <h2>Session Details</h2>
@@ -23,13 +23,13 @@
 
         </div>
     </div>
-    <div class="span9">
+    <div class="col-md-12">
         <h2>Trainees</h2>
     </div>
     <div class="span5">
 
         {{performed_lessons_formset.management_form}}
-        <table class="table table-condensed table-striped table-session">
+        <table class="table table-sm table-striped table-session">
             <tr><th>Trainee</th><th>Lesson</th><th>Instructor</th><th></th></tr>
             {% for form in performed_lessons_formset %}
             <tr><td>{{form.id}}{{form.instance.trainee.get_full_name}}</td><td>{{form.lesson}}</td><td>{{form.instructor}}</td>
@@ -44,7 +44,7 @@
         <div class="form-actions ">
 
             <button type="submit" class="btn btn-primary alignright"><i class="fa fa-save"></i>  Save</button>
-            {% if session.in_past %}<a class="btn" href="{% url 'SessionComplete' session.pk %}"><i class="fa fa-check-square"></i> Complete Session</a>{% endif %}
+            {% if session.in_past %}<a class="btn btn-secondary" href="{% url 'xsd_training:SessionComplete' session.pk %}"><i class="fa fa-check-square"></i> Complete Session</a>{% endif %}
 
         </div>
 
@@ -60,7 +60,7 @@
         <form method="GET" action=".">
             <div class="form-horizontal">
                 {{traineegroup_select}}
-                <button type="submit" class="btn">Select</button>
+                <button type="submit" class="btn btn-secondary">Select</button>
             </div>
         </form>
     </div>

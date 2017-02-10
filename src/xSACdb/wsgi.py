@@ -1,8 +1,5 @@
 """
 WSGI config for xSACdb project.
-
-Using combined Django and Whitenoise
-
 """
 import os
 
@@ -10,8 +7,6 @@ import os
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "xSACdb.settings")
 
 from django.core.wsgi import get_wsgi_application
-from whitenoise.django import DjangoWhiteNoise
 
-# Get the application object, then pass to whitenoise for union
+# Get the application object
 application = get_wsgi_application()
-application = DjangoWhiteNoise(application)

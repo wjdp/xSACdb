@@ -4,14 +4,14 @@
 
 {% block training_content %}
 
-<div class="span9">
+<div class="col-md-12">
 <h1>Delete Session</h1>
 <form action="" method="post">{% csrf_token %}
     <p>Are you sure you want to delete the training session {{ object.uid }} at {{ object.when }} ({{ object.where }})?</p>
     {% if pls %}
     <p>If you go ahead with this you'll <strong>eradicate the record</strong> of the following {{pls.count}} lessons as they're linked to this session.</p>
 
-    <table class="table table-condensed table-striped">
+    <table class="table table-sm table-striped">
     <tr><th></th><th>Trainee</th><th>Lesson</th><th>Instructor</th><th>Completed?</th></tr>
     {% for pl in pls %}
     <tr>
@@ -31,7 +31,7 @@
     {% endif %}
     <div class="form-actions">
 	    <input type="submit" class="btn btn-danger" value="Delete (I'm SuperDuper&trade; Sure)" />
-	    <a href="{% url 'SessionList' %}"  class="btn btn-success alignright">Bugger That, Cancel</a>
+	    <a href="{% url 'xsd_training:SessionList' %}"  class="btn btn-success alignright">Bugger That, Cancel</a>
 	</div>
 </form>
 </div>

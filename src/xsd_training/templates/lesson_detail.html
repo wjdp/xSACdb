@@ -1,17 +1,19 @@
 {% extends 'training_template.html' %}
 {% block training_content %}
-<div class="span4">
-    <div class="lesson-detail">
-        <div class="lesson-code {{ lesson.qualification.code }}">{{lesson.code}}</div>
-        <h3>{{lesson.title}}</h3>
-        <p>{{lesson.description}}</p>
+<div class="col-lg-6">
+    <div class="xsd-lesson-detail xsd-lesson-detail--{{ lesson.qualification.code }}">
+        <h3>
+            <span class="xsd-lesson-code xsd-lesson-code--{{ lesson.qualification.code }}">{{ lesson.code }}</span>
+            {{ lesson.title }}
+        </h3>
+        <p>{{ lesson.description }}</p>
         <p class="mode">This is a {{lesson.get_mode_display|lower}} lesson.</p>
     </div>
 </div>
-<div class="span5">
+<div class="col-lg-6">
     {% if pls %}
         {% for pl in pls %}
-            <div class="lesson-note">
+            <div class="xsd-lesson-note">
             {% if pl.completed %}
             <h2>Lesson Completed</h2>
             <p>You completed this lesson on <strong>{{pl.get_date}}</strong>{% if pl.instructor.get_full_name%}, your instructor was <strong>{{pl.instructor.get_full_name}}</strong>{%endif%}.</p>

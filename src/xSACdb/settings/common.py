@@ -3,16 +3,24 @@
 import os
 from sys import path
 
+# Staging tag, when DEBUG is false and this true allows some unsafe behaviour.
+STAGING = False
+FAKER_LOCALE = 'en_GB'
+RANDOM_SEED = 'The quick brown fox jumped over the lazy ocean diver'
+
+# Make HTTPResponse do unicode
+DEFAULT_CHARSET = 'utf-8'
+
 ADMIN_MEDIA_PREFIX = ''
 
-GOOGLE_MAPS_API_KEY=''
+GOOGLE_MAPS_API_KEY = ''
 
 # Define project paths
-PROJECT_PATH = os.path.join(os.path.dirname(__file__),'../../..')
-SRC_PATH  = os.path.join(PROJECT_PATH, 'src')
+PROJECT_PATH = os.path.join(os.path.dirname(__file__), '../../..')
+SRC_PATH = os.path.join(PROJECT_PATH, 'src')
 LIB_PATH = os.path.join(PROJECT_PATH, 'lib')
 DIST_PATH = os.path.join(PROJECT_PATH, 'dist')
-TMP_PATH  = os.path.join(PROJECT_PATH, 'tmp')
+TMP_PATH = os.path.join(PROJECT_PATH, 'tmp')
 CONF_PATH = os.path.join(PROJECT_PATH, 'conf')
 
 # Add config dir to path
@@ -29,15 +37,17 @@ USE_I18N = True
 USE_L10N = True
 
 # If you set this to False, Django will not use timezone-aware datetimes.
-USE_TZ = True
+USE_TZ = False
 
 LOGIN_URL = '/accounts/login/'
 
 LOGIN_EXEMPT_URLS = (
- # r'^media/', # allow any URL under /media/* This has facebook avatars, so NO!
- r'^static/', # allow any URL under /static/*
- r'^facebook/', # allow any URL under /facebook/*
- r'^accounts/',
+    # r'^media/', # allow any URL under /media/* This has facebook avatars, so NO!
+    r'^static/',  # allow any URL under /static/*
+    r'^facebook/',  # allow any URL under /facebook/*
+    r'^accounts/',
+    r'^hijack/',  # have their own protection
+    r'^health/',  # Needs to be publicly accessible
 )
 
 # Absolute filesystem path to the directory that will hold user-uploaded files.
@@ -77,27 +87,46 @@ STATICFILES_DIRS = (
 STATICFILES_FINDERS = (
     'django.contrib.staticfiles.finders.AppDirectoriesFinder',
     'django.contrib.staticfiles.finders.FileSystemFinder',
-#    'django.contrib.staticfiles.finders.DefaultStorageFinder',
+    'compressor.finders.CompressorFinder',
 )
 
 # Caching for Django Whitenoise
-STATICFILES_STORAGE = 'whitenoise.django.GzipManifestStaticFilesStorage'
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+
+# django-compressor settings
+# Curly braces doubled to escape them when using str.format()
+COMPRESS_PRECOMPILERS = (
+    ('text/coffeescript', 'coffee --compile --stdio'),
+    ('text/x-sass', 'sass {{infile}} {{outfile}} --load-path {}'.format(LIB_PATH)),
+    ('text/x-scss', 'sass --scss {{infile}} {{outfile}} --load-path {}'.format(LIB_PATH)),
+)
+# Lets the compress management command do it's work
+COMPRESS_OFFLINE = True
+# Prevents rebuilds if the source is unchanged
+COMPRESS_CACHEABLE_PRECOMPILERS = (
+    'text/coffeescript',
+    'text/x-sass',
+    'text/x-scss',
+)
 
 # List of callables that know how to import templates from various sources.
 TEMPLATE_LOADERS = (
     'django.template.loaders.app_directories.Loader',
     'django.template.loaders.filesystem.Loader',
-#     'django.template.loaders.eggs.Loader',
+    #     'django.template.loaders.eggs.Loader',
 )
 
 MIDDLEWARE_CLASSES = (
+    'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
+    'debug_toolbar.middleware.DebugToolbarMiddleware',
     'reversion.middleware.RevisionMiddleware',
-    'xSACdb.middleware.LoginRequiredMiddleware'
+    'xSACdb.middleware.LoginRequiredMiddleware',
+    'xSACdb.middleware.NewbieProfileFormRedirectMiddleware',
 )
 
 TEMPLATE_CONTEXT_PROCESSORS = (
@@ -107,9 +136,8 @@ TEMPLATE_CONTEXT_PROCESSORS = (
     'django.core.context_processors.media',
     'django.contrib.messages.context_processors.messages',
     'django.core.context_processors.request',
-    'xSACdb.context_processors.menu_perms',
+    'xSACdb.context_processors.xsd_vars',
 )
-
 
 ROOT_URLCONF = 'xSACdb.urls'
 
@@ -159,14 +187,23 @@ INSTALLED_APPS = (
     'allauth.socialaccount.providers.facebook',
 
     'bootstrap_toolkit',
+    'bootstrap3',
+    'compressor',
     'tastypie',
     'geoposition',
     'reversion',
+    'django_rq',
 
     'debug_toolbar',
     'hijack',
     'compat',
     'raven.contrib.django.raven_compat',
+
+    'health_check',
+    # 'health_check_celery',
+    'health_check.db',
+    'health_check.cache',
+    'health_check.storage',
 )
 
 CACHES = {
@@ -202,12 +239,12 @@ LOGGING = {
     },
     'loggers': {
         'django.request': {
-            'handlers': ['mail_admins','console'],
+            'handlers': ['mail_admins', 'console'],
             'level': 'ERROR',
             'propagate': True,
         },
         'django_facebook.models': {
-            'handlers': ['mail_admins','console'],
+            'handlers': ['mail_admins', 'console'],
             'level': 'ERROR',
             'propagate': True,
         }
@@ -221,7 +258,13 @@ AUTH_PROFILE_MODEL = 'xsd_members.MemberProfile'
 LOGIN_REDIRECT_URL = '/'
 ACCOUNT_LOGOUT_REDIRECT_URL = '/accounts/login'
 
+ACCOUNT_AUTHENTICATION_METHOD = 'email'
 ACCOUNT_EMAIL_REQUIRED = True
+ACCOUNT_DEFAULT_HTTP_PROTOCOL = 'https'
+ACCOUNT_USERNAME_REQUIRED = False
+
+# FIXME: Deprecated - use Django's AUTH_PASSWORD_VALIDATORS instead.
+ACCOUNT_PASSWORD_MIN_LENGTH = 8
 
 SOCIALACCOUNT_FORMS = {
     'signup': 'xsd_auth.forms.SignupForm'
@@ -232,9 +275,10 @@ SOCIALACCOUNT_ADAPTER = 'xsd_auth.adapter.XSDSocialAccountAdapter'
 TEST_FIXTURES = [
     os.path.join(TMP_PATH, 'bsac_data.yaml'),
     'groups',
+    'socialapp-test',
 ]
 
-SILENCED_SYSTEM_CHECKS=['1_6.W001']
+SILENCED_SYSTEM_CHECKS = ['1_6.W001']
 
 HIJACK_NOTIFY_USER = True
 HIJACK_DISPLAY_ADMIN_BUTTON = False

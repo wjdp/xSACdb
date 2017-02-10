@@ -1,0 +1,33 @@
+.xsd-membership-status
+  padding: 0
+  list-style: none
+
+  li
+    margin-bottom: $spacer-y
+
+    h3
+      font-size: $font-size-h4
+      
+    h3, p
+      padding-left: 3rem
+
+    p
+      // keeps notes together
+      margin-bottom: 0
+
+    .xsd-membership-status__icon
+      @extend .fa, .fa-fw
+      float: left
+      font-size: 2em
+
+    &.xsd-membership-status__pass
+      .xsd-membership-status__icon
+        @extend .fa-check
+        color: $brand-success
+
+    &.xsd-membership-status__fail
+      .xsd-membership-status__icon
+        @extend .fa-exclamation-triangle
+        color: $brand-warning
+      p
+        color: $brand-danger

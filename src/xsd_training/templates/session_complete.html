@@ -2,14 +2,14 @@
 {% load staticfiles %}
 
 {% block training_content %}
-<div class="span9">
+<div class="col-md-12">
     <h1>Complete {{ session.uid }}</h1>
     <p>You are completing the session which took place on {{ session.when }} at {{ session.where }}.</p>
 </div>
 <form action="." method="POST">
 <div class="span7">
     {{performed_lessons_formset.management_form}}
-    <table class="table table-condensed table-striped table-session">
+    <table class="table table-sm table-striped table-session">
         <tr><th>Trainee</th><th>Lesson</th><th>Instructor</th><th>Completed?</th><th>Partial</th><th>Public Notes</th><th>Private Notes</th></tr>
         {% for form in performed_lessons_formset %}
         <tr><td>{{form.id}}{{form.instance.trainee.get_full_name}}</td><td>{{form.instance.lesson}}</td><td>{{form.instance.instructor.get_full_name}}</td>
@@ -45,14 +45,14 @@
 
 </div>
 {% if is_training %}
-<div class="span9 ">
+<div class="col-md-12 ">
 <div class="form-actions">
     <div class="btn-group pull-left">
-        <a class="btn" href="{% url 'SessionPlanner' session.pk %}"><i class="fa fa-remove"></i> Cancel</a>
+        <a class="btn btn-secondary" href="{% url 'xsd_training:SessionPlanner' session.pk %}"><i class="fa fa-remove"></i> Cancel</a>
     </div>
 
         <div class="btn-group pull-right">
-        <button type="submit" class="btn" name="save"><i class="fa fa-save"></i> Save Form</button>
+        <button type="submit" class="btn btn-secondary" name="save"><i class="fa fa-save"></i> Save Form</button>
         <input type="submit" class="btn btn-success" name="complete" value="Complete Session"/>
         </div>
 </div>
