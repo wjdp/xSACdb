@@ -14,6 +14,8 @@ and upgrades are also much faster.
 - Orphaned users, users without member profiles, may exist in your database due to bug #88.
   Run `manage delete_orphaned_users` in the shell to remove them. A summary of users followed by a y/n prompt will be
   presented.
+- Set the correct name and URL of your instance in /admin/sites/site/. This data is used when sending email.
+- Forgot password and password reset now need email. A valid set of SMTP credentials is now required in your config.
 
 ### Added
 - If you're using Sentry for error logging user is asked for feedback when a 500 happens.
@@ -23,6 +25,9 @@ and upgrades are also much faster.
 - Added health check page `/health/`, provides 'ready-to-go' signal for Dokku deployment.
 - Added fake data generation for staging environments. See [next.xsacdb.wjdp.uk](https://next.xsacdb.wjdp.uk). Login as
   su/su.
+- Login page now features a 'forgot password' feature.
+- Added email templates for verification and password reset. Currently only social login triggers email verification.
+  Manual signup will trigger it in the next minor.
 
 ### Changed
 - Upgraded the UI framework from Bootstrap v2 to v4, includes *significant UI improvements* especially on mobile. Some
