@@ -1,3 +1,4 @@
 WAIT=3
 ATTEMPTS=10
 /health/
+/accounts/login/
