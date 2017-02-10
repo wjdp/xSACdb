@@ -14,3 +14,6 @@ from .defaults import CLUB as CLUB_DEFAULTS
 for key, default_value in CLUB_DEFAULTS.iteritems():
     if not key in CLUB.keys():
         CLUB[key] = default_value
+
+# Dirty fixes
+ACCOUNT_EMAIL_SUBJECT_PREFIX = u'[{}] '.format(CLUB['name'])
