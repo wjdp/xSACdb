@@ -5,6 +5,8 @@
 <form action="." method="POST">
     {% csrf_token %}
 
+    {{ form.errors }}
+
 <div class="row">
 	<div class="col-md-6">
 		<div class="titlebox">
