@@ -92,6 +92,8 @@ STATICFILES_FINDERS = (
 
 # Caching for Django Whitenoise
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+# HACK: WN doesn't seem to pick up dj compressor files as forever-cacheable
+WHITENOISE_MAX_AGE = 315360000
 
 # django-compressor settings
 # Curly braces doubled to escape them when using str.format()
