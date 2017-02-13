@@ -18,7 +18,7 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='memberprofile',
             name='alergies',
-            field=models.TextField(help_text='This information is held for use by trip organisers. Please note anything                                            that would be important for both underwater activities and general trips,                                            details are held in confidence.', verbose_name='Alergies and other requiements', blank=True),
+            field=models.TextField(help_text='This information is held for use by trip organisers. Please note anything                                            that would be important for both underwater activities and general trips,                                            details are held in confidence.', verbose_name='Allergies and other requirements', blank=True),
         ),
         migrations.AlterField(
             model_name='memberprofile',
