@@ -1,4 +1,7 @@
 from __future__ import absolute_import
+
+import socket
+
 import dj_database_url
 
 # SECURITY WARNING: don't run with debug turned on in production!
@@ -16,6 +19,8 @@ else:
     RAVEN_CONFIG = {}
 
 if 'XSACDB_CONTAINER' in os.environ and os.environ['XSACDB_CONTAINER'] == 'DOCKER':
+    ALLOWED_HOSTS.append(socket.getaddrinfo(socket.gethostname(), 'http')[0][4][0])
+
     # If in a docker container, parse the database URL
     DATABASES = {
         'default': dj_database_url.parse(
