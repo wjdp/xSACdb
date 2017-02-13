@@ -10,9 +10,12 @@
     </div>
 
     <div class="xsd-module-content">
+    {# FIXME Templates do not currently have a root of row, this is a quick fix #}
+    <div class="row">
     {% block training_content %}
     No Content
     {% endblock %}
+    </div>
     </div>
 
 </div>
