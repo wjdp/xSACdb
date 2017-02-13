@@ -35,6 +35,7 @@ and upgrades are also much faster.
   areas of the site haven't quite been fully optimised for the new styling, this will come with later versions.
 - Redesigned, mobile friendly login and register pages.
 - Because we have Redis, cache backend has switched from in-memory to Redis.
+- Temporarily removed the ability to express interest in an SDC. This will be re-implemented in a later version.
 
 ### Fixed
 - Bug #88, user instances are orphaned after their member profiles are deleted. Users are now deleted at the same time.
