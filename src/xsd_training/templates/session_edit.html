@@ -5,28 +5,31 @@
 {% block training_content %}
 
 <form action="" method="post">
+    <div class="row">
     <div class="col-md-12">
         <h1>{{ object.uid }} – Session Planning</h1>
 
         <h2>Session Details</h2>
         {% csrf_token %}
         <input type="hidden" name="form_def" value="session" />
-        <div class="row-fluid">
-            <div class="span7">
+        <div class="row">
+            <div class="col-md-6">
                 {{ form.name|as_bootstrap  }}
                 {{ form.when|as_bootstrap  }}
                 {{ form.where|as_bootstrap  }}
             </div>
-            <div class="span5">
+            <div class="col-md-6">
                 {{ form.notes|as_bootstrap  }}
             </div>
 
         </div>
     </div>
-    <div class="col-md-12">
+    <div class="col-md-7">
         <h2>Trainees</h2>
     </div>
-    <div class="span5">
+    </div>
+
+    <div class="col-md-7">
 
         {{performed_lessons_formset.management_form}}
         <table class="table table-sm table-striped table-session">
@@ -52,7 +55,7 @@
     </div>
 </form>
 
-<div class="span4">
+<div class="col-md-5">
     <h3 class="no-top">Add Trainees</h3>
     <div>
         Individually
