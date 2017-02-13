@@ -1,25 +1,31 @@
-from __future__ import absolute_import
+from __future__ import absolute_import, unicode_literals
 
-from django.test import TestCase
+from allauth.account.views import password_change
+from allauth.socialaccount.views import connections
+from django.conf import settings
 from django.contrib.auth import authenticate
-import testdata
+from django.test import TestCase
+from faker import Factory
 
+from xSACdb.test_helpers import BaseTest, ViewTestMixin
 from xsd_auth.models import User
 from xsd_members.models import MemberProfile
 
 
 class UserTest(TestCase):
-    FIRST_NAME = testdata.get_name(name_count=1)
-    LAST_NAME = testdata.get_name(name_count=1)
-    EMAIL = testdata.get_email()
-    PASSWORD = testdata.get_str(128)
+    fake = Factory.create(settings.FAKER_LOCALE)
+    fake.seed(settings.RANDOM_SEED)
+    FIRST_NAME = fake.first_name()
+    LAST_NAME = fake.last_name()
+    EMAIL = fake.email()
+    PASSWORD = fake.password()
 
     def create_user(self):
         user = User.objects.create_user(
-                first_name=self.FIRST_NAME,
-                last_name=self.LAST_NAME,
-                email=self.EMAIL,
-                password=self.PASSWORD
+            first_name=self.FIRST_NAME,
+            last_name=self.LAST_NAME,
+            email=self.EMAIL,
+            password=self.PASSWORD
         )
         user.save()
         return user
@@ -81,3 +87,19 @@ class UserTest(TestCase):
     def test_unicode(self):
         user = self.create_user()
         self.assertEqual(unicode(user), user.get_full_name())
+
+
+class PasswordChangeViewTest(ViewTestMixin, BaseTest):
+    view = password_change
+    url_name = 'xsd_auth:account_change_password'
+    template_name = 'account/password_change.html'
+    allowed_unverified = True
+
+    # TODO test password change
+
+
+class SocialAccountConnectionsViewTest(ViewTestMixin, BaseTest):
+    view = connections
+    url_name = 'xsd_auth:socialaccount_connections'
+    template_name = 'socialaccount/connections.html'
+    allowed_unverified = True

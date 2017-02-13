@@ -24,6 +24,7 @@ class UserManager(UserManager):
 class User(AbstractUser):
     objects = UserManager()
 
+    # FIXME Remove
     bsac_email = models.EmailField(blank=True)
     bsac_password = models.CharField(max_length=128, blank=True)
     # Y: Success, N: Failed, A: Awaiting, N: U & P not set,
@@ -70,6 +71,7 @@ class User(AbstractUser):
             hashlib.md5(self.email).hexdigest(), size)
 
     def set_bsac_auth(email, password):
+        # FIXME Remove
         self.bsac_email = email
         self.bsac_password = password
         if email == '':

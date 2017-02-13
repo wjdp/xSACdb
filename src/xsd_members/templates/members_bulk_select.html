@@ -1,25 +1,25 @@
 {% extends 'members_template.html' %}
-{% load xsd_nav %}
+{% load bootstrap3 %}
 
 {% block members_content %}
 
 <div class="row">
-	<div class="span9">
-		{{content|safe}}
+	<div class="col-md-12">
+		{{ content|safe }}
 		<p>Type in the names below and then select them from the dropdown.</p>
 		<div class="formbox row-fluid">
 			<div class="span10">
 			{% include 'base/bulk_select_members.html' %}
 			</div>
 			<div class="span2">
-			<form action="." method="GET">
-				<input type="hidden" name="set" value="all" />
+			<form action="." method="GET" class="form-inline">
+                <input type="hidden" name="set" value="all" class="form-control" />
 				<button type="submit" class="btn btn-inverse"><i class="fa fa-circle"></i> Everybody</button>
 			</form>
 			</div>
 		</div>
-		
-		
+
+
 	</div>
 </div>
 {% endblock %}

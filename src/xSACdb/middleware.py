@@ -1,3 +1,5 @@
+from django.core.cache import cache
+from django.core.urlresolvers import reverse
 from django.http import HttpResponseRedirect
 from django.conf import settings
 from re import compile
@@ -22,3 +24,24 @@ class LoginRequiredMiddleware:
             path = request.path_info.lstrip('/')
             if not any(m.match(path) for m in EXEMPT_URLS):
                 return HttpResponseRedirect(settings.LOGIN_URL)
+
+class NewbieProfileFormRedirectMiddleware:
+    """
+    Redirect new users to the newbie form if they're missing details from
+    their profile.
+    """
+    def process_request(self, request):
+        assert hasattr(request, 'user')
+
+        CACHE_KEY = 'newbie_form_bypass_{}'.format(request.user.pk)
+        path = request.path_info.lstrip('/')
+
+        if cache.get(CACHE_KEY) == True or any(m.match(path) for m in EXEMPT_URLS):
+            return
+
+        if (request.user.is_authenticated() and request.user.memberprofile.get_missing_field_list() != []):
+            newbie_form_url = reverse('xsd_members:DynamicUpdateProfile')
+            if request.path_info != newbie_form_url:
+                return HttpResponseRedirect(newbie_form_url)
+        else:
+            cache.set(CACHE_KEY, True, 3600)

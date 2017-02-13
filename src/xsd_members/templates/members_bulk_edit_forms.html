@@ -1,14 +1,14 @@
 {% extends 'members_template.html' %}
 {% block members_content %}
 <div class="row">
-<div class="span9">
+<div class="col-md-12">
 	<p>Please enter the new expiry dates for the forms you wish to add. To not include a form leave that field blank. Dates must be in the format <strong>DD/MM/YYYY</strong>.</p>
 	<p>The fill <i class="fa fa-arrows" /></i> button copies all the values in that row into all rows.</p>
 	<form action="." method="POST">
 		{{ formset.management_form }}
 		<input type="hidden" name="userset" value="{{userset}}" />
 		{% csrf_token %}
-<table class="table table-condensed table-striped">
+<table class="table table-sm table-striped">
 	<tr><th>Name</th><th>Club Expiry</th><th>BSAC Expiry</th><th>Medical Form Expiry</th><th>Fill</th></tr>
 {% for form in formset %}
 		<tr>{{form.member_id}}

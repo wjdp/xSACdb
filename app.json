@@ -1,0 +1,8 @@
+{
+  "name": "xSACdb",
+  "scripts": {
+    "dokku": {
+      "predeploy": "/app/bin/predeploy.sh"
+    }
+  }
+}

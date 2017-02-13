@@ -132,14 +132,14 @@ class PerformedSDCComplete(RequireTrainingOfficer,DetailView):
                 psdc.trainees.remove(trainee)
         psdc.completed=True
         psdc.save()
-        return redirect(reverse('PerformedSDCList'))
+        return redirect(reverse('xsd_training:PerformedSDCList'))
 
 
 class PerformedSDCDelete(RequireTrainingOfficer,DeleteView):
     model=PerformedSDC
     template_name='performedsdc_delete.html'
     context_object_name='psdc'
-    success_url = reverse_lazy('PerformedSDCList')
+    success_url = reverse_lazy('xsd_training:PerformedSDCList')
 
 @require_training_officer
 def SDCAward(request):

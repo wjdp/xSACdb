@@ -3,13 +3,12 @@
 
 {% block about_content %}
 <div class="row">
-	<div class="span3">
-		<img src="{% static 'images/fun/protect-and-serve.jpg' %}" alt="Database Officers: To Protect and Serve" />
+	<div class="col-md-4">
 		<p>Officers are assigned roles on the {{l10n_club.name}} database, they have additional privileges on this site. Usually database officers are members of the committee.</p>
 		<p>Names may appear under multiple ranks</p>
 	</div>
 
-	<div class="span3 roles">
+	<div class="col-md-4 roles">
 		<h4>Administrators</h4>
 		<p>Can do pretty much everything.</p>
 		<ul class="formatted">{% for u in admins %}<li>{{u.get_full_name}}</li>{% endfor %}</ul>
@@ -23,7 +22,7 @@
 		<p>Can view member training records, can do a lot of stuff to do with training (lessons, qualifications etc).</p>
 		<ul class="formatted">{% for u in tos %}<li>{{u.get_full_name}}</li>{% endfor %}</ul>
 	</div>
-	<div class="span3 roles">
+	<div class="col-md-4 roles">
 		<h4>Instructors</h4>
 		<p>Can view training records and trainee notes.</p>
 		<ul class="formatted">{% for u in instructors %}<li>{{u.get_full_name}}</li>{% endfor %}</ul>

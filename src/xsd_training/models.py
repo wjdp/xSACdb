@@ -178,7 +178,7 @@ class PerformedSDC(models.Model):
             return "{} @ TBD".format(self.sdc)
 
     def get_absolute_url(self):
-        return reverse('PerformedSDCDetail', kwargs={'pk': self.pk})
+        return reverse('xsd_training:PerformedSDCDetail', kwargs={'pk': self.pk})
 
 @reversion.register()
 class Session(models.Model):
@@ -197,7 +197,7 @@ class Session(models.Model):
             return "{} {} at {}".format(self.uid(), self.when.strftime('%a %d %b %Y %H:%M'), self.where)
 
     def get_absolute_url(self):
-        return reverse('SessionPlanner', kwargs={'pk': self.pk})
+        return reverse('xsd_training:SessionPlanner', kwargs={'pk': self.pk})
 
     def uid(self):
         return "S{:0>4d}".format(self.pk)
@@ -239,7 +239,7 @@ class TraineeGroup(models.Model):
     def trainees_list_with_links(self):
         ret=''
         for t in self.trainees.all().order_by(self.TRAINEE_ORDER_BY):
-            ret += '<a href=\"' + reverse('TraineeNotes', kwargs={'pk':t.pk}) + '\">' + \
+            ret += '<a href=\"' + reverse('xsd_training:TraineeNotes', kwargs={'pk':t.pk}) + '\">' + \
                 t.get_full_name() + '</a>, '
         return ret[:-2]
 

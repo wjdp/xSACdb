@@ -3,7 +3,7 @@
 
 {% block members_content %}
 
-<div class="span9">
+<div class="col-md-12">
 <h1>Delete Member: {{member.get_full_name}}</h1>
 <form action="" method="post">{% csrf_token %}
     <p>Are you sure you want to delete this member?</p>
@@ -19,7 +19,7 @@
 
     <div class="form-actions">
 	    <input type="submit" class="btn btn-danger" value="Delete (I'm SuperDuper&trade; Sure)" />
-	    <a href="{% url 'MemberDetail' member.pk %}"  class="btn btn-success alignright">Bugger That, Cancel</a>
+	    <a href="{% url 'xsd_members:MemberDetail' member.pk %}"  class="btn btn-success alignright">Bugger That, Cancel</a>
 	</div>
 </form>
 </div>

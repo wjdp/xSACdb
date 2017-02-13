@@ -22,7 +22,7 @@ class TraineeGroupList(RequireTrainingOfficer,ListView):
 class TraineeGroupCreate(RequireTrainingOfficer,CreateView):
     model=TraineeGroup
     template_name='traineegroup_create.html'
-    success_url = reverse_lazy('TraineeGroupList')
+    success_url = reverse_lazy('xsd_training:TraineeGroupList')
 
     # To fix "Django Using ModelFormMixin (base class of CreateUserView) without the 'fields' attribute is prohibited."
     # See #139 Creating new training groups fails
@@ -32,7 +32,7 @@ class TraineeGroupUpdate(RequireTrainingOfficer,DetailView):
     model=TraineeGroup
     template_name='traineegroup_update.html'
     context_object_name='tg'
-    success_url = reverse_lazy('TraineeGroupList')
+    success_url = reverse_lazy('xsd_training:TraineeGroupList')
 
     def get_context_data(self, **kwargs):
         context = super(TraineeGroupUpdate, self).get_context_data(**kwargs)
@@ -57,7 +57,7 @@ class TraineeGroupDelete(RequireTrainingOfficer,DeleteView):
     model=TraineeGroup
     template_name='traineegroup_delete.html'
     context_object_name='tg'
-    success_url = reverse_lazy('TraineeGroupList')
+    success_url = reverse_lazy('xsd_training:TraineeGroupList')
 
 # RequireTrainingOfficer is inherited
 class TraineeGroupProgress(TraineeGroupList):

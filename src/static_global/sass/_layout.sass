@@ -1,0 +1,43 @@
+body
+  padding-top: 54px
+  overflow-y: scroll
+
+.xsd-application-container
+  @extend .container
+  padding-top: 1rem
+
+.xsd-module-row
+  @include make-row
+
+.xsd-module-nav
+  // On mobile the app and module navs are combined
+  display: none
+  @include media-breakpoint-up(md)
+    display: block
+
+.xsd-module-nav--help
+  @include media-breakpoint-down(sm)
+    display: block
+    @include make-col(12)
+
+.xsd-module-content
+  @include make-col(12)
+
+  // Margin fix for mobile
+  @include media-breakpoint-down(sm)
+    padding: 0 15px // FIXME should be based on BS4 var, cba to find right now
+
+@include media-breakpoint-up(md)
+  .xsd-module-nav
+    @include make-col(4)
+  .xsd-module-content
+    @include make-col(8)
+
+@include media-breakpoint-up(lg)
+  .xsd-module-nav
+    @include make-col(3)
+  .xsd-module-content
+    @include make-col(9)
+
+.xsd-module-content__inner
+  @include make-row

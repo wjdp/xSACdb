@@ -4,7 +4,7 @@
 
 {% block training_content %}
 
-<div class="span9">
+<div class="col-md-12">
 	<p>Search by either first or last names.</p>
 	<div class="formbox">
 		<form action="." method="GET">
@@ -16,12 +16,12 @@
 		</form>
 	</div>
 	{% if trainees %}
-	<table class="table table-condensed table-striped">
+	<table class="table table-sm table-striped">
 		<tr><th>Name</th><th>Qualification</th></tr>
 
 		{% for trainee in trainees %}
 		<tr>
-			<td><a href="{% url 'TraineeNotes' trainee.pk %}">{{trainee.first_name}} <strong>{{trainee.last_name}}</strong></a></td>
+			<td><a href="{% url 'xsd_training:TraineeNotes' trainee.pk %}">{{trainee.first_name}} <strong>{{trainee.last_name}}</strong></a></td>
 			<td>{%if trainee.memberprofile.top_qual != None %}{{trainee.memberprofile.top_qual}}{% endif %}</td>
 		</tr>
 		{% endfor %}

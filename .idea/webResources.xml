@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="WebResourcesPaths">
+    <contentEntries>
+      <entry url="file://$PROJECT_DIR$">
+        <entryData>
+          <resourceRoots>
+            <path value="file://$PROJECT_DIR$/src/static_global/images" />
+            <path value="file://$PROJECT_DIR$/src/xsd_about/static/images" />
+            <path value="file://$PROJECT_DIR$/src/xsd_frontend/static/images" />
+            <path value="file://$PROJECT_DIR$/src/xsd_members/static/images" />
+            <path value="file://$PROJECT_DIR$/src/xsd_sites/static/images" />
+            <path value="file://$PROJECT_DIR$/src/xsd_training/static/images" />
+          </resourceRoots>
+        </entryData>
+      </entry>
+    </contentEntries>
+  </component>
+</project>

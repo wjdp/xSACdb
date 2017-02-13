@@ -4,6 +4,48 @@ All notable changes to this project will be documented in this file. Notes shoul
 xSACdb instances. This project will soon adhere to [Semantic Versioning](http://semver.org/).
 
 
+## [0.2.0] - Unreleased
+
+Using Docker/Dokku support added in 0.1.0 we are recommending that all deployments of xSACdb are done via a Dokku
+server. This ensures that your production environment is identical to that used in development and testing. Deployments
+and upgrades are also much faster.
+
+### Upgrade
+- Upgrade notes will now pertain to Dokku installations.
+- Orphaned users, users without member profiles, may exist in your database due to bug #88.
+  Run `manage delete_orphaned_users` in the shell to remove them. A summary of users followed by a y/n prompt will be
+  presented.
+- Set the correct name and URL of your instance in /admin/sites/site/. This data is used when sending email.
+- Forgot password and password reset now need email. A valid set of SMTP credentials is now required in your config.
+
+### Added
+- If you're using Sentry for error logging user is asked for feedback when a 500 happens.
+- Added task runner support. You now need to run some task runners and a task scheduler alongside the server.
+  This depends on Redis, a Redis server is needed and must be configured in local_settings.py for bare installs.
+- Added styling to the application shell.
+- Added health check page `/health/`, provides 'ready-to-go' signal for Dokku deployment.
+- Added fake data generation for staging environments. See [next.xsacdb.wjdp.uk](https://next.xsacdb.wjdp.uk). Login as
+  su/su.
+- Login page now features a 'forgot password' feature.
+- Added email templates for verification and password reset. Currently only social login triggers email verification.
+  Manual signup will trigger it in the next minor.
+
+### Changed
+- Upgraded the UI framework from Bootstrap v2 to v4, includes *significant UI improvements* especially on mobile. Some
+  areas of the site haven't quite been fully optimised for the new styling, this will come with later versions.
+- Redesigned, mobile friendly login and register pages.
+- Because we have Redis, cache backend has switched from in-memory to Redis.
+- Temporarily removed the ability to express interest in an SDC. This will be re-implemented in a later version.
+
+### Fixed
+- Bug #88, user instances are orphaned after their member profiles are deleted. Users are now deleted at the same time.
+
+## Development
+- Tests have been optimised and now utilise the Faker library with a predefined seed to reliably generate test data.
+- Added PyCharm configuration
+- Added automatic deployment to next.xsacdb.wjdp.uk from development branch via CI job.
+
+
 ## [0.1.2] - 2016-07-05
 
 ### Changed
@@ -62,6 +104,7 @@ Please note the `./manage.py` command has changed to `src/manage.py`
 - Fixed: Member profile fields allergies, veggie and other_qualifications added to detail and edit pages. Bug fixed where
   they were previously cleared by member updates. Will require manual data fixing.
 
+
 ## [nu-8] - 2015-03-28
 
 [enhancement] Data structure re-jigging, allows upgrade of third-party background bits and skeleton members
@@ -90,14 +133,17 @@ Please note the `./manage.py` command has changed to `src/manage.py`
 [feature] Can have multiple lessons per trainee per session. Works on individual and group selections. Trainees in session list are now sorted by last name. (Trainees added individually cannot be added multiple times in the same selection, the process must be repeated.)
 [bug] Deleting member present in a session without assigned lessons caused server error
 
+
 ## [nu-6] - 2014-10-27
 
 [enhancement] Internal project refactoring
+
 
 ## [nu-5] - 2014-10-14
 
 [bug] Facebook app id failure
 [bug] Some views failed to load during permissions checking
+
 
 ## [nu-4] - 2014-09-28
 
@@ -106,9 +152,11 @@ Please note the `./manage.py` command has changed to `src/manage.py`
 [enhancement] Clean up bulk add forms
 [enhancement] Clean up qualification award
 
+
 ## [nu-3] - 2014-09-26
 
 [bug] SiteForm missing from VC
+
 
 ## [nu-2] - 2014-09-26
 
@@ -117,6 +165,7 @@ Please note the `./manage.py` command has changed to `src/manage.py`
 [feature] Version numbering, inline with VC tags
 [enhancement] Some site fields are now multiline
 [bug] SDC icons displaying incorrectly
+
 
 ## [nu-1] ~ 2014-09-25
 

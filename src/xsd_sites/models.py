@@ -12,8 +12,8 @@ SITE_TYPES = [
 
 @reversion.register()
 class Site(models.Model):
-    name=models.CharField(max_length=40)
-    type=models.CharField(max_length=2, choices = SITE_TYPES)
+    name=models.CharField(max_length=128)
+    type=models.CharField(max_length=8, choices = SITE_TYPES)
     address=models.TextField(blank=True)
     location=GeopositionField(blank=True, null=True)
     phone=models.CharField(max_length=20, blank=True)

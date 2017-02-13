@@ -1,12 +1,12 @@
 {% if sites %}
-<table class="table table-condensed table-striped">
+<table class="table table-sm table-striped">
 	<tr><th></th></th><th>Name</th><th>Actions</th></tr>
 {% for site in sites %}
 	<tr>
         <td>{{ site.uid }}</td>
 		<td>{{ site.name }}</a></td>
-		<td>View <a href="{% url 'SiteUpdate' site.pk %}">Edit</a> Delete</td>
-		
+		<td>View <a href="{% url 'xsd_sites:SiteUpdate' site.pk %}">Edit</a> Delete</td>
+
 		</tr>
 {% endfor %}
 </table>

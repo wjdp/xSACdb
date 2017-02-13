@@ -1,32 +1,123 @@
-image: wjdp/flatcar
+image: wjdp/xsacdb-image:v0.2.0-4
 
-services:
-  - postgres
+variables:
+  POSTGRES_DB: xsacdb
+  POSTGRES_USER: runner
+  POSTGRES_PASSWORD: ""
 
 before_script:
-  - virtualenv env
-  - source env/bin/activate
-  - pip install -qr requirements.txt
+  - locale
+  - export XSACDB_ENVIRONMENT=TEST
 
 stages:
+  - prepare
+  - build
   - test
+  - deploy
 
-django-check:
-  stage: test
+pip:
+  stage: prepare
+  script:
+    - virtualenv env
+    - source env/bin/activate
+    - pip install -r requirements.txt
+  cache:
+    paths:
+      - env/
+  artifacts:
+    paths:
+      - env/
   tags:
     - docker
+
+bower:
+  stage: prepare
+  script:
+    - bower install --allow-root
+    - rm -rf lib/tether/examples
+  cache:
+    paths:
+      - lib/
+  artifacts:
+    paths:
+      - lib/
+  tags:
+    - docker
+
+data:
+  stage: prepare
+  script:
+    - mkdir tmp
+    - curl $BSAC_DATA > tmp/bsac_data.yaml
+  artifacts:
+    paths:
+      - tmp/bsac_data.yaml
+  tags:
+    - docker
+
+check:
+  stage: build
   script:
     - source env/bin/activate
     - src/manage.py check
-
-django-test:
-  stage: test
   tags:
     - docker
+
+static:
+  stage: build
+  services:
+    - postgres:latest
+    - redis:latest
   script:
-    - bower install -q --allow-root
-    - mkdir tmp
-    - wget $BSAC_DATA -O tmp/bsac_data.yaml
     - source env/bin/activate
     - src/manage.py collectstatic --noinput
+    - src/manage.py compress
+  artifacts:
+    paths:
+      - dist/
+  tags:
+    - docker
+
+test:
+  stage: test
+  services:
+    - postgres:latest
+    - redis:latest
+  script:
+    - source env/bin/activate
+    - src/manage.py migrate
     - src/manage.py test xSACdb xsd_about xsd_auth xsd_frontend xsd_help xsd_kit xsd_members xsd_sites xsd_training xsd_trips
+  tags:
+    - docker
+
+deploy-current:
+  stage: deploy
+  only:
+    - master
+  script:
+    - mkdir -p ~/.ssh
+    - echo "$SSH_PRIVATE_KEY" | tr -d '\r' > ~/.ssh/id_rsa && chmod 600 ~/.ssh/id_rsa
+    - ssh-keyscan -H "$DEPLOY_HOST" >> ~/.ssh/known_hosts
+    - git branch && git branch -D master && git checkout -b master
+    - git push dokku@$DEPLOY_HOST:xsacdb-current master -f
+  environment:
+    name: xsacdb-current
+    url: https://current.xsacdb.wjdp.uk
+  tags:
+    - docker
+
+deploy-next:
+  stage: deploy
+  only:
+    - develop
+  script:
+    - mkdir -p ~/.ssh
+    - echo "$SSH_PRIVATE_KEY" | tr -d '\r' > ~/.ssh/id_rsa && chmod 600 ~/.ssh/id_rsa
+    - ssh-keyscan -H "$DEPLOY_HOST" >> ~/.ssh/known_hosts
+    - git branch && git branch -D master && git checkout -b master
+    - git push dokku@$DEPLOY_HOST:xsacdb-next master -f
+  environment:
+    name: xsacdb-next
+    url: https://next.xsacdb.wjdp.uk
+  tags:
+    - docker

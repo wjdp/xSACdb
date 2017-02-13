@@ -1,6 +1,6 @@
 # Version file, currently manually updated
 
 VERSION = {
-    'tag': '0.1.2',
-    'released': '2016-07-05',
+    'tag': '0.2.0',
+    'released': '2017-02-13',
 }

@@ -1,0 +1,42 @@
+.xsd-messages
+
+.xsd-messages__list
+  list-style: none
+  padding: 0
+  // app container deals with having a block of nav above it, don't need more padding
+  margin-bottom: 0
+
+.xsd-messages__message-inner
+  @include make-container
+  @include make-container-max-widths
+  padding-top: 0.1em
+  padding-bottom: 0.1em
+
+  color: white
+  font-weight: bold
+
+
+.xsd-messages__message-icon
+  @extend .fa, .fa-fw
+
+.xsd-messages__message--debug
+  background: #000
+  color: lime
+  .xsd-messages__message-icon
+    @extend .fa-bug
+.xsd-messages__message--info
+  background: $brand-info
+  .xsd-messages__message-icon
+    @extend .fa-info-circle
+.xsd-messages__message--success
+  background: $brand-success
+  .xsd-messages__message-icon
+    @extend .fa-check
+.xsd-messages__message--warning
+  background: $brand-warning
+  .xsd-messages__message-icon
+    @extend .fa-exclamation-triangle
+.xsd-messages__message--error
+  background: $brand-danger
+  .xsd-messages__message-icon
+    @extend .fa-times

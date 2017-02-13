@@ -13,19 +13,22 @@ Current Limitations
 
 Install
 -------
-xSACdb is a Python web application, it is built on the Django web framework. You can run it on any Linux/Mac and even Windows based system. You'll also need a Postgres database server. A better alternative offering quicker install and rapid upgrades is using Docker/dokku, see section below.
+xSACdb is a Python web application, it is built on the Django web framework. Its runs on Linux servers. You'll also need a Postgres and Redis servers. A better alternative offering quicker install and rapid upgrades is using Docker/dokku, see section below.
 
 If you're unfamiliar with running Python web services have a read up on those first. xSACdb runs it's own web server which you then proxy access to using Apache/Nginx or some other public facing web server. You'll need to serve static files with your own web server.
 
-I recommend installing in a virtualenv container, this isolates the dependencies of xSACdb from the rest of your server. If you know what you're doing this'll get you up and running quickly (config needs doing first):
+You will need to make a copy of `conf/local_settings.py.example` as `conf/local_settings.py` and define your environment settings and club localisation options. In order to specify production XSACDB_ENVIRONMENT should be set to PRODUCTION.
+
+Install within a virtualenv container, this isolates the dependencies of xSACdb from the rest of your server. If you know what you're doing this'll get you up and running quickly (config needs doing first):
 
     pip install -r requirements.txt
+    ./manage.py compress
     ./manage.py collectstatic
     ./manage.py migrate
     ./manage.py createsuperuser
     ./manage.py runserver
 
-You will need to make a copy of `conf/local_settings.py.example` as `conf/local_settings.py` and define your environment settings and club localisation options. In order to specify production XSACDB_ENVIRONMENT should be set to PRODUCTION.
+You'll also need to run some background task workers with `src/manage.py rqworker` and a scheduler `src/manage.py rqscheduler`.
 
 It is advised to have a read through of the deployment checklist: https://docs.djangoproject.com/en/dev/howto/deployment/checklist/ before providing public access to the application.
 
@@ -36,14 +39,27 @@ The application is distributed without any qualifications, lessons or SDCs. I've
 Dokku Config
 ------------
 
-An alternative to building the environment needed to run the application is to run it within a predefined Docker container. See http://dokku.viewdocs.io/dokku/ for details about setting up a Dokku server. Run the following on the remote, add config files to `/storage/xsacdb/conf` then push the code to deploy the application.
+An alternative to building the environment needed to run the application is to run it within a predefined Docker container. See http://dokku.viewdocs.io/dokku/ for details about setting up a Dokku server. Run the following on the remote, add config files to `/storage/xsacdb/conf`.
 
 ```
 dokku apps:create xsacdb
 dokku plugin:install https://github.com/dokku/dokku-postgres.git
 dokku postgres:create xsacdb
 dokku postgres:link xsacdb xsacdb
+dokku plugin:install https://github.com/dokku/dokku-redis.git redis
+dokku redis:create xsacdb
+dokku redis:link xsacdb xsacdb
 mkdir -p /storage/xsacdb/conf /storage/xsacdb/media
 dokku storage:mount xsacdb /storage/xsacdb/conf/:/app/conf/
 dokku storage:mount xsacdb /storage/xsacdb/media/:/app/media/
+```
+
+Now on your local machine: obtain the code, add your dokku server as a git remote, and push to deploy.
+
+```
+git clone git@git.fullaf.com:wjdp/xsacdb.git
+cd xsacdb
+git checkout master
+git remote add deploy dokku@YOUR_DOKKU_SERVER:xsacdb
+git push deploy master
 ```

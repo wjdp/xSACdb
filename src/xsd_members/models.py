@@ -1,24 +1,34 @@
 from __future__ import unicode_literals
 
+import random
+import warnings
 from datetime import date
 
-from django.db import models
+from django import forms
 from django.conf import settings
-from django.core.exceptions import ObjectDoesNotExist
 from django.core.urlresolvers import reverse
-
+from django.db import models
 from reversion import revisions as reversion
 
-from xsd_training.models import PerformedLesson
 from xSACdb.data_helpers import disable_for_loaddata
+from xsd_training.models import PerformedLesson
+
+
+class DateOfBirthField(models.DateField):
+    def formfield(self, **kwargs):
+        defaults = {'form_class': forms.CharField}
+        defaults.update(**kwargs)
+        return super(DateOfBirthField, self).formfield(**defaults)
+
 
 class MemberProfileManager(models.Manager):
     def all(self):
         # Filtering is applied here to hide 'hidden' users
         return super(MemberProfileManager, self).all().exclude(hidden=True)
-    
+
     def all_actual(self):
         return super(MemberProfileManager, self).all()
+
 
 @reversion.register()
 class MemberProfile(models.Model):
@@ -28,11 +38,30 @@ class MemberProfile(models.Model):
 
     objects = MemberProfileManager()
 
+    # Fields to ensure we have, will present member with form to fill in on login. Can be added to without breaking
+    # things on upgrade.
+    REQUIRED_FIELDS = (
+        'date_of_birth',
+        'gender',
+        'address',
+        'postcode',
+        'home_phone',
+        'mobile_phone',
+        'next_of_kin_name',
+        'next_of_kin_relation',
+        'next_of_kin_phone',
+    )
+    # Fields shown with above, but as can be blank we can't require them
+    OPTIONAL_FIELDS = (
+        'veggie',
+        'alergies',
+    )
+
     class Meta:
         ordering = ['last_name', 'first_name']
 
     user = models.OneToOneField(settings.AUTH_USER_MODEL, null=True,
-        blank=True)
+                                blank=True)
 
     # Used to hide admin users
     hidden = models.BooleanField(default=False)
@@ -40,10 +69,18 @@ class MemberProfile(models.Model):
     # Not really sure if this is needed?
     token = models.CharField(max_length=150, blank=True)
 
-    new = models.BooleanField(default=True)
-
     # This is being used to 'approve' new members
     new_notify = models.BooleanField(default=True)
+
+    @property
+    def verified(self):
+        return not self.new_notify
+
+    def approve(self):
+        """
+        Set whatever property we need to approve this member.
+        """
+        self.new_notify = False
 
     # Migrated from user model
     first_name = models.CharField(max_length=30)
@@ -60,34 +97,46 @@ class MemberProfile(models.Model):
     home_phone = models.CharField(max_length=20, blank=True)
     mobile_phone = models.CharField(max_length=20, blank=True)
 
-    next_of_kin_name = models.CharField(max_length=40, blank=True)
+    next_of_kin_name = models.CharField(max_length=40, blank=True,
+                                        help_text="For an sport such as diving the practical activities involve some \
+                                        level of risk, as such <strong>next of kin</strong> details are kept in case of\
+                                         emergency. This data is only accessed when required. It will be taken in paper\
+                                         form on trips.")
     next_of_kin_relation = models.CharField(max_length=20, blank=True)
     next_of_kin_phone = models.CharField(max_length=20, blank=True)
 
-    veggie = models.BooleanField(default=False, verbose_name='Vegetarian')
-    alergies = models.TextField(blank=True, verbose_name='Alergies and other requiements')
+    veggie = models.BooleanField(default=False, verbose_name='Vegetarian', help_text="Gives an indication to trip \
+                                                                            organisers for food requirements.")
+    # FIXME spelling
+    alergies = models.TextField(blank=True, verbose_name='Allergies and other requirements',
+                                help_text="This information is held for use by trip organisers. Please note anything \
+                                           that would be important for both underwater activities and general trips, \
+                                           details are held in confidence.")
 
-    qualifications=models.ManyToManyField('xsd_training.Qualification', blank=True)
-    training_for=models.ForeignKey('xsd_training.Qualification', blank=True, null=True, related_name='q_training_for')
-    sdcs=models.ManyToManyField('xsd_training.SDC', blank=True)
-    instructor_number=models.IntegerField(blank=True, null=True)
+    qualifications = models.ManyToManyField('xsd_training.Qualification', blank=True)
+    training_for = models.ForeignKey('xsd_training.Qualification', blank=True, null=True, related_name='q_training_for')
+    sdcs = models.ManyToManyField('xsd_training.SDC', blank=True)
+    instructor_number = models.IntegerField(blank=True, null=True)
 
-    student_id=models.IntegerField(blank=True, null=True)
+    student_id = models.IntegerField(blank=True, null=True)
 
-    associate_id=models.IntegerField(blank=True, null=True)
-    associate_expiry=models.DateField(blank=True, null=True)
+    associate_id = models.IntegerField(blank=True, null=True)
+    associate_expiry = models.DateField(blank=True, null=True)
 
-    club_id=models.IntegerField(blank=True, null=True)
-    club_expiry=models.DateField(blank=True, null=True)
-    club_membership_type=models.ForeignKey('MembershipType', blank=True, null=True)
+    club_id = models.IntegerField(blank=True, null=True)
+    club_expiry = models.DateField(blank=True, null=True)
+    club_membership_type = models.ForeignKey('MembershipType', blank=True, null=True)
 
-    bsac_id=models.IntegerField(blank=True, null=True, verbose_name=u'BSAC ID')
-    bsac_expiry=models.DateField(blank=True, null=True, verbose_name=u'BSAC Expiry')
-    bsac_direct_member=models.BooleanField(default=False, verbose_name=u'BSAC Direct Member', help_text='Adjusts the wording presented to the member when BSAC expires.')
-    bsac_member_via_another_club=models.BooleanField(default=False, verbose_name=u'BSAC member via another club', help_text='Adjusts the wording presented to the member when BSAC expires.' )
-    bsac_direct_debit=models.BooleanField(default=False, verbose_name=u'BSAC Direct Debit')
+    bsac_id = models.IntegerField(blank=True, null=True, verbose_name=u'BSAC ID')
+    bsac_expiry = models.DateField(blank=True, null=True, verbose_name=u'BSAC Expiry')
+    bsac_direct_member = models.BooleanField(default=False, verbose_name=u'BSAC Direct Member',
+                                             help_text='Adjusts the wording presented to the member when BSAC expires.')
+    bsac_member_via_another_club = models.BooleanField(default=False, verbose_name=u'BSAC member via another club',
+                                                       help_text='Adjusts the wording presented to the member when \
+                                                       BSAC membership expires.')
+    bsac_direct_debit = models.BooleanField(default=False, verbose_name=u'BSAC Direct Debit')
 
-    medical_form_expiry=models.DateField(blank=True, null=True)
+    medical_form_expiry = models.DateField(blank=True, null=True)
 
     other_qualifications = models.TextField(blank=True)
 
@@ -95,17 +144,19 @@ class MemberProfile(models.Model):
         return self.first_name + " " + self.last_name
 
     def get_absolute_url(self):
-        return reverse('MemberDetail', kwargs={'pk': self.pk})
+        return reverse('xsd_members:MemberDetail', kwargs={'pk': self.pk})
 
     def uid(self):
         return "M{:0>4d}".format(self.pk)
 
-    top_qual_cached = models.ForeignKey('xsd_training.Qualification', blank=True, null=True, related_name='top_qual_cached')
-    def top_qual(self, nocache = False):
+    top_qual_cached = models.ForeignKey('xsd_training.Qualification', blank=True, null=True,
+                                        related_name='top_qual_cached')
+
+    def top_qual(self, nocache=False):
         if nocache:
-            if self.qualifications.count()==0: return None
-            q=self.qualifications.all().exclude(instructor_qualification=True)
-            c=q.count()-1
+            if self.qualifications.count() == 0: return None
+            q = self.qualifications.all().exclude(instructor_qualification=True)
+            c = q.count() - 1
             if c >= 0:
                 return q[c]
             else:
@@ -113,20 +164,23 @@ class MemberProfile(models.Model):
         else:
             return self.top_qual_cached
 
-    top_instructor_qual_cached = models.ForeignKey('xsd_training.Qualification', blank=True, null=True, related_name='top_instructor_qual_cached')
-    def top_instructor_qual(self, nocache = False):
+    top_instructor_qual_cached = models.ForeignKey('xsd_training.Qualification', blank=True, null=True,
+                                                   related_name='top_instructor_qual_cached')
+
+    def top_instructor_qual(self, nocache=False):
         if nocache:
-            q=self.qualifications.all().filter(instructor_qualification=True)
-            if q.count()==0: return None
-            c=q.count()-1
+            q = self.qualifications.all().filter(instructor_qualification=True)
+            if q.count() == 0: return None
+            c = q.count() - 1
             return q[c]
         else:
             return self.top_instructor_qual_cached
 
     is_instructor_cached = models.NullBooleanField(default=None, blank=True)
-    def is_instructor(self, nocache = False):
+
+    def is_instructor(self, nocache=False):
         if nocache:
-            if self.top_instructor_qual()==None:
+            if self.top_instructor_qual() == None:
                 # No instructor quals, not an instructor
                 return False
             else:
@@ -136,32 +190,46 @@ class MemberProfile(models.Model):
             return self.is_instructor_cached
 
     def club_expired(self):
-        if self.club_expiry==None or self.club_expiry <= date.today(): return True
-        else: return False
+        if self.club_expiry == None or self.club_expiry <= date.today():
+            return True
+        else:
+            return False
+
     def bsac_expired(self):
-        if self.bsac_expiry==None or self.bsac_expiry <= date.today(): return True
-        else: return False
+        if self.bsac_expiry == None or self.bsac_expiry <= date.today():
+            return True
+        else:
+            return False
+
     def medical_form_expired(self):
-        if self.medical_form_expiry==None or self.medical_form_expiry <= date.today(): return True
-        else: return False
+        if self.medical_form_expiry == None or self.medical_form_expiry <= date.today():
+            return True
+        else:
+            return False
+
     def membership_problem(self):
         if self.club_expired() or self.bsac_expired() or self.medical_form_expired():
             return True
-        else: return False
+        else:
+            return False
+
     def no_expiry_data(self):
-        if self.club_expiry==None and self.bsac_expiry==None and self.medical_form_expiry==None:
+        if self.club_expiry == None and self.bsac_expiry == None and self.medical_form_expiry == None:
             return True
-        else: return False
+        else:
+            return False
+
     def performed_lesson_ramble(self):
         # TODO: A good comment here would be ideal!
         pls = PerformedLesson.objects.get_lessons(trainee=self)
         ret = ''
         for pl in pls:
             if pl.lesson:
-                ret += pl.lesson.code+' - '+str(pl.date)+'<br />'
-        return ret[:len(ret)-6]
+                ret += pl.lesson.code + ' - ' + str(pl.date) + '<br />'
+        return ret[:len(ret) - 6]
 
-    PERSONAL_FIELDS = ['address','postcode','home_phone','mobile_phone','next_of_kin_name','next_of_kin_relation','next_of_kin_phone']
+    PERSONAL_FIELDS = ['address', 'postcode', 'home_phone', 'mobile_phone', 'next_of_kin_name', 'next_of_kin_relation',
+                       'next_of_kin_phone']
 
     def missing_personal_details(self):
         """If missing any personal details, flag up"""
@@ -179,10 +247,10 @@ class MemberProfile(models.Model):
         """Calculate age, we ignore leap days/seconds etc and just
         work out the 'social' age of the person"""
         if self.date_of_birth:
-            today=date.today()
+            today = date.today()
             year_diff = today.year - self.date_of_birth.year
             if today.month <= self.date_of_birth.month and \
-                today.day < self.date_of_birth.day:
+                            today.day < self.date_of_birth.day:
                 # It's before this years birthday
                 age = year_diff - 1
             else:
@@ -192,20 +260,23 @@ class MemberProfile(models.Model):
         else:
             # No DOB recorded.
             return None
+
     def formatted_address(self):
         """Return address with html <br /> instead of line breaks"""
-        return self.address.replace("\n","<br />")
+        return self.address.replace("\n", "<br />")
+
     def formatted_other_qualifications(self):
         """Return other qualifications with html <br /> instead of line breaks"""
-        return self.other_qualifications.replace("\n","<br />")
+        return self.other_qualifications.replace("\n", "<br />")
+
     def formatted_alergies(self):
         """Return allergies with html <br /> instead of line breaks"""
-        return self.alergies.replace("\n","<br />")
+        return self.alergies.replace("\n", "<br />")
 
     def heshe(self):
         """Returns a Proper capitalised pronoun for the user"""
-        if self.gender=="m": return "He"
-        if self.gender=="f": return "She"
+        if self.gender == "m": return "He"
+        if self.gender == "f": return "She"
         return "They"
 
     def set_qualification(self, qual):
@@ -214,8 +285,8 @@ class MemberProfile(models.Model):
         instructor = qual.instructor_qualification
 
         to_remove = self.qualifications.filter(
-            instructor_qualification = instructor,
-            rank__gt = qual.rank,
+            instructor_qualification=instructor,
+            rank__gt=qual.rank,
         )
 
         for q in to_remove:
@@ -229,13 +300,13 @@ class MemberProfile(models.Model):
     def remove_qualifications(self, instructor=False):
         """Wipes all qualifications"""
         quals = self.qualifications.filter(
-            instructor_qualification = instructor
+            instructor_qualification=instructor
         )
         for q in quals:
             self.qualifications.remove(q)
 
         if instructor:
-            self.instructor_number=None
+            self.instructor_number = None
 
     def add_sdc(self, sdc):
         if not sdc in self.sdcs.all():
@@ -247,6 +318,7 @@ class MemberProfile(models.Model):
         return PerformedSDC.objects.filter(trainees=self, completed=False)
 
     _cached_user_group_values = 0
+
     def user_groups_values(self):
         if self._cached_user_group_values != 0:
             return self._cached_user_group_values
@@ -256,12 +328,13 @@ class MemberProfile(models.Model):
 
     def memberprofile(self):
         """Legacy bit"""
-        print "WARNING: MemberProfile.memberprofile called"
+        warnings.warn("Stop using memberprofile.memberprofile", DeprecationWarning, stacklevel=2)
         return self
 
     def get_full_name(self):
         """Transfer bit"""
         return u"{} {}".format(self.first_name, self.last_name)
+
     def date_joined(self):
         """Transfer bit"""
         return self.user.date_joined
@@ -298,6 +371,16 @@ class MemberProfile(models.Model):
             else:
                 self.training_for = computed_qual
 
+    def get_missing_field_list(self):
+        # Returns a list of stringy fields that need stuff in them, if I return [] then we're all good
+        fields_that_need_stuff_in_them = []
+        for REQUIRED_FIELD in self.REQUIRED_FIELDS:
+            # Pretty basic validation, is it empty. We may need better in the future, it will plug in here
+            if not getattr(self, REQUIRED_FIELD):
+                fields_that_need_stuff_in_them.append(REQUIRED_FIELD)
+        return fields_that_need_stuff_in_them
+
+
     def save(self, *args, **kwargs):
         """Saves changes to the model instance"""
         if self.pk:
@@ -305,16 +388,51 @@ class MemberProfile(models.Model):
         if self.pk and self.user:
             self.sync()
         super(MemberProfile, self).save(*args, **kwargs)
+
     def cache_update(self):
         """Compute and write the cached fields"""
         self.top_qual_cached = self.top_qual(nocache=True)
         self.top_instructor_qual_cached = self.top_instructor_qual(nocache=True)
         self.is_instructor_cached = self.is_instructor(nocache=True)
+
     def seed(self, user):
         """Seed a newly created MP with data from the user model"""
         self.first_name = self.user.first_name
         self.last_name = self.user.last_name
         self.email = self.user.email
+
+    def fake(self, fake):
+        self.date_of_birth = fake.date_time_between(start_date="-90y", end_date="-12y", tzinfo=None).date()
+        self.gender = random.choice(('m', 'f'))
+        self.address = fake.address()
+        self.postcode = fake.postcode()
+        self.home_phone = fake.phone_number()
+        self.mobile_phone = fake.phone_number()
+        self.next_of_kin_name = fake.name()
+        self.next_of_kin_relation = random.choice(('Mother', 'Father', 'Mum', 'Dad', 'Partner', 'Wife',
+                                                                 'Husband', 'Dog', 'Cat', 'Fish', 'Tortoise'))
+        self.next_of_kin_phone = fake.phone_number()
+
+        if fake.boolean(chance_of_getting_true=50):
+            self.student_id = random.randrange(1234567,9999999)
+
+        self.veggie = fake.boolean(chance_of_getting_true=10)
+        if fake.boolean(chance_of_getting_true=50):
+            self.alergies = fake.paragraph()
+
+        # Most people are current, 15% are out of date
+        if fake.boolean(chance_of_getting_true=85):
+            self.club_expiry = fake.date_time_between(start_date="-30d", end_date="+2y", tzinfo=None).date()
+            self.bsac_expiry = fake.date_time_between(start_date="-30d", end_date="+2y", tzinfo=None).date()
+            self.medical_form_expiry = fake.date_time_between(start_date="-30d", end_date="+2y", tzinfo=None).date()
+        else:
+            if fake.boolean(chance_of_getting_true=60):
+                self.club_expiry = fake.date_time_between(start_date="-6y", end_date="+1y", tzinfo=None).date()
+            if fake.boolean(chance_of_getting_true=60):
+                self.bsac_expiry = fake.date_time_between(start_date="-6y", end_date="+1y", tzinfo=None).date()
+            if fake.boolean(chance_of_getting_true=60):
+                self.medical_form_expiry = fake.date_time_between(start_date="-6y", end_date="+3y", tzinfo=None).date()
+
     def sync(self):
         self.user.first_name = self.first_name
         self.user.last_name = self.last_name
@@ -322,9 +440,18 @@ class MemberProfile(models.Model):
         # TODO check if actually changed
         self.user.save()
 
+    def delete(self):
+        # When MP is deleted, we should also remove the user attached to it.
+        # Soon we will 'archive' profiles, rather than deleting them.
+        user = self.user
+        super(MemberProfile, self).delete()
+        user.delete()
+
+
 from django.db.models.signals import post_save
 
-#Make sure we create a MemberProfile when creating a User
+
+# Make sure we create a MemberProfile when creating a User
 @disable_for_loaddata
 def create_member_profile(sender, instance, created, **kwargs):
     if created:
@@ -332,7 +459,9 @@ def create_member_profile(sender, instance, created, **kwargs):
         mp.seed(instance)
         mp.save()
 
+
 post_save.connect(create_member_profile, sender=settings.AUTH_USER_MODEL)
+
 
 # Update training_for when a PerformedLesson is updated
 @disable_for_loaddata
@@ -342,15 +471,15 @@ def trigger_update_training_for(sender, instance, created, **kwargs):
         mp.update_training_for()
         mp.save()
 
+
 post_save.connect(trigger_update_training_for, sender=PerformedLesson)
 
+
 class MembershipType(models.Model):
-    name=models.CharField(max_length=40)
+    name = models.CharField(max_length=40)
 
     def __unicode__(self):
         return self.name
 
     class Meta:
         ordering = ['name']
-
-
