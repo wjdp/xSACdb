@@ -5,8 +5,7 @@ ENV XSACDB_ENVIRONMENT PRODUCTION
 ENV XSACDB_CONTAINER DOCKER
 
 ADD . /app
-COPY supervisord.conf /etc/supervisord.conf
 
 RUN /app/bin/install.sh
 
-CMD /app/bin/run.sh
+CMD /usr/bin/supervisord -c /app/supervisord.conf
