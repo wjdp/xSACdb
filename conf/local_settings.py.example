@@ -17,6 +17,25 @@ CLUB = {
     'bsac_club_renew': 'Contact the VP for details.',
 }
 
+# Hostnames that are allowed to host this instance
+ALLOWED_HOSTS=[
+    'database.madeupsac.com',
+]
+
+# Email
+
+# Mailgun integration
+EMAIL_FROM = 'database@madeupsac.com'
+
+MAILGUN_DOMAIN = 'database.madeupsac.com'
+MAILGUN_API_KEY = 'abc'
+
+# SMTP config -- not as good as our mailgun integration
+#EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+#EMAIL_HOST = 'smtp.email.org'
+#EMAIL_HOST_USER = 'database@madeupsac.com'
+#EMAIL_HOST_PASSWORD = '???'
+
 # Database
 DATABASES = {
     'default': {
@@ -68,8 +87,3 @@ TIME_ZONE = 'Europe/London'
 # http://www.i18nguy.com/unicode/language-identifiers.html
 LANGUAGE_CODE = 'en-gb'
 
-# SMTP config
-EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-EMAIL_HOST = 'smtp.mailgun.org'
-EMAIL_HOST_USER = 'next@xsacdb.wjdp.uk'
-EMAIL_HOST_PASSWORD = '???'

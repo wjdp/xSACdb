@@ -1,11 +1,11 @@
 from __future__ import absolute_import
 import os
 
+from .common import *
+
 # Make this FALSE for deployment
 DEBUG = True
 TEMPLATE_DEBUG = True
-
-from .common import *
 
 # Club config
 CLUB = {
@@ -96,5 +96,8 @@ RQ_QUEUES = {
     },
 }
 
+# Some areas use this
+EMAIL_FROM = 'database@madeupsac.com'
+DEFAULT_FROM_EMAIL = EMAIL_FROM
 EMAIL_BACKEND = 'django.core.mail.backends.filebased.EmailBackend'
 EMAIL_FILE_PATH = 'tmp/emails/' # change this to a proper location

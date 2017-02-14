@@ -4,13 +4,19 @@ import socket
 
 import dj_database_url
 
+from .common import *
+
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 TEMPLATE_DEBUG = False
 
-from .common import *
+EMAIL_BACKEND = 'xSACdb.mail.EnqueueBackend'
+
 from local_settings import *
 from xSACdb.version import VERSION
+
+# Some areas use this
+DEFAULT_FROM_EMAIL = EMAIL_FROM
 
 if 'RAVEN_CONFIG' in locals():
     RAVEN_CONFIG['release'] = VERSION['tag']
