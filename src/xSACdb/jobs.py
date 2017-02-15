@@ -12,3 +12,6 @@ def write_to_test_log():
     with open("log/worker-test.log", "a") as file:
         file.write(str(datetime.datetime.now())+"\n")
     return 456
+
+def raise_exception():
+    raise Exception("Hello, I'm an error")
