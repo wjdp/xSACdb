@@ -13,6 +13,9 @@ xSACdb instances. This project will soon adhere to [Semantic Versioning](http://
 - The _'Remove New Flag'_ button on new members has been changed to _'Approve'_.
 - Tweaked production config for better performance.
 
+### Fixed
+- Favicons and application manifests (add to homescreen on mobile) were broken in 0.2.0. Now fixed. See #243 and #246.
+
 ## [0.2.0] - 2017-02-13
 
 Using Docker/Dokku support added in 0.1.0 we are recommending that all deployments of xSACdb are done via a Dokku

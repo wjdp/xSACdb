@@ -77,7 +77,7 @@ navigator.serviceWorker.register('/service-worker.js', { scope: '/' })
 </script>
 {% endcompress %}
 
-<link rel="icon" href="/static/images/logo-blue.png" />
+{% include 'icons.html' %}
 
 {% block post_head %}{% endblock %}
 </head>

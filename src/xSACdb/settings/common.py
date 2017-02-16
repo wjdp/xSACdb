@@ -48,6 +48,9 @@ LOGIN_EXEMPT_URLS = (
     r'^accounts/',
     r'^hijack/',  # have their own protection
     r'^health/',  # Needs to be publicly accessible
+    r'^favicon.ico$',
+    r'^manifest.json$',
+    r'^service-worker.js',
 )
 
 # Absolute filesystem path to the directory that will hold user-uploaded files.
