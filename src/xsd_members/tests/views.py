@@ -79,13 +79,39 @@ class MemberDeleteTest(ViewTestMixin, AsGroupMixin, BaseTest):
     def setUp_test(cls):
         cls.test_user = cls.create_a_user()
         cls.url_kwargs = {'pk': cls.test_user.memberprofile.pk}
+        cls.test_user_pk = cls.test_user.pk
 
-    def test_member_delete(self):
+    def test_member_in_page(self):
         r = self.response
         self.assertContains(r, self.test_user.first_name)#, html=True)
         self.assertContains(r, self.test_user.last_name)#, html=True)
 
-        # TODO delete user
+    def test_delete(self):
+        self.assertEqual(MemberProfile.objects.filter(pk=self.test_user_pk).count(), 1)
+        self.get_client().post(self.get_url())
+        self.assertEqual(MemberProfile.objects.filter(pk=self.test_user_pk).count(), 0)
+
+
+class MemberArchiveTest(ViewTestMixin, AsGroupMixin, BaseTest):
+    GROUPS = [GROUP_MEMBERS]
+    url_name = 'xsd_members:MemberArchive'
+    view = MemberArchive
+
+    @classmethod
+    def setUp_test(cls):
+        cls.test_user = cls.create_a_user()
+        cls.url_kwargs = {'pk': cls.test_user.memberprofile.pk}
+
+    def test_member_in_page(self):
+        r = self.response
+        self.assertContains(r, self.test_user.first_name)#, html=True)
+        self.assertContains(r, self.test_user.last_name)#, html=True)
+
+    def test_archive(self):
+        self.assertFalse(self.test_user.memberprofile.archived)
+        self.get_client().post(self.get_url())
+        self.test_user.memberprofile.refresh_from_db()
+        self.assertTrue(self.test_user.memberprofile.archived)
 
 
 class MemberListTest(ViewTestMixin, AsGroupMixin, BaseTest):
@@ -98,9 +124,18 @@ class MemberListTest(ViewTestMixin, AsGroupMixin, BaseTest):
         cls.test_user = cls.create_a_user()
 
     def test_member_in_list(self):
+        """Current members should show in the list"""
         r = self.response
         self.assertContains(r, self.test_user.first_name)#, html=True)
         self.assertContains(r, self.test_user.last_name)#, html=True)
+
+    def test_member_not_in_list(self):
+        """The current members list should not show archived members"""
+        self.test_user.memberprofile.archive()
+        self.test_user.memberprofile.save()
+        r = self.get_response()
+        self.assertNotContains(r, self.test_user.first_name)#, html=True)
+        self.assertNotContains(r, self.test_user.last_name)#, html=True)
 
 
 class NewMembersTest(ViewTestMixin, AsGroupMixin, BaseTest):
@@ -147,6 +182,29 @@ class MembersExpiredFormsListTest(ViewTestMixin, AsGroupMixin, BaseTest):
         r = self.get_response()
         self.assertNotContains(r, self.test_user.first_name)#, html=True)
         self.assertNotContains(r, self.test_user.last_name)#, html=True)
+
+class MembersArchivedList(ViewTestMixin, AsGroupMixin, BaseTest):
+    GROUPS = [GROUP_MEMBERS]
+    url_name = 'xsd_members:MembersArchivedList'
+    view = MembersArchivedList
+
+    @classmethod
+    def setUp_test(cls):
+        cls.test_user = cls.create_a_user()
+
+    def test_member_in_list(self):
+        """Archived members should show in MembersArchivedList"""
+        self.test_user.memberprofile.archive()
+        self.test_user.memberprofile.save()
+        r = self.get_response()
+        self.assertContains(r, self.test_user.first_name)  # , html=True)
+        self.assertContains(r, self.test_user.last_name)  # , html=True)
+
+    def test_member_not_in_list(self):
+        """Current members should not show in MembersArchivedList"""
+        r = self.response
+        self.assertNotContains(r, self.test_user.first_name)  # , html=True)
+        self.assertNotContains(r, self.test_user.last_name)  # , html=True)
 
 
 class BulkAddFormsTest(ViewTestMixin, AsGroupMixin, BaseTest):

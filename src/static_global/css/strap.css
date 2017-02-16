@@ -362,6 +362,9 @@ background: #FFABAB !important
     padding: 5px 8px;
     border-radius: 4px;
     margin: 0 3px;
+
+    /*Prevent wrapping*/
+    white-space: nowrap;
 }
 
 .prentend-p {
