@@ -11,6 +11,7 @@ xSACdb instances. This project will soon adhere to [Semantic Versioning](http://
 
 ### Changed
 - The _'Remove New Flag'_ button on new members has been changed to _'Approve'_.
+- Tweaked production config for better performance.
 
 ## [0.2.0] - 2017-02-13
 
