@@ -4,10 +4,11 @@ from django.conf import settings
 from django.contrib import messages
 from django.core.urlresolvers import reverse, reverse_lazy
 from django.db.models import Q
+from django.http.response import HttpResponseRedirect
 from django.shortcuts import render, redirect, get_object_or_404
 from django.template import RequestContext
 from django.views.generic.base import View
-from django.views.generic.detail import DetailView
+from django.views.generic.detail import DetailView, SingleObjectTemplateResponseMixin, BaseDetailView
 from django.views.generic.edit import FormView, DeleteView
 
 from xSACdb.roles.decorators import require_members_officer
@@ -177,6 +178,7 @@ class MembersMissingFieldsList(MemberList):
         queryset_filtered = queryset.filter(self.build_queryset())
         return queryset_filtered
 
+
 class MembersArchivedList(MemberList):
     page_title = 'Archived Members'
     page_description = '''<p>Members are archived either manually by a Members Officer pressing the archive button, or
@@ -309,6 +311,23 @@ class MemberDelete(RequireMembersOfficer, DeleteView):
     template_name = 'members_delete.html'
     success_url = reverse_lazy('xsd_members:MemberList')
     context_object_name = 'member'
+
+# This view very much modeled after DeletionMixin
+class MemberArchive(RequireMembersOfficer, SingleObjectTemplateResponseMixin, BaseDetailView):
+    model = MemberProfile
+    template_name = 'members_archive.html'
+    success_url = reverse_lazy('xsd_members:MemberList')
+    context_object_name = 'member'
+
+    def archive(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        success_url = self.object.get_absolute_url()
+        self.object.archive()
+        self.object.save()
+        return HttpResponseRedirect(success_url)
+
+    def post(self, request, *args, **kwargs):
+        return self.archive(request, *args, **kwargs)
 
 
 @require_members_officer

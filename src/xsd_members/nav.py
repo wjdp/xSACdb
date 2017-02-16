@@ -13,7 +13,10 @@ NAV = (
         'access': is_members,
         'items': [
             ('Search', None, 'fa fa-search', 'xsd_members:MemberSearch', []),
-            ('Current Members', 'member', 'fa fa-th-list', 'xsd_members:MemberList', ['xsd_members:MemberDetail']),
+            ('Current Members', 'member', 'fa fa-th-list', 'xsd_members:MemberList', ['xsd_members:MemberDetail',
+                                                                                      'xsd_members:MemberEdit',
+                                                                                      'xsd_members:MemberDelete',
+                                                                                      'xsd_members:MemberArchive']),
             ('Archived Members', None, 'fa fa-archive', 'xsd_members:MembersArchivedList', []),
         ]
     },

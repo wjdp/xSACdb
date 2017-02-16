@@ -23,6 +23,7 @@ urlpatterns = patterns('',
         url(r'^member/(?P<pk>\d+)/$', MemberDetail.as_view(), name='MemberDetail'),
         url(r'^member/(?P<pk>\d+)/edit/$', MemberEdit.as_view(), name='MemberEdit'),
         url(r'^member/(?P<pk>\d+)/delete/$', MemberDelete.as_view(), name='MemberDelete'),
+        url(r'^member/(?P<pk>\d+)/archive/$', MemberArchive.as_view(), name='MemberArchive'),
 
         url(r'^list/$', MemberList.as_view(), name='MemberList'),
         url(r'^new-members/$', NewMembers.as_view(), name='NewMembers'),
