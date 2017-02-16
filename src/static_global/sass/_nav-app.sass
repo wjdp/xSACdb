@@ -1,8 +1,8 @@
 .xsd-nav-app
   @extend .navbar
-  @extend .navbar-fixed-top
-  @extend .navbar-dark
-  @extend .navbar-dark
+  @extend .navbar-nav
+  // @extend .navbar-fixed-top BS4
+  // @extend .navbar-dark BS4
   @extend .bg-inverse
 
   background: $brand-background
@@ -40,7 +40,8 @@
   @extend .nav-link
 
 .xsd-nav-app__nav-module
-  @include hide-md
+  //@include hide-md
+  display: none
 
 .xsd-nav-app__nav-dashboard
   display: none
@@ -228,7 +229,7 @@
       padding: 0.5rem $sidenav-link-pad-sides
 
       color: #eee
-      
+
       &:hover
         text-decoration: none
 
