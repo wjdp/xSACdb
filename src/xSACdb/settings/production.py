@@ -36,6 +36,10 @@ if 'XSACDB_CONTAINER' in os.environ and os.environ['XSACDB_CONTAINER'] == 'DOCKE
         )
     }
 
+    # Keep a database connection open. Kill at a defined limit to prevent leaks or other issues.
+    # http://www.revsys.com/blog/2015/may/06/django-performance-simple-things/
+    DATABASES['default']['CONN_MAX_AGE'] = 600
+
     # Cache data store
     CACHES = {
         'default': {
@@ -51,6 +55,18 @@ if 'XSACDB_CONTAINER' in os.environ and os.environ['XSACDB_CONTAINER'] == 'DOCKE
         },
     }
 
+# Turn on cached loading of templates
+TEMPLATE_LOADERS = (
+    ('django.template.loaders.cached.Loader', (
+        'django.template.loaders.app_directories.Loader',
+        'django.template.loaders.filesystem.Loader',
+    )),
+)
+
+# Cache sessons (reads only, writes still go to database)
+SESSION_ENGINE = 'django.contrib.sessions.backends.cached_db'
+
+# Catch 404s
 MIDDLEWARE_CLASSES = (
     'raven.contrib.django.raven_compat.middleware.Sentry404CatchMiddleware',
 ) + MIDDLEWARE_CLASSES
