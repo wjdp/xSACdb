@@ -1,3 +1,5 @@
+from __future__ import unicode_literals
+
 import datetime
 import random
 
@@ -351,6 +353,16 @@ class MemberProfileTest(BaseMemberTest, TrainingTestToolsMixin):
         self.assertEqual(MemberProfile.objects.filter(pk=mp_pk).count(), 0)
         # Check the associated user is also deleted
         self.assertEqual(self.User.objects.filter(pk=u_pk).count(), 0)
+
+    def test_mp_archive(self):
+        # Check that archiving member expunges and sets archived flag
+        self.assertIsNot(self.mp.address, '')
+        self.assertIsNot(self.mp.date_of_birth, None)
+        self.assertFalse(self.mp.archived)
+        self.mp.archive()
+        self.assertIs(self.mp.address, '')
+        self.assertIs(self.mp.date_of_birth, None)
+        self.assertTrue(self.mp.archived)
 
 
 class MembershipTypeTest(BaseTest):
