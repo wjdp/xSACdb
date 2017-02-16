@@ -57,16 +57,19 @@ class MemberProfile(models.Model):
         'alergies',
     )
 
+    # What is personal data? This is used for expunging member's records.
+    PERSONAL_DATA = REQUIRED_FIELDS + OPTIONAL_FIELDS
+
     class Meta:
         ordering = ['last_name', 'first_name']
 
     user = models.OneToOneField(settings.AUTH_USER_MODEL, null=True,
                                 blank=True)
 
-    # Used to hide admin users
+    # Used to hide users from 'all' queries.
     hidden = models.BooleanField(default=False)
 
-    # Not really sure if this is needed?
+    # FIXME Not really sure if this is needed?
     token = models.CharField(max_length=150, blank=True)
 
     # This is being used to 'approve' new members
@@ -105,8 +108,9 @@ class MemberProfile(models.Model):
     next_of_kin_relation = models.CharField(max_length=20, blank=True)
     next_of_kin_phone = models.CharField(max_length=20, blank=True)
 
-    veggie = models.BooleanField(default=False, verbose_name='Vegetarian', help_text="Gives an indication to trip \
-                                                                            organisers for food requirements.")
+    veggie = models.NullBooleanField(default=None, verbose_name='Vegetarian', help_text="Gives an indication to trip \
+                                                                                organisers for food requirements.")
+
     # FIXME spelling
     alergies = models.TextField(blank=True, verbose_name='Allergies and other requirements',
                                 help_text="This information is held for use by trip organisers. Please note anything \
@@ -374,10 +378,10 @@ class MemberProfile(models.Model):
     def get_missing_field_list(self):
         # Returns a list of stringy fields that need stuff in them, if I return [] then we're all good
         fields_that_need_stuff_in_them = []
-        for REQUIRED_FIELD in self.REQUIRED_FIELDS:
+        for field_name in self.REQUIRED_FIELDS:
             # Pretty basic validation, is it empty. We may need better in the future, it will plug in here
-            if not getattr(self, REQUIRED_FIELD):
-                fields_that_need_stuff_in_them.append(REQUIRED_FIELD)
+            if not getattr(self, field_name):
+                fields_that_need_stuff_in_them.append(field_name)
         return fields_that_need_stuff_in_them
 
 
@@ -391,6 +395,7 @@ class MemberProfile(models.Model):
 
     def cache_update(self):
         """Compute and write the cached fields"""
+        # TODO replace with django's built in cache system
         self.top_qual_cached = self.top_qual(nocache=True)
         self.top_instructor_qual_cached = self.top_instructor_qual(nocache=True)
         self.is_instructor_cached = self.is_instructor(nocache=True)
@@ -434,11 +439,37 @@ class MemberProfile(models.Model):
                 self.medical_form_expiry = fake.date_time_between(start_date="-6y", end_date="+3y", tzinfo=None).date()
 
     def sync(self):
+        """Sync the user object with the MP"""
         self.user.first_name = self.first_name
         self.user.last_name = self.last_name
         self.user.email = self.email
         # TODO check if actually changed
         self.user.save()
+
+    # Marks the user as archived.
+    archived = models.BooleanField(default=False)
+
+    def archive(self):
+        """Archive the user, hiding them from most views and removing a lot of personal data."""
+        self.expunge()
+        # self.hidden = True # Seems this is too aggressive
+        self.archived = True
+
+    def expunge(self):
+        """Remove personal data"""
+        for field_name in self.PERSONAL_DATA:
+            # Clear personal data
+            if not self._meta.get_field(field_name).null:
+                # Char and Text fields like blank null values
+                setattr(self, field_name, '')
+            else:
+                # Everything else has None
+                setattr(self, field_name, None)
+
+    def reinstate(self):
+        """Opposite of archive"""
+        # self.hidden = False # Seems this is too aggressive
+        self.archived = False
 
     def delete(self):
         # When MP is deleted, we should also remove the user attached to it.

@@ -45,6 +45,14 @@
 		</div>
 		<div>
 		<div class="qual_badge {{member.top_qual.code}}"></div>
+
+        {% if member.archived %}
+            <div class="alert alert-warning">
+                <p><strong><i class="fa fa-archive"></i> {{ member.first_name }}'s record has been archived</strong></p>
+                <p>Personal data has been expunged. If {{ member.heshe.lower }} sign into the site they'll be prompted to re-enter these details and their record will be reinstated.</p>
+            </div>
+        {% endif %}
+
 		<p>{{member.first_name}} joined the database on {{member.date_joined|date}} and last logged in on {{member.user.last_login}}</p>
 		<p>{{member.heshe}} was born on {{member.date_of_birth}}.</p>
 
