@@ -1,0 +1,286 @@
+[{
+    "fields": {
+        "name": "Stoney Cove",
+        "facilities": "Big dive shop\r\nFood\r\nChanging rooms",
+        "max_depth": null,
+        "phone": "01455 273089",
+        "location": "52.542032,-1.273840899999982",
+        "address": "39 Spring Gardens\r\nSapcote\r\nLeicester\r\nLeicestershire\r\nLE9 4DX",
+        "min_temp": null,
+        "type": "IN",
+        "email": "diving@stoneycove.com",
+        "max_temp": null
+    },
+    "model": "xsd_sites.site",
+    "pk": 1
+}, {
+    "fields": {
+        "name": "University Pool",
+        "facilities": "Changing Rooms",
+        "max_depth": 2,
+        "phone": "0115 95 16655",
+        "location": "52.9394378200488,-1.208370239283795",
+        "address": "University of Nottingham Sports Centre\r\nUniversity of Nottingham \r\nUniversity Park\r\nNottingham, NG7 2RD",
+        "min_temp": null,
+        "type": "TR",
+        "email": "sport@nottingham.ac.uk",
+        "max_temp": null
+    },
+    "model": "xsd_sites.site",
+    "pk": 2
+}, {
+    "fields": {
+        "name": "NDAC",
+        "facilities": "Wigwams, Zip Wire, Zorb Ball, Segways, Shop, Cafe, Showers, Filling station, Kit rental",
+        "max_depth": 75,
+        "phone": "01291 630046",
+        "location": "51.66106840625731,-2.6460495076904635",
+        "address": "A48, Tidenham, Chepstow, Gloucestershire NP16 7LH",
+        "min_temp": 5,
+        "type": "IN",
+        "email": "",
+        "max_temp": 20
+    },
+    "model": "xsd_sites.site",
+    "pk": 3
+}, {
+    "fields": {
+        "name": "Scapa Flow",
+        "facilities": "",
+        "max_depth": 45,
+        "phone": "",
+        "location": "58.9,-3.0499999999999545",
+        "address": "MV Halton\r\nScapa Flow\r\nThe Orkneys\r\nScotland\r\n",
+        "min_temp": null,
+        "type": "OF",
+        "email": "",
+        "max_temp": null
+    },
+    "model": "xsd_sites.site",
+    "pk": 4
+}, {
+    "fields": {
+        "name": "Portland Building",
+        "facilities": "Classrooms, projectors",
+        "max_depth": null,
+        "phone": "0115 84 68800",
+        "location": "52.9381622,-1.1939847999999529",
+        "address": "Portland Building\r\nUniversity Park\r\nNottingham",
+        "min_temp": null,
+        "type": "TR",
+        "email": "",
+        "max_temp": null
+    },
+    "model": "xsd_sites.site",
+    "pk": 5
+}, {
+    "fields": {
+        "name": "Capernwray",
+        "facilities": "Kit hire\r\nChanging facilities\r\nCafe\r\nTraining Quarry\r\nDive Shop",
+        "max_depth": 25,
+        "phone": " 01524 735132",
+        "location": "54.13964860000001,-2.721165199999973",
+        "address": "Jackdaw Quarry\r\nCapernwray Road\r\nOver Kellet\r\nCarnforth\r\nLancashire\r\nLA6 1AD",
+        "min_temp": null,
+        "type": "IN",
+        "email": "info@dive-site.co.uk",
+        "max_temp": null
+    },
+    "model": "xsd_sites.site",
+    "pk": 6
+}, {
+    "fields": {
+        "name": "St Abbs Harbour",
+        "facilities": "Cafe, Air fills, Shore diving\r\n\r",
+        "max_depth": null,
+        "phone": "",
+        "location": "55.89936850569263,-2.128080517829858",
+        "address": "",
+        "min_temp": null,
+        "type": "OF",
+        "email": "",
+        "max_temp": null
+    },
+    "model": "xsd_sites.site",
+    "pk": 7
+}, {
+    "fields": {
+        "name": "Farne Islands",
+        "facilities": "Seals!",
+        "max_depth": null,
+        "phone": "",
+        "location": "55.6166667,-1.6499999999999773",
+        "address": "",
+        "min_temp": null,
+        "type": "OF",
+        "email": "",
+        "max_temp": null
+    },
+    "model": "xsd_sites.site",
+    "pk": 8
+}, {
+    "fields": {
+        "name": "Blakeney",
+        "facilities": "Launch site for boat handling, Toilets, National Trust Car Park, Cafe\r\n\r\nTidal can only launch & recover 3 hours either side of high tide.",
+        "max_depth": null,
+        "phone": "",
+        "location": "52.95733037253184,0.9860211439665818",
+        "address": "",
+        "min_temp": null,
+        "type": "TR",
+        "email": "",
+        "max_temp": null
+    },
+    "model": "xsd_sites.site",
+    "pk": 9
+}, {
+    "fields": {
+        "name": "Trent Building",
+        "facilities": "Standard uni classrooms, tables, chairs, a projector in most.",
+        "max_depth": null,
+        "phone": "",
+        "location": "52.93690369999999,-1.1959507999999914",
+        "address": "",
+        "min_temp": null,
+        "type": "TR",
+        "email": "",
+        "max_temp": null
+    },
+    "model": "xsd_sites.site",
+    "pk": 10
+}, {
+    "fields": {
+        "name": "Menai Bridge, Anglesey",
+        "facilities": "Skipper - Scott Waterman, Quest Diving Charters \r\nquestcharters@btinternet.com\r\n07974249005\r\n01248716923\r\nBoat has a toilet, microwave and kettle\r\nAir fills can be arranged by the skipper\r\n\r\nReef, seals, wreck and drift dives\r\n\r\nAccommodation - Victoria Hotel, Telford Rd, Menai Bridge, Isle of Anglesey LL59 5DR\r\n01248 712309\r\n",
+        "max_depth": null,
+        "phone": "",
+        "location": "53.222607,-4.165576999999985",
+        "address": "",
+        "min_temp": null,
+        "type": "OF",
+        "email": "",
+        "max_temp": null
+    },
+    "model": "xsd_sites.site",
+    "pk": 11
+}, {
+    "fields": {
+        "name": "Isle of Skye",
+        "facilities": "",
+        "max_depth": null,
+        "phone": "",
+        "location": "57.5359261,-6.22627250000005",
+        "address": "",
+        "min_temp": null,
+        "type": "OF",
+        "email": "",
+        "max_temp": null
+    },
+    "model": "xsd_sites.site",
+    "pk": 12
+}, {
+    "fields": {
+        "name": "Penzance, Cornwall",
+        "facilities": "Skipper - Charles Hood\r\n\r\n\r\nThe Warspite - Wreck\r\nOcean Diver +\r\n9m depth\r\nPosition - 50?07.083'N\r\n                005?28.850'W\r\n\r\nThe Alice Marie - Wreck\r\nSport Diver +\r\n25m depth\r\nPosition - 50?06.141'N\r\n                005?29.412 - 498'W\r\n\r\nThe Ansgir - Wreck and reef\r\nOcean Diver+\r\n7 - 15m depth\r\nPosition - 50?04.080'N\r\n                005?32.644'W\r\n\r\nLongships - Reef\r\nSport Diver +\r\n12 - 45m depth\r\nPosition - 50?03.980'N\r\n                005?44.785'W\r\n\r\n\r\n",
+        "max_depth": null,
+        "phone": "",
+        "location": "50.118798,-5.537592000000018",
+        "address": "",
+        "min_temp": null,
+        "type": "OF",
+        "email": "",
+        "max_temp": null
+    },
+    "model": "xsd_sites.site",
+    "pk": 13
+}, {
+    "fields": {
+        "name": "Vobster Quay",
+        "facilities": "Good training site, good for SD & DL. Not great for OD few shallow training areas. \r\nChanging facilities, shop, kit hire, burger van. \r\nVis generally good (better than Stoney not as good as Capernwray).\r\nMaximum depth 36m\r\nUnderwater atractions include boat, caravan, plane and tunnel. ",
+        "max_depth": 36,
+        "phone": "01373 814666",
+        "location": "51.24565502530988,-2.4235153198242188",
+        "address": "Vobster Diving Ltd\r\nUpper Vobster\r\nRadstock, Somerset\r\nBA3 5SD",
+        "min_temp": null,
+        "type": "IN",
+        "email": "info@vobster.com",
+        "max_temp": null
+    },
+    "model": "xsd_sites.site",
+    "pk": 14
+}, {
+    "fields": {
+        "name": "HMS Scylla",
+        "facilities": "Leander class frigate sunk in 2003. Now successful artificial reef, covered in corals and sponges. \r\n\r\nMax depth 24m",
+        "max_depth": 24,
+        "phone": "",
+        "location": "50.3235303623876,-4.236549377441406",
+        "address": "",
+        "min_temp": null,
+        "type": "OF",
+        "email": "",
+        "max_temp": null
+    },
+    "model": "xsd_sites.site",
+    "pk": 15
+}, {
+    "fields": {
+        "name": "James Eagan Layne",
+        "facilities": "WWII Liberty ship sunk March 1945, cargo of various goods which can still be seen. \r\n\r\nA huge wreck and very popular, becoming quite broken up. \r\n\r\n7 - 24m depth\r\n",
+        "max_depth": 24,
+        "phone": "",
+        "location": "50.320927350188335,-4.231485366821289",
+        "address": "",
+        "min_temp": null,
+        "type": "OF",
+        "email": "",
+        "max_temp": null
+    },
+    "model": "xsd_sites.site",
+    "pk": 16
+}, {
+    "fields": {
+        "name": "Puffin Divers",
+        "facilities": "Dive shop, hire centre, fill station. \r\n\r\nLaunch for boats, slopping shore dive, not a great dive but good for a check out dive. ",
+        "max_depth": null,
+        "phone": " 01631 566088",
+        "location": "56.39233906240319,-5.514578819274902",
+        "address": "",
+        "min_temp": null,
+        "type": "OF",
+        "email": "",
+        "max_temp": null
+    },
+    "model": "xsd_sites.site",
+    "pk": 17
+}, {
+    "fields": {
+        "name": "Nemo 33",
+        "facilities": "One of the deepest pools in the world. Deepest point 33m. \r\n\r\nAll the usual facilities you would expect a pool to have. Good restaurant, dive shop ok. \r\n\r\nPool itself is fun deep 33m pit most of pool around 10m with tunnel between the two sections. ",
+        "max_depth": 33,
+        "phone": "tel:+3223323334",
+        "location": "50.79606189089023,4.317026138305664",
+        "address": "Rue de Stalle 333, 1180 Bruxelles, Belgium",
+        "min_temp": null,
+        "type": "TR",
+        "email": "dive@nemo33.com",
+        "max_temp": null
+    },
+    "model": "xsd_sites.site",
+    "pk": 18
+}, {
+    "fields": {
+        "name": "Weasel Loch",
+        "facilities": "Shore dive, back of Eyemouth Holiday park, down wooden steps then over rocks. \r\n\r\nCan be difficult entry especially at low tide. \r\n\r\nMax depth approx 12m. ",
+        "max_depth": 12,
+        "phone": "",
+        "location": "55.87795903126005,-2.098217010498047",
+        "address": "",
+        "min_temp": null,
+        "type": "OF",
+        "email": "",
+        "max_temp": null
+    },
+    "model": "xsd_sites.site",
+    "pk": 21
+}]

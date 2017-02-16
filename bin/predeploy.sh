@@ -10,12 +10,8 @@ src/manage.py compress
 
 if [[ $XSACDB_FAKE_DATA = "TRUE" ]]
 then
-    src/manage.py flush --noinput
     mkdir tmp
     curl $XSACDB_BSAC_DATA > tmp/bsac_data.yaml
-    src/manage.py loaddata groups
-    src/manage.py loaddata membershiptypes
-    src/manage.py loaddata tmp/bsac_data.yaml
+    src/manage.py reset_fake_db
     for fixture in conf/fixtures/*; do src/manage.py loaddata $fixture; done
-    src/manage.py generate_fake_data
 fi
