@@ -68,7 +68,12 @@ class DynamicUpdateProfile(FormView):
         # Form still holds ref to MemberProfile so handles saving all by itself
         form.save()
         messages.add_message(self.request, messages.SUCCESS, settings.CLUB['dynamic_update_profile_success'])
-        # messages.add_message(self.request, messages.SUCCESS, settings.CLUB['dynamic_update_profile_success'])
+
+        if self.request.user.memberprofile.archived:
+            # User logged back in and re-added details. Reinstate
+            self.request.user.memberprofile.reinstate()
+            self.request.user.memberprofile.save()
+
         return super(DynamicUpdateProfile, self).form_valid(form)
 
 

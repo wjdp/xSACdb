@@ -16,5 +16,7 @@ CLUB = {
 Sensitive data, such as next of kin details and your physical \
                                      address can only be viewed by database officers or organisers of trips you are \
                                      on.",
+    'dynamic_update_profile_archived': "You may have entered these details before but they were deleted due to \
+                                        inactivity.",
     'dynamic_update_profile_success': "Thanks, your profile has been updated.",
 }
