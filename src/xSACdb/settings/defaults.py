@@ -19,4 +19,8 @@ Sensitive data, such as next of kin details and your physical \
     'dynamic_update_profile_archived': "You may have entered these details before but they were deleted due to \
                                         inactivity.",
     'dynamic_update_profile_success': "Thanks, your profile has been updated.",
+
+    'memberprofile_approve_success': "{0} has been approved, {1}'ll now be able to access the database.",
+    'memberprofile_reinstate_success': "{0}'s profile has been restored.",
+    'memberprofile_archive_success': "{0}'s profile has been archived, personal data has been expunged.",
 }

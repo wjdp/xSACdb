@@ -132,7 +132,9 @@ class MemberList(RequireMembersOfficer, OrderedListView):
 
 class NewMembers(MemberList):
     page_title = 'New Members'
-    page_description = 'New signups to the database, to remove them from this list use <div class="fake-button"><i class="fa fa-flag"></i> Remove New Flag</div> on their profile page. Before this you\'ll probably want to add details to their profile, it\'s kinda the point of the new flag. For the time being the new flag is being used to verify new members. While users have a flag they won\'t be able to access the database properly.'
+    page_description = 'After members signup they require approval from a members officer to use the database. To ' \
+                       'approve use the <div class="fake-button"><i class="fa fa-check"></i> Approve</div> button on ' \
+                       'their profile page. Before this you\'ll probably want to add details to their profile.'
 
     def get_queryset(self):
         queryset = super(NewMembers, self).get_queryset()
@@ -247,8 +249,16 @@ class MemberDetail(RequireMembersOfficer, DetailView):
             action = request.GET['action']
             if action == 'remove-new-flag':
                 p = self.get_object()
-                p.new_notify = False
+                p.approve()
                 p.save()
+                messages.add_message(self.request, messages.SUCCESS,
+                      settings.CLUB['memberprofile_approve_success'].format(p.get_full_name(), p.heshe().lower()))
+            if action == 'reinstate':
+                p = self.get_object()
+                p.reinstate()
+                p.save()
+                messages.add_message(self.request, messages.SUCCESS,
+                                     settings.CLUB['memberprofile_reinstate_success'].format(p.get_full_name()))
 
         return super(MemberDetail, self).get(request, *args, **kwargs)
 
@@ -329,6 +339,8 @@ class MemberArchive(RequireMembersOfficer, SingleObjectTemplateResponseMixin, Ba
         success_url = self.object.get_absolute_url()
         self.object.archive()
         self.object.save()
+        messages.add_message(self.request, messages.SUCCESS,
+                             settings.CLUB['memberprofile_archive_success'].format(self.object.get_full_name()))
         return HttpResponseRedirect(success_url)
 
     def post(self, request, *args, **kwargs):

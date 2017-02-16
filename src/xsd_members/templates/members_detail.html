@@ -11,8 +11,8 @@
             <div class="btn-group btn-group-sm" role="group">
                 {% if is_members %}
                 {% if member.new_notify %}
-                <a href="?action=remove-new-flag" class="btn btn-secondary" type="button">
-                    <i class="fa fa-flag"></i> Remove New Flag
+                <a href="?action=remove-new-flag" class="btn btn-success" type="button">
+                    <i class="fa fa-check"></i> Approve
                 </a>
                 {% endif %}
                 <a href="{% url 'xsd_members:MemberEdit' member.pk %}" class="btn btn-secondary" type="button">
@@ -28,6 +28,11 @@
                 <a href="{% url 'xsd_members:MemberArchive' member.pk %}" class="btn btn-secondary" type="button">
                     <i class="fa fa-archive"></i> Archive
                 </a>
+                {% else %}
+                <a href="?action=reinstate" class="btn btn-success" type="button">
+                    <i class="fa fa-mail-forward"></i> Restore
+                </a>
+
                 {% endif %}
 
                 <a href="{% url 'xsd_members:MemberDelete' member.pk %}" class="btn btn-secondary" type="button">
@@ -55,7 +60,8 @@
         {% if member.archived %}
             <div class="alert alert-warning">
                 <p><strong><i class="fa fa-archive"></i> {{ member.first_name }}'s record has been archived</strong></p>
-                <p>Personal data has been expunged. If {{ member.heshe.lower }} sign into the site they'll be prompted to re-enter these details and their record will be reinstated.</p>
+                <p>Personal data has been expunged. If they sign into the site they'll be prompted to re-enter these details and their record will be restored.</p>
+                <p>The record may also be restored using the button above.</p>
             </div>
         {% endif %}
 

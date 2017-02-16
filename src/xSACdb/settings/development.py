@@ -1,11 +1,13 @@
 from __future__ import absolute_import
 import os
+from django.contrib.messages import constants as message_constants
 
 from .common import *
 
 # Make this FALSE for deployment
 DEBUG = True
 TEMPLATE_DEBUG = True
+MESSAGE_LEVEL = message_constants.DEBUG
 
 # Club config
 CLUB = {
