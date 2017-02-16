@@ -5,6 +5,10 @@ xSACdb instances. This project will soon adhere to [Semantic Versioning](http://
 
 ## Unreleased
 
+
+
+## [0.2.1] - 2017-02-16
+
 ### Added
 - Ability to _archive_ old members. Archived members will not show on most members listings and will have personal details expunged from their profile.
 - Listing of archived members, ability to restore. Archived members are also restored when they log in again and re-fill-out the profile form.
