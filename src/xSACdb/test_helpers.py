@@ -12,6 +12,7 @@ from django.core.urlresolvers import reverse
 
 from faker import Factory
 
+U = get_user_model()
 
 class BaseTest(TestCase):
     fake = Factory.create(settings.FAKER_LOCALE)
@@ -44,7 +45,6 @@ class BaseTest(TestCase):
 
     @classmethod
     def setUp_user(cls):
-        U = get_user_model()
         user = U.objects.create_user(
             email=cls.EMAIL,
             password=cls.PASSWORD,
@@ -89,7 +89,6 @@ class BaseTest(TestCase):
     @classmethod
     def create_a_user(cls):
         """Make a random user, return them"""
-        U = get_user_model()
         user = U.objects.create_user(
             first_name=cls.fake.first_name(),
             last_name=cls.fake.last_name(),
