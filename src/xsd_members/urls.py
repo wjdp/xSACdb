@@ -28,6 +28,7 @@ urlpatterns = patterns('',
         url(r'^new-members/$', NewMembers.as_view(), name='NewMembers'),
         url(r'^expired-forms/$', MembersExpiredFormsList.as_view(), name='MembersExpiredFormsList'),
         url(r'^missing-fields/$', MembersMissingFieldsList.as_view(), name='MembersMissingFieldsList'),
+        url(r'^archived/$', MembersArchivedList.as_view(), name='MembersArchivedList'),
 
         url(r'^add/forms/$', BulkAddForms.as_view(), name='BulkAddForms'),
 

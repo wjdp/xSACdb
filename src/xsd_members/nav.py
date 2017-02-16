@@ -9,11 +9,12 @@ NAV = (
         ]
     },
     {
-        'title': 'Current Membership',
+        'title': 'Membership',
         'access': is_members,
         'items': [
             ('Search', None, 'fa fa-search', 'xsd_members:MemberSearch', []),
-            ('Members Listing', 'member', 'fa fa-th-list', 'xsd_members:MemberList', ['xsd_members:MemberDetail']),
+            ('Current Members', 'member', 'fa fa-th-list', 'xsd_members:MemberList', ['xsd_members:MemberDetail']),
+            ('Archived Members', None, 'fa fa-archive', 'xsd_members:MembersArchivedList', []),
         ]
     },
     {

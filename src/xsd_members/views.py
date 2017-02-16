@@ -114,8 +114,12 @@ class MemberList(RequireMembersOfficer, OrderedListView):
         return context
 
     def get_queryset(self, *args, **kwargs):
-        # Prefetch some stuff to cut down number of queries
+        show_archived = kwargs.pop('show_archived', False)
         q = super(MemberList, self).get_queryset(*args, **kwargs)
+        if not show_archived:
+            # Hide archived members
+            q = q.filter(archived=False)
+        # Prefetch some stuff to cut down number of queries
         q_prefetch = q.prefetch_related('user', 'top_qual_cached', 'club_membership_type')
         return q_prefetch
 
@@ -154,7 +158,7 @@ class MembersMissingFieldsList(MemberList):
         that they failed to fill out the form shown to them when they signed up
         to the database. This form will be shown to them when they log in
         again, they will not be able to use other parts of the database until
-        this form is completed.'''
+        this form is completed.</p>'''
 
     blank_fields = MemberProfile.PERSONAL_FIELDS
 
@@ -172,6 +176,15 @@ class MembersMissingFieldsList(MemberList):
         queryset = super(MembersMissingFieldsList, self).get_queryset()
         queryset_filtered = queryset.filter(self.build_queryset())
         return queryset_filtered
+
+class MembersArchivedList(MemberList):
+    page_title = 'Archived Members'
+    page_description = '''<p>Members are archived either manually by a Members Officer pressing the archive button, or
+        automatically after a predefined period of inactivity. Personal data is expunged.</p>'''
+
+    def get_queryset(self):
+        queryset = super(MembersArchivedList, self).get_queryset(show_archived=True)
+        return queryset.filter(archived=True)
 
 
 class MemberDetail(RequireMembersOfficer, DetailView):
