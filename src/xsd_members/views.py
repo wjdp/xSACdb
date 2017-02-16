@@ -417,7 +417,8 @@ class MemberUpdateRequestRespond(RequireMembersOfficer, BaseUpdateRequestRespond
 @require_members_officer
 def reports_overview(request):
     data = {}
-    data['member_count'] = MemberProfile.objects.all().count()
+    data['member_current_count'] = MemberProfile.objects.all().filter(archived=False).count()
+    data['member_archived_count'] = MemberProfile.objects.all().filter(archived=True).count()
     today = datetime.date.today()
     data['member_count_forms'] = MemberProfile.objects.filter(Q(bsac_expiry__lte=today) | Q(bsac_expiry=None) | \
                                                               Q(club_expiry__lte=today) | Q(club_expiry=today) | \
