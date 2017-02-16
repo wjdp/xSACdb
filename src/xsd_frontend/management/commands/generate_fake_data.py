@@ -235,4 +235,7 @@ class Command(BaseCommand):
                         u.memberprofile.set_qualification(random.choice(self.INSTRUCTOR_QUALS))
                         # if u.memberprofile.top_instructor_qual().rank >= self.OWI.rank:
                         #     u.memberprofile.instructor_number = random.randrange(1234,99999)
+            if self.fake.boolean(chance_of_getting_true=2):
+                # Archive some
+                u.memberprofile.archive()
             u.memberprofile.save()

@@ -3,8 +3,24 @@
 All notable changes to this project will be documented in this file. Notes should be geared towards the managers of
 xSACdb instances. This project will soon adhere to [Semantic Versioning](http://semver.org/).
 
+## Unreleased
 
-## [0.2.0] - Unreleased
+
+
+## [0.2.1] - 2017-02-16
+
+### Added
+- Ability to _archive_ old members. Archived members will not show on most members listings and will have personal details expunged from their profile.
+- Listing of archived members, ability to restore. Archived members are also restored when they log in again and re-fill-out the profile form.
+
+### Changed
+- The _'Remove New Flag'_ button on new members has been changed to _'Approve'_.
+- Tweaked production config for better performance.
+
+### Fixed
+- Favicons and application manifests (add to homescreen on mobile) were broken in 0.2.0. Now fixed. See #243 and #246.
+
+## [0.2.0] - 2017-02-13
 
 Using Docker/Dokku support added in 0.1.0 we are recommending that all deployments of xSACdb are done via a Dokku
 server. This ensures that your production environment is identical to that used in development and testing. Deployments

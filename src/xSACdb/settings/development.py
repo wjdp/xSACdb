@@ -1,11 +1,13 @@
 from __future__ import absolute_import
 import os
+from django.contrib.messages import constants as message_constants
+
+from .common import *
 
 # Make this FALSE for deployment
 DEBUG = True
 TEMPLATE_DEBUG = True
-
-from .common import *
+MESSAGE_LEVEL = message_constants.DEBUG
 
 # Club config
 CLUB = {
@@ -41,6 +43,9 @@ DATABASES = {
         'PORT': '',  # Set to empty string for default. Not used with sqlite3.
     }
 }
+
+# Cache sessons (reads only, writes still go to database)
+SESSION_ENGINE = 'django.contrib.sessions.backends.cached_db'
 
 # Local time zone for this installation. Choices can be found here:
 # http://en.wikipedia.org/wiki/List_of_tz_zones_by_name
@@ -96,5 +101,8 @@ RQ_QUEUES = {
     },
 }
 
+# Some areas use this
+EMAIL_FROM = 'database@madeupsac.com'
+DEFAULT_FROM_EMAIL = EMAIL_FROM
 EMAIL_BACKEND = 'django.core.mail.backends.filebased.EmailBackend'
 EMAIL_FILE_PATH = 'tmp/emails/' # change this to a proper location

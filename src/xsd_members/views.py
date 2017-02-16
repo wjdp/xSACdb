@@ -4,10 +4,11 @@ from django.conf import settings
 from django.contrib import messages
 from django.core.urlresolvers import reverse, reverse_lazy
 from django.db.models import Q
+from django.http.response import HttpResponseRedirect
 from django.shortcuts import render, redirect, get_object_or_404
 from django.template import RequestContext
 from django.views.generic.base import View
-from django.views.generic.detail import DetailView
+from django.views.generic.detail import DetailView, SingleObjectTemplateResponseMixin, BaseDetailView
 from django.views.generic.edit import FormView, DeleteView
 
 from xSACdb.roles.decorators import require_members_officer
@@ -67,7 +68,12 @@ class DynamicUpdateProfile(FormView):
         # Form still holds ref to MemberProfile so handles saving all by itself
         form.save()
         messages.add_message(self.request, messages.SUCCESS, settings.CLUB['dynamic_update_profile_success'])
-        # messages.add_message(self.request, messages.SUCCESS, settings.CLUB['dynamic_update_profile_success'])
+
+        if self.request.user.memberprofile.archived:
+            # User logged back in and re-added details. Reinstate
+            self.request.user.memberprofile.reinstate()
+            self.request.user.memberprofile.save()
+
         return super(DynamicUpdateProfile, self).form_valid(form)
 
 
@@ -114,15 +120,21 @@ class MemberList(RequireMembersOfficer, OrderedListView):
         return context
 
     def get_queryset(self, *args, **kwargs):
-        # Prefetch some stuff to cut down number of queries
+        show_archived = kwargs.pop('show_archived', False)
         q = super(MemberList, self).get_queryset(*args, **kwargs)
+        if not show_archived:
+            # Hide archived members
+            q = q.filter(archived=False)
+        # Prefetch some stuff to cut down number of queries
         q_prefetch = q.prefetch_related('user', 'top_qual_cached', 'club_membership_type')
         return q_prefetch
 
 
 class NewMembers(MemberList):
     page_title = 'New Members'
-    page_description = 'New signups to the database, to remove them from this list use <div class="fake-button"><i class="fa fa-flag"></i> Remove New Flag</div> on their profile page. Before this you\'ll probably want to add details to their profile, it\'s kinda the point of the new flag. For the time being the new flag is being used to verify new members. While users have a flag they won\'t be able to access the database properly.'
+    page_description = 'After members signup they require approval from a members officer to use the database. To ' \
+                       'approve use the <div class="fake-button"><i class="fa fa-check"></i> Approve</div> button on ' \
+                       'their profile page. Before this you\'ll probably want to add details to their profile.'
 
     def get_queryset(self):
         queryset = super(NewMembers, self).get_queryset()
@@ -154,7 +166,7 @@ class MembersMissingFieldsList(MemberList):
         that they failed to fill out the form shown to them when they signed up
         to the database. This form will be shown to them when they log in
         again, they will not be able to use other parts of the database until
-        this form is completed.'''
+        this form is completed.</p>'''
 
     blank_fields = MemberProfile.PERSONAL_FIELDS
 
@@ -172,6 +184,16 @@ class MembersMissingFieldsList(MemberList):
         queryset = super(MembersMissingFieldsList, self).get_queryset()
         queryset_filtered = queryset.filter(self.build_queryset())
         return queryset_filtered
+
+
+class MembersArchivedList(MemberList):
+    page_title = 'Archived Members'
+    page_description = '''<p>Members are archived either manually by a Members Officer pressing the archive button, or
+        automatically after a predefined period of inactivity. Personal data is expunged.</p>'''
+
+    def get_queryset(self):
+        queryset = super(MembersArchivedList, self).get_queryset(show_archived=True)
+        return queryset.filter(archived=True)
 
 
 class MemberDetail(RequireMembersOfficer, DetailView):
@@ -227,8 +249,16 @@ class MemberDetail(RequireMembersOfficer, DetailView):
             action = request.GET['action']
             if action == 'remove-new-flag':
                 p = self.get_object()
-                p.new_notify = False
+                p.approve()
                 p.save()
+                messages.add_message(self.request, messages.SUCCESS,
+                      settings.CLUB['memberprofile_approve_success'].format(p.get_full_name(), p.heshe().lower()))
+            if action == 'reinstate':
+                p = self.get_object()
+                p.reinstate()
+                p.save()
+                messages.add_message(self.request, messages.SUCCESS,
+                                     settings.CLUB['memberprofile_reinstate_success'].format(p.get_full_name()))
 
         return super(MemberDetail, self).get(request, *args, **kwargs)
 
@@ -296,6 +326,25 @@ class MemberDelete(RequireMembersOfficer, DeleteView):
     template_name = 'members_delete.html'
     success_url = reverse_lazy('xsd_members:MemberList')
     context_object_name = 'member'
+
+# This view very much modeled after DeletionMixin
+class MemberArchive(RequireMembersOfficer, SingleObjectTemplateResponseMixin, BaseDetailView):
+    model = MemberProfile
+    template_name = 'members_archive.html'
+    success_url = reverse_lazy('xsd_members:MemberList')
+    context_object_name = 'member'
+
+    def archive(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        success_url = self.object.get_absolute_url()
+        self.object.archive()
+        self.object.save()
+        messages.add_message(self.request, messages.SUCCESS,
+                             settings.CLUB['memberprofile_archive_success'].format(self.object.get_full_name()))
+        return HttpResponseRedirect(success_url)
+
+    def post(self, request, *args, **kwargs):
+        return self.archive(request, *args, **kwargs)
 
 
 @require_members_officer
@@ -385,7 +434,8 @@ class MemberUpdateRequestRespond(RequireMembersOfficer, BaseUpdateRequestRespond
 @require_members_officer
 def reports_overview(request):
     data = {}
-    data['member_count'] = MemberProfile.objects.all().count()
+    data['member_current_count'] = MemberProfile.objects.all().filter(archived=False).count()
+    data['member_archived_count'] = MemberProfile.objects.all().filter(archived=True).count()
     today = datetime.date.today()
     data['member_count_forms'] = MemberProfile.objects.filter(Q(bsac_expiry__lte=today) | Q(bsac_expiry=None) | \
                                                               Q(club_expiry__lte=today) | Q(club_expiry=today) | \

@@ -8,6 +8,10 @@
     <div class="col-md-4">
         <h2>Update your profile</h2>
         {{ l10n_club.dynamic_update_profile_blurb|markdown }}
+
+        {% if profile.archived %}
+        {{ l10n_club.dynamic_update_profile_archived|markdown }}
+        {% endif %}
     </div>
 
     <div class="col-md-8 form-layout xsd-members-dynamic-update-profile-form">

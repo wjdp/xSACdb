@@ -98,8 +98,7 @@ deploy-current:
     - mkdir -p ~/.ssh
     - echo "$SSH_PRIVATE_KEY" | tr -d '\r' > ~/.ssh/id_rsa && chmod 600 ~/.ssh/id_rsa
     - ssh-keyscan -H "$DEPLOY_HOST" >> ~/.ssh/known_hosts
-    - git branch && git branch -D master && git checkout -b master
-    - git push dokku@$DEPLOY_HOST:xsacdb-current master -f
+    - git push dokku@$DEPLOY_HOST:xsacdb-current HEAD:master -f
   environment:
     name: xsacdb-current
     url: https://current.xsacdb.wjdp.uk
@@ -114,8 +113,7 @@ deploy-next:
     - mkdir -p ~/.ssh
     - echo "$SSH_PRIVATE_KEY" | tr -d '\r' > ~/.ssh/id_rsa && chmod 600 ~/.ssh/id_rsa
     - ssh-keyscan -H "$DEPLOY_HOST" >> ~/.ssh/known_hosts
-    - git branch && git branch -D master && git checkout -b master
-    - git push dokku@$DEPLOY_HOST:xsacdb-next master -f
+    - git push dokku@$DEPLOY_HOST:xsacdb-next HEAD:master -f
   environment:
     name: xsacdb-next
     url: https://next.xsacdb.wjdp.uk

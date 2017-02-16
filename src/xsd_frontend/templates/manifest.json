@@ -1,23 +1,21 @@
+{% load staticfiles %}
 {
-  "short_name": "{{ l10n_club.name }} M",
-  "name": "{{ l10n_club.name }} M",
+  "short_name": "{{ l10n_club.name }}",
+  "name": "{{ l10n_club.name }}",
   "icons": [
     {
-      "src": "launcher-icon-2x.png",
-      "sizes": "96x96",
-      "type": "image/png"
-    },
-    {
-      "src": "launcher-icon-3x.png",
-      "sizes": "144x144",
-      "type": "image/png"
-    },
-    {
-      "src": "launcher-icon-4x.png",
+      "src": "{% static 'icons/android-chrome-192x192.png' %}",
       "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "{% static 'icons/android-chrome-512x512.png' %}",
+      "sizes": "512x512",
       "type": "image/png"
     }
   ],
+  "theme_color": "#0f1a24",
+  "background_color": "#0f1a24",
   "start_url": "/",
   "display": "standalone"
 }
