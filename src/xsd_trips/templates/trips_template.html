@@ -1,21 +1,18 @@
 {% extends 'base_template.html' %}
+{% load navigation %}
 
 {% block content %}
-{% comment %}
-<div class="row">
-<div class="span3">
-    <ul class="nav nav-list">
-      <li class="nav-header">Trips</li>
-      <li {% is_active_simple current_url 'TripList' %}>
-      <a href="{% url 'xsd_trips:TripList' %}">Trips List</a></li>
-    </ul>
+<div class="xsd-module-row">
 
-</div>
-{% endcomment %}
+    <div class="xsd-module-nav">
+    {% module_nav %}
+    </div>
 
-{% block trips_content %}
-No Content
-{% endblock %}
+    <div class="xsd-module-content">
+    {% block trips_content %}
+    No Content
+    {% endblock %}
+    </div>
 
 </div>
 
