@@ -4,12 +4,12 @@ import random
 import hashlib
 
 from allauth.socialaccount.models import SocialAccount
-from django.contrib.auth.models import AbstractUser, UserManager
-from django.core.mail import send_mail
-from django.db import models
+from django.contrib.auth.models import AbstractUser
+from django.contrib.auth.models import UserManager as DJ_UserManager
 
 
-class UserManager(UserManager):
+class UserManager(DJ_UserManager):
+    # FIXME either match signature of UserManager / switch to allauth managed
     def create_user(self, first_name, last_name, email, password):
         new_user = self.model(
             first_name=first_name,
@@ -23,12 +23,6 @@ class UserManager(UserManager):
 
 class User(AbstractUser):
     objects = UserManager()
-
-    # FIXME Remove
-    bsac_email = models.EmailField(blank=True)
-    bsac_password = models.CharField(max_length=128, blank=True)
-    # Y: Success, N: Failed, A: Awaiting, N: U & P not set,
-    bsac_state = models.CharField(max_length=1, default='N')
 
     class Meta:
         verbose_name = 'user'
@@ -51,12 +45,6 @@ class User(AbstractUser):
     def get_last_name(self):
         return self.memberprofile.last_name
 
-    def email_user(self, subject, message, from_email=None):
-        """
-        Sends an email to this User.
-        """
-        send_mail(subject, message, from_email, [self.email])
-
     def get_profile(self):
         return self.memberprofile
 
@@ -69,16 +57,6 @@ class User(AbstractUser):
 
         return "https://www.gravatar.com/avatar/{}?s={}".format(
             hashlib.md5(self.email).hexdigest(), size)
-
-    def set_bsac_auth(email, password):
-        # FIXME Remove
-        self.bsac_email = email
-        self.bsac_password = password
-        if email == '':
-            self.bsac_state = 'N'
-        else:
-            self.bsac_state = 'A'
-        self.save()
 
     def __unicode__(self):
         return self.get_full_name()
