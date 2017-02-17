@@ -9,6 +9,16 @@ DEBUG = True
 TEMPLATE_DEBUG = True
 MESSAGE_LEVEL = message_constants.DEBUG
 
+# Add debug apps and middleware
+INSTALLED_APPS = INSTALLED_APPS + (
+    'debug_toolbar',
+    'django_extensions',
+)
+
+MIDDLEWARE_CLASSES = MIDDLEWARE_CLASSES + (
+    'debug_toolbar.middleware.DebugToolbarMiddleware',
+)
+
 # Club config
 CLUB = {
     # Name of your club

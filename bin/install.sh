@@ -25,6 +25,11 @@ source env/bin/activate
 echo "[xSACdb] Installing python dependancies..."
 pip install -qr requirements.txt
 
+if [[ $XSACDB_FAKE_DATA = "TRUE" ]]
+then
+    pip install -qr requirements_dev.txt
+fi
+
 echo "[xSACdb] Installing frontend dependancies..."
 sass -v
 bower install -q --allow-root

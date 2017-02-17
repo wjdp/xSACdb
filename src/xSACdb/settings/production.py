@@ -15,6 +15,17 @@ EMAIL_BACKEND = 'xSACdb.mail.EnqueueBackend'
 from local_settings import *
 from xSACdb.version import VERSION
 
+# Patch debug apps into staging instances
+if STAGING:
+    INSTALLED_APPS = INSTALLED_APPS + (
+        'debug_toolbar',
+        'django_extensions',
+    )
+
+    MIDDLEWARE_CLASSES = MIDDLEWARE_CLASSES + (
+        'debug_toolbar.middleware.DebugToolbarMiddleware',
+    )
+
 # Some areas use this
 DEFAULT_FROM_EMAIL = EMAIL_FROM
 
