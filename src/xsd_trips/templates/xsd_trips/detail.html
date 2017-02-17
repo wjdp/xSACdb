@@ -1,0 +1,72 @@
+{% extends 'xsd_trips/base.html' %}
+{% load markdown %}
+
+{% block trips_content %}
+<div class="row">
+    <div class="col-md-12">
+        <h1>
+            {{ trip.uid }} |
+            {{ trip.name }}
+        </h1>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-12">
+        <div class="btn-group" role="group">
+            <a href="#" class="btn btn-secondary"><i class="fa fa-pencil"></i> Edit</a>
+            <a href="#" class="btn btn-success"><i class="fa fa-check"></i> Approve</a>
+            <a href="#" class="btn btn-secondary"><i class="fa fa-ban"></i> Cancel</a>
+            <a href="#" class="btn btn-danger"><i class="fa fa-trash-o"></i> Delete</a>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-6">
+        <div class="card">
+            <dl class="card-block">
+                <dt>Organiser</dt>
+                <dd>
+                    <a href="{{ trip.owner.get_absolute_url }}">{{ trip.owner }}</a>
+                </dd>
+                <dt>State</dt>
+                <dd>
+                    {{ trip.get_state_display }}
+                </dd>
+                <dt>Departs</dt>
+                <dd>{{ trip.date_start }}</dd>
+                <dt>Returns</dt>
+                <dd>{{ trip.date_end }}</dd>
+                <dt>Cost</dt>
+                <dd>£{{ trip.cost }}</dd>
+                <dt>Spaces</dt>
+                <dd>{{ trip.spaces }}</dd>
+                <dt>Maximum Depth</dt>
+                <dd>{{ trip.max_depth }}</dd>
+                <dt>Minimum Qualification</dt>
+                <dd>{{ trip.min_qual }}</dd>
+            </dl>
+        </div>
+    </div>
+
+    <div class="col-md-6">
+        {{ trip.description | markdown }}
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-12">
+        {% if trip.members.count > 0 %}
+
+            <h4>Members</h4>
+
+            {% include 'xsd_trips/member_list.html' with members=trip.members.all %}
+
+        {% else %}
+
+            <div class="alert alert-info">
+                <i class="fa fa-info-circle"></i> No members have signed up yet.
+            </div>
+
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

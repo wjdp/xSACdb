@@ -30,7 +30,7 @@ APP_LIST = [
         'title': 'Trips',
         'access': is_verified,
         'app': 'xsd_trips',
-        'url': 'xsd_trips:TripList',
+        'url': 'xsd_trips:TripListUpcoming',
         'icon': 'fa fa-suitcase',
     },
     # {

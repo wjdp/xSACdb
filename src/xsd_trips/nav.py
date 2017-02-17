@@ -5,8 +5,8 @@ NAV = (
         'title': 'Trips',
         'access': is_verified,
         'items': [
-            ('Upcoming', None, 'fa fa-calendar', 'xsd_trips:TripList', []),
-            ('Past', None, 'fa fa-calendar-times-o', 'xsd_trips:TripCreate', []),
+            ('Upcoming', None, 'fa fa-calendar', 'xsd_trips:TripListUpcoming', []),
+            ('Past', None, 'fa fa-calendar-times-o', 'xsd_trips:TripListArchive', []),
         ]
     },
     {

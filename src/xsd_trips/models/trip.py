@@ -1,15 +1,18 @@
 from __future__ import unicode_literals
 
+from django.core.urlresolvers import reverse
 from django.db import models
 
 from xsd_members.models import MemberProfile
 
-from .fake import TripFakeDataMixin
 from .trip_manager import TripManager
 from .trip_member import TripMember
 
+from .fake import TripFakeDataMixin
+from .states import *
 
-class Trip(models.Model, TripFakeDataMixin):
+
+class Trip(models.Model, TripStateMixin, TripFakeDataMixin):
     """Representation of a trip"""
 
     objects = TripManager()
@@ -36,19 +39,35 @@ class Trip(models.Model, TripFakeDataMixin):
     MIN_QUAL_HELP_TEXT = 'Indication of the minimum qualification needed to participate on this trip\'s diving.'
     min_qual = models.ForeignKey('xsd_training.Qualification', blank=True, null=True, help_text=MIN_QUAL_HELP_TEXT)
 
+    # Copy states from states
+    STATE_CANCELLED = STATE_CANCELLED
+    STATE_NEW = STATE_NEW
+    STATE_PENDING = STATE_PENDING
+    STATE_APPROVED = STATE_APPROVED
+    STATE_OPEN = STATE_OPEN
+    STATE_CLOSED = STATE_CLOSED
+    STATE_COMPLETED = STATE_COMPLETED
+
     STATES = (
-        (10, 'Cancelled'),
-        (20, 'New'),
-        (30, 'Pending'),
-        (40, 'Approved'),
-        (50, 'Accepting sign-ups'),
-        (80, 'Closed'),
-        (99, 'Completed'),
+        (STATE_CANCELLED, 'Cancelled'),
+        (STATE_NEW, 'New'),
+        (STATE_PENDING, 'Pending'),
+        (STATE_APPROVED, 'Approved'),
+        (STATE_OPEN, 'Open'),
+        (STATE_CLOSED, 'Closed'),
+        (STATE_COMPLETED, 'Completed'),
     )
+
     state = models.IntegerField(choices=STATES, default=20)
 
     members = models.ManyToManyField('xsd_members.MemberProfile', blank=True, through=TripMember,
                                      related_name='trip_members')
+    @property
+    def uid(self):
+        return "T{:0>4d}".format(self.pk)
+
+    def get_absolute_url(self):
+        return reverse('xsd_trips:TripDetail', kwargs={'pk': self.pk})
 
     def __unicode__(self):
         return '{}'.format(self.name)
