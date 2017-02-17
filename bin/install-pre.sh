@@ -16,12 +16,6 @@ echo "[xSACdb] Installing python dependencies..."
 echo ">> Production dependencies"
 pip install -qr requirements.txt
 
-if [[ $XSACDB_FAKE_DATA = "TRUE" ]]
-then
-    echo ">> Development dependencies"
-    pip install -qr requirements_dev.txt
-fi
-
 echo "[xSACdb] Installing frontend dependencies..."
 # Just check the sass version
 sass -v
