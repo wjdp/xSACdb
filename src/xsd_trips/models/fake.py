@@ -70,6 +70,7 @@ TRIP_NAME_SUFFIXES = (
     'Gulf'
 )
 
+
 def generate_fake_name():
     return "{}{} {}".format(
         random.choice(TRIP_NAME_PREFIX1),
@@ -79,7 +80,6 @@ def generate_fake_name():
 
 
 class TripFakeDataMixin(object):
-
     def fake(self, fake, quals, past=False):
         self.name = generate_fake_name()
         if past:
@@ -94,7 +94,7 @@ class TripFakeDataMixin(object):
         ).date()
 
         if fake.boolean(chance_of_getting_true=10):
-            self.cost = decimal.Decimal(random.randrange(100000))/100
+            self.cost = decimal.Decimal(random.randrange(100000)) / 100
         else:
             self.cost = random.randrange(900) + 50
 
@@ -119,7 +119,7 @@ class TripFakeDataMixin(object):
 
         if past:
             if fake.boolean(chance_of_getting_true=90):
-                if self.date_end > (datetime.now() - timedelta(hours=24*365)).date() and \
+                if self.date_end > (datetime.now() - timedelta(hours=24 * 365)).date() and \
                         fake.boolean(chance_of_getting_true=30):
                     self.state = STATE_CLOSED
                 elif fake.boolean(chance_of_getting_true=20):
@@ -138,5 +138,3 @@ class TripFakeDataMixin(object):
                 STATE_OPEN,
                 STATE_CLOSED,
             ))
-
-

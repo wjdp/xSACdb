@@ -4,6 +4,7 @@ from xSACdb.roles.functions import *
 
 from .states import *
 
+
 class TripPermissionMixin(object):
     def _is_modifier(self, user):
         return is_trips(user) or self.owner == user.get_profile()
@@ -18,12 +19,12 @@ class TripPermissionMixin(object):
         return is_verified(user)
 
     def can_edit(self, user):
-        if self.state in (STATE_DENIED, STATE_CLOSED, STATE_CANCELLED):
+        if self.state in (STATE_DENIED, STATE_CANCELLED, STATE_COMPLETED):
             return False
         return self._is_modifier(user)
 
     def can_deny(self, user):
-        if self.state in (STATE_NEW, ):
+        if self.state in (STATE_NEW,):
             return is_trips(user)
 
     def can_approve(self, user):
@@ -38,7 +39,7 @@ class TripPermissionMixin(object):
             return False
 
     def can_cancel(self, user):
-        if self.state != STATE_DENIED:
+        if self.state not in (STATE_DENIED, STATE_COMPLETED):
             return self._is_modifier(user)
         else:
             return False

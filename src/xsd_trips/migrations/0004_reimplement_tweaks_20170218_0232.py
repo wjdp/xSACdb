@@ -20,7 +20,7 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='trip',
             name='date_start',
-            field=models.DateField(default=datetime.datetime(2017, 2, 18, 1, 46, 57, 429527), help_text='dd/mm/yyyy', verbose_name='Departs'),
+            field=models.DateField(default=datetime.datetime(2017, 2, 18, 2, 32, 47, 721725), help_text='dd/mm/yyyy', verbose_name='Departs'),
             preserve_default=False,
         ),
         migrations.AlterField(

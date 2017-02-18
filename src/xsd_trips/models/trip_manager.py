@@ -7,7 +7,6 @@ from .states import *
 
 
 class TripManager(models.Manager):
-
     def all(self, *args, **kwargs):
         return super(TripManager, self).all(*args, **kwargs).order_by('date_start')
 
@@ -25,4 +24,3 @@ class TripManager(models.Manager):
     def past(self):
         """Approved trips in the future"""
         return self.filter(date_end__lte=datetime.date.today()).order_by('-date_start')
-

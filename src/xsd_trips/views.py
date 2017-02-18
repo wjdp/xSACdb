@@ -4,7 +4,7 @@ from django.views.generic import DetailView
 from django.views.generic.list import ListView
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 
-from xSACdb.roles.mixins import RequireVerified, RequireTripsOfficer
+from xSACdb.roles.mixins import RequireVerified, RequirePermission, RequireTripsOfficer
 from xSACdb.roles.functions import is_trips
 
 from models import Trip
@@ -18,9 +18,9 @@ class TripListUpcoming(RequireVerified, ListView):
 
     def get_queryset(self):
         if is_trips(self.request.user):
-            return Trip.objects.upcoming_all()
+            return Trip.objects.upcoming_all().select_related()
         else:
-            return Trip.objects.upcoming()
+            return Trip.objects.upcoming().select_related()
 
 
 class TripListArchive(RequireVerified, ListView):
@@ -28,7 +28,7 @@ class TripListArchive(RequireVerified, ListView):
     model = Trip
     template_name = 'xsd_trips/list.html'
     context_object_name = 'trips'
-    queryset = Trip.objects.past()
+    queryset = Trip.objects.past().select_related()
 
 
 class TripListMine(RequireVerified, ListView):
@@ -46,7 +46,7 @@ class TripListAdmin(RequireTripsOfficer, ListView):
     model = Trip
     template_name = 'xsd_trips/list.html'
     context_object_name = 'trips'
-    queryset = Trip.objects.private()
+    queryset = Trip.objects.private().select_related()
 
 
 class TripCreate(RequireVerified, CreateView):
@@ -71,16 +71,24 @@ class TripCreate(RequireVerified, CreateView):
         return super(TripCreate, self).form_valid(form)
 
 
-class TripDetail(RequireVerified, DetailView):
+class TripDetail(RequireVerified, RequirePermission, DetailView):
     model = Trip
+    permission = 'can_view'
     template_name = 'xsd_trips/detail.html'
 
     def get_queryset(self):
         return super(TripDetail, self).get_queryset().select_related()
 
 
-class TripUpdate(RequireVerified, UpdateView):
+    def get_context_data(self, **kwargs):
+        context = super(TripDetail, self).get_context_data(**kwargs)
+        context['page_title'] = self.object.name
+        return context
+
+
+class TripUpdate(RequireVerified, RequirePermission, UpdateView):
     model = Trip
+    permission = 'can_edit'
     template_name = 'xsd_trips/edit.html'
     fields = (
         'name',

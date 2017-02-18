@@ -1,13 +1,14 @@
 from __future__ import unicode_literals
 
-STATE_DENIED = 10   # Created then denied
-STATE_NEW = 20      # Brand new and awaiting approval
+STATE_DENIED = 10  # Created then denied
+STATE_NEW = 20  # Brand new and awaiting approval
 STATE_APPROVED = 40  # Approved and awaiting opening
 
-STATE_CANCELLED = 45 # Having been opended, now closed
-STATE_OPEN = 50      # Open for viewing
-STATE_CLOSED = 80    # Closed for signups
-STATE_COMPLETED = 90 # Trip done
+STATE_CANCELLED = 45  # Having been opened, now closed
+STATE_OPEN = 50  # Open for viewing
+STATE_CLOSED = 80  # Closed for sign-ups
+STATE_COMPLETED = 90  # Trip done
+
 
 class TripStateMixin(object):
     @property
@@ -54,4 +55,3 @@ class TripStateMixin(object):
 
     def state_class(self):
         return 'trip-state-{}'.format(self.STATE_CLASS_MAP[self.state])
-

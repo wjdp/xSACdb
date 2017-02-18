@@ -22,25 +22,23 @@ class Trip(models.Model, TripStateMixin, TripPermissionMixin, TripFakeDataMixin)
 
     owner = models.ForeignKey(MemberProfile, related_name='trip_owner', verbose_name='Organiser')
 
-    NAME_HELP_TEXT = 'Friendly name.'
-    name = models.CharField(max_length=64, help_text=NAME_HELP_TEXT)
+    name = models.CharField(max_length=64, help_text='Friendly name.')
 
-    date_start = models.DateField(verbose_name='Departs', help_text='dd/mm/yyy')
-    date_end = models.DateField(blank=True, null=True, verbose_name='Returns', help_text='dd/mm/yyy')
+    date_start = models.DateField(verbose_name='Departs', help_text='dd/mm/yyyy')
+    date_end = models.DateField(blank=True, null=True, verbose_name='Returns', help_text='dd/mm/yyyy')
 
-    COST_HELP_TEXT = 'Advertised cost of trip.'
-    cost = models.DecimalField(decimal_places=2, max_digits=6, blank=True, null=True, help_text=COST_HELP_TEXT)
+    cost = models.DecimalField(decimal_places=2, max_digits=6, blank=True, null=True,
+                               help_text='Advertised cost of trip.')
 
-    SPACES_HELP_TEXT = 'Number of spaces to advertise.'
-    spaces = models.PositiveIntegerField(blank=True, null=True, help_text=SPACES_HELP_TEXT)
+    spaces = models.PositiveIntegerField(blank=True, null=True, help_text='Number of spaces to advertise.')
 
-    DESCRIPTION_HELP_TEXT = 'Viewable by all members.'
-    description = models.TextField(blank=True, help_text=DESCRIPTION_HELP_TEXT)
+    description = models.TextField(blank=True, help_text='Viewable by all members.')
 
-    MAX_DEPTH_HELP_TEXT = 'Indication of the maximum planned depth of dives.'
-    max_depth = models.PositiveIntegerField(blank=True, null=True, verbose_name='Maximum depth', help_text=MAX_DEPTH_HELP_TEXT)
-    MIN_QUAL_HELP_TEXT = 'Indication of the minimum qualification needed to participate on this trip\'s diving.'
-    min_qual = models.ForeignKey('xsd_training.Qualification', blank=True, null=True, verbose_name='Minimum qualification', help_text=MIN_QUAL_HELP_TEXT)
+    max_depth = models.PositiveIntegerField(blank=True, null=True, verbose_name='Maximum depth',
+                                            help_text='Indication of the maximum planned depth of dives.')
+    min_qual = models.ForeignKey('xsd_training.Qualification', blank=True, null=True,
+                                 verbose_name='Minimum qualification',
+                                 help_text='Indication of the minimum qualification needed to participate on this trip\'s diving.')
 
     # Copy states from states
     STATE_DENIED = STATE_DENIED
@@ -66,6 +64,7 @@ class Trip(models.Model, TripStateMixin, TripPermissionMixin, TripFakeDataMixin)
 
     members = models.ManyToManyField('xsd_members.MemberProfile', blank=True, through=TripMember,
                                      related_name='trip_members')
+
     @property
     def uid(self):
         return "T{:0>4d}".format(self.pk)
