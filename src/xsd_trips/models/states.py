@@ -1,5 +1,9 @@
 from __future__ import unicode_literals
 
+from django.core.exceptions import PermissionDenied
+from reversion import revisions
+from django.db import transaction
+
 STATE_DENIED = 10  # Created then denied
 STATE_NEW = 20  # Brand new and awaiting approval
 STATE_APPROVED = 40  # Approved and awaiting opening
@@ -55,3 +59,59 @@ class TripStateMixin(object):
 
     def state_class(self):
         return 'trip-state-{}'.format(self.STATE_CLASS_MAP[self.state])
+
+    # Methods that do things...
+
+    def set_denied(self, user):
+        if not self.can_deny(user):
+            raise PermissionDenied
+        with transaction.atomic(), revisions.create_revision():
+            self.state = STATE_DENIED
+            self.save()
+            revisions.set_user(user)
+            revisions.set_comment('Trip request denied')
+
+    def set_approved(self, user):
+        if not self.can_approve(user):
+            raise PermissionDenied
+        with transaction.atomic(), revisions.create_revision():
+            self.state = STATE_APPROVED
+            self.save()
+            revisions.set_user(user)
+            revisions.set_comment('Trip request approved')
+
+    def set_cancelled(self, user):
+        if not self.can_cancel(user):
+            raise PermissionDenied
+        with transaction.atomic(), revisions.create_revision():
+            self.state = STATE_CANCELLED
+            self.save()
+            revisions.set_user(user)
+            revisions.set_comment('Trip cancelled')
+
+    def set_open(self, user):
+        if not self.can_open(user):
+            raise PermissionDenied
+        with transaction.atomic(), revisions.create_revision():
+            self.state = STATE_OPEN
+            self.save()
+            revisions.set_user(user)
+            revisions.set_comment('Trip opened')
+
+    def set_closed(self, user):
+        if not self.can_close(user):
+            raise PermissionDenied
+        with transaction.atomic(), revisions.create_revision():
+            self.state = STATE_CLOSED
+            self.save()
+            revisions.set_user(user)
+            revisions.set_comment('Trip closed')
+
+    def set_completed(self, user):
+        if not self.can_complete(user):
+            raise PermissionDenied
+        with transaction.atomic(), revisions.create_revision():
+            self.state = STATE_COMPLETED
+            self.save()
+            revisions.set_user(user)
+            revisions.set_comment('Trip completed')

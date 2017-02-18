@@ -13,33 +13,51 @@
 </div>
 <div class="row">
     <div class="col-md-12">
-        <div class="btn-group" role="group">
+        <div class="btn-toolbar" role="group">
             {% permission request.user can_edit trip %}
                 <a href="{% url 'xsd_trips:TripUpdate' trip.pk %}" class="btn btn-outline-primary"><i class="fa fa-pencil"></i> Edit</a>
             {% endpermission %}
 
             {% permission request.user can_approve trip %}
-                <a href="#" class="btn btn-success"><i class="fa fa-check"></i> Approve</a>
+                <form method="POST" action="set/approve/">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-success"><i class="fa fa-check"></i> Approve</button>
+                </form>
             {% endpermission %}
 
             {% permission request.user can_deny trip %}
-                <a href="#" class="btn btn-danger"><i class="fa fa-times"></i> Deny</a>
+                <form method="POST" action="set/deny/">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-danger"><i class="fa fa-times"></i> Deny</button>
+                </form>
             {% endpermission %}
 
             {% permission request.user can_open trip %}
-                <a href="#" class="btn btn-outline-primary"><i class="fa fa-play"></i> Open</a>
+                <form method="POST" action="set/open/">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-outline-primary"><i class="fa fa-play"></i> Open</button>
+                </form>
             {% endpermission %}
 
             {% permission request.user can_close trip %}
-                <a href="#" class="btn btn-outline-primary"><i class="fa fa-stop"></i> Close</a>
+                <form method="POST" action="set/close/">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-outline-primary"><i class="fa fa-stop"></i> Close</button>
+                </form>
             {% endpermission %}
 
             {% permission request.user can_cancel trip %}
-                <a href="#" class="btn btn-outline-danger"><i class="fa fa-ban"></i> Cancel</a>
+                <form method="POST" action="set/cancel/">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-outline-danger"><i class="fa fa-ban"></i> Cancel</button>
+                </form>
             {% endpermission %}
 
             {% permission request.user can_delete trip %}
-                <a href="#" class="btn btn-outline-danger"><i class="fa fa-trash"></i> Delete</a>
+                <form method="POST" action="set/delete/">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-outline-danger"><i class="fa fa-trash"></i> Delete</button>
+                </form>
             {% endpermission %}
         </div>
     </div>

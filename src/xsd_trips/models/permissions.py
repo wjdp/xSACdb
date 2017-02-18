@@ -19,7 +19,7 @@ class TripPermissionMixin(object):
         return is_verified(user)
 
     def can_edit(self, user):
-        if self.state in (STATE_DENIED, STATE_CANCELLED, STATE_COMPLETED):
+        if self.state in (STATE_COMPLETED, ):
             return False
         return self._is_modifier(user)
 
@@ -39,7 +39,7 @@ class TripPermissionMixin(object):
             return False
 
     def can_cancel(self, user):
-        if self.state not in (STATE_DENIED, STATE_COMPLETED):
+        if self.state not in (STATE_DENIED, STATE_CANCELLED, STATE_COMPLETED):
             return self._is_modifier(user)
         else:
             return False
