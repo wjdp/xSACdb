@@ -2,6 +2,7 @@
 from __future__ import unicode_literals
 
 from django.db import migrations, models
+import datetime
 
 
 class Migration(migrations.Migration):
@@ -14,12 +15,12 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='trip',
             name='date_end',
-            field=models.DateField(help_text='dd/mm/yyy', null=True, verbose_name='Returns', blank=True),
+            field=models.DateField(help_text='dd/mm/yyyy', null=True, verbose_name='Returns', blank=True),
         ),
         migrations.AlterField(
             model_name='trip',
             name='date_start',
-            field=models.DateField(default=0, help_text='dd/mm/yyy', verbose_name='Departs'),
+            field=models.DateField(default=datetime.datetime(2017, 2, 18, 1, 46, 57, 429527), help_text='dd/mm/yyyy', verbose_name='Departs'),
             preserve_default=False,
         ),
         migrations.AlterField(
