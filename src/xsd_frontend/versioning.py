@@ -19,7 +19,7 @@ class XSDVersion(CompareMixin, Version):
     def parent(self):
         """Get parent of this version"""
         try:
-            return self.all().filter(revision_id__lt=self.pk).latest(field_name='revision__date_created')
+            return self.all().filter(pk__lt=self.pk).latest(field_name='revision__date_created')
         except ObjectDoesNotExist:
             return False
 

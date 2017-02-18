@@ -28,7 +28,7 @@
         <tr>
             <td>
                 {{ version.id }}
-                <!-- parent: {{ version.parent.id }} -->
+                {% if version.parent %}| {{ version.parent.id }}{% endif %}
             </td>
             <td>{{ version.revision.date_created }}</td>
             <td>
