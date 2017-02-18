@@ -27,7 +27,7 @@ class RequireInstructor(RequireGroup):
 class RequireTrainingOfficer(RequireGroup):
     def is_allowed(self,user):
         return is_training(user)
-class RequireTripOrganiser(RequireGroup):
+class RequireTripsOfficer(RequireGroup):
     def is_allowed(self,user):
         return is_trips(user)
 class RequireSiteAdministrator(RequireGroup):

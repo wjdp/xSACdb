@@ -1,0 +1,45 @@
+# -*- coding: utf-8 -*-
+from __future__ import unicode_literals
+
+from django.db import migrations, models
+
+
+class Migration(migrations.Migration):
+
+    dependencies = [
+        ('xsd_trips', '0003_reimplement_20170217_1601'),
+    ]
+
+    operations = [
+        migrations.AlterField(
+            model_name='trip',
+            name='date_end',
+            field=models.DateField(help_text='dd/mm/yyy', null=True, verbose_name='Returns', blank=True),
+        ),
+        migrations.AlterField(
+            model_name='trip',
+            name='date_start',
+            field=models.DateField(default=0, help_text='dd/mm/yyy', verbose_name='Departs'),
+            preserve_default=False,
+        ),
+        migrations.AlterField(
+            model_name='trip',
+            name='max_depth',
+            field=models.PositiveIntegerField(help_text='Indication of the maximum planned depth of dives.', null=True, verbose_name='Maximum depth', blank=True),
+        ),
+        migrations.AlterField(
+            model_name='trip',
+            name='min_qual',
+            field=models.ForeignKey(blank=True, to='xsd_training.Qualification', help_text="Indication of the minimum qualification needed to participate on this trip's diving.", null=True, verbose_name='Minimum qualification'),
+        ),
+        migrations.AlterField(
+            model_name='trip',
+            name='owner',
+            field=models.ForeignKey(related_name='trip_owner', verbose_name='Organiser', to='xsd_members.MemberProfile'),
+        ),
+        migrations.AlterField(
+            model_name='trip',
+            name='state',
+            field=models.IntegerField(default=20, choices=[(10, 'Denied'), (20, 'New'), (40, 'Approved'), (45, 'Cancelled'), (50, 'Open'), (80, 'Closed'), (90, 'Completed')]),
+        ),
+    ]

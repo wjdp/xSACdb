@@ -1,5 +1,6 @@
 from __future__ import unicode_literals
 
+from reversion import revisions as reversion
 from django.core.urlresolvers import reverse
 from django.db import models
 
@@ -9,21 +10,23 @@ from .trip_manager import TripManager
 from .trip_member import TripMember
 
 from .fake import TripFakeDataMixin
+from .permissions import TripPermissionMixin
 from .states import *
 
 
-class Trip(models.Model, TripStateMixin, TripFakeDataMixin):
+@reversion.register()
+class Trip(models.Model, TripStateMixin, TripPermissionMixin, TripFakeDataMixin):
     """Representation of a trip"""
 
     objects = TripManager()
 
-    owner = models.ForeignKey(MemberProfile, related_name='trip_owner')
+    owner = models.ForeignKey(MemberProfile, related_name='trip_owner', verbose_name='Organiser')
 
     NAME_HELP_TEXT = 'Friendly name.'
     name = models.CharField(max_length=64, help_text=NAME_HELP_TEXT)
 
-    date_start = models.DateField(blank=True, null=True)
-    date_end = models.DateField(blank=True, null=True)
+    date_start = models.DateField(verbose_name='Departs', help_text='dd/mm/yyy')
+    date_end = models.DateField(blank=True, null=True, verbose_name='Returns', help_text='dd/mm/yyy')
 
     COST_HELP_TEXT = 'Advertised cost of trip.'
     cost = models.DecimalField(decimal_places=2, max_digits=6, blank=True, null=True, help_text=COST_HELP_TEXT)
@@ -35,24 +38,25 @@ class Trip(models.Model, TripStateMixin, TripFakeDataMixin):
     description = models.TextField(blank=True, help_text=DESCRIPTION_HELP_TEXT)
 
     MAX_DEPTH_HELP_TEXT = 'Indication of the maximum planned depth of dives.'
-    max_depth = models.PositiveIntegerField(blank=True, null=True, help_text=MAX_DEPTH_HELP_TEXT)
+    max_depth = models.PositiveIntegerField(blank=True, null=True, verbose_name='Maximum depth', help_text=MAX_DEPTH_HELP_TEXT)
     MIN_QUAL_HELP_TEXT = 'Indication of the minimum qualification needed to participate on this trip\'s diving.'
-    min_qual = models.ForeignKey('xsd_training.Qualification', blank=True, null=True, help_text=MIN_QUAL_HELP_TEXT)
+    min_qual = models.ForeignKey('xsd_training.Qualification', blank=True, null=True, verbose_name='Minimum qualification', help_text=MIN_QUAL_HELP_TEXT)
 
     # Copy states from states
-    STATE_CANCELLED = STATE_CANCELLED
+    STATE_DENIED = STATE_DENIED
     STATE_NEW = STATE_NEW
-    STATE_PENDING = STATE_PENDING
     STATE_APPROVED = STATE_APPROVED
+
+    STATE_CANCELLED = STATE_CANCELLED
     STATE_OPEN = STATE_OPEN
     STATE_CLOSED = STATE_CLOSED
     STATE_COMPLETED = STATE_COMPLETED
 
     STATES = (
-        (STATE_CANCELLED, 'Cancelled'),
+        (STATE_DENIED, 'Denied'),
         (STATE_NEW, 'New'),
-        (STATE_PENDING, 'Pending'),
         (STATE_APPROVED, 'Approved'),
+        (STATE_CANCELLED, 'Cancelled'),
         (STATE_OPEN, 'Open'),
         (STATE_CLOSED, 'Closed'),
         (STATE_COMPLETED, 'Completed'),

@@ -3,7 +3,8 @@ from __future__ import unicode_literals
 import decimal
 import random
 
-from datetime import timedelta
+from datetime import timedelta, datetime
+from .states import *
 
 TRIP_NAME_PREFIX1 = (
     'Outer',
@@ -78,18 +79,19 @@ def generate_fake_name():
 
 
 class TripFakeDataMixin(object):
+
     def fake(self, fake, quals, past=False):
         self.name = generate_fake_name()
         if past:
-            self.date_start = fake.date_time_between(start_date="-30y", end_date="now", tzinfo=None)
+            self.date_start = fake.date_time_between(start_date="-30y", end_date="now", tzinfo=None).date()
         else:
-            self.date_start = fake.date_time_between(start_date="now", end_date="+2y", tzinfo=None)
+            self.date_start = fake.date_time_between(start_date="now", end_date="+2y", tzinfo=None).date()
 
         self.date_end = fake.date_time_between(
             start_date=self.date_start + timedelta(days=1),
             end_date=self.date_start + timedelta(days=14),
             tzinfo=None
-        )
+        ).date()
 
         if fake.boolean(chance_of_getting_true=10):
             self.cost = decimal.Decimal(random.randrange(100000))/100
@@ -117,12 +119,24 @@ class TripFakeDataMixin(object):
 
         if past:
             if fake.boolean(chance_of_getting_true=90):
-                # Completed
-                self.state = 90
+                if self.date_end > (datetime.now() - timedelta(hours=24*365)).date() and \
+                        fake.boolean(chance_of_getting_true=30):
+                    self.state = STATE_CLOSED
+                elif fake.boolean(chance_of_getting_true=20):
+                    self.state = STATE_CANCELLED
+                else:
+                    self.state = STATE_COMPLETED
             else:
                 # Cancelled
-                self.state = 10
+                self.state = STATE_CANCELLED
         else:
-            self.state = random.choice((10, 20, 30, 40, 50))
+            self.state = random.choice((
+                STATE_DENIED,
+                STATE_NEW,
+                STATE_APPROVED,
+                STATE_CANCELLED,
+                STATE_OPEN,
+                STATE_CLOSED,
+            ))
 
 

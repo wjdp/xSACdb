@@ -1,4 +1,5 @@
 {% extends 'xsd_trips/base.html' %}
+{% load permissions %}
 {% load markdown %}
 
 {% block trips_content %}
@@ -13,10 +14,33 @@
 <div class="row">
     <div class="col-md-12">
         <div class="btn-group" role="group">
-            <a href="#" class="btn btn-secondary"><i class="fa fa-pencil"></i> Edit</a>
-            <a href="#" class="btn btn-success"><i class="fa fa-check"></i> Approve</a>
-            <a href="#" class="btn btn-secondary"><i class="fa fa-ban"></i> Cancel</a>
-            <a href="#" class="btn btn-danger"><i class="fa fa-trash-o"></i> Delete</a>
+            {% permission request.user can_edit trip %}
+                <a href="{% url 'xsd_trips:TripUpdate' trip.pk %}" class="btn btn-outline-primary"><i class="fa fa-pencil"></i> Edit</a>
+            {% endpermission %}
+
+            {% permission request.user can_approve trip %}
+                <a href="#" class="btn btn-success"><i class="fa fa-check"></i> Approve</a>
+            {% endpermission %}
+
+            {% permission request.user can_deny trip %}
+                <a href="#" class="btn btn-danger"><i class="fa fa-times"></i> Deny</a>
+            {% endpermission %}
+
+            {% permission request.user can_open trip %}
+                <a href="#" class="btn btn-outline-primary"><i class="fa fa-play"></i> Open</a>
+            {% endpermission %}
+
+            {% permission request.user can_close trip %}
+                <a href="#" class="btn btn-outline-primary"><i class="fa fa-stop"></i> Close</a>
+            {% endpermission %}
+
+            {% permission request.user can_cancel trip %}
+                <a href="#" class="btn btn-outline-danger"><i class="fa fa-ban"></i> Cancel</a>
+            {% endpermission %}
+
+            {% permission request.user can_delete trip %}
+                <a href="#" class="btn btn-outline-danger"><i class="fa fa-trash"></i> Delete</a>
+            {% endpermission %}
         </div>
     </div>
 </div>
@@ -35,13 +59,17 @@
                 <dt>Departs</dt>
                 <dd>{{ trip.date_start }}</dd>
                 <dt>Returns</dt>
-                <dd>{{ trip.date_end }}</dd>
+                <dd>
+                    {% if trip.date_end %}{{ trip.date_end }}{% else %}<em>Unknown</em>{% endif %}
+                </dd>
                 <dt>Cost</dt>
-                <dd>£{{ trip.cost }}</dd>
+                <dd>
+                    {% if trip.cost %}£ {{ trip.cost }}{% else %}<em>Unknown</em>{% endif %}
+                </dd>
                 <dt>Spaces</dt>
-                <dd>{{ trip.spaces }}</dd>
+                <dd>{% if trip.spaces %}{{ trip.spaces }}{% else %}<em>Unknown</em>{% endif %}</dd>
                 <dt>Maximum Depth</dt>
-                <dd>{{ trip.max_depth }}</dd>
+                <dd>{% if trip.max_depth %}{{ trip.max_depth }} metres{% else %}<em>Unknown</em>{% endif %}</dd>
                 <dt>Minimum Qualification</dt>
                 <dd>{{ trip.min_qual }}</dd>
             </dl>

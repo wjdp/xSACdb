@@ -13,14 +13,15 @@ NAV = (
         'title': 'Organise',
         'access': is_verified,
         'items': [
-            ('My Trips', None, 'fa fa-suitcase', 'xsd_trips:TripCreate', []),
+            ('My Trips', None, 'fa fa-suitcase', 'xsd_trips:TripListMine', []),
+            ('Create Trip', None, 'fa fa-plus', 'xsd_trips:TripCreate', []),
         ]
     },
     {
         'title': 'Administration',
         'access': is_trips,
         'items': [
-            ('Needing Approval', None, 'fa fa-calendar-plus-o', 'xsd_trips:TripCreate', []),
+            ('Needing Approval', None, 'fa fa-calendar-plus-o', 'xsd_trips:TripListAdmin', []),
         ]
     },
 )
