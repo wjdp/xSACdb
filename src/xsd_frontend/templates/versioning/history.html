@@ -31,7 +31,11 @@
                 <!-- parent: {{ version.parent.id }} -->
             </td>
             <td>{{ version.revision.date_created }}</td>
-            <td>{{ version.revision.user }}</td>
+            <td>
+                <a href="{{ version.revision.user.get_absolute_url }}">
+                    {{ version.revision.user }}
+                </a>
+            </td>
             <td>{{ version.revision.comment }}</td>
             <td>
                 <dl>
@@ -39,7 +43,10 @@
                     <!-- {{ item }} -->
                     <dt>{{ item.field.verbose_name }}</dt>
                     {% if item.is_related %}
-                        <dd><i class="fa fa-cube"></i> {{ item.diff }}</dd>
+                        <dd>
+                            <i class="fa fa-cube"></i>
+                            {{ item.diff }}
+                        </dd>
                     {% else %}
                         <dd>{{ item.diff }}</dd>
                     {% endif %}

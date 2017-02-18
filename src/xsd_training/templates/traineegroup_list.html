@@ -19,6 +19,7 @@
         <td>{{ group.trainees_list_with_links|safe }}</td>
         <td class="action-icons">
             <a href="{% url 'xsd_training:TraineeGroupUpdate' group.pk %}"><i class="fa fa-pencil"></i></a>
+            <a href="{% url 'xsd_training:TraineeGroupHistory' group.pk %}"><i class="fa fa-history"></i></a>
             <a href="{% url 'xsd_training:TraineeGroupDelete' group.pk %}"><i class="fa fa-trash"></i></a>
         </td>
 
