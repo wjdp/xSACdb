@@ -29,22 +29,21 @@ def dashboard(request):
 
     # TODO make a nice universal way of doing this
 
-    if is_trusted(request.user):
-        if request.user.memberprofile.membership_problem():
-            messages.add_message(request, messages.WARNING, settings.CLUB['expired_message'])
-        versions = get_versions_for_model(get_activity_feed_models())[:10]
-        versions2 = []
-        for thisVersion in versions:
-            thisItem = get_changes_for_version(thisVersion, None)
-            versions2.append(thisItem)
-    else:
-        versions = None
-        versions2 = None
+    # if is_trusted(request.user):
+    #     if request.user.memberprofile.membership_problem():
+    #         messages.add_message(request, messages.WARNING, settings.CLUB['expired_message'])
+    #     versions = get_versions_for_model(get_activity_feed_models())[:10]
+    #     versions2 = []
+    #     for thisVersion in versions:
+    #         thisItem = get_changes_for_version(thisVersion, None)
+    #         versions2.append(thisItem)
+    # else:
+    #     versions = None
+    #     versions2 = None
 
     return render(request,'frontend_dashboard.html', {
         'request':request,
         'profile':profile,
-        'versions': versions2,
         'urs':urs,
         'not_yet_verified': not_yet_verified,
     }, context_instance=RequestContext(request))

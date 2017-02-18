@@ -543,15 +543,6 @@ li.nyi a {
     cursor: not-allowed;
 }
 
-.push-left {
-    float: left;
-    padding: 10px 16px 10px 0;
-}
-.push-right {
-    float: right;
-    padding: 10px 0 10px 16px;
-}
-
 hr {
     clear: both;
 }

@@ -193,12 +193,18 @@ INSTALLED_APPS = (
     'bootstrap_toolkit',
     'bootstrap3',
     'compressor',
+
     'tastypie',
+
     'geoposition',
-    'reversion',
+
     'django_rq',
 
+    'reversion', # https://github.com/etianen/django-reversion
+    'reversion_compare', # https://github.com/jedie/django-reversion-compare
+
     'hijack',
+
     'compat',
     'raven.contrib.django.raven_compat',
 

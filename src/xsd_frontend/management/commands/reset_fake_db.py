@@ -23,3 +23,5 @@ class Command(BaseCommand):
         call_command('loaddata', 'example_sites')
         # Dynamic fake data
         call_command('generate_fake_data')
+        # reversion
+        call_command('createinitialrevisions')
