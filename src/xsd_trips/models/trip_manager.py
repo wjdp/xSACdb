@@ -3,7 +3,7 @@ from __future__ import unicode_literals
 import datetime
 from django.db import models
 
-from .states import *
+from .trip_state import *
 
 
 class TripManager(models.Manager):

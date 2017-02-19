@@ -2,7 +2,7 @@ from __future__ import unicode_literals
 
 from xSACdb.roles.functions import *
 
-from .states import *
+from .trip_state import *
 
 
 class TripPermissionMixin(object):

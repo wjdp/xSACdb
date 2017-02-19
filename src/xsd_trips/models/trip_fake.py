@@ -4,7 +4,7 @@ import decimal
 import random
 
 from datetime import timedelta, datetime
-from .states import *
+from .trip_state import *
 
 TRIP_NAME_PREFIX1 = (
     'Outer',

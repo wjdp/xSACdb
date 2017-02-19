@@ -9,13 +9,16 @@ from xsd_members.models import MemberProfile
 from .trip_manager import TripManager
 from .trip_member import TripMember
 
-from .fake import TripFakeDataMixin
-from .permissions import TripPermissionMixin
-from .states import *
+from .trip_fake import TripFakeDataMixin
+from .trip_permission import TripPermissionMixin
+from .trip_state import *
 
 
 @reversion.register()
-class Trip(models.Model, TripStateMixin, TripPermissionMixin, TripFakeDataMixin):
+class Trip(TripStateMixin,
+           TripPermissionMixin,
+           TripFakeDataMixin,
+           models.Model):
     """Representation of a trip"""
 
     objects = TripManager()
