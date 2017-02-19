@@ -262,14 +262,14 @@ class MemberAction(RequireMembersOfficer, ActionView):
 
     def approve(self, request):
         mp = self.get_object()
-        mp.approve(request.user)
+        mp.approve()
         messages.add_message(request, messages.SUCCESS,
                              settings.CLUB['memberprofile_approve_success'].format(mp.get_full_name(),
                                                                                    mp.heshe().lower()))
 
     def reinstate(self, request):
         mp = self.get_object()
-        mp.reinstate(request.user)
+        mp.reinstate()
         messages.add_message(self.request, messages.SUCCESS,
                              settings.CLUB['memberprofile_reinstate_success'].format(mp.get_full_name()))
 
@@ -343,7 +343,7 @@ class MemberArchive(RequireMembersOfficer, SingleObjectTemplateResponseMixin, Ba
     def archive(self, request, *args, **kwargs):
         self.object = self.get_object()
         success_url = self.object.get_absolute_url()
-        self.object.archive(request.user)
+        self.object.archive()
         messages.add_message(self.request, messages.SUCCESS,
                              settings.CLUB['memberprofile_archive_success'].format(self.object.get_full_name()))
         return HttpResponseRedirect(success_url)

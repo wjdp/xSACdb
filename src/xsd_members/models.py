@@ -80,13 +80,13 @@ class MemberProfile(models.Model):
     def verified(self):
         return not self.new_notify
 
-    def approve(self, user):
+    def approve(self):
         """
         Set whatever property we need to approve this member.
         """
         with reversion.create_revision() and transaction.atomic():
-            reversion.set_user(user)
-            reversion.set_comment('Approved member')
+            if reversion.is_active():
+                reversion.set_comment('Approved member')
             self.new_notify = False
             self.save()
 
@@ -454,11 +454,11 @@ class MemberProfile(models.Model):
     # Marks the user as archived.
     archived = models.BooleanField(default=False)
 
-    def archive(self, user):
+    def archive(self):
         """Archive the user, hiding them from most views and removing a lot of personal data."""
         with reversion.create_revision() and transaction.atomic():
-            reversion.set_user(user)
-            reversion.set_comment('Archived member')
+            if reversion.is_active():
+                reversion.set_comment('Archived member')
             self.expunge()
             self.archived = True
             self.save()
@@ -474,12 +474,12 @@ class MemberProfile(models.Model):
                 # Everything else has None
                 setattr(self, field_name, None)
 
-    def reinstate(self, user):
+    def reinstate(self):
         """Opposite of archive"""
         # self.hidden = False # Seems this is too aggressive
         with reversion.create_revision() and transaction.atomic():
-            reversion.set_user(user)
-            reversion.set_comment('Restored member')
+            if reversion.is_active():
+                reversion.set_comment('Restored member')
             self.archived = False
             self.save()
 

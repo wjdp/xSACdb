@@ -181,20 +181,20 @@ class PerformedSDC(models.Model):
 
     # places = models.IntegerField()
 
-    def add_trainees(self, trainees, user):
+    def add_trainees(self, trainees):
         with reversion.create_revision() and transaction.atomic():
-            reversion.set_user(user)
-            reversion.set_comment('Added trainees')
+            if reversion.is_active():
+                reversion.set_comment('Added trainees')
             existing_trainees = self.trainees.all()
             for trainee in trainees:
                 if trainee not in existing_trainees:
                     self.trainees.add(trainee)
             self.save()
 
-    def remove_trainees(self, trainees, user):
+    def remove_trainees(self, trainees):
         with reversion.create_revision() and transaction.atomic():
-            reversion.set_user(user)
-            reversion.set_comment('Removed trainees')
+            if reversion.is_active():
+                reversion.set_comment('Removed trainees')
             for trainee in trainees:
                 self.trainees.remove(trainee)
             self.save()
@@ -234,16 +234,16 @@ class Session(models.Model):
     def in_past(self):
         return self.when.replace(tzinfo=None) < datetime.datetime.now()
 
-    def add_trainees(self, trainees, user):
+    def add_trainees(self, trainees):
         with reversion.create_revision() and transaction.atomic():
-            reversion.set_user(user)
-            reversion.set_comment('Added trainees')
+            if reversion.is_active():
+                reversion.set_comment('Added trainees')
             self._add_pls(trainees)
 
-    def add_trainee_group(self, tg, user):
+    def add_trainee_group(self, tg):
         with reversion.create_revision() and transaction.atomic():
-            reversion.set_user(user)
-            reversion.set_comment('Added group {}'.format(tg.name))
+            if reversion.is_active():
+                reversion.set_comment('Added group {}'.format(tg.name))
             self._add_pls(tg.trainees.all())
 
     def _add_pls(self, trainees):
@@ -289,20 +289,20 @@ class TraineeGroup(models.Model):
                    t.get_full_name() + '</a>, '
         return ret[:-2]
 
-    def add_trainees(self, trainees, user):
+    def add_trainees(self, trainees):
         with reversion.create_revision() and transaction.atomic():
-            reversion.set_user(user)
-            reversion.set_comment('Added trainees')
+            if reversion.is_active():
+                reversion.set_comment('Added trainees')
             existing_trainees = self.trainees.all()
             for trainee in trainees:
                 if trainee not in existing_trainees:
                     self.trainees.add(trainee)
             self.save()
 
-    def remove_trainees(self, trainees, user):
+    def remove_trainees(self, trainees):
         with reversion.create_revision() and transaction.atomic():
-            reversion.set_user(user)
-            reversion.set_comment('Removed trainees')
+            if reversion.is_active():
+                reversion.set_comment('Removed trainees')
             for trainee in trainees:
                 self.trainees.remove(trainee)
             self.save()

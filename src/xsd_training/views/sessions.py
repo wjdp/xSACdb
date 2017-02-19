@@ -75,11 +75,11 @@ class SessionAction(RequireTrainingOfficer, ActionView):
 
     def add(self, request):
         members = get_bulk_members(request)
-        self.get_object().add_trainees(members, self.request.user)
+        self.get_object().add_trainees(members)
 
     def add_tg(self, request):
         tg = get_object_or_404(TraineeGroup, pk=request.POST['traineegroup'])
-        self.get_object().add_trainee_group(tg, self.request.user)
+        self.get_object().add_trainee_group(tg)
 
 
 class SessionList(RequireTrainingOfficer, ListView):

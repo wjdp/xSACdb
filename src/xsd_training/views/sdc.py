@@ -109,12 +109,12 @@ class PerformedSDCAction(RequireTrainingOfficer, ActionView):
 
     def add(self, request):
         members = get_bulk_members(request)
-        self.get_object().add_trainees(members, request.user)
+        self.get_object().add_trainees(members)
         return reverse('xsd_training:PerformedSDCUpdate', kwargs={'pk': self.get_object().pk})
 
     def remove(self, request):
         members = get_bulk_members(request)
-        self.get_object().remove_trainees(members, request.user)
+        self.get_object().remove_trainees(members)
         return reverse('xsd_training:PerformedSDCUpdate', kwargs={'pk': self.get_object().pk})
 
 

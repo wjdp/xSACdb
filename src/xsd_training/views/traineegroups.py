@@ -55,11 +55,11 @@ class TraineeGroupAction(RequireTrainingOfficer, ActionView):
 
     def add(self, request):
         members = get_bulk_members(request)
-        self.get_object().add_trainees(members, self.request.user)
+        self.get_object().add_trainees(members)
 
     def remove(self, request):
         members = get_bulk_members(request)
-        self.get_object().remove_trainees(members, self.request.user)
+        self.get_object().remove_trainees(members)
 
 
 class TraineeGroupDelete(RequireTrainingOfficer, DeleteView):
