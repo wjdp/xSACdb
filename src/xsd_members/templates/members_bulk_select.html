@@ -9,7 +9,7 @@
 		<p>Type in the names below and then select them from the dropdown.</p>
 		<div class="formbox row-fluid">
 			<div class="span10">
-			{% include 'base/bulk_select_members.html' %}
+			{% include 'base/bulk_select_members.html' with method="GET" %}
 			</div>
 			<div class="span2">
 			<form action="." method="GET" class="form-inline">

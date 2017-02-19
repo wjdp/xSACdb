@@ -1,8 +1,12 @@
+from __future__ import unicode_literals
+
 import datetime
 
+import reversion
 from django.conf import settings
 from django.contrib import messages
 from django.core.urlresolvers import reverse, reverse_lazy
+from django.db import transaction
 from django.db.models import Q
 from django.http.response import HttpResponseRedirect
 from django.shortcuts import render, redirect, get_object_or_404
@@ -13,7 +17,7 @@ from django.views.generic.edit import FormView, DeleteView
 
 from xSACdb.roles.decorators import require_members_officer
 from xSACdb.roles.mixins import RequireMembersOfficer
-from xSACdb.views import OrderedListView
+from xSACdb.views import OrderedListView, ActionView
 from xsd_members.forms import *
 
 
@@ -66,13 +70,15 @@ class DynamicUpdateProfile(FormView):
 
     def form_valid(self, form):
         # Form still holds ref to MemberProfile so handles saving all by itself
-        form.save()
-        messages.add_message(self.request, messages.SUCCESS, settings.CLUB['dynamic_update_profile_success'])
+        with reversion.create_revision() and transaction.atomic():
+            reversion.set_comment('Filled in \'update profile\' form.')
+            form.save()
+            if self.request.user.memberprofile.archived:
+                # User logged back in and re-added details. Reinstate
+                self.request.user.memberprofile.reinstate()
+                self.request.user.memberprofile.save()
 
-        if self.request.user.memberprofile.archived:
-            # User logged back in and re-added details. Reinstate
-            self.request.user.memberprofile.reinstate()
-            self.request.user.memberprofile.save()
+        messages.add_message(self.request, messages.SUCCESS, settings.CLUB['dynamic_update_profile_success'])
 
         return super(DynamicUpdateProfile, self).form_valid(form)
 
@@ -244,29 +250,28 @@ class MemberDetail(RequireMembersOfficer, DetailView):
             return True
         return False
 
-    def get(self, request, *args, **kwargs):
-        if 'action' in request.GET:
-            action = request.GET['action']
-            if action == 'remove-new-flag':
-                p = self.get_object()
-                p.approve()
-                p.save()
-                messages.add_message(self.request, messages.SUCCESS,
-                      settings.CLUB['memberprofile_approve_success'].format(p.get_full_name(), p.heshe().lower()))
-            if action == 'reinstate':
-                p = self.get_object()
-                p.reinstate()
-                p.save()
-                messages.add_message(self.request, messages.SUCCESS,
-                                     settings.CLUB['memberprofile_reinstate_success'].format(p.get_full_name()))
-
-        return super(MemberDetail, self).get(request, *args, **kwargs)
-
     def post(self, request, *args, **kwargs):
         self.get_object()
         if self.process_account_form(self.get_object().user):
             return redirect('.')
         return super(MemberDetail, self).get(request, *args, **kwargs)
+
+
+class MemberAction(RequireMembersOfficer, ActionView):
+    model = MemberProfile
+
+    def approve(self, request):
+        mp = self.get_object()
+        mp.approve(request.user)
+        messages.add_message(request, messages.SUCCESS,
+                             settings.CLUB['memberprofile_approve_success'].format(mp.get_full_name(),
+                                                                                   mp.heshe().lower()))
+
+    def reinstate(self, request):
+        mp = self.get_object()
+        mp.reinstate(request.user)
+        messages.add_message(self.request, messages.SUCCESS,
+                             settings.CLUB['memberprofile_reinstate_success'].format(mp.get_full_name()))
 
 
 class ModelFormView(FormView):
@@ -327,6 +332,7 @@ class MemberDelete(RequireMembersOfficer, DeleteView):
     success_url = reverse_lazy('xsd_members:MemberList')
     context_object_name = 'member'
 
+
 # This view very much modeled after DeletionMixin
 class MemberArchive(RequireMembersOfficer, SingleObjectTemplateResponseMixin, BaseDetailView):
     model = MemberProfile
@@ -337,8 +343,7 @@ class MemberArchive(RequireMembersOfficer, SingleObjectTemplateResponseMixin, Ba
     def archive(self, request, *args, **kwargs):
         self.object = self.get_object()
         success_url = self.object.get_absolute_url()
-        self.object.archive()
-        self.object.save()
+        self.object.archive(request.user)
         messages.add_message(self.request, messages.SUCCESS,
                              settings.CLUB['memberprofile_archive_success'].format(self.object.get_full_name()))
         return HttpResponseRedirect(success_url)
@@ -365,7 +370,7 @@ class BulkAddForms(RequireMembersOfficer, View):
             spreadsheet = True
         elif 'names' in request.GET and request.GET['names'] != '':
             from bulk_select import get_bulk_members
-            members = get_bulk_members(request)
+            members = get_bulk_members(request, method="GET")
             spreadsheet = True
         if spreadsheet:
             FormExpiryFormSet = formset_factory(FormExpiryForm, extra=0)
@@ -379,14 +384,12 @@ class BulkAddForms(RequireMembersOfficer, View):
             return render(request, 'members_bulk_edit_forms.html', {
                 'page_title': 'Bulk Select Results',
                 'formset': formset,
-            },
-                          context_instance=RequestContext(request))
+            }, context_instance=RequestContext(request))
         else:
             # First form
             return render(request, 'members_bulk_select.html', {
                 'content': '<h3 class="no-top"><i class="fa fa-plus"></i> Bulk Add Forms</h3><p>This tool sets the expiry dates for club, BSAC and medical forms on multiple records. The record set can either be subset of members or the entire membership.</p>'
-            },
-                          context_instance=RequestContext(request))
+            }, context_instance=RequestContext(request))
 
     def get_all_objects(self):
         return self.model.objects.all()
@@ -394,17 +397,15 @@ class BulkAddForms(RequireMembersOfficer, View):
     def post(self, request, *args, **kwargs):
         formset = FormExpiryFormSet(request.POST)
         if formset.is_valid():
-            for form in formset.cleaned_data:
-                mp = MemberProfile.objects.get(pk=form['member_id'])
-                if form['club_expiry']: mp.club_expiry = form['club_expiry']
-                if form['bsac_expiry']: mp.bsac_expiry = form['bsac_expiry']
-                if form['medical_form_expiry']: mp.medical_form_expiry = form['medical_form_expiry']
-
-                print form['club_expiry']
-                print form['bsac_expiry']
-                print form['medical_form_expiry']
-
-                mp.save()
+            with reversion.create_revision() and transaction.atomic():
+                reversion.set_comment('Bulk adding forms')
+                reversion.set_user(request.user)
+                for form in formset.cleaned_data:
+                    mp = MemberProfile.objects.get(pk=form['member_id'])
+                    if form['club_expiry']: mp.club_expiry = form['club_expiry']
+                    if form['bsac_expiry']: mp.bsac_expiry = form['bsac_expiry']
+                    if form['medical_form_expiry']: mp.medical_form_expiry = form['medical_form_expiry']
+                    mp.save()
         else:
             return render(request, 'members_bulk_edit_forms_error.html', {}, context_instance=RequestContext(request))
 
@@ -441,4 +442,4 @@ def reports_overview(request):
                                                               Q(club_expiry__lte=today) | Q(club_expiry=today) | \
                                                               Q(medical_form_expiry__lte=today) | Q(
         medical_form_expiry=None)).count()
-    return render(request, 'members_reports_overview.html', {'data': data,})
+    return render(request, 'members_reports_overview.html', {'data': data, })

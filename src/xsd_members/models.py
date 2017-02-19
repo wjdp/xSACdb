@@ -8,6 +8,7 @@ from django import forms
 from django.conf import settings
 from django.core.urlresolvers import reverse
 from django.db import models
+from django.db import transaction
 from reversion import revisions as reversion
 
 from xSACdb.data_helpers import disable_for_loaddata
@@ -79,11 +80,15 @@ class MemberProfile(models.Model):
     def verified(self):
         return not self.new_notify
 
-    def approve(self):
+    def approve(self, user):
         """
         Set whatever property we need to approve this member.
         """
-        self.new_notify = False
+        with reversion.create_revision() and transaction.atomic():
+            reversion.set_user(user)
+            reversion.set_comment('Approved member')
+            self.new_notify = False
+            self.save()
 
     # Migrated from user model
     first_name = models.CharField(max_length=30)
@@ -449,11 +454,14 @@ class MemberProfile(models.Model):
     # Marks the user as archived.
     archived = models.BooleanField(default=False)
 
-    def archive(self):
+    def archive(self, user):
         """Archive the user, hiding them from most views and removing a lot of personal data."""
-        self.expunge()
-        # self.hidden = True # Seems this is too aggressive
-        self.archived = True
+        with reversion.create_revision() and transaction.atomic():
+            reversion.set_user(user)
+            reversion.set_comment('Archived member')
+            self.expunge()
+            self.archived = True
+            self.save()
 
     def expunge(self):
         """Remove personal data"""
@@ -466,10 +474,14 @@ class MemberProfile(models.Model):
                 # Everything else has None
                 setattr(self, field_name, None)
 
-    def reinstate(self):
+    def reinstate(self, user):
         """Opposite of archive"""
         # self.hidden = False # Seems this is too aggressive
-        self.archived = False
+        with reversion.create_revision() and transaction.atomic():
+            reversion.set_user(user)
+            reversion.set_comment('Restored member')
+            self.archived = False
+            self.save()
 
     def delete(self):
         # When MP is deleted, we should also remove the user attached to it.

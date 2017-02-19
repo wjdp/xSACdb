@@ -25,6 +25,7 @@ urlpatterns = patterns('',
     url(r'^member/(?P<pk>\d+)/history/$', VersionHistoryView.as_view(), name='MemberHistory',
        kwargs={'model': MemberProfile}),
     url(r'^member/(?P<pk>\d+)/edit/$', MemberEdit.as_view(), name='MemberEdit'),
+    url(r'^member/(?P<pk>\d+)/action/(?P<action>\w+)/$', MemberAction.as_view(), name='MemberAction'),
     url(r'^member/(?P<pk>\d+)/delete/$', MemberDelete.as_view(), name='MemberDelete'),
     url(r'^member/(?P<pk>\d+)/archive/$', MemberArchive.as_view(), name='MemberArchive'),
 
