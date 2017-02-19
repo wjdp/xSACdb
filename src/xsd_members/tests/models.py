@@ -17,7 +17,7 @@ class BaseMembersOfficerTest(BaseAsGroupTest):
     GROUPS=[6]
 
 class MPFunc(BaseTest):
-
+    # FIXME old test
     def test_u_mp_relationship(self):
         self.assertEqual(self.mp, self.user.memberprofile)
 
@@ -33,10 +33,9 @@ class MPFunc(BaseTest):
         self.mp.date_of_birth = t_years_ago
         self.assertEqual(self.mp.age(),test_age)
 
-    def test_caching(self):
-        pass
 
 class MPExternalFunc(BaseTest):
+    # FIXME old test
     def setUp(self):
         super(MPExternalFunc, self).setUp()
         self.make_pls()
@@ -354,15 +353,36 @@ class MemberProfileTest(BaseMemberTest, TrainingTestToolsMixin):
         # Check the associated user is also deleted
         self.assertEqual(self.User.objects.filter(pk=u_pk).count(), 0)
 
+    def test_mp_approve(self):
+        # Check that approving a member works
+        self.mp.new_notify = True
+        self.mp.save()
+        self.mp.refresh_from_db()
+        self.assertFalse(self.mp.verified)
+        self.mp.approve()
+        self.mp.refresh_from_db()
+        self.assertTrue(self.mp.verified)
+
     def test_mp_archive(self):
         # Check that archiving member expunges and sets archived flag
         self.assertIsNot(self.mp.address, '')
         self.assertIsNot(self.mp.date_of_birth, None)
         self.assertFalse(self.mp.archived)
         self.mp.archive()
+        self.mp.refresh_from_db()
         self.assertIs(self.mp.address, '')
         self.assertIs(self.mp.date_of_birth, None)
         self.assertTrue(self.mp.archived)
+
+    def test_mp_reinstate(self):
+        # Check that archiving member expunges and sets archived flag
+        self.mp.archive()
+        self.mp.refresh_from_db()
+        self.assertTrue(self.mp.archived)
+        self.mp.reinstate()
+        self.mp.refresh_from_db()
+        self.assertFalse(self.mp.archived)
+
 
 
 class MembershipTypeTest(BaseTest):
