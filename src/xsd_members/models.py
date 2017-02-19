@@ -10,6 +10,7 @@ from django.core.urlresolvers import reverse
 from django.db import models
 from django.db import transaction
 from reversion import revisions as reversion
+from actstream import action
 
 from xSACdb.data_helpers import disable_for_loaddata
 from xsd_training.models import PerformedLesson
@@ -80,13 +81,15 @@ class MemberProfile(models.Model):
     def verified(self):
         return not self.new_notify
 
-    def approve(self):
+    def approve(self, actor=None):
         """
         Set whatever property we need to approve this member.
         """
         with reversion.create_revision() and transaction.atomic():
             if reversion.is_active():
                 reversion.set_comment('Approved member')
+            if actor:
+                action.send(actor, verb='approved', action_object=self)
             self.new_notify = False
             self.save()
 
@@ -396,6 +399,7 @@ class MemberProfile(models.Model):
             self.cache_update()
         if self.pk and self.user:
             self.sync()
+
         super(MemberProfile, self).save(*args, **kwargs)
 
     def cache_update(self):
@@ -454,11 +458,13 @@ class MemberProfile(models.Model):
     # Marks the user as archived.
     archived = models.BooleanField(default=False)
 
-    def archive(self):
+    def archive(self, actor=None):
         """Archive the user, hiding them from most views and removing a lot of personal data."""
         with reversion.create_revision() and transaction.atomic():
             if reversion.is_active():
                 reversion.set_comment('Archived member')
+            if actor:
+                action.send(actor, verb='archived', action_object=self)
             self.expunge()
             self.archived = True
             self.save()
@@ -474,14 +480,17 @@ class MemberProfile(models.Model):
                 # Everything else has None
                 setattr(self, field_name, None)
 
-    def reinstate(self):
+    def reinstate(self, actor=None):
         """Opposite of archive"""
         # self.hidden = False # Seems this is too aggressive
         with reversion.create_revision() and transaction.atomic():
             if reversion.is_active():
                 reversion.set_comment('Restored member')
+            if actor:
+                action.send(actor, verb='restored', action_object=self)
             self.archived = False
             self.save()
+
 
     def delete(self):
         # When MP is deleted, we should also remove the user attached to it.
@@ -501,6 +510,7 @@ def create_member_profile(sender, instance, created, **kwargs):
         mp = MemberProfile.objects.create(user=instance)
         mp.seed(instance)
         mp.save()
+        instance.follow_defaults()
 
 
 post_save.connect(create_member_profile, sender=settings.AUTH_USER_MODEL)

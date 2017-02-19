@@ -3,6 +3,7 @@ from __future__ import unicode_literals
 import datetime
 
 import reversion
+from actstream import action
 from django.conf import settings
 from django.contrib import messages
 from django.core.urlresolvers import reverse, reverse_lazy
@@ -43,7 +44,7 @@ class DynamicUpdateProfile(FormView):
         # Factory for building form
         # Build list of fields to ask for
         req_fields = []
-        for field in self.request.user.memberprofile.get_missing_field_list():
+        for field in self.request.user.profile.get_missing_field_list():
             req_fields.append(field)
 
         # Add in optional fields
@@ -66,17 +67,25 @@ class DynamicUpdateProfile(FormView):
     def get_form(self, form_class=None):
         if not form_class:
             form_class = self.get_form_class()
-        return form_class(instance=self.request.user.memberprofile, **self.get_form_kwargs())
+        return form_class(instance=self.request.user.profile, **self.get_form_kwargs())
 
     def form_valid(self, form):
         # Form still holds ref to MemberProfile so handles saving all by itself
         with reversion.create_revision() and transaction.atomic():
             reversion.set_comment('Filled in \'update profile\' form.')
-            form.save()
-            if self.request.user.memberprofile.archived:
+            if self.request.user.profile.archived:
                 # User logged back in and re-added details. Reinstate
-                self.request.user.memberprofile.reinstate()
-                self.request.user.memberprofile.save()
+                with transaction.atomic():
+                    form.save()
+                    self.request.user.profile.reinstate()
+                    self.request.user.profile.save()
+                    action.send(self.request.user, verb='reinstated their profile',
+                                action_object=self.request.user.profile)
+            else:
+                with transaction.atomic():
+                    form.save()
+                    action.send(self.request.user, verb='updated their profile',
+                                action_object=self.request.user.profile)
 
         messages.add_message(self.request, messages.SUCCESS, settings.CLUB['dynamic_update_profile_success'])
 
@@ -262,14 +271,14 @@ class MemberAction(RequireMembersOfficer, ActionView):
 
     def approve(self, request):
         mp = self.get_object()
-        mp.approve()
+        mp.approve(request.user)
         messages.add_message(request, messages.SUCCESS,
                              settings.CLUB['memberprofile_approve_success'].format(mp.get_full_name(),
                                                                                    mp.heshe().lower()))
 
     def reinstate(self, request):
         mp = self.get_object()
-        mp.reinstate()
+        mp.reinstate(request.user)
         messages.add_message(self.request, messages.SUCCESS,
                              settings.CLUB['memberprofile_reinstate_success'].format(mp.get_full_name()))
 
@@ -289,7 +298,10 @@ class ModelFormView(FormView):
         model = self.get_model()
         for field in form.cleaned_data:
             setattr(model, field, form.cleaned_data[field])
-        model.save()
+        with reversion.create_revision() and transaction.atomic():
+            reversion.set_comment('Updated')
+            model.save()
+            action.send(self.request.user, verb='updated', action_object=model)
         return super(ModelFormView, self).form_valid(form)
 
 
@@ -343,7 +355,7 @@ class MemberArchive(RequireMembersOfficer, SingleObjectTemplateResponseMixin, Ba
     def archive(self, request, *args, **kwargs):
         self.object = self.get_object()
         success_url = self.object.get_absolute_url()
-        self.object.archive()
+        self.object.archive(request.user)
         messages.add_message(self.request, messages.SUCCESS,
                              settings.CLUB['memberprofile_archive_success'].format(self.object.get_full_name()))
         return HttpResponseRedirect(success_url)
@@ -402,6 +414,7 @@ class BulkAddForms(RequireMembersOfficer, View):
                 reversion.set_user(request.user)
                 for form in formset.cleaned_data:
                     mp = MemberProfile.objects.get(pk=form['member_id'])
+                    action.send(request.user, verb="updated forms on", action_object=mp)
                     if form['club_expiry']: mp.club_expiry = form['club_expiry']
                     if form['bsac_expiry']: mp.bsac_expiry = form['bsac_expiry']
                     if form['medical_form_expiry']: mp.medical_form_expiry = form['medical_form_expiry']

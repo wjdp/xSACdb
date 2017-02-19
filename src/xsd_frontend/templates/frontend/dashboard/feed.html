@@ -1,0 +1,10 @@
+{% load activity_tags %}
+{% activity_stream 'user' user %}
+
+<ul class="feed">
+{% for action in stream %}
+    <li>{% display_action action %}</li>
+{% empty %}
+    {# TODO Empty feed filler #}
+{% endfor %}
+</ul>

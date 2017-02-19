@@ -14,9 +14,6 @@ urlpatterns = patterns('',
     url(r'^accounts/register/$', PreauthRegisterView.as_view(), name='register'),
     url(r'^accounts/logout/$', 'xsd_frontend.views.logout', name='logout'),
 
-    url(r'activity/$', ActivityTable.as_view(), name='activity_table'),
-    #url(r'^activity/feed/$', ActivityFeed.as_view(), name='activity_feed'),
-
     url(r'^favicon\.ico$', favicon_view),
     url(r'manifest\.json$', TemplateView.as_view(
             template_name='manifest.json',

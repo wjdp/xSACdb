@@ -21,8 +21,14 @@ class UserManager(DJ_UserManager):
         new_user.set_password(password)
         return new_user
 
+from actstream.actions import follow, unfollow
 
-class User(AbstractUser):
+class UserActivityMixin(object):
+    def follow_defaults(self):
+        follow(self, self.profile, actor_only=False)
+
+
+class User(UserActivityMixin, AbstractUser):
     objects = UserManager()
 
     class Meta:

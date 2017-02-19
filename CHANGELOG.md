@@ -5,6 +5,11 @@ xSACdb instances. This project will soon adhere to [Semantic Versioning](http://
 
 ## Unreleased
 
+### Upgrade
+- Run `manage update_follow_defaults` to make current users follow changes to their profiles. New users have this set automatically.
+
+### Added
+- Activity stream
 
 
 ## [0.2.1] - 2017-02-16
