@@ -57,6 +57,7 @@ class TripStateMixin(object):
         STATE_COMPLETED: 'completed',
     }
 
+    @property
     def state_class(self):
         return 'trip-state-{}'.format(self.STATE_CLASS_MAP[self.state])
 

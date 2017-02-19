@@ -15,10 +15,32 @@ class UserManager(DJ_UserManager):
             first_name=first_name,
             last_name=last_name,
             email=email,
-            username=random.randrange(1000000000000000,9999999999999999)
+            username=random.randrange(1000000000000000, 9999999999999999)
         )
         new_user.set_password(password)
         return new_user
+
+    def fake_single(self, fake, approved=True):
+        """Create a fake user and return"""
+        user = self.create_user(
+            email=fake.email(),
+            password=fake.password(),
+            first_name=fake.first_name(),
+            last_name=fake.last_name(),
+        )
+        user.save()
+        user.memberprofile.new_notify = not approved
+        user.memberprofile.date_of_birth = fake.date_time_between(start_date='-99y', end_date='now').date()
+        user.memberprofile.gender = random.choice(('m', 'f'))
+        user.memberprofile.address = fake.address()
+        user.memberprofile.postcode = fake.postcode()
+        user.memberprofile.home_phone = fake.phone_number()
+        user.memberprofile.mobile_phone = fake.phone_number()
+        user.memberprofile.next_of_kin_name = fake.name()
+        user.memberprofile.next_of_kin_relation = fake.first_name()
+        user.memberprofile.next_of_kin_phone = fake.phone_number()
+        user.memberprofile.save()
+        return user
 
 
 class User(AbstractUser):
