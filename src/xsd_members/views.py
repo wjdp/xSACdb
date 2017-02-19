@@ -13,7 +13,7 @@ from django.views.generic.edit import FormView, DeleteView
 
 from xSACdb.roles.decorators import require_members_officer
 from xSACdb.roles.mixins import RequireMembersOfficer
-from xSACdb.view_helpers import OrderedListView
+from xSACdb.views import OrderedListView
 from xsd_members.forms import *
 
 

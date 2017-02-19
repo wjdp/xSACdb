@@ -1,42 +1,38 @@
-from django.shortcuts import get_object_or_404
-
-from django.shortcuts import redirect, render
-
-from django.views.generic.edit import CreateView, UpdateView, DeleteView
-from django.views.generic.list import ListView
-from django.views.generic.detail import DetailView
+from __future__ import unicode_literals
 
 from django.core.urlresolvers import reverse_lazy
+from django.forms.models import modelformset_factory
+from django.shortcuts import get_object_or_404
+from django.shortcuts import redirect, render
+from django.views.generic.detail import DetailView
+from django.views.generic.edit import CreateView, UpdateView, DeleteView
+from django.views.generic.list import ListView
 
 from xSACdb.roles.decorators import require_training_officer
 from xSACdb.roles.mixins import RequireTrainingOfficer
-
-from xsd_members.models import MemberProfile
-from xsd_training.models import *
-from xsd_training.forms import *
-import xsd_training.trainee_table as trainee_table
-
-from django.forms.models import modelformset_factory
-
+from xSACdb.views import ActionView
 from xsd_members.bulk_select import get_bulk_members
+from xsd_training.forms import *
+
 
 class SessionCreate(RequireTrainingOfficer, CreateView):
-    model=Session
-    form_class=SessionCreateForm
-    template_name='session_create.html'
+    model = Session
+    form_class = SessionCreateForm
+    template_name = 'session_create.html'
+
 
 class SessionPlanner(RequireTrainingOfficer, UpdateView):
-    model=Session
-    fields=['name', 'when', 'where', 'notes']
-    template_name='session_edit.html'
+    model = Session
+    fields = ['name', 'when', 'where', 'notes']
+    template_name = 'session_edit.html'
 
     def pl_formset(self, bare=False):
         SessionPlannerTraineeFormSet = modelformset_factory(
             PerformedLesson, form=SessionPLMapForm,
             extra=0
         )
-        if bare==True: return SessionPlannerTraineeFormSet
-        formset=SessionPlannerTraineeFormSet(
+        if bare == True: return SessionPlannerTraineeFormSet
+        formset = SessionPlannerTraineeFormSet(
             queryset=PerformedLesson.objects
                 .filter(session=self.object)
         )
@@ -51,51 +47,45 @@ class SessionPlanner(RequireTrainingOfficer, UpdateView):
         return context
 
     def get(self, request, *args, **kwargs):
-        self.object=self.get_object()
-        if 'names' in request.GET:
-            self.add_trainees(request)
-        if 'traineegroup' in request.GET:
-            self.add_trainee_group(request.GET['traineegroup'])
+        self.object = self.get_object()
+        # FIXME, this has been left as a GET as nested POST forms do not work
         if 'remove-pl' in request.GET:
             self.remove_pl(request.GET['remove-pl'])
         return super(SessionPlanner, self).get(request, *args, **kwargs)
 
-    def add_trainees(self, request):
-        members = get_bulk_members(request)
-        for member in members:
-            pl = PerformedLesson()
-            pl.session = self.object
-            pl.trainee = member
-            pl.save()
-
-    def add_trainee_group(self, group):
-        tg=get_object_or_404(TraineeGroup, pk=group)
-        for trainee in tg.trainees.all():
-            pl=PerformedLesson()
-            pl.session=self.object
-            pl.trainee=trainee
-            pl.save()
-
     def remove_pl(self, pk):
-        pl=get_object_or_404(PerformedLesson, pk=pk)
+        pl = get_object_or_404(PerformedLesson, pk=pk)
         pl.delete()
 
     def post(self, request, *args, **kwargs):
         self.object = self.get_object()
-        pl_formset=self.pl_formset(bare=True)
-        if request.POST['form-TOTAL_FORMS']!=0:
-            formset=pl_formset(request.POST)
+        pl_formset = self.pl_formset(bare=True)
+        if request.POST['form-TOTAL_FORMS'] != 0:
+            formset = pl_formset(request.POST)
             if formset.is_valid():
                 formset.save()
         return super(SessionPlanner, self).post(request, *args, **kwargs)
 
     def get_success_url(self):
-        return reverse('xsd_training:SessionList')+'?last='+self.kwargs['pk']
+        return reverse('xsd_training:SessionList') + '?last=' + self.kwargs['pk']
+
+
+class SessionAction(RequireTrainingOfficer, ActionView):
+    model = Session
+
+    def add(self, request):
+        members = get_bulk_members(request)
+        self.get_object().add_trainees(members, self.request.user)
+
+    def add_tg(self, request):
+        tg = get_object_or_404(TraineeGroup, pk=request.POST['traineegroup'])
+        self.get_object().add_trainee_group(tg, self.request.user)
+
 
 class SessionList(RequireTrainingOfficer, ListView):
-    model=Session
-    template_name='session_list.html'
-    context_object_name='sessions'
+    model = Session
+    template_name = 'session_list.html'
+    context_object_name = 'sessions'
 
     def get_context_data(self, **kwargs):
         context = super(SessionList, self).get_context_data(**kwargs)
@@ -109,10 +99,11 @@ class SessionList(RequireTrainingOfficer, ListView):
         qs = super(SessionList, self).get_queryset().order_by('when').exclude(completed=True)
         return qs
 
-class SessionComplete(RequireTrainingOfficer,DetailView):
-    model=Session
-    template_name='session_complete.html'
-    context_object_name='session'
+
+class SessionComplete(RequireTrainingOfficer, DetailView):
+    model = Session
+    template_name = 'session_complete.html'
+    context_object_name = 'session'
 
     def build_pls_formset(self, bare=False):
         SessionCompleteFormSet = modelformset_factory(
@@ -120,7 +111,7 @@ class SessionComplete(RequireTrainingOfficer,DetailView):
             extra=0
         )
         if not bare:
-            formset=SessionCompleteFormSet(
+            formset = SessionCompleteFormSet(
                 queryset=PerformedLesson.objects
                     .filter(session=self.object)
             )
@@ -138,9 +129,9 @@ class SessionComplete(RequireTrainingOfficer,DetailView):
     def get_trainees(self, request):
         trainees = []
         for item in request.POST:
-            if re.match('trainee',item):
-                trainee_pk=item[5:]
-                trainees.append( MemberProfile.objects.get(pk=trainee_pk) )
+            if re.match('trainee', item):
+                trainee_pk = item[5:]
+                trainees.append(MemberProfile.objects.get(pk=trainee_pk))
         return trainees
 
     def set_pl(self, id, completed, partially_completed, public_notes, private_notes):
@@ -150,7 +141,7 @@ class SessionComplete(RequireTrainingOfficer,DetailView):
             pl.delete()
         else:
             if completed and partially_completed:
-                completed = False # Mark as not completed if partially is ticked
+                completed = False  # Mark as not completed if partially is ticked
 
             # Stick data in object
             pl.completed = completed
@@ -163,7 +154,7 @@ class SessionComplete(RequireTrainingOfficer,DetailView):
     def set_pl_save(self, id, completed, partially_completed, public_notes, private_notes):
         pl = id
         if completed and partially_completed:
-            completed = False # Mark as not completed if partially is ticked
+            completed = False  # Mark as not completed if partially is ticked
 
         # Stick data in object
         pl.completed = completed
@@ -174,32 +165,36 @@ class SessionComplete(RequireTrainingOfficer,DetailView):
         pl.save()
 
     def post(self, request, *args, **kwargs):
-            SessionCompleteFormSet = self.build_pls_formset(True)
-            formset = SessionCompleteFormSet(request.POST)
-            if formset.is_valid():
-                if 'complete' in request.POST:
-                    for form in formset.cleaned_data:
-                        self.set_pl(form['id'], form['completed'], form['partially_completed'], form['public_notes'], form['private_notes'])
-                    this_session = self.get_object()
-                    this_session.completed = True
-                    this_session.save()
-                else:
-                    for form in formset.cleaned_data:
-                        self.set_pl_save(form['id'], form['completed'], form['partially_completed'], form['public_notes'], form['private_notes'])
-                    return self.get(request, *args, **kwargs)
-                return redirect(reverse_lazy('xsd_training:SessionList'))
+        SessionCompleteFormSet = self.build_pls_formset(True)
+        formset = SessionCompleteFormSet(request.POST)
+        if formset.is_valid():
+            if 'complete' in request.POST:
+                for form in formset.cleaned_data:
+                    self.set_pl(form['id'], form['completed'], form['partially_completed'], form['public_notes'],
+                                form['private_notes'])
+                this_session = self.get_object()
+                this_session.completed = True
+                this_session.save()
             else:
+                for form in formset.cleaned_data:
+                    self.set_pl_save(form['id'], form['completed'], form['partially_completed'], form['public_notes'],
+                                     form['private_notes'])
                 return self.get(request, *args, **kwargs)
+            return redirect(reverse_lazy('xsd_training:SessionList'))
+        else:
+            return self.get(request, *args, **kwargs)
+
 
 class SessionDelete(RequireTrainingOfficer, DeleteView):
-    model=Session
-    template_name='session_confirm_delete.html'
+    model = Session
+    template_name = 'session_confirm_delete.html'
     success_url = reverse_lazy('xsd_training:SessionList')
 
     def get_context_data(self, **kwargs):
         context = super(SessionDelete, self).get_context_data(**kwargs)
         context['pls'] = PerformedLesson.objects.filter(session=self.object)
         return context
+
 
 @require_training_officer
 def pool_sheet(request):
@@ -210,12 +205,13 @@ def pool_sheet(request):
     else:
         form = PoolSheetOptions()
 
-    return render(request, 'pool_sheet.html', {'form':form})
+    return render(request, 'pool_sheet.html', {'form': form})
+
 
 @require_training_officer
 def pool_sheet_generate(request, form):
     session = form.cleaned_data['session']
-    pls = PerformedLesson.objects.filter(session = session).order_by(
+    pls = PerformedLesson.objects.filter(session=session).order_by(
         form.cleaned_data['sort_by'])
 
     pls_extended = []
@@ -225,8 +221,8 @@ def pool_sheet_generate(request, form):
         if pl.lesson:
             # If lesson is specified for PL, get prev feedback
             recent_pls = PerformedLesson.objects.filter(
-                trainee = pl.trainee,
-                lesson__mode = pl.lesson.mode,
+                trainee=pl.trainee,
+                lesson__mode=pl.lesson.mode,
                 completed=True
             ).order_by('date')[:number_of_notes]
             notes = []
@@ -237,7 +233,6 @@ def pool_sheet_generate(request, form):
             # Else don't bother
             pls_extended.append((pl, None))
 
-
     return render(request, 'pool_sheet_generate.html', {
         'session': session,
         'pls_extended': pls_extended,
@@ -245,4 +240,4 @@ def pool_sheet_generate(request, form):
         'show_private_notes': form.cleaned_data['show_private_notes'],
         'comments_column': form.cleaned_data['comments_column'],
         'signature_column': form.cleaned_data['signature_column'],
-        })
+    })

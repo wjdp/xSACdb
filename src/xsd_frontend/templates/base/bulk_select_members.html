@@ -1,4 +1,5 @@
-<form action="." method="GET">
+<form action="action/add/" method="POST">
+    {% csrf_token %}
     <p>
         <input type="text" id="token-input" name="names"/>
     </p>
