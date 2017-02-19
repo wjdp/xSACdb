@@ -1,11 +1,12 @@
 from __future__ import unicode_literals
 
-import random
 import hashlib
+import random
 
 from allauth.socialaccount.models import SocialAccount
 from django.contrib.auth.models import AbstractUser
 from django.contrib.auth.models import UserManager as DJ_UserManager
+from django.utils.functional import cached_property
 
 
 class UserManager(DJ_UserManager):
@@ -15,7 +16,7 @@ class UserManager(DJ_UserManager):
             first_name=first_name,
             last_name=last_name,
             email=email,
-            username=random.randrange(1000000000000000,9999999999999999)
+            username=random.randrange(1000000000000000, 9999999999999999)
         )
         new_user.set_password(password)
         return new_user
@@ -47,6 +48,11 @@ class User(AbstractUser):
 
     def get_profile(self):
         return self.memberprofile
+
+    @cached_property
+    def profile(self):
+        """Cached version of get_profile"""
+        return self.get_profile()
 
     def profile_image_url(self, size=70):
         fb_uid = SocialAccount.objects.filter(user_id=self.pk, provider='facebook')
