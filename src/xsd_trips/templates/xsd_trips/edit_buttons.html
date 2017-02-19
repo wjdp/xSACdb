@@ -1,0 +1,12 @@
+<div class="row">
+    <div class="col-md-12">
+        <div class="btn-group" role="group">
+            {% if trip.pk %}
+                <button type="submit" class="btn btn-primary"><i class="fa fa-save"></i> Save</button>
+                <a href="{{ trip.get_absolute_url }}" class="btn btn-secondary">Discard Changes</a>
+            {% else %}
+                <button type="submit" class="btn btn-success"><i class="fa fa-asterisk"></i> Create</button>
+            {% endif %}
+        </div>
+    </div>
+</div>

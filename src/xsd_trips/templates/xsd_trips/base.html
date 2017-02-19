@@ -1,0 +1,19 @@
+{% extends 'base_template.html' %}
+{% load navigation %}
+
+{% block content %}
+<div class="xsd-module-row">
+
+    <div class="xsd-module-nav">
+    {% module_nav %}
+    </div>
+
+    <div class="xsd-module-content">
+    {% block trips_content %}
+    No Content
+    {% endblock %}
+    </div>
+
+</div>
+
+{% endblock %}

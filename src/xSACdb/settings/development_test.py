@@ -7,3 +7,7 @@ from .development import *
 PASSWORD_HASHERS = [
     'django.contrib.auth.hashers.MD5PasswordHasher',
 ]
+
+# WORKAROUND: https://code.djangoproject.com/ticket/24364 by reverting to default storage
+from django.conf import global_settings
+STATICFILES_STORAGE = global_settings.STATICFILES_STORAGE

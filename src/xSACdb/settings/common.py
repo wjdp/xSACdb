@@ -192,6 +192,8 @@ INSTALLED_APPS = (
 
     'bootstrap_toolkit',
     'bootstrap3',
+    'widget_tweaks',
+
     'compressor',
     'tastypie',
     'geoposition',
@@ -257,4 +259,5 @@ ACTIVITY_MODELS = [
     ('xsd_training', 'Session'),
     ('xsd_training', 'TraineeGroup'),
     ('xsd_sites', 'Site'),
+    ('xsd_trips', 'Trip'),
 ]

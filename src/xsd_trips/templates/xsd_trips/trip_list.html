@@ -1,0 +1,20 @@
+<table class="table">
+    <thead>
+        <th>#</th>
+        <th>Dates</th>
+        <th>Details</th>
+    </thead>
+    <tbody>
+        {% for trip in trips %}
+        <tr class="{{ trip.state_class }}">
+            <td>{{ trip.uid }}</td>
+            <td>{{ trip.date_start }} —<br />{{ trip.date_end }}</td>
+            <td>
+                <a href="{{ trip.get_absolute_url }}">{{ trip.name }}</a>
+                <span class="state">{{ trip.get_state_display }}</span>
+                <br />{{ trip.owner }}
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
