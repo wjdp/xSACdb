@@ -8,7 +8,7 @@ from views import *
 favicon_view = RedirectView.as_view(url=static('icons/favicon.ico'), permanent=True)
 
 urlpatterns = patterns('',
-    url(r'^$', 'xsd_frontend.views.dashboard', name='dashboard'),
+    url(r'^$', DashboardView.as_view(), name='dashboard'),
 
     url(r'^accounts/login/$', PreauthLoginView.as_view(), name='login'),
     url(r'^accounts/register/$', PreauthRegisterView.as_view(), name='register'),

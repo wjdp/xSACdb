@@ -103,11 +103,13 @@ navigator.serviceWorker.register('/service-worker.js', { scope: '/' })
         {% endif %}
     </div>
 
+    {% block breakout %}
     <div class="xsd-application-container">
         {% block content %}
         No content
         {% endblock %}
     </div>
+    {% endblock %}
 
     {% block closing_js %}{% endblock %}
 

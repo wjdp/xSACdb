@@ -1,0 +1,57 @@
+{% if profile.no_expiry_data %}
+    <div class="alert alert-info">
+        <i class="fa fa-thumbs-up"></i> <strong>Welcome!</strong>
+        It looks like you're new. Before you can dive with us you need to be a member of the club, a member
+        of BSAC and have a submitted medical form. You can get help with these things from the committee.
+    </div>
+{% else %}
+    <ul class="xsd-membership-status">
+        <li class="{% if profile.club_expired %}xsd-membership-status__fail{% else %}xsd-membership-status__pass{% endif %}">
+            <i class="xsd-membership-status__icon"></i>
+            <h3>{{ l10n_club.name }} Membership</h3>
+            <p>
+                {% if profile.club_expired %}Expired{% else %}Expires{% endif %}
+                on {{ profile.club_expiry }}
+            </p>
+            {% if profile.club_expired %}
+                <p class="type-aside">{{ l10n_club.how_to_renew|safe }}</p>
+            {% endif %}
+        </li>
+        <li class="{% if profile.bsac_expired %}xsd-membership-status__fail{% else %}xsd-membership-status__pass{% endif %}">
+            <i class="xsd-membership-status__icon"></i>
+            <h3>BSAC Membership</h3>
+            <p>
+                {% if profile.bsac_expired %}Expired{% else %}Expires{% endif %}
+                on {{ profile.bsac_expiry }}
+            </p>
+
+            {% if profile.bsac_expired %}
+                <p class="type-aside">
+                    {% if profile.bsac_direct_member %}
+                        You're a member of BSAC directly, please renew your membership and submit an update
+                        request when that's gone through.
+                    {% elif profile.bsac_member_via_another_club %}
+                        You're a member of BSAC via another club, please renew your membership and submit an
+                        update request when that's gone through.
+                    {% elif profile.bsac_direct_debit %}
+                        You're down as paying by direct debit, this record should be updated when your
+                        renewal is confirmed to the club.
+                    {% else %}
+                        {{ l10n_club.bsac_club_renew|safe }}
+                    {% endif %}
+                </p>
+            {% endif %}
+        </li>
+        <li class="{% if profile.medical_form_expired %}xsd-membership-status__fail{% else %}xsd-membership-status__pass{% endif %}">
+            <i class="xsd-membership-status__icon"></i>
+            <h3>Medical Form</h3>
+            <p>
+                {% if profile.medical_form_expired %}Expired{% else %}Expires{% endif %}
+                on {{ profile.medical_form_expiry }}
+            </p>
+            {% if profile.medical_form_expired %}
+                <p class="type-aside">{{ l10n_club.medical_form_renew|safe }}</p>
+            {% endif %}
+        </li>
+    </ul>
+{% endif %}
