@@ -33,7 +33,7 @@
       "pk":4,
       "model":"auth.group",
       "fields":{
-         "name":"Trip Organiser",
+         "name":"Trips Officer",
          "permissions":[
 
          ]

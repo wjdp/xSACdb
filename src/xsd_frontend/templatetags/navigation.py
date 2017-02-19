@@ -54,6 +54,9 @@ def get_module_nav_list(namespace, url_name, user):
 
 
 def get_page_title(module_nav, context):
+    if 'page_title' in context:
+        return context['page_title']
+
     if module_nav:
         active = None
         # Iterate over sections in module nav to find current item

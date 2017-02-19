@@ -10,10 +10,14 @@ from xsd_training.models import *
 from faker import Factory
 import random
 
+from xsd_trips.models import Trip
+
+
 class Command(BaseCommand):
     help = 'Generates fake data for testing, demo site and development'
     fake = None
     FLUFFY_USER_COUNT = 99
+    TRIP_COUNT = 300
 
     def setUp(self):
         self.OD = Qualification.objects.get(code="OD")
@@ -57,9 +61,16 @@ class Command(BaseCommand):
 
         with transaction.atomic():
             self.stdout.write('Generating fake data...')
+
             self.generateUsefulUsers()
             self.generateFluffyUsers()
+
+            self.generateTrips()
+
             self.stdout.write('Done')
+
+    def status_write(self, message):
+        self.stdout.write('  {}'.format(message))
 
     def generateUsefulUsers(self):
         U = get_user_model()
@@ -200,6 +211,19 @@ class Command(BaseCommand):
         dl1.memberprofile.set_qualification(self.DL)
         dl1.memberprofile.save()
 
+        dl2 = U.objects.create_user(
+            email="dl2@xsacdb.wjdp.uk",
+            password="dl2",
+            first_name=self.fake.first_name(),
+            last_name="Diveleader",
+        )
+        dl2.username = "dl2"
+        dl2.save()
+        dl2.memberprofile.approve()
+        dl2.memberprofile.fake(self.fake)
+        dl2.memberprofile.set_qualification(self.DL)
+        dl2.memberprofile.save()
+
         owi1 = U.objects.create_user(
             email="owi@xsacdb.wjdp.uk",
             password="owi1",
@@ -213,6 +237,33 @@ class Command(BaseCommand):
         owi1.memberprofile.set_qualification(self.DL)
         owi1.memberprofile.set_qualification(self.OWI)
         owi1.memberprofile.save()
+
+        self.usefulUsers = {
+            'su': superUser,
+            'do': divingOfficer,
+            'to': trainingOfficer,
+            'mo': membersOfficer,
+            'od1': od1,
+            'od2': od2,
+            'sd1': sd1,
+            'sd2': sd2,
+            'dl1': dl1,
+            'dl2': dl2,
+            'owi1': owi1,
+        }
+
+        self.usefulUsersArray = [
+            superUser,
+            divingOfficer,
+            trainingOfficer,
+            membersOfficer,
+            od1, od2,
+            sd1, sd2,
+            dl1, dl2,
+            owi1,
+        ]
+
+        self.status_write('Generated useful users')
 
     def generateFluffyUsers(self):
         U = get_user_model()
@@ -239,3 +290,22 @@ class Command(BaseCommand):
                 # Archive some
                 u.memberprofile.archive()
             u.memberprofile.save()
+
+        self.status_write('Generated {} fluffy users'.format(self.FLUFFY_USER_COUNT))
+
+    def generateTrips(self):
+        for i in range(0, self.TRIP_COUNT):
+            trip = Trip()
+
+            trip.fake(fake=self.fake, quals=self.PERSONAL_QUALS, past=self.fake.boolean(chance_of_getting_true=80))
+
+            if trip.min_qual == self.SD:
+                trip.owner = random.choice(self.usefulUsersArray[6:]).get_profile()
+            elif trip.min_qual == self.DL:
+                trip.owner = random.choice(self.usefulUsersArray[8:]).get_profile()
+            else:
+                trip.owner = random.choice(self.usefulUsersArray).get_profile()
+
+            trip.save()
+
+        self.status_write('Generated {} trips'.format(self.TRIP_COUNT))

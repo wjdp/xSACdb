@@ -1,0 +1,118 @@
+{% extends 'xsd_trips/base.html' %}
+{% load permissions %}
+{% load markdown %}
+
+{% block trips_content %}
+<div class="row">
+    <div class="col-md-12">
+        <h1>
+            {{ trip.uid }} |
+            {{ trip.name }}
+        </h1>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-12">
+        <div class="btn-toolbar" role="group">
+            {% permission request.user can_edit trip %}
+                <a href="{% url 'xsd_trips:TripUpdate' trip.pk %}" class="btn btn-outline-primary"><i class="fa fa-pencil"></i> Edit</a>
+            {% endpermission %}
+
+            {% permission request.user can_approve trip %}
+                <form method="POST" action="set/approve/">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-success"><i class="fa fa-check"></i> Approve</button>
+                </form>
+            {% endpermission %}
+
+            {% permission request.user can_deny trip %}
+                <form method="POST" action="set/deny/">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-danger"><i class="fa fa-times"></i> Deny</button>
+                </form>
+            {% endpermission %}
+
+            {% permission request.user can_open trip %}
+                <form method="POST" action="set/open/">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-outline-primary"><i class="fa fa-play"></i> Open</button>
+                </form>
+            {% endpermission %}
+
+            {% permission request.user can_close trip %}
+                <form method="POST" action="set/close/">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-outline-primary"><i class="fa fa-stop"></i> Close</button>
+                </form>
+            {% endpermission %}
+
+            {% permission request.user can_cancel trip %}
+                <form method="POST" action="set/cancel/">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-outline-danger"><i class="fa fa-ban"></i> Cancel</button>
+                </form>
+            {% endpermission %}
+
+            {% permission request.user can_delete trip %}
+                <form method="POST" action="set/delete/">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-outline-danger"><i class="fa fa-trash"></i> Delete</button>
+                </form>
+            {% endpermission %}
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-6">
+        <div class="card">
+            <dl class="card-block">
+                <dt>Organiser</dt>
+                <dd>
+                    <a href="{{ trip.owner.get_absolute_url }}">{{ trip.owner }}</a>
+                </dd>
+                <dt>State</dt>
+                <dd>
+                    {{ trip.get_state_display }}
+                </dd>
+                <dt>Departs</dt>
+                <dd>{{ trip.date_start }}</dd>
+                <dt>Returns</dt>
+                <dd>
+                    {% if trip.date_end %}{{ trip.date_end }}{% else %}<em>Unknown</em>{% endif %}
+                </dd>
+                <dt>Cost</dt>
+                <dd>
+                    {% if trip.cost %}£ {{ trip.cost }}{% else %}<em>Unknown</em>{% endif %}
+                </dd>
+                <dt>Spaces</dt>
+                <dd>{% if trip.spaces %}{{ trip.spaces }}{% else %}<em>Unknown</em>{% endif %}</dd>
+                <dt>Maximum Depth</dt>
+                <dd>{% if trip.max_depth %}{{ trip.max_depth }} metres{% else %}<em>Unknown</em>{% endif %}</dd>
+                <dt>Minimum Qualification</dt>
+                <dd>{{ trip.min_qual }}</dd>
+            </dl>
+        </div>
+    </div>
+
+    <div class="col-md-6">
+        {{ trip.description | markdown }}
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-12">
+        {% if trip.members.count > 0 %}
+
+            <h4>Members</h4>
+
+            {% include 'xsd_trips/member_list.html' with members=trip.members.all %}
+
+        {% else %}
+
+            <div class="alert alert-info">
+                <i class="fa fa-info-circle"></i> No members have signed up yet.
+            </div>
+
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

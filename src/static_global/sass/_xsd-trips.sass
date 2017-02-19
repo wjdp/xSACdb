@@ -1,0 +1,21 @@
+@mixin trip-state-row($color)
+  background: mix($color, white, 30%)
+  &:hover
+    background: mix($color, white, 20%)
+
+
+.trip-state-denied
+  @include trip-state-row(#f00)
+.trip-state-new
+  @include trip-state-row(#fff)
+.trip-state-approved
+  @include trip-state-row(#0f0)
+
+.trip-state-cancelled
+  @include trip-state-row(#000)
+.trip-state-open
+  @include trip-state-row(#0f0)
+.trip-state-closed
+  @include trip-state-row(#00f)
+.trip-state-completed
+  @include trip-state-row(#f0f)
