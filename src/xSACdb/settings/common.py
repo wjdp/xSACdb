@@ -179,7 +179,7 @@ INSTALLED_APPS = (
     'xsd_frontend',
     'xsd_members.apps.MembersConfig',
     'xsd_training',
-    'xsd_trips',
+    'xsd_trips.apps.TripsConfig',
     'xsd_sites',
     'xsd_kit',
     'xsd_about',

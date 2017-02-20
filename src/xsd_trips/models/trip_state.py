@@ -1,5 +1,6 @@
 from __future__ import unicode_literals
 
+from actstream import action
 from django.core.exceptions import PermissionDenied
 from reversion import revisions
 from django.db import transaction
@@ -63,56 +64,65 @@ class TripStateMixin(object):
 
     # Methods that do things...
 
-    def set_denied(self, user):
-        if not self.can_deny(user):
+    def set_denied(self, actor):
+        if not self.can_deny(actor):
             raise PermissionDenied
         with transaction.atomic(), revisions.create_revision():
             self.state = STATE_DENIED
             self.save()
-            revisions.set_user(user)
+            revisions.set_user(actor)
             revisions.set_comment('Trip request denied')
+            action.send(actor, verb='denied trip request', action_object=self)
 
-    def set_approved(self, user):
-        if not self.can_approve(user):
+    def set_approved(self, actor):
+        if not self.can_approve(actor):
             raise PermissionDenied
         with transaction.atomic(), revisions.create_revision():
             self.state = STATE_APPROVED
             self.save()
-            revisions.set_user(user)
+            revisions.set_user(actor)
             revisions.set_comment('Trip request approved')
+            action.send(actor, verb='approved trip request', action_object=self)
 
-    def set_cancelled(self, user):
-        if not self.can_cancel(user):
+    def set_cancelled(self, actor):
+        if not self.can_cancel(actor):
             raise PermissionDenied
         with transaction.atomic(), revisions.create_revision():
             self.state = STATE_CANCELLED
             self.save()
-            revisions.set_user(user)
+            revisions.set_user(actor)
             revisions.set_comment('Trip cancelled')
+            action.send(actor, verb='cancelled trip', action_object=self)
 
-    def set_open(self, user):
-        if not self.can_open(user):
+    def set_open(self, actor):
+        if not self.can_open(actor):
             raise PermissionDenied
         with transaction.atomic(), revisions.create_revision():
             self.state = STATE_OPEN
             self.save()
-            revisions.set_user(user)
+            revisions.set_user(actor)
             revisions.set_comment('Trip opened')
+            action.send(actor, verb='opened trip', action_object=self)
 
-    def set_closed(self, user):
-        if not self.can_close(user):
+
+    def set_closed(self, actor):
+        if not self.can_close(actor):
             raise PermissionDenied
         with transaction.atomic(), revisions.create_revision():
             self.state = STATE_CLOSED
             self.save()
-            revisions.set_user(user)
+            revisions.set_user(actor)
             revisions.set_comment('Trip closed')
+            action.send(actor, verb='closed trip', action_object=self)
 
-    def set_completed(self, user):
-        if not self.can_complete(user):
+
+    def set_completed(self, actor):
+        if not self.can_complete(actor):
             raise PermissionDenied
         with transaction.atomic(), revisions.create_revision():
             self.state = STATE_COMPLETED
             self.save()
-            revisions.set_user(user)
+            revisions.set_user(actor)
             revisions.set_comment('Trip completed')
+            action.send(actor, verb='completed trip', action_object=self)
+

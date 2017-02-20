@@ -1,6 +1,9 @@
 from __future__ import unicode_literals
 
+import reversion
+from actstream import action
 from django.core.exceptions import ViewDoesNotExist
+from django.db import transaction
 from django.shortcuts import redirect
 from django.views.generic import DetailView
 from django.views.generic import View
@@ -69,11 +72,15 @@ class TripCreate(RequireVerified, CreateView):
     )
 
     def form_valid(self, form):
-        # Patch in setting the trip owner
-        trip = form.save(commit=False)
-        trip.owner = self.request.user.get_profile()
-        trip.save()
-        return super(TripCreate, self).form_valid(form)
+        with reversion.create_revision() and transaction.atomic():
+            reversion.set_comment('Create trip')
+            # Patch in setting the trip owner
+            trip = form.save(commit=False)
+            # trip.owner = self.request.user.profile
+            trip.owner = self.request.user.profile
+            trip.save()
+            action.send(self.request.user, verb='requested approval for trip', action_object=trip)
+            return super(TripCreate, self).form_valid(form)
 
 
 class TripDetail(RequireVerified, RequirePermission, DetailView):
@@ -112,6 +119,12 @@ class TripUpdate(RequireVerified, RequirePermission, UpdateView):
         context = super(TripUpdate, self).get_context_data(**kwargs)
         context['page_title'] = 'Edit Trip'
         return context
+
+    def form_valid(self, form):
+        with reversion.create_revision() and transaction.atomic():
+            reversion.set_comment('Updated')
+            action.send(self.request.user, verb='updated trip', action_object=self.get_object())
+            return super(TripUpdate, self).form_valid(form)
 
 
 class TripSet(RequireVerified, SingleObjectMixin, View):

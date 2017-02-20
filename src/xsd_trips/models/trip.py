@@ -1,5 +1,6 @@
 from __future__ import unicode_literals
 
+from actstream.actions import follow
 from reversion import revisions as reversion
 from django.core.urlresolvers import reverse
 from django.db import models
@@ -74,6 +75,14 @@ class Trip(TripStateMixin,
 
     def get_absolute_url(self):
         return reverse('xsd_trips:TripDetail', kwargs={'pk': self.pk})
+
+    def save(self, **kwargs):
+        if not self.pk:
+            # If new ensure the owner follows their trip
+            super(Trip, self).save(**kwargs)
+            follow(self.owner.user, self, actor_only=False)
+        else:
+            super(Trip, self).save(**kwargs)
 
     def __unicode__(self):
         return '{}'.format(self.name)
