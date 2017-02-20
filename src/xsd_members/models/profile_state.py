@@ -16,7 +16,7 @@ class MemberProfileStateMixin(object):
             if reversion.is_active():
                 reversion.set_comment('Approved member')
             if actor:
-                action.send(actor, verb='approved', action_object=self)
+                action.send(actor, verb='approved', target=self)
             self.new_notify = False
             self.save()
 
@@ -26,7 +26,7 @@ class MemberProfileStateMixin(object):
             if reversion.is_active():
                 reversion.set_comment('Archived member')
             if actor:
-                action.send(actor, verb='archived', action_object=self)
+                action.send(actor, verb='archived', target=self)
             self.expunge()
             self.archived = True
             self.save()
@@ -49,7 +49,7 @@ class MemberProfileStateMixin(object):
             if reversion.is_active():
                 reversion.set_comment('Restored member')
             if actor:
-                action.send(actor, verb='restored', action_object=self)
+                action.send(actor, verb='restored', target=self)
             self.archived = False
             self.save()
 

@@ -56,7 +56,7 @@ class SiteCreate(RequireSiteAdministrator, CreateView):
         with reversion.create_revision() and transaction.atomic():
             reversion.set_comment('Added site')
             site = form.save()
-            action.send(self.request.user, verb="created site", action_object=site)
+            action.send(self.request.user, verb="created site", target=site)
             return super(SiteCreate, self).form_valid(form)
 
 class SitesList(RequireSiteAdministrator, ListView):
@@ -89,7 +89,7 @@ class SiteUpdate(RequireSiteAdministrator, UpdateView):
         with reversion.create_revision() and transaction.atomic():
             reversion.set_comment('Updated site')
             site = form.save()
-            action.send(self.request.user, verb="updated site", action_object=site)
+            action.send(self.request.user, verb="updated site", target=site)
             return super(SiteUpdate, self).form_valid(form)
 
 
