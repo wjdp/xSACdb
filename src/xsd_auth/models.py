@@ -4,6 +4,7 @@ import hashlib
 import random
 
 from allauth.socialaccount.models import SocialAccount
+from django.conf import settings
 from django.contrib.auth.models import AbstractUser, Group
 from django.contrib.auth.models import UserManager as DJ_UserManager
 from django.db import transaction
@@ -95,15 +96,15 @@ class User(UserActivityMixin, AbstractUser):
         """Cached version of get_profile"""
         return self.get_profile()
 
-    def profile_image_url(self, size=70):
+    def profile_image_url(self, size=70, blank=settings.CLUB['gravatar_default']):
         fb_uid = SocialAccount.objects.filter(user_id=self.pk, provider='facebook')
 
         if len(fb_uid):
-            return "https://graph.facebook.com/{}/picture?width={}&height={}" \
+            return "https://graph.facebook.com/{0}/picture?width={1}&height={2}" \
                 .format(fb_uid[0].uid, size, size)
 
-        return "https://www.gravatar.com/avatar/{}?s={}".format(
-            hashlib.md5(self.email).hexdigest(), size)
+        return "https://www.gravatar.com/avatar/{0}?s={1}&d={2}".format(
+            hashlib.md5(self.email).hexdigest(), size, blank)
 
     def __unicode__(self):
         return self.get_full_name()

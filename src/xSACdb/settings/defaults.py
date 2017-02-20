@@ -7,6 +7,10 @@ CLUB = {
     # Are you a student club? This adds fields like student ID to the member records
     'student': False,
 
+    # Gravatar default avatars, see https://en.gravatar.com/site/implement/images/#default-image
+    'gravatar_default': "retro",
+
+    # Club strings
     'onboarded_header': 'All Done!',
     'onboarded_line_1': "You're now signed up on the club database.",
     'onboarded_line_2': "However before you can do much more here a committee member needs to verify your account. Check back here tomorrow for your training logbook, the club divesite directory, and details of upcoming sessions and trips.",
