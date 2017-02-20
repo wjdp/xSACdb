@@ -110,5 +110,5 @@ class ClassicLogin(TestCase):
 
 class Dashboard(ViewTestMixin, BaseTest):
     url_name = 'xsd_frontend:dashboard'
-    template_name = 'frontend_dashboard.html'
+    template_name = 'frontend/dashboard.html'
     allowed_unverified = True

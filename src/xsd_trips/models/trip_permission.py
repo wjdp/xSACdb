@@ -15,6 +15,9 @@ class TripPermissionMixin(object):
         else:
             return self._is_modifier(user)
 
+    def can_view_history(self, user):
+        return self._is_modifier(user)
+
     def can_create(self, user):
         return is_verified(user)
 

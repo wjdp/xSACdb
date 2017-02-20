@@ -2,6 +2,7 @@ CommonMark==0.7.3
 coverage==4.3.4
 diff-match-patch==20121119
 dj-database-url==0.4.2
+django-activity-stream==0.6.3
 django-allauth==0.30.0
 django-bootstrap-toolkit==2.15.0
 django-bootstrap3==8.1.0
@@ -10,8 +11,10 @@ django-debug-toolbar==1.6
 django-geoposition==0.2.2
 django-health-check==2.2.1
 django-hijack==2.1.2
+django-jsonfield==1.0.1
 django-redis-cache==1.7.1
-django-reversion==1.10.2
+django-reversion==2.0.8
+django-reversion-compare==0.7.3
 django-rq==0.9.4
 django-tastypie==0.13.3
 django-widget-tweaks==1.4.1

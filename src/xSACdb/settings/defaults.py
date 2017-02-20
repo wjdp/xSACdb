@@ -1,9 +1,15 @@
+from __future__ import unicode_literals
+
 CLUB = {
     # Name of your club
     'name': 'UnnamedSAC',
 
     # Are you a student club? This adds fields like student ID to the member records
     'student': False,
+
+    'onboarded_header': 'All Done!',
+    'onboarded_line_1': "You're now signed up on the club database.",
+    'onboarded_line_2': "However before you can do much more here a committee member needs to verify your account. Check back here tomorrow for your training logbook, the club divesite directory, and details of upcoming sessions and trips.",
 
     'how_to_renew': 'Contact the committee.',
     'bsac_club_renew': 'Contact the committee.',

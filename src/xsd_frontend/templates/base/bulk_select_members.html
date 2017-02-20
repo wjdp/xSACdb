@@ -1,4 +1,9 @@
-<form action="." method="GET">
+{% if method == "GET" %}
+    <form action="." method="GET">
+{% else %}
+    <form action="action/add/" method="POST">
+    {% csrf_token %}
+{% endif %}
     <p>
         <input type="text" id="token-input" name="names"/>
     </p>
@@ -8,8 +13,14 @@
 
     <script type="text/javascript" src="/members/api/tokeninput-data.js"></script>
     <script type="text/javascript">
-    $(document).ready(function () {
-        $("#token-input").tokenInput(data, {resultsLimit:8,searchDelay:null,animateDropdown:false,hintText:'Type in part of a members name...', noResultsText:'No members by that name'});
-    });
+        $(document).ready(function () {
+            $("#token-input").tokenInput(data, {
+                resultsLimit: 8,
+                searchDelay: null,
+                animateDropdown: false,
+                hintText: 'Type in part of a members name...',
+                noResultsText: 'No members by that name'
+            });
+        });
     </script>
 </form>

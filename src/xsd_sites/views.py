@@ -1,21 +1,26 @@
-from django.http import HttpResponse
+from __future__ import unicode_literals
 
-from django.views.generic.list import ListView
-from django.views.generic.edit import CreateView, UpdateView
-from django.shortcuts import render, redirect, get_object_or_404
+import reversion
+from actstream import action
 from django.core import serializers
-from django.core.urlresolvers import reverse, reverse_lazy
+from django.core.urlresolvers import reverse_lazy
+from django.db import transaction
+from django.http import HttpResponse
+from django.shortcuts import get_object_or_404
+from django.views.generic.edit import CreateView, UpdateView
+from django.views.generic.list import ListView
 
-from xSACdb.roles.decorators import require_site_administrator, require_verified
+from forms import SiteForm
+from models import Site
+from xSACdb.roles.decorators import require_verified
 from xSACdb.roles.mixins import RequireSiteAdministrator, RequireVerified
 
-from models import *
-from forms import *
 
 class SitesOverview(RequireVerified, ListView):
-    model=Site
-    template_name='sites_overview.html'
-    context_object_name='sites'
+    model = Site
+    template_name = 'sites_overview.html'
+    context_object_name = 'sites'
+
     def get_context_data(self, **kwargs):
         c = super(SitesOverview, self).get_context_data(**kwargs)
         # Filter the sites returned to the view
@@ -27,17 +32,19 @@ class SitesOverview(RequireVerified, ListView):
         c[self.context_object_name] = sites_real
         return c
 
+
 class SitesSearch(RequireVerified, ListView):
-    model=Site
-    template_name="sites_overview.html"
-    context_object_name='sites'
+    model = Site
+    template_name = "sites_overview.html"
+    context_object_name = 'sites'
+
 
 class SiteCreate(RequireSiteAdministrator, CreateView):
-    model=Site
-    template_name="sites_update.html"
-    context_object_name='sites'
-    page_title='Add a Site'
-    success_url=reverse_lazy('xsd_sites:SitesList')
+    model = Site
+    template_name = "sites_update.html"
+    context_object_name = 'sites'
+    page_title = 'Add a Site'
+    success_url = reverse_lazy('xsd_sites:SitesList')
     form_class = SiteForm
 
     def get_context_data(self, **kwargs):
@@ -45,33 +52,49 @@ class SiteCreate(RequireSiteAdministrator, CreateView):
         context['page_title'] = self.page_title
         return context
 
+    def form_valid(self, form):
+        with reversion.create_revision() and transaction.atomic():
+            reversion.set_comment('Added site')
+            site = form.save()
+            action.send(self.request.user, verb="created site", action_object=site)
+            return super(SiteCreate, self).form_valid(form)
+
 class SitesList(RequireSiteAdministrator, ListView):
-    model=Site
-    template_name="sites_list.html"
-    context_object_name='sites'
-    page_title='Edit a Site'
+    model = Site
+    template_name = "sites_list.html"
+    context_object_name = 'sites'
+    page_title = 'Edit a Site'
 
     def get_context_data(self, **kwargs):
         context = super(SitesList, self).get_context_data(**kwargs)
         context['page_title'] = self.page_title
         return context
 
+
 class SiteUpdate(RequireSiteAdministrator, UpdateView):
-    model=Site
-    template_name="sites_update.html"
-    context_object_name='sites'
-    success_url=reverse_lazy('xsd_sites:SitesList')
+    model = Site
+    template_name = "sites_update.html"
+    context_object_name = 'sites'
+    success_url = reverse_lazy('xsd_sites:SitesList')
     form_class = SiteForm
 
-    page_title='Edit a Site'
+    page_title = 'Edit a Site'
 
     def get_context_data(self, **kwargs):
         context = super(SiteUpdate, self).get_context_data(**kwargs)
         context['page_title'] = self.page_title
         return context
 
+    def form_valid(self, form):
+        with reversion.create_revision() and transaction.atomic():
+            reversion.set_comment('Updated site')
+            site = form.save()
+            action.send(self.request.user, verb="updated site", action_object=site)
+            return super(SiteUpdate, self).form_valid(form)
+
+
 @require_verified
-def sitedetail_json(request,pk):
-    site=get_object_or_404(Site, pk=pk)
-    json_site=serializers.serialize("json",[site, ])
+def sitedetail_json(request, pk):
+    site = get_object_or_404(Site, pk=pk)
+    json_site = serializers.serialize("json", [site, ])
     return HttpResponse(json_site, mimetype='application/json')

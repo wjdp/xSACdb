@@ -1,0 +1,18 @@
+{% extends "base_template.html" %}
+{% load cache %}
+{% load staticfiles %}
+
+{% block content %}
+    <div class="row">
+        <div class="col-md-8">
+            {% include 'frontend/dashboard/banners.html' %}
+
+            {% include 'frontend/dashboard/feed.html' %}
+
+        </div>
+        <div class="col-md-4">
+            {% include 'frontend/dashboard/membership.html' %}
+        </div>
+    </div>
+
+{% endblock %}

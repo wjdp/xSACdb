@@ -1,6 +1,6 @@
 from django.conf.urls import patterns, include, url
-from django.conf import settings
 
+from models import Trip
 from views import *
 
 urlpatterns = patterns('',
@@ -13,6 +13,7 @@ urlpatterns = patterns('',
 
     url(r'^(?P<pk>\d+)/$', TripDetail.as_view(), name='TripDetail'),
     url(r'^(?P<pk>\d+)/edit/$', TripUpdate.as_view(), name='TripUpdate'),
+    url(r'^(?P<pk>\d+)/history/$', TripHistory.as_view(), name='TripHistory'),
     url(r'^(?P<pk>\d+)/set/(?P<action>\w+)/$', TripSet.as_view(), name='TripSet'),
 
 )

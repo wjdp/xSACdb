@@ -1,35 +1,36 @@
 from django.contrib import admin
-from reversion.admin import VersionAdmin
+from django.contrib.admin import ModelAdmin
+from reversion_compare.admin import CompareVersionAdmin
 
 from xsd_training.models import *
 
 
-class PerformedLessonAdmin(VersionAdmin):
+class PerformedLessonAdmin(CompareVersionAdmin):
     pass
 
-class LessonAdmin(VersionAdmin):
+class LessonAdmin(ModelAdmin):
     fieldsets = (('Basic Info', {'fields': ('qualification','code','title','mode','order','required','description')}),
                  ('Practical Details', {'fields': ('max_depth','activities')}))
     list_display=('qualification','code','title','mode','order','required','max_depth')
     list_display_links=('code','title')
     list_filter=('qualification','mode')
 
-class QualificationAdmin(VersionAdmin):
+class QualificationAdmin(ModelAdmin):
     list_display=('code', 'title','rank','instructor_qualification')
     list_filter=('instructor_qualification',)
 
-class SDCAdmin(VersionAdmin):
+class SDCAdmin(ModelAdmin):
     list_display=('title','min_qualification','category')
     list_filter=('min_qualification',)
 
-class PerformedSDCAdmin(VersionAdmin):
+class PerformedSDCAdmin(CompareVersionAdmin):
     list_display=('sdc','datetime','completed')
     list_filter=('completed',)
 
-class SessionAdmin(VersionAdmin):
+class SessionAdmin(CompareVersionAdmin):
     pass
 
-class TraineeGroupAdmin(VersionAdmin):
+class TraineeGroupAdmin(CompareVersionAdmin):
     pass
 
 admin.site.register(PerformedLesson, PerformedLessonAdmin)

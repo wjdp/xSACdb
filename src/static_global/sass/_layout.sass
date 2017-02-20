@@ -1,3 +1,6 @@
+html, body, .xsd-application-container
+  height: 100%
+
 body
   padding-top: 54px
   overflow-y: scroll
@@ -41,6 +44,14 @@ body
 
 .xsd-module-content__inner
   @include make-row
+
+// Utilities
+
+.push-left
+  float: left
+
+.push-right
+  float: right
 
 .row
   // FIXME Do something better than this

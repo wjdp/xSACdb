@@ -4,34 +4,31 @@ import random
 import warnings
 from datetime import date
 
-from django import forms
+from actstream import action
 from django.conf import settings
 from django.core.urlresolvers import reverse
 from django.db import models
+from django.db import transaction
 from reversion import revisions as reversion
 
 from xSACdb.data_helpers import disable_for_loaddata
 from xsd_training.models import PerformedLesson
+from .profile_manager import MemberProfileManager
 
-
-class DateOfBirthField(models.DateField):
-    def formfield(self, **kwargs):
-        defaults = {'form_class': forms.CharField}
-        defaults.update(**kwargs)
-        return super(DateOfBirthField, self).formfield(**defaults)
-
-
-class MemberProfileManager(models.Manager):
-    def all(self):
-        # Filtering is applied here to hide 'hidden' users
-        return super(MemberProfileManager, self).all().exclude(hidden=True)
-
-    def all_actual(self):
-        return super(MemberProfileManager, self).all()
+from .profile_state import MemberProfileStateMixin
+from .profile_fake import MemberProfileFakeDataMixin
+from .profile_training import MemberProfileTrainingMixin
+from .profile_qualification import MemberProfileQualificationMixin
+from .profile_sdc import MemberProfileSDCMixin
 
 
 @reversion.register()
-class MemberProfile(models.Model):
+class MemberProfile(MemberProfileStateMixin,
+                    MemberProfileTrainingMixin,
+                    MemberProfileQualificationMixin,
+                    MemberProfileSDCMixin,
+                    MemberProfileFakeDataMixin,
+                    models.Model):
     """Model for representing members of the club, a user account has a O2O
     relationship with this profile. The profile 'should' be able to exist
     without a user."""
@@ -75,15 +72,8 @@ class MemberProfile(models.Model):
     # This is being used to 'approve' new members
     new_notify = models.BooleanField(default=True)
 
-    @property
-    def verified(self):
-        return not self.new_notify
-
-    def approve(self):
-        """
-        Set whatever property we need to approve this member.
-        """
-        self.new_notify = False
+    # Marks the user as archived.
+    archived = models.BooleanField(default=False)
 
     # Migrated from user model
     first_name = models.CharField(max_length=30)
@@ -384,15 +374,6 @@ class MemberProfile(models.Model):
                 fields_that_need_stuff_in_them.append(field_name)
         return fields_that_need_stuff_in_them
 
-
-    def save(self, *args, **kwargs):
-        """Saves changes to the model instance"""
-        if self.pk:
-            self.cache_update()
-        if self.pk and self.user:
-            self.sync()
-        super(MemberProfile, self).save(*args, **kwargs)
-
     def cache_update(self):
         """Compute and write the cached fields"""
         # TODO replace with django's built in cache system
@@ -406,37 +387,6 @@ class MemberProfile(models.Model):
         self.last_name = self.user.last_name
         self.email = self.user.email
 
-    def fake(self, fake):
-        self.date_of_birth = fake.date_time_between(start_date="-90y", end_date="-12y", tzinfo=None).date()
-        self.gender = random.choice(('m', 'f'))
-        self.address = fake.address()
-        self.postcode = fake.postcode()
-        self.home_phone = fake.phone_number()
-        self.mobile_phone = fake.phone_number()
-        self.next_of_kin_name = fake.name()
-        self.next_of_kin_relation = random.choice(('Mother', 'Father', 'Mum', 'Dad', 'Partner', 'Wife',
-                                                                 'Husband', 'Dog', 'Cat', 'Fish', 'Tortoise'))
-        self.next_of_kin_phone = fake.phone_number()
-
-        if fake.boolean(chance_of_getting_true=50):
-            self.student_id = random.randrange(1234567,9999999)
-
-        self.veggie = fake.boolean(chance_of_getting_true=10)
-        if fake.boolean(chance_of_getting_true=50):
-            self.alergies = fake.paragraph()
-
-        # Most people are current, 15% are out of date
-        if fake.boolean(chance_of_getting_true=85):
-            self.club_expiry = fake.date_time_between(start_date="-30d", end_date="+2y", tzinfo=None).date()
-            self.bsac_expiry = fake.date_time_between(start_date="-30d", end_date="+2y", tzinfo=None).date()
-            self.medical_form_expiry = fake.date_time_between(start_date="-30d", end_date="+2y", tzinfo=None).date()
-        else:
-            if fake.boolean(chance_of_getting_true=60):
-                self.club_expiry = fake.date_time_between(start_date="-6y", end_date="+1y", tzinfo=None).date()
-            if fake.boolean(chance_of_getting_true=60):
-                self.bsac_expiry = fake.date_time_between(start_date="-6y", end_date="+1y", tzinfo=None).date()
-            if fake.boolean(chance_of_getting_true=60):
-                self.medical_form_expiry = fake.date_time_between(start_date="-6y", end_date="+3y", tzinfo=None).date()
 
     def sync(self):
         """Sync the user object with the MP"""
@@ -445,38 +395,6 @@ class MemberProfile(models.Model):
         self.user.email = self.email
         # TODO check if actually changed
         self.user.save()
-
-    # Marks the user as archived.
-    archived = models.BooleanField(default=False)
-
-    def archive(self):
-        """Archive the user, hiding them from most views and removing a lot of personal data."""
-        self.expunge()
-        # self.hidden = True # Seems this is too aggressive
-        self.archived = True
-
-    def expunge(self):
-        """Remove personal data"""
-        for field_name in self.PERSONAL_DATA:
-            # Clear personal data
-            if not self._meta.get_field(field_name).null:
-                # Char and Text fields like blank null values
-                setattr(self, field_name, '')
-            else:
-                # Everything else has None
-                setattr(self, field_name, None)
-
-    def reinstate(self):
-        """Opposite of archive"""
-        # self.hidden = False # Seems this is too aggressive
-        self.archived = False
-
-    def delete(self):
-        # When MP is deleted, we should also remove the user attached to it.
-        # Soon we will 'archive' profiles, rather than deleting them.
-        user = self.user
-        super(MemberProfile, self).delete()
-        user.delete()
 
 
 from django.db.models.signals import post_save
@@ -489,6 +407,7 @@ def create_member_profile(sender, instance, created, **kwargs):
         mp = MemberProfile.objects.create(user=instance)
         mp.seed(instance)
         mp.save()
+        instance.follow_defaults()
 
 
 post_save.connect(create_member_profile, sender=settings.AUTH_USER_MODEL)
@@ -504,13 +423,3 @@ def trigger_update_training_for(sender, instance, created, **kwargs):
 
 
 post_save.connect(trigger_update_training_for, sender=PerformedLesson)
-
-
-class MembershipType(models.Model):
-    name = models.CharField(max_length=40)
-
-    def __unicode__(self):
-        return self.name
-
-    class Meta:
-        ordering = ['name']

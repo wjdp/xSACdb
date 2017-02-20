@@ -44,7 +44,14 @@ class UserManager(DJ_UserManager):
         return user
 
 
-class User(AbstractUser):
+from actstream.actions import follow, unfollow
+
+class UserActivityMixin(object):
+    def follow_defaults(self):
+        follow(self, self.profile, actor_only=False)
+
+
+class User(UserActivityMixin, AbstractUser):
     objects = UserManager()
 
     class Meta:

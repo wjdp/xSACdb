@@ -1,15 +1,12 @@
 from django.contrib import admin
-from reversion.admin import VersionAdmin
+from reversion_compare.admin import CompareVersionAdmin
 
 from xsd_members.models import *
 
-class MemberAdmin(VersionAdmin):
+class MemberAdmin(CompareVersionAdmin):
     pass
-class MembershipTypeAdmin(VersionAdmin):
-    pass
-class MailingAdmin(VersionAdmin):
+class MembershipTypeAdmin(CompareVersionAdmin):
     pass
 
 admin.site.register(MemberProfile, MemberAdmin)
 admin.site.register(MembershipType, MembershipTypeAdmin)
-# admin.site.register(Mailing, MailingAdmin)

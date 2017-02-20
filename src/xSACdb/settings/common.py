@@ -175,12 +175,12 @@ INSTALLED_APPS = (
     'django.contrib.admin',
     'django.contrib.admindocs',
 
-    'xsd_auth',
+    'xsd_auth.apps.AuthConfig',
     'xsd_frontend',
-    'xsd_members',
+    'xsd_members.apps.MembersConfig',
     'xsd_training',
-    'xsd_trips',
-    'xsd_sites',
+    'xsd_trips.apps.TripsConfig',
+    'xsd_sites.apps.SitesConfig',
     'xsd_kit',
     'xsd_about',
     'xsd_help',
@@ -195,12 +195,21 @@ INSTALLED_APPS = (
     'widget_tweaks',
 
     'compressor',
+
     'tastypie',
+
     'geoposition',
-    'reversion',
+
     'django_rq',
 
+    'reversion', # https://github.com/etianen/django-reversion
+    'reversion_compare', # https://github.com/jedie/django-reversion-compare
+
+    # Must be after apps creating activities
+    'actstream', # https://github.com/justquick/django-activity-stream
+
     'hijack',
+
     'compat',
     'raven.contrib.django.raven_compat',
 

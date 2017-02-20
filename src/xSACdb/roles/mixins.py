@@ -19,11 +19,15 @@ class RequireGroup(object):
     #         raise PermissionDenied
 
 class RequirePermission(object):
+    def get_permission_object(self):
+        """Object to check permission against"""
+        return self.get_object()
+
     def has_permission(self, user):
         if not hasattr(self, 'permission'):
             raise ValueError('Need a permission set on this CBV')
 
-        object_inst = self.get_object()
+        object_inst = self.get_permission_object()
 
         if hasattr(object_inst, self.permission):
             perm_func = getattr(object_inst, self.permission)

@@ -5,7 +5,7 @@ from django.views.generic import DetailView
 
 from django.db.models import Q
 
-from xSACdb.view_helpers import OrderedListView
+from xSACdb.views import OrderedListView
 from xSACdb.roles.decorators import require_instructor, require_training_officer
 from xSACdb.roles.mixins import RequireInstructor
 
