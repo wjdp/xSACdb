@@ -15,6 +15,7 @@ from xSACdb.roles.mixins import RequireVerified, RequirePermission, RequireTrips
 from xSACdb.roles.functions import is_trips
 
 from models import Trip
+from xsd_frontend.versioning import VersionHistoryView
 
 
 class TripListUpcoming(RequireVerified, ListView):
@@ -95,6 +96,14 @@ class TripDetail(RequireVerified, RequirePermission, DetailView):
         context = super(TripDetail, self).get_context_data(**kwargs)
         context['page_title'] = self.object.name
         return context
+
+
+class TripHistory(RequirePermission, VersionHistoryView):
+    versioned_model = Trip
+    permission = 'can_view_history'
+
+    def get_permission_object(self):
+        return Trip.objects.get(pk=self.kwargs['pk'])
 
 
 class TripUpdate(RequireVerified, RequirePermission, UpdateView):

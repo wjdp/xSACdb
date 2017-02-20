@@ -37,15 +37,18 @@ class VersionHistoryView(ListView):
     context_object_name = 'versions'
 
     @cached_property
-    def object(self):
-        return self.kwargs['model'].objects.get(pk=self.kwargs['pk'])
+    def versioned_object(self):
+        if hasattr(self, 'versioned_model'):
+            return self.versioned_model.objects.get(pk=self.kwargs['pk'])
+        else:
+            return self.kwargs['model'].objects.get(pk=self.kwargs['pk'])
 
     def get_context_data(self, **kwargs):
         context = super(VersionHistoryView, self).get_context_data(**kwargs)
-        context['object'] = self.object
+        context['versioned_object'] = self.versioned_object
         return context
 
     def get_queryset(self):
-        return XSDVersion.objects.get_for_object(self.object).select_related()
+        return XSDVersion.objects.get_for_object(self.versioned_object).select_related()
 
 

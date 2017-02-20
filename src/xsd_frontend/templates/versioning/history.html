@@ -3,11 +3,11 @@
 {% block app_content %}
 <div class="row">
     <div class="col-xs-9">
-        <h1>{{ object }}</h1>
+        <h1>{{ versioned_object }}</h1>
     </div>
     <div class="col-xs-3">
         <div class="btn-toolbar push-right">
-            <a href="{{ object.get_absolute_url }}" class="btn btn-secondary align-right">Back</a>
+            <a href="{{ versioned_object.get_absolute_url }}" class="btn btn-secondary align-right">Back</a>
         </div>
     </div>
 </div>
