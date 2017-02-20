@@ -1,6 +1,7 @@
 from __future__ import unicode_literals
 
 from actstream import action
+from django.conf import settings
 from django.core.exceptions import PermissionDenied
 from reversion import revisions
 from django.db import transaction
@@ -61,6 +62,34 @@ class TripStateMixin(object):
     @property
     def state_class(self):
         return 'trip-state-{}'.format(self.STATE_CLASS_MAP[self.state])
+
+    STATE_OWNER_HELP_TEXT = {
+        STATE_DENIED: settings.CLUB['trip_owner_denied'],
+        STATE_NEW: settings.CLUB['trip_owner_new'],
+        STATE_APPROVED: settings.CLUB['trip_owner_approved'],
+        STATE_CANCELLED: settings.CLUB['trip_owner_cancelled'],
+        STATE_OPEN: settings.CLUB['trip_owner_open'],
+        STATE_CLOSED: settings.CLUB['trip_owner_closed'],
+        STATE_COMPLETED: settings.CLUB['trip_owner_completed'],
+    }
+
+    @property
+    def owner_help_text(self):
+        return self.STATE_OWNER_HELP_TEXT[self.state]
+
+    STATE_OFFICER_HELP_TEXT = {
+        STATE_DENIED: settings.CLUB['trip_officer_denied'],
+        STATE_NEW: settings.CLUB['trip_officer_new'],
+        STATE_APPROVED: settings.CLUB['trip_officer_approved'],
+        STATE_CANCELLED: settings.CLUB['trip_officer_cancelled'],
+        STATE_OPEN: settings.CLUB['trip_officer_open'],
+        STATE_CLOSED: settings.CLUB['trip_officer_closed'],
+        STATE_COMPLETED: settings.CLUB['trip_officer_completed'],
+    }
+
+    @property
+    def officer_help_text(self):
+        return self.STATE_OFFICER_HELP_TEXT[self.state]
 
     # Methods that do things...
 
