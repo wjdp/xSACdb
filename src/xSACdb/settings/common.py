@@ -259,14 +259,8 @@ SILENCED_SYSTEM_CHECKS = ['1_6.W001']
 HIJACK_NOTIFY_USER = True
 HIJACK_DISPLAY_ADMIN_BUTTON = False
 
-## Models to show in the activity stream
-
-ACTIVITY_MODELS = [
-    ('xsd_members', 'MemberProfile'),
-    ('xsd_training', 'PerformedLesson'),
-    ('xsd_training', 'PerformedSDC'),
-    ('xsd_training', 'Session'),
-    ('xsd_training', 'TraineeGroup'),
-    ('xsd_sites', 'Site'),
-    ('xsd_trips', 'Trip'),
-]
+ACTSTREAM_SETTINGS = {
+    # 'MANAGER': 'myapp.managers.MyActionManager',
+    'FETCH_RELATIONS': True,
+    'USE_JSONFIELD': True,
+}

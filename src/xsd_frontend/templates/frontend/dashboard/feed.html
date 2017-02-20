@@ -3,7 +3,8 @@
 
 <ul class="feed">
     {% for action in stream %}
-        <li>
+        <li class="feed-item {{ action.data.style | default:"feed-item-default" }}">
+            <i class="feed-item-icon"></i>
             {% if action.actor.get_absolute_url %}<a href="{{ action.actor.get_absolute_url }}">{{ action.actor }}</a>
             {% else %}{{ action.actor }}{% endif %}
 

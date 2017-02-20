@@ -72,7 +72,7 @@ class TripStateMixin(object):
             self.save()
             revisions.set_user(actor)
             revisions.set_comment('Trip request denied')
-            action.send(actor, verb='denied trip request', target=self)
+            action.send(actor, verb='denied trip request', target=self, state=STATE_DENIED, style='trip-denied')
 
     def set_approved(self, actor):
         if not self.can_approve(actor):
@@ -82,7 +82,7 @@ class TripStateMixin(object):
             self.save()
             revisions.set_user(actor)
             revisions.set_comment('Trip request approved')
-            action.send(actor, verb='approved trip request', target=self)
+            action.send(actor, verb='approved trip request', target=self, state=STATE_APPROVED, style='trip-approved')
 
     def set_cancelled(self, actor):
         if not self.can_cancel(actor):
@@ -92,7 +92,7 @@ class TripStateMixin(object):
             self.save()
             revisions.set_user(actor)
             revisions.set_comment('Trip cancelled')
-            action.send(actor, verb='cancelled trip', target=self)
+            action.send(actor, verb='cancelled trip', target=self, state=STATE_CANCELLED, style='trip-cancelled')
 
     def set_open(self, actor):
         if not self.can_open(actor):
@@ -102,7 +102,7 @@ class TripStateMixin(object):
             self.save()
             revisions.set_user(actor)
             revisions.set_comment('Trip opened')
-            action.send(actor, verb='opened trip', target=self)
+            action.send(actor, verb='opened trip', target=self, state=STATE_OPEN, style='trip-opened')
 
 
     def set_closed(self, actor):
@@ -113,7 +113,7 @@ class TripStateMixin(object):
             self.save()
             revisions.set_user(actor)
             revisions.set_comment('Trip closed')
-            action.send(actor, verb='closed trip', target=self)
+            action.send(actor, verb='closed trip', target=self, state=STATE_CLOSED, style='trip-closed')
 
 
     def set_completed(self, actor):
@@ -124,5 +124,5 @@ class TripStateMixin(object):
             self.save()
             revisions.set_user(actor)
             revisions.set_comment('Trip completed')
-            action.send(actor, verb='completed trip', target=self)
+            action.send(actor, verb='completed trip', target=self, state=STATE_CLOSED, style='trip-completed')
 
