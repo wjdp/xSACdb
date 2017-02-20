@@ -1,31 +1,47 @@
 {% load activity_tags %}
+{% load humanize %}
 {% activity_stream 'user' user %}
 
 <ul class="feed">
     {% for action in stream %}
         <li class="feed-item {{ action.data.style | default:"feed-item-default" }}">
-            <i class="feed-item-icon"></i>
-            {% if action.actor.get_absolute_url %}<a href="{{ action.actor.get_absolute_url }}">{{ action.actor }}</a>
-            {% else %}{{ action.actor }}{% endif %}
 
-            {{ action.verb }}
+            <div class="feed-item-avatar">
+                <img src="{{ action.actor.profile_image_url }}" alt="Profile image" />
+            </div>
 
-            {% if action.action_object %}
-                {% if action.action_object.get_absolute_url %}
-                    <a href="{{ action.action_object.get_absolute_url }}">{{ action.action_object }}</a>
-                {% else %}{{ action.action_object }}{% endif %}
-            {% endif %}
+            <div class="feed-item-line">
+                {% if action.actor == user %}
+                    You
+                {% else %}
+                    {% if action.actor.get_absolute_url %}
+                        <a href="{{ action.actor.get_absolute_url }}">{{ action.actor }}</a>
+                    {% else %}{{ action.actor }}{% endif %}
+                {% endif %}
 
-            {% if action.action_object and action.target %}to{% endif %}
+                <i class="feed-item-icon"></i>
 
-            {% if action.target %}
-                {% if action.target.get_absolute_url %}
-                    <a href="{{ action.target.get_absolute_url }}">{{ action.target }}</a>
-                {% else %}{{ action.target }}{% endif %}
-            {% endif %}
+                {{ action.verb }}
 
-            {{ action.timestamp|timesince }} ago
+                {% if action.action_object %}
+                    {% if action.action_object.get_absolute_url %}
+                        <a href="{{ action.action_object.get_absolute_url }}">{{ action.action_object }}</a>
+                    {% else %}{{ action.action_object }}{% endif %}
+                {% endif %}
 
+                {% if action.action_object and action.target %}to{% endif %}
+
+                {% if action.target == profile %}
+                    <a href="/members/profile/">your profile</a>
+                {% elif action.target %}
+                    {% if action.target.get_absolute_url %}
+                        <a href="{{ action.target.get_absolute_url }}">{{ action.target }}</a>
+                    {% else %}{{ action.target }}{% endif %}
+                {% endif %}
+            </div>
+            <div class="feed-item-meta">
+                {{ action.timestamp|naturaltime }} ago
+            </div>
         </li>
         {% empty %}
         {# TODO Empty feed filler #}
