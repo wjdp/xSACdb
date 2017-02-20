@@ -8,7 +8,9 @@
   padding-left: 0
 
   .feed-item
-    margin-bottom: $line-height-base * 1em
+    padding-bottom: $line-height-base * 0.5em
+    margin-bottom: $line-height-base * 0.5em
+    border-bottom: 1px solid #ccc
 
   .feed-item-avatar
     float: left
@@ -20,7 +22,7 @@
   .feed-item-line
 
   .feed-item-meta
-    color: #444
+    color: #777
 
   .feed-item-icon
     @extend .fa
@@ -33,7 +35,7 @@
       color: #888
 
   // Action icons
-  @include feed-icon(trip-created, fa-asterisk)
+  @include feed-icon(trip-create, fa-asterisk)
   @include feed-icon(trip-update, fa-pencil)
   @include feed-icon(trip-denied, fa-times)
   @include feed-icon(trip-approved, fa-check)

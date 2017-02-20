@@ -7,7 +7,9 @@ body
 
 .xsd-application-container
   @extend .container
-  padding-top: 1rem
+
+  & > div:first-child
+    padding-top: 1rem
 
 .xsd-module-row
   @include make-row
