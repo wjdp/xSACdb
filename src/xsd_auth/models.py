@@ -4,9 +4,12 @@ import hashlib
 import random
 
 from allauth.socialaccount.models import SocialAccount
-from django.contrib.auth.models import AbstractUser
+from django.contrib.auth.models import AbstractUser, Group
 from django.contrib.auth.models import UserManager as DJ_UserManager
+from django.db import transaction
 from django.utils.functional import cached_property
+
+from xSACdb.roles.groups import GROUP_ADMIN
 
 
 class UserManager(DJ_UserManager):
@@ -20,6 +23,14 @@ class UserManager(DJ_UserManager):
         )
         new_user.set_password(password)
         return new_user
+
+    def create_superuser(self, username, email, password, **extra_fields):
+        with transaction.atomic():
+            su = DJ_UserManager.create_superuser(self, username, email, password, **extra_fields)
+            su.profile.new_notify = False
+            su.profile.save()
+            su.groups.add(Group.objects.get(pk=GROUP_ADMIN))
+            su.save()
 
     def fake_single(self, fake, approved=True):
         """Create a fake user and return"""
@@ -44,7 +55,8 @@ class UserManager(DJ_UserManager):
         return user
 
 
-from actstream.actions import follow, unfollow
+from actstream.actions import follow
+
 
 class UserActivityMixin(object):
     def follow_defaults(self):
