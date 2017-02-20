@@ -1,24 +1,55 @@
-@mixin trip-state-row($color)
-  background: mix($color, white, 30%)
-  &:hover
-    background: mix($color, white, 20%)
+$color-trip-tone: 25%
+$color-trip-denied: #f00
+$color-trip-new: #fff
+$color-trip-approved: #b6ff00
+$color-trip-cancelled: #000
+$color-trip-open: #0f0
+$color-trip-closed: #00ffe0
+$color-trip-completed: #007aff
 
+@mixin trip-state-row($color)
+  cursor: pointer
+  .trip-col-uid
+    background: mix($color, white, $color-trip-tone)
+  &:hover
+    .underline
+      text-decoration: underline
+    .trip-col-uid
+      background: mix($color, white, $color-trip-tone * 1.5)
 
 .trip-state-denied
-  @include trip-state-row(#f00)
+  @include trip-state-row($color-trip-denied)
 .trip-state-new
-  @include trip-state-row(#fff)
+  @include trip-state-row($color-trip-new)
 .trip-state-approved
-  @include trip-state-row(#0f0)
-
+  @include trip-state-row($color-trip-approved)
 .trip-state-cancelled
-  @include trip-state-row(#000)
+  @include trip-state-row($color-trip-cancelled)
 .trip-state-open
-  @include trip-state-row(#0f0)
+  @include trip-state-row($color-trip-open)
 .trip-state-closed
-  @include trip-state-row(#00f)
+  @include trip-state-row($color-trip-closed)
 .trip-state-completed
-  @include trip-state-row(#f0f)
+  @include trip-state-row($color-trip-completed)
+
+
+@mixin trip-state-detail($color)
+  color: mix($color, black, 100%-$color-trip-tone)
+
+.trip-state-denied-detail
+  @include trip-state-detail($color-trip-denied)
+//.trip-state-new-detail
+.trip-state-approved-detail
+  @include trip-state-detail($color-trip-approved)
+.trip-state-cancelled-detail
+  @include trip-state-detail($color-trip-cancelled)
+  font-style: italic
+.trip-state-open-detail
+  @include trip-state-detail($color-trip-open)
+.trip-state-closed-detail
+  @include trip-state-detail($color-trip-closed)
+.trip-state-completed-detail
+  @include trip-state-detail($color-trip-completed)
 
 .trip-state-denied-icon
   @extend .fa
@@ -42,3 +73,34 @@
 .trip-state-completed-icon
   @extend .fa
   @extend .fa-archive
+
+// Trip list spaces
+
+.trip-spaces
+  display: flex
+  flex-direction: row
+  flex-wrap: wrap
+.trip-spaces__space
+  width: 1rem
+  height: 1rem
+  margin: 0 0.3rem 0.3rem 0
+  border: 1px solid #ddd
+.trip-spaces__space--taken
+  background: #0c4769
+.trip-spaces__space--undef
+  background: rgba(19, 117, 173, 0.73)
+.trip-spaces__space--empty
+  background: #e0e0e0
+
+.trip-col-dates
+  min-width: 8rem
+
+// Hacky fixes
+#xsd_trips-TripUpdate
+  // Alignment of name input box
+  .trip-name
+    display: flex
+    input
+      flex: 1
+      margin-left: 1rem
+

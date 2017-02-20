@@ -10,6 +10,9 @@ CLUB = {
     # Gravatar default avatars, see https://en.gravatar.com/site/implement/images/#default-image
     'gravatar_default': "retro",
 
+    # External links
+    'markdown_help': "http://commonmark.org/help/",
+
     # Club strings
     'onboarded_header': 'All Done!',
     'onboarded_line_1': "You're now signed up on the club database.",

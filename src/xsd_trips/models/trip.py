@@ -8,7 +8,7 @@ from django.db import models
 from xsd_members.models import MemberProfile
 
 from .trip_manager import TripManager
-from .trip_member import TripMember
+from .trip_member import TripMember, TripMemberMixin
 
 from .trip_fake import TripFakeDataMixin
 from .trip_permission import TripPermissionMixin
@@ -18,6 +18,7 @@ from .trip_state import *
 @reversion.register()
 class Trip(TripStateMixin,
            TripPermissionMixin,
+           TripMemberMixin,
            TripFakeDataMixin,
            models.Model):
     """Representation of a trip"""

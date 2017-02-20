@@ -11,7 +11,7 @@
             </h1>
         </div>
         <div class="col-xs-2">
-            {% permission request.user can_history trip %}
+            {% permission request.user can_view_history trip %}
                 <a href="{% url 'xsd_trips:TripHistory' trip.pk %}" class="btn btn-secondary"><i
                         class="fa fa-history"></i> History</a>
             {% endpermission %}
@@ -90,18 +90,21 @@
                 <dl class="card-block">
                     <dt>Organiser</dt>
                     <dd>
-                        <a href="{{ trip.owner.get_absolute_url }}">{{ trip.owner }}</a>
+                        <a href="{{ trip.owner.get_absolute_url }}" class="no-underline">
+                            <img src="{{ trip.owner.user.avatar_xs }}" class="avatar avatar-xs" alt="Avatar"/>
+                            <span class="underline">{{ trip.owner }}</span>
+                        </a>
                     </dd>
                     <dt>State</dt>
-                    <dd>
+                    <dd class="{{ trip.state_class }}-detail">
                         <i class="{{ trip.state_class }}-icon"></i>
                         {{ trip.get_state_display }}
                         {% if is_trips or trip.owner == profile %}
                             {% if trip.is_public %}
                                 <em>(public)</em>
-                                {% else %}
+                            {% else %}
                                 <em>(hidden)</em>
-                                {% endif %}
+                            {% endif %}
                         {% endif %}
                     </dd>
                     <dt>Departs</dt>

@@ -106,5 +106,18 @@ class User(UserActivityMixin, AbstractUser):
         return "https://www.gravatar.com/avatar/{0}?s={1}&d={2}".format(
             hashlib.md5(self.email).hexdigest(), size, blank)
 
+    @cached_property
+    def avatar_xs(self):
+        return self.profile_image_url(size=32)
+
+    @cached_property
+    def avatar_sm(self):
+        return self.profile_image_url(size=64)
+
+    @cached_property
+    def avatar_md(self):
+        return self.profile_image_url(size=128)
+
+
     def __unicode__(self):
         return self.get_full_name()

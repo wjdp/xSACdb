@@ -1,0 +1,13 @@
+// UID font style
+.xsd-uid
+  // TODO would like a nice monospace font
+  font-weight: bold
+
+// When linking to a larger array of objects than wants underline use the following
+// i.e. Avatar and Name. The anchor gets .no-underline and the name is within a <span> with .underline
+// Hover on anchor causes only underline on name.
+
+a.no-underline:hover
+  text-decoration: none
+a:hover .underline
+  text-decoration: underline
