@@ -73,10 +73,10 @@
                 {% endpermission %}
 
                 {% permission request.user can_delete trip %}
-                    <form method="POST" action="set/delete/">
-                        {% csrf_token %}
-                        <button type="submit" class="btn btn-outline-danger"><i class="fa fa-trash"></i> Delete</button>
-                    </form>
+                    {% csrf_token %}
+                    <button type="button" class="btn btn-outline-danger" data-toggle="modal" data-target="#deleteModal">
+                        <i class="fa fa-trash"></i> Delete
+                    </button>
                 {% endpermission %}
             </div>
         </div>
@@ -145,4 +145,8 @@
             {% endif %}
         </div>
     </div>
+{% endblock %}
+
+{% block modals %}
+    {% include 'modal/delete.html' %}
 {% endblock %}

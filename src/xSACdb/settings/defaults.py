@@ -47,4 +47,6 @@ CLUB = {
     'trip_officer_closed': "This trip is closed. To indicate sign-ups are open, select 'Open'.",
     'trip_officer_completed': "This trip has been archived.",
 
+    'trip_delete_success': "{} has been deleted",
+
 }

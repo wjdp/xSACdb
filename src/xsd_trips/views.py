@@ -2,7 +2,10 @@ from __future__ import unicode_literals
 
 import reversion
 from actstream import action
+from django.conf import settings
+from django.contrib import messages
 from django.core.exceptions import ViewDoesNotExist
+from django.core.urlresolvers import reverse_lazy
 from django.db import transaction
 from django.shortcuts import redirect
 from django.views.generic import DetailView
@@ -165,3 +168,15 @@ class TripSet(RequireVerified, SingleObjectMixin, View):
 
     def complete(self, request):
         self.get_object().set_completed(request.user)
+
+
+class TripDelete(RequirePermission, DeleteView):
+    model = Trip
+    permission = 'can_delete'
+    template_name = 'base/delete.html'
+    success_url = reverse_lazy('xsd_trips:TripListUpcoming')
+
+    def delete(self, request, *args, **kwargs):
+        messages.add_message(self.request, messages.ERROR,
+                             settings.CLUB['trip_delete_success'].format(self.get_object().name))
+        return super(TripDelete, self).delete(request, *args, **kwargs)

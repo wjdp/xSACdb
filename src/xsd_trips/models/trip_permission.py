@@ -36,10 +36,10 @@ class TripPermissionMixin(object):
 
     def can_delete(self, user):
         # Can only delete before public
-        if not self.is_public:
-            return self._is_modifier(user)
+        if self.is_public:
+           return False
         else:
-            return False
+            return self._is_modifier(user)
 
     def can_cancel(self, user):
         if self.state not in (STATE_DENIED, STATE_NEW, STATE_APPROVED, STATE_CANCELLED, STATE_COMPLETED):
