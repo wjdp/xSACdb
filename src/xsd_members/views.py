@@ -80,12 +80,12 @@ class DynamicUpdateProfile(FormView):
                     self.request.user.profile.reinstate()
                     self.request.user.profile.save()
                     action.send(self.request.user, verb='reinstated their profile',
-                                target=self.request.user.profile)
+                                target=self.request.user.profile, style='mp-dynamic-reinstate')
             else:
                 with transaction.atomic():
                     form.save()
                     action.send(self.request.user, verb='updated their profile',
-                                target=self.request.user.profile)
+                                target=self.request.user.profile, style='mp-dynamic-update')
 
         messages.add_message(self.request, messages.SUCCESS, settings.CLUB['dynamic_update_profile_success'])
 
@@ -301,7 +301,7 @@ class ModelFormView(FormView):
         with reversion.create_revision() and transaction.atomic():
             reversion.set_comment('Updated')
             model.save()
-            action.send(self.request.user, verb='updated', target=model)
+            action.send(self.request.user, verb='updated', target=model, style='mp-update')
         return super(ModelFormView, self).form_valid(form)
 
 
@@ -414,7 +414,7 @@ class BulkAddForms(RequireMembersOfficer, View):
                 reversion.set_user(request.user)
                 for form in formset.cleaned_data:
                     mp = MemberProfile.objects.get(pk=form['member_id'])
-                    action.send(request.user, verb="updated forms on", target=mp)
+                    action.send(request.user, verb="updated forms on", target=mp, style='mp-update-forms')
                     if form['club_expiry']: mp.club_expiry = form['club_expiry']
                     if form['bsac_expiry']: mp.bsac_expiry = form['bsac_expiry']
                     if form['medical_form_expiry']: mp.medical_form_expiry = form['medical_form_expiry']

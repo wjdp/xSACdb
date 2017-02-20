@@ -80,7 +80,7 @@ class TripCreate(RequireVerified, CreateView):
             # trip.owner = self.request.user.profile
             trip.owner = self.request.user.profile
             trip.save()
-            action.send(self.request.user, verb='requested approval for trip', target=trip)
+            action.send(self.request.user, verb='requested approval for trip', target=trip, style='trip-create')
             return super(TripCreate, self).form_valid(form)
 
 
@@ -132,7 +132,7 @@ class TripUpdate(RequireVerified, RequirePermission, UpdateView):
     def form_valid(self, form):
         with reversion.create_revision() and transaction.atomic():
             reversion.set_comment('Updated')
-            action.send(self.request.user, verb='updated trip', target=self.get_object())
+            action.send(self.request.user, verb='updated trip', target=self.get_object(), style='trip-update')
             return super(TripUpdate, self).form_valid(form)
 
 
