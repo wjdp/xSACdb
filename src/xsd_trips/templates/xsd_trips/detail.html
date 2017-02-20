@@ -94,7 +94,15 @@
                     </dd>
                     <dt>State</dt>
                     <dd>
+                        <i class="{{ trip.state_class }}-icon"></i>
                         {{ trip.get_state_display }}
+                        {% if is_trips or trip.owner == profile %}
+                            {% if trip.is_public %}
+                                <em>(public)</em>
+                                {% else %}
+                                <em>(hidden)</em>
+                                {% endif %}
+                        {% endif %}
                     </dd>
                     <dt>Departs</dt>
                     <dd>{{ trip.date_start }}</dd>

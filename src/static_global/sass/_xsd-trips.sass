@@ -19,3 +19,26 @@
   @include trip-state-row(#00f)
 .trip-state-completed
   @include trip-state-row(#f0f)
+
+.trip-state-denied-icon
+  @extend .fa
+  @extend .fa-times
+.trip-state-new-icon
+  @extend .fa
+  @extend .fa-asterisk
+.trip-state-approved-icon
+  @extend .fa
+  @extend .fa-check
+
+.trip-state-cancelled-icon
+  @extend .fa
+  @extend .fa-ban
+.trip-state-open-icon
+  @extend .fa
+  @extend .fa-play
+.trip-state-closed-icon
+  @extend .fa
+  @extend .fa-stop
+.trip-state-completed-icon
+  @extend .fa
+  @extend .fa-archive
