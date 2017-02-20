@@ -86,12 +86,17 @@ class TripStateTest(BaseTripTest):
         # Random member cannot cancel trip
         with self.assertRaises(PermissionDenied):
             self.new_trip.set_cancelled(self.member)
-        # Organiser cannot open trip before its approved
+        # Organiser cannot open trip before its public
+        with self.assertRaises(PermissionDenied):
+            self.new_trip.set_cancelled(self.trip_organiser)
+        self.new_trip.set_approved(self.do)
         with self.assertRaises(PermissionDenied):
             self.new_trip.set_cancelled(self.trip_organiser)
 
-        # With approval
-        self.new_trip.set_approved(self.do)
+        # With public
+        self.new_trip.set_open(self.do)
+        self.new_trip.set_cancelled(self.trip_organiser)
+        self.new_trip.set_closed(self.do)
         self.new_trip.set_cancelled(self.trip_organiser)
         self.new_trip.refresh_from_db()
         self.assertTrue(self.new_trip.is_cancelled)
