@@ -8,7 +8,7 @@ layout: default
 
 <div class="wrapper home" markdown="1">
 
-Web application for managing BSAC branch clubs. Looking after membership details, training records, known sites, kit and club trips.
+A web application for managing BSAC branch clubs. Looking after membership details, training records, known sites, kit and club trips.
 
 
 - **Membership**: Manage of your club's membership records and let members update their personal details themselves.
@@ -18,5 +18,7 @@ Web application for managing BSAC branch clubs. Looking after membership details
 - **Trips**: Advertise your trips to your members, track signups and payments, output reports - such as next of kin tables - for taking on the trip.
 
 - **Sites**: Record known club dive-sites.
+
+If you are interested in using xSACdb within your club please contact [{{ site.email }}](mailto:{{ site.email }}).
 
 </div>

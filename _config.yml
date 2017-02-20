@@ -1,6 +1,6 @@
 # Site settings
 title: xSACdb
-email: xSACdb@wjdp.uk
+email: xsacdb@wjdp.uk
 description: > # this means to ignore newlines until "baseurl:"
   A web based database for managing BSAC branch clubs.
   Looks after membership details, training records, known sites, kit and
