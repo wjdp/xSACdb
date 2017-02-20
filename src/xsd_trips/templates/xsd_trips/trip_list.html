@@ -24,11 +24,23 @@
                         {{ trip.name }}
                     </a>
                 </h4>
-                <div class="trip-owner">
-                    <p>
+                <div class="trip-meta">
+                    <p class="trip-meta__owner">
                         <img src="{{ trip.owner.user.avatar_xs }}" class="avatar avatar-xs" alt="Avatar"/>
                         <span>{{ trip.owner }}</span>
                     </p>
+                    {% if trip.min_qual %}
+                        <p class="trip-meta__min-qual">
+                            <i class="fa fa-trophy"></i>
+                            {{ trip.min_qual }}
+                        </p>
+                    {% endif %}
+                    {% if trip.max_depth %}
+                        <p class="trip-meta__max-depth">
+                            <i class="fa fa-arrows-v"></i>
+                            {{ trip.max_depth }} metres
+                        </p>
+                    {% endif %}
                 </div>
                 <div class="trip-spaces">
                     {% for space in trip.spaces_list %}
