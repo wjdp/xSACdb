@@ -50,6 +50,6 @@ if settings.DEBUG:
     import debug_toolbar
 
     urlpatterns += [
-        url('^activity/', include('actstream.urls')),
+        # url('^activity/', include('actstream.urls')),
         url(r'^__debug__/', include(debug_toolbar.urls)),
     ]
