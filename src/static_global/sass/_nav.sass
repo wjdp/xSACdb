@@ -47,6 +47,16 @@
     .text
       display: none
 
+@include media-breakpoint-only(md)
+  // Hide app titles on medium
+  .xsd-nav-app__nav-link-title
+    display: none
+  // Have a bit more padding to aid with tapping
+  .xsd-nav-app__nav-link
+    padding-left: 0.5rem
+    padding-right: 0.5rem
+
+// Auth Dropdown
 .xsd-nav-app__nav-item-xsd_auth
   .xsd-nav-app__nav-item-xsd_auth__i-dropdown
     display: none
@@ -74,7 +84,6 @@
 
     .xsd-nav-module__item
       padding: 0.5em
-
 
 .xsd-nav-app__activity-spinner
   @extend .navbar-brand
