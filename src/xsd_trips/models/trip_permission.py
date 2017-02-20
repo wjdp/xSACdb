@@ -42,7 +42,7 @@ class TripPermissionMixin(object):
             return False
 
     def can_cancel(self, user):
-        if self.state not in (STATE_DENIED, STATE_NEW, STATE_CANCELLED, STATE_COMPLETED):
+        if self.state not in (STATE_DENIED, STATE_NEW, STATE_APPROVED, STATE_CANCELLED, STATE_COMPLETED):
             return self._is_modifier(user)
         else:
             return False

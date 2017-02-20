@@ -30,7 +30,7 @@ CLUB = {
 
     'trip_owner_new': "Your trip has been created and is awaiting approval by the diving officer.",
     'trip_owner_denied': "Unfortunately your trip request has been denied. The committee should be in touch with you with feedback.",
-    'trip_owner_approved': "Your trip has been created but is not yet published. Select 'Open' to indicate sign-ups are open to all members of the club or select 'Close' to indicate sign-ups are closed.",
+    'trip_owner_approved': "Your trip has been created but is not yet published. Select 'Open' to indicate sign-ups are open to all members of the club or select 'Close' to indicate sign-ups are closed. Note: once a trip is public it cannot be deleted, only cancelled.",
     'trip_owner_cancelled': "Your trip has been cancelled.",
     'trip_owner_open': "Your trip is open. To indicate sign-ups are closed, select 'Close'.",
     'trip_owner_closed': "Your trip is closed. To indicate sign-ups are open, select 'Open'.",
@@ -38,7 +38,7 @@ CLUB = {
 
     'trip_officer_new': "This trip is new and is pending approval.",
     'trip_officer_denied': "This trip request has been denied. You should contact the organiser with feedback.",
-    'trip_officer_approved': "This trip request has been approved. The organiser can now take it public with the 'Open' and 'Close' buttons.",
+    'trip_officer_approved': "This trip request has been approved. The organiser can now take it public with the 'Open' and 'Close' buttons. Note: once a trip is public it cannot be deleted, only cancelled.",
     'trip_officer_cancelled': "This trip has been cancelled.",
     'trip_officer_open': "This trip is open. To indicate sign-ups are closed, select 'Close'.",
     'trip_officer_closed': "This trip is closed. To indicate sign-ups are open, select 'Open'.",

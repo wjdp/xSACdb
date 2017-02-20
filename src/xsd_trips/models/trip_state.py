@@ -31,7 +31,7 @@ class TripStateMixin(object):
 
     @property
     def is_public(self):
-        return self.state >= STATE_APPROVED
+        return self.state >= STATE_CANCELLED
 
     @property
     def is_cancelled(self):
