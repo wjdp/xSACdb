@@ -2,8 +2,14 @@
 
 <table class="table table-striped trips-attendee-list">
     <thead>
-    <th>Name</th>
-    <th>Qualification</th>
+    <tr>
+        <th>Name</th>
+        <th>Qualification</th>
+        {% permission request.user can_view_attendee_details trip %}
+            <th>Membership</th>
+            <th>Requirements</th>
+        {% endpermission %}
+    </tr>
     </thead>
     <tbody>
     {% for attendee in attendees %}
@@ -22,17 +28,40 @@
                     </form>
                 {% endpermission %}
             </td>
-            {% if attendee.qualification_issue %}
-                <td class="table-danger">
+            <td {% if attendee.qualification_issue %}class="table-danger"{% endif %}>
+                {% if attendee.member.top_qual %}
+                    {{ attendee.member.top_qual }}
+                {% else %}
+                    No qualification
+                {% endif %}
+            </td>
+            {% permission request.user can_view_attendee_details trip %}
+                <td {% if attendee.member.membership_problem %}class="table-danger">{% endif %}
+                    {% if attendee.member.membership_problem %}
+                        <div class="popover-button error" data-title="Problems With Membership"
+                             data-content="{{ attendee.member.first_name }}'s {% if attendee.member.no_expiry_data %}has not got any forms with the club, probably a new member {% elif attendee.member.bsac_expired %}BSAC membership has expired, {% elif attendee.member.club_expired %}club membership has expired, {% elif attendee.member.club_expired %}medical form has expired.{% endif %}"
+                             data-trigger="hover" data-placement="top">
+                            Missing Forms
+                        </div>
                     {% else %}
+                        <i class="fa fa-check"></i>
+                    {% endif %}
+                </td>
                 <td>
-            {% endif %}
-            {% if attendee.member.top_qual %}
-                {{ attendee.member.top_qual }}
-            {% else %}
-                No qualification
-            {% endif %}
+                    {% if attendee.member.veggie %}
+                        <p>Veggie</p>
+                    {% endif %}
 
+                    {% if attendee.member.alergies %}
+                        <div class="popover-button error" data-title="Other Requirements"
+                             data-content="{{ attendee.member.alergies }}"
+                             data-trigger="hover" data-placement="top">
+                            Yes
+                        </div>
+                    {% endif %}
+
+                </td>
+            {% endpermission %}
 
             </td>
         </tr>

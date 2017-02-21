@@ -1,17 +1,23 @@
 from __future__ import unicode_literals
 
+import csv
+
+import datetime
 import reversion
 from actstream import action
 from django.conf import settings
 from django.contrib import messages
-from django.core.exceptions import ViewDoesNotExist
+from django.core.exceptions import ViewDoesNotExist, PermissionDenied
 from django.core.urlresolvers import reverse_lazy
 from django.db import transaction
+from django.http import HttpResponse
 from django.shortcuts import redirect
+from django.template.defaultfilters import slugify
+from django.utils.functional import cached_property
 from django.views.generic import DetailView
 from django.views.generic import View
 from django.views.generic.detail import SingleObjectMixin
-from django.views.generic.list import ListView
+from django.views.generic.list import ListView, MultipleObjectMixin
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 
 from xSACdb.roles.mixins import RequireVerified, RequirePermission, RequireTripsOfficer
@@ -103,6 +109,8 @@ class TripDetail(RequireVerified, RequirePermission, DetailView):
         context = super(TripDetail, self).get_context_data(**kwargs)
         context['page_title'] = self.object.name
         context['attendees'] = TripMember.objects.filter(trip=self.object)
+        # To populate warning dialogue
+        context['export_csv_columns'] = TripAttendeeRosterDump.COLUMNS
         return context
 
 
@@ -188,3 +196,48 @@ class TripDelete(RequirePermission, DeleteView):
         messages.add_message(self.request, messages.ERROR,
                              settings.CLUB['trip_delete_success'].format(self.get_object().name))
         return super(TripDelete, self).delete(request, *args, **kwargs)
+
+class TripAttendeeRosterDump(View):
+    model = TripMember
+
+    COLUMNS = (
+        ('name', 'full_name'),
+        ('gender', 'gender'),
+        ('date_of_birth', 'date_of_birth'),
+        ('address', 'address'),
+        ('postcode', 'postcode'),
+        ('home_phone', 'home_phone'),
+        ('mobile_phone', 'mobile_phone'),
+        ('email', 'email'),
+        ('next_of_kin_name', 'next_of_kin_name'),
+        ('next_of_kin_relation', 'next_of_kin_relation'),
+        ('next_of_kin_phone', 'next_of_kin_phone'),
+    )
+
+    @cached_property
+    def trip(self):
+        return Trip.objects.get(pk=self.kwargs['pk'])
+
+
+    def get_queryset(self):
+        return self.model.objects.filter(trip=self.trip)
+
+    def get_filename(self):
+        now = datetime.datetime.now().strftime("%Y-%m-%dT%H:%M:%S")
+        return '{}_{}_roster.csv'.format(now, slugify(self.trip.name))
+
+    # We use post so 99% of users have to use our form with a data protection notice.
+    def post(self, request, *args, **kwargs):
+        # Security
+        if not self.trip.can_view_attendee_details(request.user):
+            raise PermissionDenied
+
+        response = HttpResponse(content_type='text/csv')
+        response['Content-Disposition'] = 'attachment; filename="{}"'.format(self.get_filename())
+
+        writer = csv.writer(response)
+
+        writer.writerow([header[0] for header in self.COLUMNS])
+        for attendee in self.get_queryset():
+            writer.writerow([getattr(attendee.member, column[1]) for column in self.COLUMNS])
+        return response

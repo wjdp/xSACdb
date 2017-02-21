@@ -149,6 +149,16 @@
                         <small class="text-muted">({{ trip.spaces_taken }})</small>
                     {% endif %}
                 </h4>
+                {% permission request.user can_view_attendee_details trip %}
+                    <div class="btn-group">
+                        {% if trip.spaces_taken > 0 %}
+                            <button type="button" class="btn btn-secondary" data-toggle="modal"
+                                    data-target="#exportCSVModal">
+                                <i class="fa fa-download"></i> Export CSV Roster
+                            </button>
+                        {% endif %}
+                    </div>
+                {% endpermission %}
             </div>
             <div class="col-md-6">
                 {% permission request.user can_add trip %}
@@ -175,4 +185,5 @@
 
 {% block modals %}
     {% include 'modal/delete.html' %}
+    {% include 'xsd_trips/modal_export.html' %}
 {% endblock %}

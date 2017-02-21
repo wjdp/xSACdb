@@ -76,9 +76,13 @@ class Trip(TripStateMixin,
         return "T{:0>4d}".format(self.pk)
 
     @property
+    def date_final(self):
+        """As date_end is optional this will match either that or date_start"""
+        return self.date_end or self.date_start
+
+    @property
     def in_past(self):
-        date_compare = self.date_end or self.date_start
-        return date_compare < datetime.date.today()
+        return self.date_final < datetime.date.today()
 
     def get_absolute_url(self):
         return reverse('xsd_trips:TripDetail', kwargs={'pk': self.pk})

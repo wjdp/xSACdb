@@ -16,4 +16,5 @@ urlpatterns = patterns('',
     url(r'^(?P<pk>\d+)/history/$', TripHistory.as_view(), name='TripHistory'),
     url(r'^(?P<pk>\d+)/action/(?P<action>\w+)/$', TripSet.as_view(), name='TripSet'),
     url(r'^(?P<pk>\d+)/delete/$', TripDelete.as_view(), name='TripDelete'),
+    url(r'^(?P<pk>\d+)/roster/$', TripAttendeeRosterDump.as_view(), name='TripAttendeeRosterDump'),
 )
