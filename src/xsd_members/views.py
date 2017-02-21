@@ -221,6 +221,7 @@ class MemberDetail(RequireMembersOfficer, DetailView):
     def get_context_data(self, **kwargs):
         # Call the base implementation first to get a context
         context = super(MemberDetail, self).get_context_data(**kwargs)
+        context['page_title'] = self.get_object().full_name
         # Add in a QuerySet of all the books
         context['editable'] = True
         if self.request.POST:
@@ -335,6 +336,7 @@ class MemberEdit(RequireMembersOfficer, ModelFormView):
     def get_context_data(self, **kwargs):
         context = super(MemberEdit, self).get_context_data(**kwargs)
         context['member'] = self.get_model()
+        context['page_title'] = 'Edit Profile'
         return context
 
 
@@ -344,6 +346,11 @@ class MemberDelete(RequireMembersOfficer, DeleteView):
     success_url = reverse_lazy('xsd_members:MemberList')
     context_object_name = 'member'
 
+    def get_context_data(self, **kwargs):
+        context = super(MemberDelete, self).get_context_data()
+        context['page_title'] = 'Delete Profile'
+        return context
+
 
 # This view very much modeled after DeletionMixin
 class MemberArchive(RequireMembersOfficer, SingleObjectTemplateResponseMixin, BaseDetailView):
@@ -351,6 +358,11 @@ class MemberArchive(RequireMembersOfficer, SingleObjectTemplateResponseMixin, Ba
     template_name = 'members_archive.html'
     success_url = reverse_lazy('xsd_members:MemberList')
     context_object_name = 'member'
+
+    def get_context_data(self, **kwargs):
+        context = super(MemberArchive, self).get_context_data()
+        context['page_title'] = 'Archive Profile'
+        return context
 
     def archive(self, request, *args, **kwargs):
         self.object = self.get_object()

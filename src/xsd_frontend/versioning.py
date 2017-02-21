@@ -46,6 +46,7 @@ class VersionHistoryView(ListView):
     def get_context_data(self, **kwargs):
         context = super(VersionHistoryView, self).get_context_data(**kwargs)
         context['versioned_object'] = self.versioned_object
+        context['page_title'] = 'Object History'
         return context
 
     def get_queryset(self):
