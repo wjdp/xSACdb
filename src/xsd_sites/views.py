@@ -1,10 +1,8 @@
 from __future__ import unicode_literals
 
 import reversion
-from actstream import action
 from django.core import serializers
 from django.core.urlresolvers import reverse_lazy
-from django.db import transaction
 from django.http import HttpResponse
 from django.shortcuts import get_object_or_404
 from django.views.generic.edit import CreateView, UpdateView
@@ -14,6 +12,7 @@ from forms import SiteForm
 from models import Site
 from xSACdb.roles.decorators import require_verified
 from xSACdb.roles.mixins import RequireSiteAdministrator, RequireVerified
+from xsd_frontend.activity import DoAction
 
 
 class SitesOverview(RequireVerified, ListView):
@@ -53,11 +52,11 @@ class SiteCreate(RequireSiteAdministrator, CreateView):
         return context
 
     def form_valid(self, form):
-        with reversion.create_revision() and transaction.atomic():
-            reversion.set_comment('Added site')
+        with DoAction() as action, reversion.create_revision():
             site = form.save()
-            action.send(self.request.user, verb="created site", target=site, style='site-create')
+            action.set(actor=self.request.user, verb="created site", target=site, style='site-create')
             return super(SiteCreate, self).form_valid(form)
+
 
 class SitesList(RequireSiteAdministrator, ListView):
     model = Site
@@ -86,10 +85,9 @@ class SiteUpdate(RequireSiteAdministrator, UpdateView):
         return context
 
     def form_valid(self, form):
-        with reversion.create_revision() and transaction.atomic():
-            reversion.set_comment('Updated site')
+        with DoAction() as action, reversion.create_revision():
             site = form.save()
-            action.send(self.request.user, verb="updated site", target=site, style='site-update')
+            action.set(actor=self.request.user, verb="updated site", target=site, style='site-update')
             return super(SiteUpdate, self).form_valid(form)
 
 

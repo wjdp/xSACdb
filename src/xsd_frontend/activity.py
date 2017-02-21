@@ -67,11 +67,17 @@ class DoAction(object):
             return None
 
     def __exit__(self, type, value, traceback):
+        # Can handle multiple targets or action_objects. Just not both.
         if isinstance(self.target, list):
             for target in self.target:
                 action.send(self.actor, verb=self.verb, target=target, action_object=self.action_object,
                             style=self.style, revision_pk=self.revision_pk,
                             version_pks=self.version_pks_for_object(target))
+        elif isinstance(self.action_object, list):
+            for action_object in self.action_object:
+                action.send(self.actor, verb=self.verb, target=self.target, action_object=action_object,
+                            style=self.style, revision_pk=self.revision_pk,
+                            version_pks=self.version_pks_for_object(action_object))
         else:
             action.send(self.actor, verb=self.verb, target=self.target, action_object=self.action_object,
                         style=self.style, revision_pk=self.revision_pk, version_pks=self.version_pks)

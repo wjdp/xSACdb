@@ -7,7 +7,6 @@ from actstream import action
 from django.conf import settings
 from django.contrib import messages
 from django.core.urlresolvers import reverse, reverse_lazy
-from django.db import transaction
 from django.db.models import Q
 from django.http.response import HttpResponseRedirect
 from django.shortcuts import render, redirect, get_object_or_404
@@ -72,21 +71,19 @@ class DynamicUpdateProfile(FormView):
 
     def form_valid(self, form):
         # Form still holds ref to MemberProfile so handles saving all by itself
-        with reversion.create_revision() and transaction.atomic():
-            reversion.set_comment('Filled in \'update profile\' form.')
+        with DoAction() as action, reversion.create_revision():
             if self.request.user.profile.archived:
                 # User logged back in and re-added details. Reinstate
-                with transaction.atomic():
-                    form.save()
-                    self.request.user.profile.reinstate()
-                    self.request.user.profile.save()
-                    action.send(self.request.user, verb='reinstated their profile',
-                                target=self.request.user.profile, style='mp-dynamic-reinstate')
+                form.save()
+                self.request.user.profile.reinstate()
+                self.request.user.profile.save()
+                action.set(actor=self.request.user, verb='reinstated',
+                           target=self.request.user.profile, style='mp-dynamic-reinstate')
             else:
-                with transaction.atomic():
-                    form.save()
-                    action.send(self.request.user, verb='updated their profile',
-                                target=self.request.user.profile, style='mp-dynamic-update')
+
+                form.save()
+                action.set(actor=self.request.user, verb='updated',
+                           target=self.request.user.profile, style='mp-dynamic-update')
 
         messages.add_message(self.request, messages.SUCCESS, settings.CLUB['dynamic_update_profile_success'])
 
@@ -296,10 +293,6 @@ class ModelFormView(FormView):
             initial[field] = getattr(model, field)
         return initial
 
-    def send_action(self, *args, **kwargs):
-        action.send(self.request.user, verb='updated', target=self.get_object(), style='mp-update',
-                    revision_pk=kwargs['revision'].pk, version_pks=[v.pk for v in kwargs['versions']])
-
     def form_valid(self, form):
         model = self.get_object()
         for field in form.cleaned_data:
@@ -428,7 +421,7 @@ class BulkAddForms(RequireMembersOfficer, View):
             with DoAction() as action, reversion.create_revision():
                 reversion.set_comment('Bulk adding forms')
                 reversion.set_user(request.user)
-                mps=[]
+                mps = []
                 for form in formset.cleaned_data:
                     mp = MemberProfile.objects.get(pk=form['member_id'])
                     if form['club_expiry']: mp.club_expiry = form['club_expiry']

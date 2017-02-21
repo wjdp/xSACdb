@@ -1,10 +1,11 @@
 from __future__ import unicode_literals
 
-from actstream import action
+import reversion
 from django.conf import settings
 from django.core.exceptions import PermissionDenied
 from reversion import revisions
-from django.db import transaction
+
+from xsd_frontend.activity import DoAction
 
 STATE_DENIED = 10  # Created then denied
 STATE_NEW = 20  # Brand new and awaiting approval
@@ -96,62 +97,54 @@ class TripStateMixin(object):
     def set_denied(self, actor):
         if not self.can_deny(actor):
             raise PermissionDenied
-        with transaction.atomic(), revisions.create_revision():
+        with DoAction() as action, reversion.create_revision():
             self.state = STATE_DENIED
             self.save()
             revisions.set_user(actor)
-            revisions.set_comment('Trip request denied')
-            action.send(actor, verb='denied trip request', target=self, state=STATE_DENIED, style='trip-denied')
+            action.set(actor=actor, verb='denied trip request', target=self, state=STATE_DENIED, style='trip-denied')
 
     def set_approved(self, actor):
         if not self.can_approve(actor):
             raise PermissionDenied
-        with transaction.atomic(), revisions.create_revision():
+        with DoAction() as action, reversion.create_revision():
             self.state = STATE_APPROVED
             self.save()
             revisions.set_user(actor)
-            revisions.set_comment('Trip request approved')
-            action.send(actor, verb='approved trip request', target=self, state=STATE_APPROVED, style='trip-approved')
+            action.set(actor=actor, verb='approved trip request', target=self, state=STATE_APPROVED,
+                        style='trip-approved')
 
     def set_cancelled(self, actor):
         if not self.can_cancel(actor):
             raise PermissionDenied
-        with transaction.atomic(), revisions.create_revision():
+        with DoAction() as action, reversion.create_revision():
             self.state = STATE_CANCELLED
             self.save()
             revisions.set_user(actor)
-            revisions.set_comment('Trip cancelled')
-            action.send(actor, verb='cancelled trip', target=self, state=STATE_CANCELLED, style='trip-cancelled')
+            action.set(actor=actor, verb='cancelled trip', target=self, state=STATE_CANCELLED, style='trip-cancelled')
 
     def set_open(self, actor):
         if not self.can_open(actor):
             raise PermissionDenied
-        with transaction.atomic(), revisions.create_revision():
+        with DoAction() as action, reversion.create_revision():
             self.state = STATE_OPEN
             self.save()
             revisions.set_user(actor)
-            revisions.set_comment('Trip opened')
-            action.send(actor, verb='opened trip', target=self, state=STATE_OPEN, style='trip-opened')
-
+            action.set(actor=actor, verb='opened trip', target=self, state=STATE_OPEN, style='trip-opened')
 
     def set_closed(self, actor):
         if not self.can_close(actor):
             raise PermissionDenied
-        with transaction.atomic(), revisions.create_revision():
+        with DoAction() as action, reversion.create_revision():
             self.state = STATE_CLOSED
             self.save()
             revisions.set_user(actor)
-            revisions.set_comment('Trip closed')
-            action.send(actor, verb='closed trip', target=self, state=STATE_CLOSED, style='trip-closed')
-
+            action.set(actor=actor, verb='closed trip', target=self, state=STATE_CLOSED, style='trip-closed')
 
     def set_completed(self, actor):
         if not self.can_complete(actor):
             raise PermissionDenied
-        with transaction.atomic(), revisions.create_revision():
+        with DoAction() as action, reversion.create_revision():
             self.state = STATE_COMPLETED
             self.save()
             revisions.set_user(actor)
-            revisions.set_comment('Trip completed')
-            action.send(actor, verb='completed trip', target=self, state=STATE_CLOSED, style='trip-completed')
-
+            action.set(actor=actor, verb='completed trip', target=self, state=STATE_CLOSED, style='trip-completed')
