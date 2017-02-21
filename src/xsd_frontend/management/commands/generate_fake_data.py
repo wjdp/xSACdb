@@ -16,7 +16,7 @@ from xsd_trips.models import Trip
 class Command(BaseCommand):
     help = 'Generates fake data for testing, demo site and development'
     fake = None
-    FLUFFY_USER_COUNT = 99
+    FLUFFY_USER_COUNT = 150
     TRIP_COUNT = 300
 
     def setUp(self):
@@ -82,19 +82,16 @@ class Command(BaseCommand):
         groupMembers = Group.objects.get(pk=GROUP_MEMBERS)
         groupDO = Group.objects.get(pk=GROUP_DO)
 
-        superUser = U.objects.create_user(
+        superUser = U.objects.create_superuser(
+            username="su",
             email="superuser@xsacdb.wjdp.uk",
             password="su",
             first_name="SUPER",
             last_name="USER",
         )
-        superUser.username = "su"
-        superUser.is_superuser = True
-        superUser.is_staff = True
         superUser.save()
         superUser.groups.add(groupAdmin)
         superUser.save()
-        superUser.memberprofile.approve()
         superUser.memberprofile.fake(self.fake)
         superUser.memberprofile.save()
 
@@ -108,7 +105,7 @@ class Command(BaseCommand):
         divingOfficer.save()
         divingOfficer.groups.add(groupDO)
         divingOfficer.save()
-        divingOfficer.memberprofile.approve()
+        divingOfficer.memberprofile.approve(superUser)
         divingOfficer.memberprofile.fake(self.fake)
         divingOfficer.memberprofile.set_qualification(self.AD)
         divingOfficer.memberprofile.set_qualification(self.OWI)
@@ -124,7 +121,7 @@ class Command(BaseCommand):
         trainingOfficer.save()
         trainingOfficer.groups.add(groupTraining)
         trainingOfficer.save()
-        trainingOfficer.memberprofile.approve()
+        trainingOfficer.memberprofile.approve(superUser)
         trainingOfficer.memberprofile.fake(self.fake)
         trainingOfficer.memberprofile.set_qualification(self.DL)
         trainingOfficer.memberprofile.set_qualification(self.OWI)
@@ -140,7 +137,7 @@ class Command(BaseCommand):
         membersOfficer.save()
         membersOfficer.groups.add(groupMembers)
         membersOfficer.save()
-        membersOfficer.memberprofile.approve()
+        membersOfficer.memberprofile.approve(superUser)
         membersOfficer.memberprofile.fake(self.fake)
         membersOfficer.memberprofile.set_qualification(self.SD)
         membersOfficer.memberprofile.set_qualification(self.THI)
@@ -154,7 +151,7 @@ class Command(BaseCommand):
         )
         od1.username = "od1"
         od1.save()
-        od1.memberprofile.approve()
+        od1.memberprofile.approve(membersOfficer)
         od1.memberprofile.fake(self.fake)
         od1.memberprofile.set_qualification(self.OD)
         od1.memberprofile.save()
@@ -167,7 +164,7 @@ class Command(BaseCommand):
         )
         od2.username = "od2"
         od2.save()
-        od2.memberprofile.approve()
+        od2.memberprofile.approve(membersOfficer)
         od2.memberprofile.fake(self.fake)
         od2.memberprofile.set_qualification(self.OD)
         od2.memberprofile.save()
@@ -180,7 +177,7 @@ class Command(BaseCommand):
         )
         sd1.username = "sd1"
         sd1.save()
-        sd1.memberprofile.approve()
+        sd1.memberprofile.approve(membersOfficer)
         sd1.memberprofile.fake(self.fake)
         sd1.memberprofile.set_qualification(self.SD)
         sd1.memberprofile.save()
@@ -193,7 +190,7 @@ class Command(BaseCommand):
         )
         sd2.username = "sd2"
         sd2.save()
-        sd2.memberprofile.approve()
+        sd2.memberprofile.approve(membersOfficer)
         sd2.memberprofile.fake(self.fake)
         sd2.memberprofile.set_qualification(self.SD)
         sd2.memberprofile.save()
@@ -206,7 +203,7 @@ class Command(BaseCommand):
         )
         dl1.username = "dl1"
         dl1.save()
-        dl1.memberprofile.approve()
+        dl1.memberprofile.approve(membersOfficer)
         dl1.memberprofile.fake(self.fake)
         dl1.memberprofile.set_qualification(self.DL)
         dl1.memberprofile.save()
@@ -219,7 +216,7 @@ class Command(BaseCommand):
         )
         dl2.username = "dl2"
         dl2.save()
-        dl2.memberprofile.approve()
+        dl2.memberprofile.approve(membersOfficer)
         dl2.memberprofile.fake(self.fake)
         dl2.memberprofile.set_qualification(self.DL)
         dl2.memberprofile.save()
@@ -232,7 +229,7 @@ class Command(BaseCommand):
         )
         owi1.username = "owi1"
         owi1.save()
-        owi1.memberprofile.approve()
+        owi1.memberprofile.approve(membersOfficer)
         owi1.memberprofile.fake(self.fake)
         owi1.memberprofile.set_qualification(self.DL)
         owi1.memberprofile.set_qualification(self.OWI)
@@ -263,6 +260,12 @@ class Command(BaseCommand):
             owi1,
         ]
 
+        self.memberActionUsers = [
+            superUser,
+            divingOfficer,
+            membersOfficer
+        ]
+
         self.status_write('Generated useful users')
 
     def generateFluffyUsers(self):
@@ -279,16 +282,16 @@ class Command(BaseCommand):
             if self.fake.boolean(chance_of_getting_true=90):
                 u.memberprofile.fake(self.fake)
                 if self.fake.boolean(chance_of_getting_true=80):
-                    u.memberprofile.approve()
+                    u.memberprofile.approve(random.choice(self.memberActionUsers))
                 if self.fake.boolean(chance_of_getting_true=90):
                     u.memberprofile.set_qualification(random.choice(self.PERSONAL_QUALS))
                     if self.fake.boolean(chance_of_getting_true=10):
                         u.memberprofile.set_qualification(random.choice(self.INSTRUCTOR_QUALS))
                         # if u.memberprofile.top_instructor_qual().rank >= self.OWI.rank:
                         #     u.memberprofile.instructor_number = random.randrange(1234,99999)
-            if self.fake.boolean(chance_of_getting_true=2):
+            if self.fake.boolean(chance_of_getting_true=10):
                 # Archive some
-                u.memberprofile.archive()
+                u.memberprofile.archive(random.choice(self.memberActionUsers))
             u.memberprofile.save()
 
         self.status_write('Generated {} fluffy users'.format(self.FLUFFY_USER_COUNT))
