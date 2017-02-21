@@ -42,11 +42,13 @@
                         </p>
                     {% endif %}
                 </div>
-                <div class="trip-spaces">
-                    {% for space in trip.spaces_list %}
-                        <div class="trip-spaces__space trip-spaces__space--{{ space }}">&nbsp;</div>
-                    {% endfor %}
-                </div>
+                {% if trip.is_public and not trip.is_cancelled %}
+                    <div class="trip-spaces">
+                        {% for space in trip.spaces_list %}
+                            <div class="trip-spaces__space trip-spaces__space--{{ space }}">&nbsp;</div>
+                        {% endfor %}
+                    </div>
+                {% endif %}
             </td>
             <td class="trip-col-dates">
                 {{ trip.date_start }} —<br/>{{ trip.date_end }}
