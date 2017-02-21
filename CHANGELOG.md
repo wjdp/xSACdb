@@ -7,9 +7,21 @@ xSACdb instances. This project will soon adhere to [Semantic Versioning](http://
 
 ### Upgrade
 - Run `manage update_follow_defaults` to make current users follow changes to their profiles. New users have this set automatically.
+- Run `manage build_version_cache` to speed up initial load times of user feeds.
 
 ### Added
-- Activity stream
+- **Trips:** Trip planning has been added. Any user may add a trip, a trip officer (currently GROUP_ADMIN, GROUP_TRAINING, GROUP_TRIPS, GROUP_DO) must approve before the trip organiser/owner may take it public.
+- **Activity feed:** users see activity they are involved with — currently their own profiles and trips they're on. Adding _activities_ for the training module is being held back until the next minor version.
+- **History Pages:** most objects now have a browsable history.
+
+### Changed
+- Users without **avatars** now use the Gravatar retro generator to create an identicon to use instead. The generator is customisable through the CLUB dictionary.
+ 
+### Fixes
+- A number of styling fixes.
+- Cache and page speed improvements.
+- `manage createsuperuser` now pre-approves and add the superuser to the admin group.
+- Dockerfile deployment now caches depedancy installation between versions.
 
 
 ## [0.2.1] - 2017-02-16
