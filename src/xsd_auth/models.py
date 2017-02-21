@@ -62,7 +62,7 @@ from actstream.actions import follow
 
 class UserActivityMixin(object):
     def follow_defaults(self):
-        follow(self, self.profile, actor_only=False)
+        follow(self, self.profile, send_action=False, actor_only=False)
 
 
 class User(UserActivityMixin, AbstractUser):
