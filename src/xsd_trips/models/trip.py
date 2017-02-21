@@ -1,5 +1,6 @@
 from __future__ import unicode_literals
 
+import datetime
 from actstream.actions import follow
 from reversion import revisions as reversion
 from django.core.urlresolvers import reverse
@@ -73,6 +74,11 @@ class Trip(TripStateMixin,
     @property
     def uid(self):
         return "T{:0>4d}".format(self.pk)
+
+    @property
+    def in_past(self):
+        date_compare = self.date_end or self.date_start
+        return date_compare < datetime.date.today()
 
     def get_absolute_url(self):
         return reverse('xsd_trips:TripDetail', kwargs={'pk': self.pk})
