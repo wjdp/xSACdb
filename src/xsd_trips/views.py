@@ -18,7 +18,11 @@ from xSACdb.roles.mixins import RequireVerified, RequirePermission, RequireTrips
 from xSACdb.roles.functions import is_trips
 
 from models import Trip
+from xSACdb.views import ActionView
 from xsd_frontend.versioning import VersionHistoryView
+from xsd_members.bulk_select import get_bulk_members
+from xsd_members.models import MemberProfile
+from xsd_trips.models.trip_member import TripMember
 
 
 class TripListUpcoming(RequireVerified, ListView):
@@ -98,6 +102,7 @@ class TripDetail(RequireVerified, RequirePermission, DetailView):
     def get_context_data(self, **kwargs):
         context = super(TripDetail, self).get_context_data(**kwargs)
         context['page_title'] = self.object.name
+        context['attendees'] = TripMember.objects.filter(trip=self.object)
         return context
 
 
@@ -139,16 +144,8 @@ class TripUpdate(RequireVerified, RequirePermission, UpdateView):
             return super(TripUpdate, self).form_valid(form)
 
 
-class TripSet(RequireVerified, SingleObjectMixin, View):
+class TripSet(RequireVerified, ActionView):
     model = Trip
-
-    def post(self, request, *args, **kwargs):
-        func = getattr(self, self.kwargs['action'], None)
-        if func:
-            func(request)
-            return redirect(self.get_object())
-        else:
-            raise ViewDoesNotExist('You ain\'t got a func in your trunk!')
 
     def deny(self, request):
         self.get_object().set_denied(request.user)
@@ -161,13 +158,24 @@ class TripSet(RequireVerified, SingleObjectMixin, View):
 
     def open(self, request):
         self.get_object().set_open(request.user)
-        return redirect(self.get_object())
 
     def close(self, request):
         self.get_object().set_closed(request.user)
 
     def complete(self, request):
         self.get_object().set_completed(request.user)
+
+    def add(self, request):
+        members = get_bulk_members(request)
+        self.get_object().add_members(members=members, actor=self.request.user)
+        messages.add_message(self.request, messages.SUCCESS,
+                             'Added {} members to {}'.format(len(members), self.get_object()))
+
+    def remove(self, request):
+        members = [MemberProfile.objects.get(pk=request.POST['pk'])]
+        self.get_object().remove_members(members=members, actor=self.request.user)
+        messages.add_message(self.request, messages.SUCCESS,
+                             'Removed {} member from {}'.format(len(members), self.get_object()))
 
 
 class TripDelete(RequirePermission, DeleteView):

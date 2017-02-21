@@ -65,7 +65,7 @@ class Trip(TripStateMixin,
         (STATE_COMPLETED, 'Completed'),
     )
 
-    state = models.IntegerField(choices=STATES, default=20)
+    state = models.IntegerField(choices=STATES, default=STATE_NEW)
 
     members = models.ManyToManyField('xsd_members.MemberProfile', blank=True, through=TripMember,
                                      related_name='trip_members')

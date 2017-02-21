@@ -38,35 +38,35 @@
                 {% endpermission %}
 
                 {% permission request.user can_approve trip %}
-                    <form method="POST" action="set/approve/">
+                    <form method="POST" action="action/approve/">
                         {% csrf_token %}
                         <button type="submit" class="btn btn-success"><i class="fa fa-check"></i> Approve</button>
                     </form>
                 {% endpermission %}
 
                 {% permission request.user can_deny trip %}
-                    <form method="POST" action="set/deny/">
+                    <form method="POST" action="action/deny/">
                         {% csrf_token %}
                         <button type="submit" class="btn btn-danger"><i class="fa fa-times"></i> Deny</button>
                     </form>
                 {% endpermission %}
 
                 {% permission request.user can_open trip %}
-                    <form method="POST" action="set/open/">
+                    <form method="POST" action="action/open/">
                         {% csrf_token %}
                         <button type="submit" class="btn btn-outline-primary"><i class="fa fa-play"></i> Open</button>
                     </form>
                 {% endpermission %}
 
                 {% permission request.user can_close trip %}
-                    <form method="POST" action="set/close/">
+                    <form method="POST" action="action/close/">
                         {% csrf_token %}
                         <button type="submit" class="btn btn-outline-primary"><i class="fa fa-stop"></i> Close</button>
                     </form>
                 {% endpermission %}
 
                 {% permission request.user can_cancel trip %}
-                    <form method="POST" action="set/cancel/">
+                    <form method="POST" action="action/cancel/">
                         {% csrf_token %}
                         <button type="submit" class="btn btn-outline-danger"><i class="fa fa-ban"></i> Cancel</button>
                     </form>
@@ -115,7 +115,20 @@
                         {% if trip.cost %}£ {{ trip.cost }}{% else %}<em>Unknown</em>{% endif %}
                     </dd>
                     <dt>Spaces</dt>
-                    <dd>{% if trip.spaces %}{{ trip.spaces }}{% else %}<em>Unknown</em>{% endif %}</dd>
+                    <dd>
+                        {% if trip.spaces %}
+                            {% if trip.is_public %}
+                                {{ trip.spaces_left }} / {{ trip.spaces }}
+                                {% if trip.spaces_over > 0 %}
+                                    <strong class="red">({{ trip.spaces_over }} over)</strong>
+                                {% endif %}
+                            {% else %}
+                                {{ trip.spaces }}
+                            {% endif %}
+                        {% else %}
+                            <em>Unknown</em>
+                        {% endif %}
+                    </dd>
                     <dt>Maximum Depth</dt>
                     <dd>{% if trip.max_depth %}{{ trip.max_depth }} metres{% else %}<em>Unknown</em>{% endif %}</dd>
                     <dt>Minimum Qualification</dt>
@@ -128,23 +141,36 @@
             {{ trip.description | markdown }}
         </div>
     </div>
-    <div class="row">
-        <div class="col-md-12">
-            {% if trip.members.count > 0 %}
+    {% if trip.is_public %}
+        <div class="row">
+            <div class="col-md-6">
+                <h4>Attendees
+                    {% if trip.spaces_taken %}
+                        <small class="text-muted">({{ trip.spaces_taken }})</small>
+                    {% endif %}
+                </h4>
+            </div>
+            <div class="col-md-6">
+                {% permission request.user can_add trip %}
+                    {% include 'base/bulk_select_members.html' %}
+                {% endpermission %}
+            </div>
+            <div class="col-md-12">
 
-                <h4>Members</h4>
+                {% if trip.members.count > 0 %}
 
-                {% include 'xsd_trips/member_list.html' with members=trip.members.all %}
+                    {% include 'xsd_trips/member_list.html' with members=trip.attendees %}
 
-            {% else %}
+                {% else %}
 
-                <div class="alert alert-info">
-                    <i class="fa fa-info-circle"></i> No members have signed up yet.
-                </div>
+                    <div class="alert alert-info">
+                        <i class="fa fa-info-circle"></i> No members have been added.
+                    </div>
 
-            {% endif %}
+                {% endif %}
+            </div>
         </div>
-    </div>
+    {% endif %}
 {% endblock %}
 
 {% block modals %}

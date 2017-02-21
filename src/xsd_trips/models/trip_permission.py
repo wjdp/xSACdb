@@ -65,3 +65,14 @@ class TripPermissionMixin(object):
             return self._is_modifier(user)
         else:
             return False
+
+    def can_add(self, user):
+        """Can add members to trip"""
+        if self.state in (STATE_OPEN, STATE_CLOSED):
+            return self._is_modifier(user)
+        else:
+            return False
+
+    def can_remove(self, user):
+        """Can remove members from trip"""
+        return self.can_add(user)

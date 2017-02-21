@@ -1,12 +1,41 @@
-<table class="table table-striped table-hover">
+{% load permissions %}
+
+<table class="table table-striped trips-attendee-list">
     <thead>
     <th>Name</th>
+    <th>Qualification</th>
     </thead>
     <tbody>
-        {% for member in members %}
+    {% for attendee in attendees %}
         <tr>
-            <td>{{ member.get_full_name }}</td>
+            <td>
+                <a href="{{ attendee.member.get_absolute_url }}" class="no-underline">
+                    <img src="{{ attendee.member.user.avatar_xs }}" class="avatar avatar-xs" alt="Avatar"/>
+                    <span class="underline">{{ attendee.member }}</span>
+                </a>
+
+                {% permission request.user can_remove trip %}
+                    <form action="action/remove/" method="POST">
+                        {% csrf_token %}
+                        <input type="hidden" name="pk" value="{{ attendee.member.pk }}"/>
+                        <button type="submit" class="btn btn-outline-danger btn-sm push-right">Remove</button>
+                    </form>
+                {% endpermission %}
+            </td>
+            {% if attendee.qualification_issue %}
+                <td class="table-danger">
+                    {% else %}
+                <td>
+            {% endif %}
+            {% if attendee.member.top_qual %}
+                {{ attendee.member.top_qual }}
+            {% else %}
+                No qualification
+            {% endif %}
+
+
+            </td>
         </tr>
-        {% endfor %}
+    {% endfor %}
     </tbody>
 </table>
