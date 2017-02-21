@@ -18,9 +18,9 @@ class XSDVersion(CompareMixin, Version):
     def _get_compare(self, obj_compare):
         # djang-reversion-compare has a stupid bug cos some things have no get_internal_type
         if not hasattr(obj_compare.field, 'get_internal_type'):
-            print("{} has no internal_type".format(obj_compare.field))
+            # print("{} has no internal_type".format(obj_compare.field))
             return None
-        print("{} : {}".format(obj_compare.field, obj_compare.field.get_internal_type()))
+        # print("{} : {}".format(obj_compare.field, obj_compare.field.get_internal_type()))
         return super(XSDVersion, self)._get_compare(obj_compare)
 
     def all(self):
