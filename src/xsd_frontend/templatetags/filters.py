@@ -1,3 +1,5 @@
+from __future__ import unicode_literals
+
 from django import template
 
 register = template.Library()
@@ -33,3 +35,8 @@ def order_by(request, field, attr):
         dict_[field] = attr
 
     return dict_.urlencode()
+
+@register.filter
+def singlequot(value):
+    """Removes all values of arg from the given string"""
+    return (value or '').replace('"', "'")

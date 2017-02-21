@@ -1,8 +1,9 @@
 {% load cache %}
+{% load filters %}
 {% cache 600 diff version.cache_key %}
     {% for item in version.diff %}
         <button type="button" class="btn btn-default btn-sm" data-container="body" data-html="true"
-                data-trigger="hover" data-toggle="popover" data-placement="bottom" data-content='{{ item.diff }}'>
+                data-trigger="hover" data-toggle="popover" data-placement="bottom" data-content="{{ item.diff|singlequot }}">
             {% firstof item.field.verbose_name field_diff.field.related_name %}
         </button>
     {% endfor %}
