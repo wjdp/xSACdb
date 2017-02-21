@@ -1,30 +1,26 @@
 from __future__ import unicode_literals
 
 import csv
-
 import datetime
+
 import reversion
-from actstream import action
 from django.conf import settings
 from django.contrib import messages
-from django.core.exceptions import ViewDoesNotExist, PermissionDenied
+from django.core.exceptions import PermissionDenied
 from django.core.urlresolvers import reverse_lazy
-from django.db import transaction
 from django.http import HttpResponse
-from django.shortcuts import redirect
 from django.template.defaultfilters import slugify
 from django.utils.functional import cached_property
 from django.views.generic import DetailView
 from django.views.generic import View
-from django.views.generic.detail import SingleObjectMixin
-from django.views.generic.list import ListView, MultipleObjectMixin
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
-
-from xSACdb.roles.mixins import RequireVerified, RequirePermission, RequireTripsOfficer
-from xSACdb.roles.functions import is_trips
+from django.views.generic.list import ListView
 
 from models import Trip
+from xSACdb.roles.functions import is_trips
+from xSACdb.roles.mixins import RequireVerified, RequirePermission, RequireTripsOfficer
 from xSACdb.views import ActionView
+from xsd_frontend.activity import DoAction
 from xsd_frontend.versioning import VersionHistoryView
 from xsd_members.bulk_select import get_bulk_members
 from xsd_members.models import MemberProfile
@@ -86,14 +82,13 @@ class TripCreate(RequireVerified, CreateView):
     )
 
     def form_valid(self, form):
-        with reversion.create_revision() and transaction.atomic():
-            reversion.set_comment('Create trip')
+        with DoAction() as action, reversion.create_revision():
             # Patch in setting the trip owner
             trip = form.save(commit=False)
             # trip.owner = self.request.user.profile
             trip.owner = self.request.user.profile
             trip.save()
-            action.send(self.request.user, verb='requested approval for trip', target=trip, style='trip-create')
+            action.set(actor=self.request.user, verb='requested approval for trip', target=trip, style='trip-create')
             return super(TripCreate, self).form_valid(form)
 
 
@@ -146,9 +141,8 @@ class TripUpdate(RequireVerified, RequirePermission, UpdateView):
         return context
 
     def form_valid(self, form):
-        with reversion.create_revision() and transaction.atomic():
-            reversion.set_comment('Updated')
-            action.send(self.request.user, verb='updated trip', target=self.get_object(), style='trip-update')
+        with DoAction() as action, reversion.create_revision():
+            action.set(actor=self.request.user, verb='updated trip', target=self.get_object(), style='trip-update')
             return super(TripUpdate, self).form_valid(form)
 
 
@@ -197,6 +191,7 @@ class TripDelete(RequirePermission, DeleteView):
                              settings.CLUB['trip_delete_success'].format(self.get_object().name))
         return super(TripDelete, self).delete(request, *args, **kwargs)
 
+
 class TripAttendeeRosterDump(View):
     model = TripMember
 
@@ -217,7 +212,6 @@ class TripAttendeeRosterDump(View):
     @cached_property
     def trip(self):
         return Trip.objects.get(pk=self.kwargs['pk'])
-
 
     def get_queryset(self):
         return self.model.objects.filter(trip=self.trip)

@@ -1,6 +1,6 @@
 import reversion
-from actstream import action
-from django.db import transaction
+
+from xsd_frontend.activity import DoAction
 
 
 class MemberProfileStateMixin(object):
@@ -8,25 +8,25 @@ class MemberProfileStateMixin(object):
     def verified(self):
         return not self.new_notify
 
-    def approve(self, actor=None):
+    def approve(self, actor):
         """
         Set whatever property we need to approve this member.
         """
-        with reversion.create_revision() and transaction.atomic():
+        with DoAction() as action, reversion.create_revision():
             if reversion.is_active():
                 reversion.set_comment('Approved member')
             if actor:
-                action.send(actor, verb='approved', target=self, style='mp-approve')
+                action.set(actor=actor, verb='approved', target=self, style='mp-approve')
             self.new_notify = False
             self.save()
 
-    def archive(self, actor=None):
+    def archive(self, actor):
         """Archive the user, hiding them from most views and removing a lot of personal data."""
-        with reversion.create_revision() and transaction.atomic():
+        with DoAction() as action, reversion.create_revision():
             if reversion.is_active():
                 reversion.set_comment('Archived member')
             if actor:
-                action.send(actor, verb='archived', target=self, style='mp-archive')
+                action.set(actor=actor, verb='archived', target=self, style='mp-archive')
             self.expunge()
             self.archived = True
             self.save()
@@ -42,14 +42,14 @@ class MemberProfileStateMixin(object):
                 # Everything else has None
                 setattr(self, field_name, None)
 
-    def reinstate(self, actor=None):
+    def reinstate(self, actor):
         """Opposite of archive"""
         # self.hidden = False # Seems this is too aggressive
-        with reversion.create_revision() and transaction.atomic():
+        with DoAction() as action, reversion.create_revision():
             if reversion.is_active():
                 reversion.set_comment('Restored member')
             if actor:
-                action.send(actor, verb='restored', target=self, style='mp-restore')
+                action.set(actor=actor, verb='restored', target=self, style='mp-restore')
             self.archived = False
             self.save()
 

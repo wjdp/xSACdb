@@ -1,13 +1,12 @@
 {% load activity_tags %}
 {% load humanize %}
-{% activity_stream 'user' user %}
 
 <ul class="feed">
-    {% for action in stream %}
+    {% for action in feed %}
         <li class="feed-item {{ action.data.style | default:"feed-item-default" }}">
 
             <div class="feed-item-avatar">
-                <img src="{{ action.actor.profile_image_url }}" alt="Profile image" />
+                <img src="{{ action.actor.avatar_sm }}" alt="Profile image"/>
             </div>
 
             <div class="feed-item-line">
@@ -42,6 +41,17 @@
             <div class="feed-item-meta">
                 {{ action.timestamp|naturaltime }}
             </div>
+            {% if action.versions %}
+                <div class="feed-item-diff">
+                    <ul class="feed-item-diff__versions list-unstyled">
+                    {% for version in action.versions %}
+                        <li>
+                            {% include 'versioning/diff.html' with version=version %}
+                        </li>
+                    {% endfor %}
+                    </ul>
+                </div>
+            {% endif %}
         </li>
         {% empty %}
         {# TODO Empty feed filler #}

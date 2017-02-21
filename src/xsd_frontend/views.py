@@ -6,6 +6,7 @@ from django.views.generic.edit import FormView
 
 from forms import UpdateRequestMake, UserRegisterForm
 from xSACdb.roles.mixins import RequireTrusted, RequirePreauth
+from xsd_frontend.activity import XSDAction
 
 
 class DashboardView(TemplateView):
@@ -21,6 +22,7 @@ class DashboardView(TemplateView):
         context = super(DashboardView, self).get_context_data(**kwargs)
         if self.request.user.profile.verified:
             pass
+        context['feed'] = XSDAction.objects.user(self.request.user)
         return context
 
 

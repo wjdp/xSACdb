@@ -1,12 +1,12 @@
 from __future__ import unicode_literals
 
 import reversion
-from actstream import action
 from actstream import actions
 from django.core.exceptions import PermissionDenied
 from django.db import models
-from django.db import transaction
 from django.utils.functional import cached_property
+
+from xsd_frontend.activity import DoAction
 
 
 class TripMember(models.Model):
@@ -72,13 +72,12 @@ class TripMemberMixin(object):
         if not self.can_add(actor):
             raise PermissionDenied
         # Currently we're not doing anything with member 'state' so we set that here to full approval.
-        with reversion.create_revision() and transaction.atomic():
-            if reversion.is_active():
-                reversion.set_comment('Adding attendees')
+        with DoAction() as action, reversion.create_revision():
             trip_members = TripMember.objects.filter(trip=self)
             for member in members:
                 if member in trip_members:
-                    # Ensure we do not duplicate attendees
+                    # Ensure we do not duplicate
+                    # FIXME
                     continue
                 # Add relationship
                 TripMember.objects.create(
@@ -89,16 +88,14 @@ class TripMemberMixin(object):
                 # Newly added member should follow trip
                 actions.follow(member.user, self)
                 # Send action
-                action.send(actor, verb='added', action_object=member, target=self, style='trip-attendee-add')
+            action.set(actor=actor, verb='added', action_object=list(members), target=self, style='trip-attendee-add')
 
     def remove_members(self, members, actor):
         """Remove a list of members from a trip"""
         if not self.can_remove(actor):
             raise PermissionDenied
-        with reversion.create_revision() and transaction.atomic():
-            if reversion.is_active():
-                reversion.set_comment('Removing attendees')
+        with DoAction() as action, reversion.create_revision():
             for member in members:
                 tm = TripMember.objects.filter(trip=self, member=member)
                 tm.delete()
-                action.send(actor, verb='removed', action_object=member, target=self, style='trip-attendee-remove')
+                action.set(actor=actor, verb='removed', action_object=member, target=self, style='trip-attendee-remove')

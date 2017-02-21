@@ -7,7 +7,6 @@ from actstream import action
 from django.conf import settings
 from django.contrib import messages
 from django.core.urlresolvers import reverse, reverse_lazy
-from django.db import transaction
 from django.db.models import Q
 from django.http.response import HttpResponseRedirect
 from django.shortcuts import render, redirect, get_object_or_404
@@ -19,6 +18,7 @@ from django.views.generic.edit import FormView, DeleteView
 from xSACdb.roles.decorators import require_members_officer
 from xSACdb.roles.mixins import RequireMembersOfficer
 from xSACdb.views import OrderedListView, ActionView
+from xsd_frontend.activity import DoAction
 from xsd_members.forms import *
 
 
@@ -71,21 +71,19 @@ class DynamicUpdateProfile(FormView):
 
     def form_valid(self, form):
         # Form still holds ref to MemberProfile so handles saving all by itself
-        with reversion.create_revision() and transaction.atomic():
-            reversion.set_comment('Filled in \'update profile\' form.')
+        with DoAction() as action, reversion.create_revision():
             if self.request.user.profile.archived:
                 # User logged back in and re-added details. Reinstate
-                with transaction.atomic():
-                    form.save()
-                    self.request.user.profile.reinstate()
-                    self.request.user.profile.save()
-                    action.send(self.request.user, verb='reinstated their profile',
-                                target=self.request.user.profile, style='mp-dynamic-reinstate')
+                form.save()
+                self.request.user.profile.reinstate()
+                self.request.user.profile.save()
+                action.set(actor=self.request.user, verb='reinstated',
+                           target=self.request.user.profile, style='mp-dynamic-reinstate')
             else:
-                with transaction.atomic():
-                    form.save()
-                    action.send(self.request.user, verb='updated their profile',
-                                target=self.request.user.profile, style='mp-dynamic-update')
+
+                form.save()
+                action.set(actor=self.request.user, verb='updated',
+                           target=self.request.user.profile, style='mp-dynamic-update')
 
         messages.add_message(self.request, messages.SUCCESS, settings.CLUB['dynamic_update_profile_success'])
 
@@ -285,24 +283,23 @@ class MemberAction(RequireMembersOfficer, ActionView):
 
 
 class ModelFormView(FormView):
-    def get_model(self):
+    def get_object(self):
         pass
 
     def get_initial(self):
         initial = {}
-        model = self.get_model()
+        model = self.get_object()
         for field in self.form_class._meta.fields:
             initial[field] = getattr(model, field)
         return initial
 
     def form_valid(self, form):
-        model = self.get_model()
+        model = self.get_object()
         for field in form.cleaned_data:
             setattr(model, field, form.cleaned_data[field])
-        with reversion.create_revision() and transaction.atomic():
-            reversion.set_comment('Updated')
+        with DoAction() as action, reversion.create_revision():
+            action.set(actor=self.request.user, verb='updated', target=model, style='mp-update')
             model.save()
-            action.send(self.request.user, verb='updated', target=model, style='mp-update')
         return super(ModelFormView, self).form_valid(form)
 
 
@@ -311,12 +308,12 @@ class MyProfileEdit(ModelFormView):
     form_class = PersonalEditForm
     success_url = reverse_lazy('xsd_members:my-profile')
 
-    def get_model(self):
+    def get_object(self):
         return self.request.user.memberprofile
 
     def get_context_data(self, **kwargs):
         context = super(MyProfileEdit, self).get_context_data(**kwargs)
-        context['member'] = self.get_model()
+        context['member'] = self.get_object()
         return context
 
 
@@ -324,18 +321,18 @@ class MemberEdit(RequireMembersOfficer, ModelFormView):
     template_name = 'members_edit.html'
     form_class = MemberEditForm
 
-    def get_model(self):
+    def get_object(self):
         pk = self.kwargs['pk']
         mp = get_object_or_404(MemberProfile, pk=pk)
         return mp
 
     def get_success_url(self):
-        mp = self.get_model()
+        mp = self.get_object()
         return reverse('xsd_members:MemberDetail', kwargs={'pk': mp.pk})
 
     def get_context_data(self, **kwargs):
         context = super(MemberEdit, self).get_context_data(**kwargs)
-        context['member'] = self.get_model()
+        context['member'] = self.get_object()
         context['page_title'] = 'Edit Profile'
         return context
 
@@ -421,16 +418,18 @@ class BulkAddForms(RequireMembersOfficer, View):
     def post(self, request, *args, **kwargs):
         formset = FormExpiryFormSet(request.POST)
         if formset.is_valid():
-            with reversion.create_revision() and transaction.atomic():
+            with DoAction() as action, reversion.create_revision():
                 reversion.set_comment('Bulk adding forms')
                 reversion.set_user(request.user)
+                mps = []
                 for form in formset.cleaned_data:
                     mp = MemberProfile.objects.get(pk=form['member_id'])
-                    action.send(request.user, verb="updated forms on", target=mp, style='mp-update-forms')
                     if form['club_expiry']: mp.club_expiry = form['club_expiry']
                     if form['bsac_expiry']: mp.bsac_expiry = form['bsac_expiry']
                     if form['medical_form_expiry']: mp.medical_form_expiry = form['medical_form_expiry']
                     mp.save()
+                    mps.append(mp)
+                action.set(actor=request.user, verb="updated forms on", target=mps, style='mp-update-forms')
         else:
             return render(request, 'members_bulk_edit_forms_error.html', {}, context_instance=RequestContext(request))
 

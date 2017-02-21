@@ -359,7 +359,7 @@ class MemberProfileTest(BaseMemberTest, TrainingTestToolsMixin):
         self.mp.save()
         self.mp.refresh_from_db()
         self.assertFalse(self.mp.verified)
-        self.mp.approve()
+        self.mp.approve(self.user)
         self.mp.refresh_from_db()
         self.assertTrue(self.mp.verified)
 
@@ -368,7 +368,7 @@ class MemberProfileTest(BaseMemberTest, TrainingTestToolsMixin):
         self.assertIsNot(self.mp.address, '')
         self.assertIsNot(self.mp.date_of_birth, None)
         self.assertFalse(self.mp.archived)
-        self.mp.archive()
+        self.mp.archive(self.user)
         self.mp.refresh_from_db()
         self.assertIs(self.mp.address, '')
         self.assertIs(self.mp.date_of_birth, None)
@@ -376,10 +376,10 @@ class MemberProfileTest(BaseMemberTest, TrainingTestToolsMixin):
 
     def test_mp_reinstate(self):
         # Check that archiving member expunges and sets archived flag
-        self.mp.archive()
+        self.mp.archive(self.user)
         self.mp.refresh_from_db()
         self.assertTrue(self.mp.archived)
-        self.mp.reinstate()
+        self.mp.reinstate(self.user)
         self.mp.refresh_from_db()
         self.assertFalse(self.mp.archived)
 

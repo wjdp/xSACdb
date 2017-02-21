@@ -131,7 +131,7 @@ class MemberListTest(ViewTestMixin, AsGroupMixin, BaseTest):
 
     def test_member_not_in_list(self):
         """The current members list should not show archived members"""
-        self.test_user.memberprofile.archive()
+        self.test_user.memberprofile.archive(self.user)
         self.test_user.memberprofile.save()
         r = self.get_response()
         self.assertNotContains(r, self.test_user.first_name)#, html=True)
@@ -194,7 +194,7 @@ class MembersArchivedList(ViewTestMixin, AsGroupMixin, BaseTest):
 
     def test_member_in_list(self):
         """Archived members should show in MembersArchivedList"""
-        self.test_user.memberprofile.archive()
+        self.test_user.memberprofile.archive(self.user)
         self.test_user.memberprofile.save()
         r = self.get_response()
         self.assertContains(r, self.test_user.first_name)  # , html=True)
