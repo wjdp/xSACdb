@@ -8,7 +8,7 @@ class MemberProfileStateMixin(object):
     def verified(self):
         return not self.new_notify
 
-    def approve(self, actor=None):
+    def approve(self, actor):
         """
         Set whatever property we need to approve this member.
         """
@@ -20,7 +20,7 @@ class MemberProfileStateMixin(object):
             self.new_notify = False
             self.save()
 
-    def archive(self, actor=None):
+    def archive(self, actor):
         """Archive the user, hiding them from most views and removing a lot of personal data."""
         with DoAction() as action, reversion.create_revision():
             if reversion.is_active():
@@ -42,7 +42,7 @@ class MemberProfileStateMixin(object):
                 # Everything else has None
                 setattr(self, field_name, None)
 
-    def reinstate(self, actor=None):
+    def reinstate(self, actor):
         """Opposite of archive"""
         # self.hidden = False # Seems this is too aggressive
         with DoAction() as action, reversion.create_revision():
