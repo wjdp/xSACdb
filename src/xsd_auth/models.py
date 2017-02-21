@@ -32,6 +32,7 @@ class UserManager(DJ_UserManager):
             su.profile.save()
             su.groups.add(Group.objects.get(pk=GROUP_ADMIN))
             su.save()
+        return su
 
     def fake_single(self, fake, approved=True):
         """Create a fake user and return"""

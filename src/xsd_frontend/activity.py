@@ -19,9 +19,13 @@ class DoAction(object):
     def set(self, **kwargs):
         self.action = kwargs
 
+        if 'actor' not in kwargs:
+            raise ValueError("You need an actor")
+
         # If in a reversion block, set comment
         if reversion.is_active() and 'verb' in kwargs:
             reversion.set_comment(kwargs['verb'])
+            reversion.set_user(self.action['actor'])
 
     def post_revision_commit(self, **kwargs):
         self.revision = kwargs

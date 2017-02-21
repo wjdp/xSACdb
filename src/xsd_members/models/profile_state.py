@@ -13,8 +13,6 @@ class MemberProfileStateMixin(object):
         Set whatever property we need to approve this member.
         """
         with DoAction() as action, reversion.create_revision():
-            if reversion.is_active():
-                reversion.set_comment('Approved member')
             if actor:
                 action.set(actor=actor, verb='approved', target=self, style='mp-approve')
             self.new_notify = False
@@ -23,8 +21,6 @@ class MemberProfileStateMixin(object):
     def archive(self, actor):
         """Archive the user, hiding them from most views and removing a lot of personal data."""
         with DoAction() as action, reversion.create_revision():
-            if reversion.is_active():
-                reversion.set_comment('Archived member')
             if actor:
                 action.set(actor=actor, verb='archived', target=self, style='mp-archive')
             self.expunge()
@@ -46,8 +42,6 @@ class MemberProfileStateMixin(object):
         """Opposite of archive"""
         # self.hidden = False # Seems this is too aggressive
         with DoAction() as action, reversion.create_revision():
-            if reversion.is_active():
-                reversion.set_comment('Restored member')
             if actor:
                 action.set(actor=actor, verb='restored', target=self, style='mp-restore')
             self.archived = False
