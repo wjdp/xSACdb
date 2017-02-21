@@ -4,124 +4,128 @@
 <!doctype html>
 <html>
 <head>
-{% block pre_head %}{% endblock %}
+    {% block pre_head %}{% endblock %}
 
-<title>{% page_title %}</title>
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width, user-scalable=no" />
+    <title>{% page_title %}</title>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, user-scalable=no"/>
 
-<link rel="manifest" href="/manifest.json">
+    <link rel="manifest" href="/manifest.json">
 
-{% compress css %}
+    {% compress css %}
 
-{# Non-Sassy Library stylesheets #}
-<link rel="stylesheet" type="text/css" media="screen" charset="utf-8"
-    href="/static/datatables/media/css/jquery.dataTables.css" />
-<link rel="stylesheet" type="text/css" media="screen" charset="utf-8"
-    href="/static/datatables/media/css/dataTables.bootstrap4.css" />
+        {# Non-Sassy Library stylesheets #}
+        <link rel="stylesheet" type="text/css" media="screen" charset="utf-8"
+              href="/static/datatables/media/css/jquery.dataTables.css"/>
+        <link rel="stylesheet" type="text/css" media="screen" charset="utf-8"
+              href="/static/datatables/media/css/dataTables.bootstrap4.css"/>
 
-{# Project stylesheets #}
-<link rel="stylesheet" type="text/x-sass" media="screen" charset="utf-8"
-    href="/static/sass/build.sass" />
+        {# Project stylesheets #}
+        <link rel="stylesheet" type="text/x-sass" media="screen" charset="utf-8"
+              href="/static/sass/build.sass"/>
 
-<link rel="stylesheet" type="text/css" media="screen" charset="utf-8"
-    href="/static/css/strap.css" />
+        <link rel="stylesheet" type="text/css" media="screen" charset="utf-8"
+              href="/static/css/strap.css"/>
 
-{% endcompress %}
+    {% endcompress %}
 
-{% compress js %}
+    {% compress js %}
 
-<script type="text/javascript" src="/static/jquery/dist/jquery.js"></script>
-<script type="text/javascript" src="/static/jquery-form/jquery.form.js"></script>
-<script type="text/javascript" src="/static/jquery-tokeninput/src/jquery.tokeninput.js"></script>
-<script type="text/javascript" src="/static/jquery-form/jquery.form.js"></script>
-{#<script type="text/javascript" src="/static/js/jquery.cookie.js"></script>#}
+        <script type="text/javascript" src="/static/jquery/dist/jquery.js"></script>
+        <script type="text/javascript" src="/static/jquery-form/jquery.form.js"></script>
+        <script type="text/javascript" src="/static/jquery-tokeninput/src/jquery.tokeninput.js"></script>
+        <script type="text/javascript" src="/static/jquery-form/jquery.form.js"></script>
+        {#<script type="text/javascript" src="/static/js/jquery.cookie.js"></script>#}
 
-<script type="text/javascript" src="/static/tether/dist/js/tether.js"></script>
-<script type="text/javascript" src="/static/bootstrap/dist/js/bootstrap.js"></script>
-<script type="text/javascript" src="/static/raven-js/dist/raven.min.js"></script>
+        <script type="text/javascript" src="/static/tether/dist/js/tether.js"></script>
+        <script type="text/javascript" src="/static/bootstrap/dist/js/bootstrap.js"></script>
+        <script type="text/javascript" src="/static/raven-js/dist/raven.min.js"></script>
 
-{% endcompress %}
+    {% endcompress %}
 
-{% if RAVEN_DSN %}
-<script type="text/javascript">
-    Raven.config('{{ RAVEN_DSN }}').install();
-    Raven.setUserContext({
-        email: '{{ request.user.email }}',
-        id: '{{ request.user.pk }}',
-        username: '{{ request.user.username }}'
-    });
-</script>
-{% endif %}
+    {% if RAVEN_DSN %}
+        <script type="text/javascript">
+            Raven.config('{{ RAVEN_DSN }}').install();
+            Raven.setUserContext({
+                email: '{{ request.user.email }}',
+                id: '{{ request.user.pk }}',
+                username: '{{ request.user.username }}'
+            });
+        </script>
+    {% endif %}
 
-{% compress js %}
+    {% compress js %}
 
-<script type="text/javascript" src="/static/js/css_extra.js"></script>
-<script type="text/coffeescript" src="/static/coffee/mq-detector.coffee"></script>
-<script type="text/coffeescript" src="/static/coffee/xsd-preauth.coffee"></script>
-<script type="text/coffeescript" src="/static/coffee/activity-spinner.coffee"></script>
-<script type="text/coffeescript" src="/static/coffee/nav.coffee"></script>
-<script type="text/coffeescript" src="/static/coffee/xsd_trips-list.coffee"></script>
+        <script type="text/javascript" src="/static/js/css_extra.js"></script>
+        <script type="text/coffeescript" src="/static/coffee/mq-detector.coffee"></script>
+        <script type="text/coffeescript" src="/static/coffee/xsd-preauth.coffee"></script>
+        <script type="text/coffeescript" src="/static/coffee/activity-spinner.coffee"></script>
+        <script type="text/coffeescript" src="/static/coffee/nav.coffee"></script>
+        <script type="text/coffeescript" src="/static/coffee/xsd_trips-list.coffee"></script>
 
-{% endcompress %}
+    {% endcompress %}
 
-{% compress js inline %}
-<script type="text/javascript">
-navigator.serviceWorker.register('/service-worker.js', { scope: '/' })
-    .then(function(r) {
-      console.log('registered service worker');
-    })
-    .catch(function(whut) {
-      console.error('uh oh... ');
-      console.error(whut);
-    });
-</script>
-{% endcompress %}
+    {% compress js inline %}
+        <script type="text/javascript">
+            navigator.serviceWorker.register('/service-worker.js', {scope: '/'})
+                .then(function (r) {
+                    console.log('registered service worker');
+                })
+                .catch(function (whut) {
+                    console.error('uh oh... ');
+                    console.error(whut);
+                });
+        </script>
+    {% endcompress %}
 
-{% include 'icons.html' %}
+    {% include 'icons.html' %}
 
-{% block post_head %}{% endblock %}
+    {% block post_head %}{% endblock %}
 </head>
 <body class="{% block body_class %}xsd{% endblock %}"
       id="{{ current_url.namespace }}-{{ current_url.url_name }}">
 
-    {{ request|hijackNotification }}
+{{ request|hijackNotification }}
 
-    {% if request.user.is_authenticated %}{% app_nav %}{% endif %}
+{% if request.user.is_authenticated %}{% app_nav %}{% endif %}
 
-    <div class="xsd-messages">
-        {% if messages %}
+<div class="xsd-messages">
+    {% if messages %}
         <ul class="xsd-messages__list">
             {% for message in messages %}
-            <li class="xsd-messages__message xsd-messages__message--{{ message.tags }} xsd-messages__message--{{ message.level }}">
-                <div class="xsd-messages__message-inner">
-                    <i class="xsd-messages__message-icon"></i>
-                    {{ message }}
-                </div>
-            </li>
+                <li class="xsd-messages__message xsd-messages__message--{{ message.tags }} xsd-messages__message--{{ message.level }}">
+                    <div class="xsd-messages__message-inner">
+                        <i class="xsd-messages__message-icon"></i>
+                        {{ message }}
+                    </div>
+                </li>
             {% endfor %}
         </ul>
-        {% endif %}
-    </div>
+    {% endif %}
+</div>
 
-    {% block breakout %}
+{% block breakout %}
     <div class="xsd-application-container">
         {% block content %}
-        No content
+            No content
         {% endblock %}
     </div>
-    {% endblock %}
+{% endblock %}
 
-    {% block modals %}{% endblock %}
+{% block modals %}{% endblock %}
 
-    {% block closing_js %}{% endblock %}
+{% block closing_js %}{% endblock %}
 
-    <span id="mq-detector">
-        <span class="visible-xs"></span>
-        <span class="visible-sm"></span>
-        <span class="visible-md"></span>
-        <span class="visible-lg"></span>
-    </span>
+<script type="text/javascript">
+    $('.popover-button').popover();
+</script>
+
+<span id="mq-detector">
+    <span class="visible-xs"></span>
+    <span class="visible-sm"></span>
+    <span class="visible-md"></span>
+    <span class="visible-lg"></span>
+</span>
 
 </body>
 </html>

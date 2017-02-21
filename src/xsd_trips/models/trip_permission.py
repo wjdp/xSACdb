@@ -1,7 +1,6 @@
 from __future__ import unicode_literals
 
 from xSACdb.roles.functions import *
-
 from .trip_state import *
 
 
@@ -63,5 +62,25 @@ class TripPermissionMixin(object):
         # TODO only allow if trip in past
         if self.state in (STATE_OPEN, STATE_CLOSED):
             return self._is_modifier(user)
+        else:
+            return False
+
+    def can_add(self, user):
+        """Can add members to trip"""
+        if self.state in (STATE_OPEN, STATE_CLOSED):
+            return self._is_modifier(user)
+        else:
+            return False
+
+    def can_remove(self, user):
+        """Can remove members from trip"""
+        return self.can_add(user)
+
+    def can_view_attendee_details(self, user):
+        """Can user see the attendees 'sensitive' profile information?"""
+        # TODO Refactor with MP permissions
+        if self._is_modifier(user) and self.is_public:
+            # Allowed while trip is in future.
+            return not self.in_past
         else:
             return False

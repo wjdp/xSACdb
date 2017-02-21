@@ -1,13 +1,13 @@
-from tastypie.resources import Resource, ModelResource
-from tastypie import fields, utils
+import json
 
 from django.contrib.auth import get_user_model
 from django.http import HttpResponse
+from tastypie import fields
+from tastypie.resources import Resource, ModelResource
 
-from xSACdb.roles.decorators import require_trusted
 from models import MemberProfile
+from xSACdb.roles.decorators import require_verified
 
-import json
 
 class UserResource(ModelResource):
     class Meta:
@@ -54,7 +54,7 @@ class TokenInputResource(Resource):
         resource_name='tokeninput_members'
         object_class=TokenInputUser
 
-@require_trusted
+@require_verified
 def tokeninput_json(request):
     members = MemberProfile.objects.all()
     data=[]

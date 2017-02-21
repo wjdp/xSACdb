@@ -9,6 +9,7 @@ from django.conf import settings
 from django.core.urlresolvers import reverse
 from django.db import models
 from django.db import transaction
+from django.utils.functional import cached_property
 from reversion import revisions as reversion
 
 from xSACdb.data_helpers import disable_for_loaddata
@@ -328,6 +329,10 @@ class MemberProfile(MemberProfileStateMixin,
     def get_full_name(self):
         """Transfer bit"""
         return u"{} {}".format(self.first_name, self.last_name)
+
+    @cached_property
+    def full_name(self):
+        return self.get_full_name()
 
     def date_joined(self):
         """Transfer bit"""

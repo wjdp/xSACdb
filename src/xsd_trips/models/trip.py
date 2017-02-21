@@ -1,5 +1,6 @@
 from __future__ import unicode_literals
 
+import datetime
 from actstream.actions import follow
 from reversion import revisions as reversion
 from django.core.urlresolvers import reverse
@@ -65,7 +66,7 @@ class Trip(TripStateMixin,
         (STATE_COMPLETED, 'Completed'),
     )
 
-    state = models.IntegerField(choices=STATES, default=20)
+    state = models.IntegerField(choices=STATES, default=STATE_NEW)
 
     members = models.ManyToManyField('xsd_members.MemberProfile', blank=True, through=TripMember,
                                      related_name='trip_members')
@@ -73,6 +74,15 @@ class Trip(TripStateMixin,
     @property
     def uid(self):
         return "T{:0>4d}".format(self.pk)
+
+    @property
+    def date_final(self):
+        """As date_end is optional this will match either that or date_start"""
+        return self.date_end or self.date_start
+
+    @property
+    def in_past(self):
+        return self.date_final < datetime.date.today()
 
     def get_absolute_url(self):
         return reverse('xsd_trips:TripDetail', kwargs={'pk': self.pk})
