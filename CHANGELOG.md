@@ -29,6 +29,7 @@ xSACdb instances. This project will soon adhere to [Semantic Versioning](http://
 - Users without **avatars** now use the Gravatar retro generator to create an identicon to use instead. The generator is customisable through the CLUB dictionary.
 - All signups now trigger sending a validation email.
 - You can trigger sending validation emails to all unverified addresses with `manage auth_send_confirmations`. Ensure `auth_sync` is run first.
+- Improved styling of account pages.
  
 ### Fixes
 - A number of styling fixes.
