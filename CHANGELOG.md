@@ -15,14 +15,19 @@ xSACdb instances. This project will soon adhere to [Semantic Versioning](http://
 - Run `manage update_follow_defaults` to make current users follow changes to their profiles. New users have this set automatically.
 - Run `manage build_version_cache` to speed up initial load times of user feeds.
 - At some point run `migrate` manually from the shell. It will prompt to delete the model `xsd_trips | tripattendee` as it is no longer used by the application. Answer yes. 
+- Run `manage auth_sync` to synchronise the internal user/email table with the allauth email table. Needed for email validation. Only needs to be run once.
 
 ### Added
 - **Trips:** Trip planning has been added. Any user may add a trip, a trip officer (currently GROUP_ADMIN, GROUP_TRAINING, GROUP_TRIPS, GROUP_DO) must approve before the trip organiser/owner may take it public.
 - **Activity feed:** users see activity they are involved with — currently their own profiles and trips they're on. Adding _activities_ for the training module is being held back until the next minor version.
 - **History Pages:** most objects now have a browsable history.
+- User _email management_ interface. Users can be associated with multiple emails with a set primary.
+- Management commands `auth_sync`
 
 ### Changed
 - Users without **avatars** now use the Gravatar retro generator to create an identicon to use instead. The generator is customisable through the CLUB dictionary.
+- All signups now trigger sending a validation email.
+- You can trigger sending validation emails to all unverified addresses with `manage auth_send_confirmations`. Ensure `auth_sync` is run first.
  
 ### Fixes
 - A number of styling fixes.
