@@ -1,23 +1,19 @@
+{% load widget_tweaks %}
 <form action="." method="POST">
     {% csrf_token %}
+    {% if redirect_field_value %}
+        <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}"/>
+    {% endif %}
 
     {% if form.errors %}
-    <p class="xsd-preauth-email-login__errors">Email or password incorrect</p>
+        <p class="xsd-preauth-email-login__errors">Email or password incorrect</p>
     {% endif %}
 
     <label>
-        <input class="form-control"
-               type="text"
-               name="username"
-               autocomplete="email"
-               placeholder="Email address">
+        {% render_field form.login class+="form-control" type="text" placeholder="Email Address" %}
     </label>
     <label>
-        <input class="form-control"
-               type="password"
-               name="password"
-               autocomplete="email"
-               placeholder="Password">
+        {% render_field form.password class+="form-control" %}
     </label>
 
     <div class="xsd-preauth-form__controls">

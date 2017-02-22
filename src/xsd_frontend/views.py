@@ -1,3 +1,4 @@
+from allauth.account.views import LoginView
 from django.contrib.auth import get_user_model
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
@@ -31,14 +32,8 @@ from django.contrib.auth import authenticate
 from django.contrib.auth import login
 
 
-class PreauthLoginView(RequirePreauth, FormView):
+class PreauthLoginView(RequirePreauth, LoginView):
     template_name = 'preauth/login.html'
-    form_class = LoginForm
-    success_url = '/'
-
-    def form_valid(self, form):
-        login(self.request, form.get_user())
-        return super(PreauthLoginView, self).form_valid(form)
 
 
 class PreauthRegisterView(RequirePreauth, FormView):
