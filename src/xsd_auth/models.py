@@ -14,16 +14,11 @@ from xSACdb.roles.groups import GROUP_ADMIN
 
 
 class UserManager(DJ_UserManager):
-    # FIXME either match signature of UserManager / switch to allauth managed
-    def create_user(self, first_name, last_name, email, password):
-        new_user = self.model(
-            first_name=first_name,
-            last_name=last_name,
-            email=email,
-            username=random.randrange(1000000000000000, 9999999999999999)
-        )
-        new_user.set_password(password)
-        return new_user
+    def create_user(self, username=None, email=None, password=None, **extra_fields):
+        if not username:
+            username = random.randrange(1000000000000000, 9999999999999999)
+
+        return super(UserManager, self).create_user(username=username, email=email, password=password, **extra_fields)
 
     def create_superuser(self, username, email, password, **extra_fields):
         with transaction.atomic():
