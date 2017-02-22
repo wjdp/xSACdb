@@ -3,19 +3,21 @@
 {% load staticfiles %}
 
 {% block breakout %}
-<div class="xsd_dashboard-new">
-    <div class="jumbotron jumbotron-fluid dashboard-new-user-jumbo">
-        <div class="container">
-            <div class="row">
-                <div class="col-xs-12">
-                    <div class="a-okay"></div>
-                    <h1 class="display-3">{{ l10n_club.onboarded_header }}</h1>
-                    <p class="lead">{{ l10n_club.onboarded_line_1 }}</p>
-                    <p class="lead">{{ l10n_club.onboarded_line_2 }}</p>
-
+    <div class="xsd_dashboard-new">
+        <div class="jumbotron jumbotron-fluid dashboard-new-user-jumbo">
+            <div class="container">
+                <div class="row">
+                    <div class="col-xs-12">
+                        <div class="a-okay"></div>
+                        <h1 class="display-3">{{ l10n_club.onboarded_header }}</h1>
+                        <p class="lead">{{ l10n_club.onboarded_line_1 }}</p>
+                        <p class="lead">{{ l10n_club.onboarded_line_2 }}</p>
+                        {% if not user.is_email_confirmed %}
+                            <p class="lead">{{ l10n_club.onboarded_line_email_confirm }}</p>
+                        {% endif %}
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
 {% endblock %}

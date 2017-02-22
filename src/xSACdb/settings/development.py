@@ -116,3 +116,6 @@ EMAIL_FROM = 'database@madeupsac.com'
 DEFAULT_FROM_EMAIL = EMAIL_FROM
 EMAIL_BACKEND = 'django.core.mail.backends.filebased.EmailBackend'
 EMAIL_FILE_PATH = 'tmp/emails/' # change this to a proper location
+
+# Allow FB login local
+ACCOUNT_DEFAULT_HTTP_PROTOCOL = 'http'

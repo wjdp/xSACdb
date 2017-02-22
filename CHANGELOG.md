@@ -23,6 +23,7 @@ xSACdb instances. This project will soon adhere to [Semantic Versioning](http://
 - **History Pages:** most objects now have a browsable history.
 - User _email management_ interface. Users can be associated with multiple emails with a set primary.
 - Management commands `auth_sync`
+- Nice big 'All Done' pageon signup completion. See https://i.imgur.com/WGPwF7m.png. Text is customisable through the CLUB dictionary.
 
 ### Changed
 - Users without **avatars** now use the Gravatar retro generator to create an identicon to use instead. The generator is customisable through the CLUB dictionary.

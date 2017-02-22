@@ -3,6 +3,7 @@ from __future__ import unicode_literals
 import hashlib
 import random
 
+from allauth.account.models import EmailAddress
 from allauth.socialaccount.models import SocialAccount
 from django.conf import settings
 from django.contrib.auth.models import AbstractUser, Group
@@ -92,6 +93,10 @@ class User(UserActivityMixin, AbstractUser):
         """Cached version of get_profile"""
         return self.get_profile()
 
+    @cached_property
+    def is_email_confirmed(self):
+        return EmailAddress.objects.get_primary(self).verified
+
     def profile_image_url(self, size=70, blank=settings.CLUB['gravatar_default']):
         fb_uid = SocialAccount.objects.filter(user_id=self.pk, provider='facebook')
 
@@ -113,7 +118,6 @@ class User(UserActivityMixin, AbstractUser):
     @cached_property
     def avatar_md(self):
         return self.profile_image_url(size=128)
-
 
     def __unicode__(self):
         return self.get_full_name()
