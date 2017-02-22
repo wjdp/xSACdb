@@ -6,8 +6,15 @@ xSACdb instances. This project will soon adhere to [Semantic Versioning](http://
 ## Unreleased
 
 ### Upgrade
+- There is a problem with a single migration. After upgrade you will need to work through the following process. See issue [#272](https://gitlab.com/wjdp/xSACdb/issues/272) for more information.
+    - Enter the shell 
+    - Disable the migration `xsd_frontend.0002_xsdaction_xsdversion`
+    - Run other migrations; `manage migrate`
+    - Reinstate the `xsd_frontend.0002_xsdaction_xsdversion` migration.
+    - Run `manage migrate` one more time.
 - Run `manage update_follow_defaults` to make current users follow changes to their profiles. New users have this set automatically.
 - Run `manage build_version_cache` to speed up initial load times of user feeds.
+- At some point run `migrate` manually from the shell. It will prompt to delete the model `xsd_trips | tripattendee` as it is no longer used by the application. Answer yes. 
 
 ### Added
 - **Trips:** Trip planning has been added. Any user may add a trip, a trip officer (currently GROUP_ADMIN, GROUP_TRAINING, GROUP_TRIPS, GROUP_DO) must approve before the trip organiser/owner may take it public.
