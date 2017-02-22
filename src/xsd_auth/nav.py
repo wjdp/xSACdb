@@ -6,6 +6,7 @@ NAV = (
         'access': is_all,
         'items': [
             ('Change Password', None, 'fa fa-key', 'xsd_auth:account_change_password', ['xsd_auth:account_set_password']),
+            ('Email Addresses', None, 'fa fa-at', 'xsd_auth:account_email', ['xsd_auth:account_email']),
             ('Social Login', None, 'fa fa-facebook-square', 'xsd_auth:socialaccount_connections', []),
         ]
     },

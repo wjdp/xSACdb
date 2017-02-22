@@ -202,11 +202,11 @@ INSTALLED_APPS = (
 
     'django_rq',
 
-    'reversion', # https://github.com/etianen/django-reversion
-    'reversion_compare', # https://github.com/jedie/django-reversion-compare
+    'reversion',  # https://github.com/etianen/django-reversion
+    'reversion_compare',  # https://github.com/jedie/django-reversion-compare
 
     # Must be after apps creating activities
-    'actstream', # https://github.com/justquick/django-activity-stream
+    'actstream',  # https://github.com/justquick/django-activity-stream
 
     'hijack',
 
@@ -234,12 +234,15 @@ AUTH_PROFILE_MODEL = 'xsd_members.MemberProfile'
 LOGIN_REDIRECT_URL = '/'
 ACCOUNT_LOGOUT_REDIRECT_URL = '/accounts/login'
 
-ACCOUNT_AUTHENTICATION_METHOD = 'email'
+# ACCOUNT_AUTHENTICATION_METHOD = 'email'
 ACCOUNT_EMAIL_REQUIRED = True
+ACCOUNT_EMAIL_CONFIRMATION_EXPIRE_DAYS = 7
 ACCOUNT_DEFAULT_HTTP_PROTOCOL = 'https'
 ACCOUNT_USERNAME_REQUIRED = False
+ACCOUNT_USER_DISPLAY = 'xsd_auth.utils.get_user_display'
+ACCOUNT_SIGNUP_PASSWORD_ENTER_TWICE = False
 
-# FIXME: Deprecated - use Django's AUTH_PASSWORD_VALIDATORS instead.
+# FIXME: Deprecated - use Django's AUTH_PASSWORD_VALIDATORS instead. (NEED DJ >=1.9)
 ACCOUNT_PASSWORD_MIN_LENGTH = 8
 
 SOCIALACCOUNT_FORMS = {

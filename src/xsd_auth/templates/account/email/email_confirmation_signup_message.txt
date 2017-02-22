@@ -1,2 +1,10 @@
-{% include "account/email/email_confirmation_message.txt" %}
+{% load account %}{% user_display user as user_display %}
+Hello {{ user.get_first_name }},
 
+You're receiving this e-mail because this email address was used to register an account on {{ current_site.name }}'s club database.
+
+We require that all members have valid and correct email addresses. To this end we need you to click the following link:
+{{ activate_url }}
+
+---
+This is an automated message from {{ current_site.domain }}

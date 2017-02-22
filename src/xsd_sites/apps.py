@@ -6,7 +6,7 @@ from actstream import registry
 
 class SitesConfig(AppConfig):
     name = 'xsd_sites'
-    verbose_name = 'Sites'
+    verbose_name = 'Dive Sites'
 
     def ready(self):
         registry.register(self.get_model('Site'))
