@@ -1,12 +1,10 @@
-from allauth.account.views import LoginView
-from django.contrib.auth import get_user_model
+from allauth.account.views import LoginView, SignupView
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
 from django.views.generic.base import TemplateView
-from django.views.generic.edit import FormView
 
-from forms import UpdateRequestMake, UserRegisterForm
-from xSACdb.roles.mixins import RequireTrusted, RequirePreauth
+from forms import UpdateRequestMake, ClassicSignupForm
+from xSACdb.roles.mixins import RequirePreauth
 from xsd_frontend.activity import XSDAction
 
 
@@ -27,39 +25,20 @@ class DashboardView(TemplateView):
         return context
 
 
-from xsd_frontend.forms import LoginForm
-from django.contrib.auth import authenticate
-from django.contrib.auth import login
-
-
 class PreauthLoginView(RequirePreauth, LoginView):
     template_name = 'preauth/login.html'
 
 
-class PreauthRegisterView(RequirePreauth, FormView):
+class PreauthRegisterView(RequirePreauth, SignupView):
     template_name = 'preauth/register.html'
-    form_class = UserRegisterForm
-    success_url = '/'
-
-    def form_valid(self, form):
-        new_user = get_user_model().objects.create_user(
-            first_name=form.cleaned_data['first_name'],
-            last_name=form.cleaned_data['last_name'],
-            email=form.cleaned_data['email'],
-            password=form.cleaned_data['password']
-        )
-        new_user.save()
-        new_user_actual = authenticate(username=form.cleaned_data['email'],
-                                       password=form.cleaned_data['password'])
-        login(self.request, new_user_actual)
-
-        return super(PreauthRegisterView, self).form_valid(None)
+    form_class = ClassicSignupForm
 
 
 from django.contrib.auth import logout as auth_logout
 
 
 def logout(request):
+    # We roll our own logout view as the allauth one needs a POST
     auth_logout(request)
     return redirect('/')
 
@@ -96,4 +75,3 @@ def handler404(request):
 
 def handler500(request):
     return render(request, '500.html', status=500)
-
