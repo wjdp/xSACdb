@@ -1,11 +1,10 @@
+{% load pagination %}
+
+{% if is_paginated %}
+    {% paginator %}
+{% endif %}
+
 <table class="table" id="xsd_trip-list">
-    <thead>
-    <tr>
-        <th>#</th>
-        <th>Details</th>
-        <th>Dates</th>
-    </tr>
-    </thead>
     <tbody>
     {% for trip in trips %}
         <tr data-trip-row class="{{ trip.state_class }}">
@@ -57,3 +56,7 @@
     {% endfor %}
     </tbody>
 </table>
+
+{% if is_paginated %}
+    {% paginator %}
+{% endif %}

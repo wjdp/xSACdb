@@ -1,8 +1,22 @@
 {% extends 'xsd_trips/base.html' %}
 {% block trips_content %}
-<div class="row">
-    <div class="col-md-12">
-        {% include 'xsd_trips/trip_list.html' %}
+    <div class="row">
+        <div class="col-md-12">
+            {% if trips %}
+                {% include 'xsd_trips/trip_list.html' %}
+            {% else %}
+                <div class="alert alert-info" role="alert">
+                    <h4 class="alert-heading">
+                        <strong>&empty;</strong>
+                        No trips in this view
+                    </h4>
+                    <p>There's no trips avaliable for this view. To create one select
+                        <span class="fake-button"><i class="fa fa-plus"></i> Create Trip</span>
+                        from the menu.</p>
+                    <p class="mb-0">In order for a new trip to show in upcoming it needs to be approved by a trip
+                        officer and then made public by its owner.</p>
+                </div>
+            {% endif %}
+        </div>
     </div>
-</div>
 {% endblock %}
