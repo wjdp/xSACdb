@@ -73,22 +73,22 @@ class TripMemberMixin(object):
             raise PermissionDenied
         # Currently we're not doing anything with member 'state' so we set that here to full approval.
         with DoAction() as action, reversion.create_revision():
-            trip_members = TripMember.objects.filter(trip=self)
-            for member in members:
-                if member in trip_members:
-                    # Ensure we do not duplicate
-                    # FIXME
-                    continue
+            members_to_add = set(members) - set(self.members.all())
+            new_members = []
+            for member in members_to_add:
                 # Add relationship
-                TripMember.objects.create(
+                tm = TripMember.objects.create(
                     trip=self,
                     member=member,
                     state=TripMember.STATE_ACCEPTED,
                 )
+                new_members.append(tm)
                 # Newly added member should follow trip
-                actions.follow(member.user, self)
+                actions.follow(member.user, self, actor_only=False)
                 # Send action
-            action.set(actor=actor, verb='added', action_object=list(members), target=self, style='trip-attendee-add')
+            if len(new_members) > 0:
+                action.set(actor=actor, verb='added', action_object=list(members_to_add), target=self, style='trip-attendee-add')
+        return new_members
 
     def remove_members(self, members, actor):
         """Remove a list of members from a trip"""

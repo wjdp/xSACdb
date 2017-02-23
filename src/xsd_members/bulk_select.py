@@ -15,7 +15,7 @@ def parse_token_data(request_post):
     reader = csv.reader(f, delimiter=',')
     user_ids = []
     for row in reader:
-        user_ids = row
+        user_ids = set(row)
     return user_ids
 
 

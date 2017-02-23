@@ -152,9 +152,12 @@ class TripSet(RequireVerified, ActionView):
 
     def add(self, request):
         members = get_bulk_members(request)
-        self.get_object().add_members(members=members, actor=self.request.user)
-        messages.add_message(self.request, messages.SUCCESS,
-                             'Added {} members to {}'.format(len(members), self.get_object()))
+        new_tripmembers = self.get_object().add_members(members=members, actor=self.request.user)
+        if len(new_tripmembers) > 0:
+            messages.add_message(self.request, messages.SUCCESS,
+                                 'Added {} members to {}'.format(len(new_tripmembers), self.get_object()))
+        else:
+            messages.add_message(self.request, messages.WARNING, 'No members added')
 
     def remove(self, request):
         members = [MemberProfile.objects.get(pk=request.POST['pk'])]
