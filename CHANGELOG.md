@@ -7,6 +7,7 @@ xSACdb instances. This project will soon adhere to [Semantic Versioning](http://
 
 ### Fixes
 - `manage auth_send_confirmations` no longer sends confirmation emails to archived members.
+- Corrected wording on trip CSV export modal.
 
 ## [0.3.0] - 2017-02-23
 
