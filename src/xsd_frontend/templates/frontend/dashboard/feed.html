@@ -14,9 +14,11 @@
                 {% if action.actor == user %}
                     You
                 {% else %}
-                    {% if action.actor.get_absolute_url %}
+                    {% if action.actor.get_absolute_url and is_members %}
                         <a href="{{ action.actor.get_absolute_url }}">{{ action.actor }}</a>
-                    {% else %}{{ action.actor }}{% endif %}
+                    {% else %}
+                        {{ action.actor }}
+                    {% endif %}
                 {% endif %}
 
                 <i class="feed-item-icon"></i>
