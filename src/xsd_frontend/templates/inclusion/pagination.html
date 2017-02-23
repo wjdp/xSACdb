@@ -1,0 +1,68 @@
+{% if is_paginated %}
+    {% load url_replace from filters %}
+    <nav aria-label="Pagination" class="push-right">
+        <ul class="pagination">
+            {% if has_previous %}
+                <li class="page-item">
+                    <a href="?{% url_replace request 'page' previous %}" class="page-link" aria-label="Previous">
+                        &lsaquo;&lsaquo;
+                    </a>
+                </li>
+            {% else %}
+                <li class="page-item disabled">
+                    <a href="#" class="page-link">
+                        &lsaquo;&lsaquo;
+                    </a>
+                </li>
+            {% endif %}
+
+            {% if show_first %}
+                <li class="page-item">
+                    <a href="?{% url_replace request 'page' first %}" class="page-link">
+                        {{ first }}
+                    </a>
+                </li>
+                <li class="page-item"><span>&hellip;</span></li>
+            {% endif %}
+
+            {% for page in page_numbers %}
+
+                {% if page == page_obj.number %}
+                    <li class="page-item active">
+                        <a class="page-link" href="#">{{ page }}</a>
+                    </li>
+                {% else %}
+                    <li class="page-item">
+                        <a href="?{% url_replace request 'page' page %}" class="page-link">
+                            {{ page }}
+                        </a>
+                    </li>
+                {% endif %}
+
+            {% endfor %}
+
+            {% if show_last %}
+                <li class="page-item disabled">
+                    <span class="page-link">&hellip;</span>
+                </li>
+                <li class="page-item">
+                    <a href="?{% url_replace request 'page' last %}" class="page-link">
+                        {{ last }}
+                    </a>
+                </li>
+            {% endif %}
+
+            {% if has_next %}
+                <li class="page-item">
+                    <a href="?{% url_replace request 'page' next %}" class="page-link">
+                        &rsaquo;&rsaquo;
+                    </a>
+                </li>
+            {% else %}
+                <li class="page-item disabled">
+                    <a href="#" class="page-link">&rsaquo;&rsaquo;</a>
+                </li>
+            {% endif %}
+        </ul>
+    </nav>
+{% endif %}

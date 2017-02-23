@@ -1,5 +1,6 @@
 {% load activity_tags %}
 {% load humanize %}
+{% load pagination %}
 
 <ul class="feed">
     {% for action in feed %}
@@ -44,11 +45,11 @@
             {% if action.versions %}
                 <div class="feed-item-diff">
                     <ul class="feed-item-diff__versions list-unstyled">
-                    {% for version in action.versions %}
-                        <li>
-                            {% include 'versioning/diff.html' with version=version %}
-                        </li>
-                    {% endfor %}
+                        {% for version in action.versions %}
+                            <li>
+                                {% include 'versioning/diff.html' with version=version %}
+                            </li>
+                        {% endfor %}
                     </ul>
                 </div>
             {% endif %}
@@ -57,3 +58,8 @@
         {# TODO Empty feed filler #}
     {% endfor %}
 </ul>
+
+{% if is_paginated %}
+    {% paginator %}
+{% endif %}
+

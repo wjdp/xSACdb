@@ -14,11 +14,9 @@ def to_class_name(value):
 
 @register.simple_tag
 def url_replace(request, field, value):
-
+    """Puts a GET parameter into a url?"""
     dict_ = request.GET.copy()
-
     dict_[field] = value
-
     return dict_.urlencode()
 
 @register.simple_tag

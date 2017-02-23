@@ -5,6 +5,9 @@ xSACdb instances. This project will soon adhere to [Semantic Versioning](http://
 
 ## Unreleased
 
+### Added
+- Pagination for dashboard/activity feed and trips. Setting `PAGINATE_BY` defaults to 20. Prevents long page build times for long datasets, also silly long pages.
+
 ### Fixes
 - `manage auth_send_confirmations` no longer sends confirmation emails to archived members.
 - Corrected wording on trip CSV export modal.
