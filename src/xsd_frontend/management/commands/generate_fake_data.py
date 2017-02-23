@@ -1,16 +1,18 @@
-from django.core.management.base import BaseCommand, CommandError
-from django.db import transaction
-from django.contrib.auth import get_user_model
-from django.contrib.auth.models import Group
-
-from xSACdb.roles.groups import *
-
-from xsd_training.models import *
-
-from faker import Factory
 import random
 
+from allauth.account.models import EmailAddress
+from allauth.account.utils import sync_user_email_addresses
+from django.contrib.auth import get_user_model
+from django.contrib.auth.models import Group
+from django.core.management.base import BaseCommand, CommandError
+from faker import Factory
+
+from xSACdb.roles.groups import *
+from xsd_members.models import MemberProfile
+from xsd_training.models import *
 from xsd_trips.models import Trip
+from xsd_trips.models.trip_member import TripMember
+from xsd_trips.models.trip_state import STATE_OPEN, STATE_CLOSED, STATE_COMPLETED, STATE_CANCELLED
 
 
 class Command(BaseCommand):
@@ -66,11 +68,18 @@ class Command(BaseCommand):
             self.generateFluffyUsers()
 
             self.generateTrips()
+            self.fillTrips()
 
             self.stdout.write('Done')
 
     def status_write(self, message):
         self.stdout.write('  {}'.format(message))
+
+    def verifyEmail(self, user):
+        sync_user_email_addresses(user)
+        ea = EmailAddress.objects.get_for_user(user, user.email)
+        ea.verified = True
+        ea.save()
 
     def generateUsefulUsers(self):
         U = get_user_model()
@@ -94,6 +103,7 @@ class Command(BaseCommand):
         superUser.save()
         superUser.memberprofile.fake(self.fake)
         superUser.memberprofile.save()
+        self.verifyEmail(superUser)
 
         divingOfficer = U.objects.create_user(
             email="do@xsacdb.wjdp.uk",
@@ -110,6 +120,7 @@ class Command(BaseCommand):
         divingOfficer.memberprofile.set_qualification(self.AD)
         divingOfficer.memberprofile.set_qualification(self.OWI)
         divingOfficer.memberprofile.save()
+        self.verifyEmail(divingOfficer)
 
         trainingOfficer = U.objects.create_user(
             email="to@xsacdb.wjdp.uk",
@@ -126,6 +137,7 @@ class Command(BaseCommand):
         trainingOfficer.memberprofile.set_qualification(self.DL)
         trainingOfficer.memberprofile.set_qualification(self.OWI)
         trainingOfficer.memberprofile.save()
+        self.verifyEmail(trainingOfficer)
 
         membersOfficer = U.objects.create_user(
             email="mo@xsacdb.wjdp.uk",
@@ -142,6 +154,7 @@ class Command(BaseCommand):
         membersOfficer.memberprofile.set_qualification(self.SD)
         membersOfficer.memberprofile.set_qualification(self.THI)
         membersOfficer.memberprofile.save()
+        self.verifyEmail(membersOfficer)
 
         od1 = U.objects.create_user(
             email="od1@xsacdb.wjdp.uk",
@@ -155,6 +168,7 @@ class Command(BaseCommand):
         od1.memberprofile.fake(self.fake)
         od1.memberprofile.set_qualification(self.OD)
         od1.memberprofile.save()
+        self.verifyEmail(od1)
 
         od2 = U.objects.create_user(
             email="od2@xsacdb.wjdp.uk",
@@ -168,6 +182,7 @@ class Command(BaseCommand):
         od2.memberprofile.fake(self.fake)
         od2.memberprofile.set_qualification(self.OD)
         od2.memberprofile.save()
+        self.verifyEmail(od2)
 
         sd1 = U.objects.create_user(
             email="sd1@xsacdb.wjdp.uk",
@@ -181,6 +196,7 @@ class Command(BaseCommand):
         sd1.memberprofile.fake(self.fake)
         sd1.memberprofile.set_qualification(self.SD)
         sd1.memberprofile.save()
+        self.verifyEmail(sd1)
 
         sd2 = U.objects.create_user(
             email="sd2@xsacdb.wjdp.uk",
@@ -194,6 +210,7 @@ class Command(BaseCommand):
         sd2.memberprofile.fake(self.fake)
         sd2.memberprofile.set_qualification(self.SD)
         sd2.memberprofile.save()
+        self.verifyEmail(sd2)
 
         dl1 = U.objects.create_user(
             email="dl1@xsacdb.wjdp.uk",
@@ -207,6 +224,7 @@ class Command(BaseCommand):
         dl1.memberprofile.fake(self.fake)
         dl1.memberprofile.set_qualification(self.DL)
         dl1.memberprofile.save()
+        self.verifyEmail(dl1)
 
         dl2 = U.objects.create_user(
             email="dl2@xsacdb.wjdp.uk",
@@ -220,6 +238,7 @@ class Command(BaseCommand):
         dl2.memberprofile.fake(self.fake)
         dl2.memberprofile.set_qualification(self.DL)
         dl2.memberprofile.save()
+        self.verifyEmail(dl2)
 
         owi1 = U.objects.create_user(
             email="owi@xsacdb.wjdp.uk",
@@ -234,6 +253,7 @@ class Command(BaseCommand):
         owi1.memberprofile.set_qualification(self.DL)
         owi1.memberprofile.set_qualification(self.OWI)
         owi1.memberprofile.save()
+        self.verifyEmail(owi1)
 
         self.usefulUsers = {
             'su': superUser,
@@ -273,14 +293,18 @@ class Command(BaseCommand):
 
         for i in range(0, self.FLUFFY_USER_COUNT):
             u = U.objects.create_user(
-                email = self.fake.email(),
-                password = "guest",
-                first_name = self.fake.first_name(),
+                email=self.fake.email(),
+                password="guest",
+                first_name=self.fake.first_name(),
                 last_name=self.fake.last_name(),
             )
             u.save()
             if self.fake.boolean(chance_of_getting_true=90):
                 u.memberprofile.fake(self.fake)
+                if self.fake.boolean(chance_of_getting_true=80):
+                    self.verifyEmail(u)
+                else:
+                    sync_user_email_addresses(u)
                 if self.fake.boolean(chance_of_getting_true=80):
                     u.memberprofile.approve(random.choice(self.memberActionUsers))
                 if self.fake.boolean(chance_of_getting_true=90):
@@ -312,3 +336,36 @@ class Command(BaseCommand):
             trip.save()
 
         self.status_write('Generated {} trips'.format(self.TRIP_COUNT))
+
+    def fillTrips(self):
+        membership = MemberProfile.objects.filter(archived=False)
+        trips_to_fill = Trip.objects.filter(state__gte=STATE_CANCELLED)
+        for trip in trips_to_fill:
+            if self.fake.boolean(chance_of_getting_true=10):
+                continue
+            if trip.spaces:
+                fill_max = random.randint(0, trip.spaces + 5)
+            else:
+                fill_max = random.randint(0, 12)
+            actors = [trip.owner.user] * 10 + [self.usefulUsers['do'], self.usefulUsers['su']]
+            already_on_trip = []
+            for i in range(0, fill_max):
+                member = random.choice(membership)
+                while member in already_on_trip:
+                    member = random.choice(membership)
+
+                already_on_trip.append(member)
+
+                if trip.state in (STATE_COMPLETED, STATE_CANCELLED):
+                    # Not allowed to do this via normal methods, do manually
+                    TripMember.objects.create(
+                        trip=trip,
+                        member=member,
+                        state=TripMember.STATE_ACCEPTED,
+                    )
+                else:
+                    trip.add_members(members=[member], actor=random.choice(actors))
+
+
+        self.status_write('Filled {} trips'.format(trips_to_fill.count()))
+

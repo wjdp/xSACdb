@@ -2,8 +2,8 @@ from __future__ import unicode_literals
 
 import decimal
 import random
-
 from datetime import timedelta, datetime
+
 from .trip_state import *
 
 TRIP_NAME_PREFIX1 = (
@@ -32,6 +32,9 @@ TRIP_NAME_PREFIX1 = (
     'Wilde',
     'Water',
     'Haunt',
+    'Bux',
+    'Slippery',
+    'Village',
 )
 
 TRIP_NAME_PREFIX2 = (
@@ -52,6 +55,13 @@ TRIP_NAME_PREFIX2 = (
     'ness',
     'bush',
     'goat',
+    'dale',
+    'wood',
+    'stiff',
+    'land',
+    'bagger',
+    'hop',
+    'ish',
 )
 
 TRIP_NAME_SUFFIXES = (
@@ -67,7 +77,10 @@ TRIP_NAME_SUFFIXES = (
     'Tavern',
     'Puddle',
     'Water',
-    'Gulf'
+    'Gulf',
+    'Cheddar',
+    'Cross',
+    'Goat',
 )
 
 
@@ -98,7 +111,7 @@ class TripFakeDataMixin(object):
         else:
             self.cost = random.randrange(900) + 50
 
-        self.spaces = random.randrange(4, 128)
+        self.spaces = random.randrange(4, 60)
 
         if fake.boolean(chance_of_getting_true=95):
             self.description = '\n\n'.join(fake.paragraphs(nb=random.randrange(1, 4)))
@@ -120,7 +133,7 @@ class TripFakeDataMixin(object):
         if past:
             if fake.boolean(chance_of_getting_true=90):
                 if self.date_end > (datetime.now() - timedelta(hours=24 * 365)).date() and \
-                        fake.boolean(chance_of_getting_true=30):
+                        fake.boolean(chance_of_getting_true=20):
                     self.state = STATE_CLOSED
                 elif fake.boolean(chance_of_getting_true=20):
                     self.state = STATE_CANCELLED
@@ -130,11 +143,5 @@ class TripFakeDataMixin(object):
                 # Cancelled
                 self.state = STATE_CANCELLED
         else:
-            self.state = random.choice((
-                STATE_DENIED,
-                STATE_NEW,
-                STATE_APPROVED,
-                STATE_CANCELLED,
-                STATE_OPEN,
-                STATE_CLOSED,
-            ))
+            self.state = random.choice(
+                [STATE_DENIED, STATE_NEW] + [STATE_APPROVED] * 2 + [STATE_CANCELLED] + [STATE_OPEN, STATE_CLOSED] * 4, )

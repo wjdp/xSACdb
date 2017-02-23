@@ -25,3 +25,4 @@ class Command(BaseCommand):
         call_command('generate_fake_data')
         # reversion
         call_command('createinitialrevisions')
+        call_command('build_version_cache')
