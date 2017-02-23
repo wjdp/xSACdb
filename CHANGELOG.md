@@ -5,6 +5,8 @@ xSACdb instances. This project will soon adhere to [Semantic Versioning](http://
 
 ## Unreleased
 
+### Fixes
+- `manage auth_send_confirmations` no longer sends confirmation emails to archived members.
 
 ## [0.3.0] - 2017-02-23
 
