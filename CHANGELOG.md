@@ -5,6 +5,9 @@ xSACdb instances. This project will soon adhere to [Semantic Versioning](http://
 
 ## Unreleased
 
+
+## [0.3.0] - 2017-02-23
+
 ### Upgrade
 - There is a problem with a single migration. After upgrade you will need to work through the following process. See issue [#272](https://gitlab.com/wjdp/xSACdb/issues/272) for more information.
     - Enter the shell 
@@ -50,6 +53,7 @@ xSACdb instances. This project will soon adhere to [Semantic Versioning](http://
 
 ### Fixed
 - Favicons and application manifests (add to homescreen on mobile) were broken in 0.2.0. Now fixed. See #243 and #246.
+
 
 ## [0.2.0] - 2017-02-13
 
@@ -108,6 +112,7 @@ and upgrades are also much faster.
 
 ### Fixed
 - Long email addresses would cause an exception when used for registering a local account. Issue #198.
+
 
 ## [0.1.0] - 2016-05-19
 
