@@ -32,6 +32,9 @@ class DoAction(object):
 
     @property
     def actor(self):
+        if not 'actor' in self.action:
+            print(self.action)
+            raise RuntimeError("Missing actor from action set")
         return self.action['actor']
 
     @property
@@ -72,6 +75,11 @@ class DoAction(object):
 
     def __exit__(self, type, value, traceback):
         # Can handle multiple targets or action_objects. Just not both.
+        post_revision_commit.disconnect(self.post_revision_commit)
+
+        if self.action == {}:
+            return RuntimeError("You haven't called action.set in your action block")
+
         if isinstance(self.target, list):
             for target in self.target:
                 action.send(self.actor, verb=self.verb, target=target, action_object=self.action_object,
