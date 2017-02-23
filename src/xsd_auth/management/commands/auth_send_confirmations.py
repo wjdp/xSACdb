@@ -9,4 +9,5 @@ class Command(BaseCommand):
 
     def handle(self, *args, **options):
         for addr in EmailAddress.objects.filter(verified=False):
-            addr.send_confirmation()
+            if not addr.user.profile.archived:
+                addr.send_confirmation()

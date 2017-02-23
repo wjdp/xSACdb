@@ -40,4 +40,4 @@ def paginator(context, adjacent_pages=3):
 
     return dict
 
-register.inclusion_tag('pagination.html', takes_context=True)(paginator)
+register.inclusion_tag('inclusion/pagination.html', takes_context=True)(paginator)

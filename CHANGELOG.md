@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file. Notes should be geared towards the managers of
 xSACdb instances. This project will soon adhere to [Semantic Versioning](http://semver.org/).
 
+## [0.3.1] - 2017-02-23
+
+### Added
+- Pagination for dashboard/activity feed and trips. Setting `PAGINATE_BY` defaults to 20. Prevents long page build times for long datasets, also silly long pages.
+- Notice for empty trip list.
+- Members officers can click on actors in activity feed.
+
+### Fixes
+- `manage auth_send_confirmations` no longer sends confirmation emails to archived members.
+- Corrected wording on trip CSV export modal.
+
+
 ## [0.3.0] - 2017-02-23
 
 ### Upgrade
@@ -50,6 +62,7 @@ xSACdb instances. This project will soon adhere to [Semantic Versioning](http://
 
 ### Fixed
 - Favicons and application manifests (add to homescreen on mobile) were broken in 0.2.0. Now fixed. See #243 and #246.
+
 
 ## [0.2.0] - 2017-02-13
 
@@ -108,6 +121,7 @@ and upgrades are also much faster.
 
 ### Fixed
 - Long email addresses would cause an exception when used for registering a local account. Issue #198.
+
 
 ## [0.1.0] - 2016-05-19
 

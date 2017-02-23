@@ -68,6 +68,9 @@ class User(UserActivityMixin, AbstractUser):
         verbose_name = 'user'
         verbose_name_plural = 'users'
 
+    def get_absolute_url(self):
+        return self.profile.get_absolute_url()
+
     def get_full_name(self):
         """
         Returns the first_name plus the last_name, with a space in between.

@@ -1,6 +1,8 @@
 from allauth.account.views import LoginView, SignupView
+from django.conf import settings
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
+from django.views.generic import ListView
 from django.views.generic.base import TemplateView
 
 from forms import UpdateRequestMake, ClassicSignupForm
@@ -8,7 +10,14 @@ from xSACdb.roles.mixins import RequirePreauth
 from xsd_frontend.activity import XSDAction
 
 
-class DashboardView(TemplateView):
+class DashboardView(ListView):
+    model = XSDAction
+    paginate_by = settings.PAGINATE_BY
+    context_object_name = 'feed'
+
+    def get_queryset(self):
+        return XSDAction.objects.user(self.request.user)
+
     def get_template_names(self):
         if self.request.user.profile.verified:
             # Is a verified club member
@@ -21,7 +30,6 @@ class DashboardView(TemplateView):
         context = super(DashboardView, self).get_context_data(**kwargs)
         if self.request.user.profile.verified:
             pass
-        context['feed'] = XSDAction.objects.user(self.request.user)
         return context
 
 

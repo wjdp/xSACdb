@@ -28,11 +28,15 @@ from xsd_trips.forms import TripForm
 from xsd_trips.models.trip_member import TripMember
 
 
-class TripListUpcoming(RequireVerified, ListView):
-    """Current & future trips"""
+class BaseTripListView(ListView):
     model = Trip
     template_name = 'xsd_trips/list.html'
     context_object_name = 'trips'
+    paginate_by = settings.PAGINATE_BY
+
+
+class TripListUpcoming(RequireVerified, BaseTripListView):
+    """Current & future trips"""
 
     def get_queryset(self):
         if is_trips(self.request.user):
@@ -41,30 +45,21 @@ class TripListUpcoming(RequireVerified, ListView):
             return Trip.objects.upcoming().select_related()
 
 
-class TripListArchive(RequireVerified, ListView):
+class TripListArchive(RequireVerified, BaseTripListView):
     """Past trips"""
-    model = Trip
-    template_name = 'xsd_trips/list.html'
-    context_object_name = 'trips'
     queryset = Trip.objects.past().select_related()
 
 
-class TripListMine(RequireVerified, ListView):
+class TripListMine(RequireVerified, BaseTripListView):
     """Admin view of denied, new and approved trips"""
-    model = Trip
-    template_name = 'xsd_trips/list.html'
-    context_object_name = 'trips'
 
     def get_queryset(self):
         return super(TripListMine, self).get_queryset().filter(owner=self.request.user.get_profile()).order_by(
             '-date_start')
 
 
-class TripListAdmin(RequireTripsOfficer, ListView):
+class TripListAdmin(RequireTripsOfficer, BaseTripListView):
     """Admin view of denied, new and approved trips"""
-    model = Trip
-    template_name = 'xsd_trips/list.html'
-    context_object_name = 'trips'
     queryset = Trip.objects.private().select_related()
 
 
