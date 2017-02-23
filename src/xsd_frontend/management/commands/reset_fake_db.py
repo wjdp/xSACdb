@@ -14,6 +14,7 @@ class Command(BaseCommand):
 
         # Clear everything out
         call_command('flush', '--noinput')
+        call_command('clear_cache')
 
         # Prod fixtures
         call_command('loaddata', 'groups')

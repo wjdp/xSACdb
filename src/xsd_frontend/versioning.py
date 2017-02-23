@@ -45,7 +45,7 @@ class XSDVersion(CompareMixin, Version):
 
     def diff(self):
         """Return diff of this versions changes, returns None if root."""
-        if self.parent:
+        if self.parent and self.object:
             return self.compare(self.object, self.parent, self)[0]
         else:
             return None
@@ -71,5 +71,3 @@ class VersionHistoryView(ListView):
 
     def get_queryset(self):
         return XSDVersion.objects.get_for_object(self.versioned_object).select_related()
-
-

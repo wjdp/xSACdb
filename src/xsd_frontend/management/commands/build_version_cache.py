@@ -1,7 +1,7 @@
 from django.core.management.base import BaseCommand
 from django.template.loader import get_template
 
-from xsd_frontend.versioning import XSDVersion
+from xsd_frontend.activity import XSDAction
 
 
 class Command(BaseCommand):
@@ -13,13 +13,16 @@ class Command(BaseCommand):
         self.stdout.write(self.style.MIGRATE_HEADING('Building version cache...'))
         diff_template = get_template('versioning/diff.html')
         i = 1
-        for version in XSDVersion.objects.all():
-            if i % 10 == 0:
-                self.stdout.write("{} ".format(version.pk), ending="\n")
-            else:
-                self.stdout.write("{} ".format(version.pk), ending="")
-            i += 1
-            diff_template.render({
-                'version': version,
-            })
+        for action in XSDAction.objects.all():
+            if len(action.versions) == 0:
+                continue
+            for version in action.versions:
+                if i % 10 == 0:
+                    self.stdout.write("{} ".format(version.pk), ending="\n")
+                else:
+                    self.stdout.write("{} ".format(version.pk), ending="")
+                i += 1
+                diff_template.render({
+                    'version': version,
+                })
         self.stdout.write("Done")

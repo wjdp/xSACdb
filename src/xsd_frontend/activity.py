@@ -10,6 +10,7 @@ from xsd_frontend.versioning import XSDVersion
 
 class DoAction(object):
     """Wrapper for things that do things to record the doing of the thing."""
+
     def __enter__(self):
         self.action = {}
         self.revision = {}
@@ -100,12 +101,13 @@ from actstream.models import Action
 
 class XSDAction(Action):
     """Our proxy for Action to enable access to versions."""
+
     class Meta:
         proxy = True
 
     @cached_property
     def versions(self):
-        if 'version_pks' in self.data:
+        if self.data and 'version_pks' in self.data:
             return XSDVersion.objects.in_bulk(self.data['version_pks']).values()
         else:
             return []
