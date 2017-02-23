@@ -31,7 +31,7 @@ class RegisterLogin(TestCase):
             'first_name': fake.first_name(),
             'last_name': fake.last_name(),
             'email': fake.email(),
-            'password': password,
+            'password1': password,
         }
         c.post('/accounts/register/', post_data)
 
@@ -110,5 +110,5 @@ class ClassicLogin(TestCase):
 
 class Dashboard(ViewTestMixin, BaseTest):
     url_name = 'xsd_frontend:dashboard'
-    template_name = 'frontend_dashboard.html'
+    template_name = 'frontend/dashboard.html'
     allowed_unverified = True

@@ -5,7 +5,7 @@ NAV = (
         'title': 'Personal',
         'access': is_all,
         'items': [
-            ('Your Profile', None, 'fa fa-user', 'xsd_members:my-profile', []),
+            ('Your Profile', None, 'fa fa-user', 'xsd_members:my-profile', ['xsd_member:MyProfileEdit']),
         ]
     },
     {

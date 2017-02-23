@@ -1,34 +1,68 @@
 from __future__ import unicode_literals
 
-import random
 import hashlib
+import random
 
+from allauth.account.models import EmailAddress
 from allauth.socialaccount.models import SocialAccount
-from django.contrib.auth.models import AbstractUser, UserManager
-from django.core.mail import send_mail
-from django.db import models
+from django.conf import settings
+from django.contrib.auth.models import AbstractUser, Group
+from django.contrib.auth.models import UserManager as DJ_UserManager
+from django.db import transaction
+from django.utils.functional import cached_property
+
+from xSACdb.roles.groups import GROUP_ADMIN
 
 
-class UserManager(UserManager):
-    def create_user(self, first_name, last_name, email, password):
-        new_user = self.model(
-            first_name=first_name,
-            last_name=last_name,
-            email=email,
-            username=random.randrange(1000000000000000,9999999999999999)
+class UserManager(DJ_UserManager):
+    def create_user(self, username=None, email=None, password=None, **extra_fields):
+        if not username:
+            username = random.randrange(1000000000000000, 9999999999999999)
+
+        return super(UserManager, self).create_user(username=username, email=email, password=password, **extra_fields)
+
+    def create_superuser(self, username, email, password, **extra_fields):
+        with transaction.atomic():
+            su = DJ_UserManager.create_superuser(self, username, email, password, **extra_fields)
+            su.profile.new_notify = False
+            su.profile.save()
+            su.groups.add(Group.objects.get(pk=GROUP_ADMIN))
+            su.save()
+        return su
+
+    def fake_single(self, fake, approved=True):
+        """Create a fake user and return"""
+        user = self.create_user(
+            email=fake.email(),
+            password=fake.password(),
+            first_name=fake.first_name(),
+            last_name=fake.last_name(),
         )
-        new_user.set_password(password)
-        return new_user
+        user.save()
+        user.memberprofile.new_notify = not approved
+        user.memberprofile.date_of_birth = fake.date_time_between(start_date='-99y', end_date='now').date()
+        user.memberprofile.gender = random.choice(('m', 'f'))
+        user.memberprofile.address = fake.address()
+        user.memberprofile.postcode = fake.postcode()
+        user.memberprofile.home_phone = fake.phone_number()
+        user.memberprofile.mobile_phone = fake.phone_number()
+        user.memberprofile.next_of_kin_name = fake.name()
+        user.memberprofile.next_of_kin_relation = fake.first_name()
+        user.memberprofile.next_of_kin_phone = fake.phone_number()
+        user.memberprofile.save()
+        return user
 
 
-class User(AbstractUser):
+from actstream.actions import follow
+
+
+class UserActivityMixin(object):
+    def follow_defaults(self):
+        follow(self, self.profile, send_action=False, actor_only=False)
+
+
+class User(UserActivityMixin, AbstractUser):
     objects = UserManager()
-
-    # FIXME Remove
-    bsac_email = models.EmailField(blank=True)
-    bsac_password = models.CharField(max_length=128, blank=True)
-    # Y: Success, N: Failed, A: Awaiting, N: U & P not set,
-    bsac_state = models.CharField(max_length=1, default='N')
 
     class Meta:
         verbose_name = 'user'
@@ -51,34 +85,39 @@ class User(AbstractUser):
     def get_last_name(self):
         return self.memberprofile.last_name
 
-    def email_user(self, subject, message, from_email=None):
-        """
-        Sends an email to this User.
-        """
-        send_mail(subject, message, from_email, [self.email])
-
     def get_profile(self):
         return self.memberprofile
 
-    def profile_image_url(self, size=70):
+    @cached_property
+    def profile(self):
+        """Cached version of get_profile"""
+        return self.get_profile()
+
+    @cached_property
+    def is_email_confirmed(self):
+        return EmailAddress.objects.get_primary(self).verified
+
+    def profile_image_url(self, size=70, blank=settings.CLUB['gravatar_default']):
         fb_uid = SocialAccount.objects.filter(user_id=self.pk, provider='facebook')
 
         if len(fb_uid):
-            return "https://graph.facebook.com/{}/picture?width={}&height={}" \
+            return "https://graph.facebook.com/{0}/picture?width={1}&height={2}" \
                 .format(fb_uid[0].uid, size, size)
 
-        return "https://www.gravatar.com/avatar/{}?s={}".format(
-            hashlib.md5(self.email).hexdigest(), size)
+        return "https://www.gravatar.com/avatar/{0}?s={1}&d={2}".format(
+            hashlib.md5(self.email).hexdigest(), size, blank)
 
-    def set_bsac_auth(email, password):
-        # FIXME Remove
-        self.bsac_email = email
-        self.bsac_password = password
-        if email == '':
-            self.bsac_state = 'N'
-        else:
-            self.bsac_state = 'A'
-        self.save()
+    @cached_property
+    def avatar_xs(self):
+        return self.profile_image_url(size=32)
+
+    @cached_property
+    def avatar_sm(self):
+        return self.profile_image_url(size=64)
+
+    @cached_property
+    def avatar_md(self):
+        return self.profile_image_url(size=128)
 
     def __unicode__(self):
         return self.get_full_name()

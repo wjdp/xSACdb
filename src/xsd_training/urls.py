@@ -1,6 +1,9 @@
 from django.conf.urls import patterns, include, url
 from django.conf import settings
+
+from xsd_frontend.versioning import VersionHistoryView
 from xsd_training.views import sessions, sdc, traineegroups, instructor, retro, support
+from xsd_training.models import TraineeGroup, PerformedSDC, Session
 
 urlpatterns = patterns('',
     url(r'^$', 'xsd_training.views.trainee.overview', name='training-overview')    ,
@@ -14,6 +17,9 @@ urlpatterns = patterns('',
     url(r'^session/new/$', sessions.SessionCreate.as_view(), name='SessionCreate'),
     url(r'^session/list/$', sessions.SessionList.as_view(), name='SessionList'),
     url(r'^session/(?P<pk>\d+)/$', sessions.SessionPlanner.as_view(), name='SessionPlanner'),
+    url(r'^session/(?P<pk>\d+)/history/$', VersionHistoryView.as_view(), name='SessionHistory',
+       kwargs={'model': Session}),
+    url(r'^session/(?P<pk>\d+)/action/(?P<action>\w+)/$', sessions.SessionAction.as_view(), name='SessionAction'),
     url(r'^session/(?P<pk>\d+)/complete/$', sessions.SessionComplete.as_view(), name='SessionComplete'),
     url(r'^session/(?P<pk>\d+)/delete/$', sessions.SessionDelete.as_view(), name='SessionDelete'),
 
@@ -36,6 +42,9 @@ urlpatterns = patterns('',
     url(r'^sdc/upcoming/$', sdc.PerformedSDCList.as_view(), name='PerformedSDCList'),
     url(r'^sdc/(?P<pk>\d+)/$', sdc.PerformedSDCDetail.as_view(), name='PerformedSDCDetail'),
     url(r'^sdc/(?P<pk>\d+)/edit/$', sdc.PerformedSDCUpdate.as_view(), name='PerformedSDCUpdate'),
+    url(r'^sdc/(?P<pk>\d+)/edit/action/(?P<action>\w+)/$', sdc.PerformedSDCAction.as_view(), name='PerformedSDCAction'),
+    url(r'^sdc/(?P<pk>\d+)/history/$', VersionHistoryView.as_view(), name='PerformedSDCHistory',
+       kwargs={'model': PerformedSDC}),
     url(r'^sdc/(?P<pk>\d+)/complete/$', sdc.PerformedSDCComplete.as_view(), name='PerformedSDCComplete'),
     url(r'^sdc/(?P<pk>\d+)/delete/$', sdc.PerformedSDCDelete.as_view(), name='PerformedSDCDelete'),
     url(r'^sdc/award/$', 'xsd_training.views.sdc.SDCAward', name='SDCAward'),
@@ -43,6 +52,9 @@ urlpatterns = patterns('',
     url(r'^groups/$', traineegroups.TraineeGroupList.as_view(), name='TraineeGroupList'),
     url(r'^groups/new/$', traineegroups.TraineeGroupCreate.as_view(), name='TraineeGroupCreate'),
     url(r'^groups/(?P<pk>\d+)/$', traineegroups.TraineeGroupUpdate.as_view(), name='TraineeGroupUpdate'),
+    url(r'^groups/(?P<pk>\d+)/history/$', VersionHistoryView.as_view(), name='TraineeGroupHistory',
+       kwargs={'model': TraineeGroup}),
+    url(r'^groups/(?P<pk>\d+)/action/(?P<action>\w+)/$', traineegroups.TraineeGroupAction.as_view(), name='TraineeGroupAction'),
     url(r'^groups/(?P<pk>\d+)/delete/$', traineegroups.TraineeGroupDelete.as_view(), name='TraineeGroupDelete'),
 
     url(r'^groups/progress/$', traineegroups.TraineeGroupProgress.as_view(), name='TraineeGroupProgress'),

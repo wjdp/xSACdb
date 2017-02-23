@@ -3,8 +3,39 @@
 All notable changes to this project will be documented in this file. Notes should be geared towards the managers of
 xSACdb instances. This project will soon adhere to [Semantic Versioning](http://semver.org/).
 
-## Unreleased
+## [0.3.0] - 2017-02-23
 
+### Upgrade
+- There is a problem with a single migration. After upgrade you will need to work through the following process. See issue [#272](https://gitlab.com/wjdp/xSACdb/issues/272) for more information.
+    - Enter the shell 
+    - Disable the migration `xsd_frontend.0002_xsdaction_xsdversion`
+    - Run other migrations; `manage migrate`
+    - Reinstate the `xsd_frontend.0002_xsdaction_xsdversion` migration.
+    - Run `manage migrate` one more time.
+- Run `manage update_follow_defaults` to make current users follow changes to their profiles. New users have this set automatically.
+- Run `manage build_version_cache` to speed up initial load times of user feeds.
+- At some point run `migrate` manually from the shell. It will prompt to delete the model `xsd_trips | tripattendee` as it is no longer used by the application. Answer yes. 
+- Run `manage auth_sync` to synchronise the internal user/email table with the allauth email table. Needed for email validation. Only needs to be run once.
+
+### Added
+- **Trips:** Trip planning has been added. Any user may add a trip, a trip officer (currently GROUP_ADMIN, GROUP_TRAINING, GROUP_TRIPS, GROUP_DO) must approve before the trip organiser/owner may take it public.
+- **Activity feed:** users see activity they are involved with — currently their own profiles and trips they're on. Adding _activities_ for the training module is being held back until the next minor version.
+- **History Pages:** most objects now have a browsable history.
+- User _email management_ interface. Users can be associated with multiple emails with a set primary.
+- Management commands `auth_sync`
+- Nice big 'All Done' pageon signup completion. See https://i.imgur.com/WGPwF7m.png. Text is customisable through the CLUB dictionary.
+
+### Changed
+- Users without **avatars** now use the Gravatar retro generator to create an identicon to use instead. The generator is customisable through the CLUB dictionary.
+- All signups now trigger sending a validation email.
+- You can trigger sending validation emails to all unverified addresses with `manage auth_send_confirmations`. Ensure `auth_sync` is run first.
+- Improved styling of account pages.
+ 
+### Fixes
+- A number of styling fixes.
+- Cache and page speed improvements.
+- `manage createsuperuser` now pre-approves and add the superuser to the admin group.
+- Dockerfile deployment now caches depedancy installation between versions.
 
 
 ## [0.2.1] - 2017-02-16

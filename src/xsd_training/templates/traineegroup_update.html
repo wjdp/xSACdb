@@ -4,18 +4,22 @@
 
 {% block training_content %}
 
-<div class="col-md-12">
-	<h1>Trainee Groups</h1>
-				<h2>{{ tg }}</h2>
+    <div class="col-md-12">
+        <h1>Trainee Groups</h1>
+        <h2>{{ tg }}</h2>
 
-				{% include 'components/trainee_table.html' %}
-				<h4>Add Trainees</h4>
-    			{% include 'base/bulk_select_members.html' %}
-		<div class="form-actions ">
-			<a href=".." class="btn btn-primary alignright">Done</a>
-			<a href="{% url 'xsd_training:TraineeGroupDelete' tg.pk %}" class="btn btn-danger alignleft"><i class='fa fa-remove'></i> Delete Group</a>
-		</div>
+        {% include 'components/trainee_table.html' %}
+        <h4>Add Trainees</h4>
+        {% include 'base/bulk_select_members.html' %}
+        <div class="btn-toolbar">
+            <a href=".." class="btn btn-primary alignright">Done</a>
+            <a href="{% url 'xsd_training:TraineeGroupHistory' tg.pk %}" class="btn btn-secondary alignright">
+                <i class="fa fa-history"></i> History
+            </a>
+            <a href="{% url 'xsd_training:TraineeGroupDelete' tg.pk %}" class="btn btn-danger alignleft"><i
+                    class='fa fa-remove'></i> Delete Group</a>
+        </div>
 
-</div>
+    </div>
 
 {% endblock %}

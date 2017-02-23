@@ -1,0 +1,2 @@
+class MemberProfileTrainingMixin(object):
+    pass

@@ -1,9 +1,14 @@
 {% extends 'base_template.html' %}
 {% block content %}
-<h1><i class="fa fa-exclamation-triangle red"></i> You're not authorised to see this page</h1>
-{% if is_verified %}
-<p>Sorry about that, if you think this is in error please contact the database administrator.</p>
-{% else %}
-<p>You're not currently verified, once a database officer confirms you are affiliated with the club you may be able to see this page.</p>
-{% endif %}
+    <div class="row">
+        <div class="col-md-12">
+            <h1><i class="fa fa-exclamation-triangle red"></i> You're not authorised to see this page</h1>
+            {% if is_verified %}
+                <p>Sorry about that, if you think this is in error please contact the database administrator.</p>
+            {% else %}
+                <p>You're not currently verified, once a database officer confirms you are affiliated with the club you
+                    may be able to see this page.</p>
+            {% endif %}
+        </div>
+    </div>
 {% endblock %}

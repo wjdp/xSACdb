@@ -1,0 +1,46 @@
+@mixin feed-icon($class, $icon)
+  .#{$class}
+    .feed-item-icon
+      @extend .#{$icon}
+
+.feed
+  list-style: none
+  padding-left: 0
+
+  .feed-item
+    padding-bottom: $line-height-base * 0.5em
+    margin-bottom: $line-height-base * 0.5em
+    border-bottom: 1px solid #ccc
+
+  .feed-item-avatar
+    float: left
+    height: 3.1rem
+    margin-right: 0.5rem
+    img
+      height: 100%
+
+  .feed-item-line
+
+  .feed-item-meta
+    color: #777
+
+  .feed-item-icon
+    @extend .fa
+    @extend .fa-circle
+    color: $color-brand
+
+  .feed-item-default
+    .feed-item-icon
+      @extend .fa-circle
+      color: #888
+
+  // Action icons
+  @include feed-icon(trip-create, fa-asterisk)
+  @include feed-icon(trip-update, fa-pencil)
+  @include feed-icon(trip-denied, fa-times)
+  @include feed-icon(trip-approved, fa-check)
+  @include feed-icon(trip-cancelled, fa-ban)
+  @include feed-icon(trip-opened, fa-play)
+  @include feed-icon(trip-closed, fa-stop)
+  @include feed-icon(trip-completed, fa-archive)
+

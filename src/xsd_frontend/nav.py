@@ -26,13 +26,13 @@ APP_LIST = [
         'url': 'xsd_training:training-overview',
         'icon': 'fa fa-mortar-board',
     },
-    # {
-    #     'title': 'Trips',
-    #     'access': is_verified,
-    #     'app': 'xsd_trips',
-    #     'url': 'xsd_trips:TripList',
-    #     'icon': 'fa fa-road',
-    # },
+    {
+        'title': 'Trips',
+        'access': is_verified,
+        'app': 'xsd_trips',
+        'url': 'xsd_trips:TripListUpcoming',
+        'icon': 'fa fa-suitcase',
+    },
     # {
     #     'title': 'Kit',
     #     'access': is_verified,

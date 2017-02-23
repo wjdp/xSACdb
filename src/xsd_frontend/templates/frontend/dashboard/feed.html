@@ -1,0 +1,59 @@
+{% load activity_tags %}
+{% load humanize %}
+
+<ul class="feed">
+    {% for action in feed %}
+        <li class="feed-item {{ action.data.style | default:"feed-item-default" }}">
+
+            <div class="feed-item-avatar">
+                <img src="{{ action.actor.avatar_sm }}" alt="Profile image"/>
+            </div>
+
+            <div class="feed-item-line">
+                {% if action.actor == user %}
+                    You
+                {% else %}
+                    {% if action.actor.get_absolute_url %}
+                        <a href="{{ action.actor.get_absolute_url }}">{{ action.actor }}</a>
+                    {% else %}{{ action.actor }}{% endif %}
+                {% endif %}
+
+                <i class="feed-item-icon"></i>
+
+                {{ action.verb }}
+
+                {% if action.action_object %}
+                    {% if action.action_object.get_absolute_url %}
+                        <a href="{{ action.action_object.get_absolute_url }}">{{ action.action_object }}</a>
+                    {% else %}{{ action.action_object }}{% endif %}
+                {% endif %}
+
+                {% if action.action_object and action.target %}to{% endif %}
+
+                {% if action.target == profile %}
+                    <a href="/members/profile/">your profile</a>
+                {% elif action.target %}
+                    {% if action.target.get_absolute_url %}
+                        <a href="{{ action.target.get_absolute_url }}">{{ action.target }}</a>
+                    {% else %}{{ action.target }}{% endif %}
+                {% endif %}
+            </div>
+            <div class="feed-item-meta">
+                {{ action.timestamp|naturaltime }}
+            </div>
+            {% if action.versions %}
+                <div class="feed-item-diff">
+                    <ul class="feed-item-diff__versions list-unstyled">
+                    {% for version in action.versions %}
+                        <li>
+                            {% include 'versioning/diff.html' with version=version %}
+                        </li>
+                    {% endfor %}
+                    </ul>
+                </div>
+            {% endif %}
+        </li>
+        {% empty %}
+        {# TODO Empty feed filler #}
+    {% endfor %}
+</ul>

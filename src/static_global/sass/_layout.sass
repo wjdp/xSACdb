@@ -1,10 +1,16 @@
+html, body, .xsd-application-container
+  height: 100%
+  touch-action: manipulation
+
 body
   padding-top: 54px
   overflow-y: scroll
 
 .xsd-application-container
   @extend .container
-  padding-top: 1rem
+
+  & > div:first-child
+    padding-top: 1rem
 
 .xsd-module-row
   @include make-row
@@ -41,3 +47,15 @@ body
 
 .xsd-module-content__inner
   @include make-row
+
+// Utilities
+
+.push-left
+  float: left
+
+.push-right
+  float: right
+
+.row
+  // FIXME Do something better than this
+  margin-bottom: 1em

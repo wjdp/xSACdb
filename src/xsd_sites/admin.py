@@ -1,9 +1,9 @@
 from django.contrib import admin
-from reversion.admin import VersionAdmin
+from reversion_compare.admin import CompareVersionAdmin
 
 from xsd_sites.models import *
 
-class SiteAdmin(VersionAdmin):
+class SiteAdmin(CompareVersionAdmin):
     pass
 
 admin.site.register(Site, SiteAdmin)

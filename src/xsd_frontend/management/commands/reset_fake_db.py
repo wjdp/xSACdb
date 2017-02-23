@@ -14,6 +14,7 @@ class Command(BaseCommand):
 
         # Clear everything out
         call_command('flush', '--noinput')
+        call_command('clear_cache')
 
         # Prod fixtures
         call_command('loaddata', 'groups')
@@ -23,3 +24,6 @@ class Command(BaseCommand):
         call_command('loaddata', 'example_sites')
         # Dynamic fake data
         call_command('generate_fake_data')
+        # reversion
+        call_command('createinitialrevisions')
+        call_command('build_version_cache')

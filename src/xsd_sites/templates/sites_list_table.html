@@ -1,13 +1,24 @@
 {% if sites %}
-<table class="table table-sm table-striped">
-	<tr><th></th></th><th>Name</th><th>Actions</th></tr>
-{% for site in sites %}
-	<tr>
-        <td>{{ site.uid }}</td>
-		<td>{{ site.name }}</a></td>
-		<td>View <a href="{% url 'xsd_sites:SiteUpdate' site.pk %}">Edit</a> Delete</td>
+    <table class="table table-sm table-striped">
+        <tr>
+            <th>#</th>
+            <th>Name</th>
+            <th>Actions</th>
+        </tr>
+        {% for site in sites %}
+            <tr>
+                <td>{{ site.uid }}</td>
+                <td>{{ site.name }}</a></td>
+                <td>
+                    <a href="{% url 'xsd_sites:SiteUpdate' site.pk %}" class="btn btn-secondary btn-sm">
+                        <i class="fa fa-pencil"></i> Edit
+                    </a>
+                    <a href="{% url 'xsd_sites:SiteHistory' site.pk %}" class="btn btn-secondary btn-sm">
+                        <i class="fa fa-history"></i> History
+                    </a>
+                </td>
 
-		</tr>
-{% endfor %}
-</table>
+            </tr>
+        {% endfor %}
+    </table>
 {% endif %}

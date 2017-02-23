@@ -1,0 +1,63 @@
+{% extends 'base_app.html' %}
+
+{% block app_content %}
+<div class="row">
+    <div class="col-xs-9">
+        <h1>{{ versioned_object }}</h1>
+    </div>
+    <div class="col-xs-3">
+        <div class="btn-toolbar push-right">
+            <a href="{{ versioned_object.get_absolute_url }}" class="btn btn-secondary align-right">Back</a>
+        </div>
+    </div>
+</div>
+<table class="table">
+
+    <thead>
+    <tr>
+        <td>#</td>
+        <td>Date</td>
+        <td>User</td>
+        <td>Comment</td>
+        <td>Changes</td>
+    </tr>
+    </thead>
+
+    <tbody>
+    {% for version in versions %}
+        <tr>
+            <td>
+                {{ version.id }}
+                {% if version.parent %}| {{ version.parent.id }}{% endif %}
+            </td>
+            <td>{{ version.revision.date_created }}</td>
+            <td>
+                <a href="{{ version.revision.user.get_absolute_url }}">
+                    {{ version.revision.user }}
+                </a>
+            </td>
+            <td>{{ version.revision.comment }}</td>
+            <td>
+                <dl>
+                {% for item in version.diff %}
+                    <!-- {{ item }} -->
+                    <dt>{{ item.field.verbose_name }}</dt>
+                    {% if item.is_related %}
+                        <dd>
+                            <i class="fa fa-cube"></i>
+                            {{ item.diff }}
+                        </dd>
+                    {% else %}
+                        <dd>{{ item.diff }}</dd>
+                    {% endif %}
+                {% endfor %}
+                </dl>
+            </td>
+            <td>
+            </td>
+        </tr>
+    {% endfor %}
+    </tbody>
+
+</table>
+{% endblock %}

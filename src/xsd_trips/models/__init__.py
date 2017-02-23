@@ -1,0 +1,1 @@
+from .trip import Trip

@@ -4,6 +4,12 @@ cd /app
 
 source env/bin/activate
 
+if [[ $XSACDB_FAKE_DATA = "TRUE" ]]
+then
+    echo ">> Development dependencies"
+    pip install -qr requirements_dev.txt
+fi
+
 src/manage.py migrate --noinput
 src/manage.py collectstatic --noinput
 src/manage.py compress

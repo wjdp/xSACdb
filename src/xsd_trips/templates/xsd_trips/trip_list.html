@@ -1,0 +1,59 @@
+<table class="table" id="xsd_trip-list">
+    <thead>
+    <tr>
+        <th>#</th>
+        <th>Details</th>
+        <th>Dates</th>
+    </tr>
+    </thead>
+    <tbody>
+    {% for trip in trips %}
+        <tr data-trip-row class="{{ trip.state_class }}">
+            <td class="trip-col-uid">
+                <div class="xsd-uid trip-uid">
+                    {{ trip.uid }}
+                </div>
+                <div class="trip-state">
+                    <i class="{{ trip.state_class }}-icon"></i>
+                    {{ trip.get_state_display }}
+                </div>
+            </td>
+            <td class="trip-col-details">
+                <h4>
+                    <a class="underline" href="{{ trip.get_absolute_url }}" data-trip-link>
+                        {{ trip.name }}
+                    </a>
+                </h4>
+                <div class="trip-meta">
+                    <p class="trip-meta__owner">
+                        <img src="{{ trip.owner.user.avatar_xs }}" class="avatar avatar-xs" alt="Avatar"/>
+                        <span>{{ trip.owner }}</span>
+                    </p>
+                    {% if trip.min_qual %}
+                        <p class="trip-meta__min-qual">
+                            <i class="fa fa-trophy"></i>
+                            {{ trip.min_qual }}
+                        </p>
+                    {% endif %}
+                    {% if trip.max_depth %}
+                        <p class="trip-meta__max-depth">
+                            <i class="fa fa-arrows-v"></i>
+                            {{ trip.max_depth }} metres
+                        </p>
+                    {% endif %}
+                </div>
+                {% if trip.is_public and not trip.is_cancelled %}
+                    <div class="trip-spaces">
+                        {% for space in trip.spaces_list %}
+                            <div class="trip-spaces__space trip-spaces__space--{{ space }}">&nbsp;</div>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+            </td>
+            <td class="trip-col-dates">
+                {{ trip.date_start }} —<br/>{{ trip.date_end }}
+            </td>
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>

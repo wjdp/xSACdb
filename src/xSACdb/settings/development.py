@@ -9,6 +9,16 @@ DEBUG = True
 TEMPLATE_DEBUG = True
 MESSAGE_LEVEL = message_constants.DEBUG
 
+# Add debug apps and middleware
+INSTALLED_APPS = INSTALLED_APPS + (
+    'debug_toolbar',
+    'django_extensions',
+)
+
+MIDDLEWARE_CLASSES = MIDDLEWARE_CLASSES + (
+    'debug_toolbar.middleware.DebugToolbarMiddleware',
+)
+
 # Club config
 CLUB = {
     # Name of your club
@@ -106,3 +116,6 @@ EMAIL_FROM = 'database@madeupsac.com'
 DEFAULT_FROM_EMAIL = EMAIL_FROM
 EMAIL_BACKEND = 'django.core.mail.backends.filebased.EmailBackend'
 EMAIL_FILE_PATH = 'tmp/emails/' # change this to a proper location
+
+# Allow FB login local
+ACCOUNT_DEFAULT_HTTP_PROTOCOL = 'http'

@@ -3,178 +3,273 @@
 {% block title %}{{ member }}{% endblock %}
 
 {% block members_content %}
-<div class="row">
-	<div class="col-md-6">
-		<div class="titlebox">
-            {% if member.user %}<img src="{{member.user.profile_image_url}}" alt="Profile Picture" class="alignright" />{%endif%}
-            <h2>{{member}}</h2>
-            <div class="btn-group btn-group-sm" role="group">
-                {% if is_members %}
-                {% if member.new_notify %}
-                <a href="?action=remove-new-flag" class="btn btn-success" type="button">
-                    <i class="fa fa-check"></i> Approve
-                </a>
-                {% endif %}
-                <a href="{% url 'xsd_members:MemberEdit' member.pk %}" class="btn btn-secondary" type="button">
-                    <i class="fa fa-pencil"></i> Edit
-                </a>
-                {% if member_useraccount_form %}
-                <button class="btn btn-secondary" data-toggle="modal" data-target="#member_useraccount_modal">
-                    <i class="fa fa-key"></i> Account
-                </button>
-                {% endif %}
+    <div class="row">
+        <div class="col-md-6">
+            <div class="titlebox">
+                {% if member.user %}
+                    <img src="{{ member.user.profile_image_url }}" alt="Profile Picture" class="alignright"/>{% endif %}
+                <h2>{{ member }}</h2>
+                <div class="btn-group btn-group-sm" role="group">
+                    {% if is_members %}
+                        {% if member.new_notify %}
+                            <form action="action/approve/" method="POST">
+                                {% csrf_token %}
+                                <button type="submit" class="btn btn-success btn-sm" type="button">
+                                    <i class="fa fa-check"></i> Approve
+                                </button>
+                            </form>
+                        {% endif %}
+                        <a href="{% url 'xsd_members:MemberEdit' member.pk %}" class="btn btn-secondary" type="button">
+                            <i class="fa fa-pencil"></i> Edit
+                        </a>
+                        {% if member_useraccount_form %}
+                            <button class="btn btn-secondary" data-toggle="modal"
+                                    data-target="#member_useraccount_modal">
+                                <i class="fa fa-key"></i> Account
+                            </button>
+                        {% endif %}
 
-                {% if not member.archived %}
-                <a href="{% url 'xsd_members:MemberArchive' member.pk %}" class="btn btn-secondary" type="button">
-                    <i class="fa fa-archive"></i> Archive
-                </a>
-                {% else %}
-                <a href="?action=reinstate" class="btn btn-success" type="button">
-                    <i class="fa fa-mail-forward"></i> Restore
-                </a>
+                        {% if not member.archived %}
+                            <a href="{% url 'xsd_members:MemberArchive' member.pk %}" class="btn btn-outline-warning"
+                               type="button">
+                                <i class="fa fa-archive"></i> Archive
+                            </a>
+                        {% else %}
+                            <form action="action/reinstate/" method="POST">
+                                {% csrf_token %}
+                                <button type="submit" class="btn btn-success btn-sm" type="button">
+                                    <i class="fa fa-mail-forward"></i> Restore
+                                </button>
+                            </form>
+                        {% endif %}
 
-                {% endif %}
+                        <a href="{% url 'xsd_members:MemberDelete' member.pk %}" class="btn btn-outline-danger"
+                           type="button">
+                            <i class="fa fa-trash"></i> Delete
+                        </a>
 
-                <a href="{% url 'xsd_members:MemberDelete' member.pk %}" class="btn btn-secondary" type="button">
-                    <i class="fa fa-trash"></i> Delete
-                </a>
+                        <a href="{% url 'xsd_members:MemberHistory' member.pk %}" class="btn btn-secondary"
+                           type="button">
+                            <i class="fa fa-history"></i> History
+                        </a>
 
-                {% elif myself %}
-                <a href="{% url 'xsd_members:MyProfileEdit' %}" class="btn btn-secondary" type="button">
-                    <i class="fa fa-pencil"></i> Edit
-                </a>
+                    {% elif myself %}
+                        <a href="{% url 'xsd_members:MyProfileEdit' %}" class="btn btn-secondary" type="button">
+                            <i class="fa fa-pencil"></i> Edit
+                        </a>
+                    {% endif %}
+                </div>
+                {% if request.user.is_superuser and member.user %}
+                    <form style="display:inline" action="/hijack/{{ member.user.pk }}/" method="post">
+                        {% csrf_token %}
+                        <button class="btn btn-secondary" type="submit">
+                            <i class="fa fa-user-secret"></i> Hijack
+                        </button>
+                    </form>
                 {% endif %}
             </div>
-            {% if request.user.is_superuser and member.user %}
-                <form style="display:inline" action="/hijack/{{ member.user.pk }}/" method="post">
-                    {% csrf_token %}
-                    <button class="btn btn-secondary" type="submit">
-                        <i class="fa fa-user-secret"></i> Hijack
-                    </button>
-                </form>
-            {% endif %}
-		</div>
-		<div>
-		<div class="qual_badge {{member.top_qual.code}}"></div>
+            <div>
+                <div class="qual_badge {{ member.top_qual.code }}"></div>
 
-        {% if member.archived %}
-            <div class="alert alert-warning">
-                <p><strong><i class="fa fa-archive"></i> {{ member.first_name }}'s record has been archived</strong></p>
-                <p>Personal data has been expunged. If they sign into the site they'll be prompted to re-enter these details and their record will be restored.</p>
-                <p>The record may also be restored using the button above.</p>
+                {% if member.archived %}
+                    <div class="alert alert-warning">
+                        <p><strong><i class="fa fa-archive"></i> {{ member.first_name }}'s record has been
+                            archived</strong></p>
+                        <p>Personal data has been expunged. If they sign into the site they'll be prompted to re-enter
+                            these details and their record will be restored.</p>
+                        <p>The record may also be restored using the button above.</p>
+                    </div>
+                {% endif %}
+
+                <p>{{ member.first_name }} joined the database on {{ member.date_joined|date }} and last logged in
+                    on {{ member.user.last_login }}</p>
+                <p>{{ member.heshe }} was born on {{ member.date_of_birth }}.</p>
+
+                {% if member.membership_problem %}
+                    <div class="alert alert-danger">
+                        <i class="fa fa-exclamation-triangle"></i> <strong>Uh-oh</strong> There are currently issues
+                        with {{ member.first_name }}'s membership. Until this is fixed {{ member.heshe|lower }} cannot
+                        go diving.
+                    </div>
+                {% endif %}
             </div>
-        {% endif %}
 
-		<p>{{member.first_name}} joined the database on {{member.date_joined|date}} and last logged in on {{member.user.last_login}}</p>
-		<p>{{member.heshe}} was born on {{member.date_of_birth}}.</p>
+        </div>
+        <div class="col-md-6">
+            <h3><i class="fa fa-envelope"></i> Personal Details</h3>
+            <table class="table">
+                <tr>
+                    <th>Address</th>
+                    <td>{% if not member.address or member.post_code %}<i class="fa fa-exclamation-triangle red"></i>
+                        {% else %}{{ member.formatted_address|safe }}<br/>{{ member.postcode }}{% endif %}</td>
+                </tr>
+                <tr>
+                    <th>Email</th>
+                    <td>{{ member.email }}{% if not member.email %}
+                        <i class="fa fa-exclamation-triangle red"></i>{% endif %}</td>
+                </tr>
+                <tr>
+                    <th>Home Phone</th>
+                    <td>{{ member.home_phone }}{% if not member.home_phone %}
+                        <i class="fa fa-exclamation-triangle red"></i>{% endif %}</td>
+                </tr>
+                <tr>
+                    <th>Mobile Phone</th>
+                    <td>{{ member.mobile_phone }}{% if not member.mobile_phone %}
+                        <i class="fa fa-exclamation-triangle red"></i>{% endif %}</td>
+                </tr>
+                <tr>
+                    <th>Allergies or other requirements</th>
+                    <td>
+                        {{ member.alergies| linebreaks }}{% if not member.alergies %}<em>None</em><br/>{% endif %}
+                        {% if member.veggie %}Vegetarian{% else %}Omnivore{% endif %}
+                    </td>
+                </tr>
 
-		{% if member.membership_problem %}
-		<div class="alert alert-danger">
-			<i class="fa fa-exclamation-triangle"></i> <strong>Uh-oh</strong> There are currently issues with {{member.first_name}}'s membership. Until this is fixed {{member.heshe|lower}} cannot go diving.
-		</div>
-		{%endif%}
-		</div>
+            </table>
+        </div>
+    </div>
 
-	</div>
-	<div class="col-md-6">
-		<h3><i class="fa fa-envelope"></i> Personal Details</h3>
-		<table class="table">
-			<tr><th>Address</th><td>{% if not member.address or member.post_code %}<i class="fa fa-exclamation-triangle red"></i>{% else %}{{member.formatted_address|safe}}<br />{{member.postcode}}{% endif %}</td></tr>
-			<tr><th>Email</th><td>{{member.email}}{% if not member.email %} <i class="fa fa-exclamation-triangle red"></i>{% endif %}</td></tr>
-			<tr><th>Home Phone</th><td>{{member.home_phone}}{% if not member.home_phone %} <i class="fa fa-exclamation-triangle red"></i>{% endif %}</td></tr>
-			<tr><th>Mobile Phone</th><td>{{member.mobile_phone}}{% if not member.mobile_phone %} <i class="fa fa-exclamation-triangle red"></i>{% endif %}</td></tr>
-			<tr><th>Allergies or other requirements</th>
-                <td>
-                    {{ member.alergies| linebreaks }}{% if not member.alergies %}<em>None</em><br />{% endif %}
-                    {% if member.veggie %}Vegetarian{% else %}Omnivore{% endif %}
-                </td>
-            </tr>
-
-		</table>
-	</div>
-</div>
-
-{# Second row #}
-<div class="row">
-	<div class="col-md-6">
-		<h3><i class="fa fa-home"></i> Club Details</h3>
-		{% if member.club_expiry or not myself %}
-		<table class="table">
-			<tr><th>Club ID</th><td>{{ member.uid }}</td></tr>
-			{% if member.student_id %}<tr><th>Student ID</th><td>{{ member.student_id }}</td></tr>{% endif %}
-			<tr><th>Membership Type</th><td>{{member.club_membership_type }}</td></tr>
-			<tr><th>Membership Expiry Date</th><td>{{member.club_expiry }}{% if member.club_expired %} <i class="fa fa-exclamation-triangle red"></i>{% endif %}</td></tr>
-			<tr><th>Medical Form Expiry Date</th><td>{{member.medical_form_expiry}}{% if member.medical_form_expired %} <i class="fa fa-exclamation-triangle red"></i>{% endif %}</td></tr>
-		</table>
-		{% else %}
-		<div class="alert alert-info">
-			<strong>Joining The Club</strong> It looks like you're new here, in order to take part in club activities you need to be a paying member, contact the committee for more information.
-		</div>
-		{% endif %}
-	</div>
-
-	<div class="col-md-6">
-		<h3><i class="fa fa-user"></i> Next of Kin</h3>
-		<table class="table">
-			<tr><th>Name</th><td>{{ member.next_of_kin_name }}{% if not member.next_of_kin_name %} <i class="fa fa-exclamation-triangle red"></i>{% endif %}</td></tr>
-			<tr><th>Relation</th><td>{{ member.next_of_kin_relation }}{% if not member.next_of_kin_relation %} <i class="fa fa-exclamation-triangle red"></i>{% endif %}</td></tr>
-			<tr><th>Phone</th><td>{{ member.next_of_kin_phone }}{% if not member.next_of_kin_phone %} <i class="fa fa-exclamation-triangle red"></i>{% endif %}</td></tr>
-		</table>
-	</div>
-</div>
-
-{# Third row #}
-<div class="row">
-	<div class="col-md-6">
-		<h3><i class="fa fa-trophy"></i> Qualification Details</h3>
-		<table class="table">
-			<tr><th>Current Qualification</th><td>{{ member.top_qual }}</td></tr>
-			<tr><th>Training For</th><td>{{ member.training_for }}</td></tr>
-			{% if member.top_instructor_qual or not myself %}
-			<tr><th>Instructor Qualification</th><td>{{ member.top_instructor_qual }}</td></tr>
-
-			{% if member.top_instructor_qual.rank >= 37 %}
-            <tr>
-                <th>Instructor Number</th>
-                <td>{{ member.top_instructor_qual.code }} {{ member.instructor_number }}</td>
-            </tr>
+    {# Second row #}
+    <div class="row">
+        <div class="col-md-6">
+            <h3><i class="fa fa-home"></i> Club Details</h3>
+            {% if member.club_expiry or not myself %}
+                <table class="table">
+                    <tr>
+                        <th>Club ID</th>
+                        <td>{{ member.uid }}</td>
+                    </tr>
+                    {% if member.student_id %}
+                        <tr>
+                            <th>Student ID</th>
+                            <td>{{ member.student_id }}</td>
+                        </tr>{% endif %}
+                    <tr>
+                        <th>Membership Type</th>
+                        <td>{{ member.club_membership_type }}</td>
+                    </tr>
+                    <tr>
+                        <th>Membership Expiry Date</th>
+                        <td>{{ member.club_expiry }}{% if member.club_expired %}
+                            <i class="fa fa-exclamation-triangle red"></i>{% endif %}</td>
+                    </tr>
+                    <tr>
+                        <th>Medical Form Expiry Date</th>
+                        <td>{{ member.medical_form_expiry }}{% if member.medical_form_expired %}
+                            <i class="fa fa-exclamation-triangle red"></i>{% endif %}</td>
+                    </tr>
+                </table>
+            {% else %}
+                <div class="alert alert-info">
+                    <strong>Joining The Club</strong> It looks like you're new here, in order to take part in club
+                    activities you need to be a paying member, contact the committee for more information.
+                </div>
             {% endif %}
+        </div>
 
-			{% endif %}
-			<tr><th>SDCs</th><td>
-				<ul class="mini-sdc-list">
-				{% for sdc in member.sdcs.all %}<li>{{sdc}}</li>{% endfor %}
-				</ul>
-			</td></tr>
-            <tr><th>Other Qualifications</th><td>{{ member.other_qualifications | linebreaks }}</td></tr>
+        <div class="col-md-6">
+            <h3><i class="fa fa-user"></i> Next of Kin</h3>
+            <table class="table">
+                <tr>
+                    <th>Name</th>
+                    <td>{{ member.next_of_kin_name }}{% if not member.next_of_kin_name %}
+                        <i class="fa fa-exclamation-triangle red"></i>{% endif %}</td>
+                </tr>
+                <tr>
+                    <th>Relation</th>
+                    <td>{{ member.next_of_kin_relation }}{% if not member.next_of_kin_relation %}
+                        <i class="fa fa-exclamation-triangle red"></i>{% endif %}</td>
+                </tr>
+                <tr>
+                    <th>Phone</th>
+                    <td>{{ member.next_of_kin_phone }}{% if not member.next_of_kin_phone %}
+                        <i class="fa fa-exclamation-triangle red"></i>{% endif %}</td>
+                </tr>
+            </table>
+        </div>
+    </div>
+
+    {# Third row #}
+    <div class="row">
+        <div class="col-md-6">
+            <h3><i class="fa fa-trophy"></i> Qualification Details</h3>
+            <table class="table">
+                <tr>
+                    <th>Current Qualification</th>
+                    <td>{{ member.top_qual }}</td>
+                </tr>
+                <tr>
+                    <th>Training For</th>
+                    <td>{{ member.training_for }}</td>
+                </tr>
+                {% if member.top_instructor_qual or not myself %}
+                    <tr>
+                        <th>Instructor Qualification</th>
+                        <td>{{ member.top_instructor_qual }}</td>
+                    </tr>
+
+                    {% if member.top_instructor_qual.rank >= 37 %}
+                        <tr>
+                            <th>Instructor Number</th>
+                            <td>{{ member.top_instructor_qual.code }} {{ member.instructor_number }}</td>
+                        </tr>
+                    {% endif %}
+
+                {% endif %}
+                <tr>
+                    <th>SDCs</th>
+                    <td>
+                        <ul class="mini-sdc-list">
+                            {% for sdc in member.sdcs.all %}
+                                <li>{{ sdc }}</li>{% endfor %}
+                        </ul>
+                    </td>
+                </tr>
+                <tr>
+                    <th>Other Qualifications</th>
+                    <td>{{ member.other_qualifications | linebreaks }}</td>
+                </tr>
 
 
-		</table>
-	</div>
+            </table>
+        </div>
 
-	<div class="col-md-6">
-		<h3><i class="icon-bsac"></i> BSAC Details</h3>
-		{% if member.bsac_expiry or not myself %}
-		<table class="table">
-			<tr><th>BSAC ID</th><td>{% if member.bsac_id %}A{{ member.bsac_id }}{% else %}<i class="fa fa-exclamation-triangle red"></i>{% endif %}</td></tr>
-			<tr><th>Membership Type</th><td>
-				{% if member.bsac_direct_debit %}Pays by direct debit
-				{% elif member.bsac_direct_member %}Member of BSAC directly
-				{% elif member.bsac_member_via_another_club}Member of BSAC through another club
-				{% else %}Standard club member{% endif %}
-			</td></tr>
-			<tr><th>BSAC Expiry Date</th><td>{{member.bsac_expiry }}{% if member.bsac_expired %} <i class="fa fa-exclamation-triangle red"></i>{% endif %}</td></tr>
-		</table>
-		{% else %}
-		<div class="alert alert-info">
-			<strong>Joining BSAC</strong> This scuba club is a branch of the larger British Sub Aqua Club, you must also hold a membership with BSAC to participate.
-		</div>
-		{% endif %}
-	</div>
-</div>
+        <div class="col-md-6">
+            <h3><i class="icon-bsac"></i> BSAC Details</h3>
+            {% if member.bsac_expiry or not myself %}
+                <table class="table">
+                    <tr>
+                        <th>BSAC ID</th>
+                        <td>{% if member.bsac_id %}A{{ member.bsac_id }}{% else %}
+                            <i class="fa fa-exclamation-triangle red"></i>{% endif %}</td>
+                    </tr>
+                    <tr>
+                        <th>Membership Type</th>
+                        <td>
+                            {% if member.bsac_direct_debit %}Pays by direct debit
+                            {% elif member.bsac_direct_member %}Member of BSAC directly
+                                {% elif member.bsac_member_via_another_club}Member of BSAC through another club
+                                        {% else %}Standard club member{% endif %}
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>BSAC Expiry Date</th>
+                        <td>{{ member.bsac_expiry }}{% if member.bsac_expired %}
+                            <i class="fa fa-exclamation-triangle red"></i>{% endif %}</td>
+                    </tr>
+                </table>
+            {% else %}
+                <div class="alert alert-info">
+                    <strong>Joining BSAC</strong> This scuba club is a branch of the larger British Sub Aqua Club, you
+                    must also hold a membership with BSAC to participate.
+                </div>
+            {% endif %}
+        </div>
+    </div>
 
-{% if member_useraccount_form %}
-{% include 'components/member_useraccount_modal.html' %}
-{% endif %}
+    {% if member_useraccount_form %}
+        {% include 'components/member_useraccount_modal.html' %}
+    {% endif %}
 
 {% endblock %}

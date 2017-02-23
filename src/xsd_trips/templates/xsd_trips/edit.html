@@ -1,0 +1,71 @@
+{% extends 'xsd_trips/base.html' %}
+{% load markdown %}
+{% load widget_tweaks %}
+
+{% block trips_content %}
+    <form action="." method="POST">
+        {% csrf_token %}
+
+        {% with WIDGET_ERROR_CLASS='form-control-danger' WIDGET_REQUIRED_CLASS='my_required' %}
+
+            <div class="row">
+                <div class="col-md-12">
+                    <h1 class="{% if form.name.errors %}has-error{% endif %} trip-name">
+                        {% if trip.pk %}{{ trip.uid }} | {% endif %}
+                        {% render_field form.name class+="form-control form-control-lg" placeholder="Trip Name" %}
+                    </h1>
+                    {% for error in form.name.errors %}
+                        <div class="has-error">
+                            <div class="form-control-feedback">
+                                {{ error }}
+                            </div>
+                        </div>
+                    {% endfor %}
+
+                </div>
+            </div>
+            {% include 'xsd_trips/edit_buttons.html' %}
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="card">
+                        <dl class="card-block">
+                            {% if trip.pk %}
+                                <dt>Organiser</dt>
+                                <dd>
+                                    <a href="{{ trip.owner.get_absolute_url }}" class="no-underline">
+                                        <img src="{{ trip.owner.user.avatar_xs }}" class="avatar avatar-xs"
+                                             alt="Avatar"/>
+                                        <span class="underline">{{ trip.owner }}</span>
+                                    </a>
+                                </dd>
+                                <dt>State</dt>
+                                <dd>
+                                    {{ trip.get_state_display }}
+                                </dd>
+                            {% endif %}
+
+                            {% include 'xsd_trips/edit_field.html' with field=form.date_start %}
+                            {% include 'xsd_trips/edit_field.html' with field=form.date_end %}
+                            {% include 'xsd_trips/edit_field.html' with field=form.cost %}
+                            {% include 'xsd_trips/edit_field.html' with field=form.spaces %}
+                            {% include 'xsd_trips/edit_field.html' with field=form.max_depth %}
+                            {% include 'xsd_trips/edit_field.html' with field=form.min_qual %}
+
+                        </dl>
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+                    {% render_field form.description class+="form-control" placeholder="Description" %}
+                    <p class="form-text text-muted">
+                        Styling with <a href="{{ l10n_club.markdown_help }}" target="_blank">Markdown</a> is supported.
+                    </p>
+                </div>
+            </div>
+
+        {% endwith %}
+
+        {% include 'xsd_trips/edit_buttons.html' %}
+
+    </form>
+{% endblock %}

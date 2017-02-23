@@ -15,6 +15,19 @@ EMAIL_BACKEND = 'xSACdb.mail.EnqueueBackend'
 from local_settings import *
 from xSACdb.version import VERSION
 
+# Patch debug apps into staging instances
+# The production settings just mean production or production-like (running on dokku)
+# Hence the possibility we could be running with DEBUG on.
+if STAGING or DEBUG:
+    INSTALLED_APPS = INSTALLED_APPS + (
+        'debug_toolbar',
+        'django_extensions',
+    )
+
+    MIDDLEWARE_CLASSES = MIDDLEWARE_CLASSES + (
+        'debug_toolbar.middleware.DebugToolbarMiddleware',
+    )
+
 # Some areas use this
 DEFAULT_FROM_EMAIL = EMAIL_FROM
 

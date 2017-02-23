@@ -128,8 +128,6 @@ MIDDLEWARE_CLASSES = (
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
-    'debug_toolbar.middleware.DebugToolbarMiddleware',
-    'reversion.middleware.RevisionMiddleware',
     'xSACdb.middleware.LoginRequiredMiddleware',
     'xSACdb.middleware.NewbieProfileFormRedirectMiddleware',
 )
@@ -175,13 +173,14 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
     'django.contrib.admin',
     'django.contrib.admindocs',
+    'django.contrib.humanize',
 
-    'xsd_auth',
+    'xsd_auth.apps.AuthConfig',
     'xsd_frontend',
-    'xsd_members',
+    'xsd_members.apps.MembersConfig',
     'xsd_training',
-    'xsd_trips',
-    'xsd_sites',
+    'xsd_trips.apps.TripsConfig',
+    'xsd_sites.apps.SitesConfig',
     'xsd_kit',
     'xsd_about',
     'xsd_help',
@@ -193,14 +192,24 @@ INSTALLED_APPS = (
 
     'bootstrap_toolkit',
     'bootstrap3',
+    'widget_tweaks',
+
     'compressor',
+
     'tastypie',
+
     'geoposition',
-    'reversion',
+
     'django_rq',
 
-    'debug_toolbar',
+    'reversion',  # https://github.com/etianen/django-reversion
+    'reversion_compare',  # https://github.com/jedie/django-reversion-compare
+
+    # Must be after apps creating activities
+    'actstream',  # https://github.com/justquick/django-activity-stream
+
     'hijack',
+
     'compat',
     'raven.contrib.django.raven_compat',
 
@@ -225,12 +234,15 @@ AUTH_PROFILE_MODEL = 'xsd_members.MemberProfile'
 LOGIN_REDIRECT_URL = '/'
 ACCOUNT_LOGOUT_REDIRECT_URL = '/accounts/login'
 
-ACCOUNT_AUTHENTICATION_METHOD = 'email'
+# ACCOUNT_AUTHENTICATION_METHOD = 'email'
 ACCOUNT_EMAIL_REQUIRED = True
+ACCOUNT_EMAIL_CONFIRMATION_EXPIRE_DAYS = 7
 ACCOUNT_DEFAULT_HTTP_PROTOCOL = 'https'
 ACCOUNT_USERNAME_REQUIRED = False
+ACCOUNT_USER_DISPLAY = 'xsd_auth.utils.get_user_display'
+ACCOUNT_SIGNUP_PASSWORD_ENTER_TWICE = False
 
-# FIXME: Deprecated - use Django's AUTH_PASSWORD_VALIDATORS instead.
+# FIXME: Deprecated - use Django's AUTH_PASSWORD_VALIDATORS instead. (NEED DJ >=1.9)
 ACCOUNT_PASSWORD_MIN_LENGTH = 8
 
 SOCIALACCOUNT_FORMS = {
@@ -250,13 +262,8 @@ SILENCED_SYSTEM_CHECKS = ['1_6.W001']
 HIJACK_NOTIFY_USER = True
 HIJACK_DISPLAY_ADMIN_BUTTON = False
 
-## Models to show in the activity stream
-
-ACTIVITY_MODELS = [
-    ('xsd_members', 'MemberProfile'),
-    ('xsd_training', 'PerformedLesson'),
-    ('xsd_training', 'PerformedSDC'),
-    ('xsd_training', 'Session'),
-    ('xsd_training', 'TraineeGroup'),
-    ('xsd_sites', 'Site'),
-]
+ACTSTREAM_SETTINGS = {
+    # 'MANAGER': 'myapp.managers.MyActionManager',
+    'FETCH_RELATIONS': True,
+    'USE_JSONFIELD': True,
+}

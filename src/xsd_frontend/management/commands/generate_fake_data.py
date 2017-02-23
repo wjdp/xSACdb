@@ -1,19 +1,25 @@
-from django.core.management.base import BaseCommand, CommandError
-from django.db import transaction
+import random
+
+from allauth.account.models import EmailAddress
+from allauth.account.utils import sync_user_email_addresses
 from django.contrib.auth import get_user_model
 from django.contrib.auth.models import Group
+from django.core.management.base import BaseCommand, CommandError
+from faker import Factory
 
 from xSACdb.roles.groups import *
-
+from xsd_members.models import MemberProfile
 from xsd_training.models import *
+from xsd_trips.models import Trip
+from xsd_trips.models.trip_member import TripMember
+from xsd_trips.models.trip_state import STATE_OPEN, STATE_CLOSED, STATE_COMPLETED, STATE_CANCELLED
 
-from faker import Factory
-import random
 
 class Command(BaseCommand):
     help = 'Generates fake data for testing, demo site and development'
     fake = None
-    FLUFFY_USER_COUNT = 99
+    FLUFFY_USER_COUNT = 150
+    TRIP_COUNT = 300
 
     def setUp(self):
         self.OD = Qualification.objects.get(code="OD")
@@ -57,9 +63,23 @@ class Command(BaseCommand):
 
         with transaction.atomic():
             self.stdout.write('Generating fake data...')
+
             self.generateUsefulUsers()
             self.generateFluffyUsers()
+
+            self.generateTrips()
+            self.fillTrips()
+
             self.stdout.write('Done')
+
+    def status_write(self, message):
+        self.stdout.write('  {}'.format(message))
+
+    def verifyEmail(self, user):
+        sync_user_email_addresses(user)
+        ea = EmailAddress.objects.get_for_user(user, user.email)
+        ea.verified = True
+        ea.save()
 
     def generateUsefulUsers(self):
         U = get_user_model()
@@ -71,21 +91,19 @@ class Command(BaseCommand):
         groupMembers = Group.objects.get(pk=GROUP_MEMBERS)
         groupDO = Group.objects.get(pk=GROUP_DO)
 
-        superUser = U.objects.create_user(
+        superUser = U.objects.create_superuser(
+            username="su",
             email="superuser@xsacdb.wjdp.uk",
             password="su",
             first_name="SUPER",
             last_name="USER",
         )
-        superUser.username = "su"
-        superUser.is_superuser = True
-        superUser.is_staff = True
         superUser.save()
         superUser.groups.add(groupAdmin)
         superUser.save()
-        superUser.memberprofile.approve()
         superUser.memberprofile.fake(self.fake)
         superUser.memberprofile.save()
+        self.verifyEmail(superUser)
 
         divingOfficer = U.objects.create_user(
             email="do@xsacdb.wjdp.uk",
@@ -97,11 +115,12 @@ class Command(BaseCommand):
         divingOfficer.save()
         divingOfficer.groups.add(groupDO)
         divingOfficer.save()
-        divingOfficer.memberprofile.approve()
+        divingOfficer.memberprofile.approve(superUser)
         divingOfficer.memberprofile.fake(self.fake)
         divingOfficer.memberprofile.set_qualification(self.AD)
         divingOfficer.memberprofile.set_qualification(self.OWI)
         divingOfficer.memberprofile.save()
+        self.verifyEmail(divingOfficer)
 
         trainingOfficer = U.objects.create_user(
             email="to@xsacdb.wjdp.uk",
@@ -113,11 +132,12 @@ class Command(BaseCommand):
         trainingOfficer.save()
         trainingOfficer.groups.add(groupTraining)
         trainingOfficer.save()
-        trainingOfficer.memberprofile.approve()
+        trainingOfficer.memberprofile.approve(superUser)
         trainingOfficer.memberprofile.fake(self.fake)
         trainingOfficer.memberprofile.set_qualification(self.DL)
         trainingOfficer.memberprofile.set_qualification(self.OWI)
         trainingOfficer.memberprofile.save()
+        self.verifyEmail(trainingOfficer)
 
         membersOfficer = U.objects.create_user(
             email="mo@xsacdb.wjdp.uk",
@@ -129,11 +149,12 @@ class Command(BaseCommand):
         membersOfficer.save()
         membersOfficer.groups.add(groupMembers)
         membersOfficer.save()
-        membersOfficer.memberprofile.approve()
+        membersOfficer.memberprofile.approve(superUser)
         membersOfficer.memberprofile.fake(self.fake)
         membersOfficer.memberprofile.set_qualification(self.SD)
         membersOfficer.memberprofile.set_qualification(self.THI)
         membersOfficer.memberprofile.save()
+        self.verifyEmail(membersOfficer)
 
         od1 = U.objects.create_user(
             email="od1@xsacdb.wjdp.uk",
@@ -143,10 +164,11 @@ class Command(BaseCommand):
         )
         od1.username = "od1"
         od1.save()
-        od1.memberprofile.approve()
+        od1.memberprofile.approve(membersOfficer)
         od1.memberprofile.fake(self.fake)
         od1.memberprofile.set_qualification(self.OD)
         od1.memberprofile.save()
+        self.verifyEmail(od1)
 
         od2 = U.objects.create_user(
             email="od2@xsacdb.wjdp.uk",
@@ -156,10 +178,11 @@ class Command(BaseCommand):
         )
         od2.username = "od2"
         od2.save()
-        od2.memberprofile.approve()
+        od2.memberprofile.approve(membersOfficer)
         od2.memberprofile.fake(self.fake)
         od2.memberprofile.set_qualification(self.OD)
         od2.memberprofile.save()
+        self.verifyEmail(od2)
 
         sd1 = U.objects.create_user(
             email="sd1@xsacdb.wjdp.uk",
@@ -169,10 +192,11 @@ class Command(BaseCommand):
         )
         sd1.username = "sd1"
         sd1.save()
-        sd1.memberprofile.approve()
+        sd1.memberprofile.approve(membersOfficer)
         sd1.memberprofile.fake(self.fake)
         sd1.memberprofile.set_qualification(self.SD)
         sd1.memberprofile.save()
+        self.verifyEmail(sd1)
 
         sd2 = U.objects.create_user(
             email="sd2@xsacdb.wjdp.uk",
@@ -182,10 +206,11 @@ class Command(BaseCommand):
         )
         sd2.username = "sd2"
         sd2.save()
-        sd2.memberprofile.approve()
+        sd2.memberprofile.approve(membersOfficer)
         sd2.memberprofile.fake(self.fake)
         sd2.memberprofile.set_qualification(self.SD)
         sd2.memberprofile.save()
+        self.verifyEmail(sd2)
 
         dl1 = U.objects.create_user(
             email="dl1@xsacdb.wjdp.uk",
@@ -195,10 +220,25 @@ class Command(BaseCommand):
         )
         dl1.username = "dl1"
         dl1.save()
-        dl1.memberprofile.approve()
+        dl1.memberprofile.approve(membersOfficer)
         dl1.memberprofile.fake(self.fake)
         dl1.memberprofile.set_qualification(self.DL)
         dl1.memberprofile.save()
+        self.verifyEmail(dl1)
+
+        dl2 = U.objects.create_user(
+            email="dl2@xsacdb.wjdp.uk",
+            password="dl2",
+            first_name=self.fake.first_name(),
+            last_name="Diveleader",
+        )
+        dl2.username = "dl2"
+        dl2.save()
+        dl2.memberprofile.approve(membersOfficer)
+        dl2.memberprofile.fake(self.fake)
+        dl2.memberprofile.set_qualification(self.DL)
+        dl2.memberprofile.save()
+        self.verifyEmail(dl2)
 
         owi1 = U.objects.create_user(
             email="owi@xsacdb.wjdp.uk",
@@ -208,34 +248,124 @@ class Command(BaseCommand):
         )
         owi1.username = "owi1"
         owi1.save()
-        owi1.memberprofile.approve()
+        owi1.memberprofile.approve(membersOfficer)
         owi1.memberprofile.fake(self.fake)
         owi1.memberprofile.set_qualification(self.DL)
         owi1.memberprofile.set_qualification(self.OWI)
         owi1.memberprofile.save()
+        self.verifyEmail(owi1)
+
+        self.usefulUsers = {
+            'su': superUser,
+            'do': divingOfficer,
+            'to': trainingOfficer,
+            'mo': membersOfficer,
+            'od1': od1,
+            'od2': od2,
+            'sd1': sd1,
+            'sd2': sd2,
+            'dl1': dl1,
+            'dl2': dl2,
+            'owi1': owi1,
+        }
+
+        self.usefulUsersArray = [
+            superUser,
+            divingOfficer,
+            trainingOfficer,
+            membersOfficer,
+            od1, od2,
+            sd1, sd2,
+            dl1, dl2,
+            owi1,
+        ]
+
+        self.memberActionUsers = [
+            superUser,
+            divingOfficer,
+            membersOfficer
+        ]
+
+        self.status_write('Generated useful users')
 
     def generateFluffyUsers(self):
         U = get_user_model()
 
         for i in range(0, self.FLUFFY_USER_COUNT):
             u = U.objects.create_user(
-                email = self.fake.email(),
-                password = "guest",
-                first_name = self.fake.first_name(),
+                email=self.fake.email(),
+                password="guest",
+                first_name=self.fake.first_name(),
                 last_name=self.fake.last_name(),
             )
             u.save()
             if self.fake.boolean(chance_of_getting_true=90):
                 u.memberprofile.fake(self.fake)
                 if self.fake.boolean(chance_of_getting_true=80):
-                    u.memberprofile.approve()
+                    self.verifyEmail(u)
+                else:
+                    sync_user_email_addresses(u)
+                if self.fake.boolean(chance_of_getting_true=80):
+                    u.memberprofile.approve(random.choice(self.memberActionUsers))
                 if self.fake.boolean(chance_of_getting_true=90):
                     u.memberprofile.set_qualification(random.choice(self.PERSONAL_QUALS))
                     if self.fake.boolean(chance_of_getting_true=10):
                         u.memberprofile.set_qualification(random.choice(self.INSTRUCTOR_QUALS))
                         # if u.memberprofile.top_instructor_qual().rank >= self.OWI.rank:
                         #     u.memberprofile.instructor_number = random.randrange(1234,99999)
-            if self.fake.boolean(chance_of_getting_true=2):
+            if self.fake.boolean(chance_of_getting_true=10):
                 # Archive some
-                u.memberprofile.archive()
+                u.memberprofile.archive(random.choice(self.memberActionUsers))
             u.memberprofile.save()
+
+        self.status_write('Generated {} fluffy users'.format(self.FLUFFY_USER_COUNT))
+
+    def generateTrips(self):
+        for i in range(0, self.TRIP_COUNT):
+            trip = Trip()
+
+            trip.fake(fake=self.fake, quals=self.PERSONAL_QUALS, past=self.fake.boolean(chance_of_getting_true=80))
+
+            if trip.min_qual == self.SD:
+                trip.owner = random.choice(self.usefulUsersArray[6:]).get_profile()
+            elif trip.min_qual == self.DL:
+                trip.owner = random.choice(self.usefulUsersArray[8:]).get_profile()
+            else:
+                trip.owner = random.choice(self.usefulUsersArray).get_profile()
+
+            trip.save()
+
+        self.status_write('Generated {} trips'.format(self.TRIP_COUNT))
+
+    def fillTrips(self):
+        membership = MemberProfile.objects.filter(archived=False)
+        trips_to_fill = Trip.objects.filter(state__gte=STATE_CANCELLED)
+        for trip in trips_to_fill:
+            if self.fake.boolean(chance_of_getting_true=10):
+                continue
+            if trip.spaces:
+                fill_max = random.randint(0, trip.spaces + 5)
+            else:
+                fill_max = random.randint(0, 12)
+            actors = [trip.owner.user] * 10 + [self.usefulUsers['do'], self.usefulUsers['su']]
+            already_on_trip = []
+            for i in range(0, fill_max):
+                member = random.choice(membership)
+                while member in already_on_trip:
+                    member = random.choice(membership)
+
+                already_on_trip.append(member)
+
+                if trip.state in (STATE_COMPLETED, STATE_CANCELLED):
+                    # Not allowed to do this via normal methods, do manually
+                    TripMember.objects.create(
+                        trip=trip,
+                        member=member,
+                        state=TripMember.STATE_ACCEPTED,
+                    )
+                else:
+                    trip.add_members(members=[member], actor=random.choice(actors))
+
+
+        self.status_write('Filled {} trips'.format(trips_to_fill.count()))
+

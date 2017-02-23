@@ -1,0 +1,35 @@
+<div class="modal fade" id="exportCSVModal" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Download Attendee Roster</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p>Using this tool you can download a CSV, loadable into Microsoft Excel or similar, of trip attendees
+                    and their personal details. Suitable for sending to Students' Unions and other groups.</p>
+                <p>The following is included:</p>
+                <ul>
+                    {% for column in export_csv_columns %}
+                        <li>{{ column.0 }}</li>
+                    {% endfor %}
+                </ul>
+                <p>This download contains <strong>sensitive data</strong>. As such you must take responsibility for it's
+                    storage and distribution. You may not keep this data for longer than you require it &mdash; in this
+                    case that will be after you trip is over: {{ trip.date_final }}.</p>
+            </div>
+            <div class="modal-footer">
+                I accept please
+                <form action="{% url 'xsd_trips:TripAttendeeRosterDump' trip.pk %}" method="POST">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-warning">
+                        <i class="fa fa-download"></i>
+                        Download CSV
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

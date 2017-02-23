@@ -1,0 +1,36 @@
+// For pages under user menu
+
+.email-address, .socialaccount-name
+  width: 50%
+  background-color: #fff
+
+.email-verified, .email-primary, .email-unverified
+  color: #fff
+
+.email-verified
+  background: $brand-success
+
+.email-primary
+  background: $brand-primary
+
+.email-unverified
+  background: $brand-warning
+
+.socialaccount-radio
+  // Click and display handled by label (next div)
+  display: none
+
+.socialaccount-label
+  *
+    cursor: pointer
+  &:active
+    .socialaccount-icon
+      background: #ccc
+
+.socialaccount-radio:checked + .socialaccount-label
+  .socialaccount-icon
+    background: $brand-primary
+    color: #fff
+
+.socialaccount_providers
+  margin-left: 1rem
