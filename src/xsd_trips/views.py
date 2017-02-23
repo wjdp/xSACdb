@@ -24,6 +24,7 @@ from xsd_frontend.activity import DoAction
 from xsd_frontend.versioning import VersionHistoryView
 from xsd_members.bulk_select import get_bulk_members
 from xsd_members.models import MemberProfile
+from xsd_trips.forms import TripForm
 from xsd_trips.models.trip_member import TripMember
 
 
@@ -69,17 +70,8 @@ class TripListAdmin(RequireTripsOfficer, ListView):
 
 class TripCreate(RequireVerified, CreateView):
     model = Trip
+    form_class = TripForm
     template_name = 'xsd_trips/edit.html'
-    fields = (
-        'name',
-        'date_start',
-        'date_end',
-        'cost',
-        'spaces',
-        'max_depth',
-        'min_qual',
-        'description',
-    )
 
     def form_valid(self, form):
         with DoAction() as action, reversion.create_revision():
@@ -119,18 +111,9 @@ class TripHistory(RequirePermission, VersionHistoryView):
 
 class TripUpdate(RequireVerified, RequirePermission, UpdateView):
     model = Trip
+    form_class = TripForm
     permission = 'can_edit'
     template_name = 'xsd_trips/edit.html'
-    fields = (
-        'name',
-        'date_start',
-        'date_end',
-        'cost',
-        'spaces',
-        'max_depth',
-        'min_qual',
-        'description',
-    )
 
     def get_queryset(self):
         return super(TripUpdate, self).get_queryset().select_related()

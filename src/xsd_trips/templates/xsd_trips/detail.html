@@ -108,7 +108,12 @@
                     <dd>{{ trip.date_start }}</dd>
                     <dt>Returns</dt>
                     <dd>
-                        {% if trip.date_end %}{{ trip.date_end }}{% else %}<em>Unknown</em>{% endif %}
+                        {% if trip.date_end %}
+                            {{ trip.date_end }}
+                            <em>({{ trip.duration }} day{{ trip.duration|pluralize:"s" }})</em>
+                        {% else %}
+                            <em>Unknown</em>
+                        {% endif %}
                     </dd>
                     <dt>Cost</dt>
                     <dd>

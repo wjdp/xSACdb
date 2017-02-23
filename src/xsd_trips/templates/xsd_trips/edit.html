@@ -6,10 +6,6 @@
     <form action="." method="POST">
         {% csrf_token %}
 
-        {% if form.errors %}
-            {{ form.errors }}
-        {% endif %}
-
         {% with WIDGET_ERROR_CLASS='form-control-danger' WIDGET_REQUIRED_CLASS='my_required' %}
 
             <div class="row">
@@ -18,6 +14,14 @@
                         {% if trip.pk %}{{ trip.uid }} | {% endif %}
                         {% render_field form.name class+="form-control form-control-lg" placeholder="Trip Name" %}
                     </h1>
+                    {% for error in form.name.errors %}
+                        <div class="has-error">
+                            <div class="form-control-feedback">
+                                {{ error }}
+                            </div>
+                        </div>
+                    {% endfor %}
+
                 </div>
             </div>
             {% include 'xsd_trips/edit_buttons.html' %}
@@ -29,7 +33,8 @@
                                 <dt>Organiser</dt>
                                 <dd>
                                     <a href="{{ trip.owner.get_absolute_url }}" class="no-underline">
-                                        <img src="{{ trip.owner.user.avatar_xs }}" class="avatar avatar-xs" alt="Avatar" />
+                                        <img src="{{ trip.owner.user.avatar_xs }}" class="avatar avatar-xs"
+                                             alt="Avatar"/>
                                         <span class="underline">{{ trip.owner }}</span>
                                     </a>
                                 </dd>

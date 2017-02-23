@@ -1,17 +1,15 @@
 from __future__ import unicode_literals
 
 import datetime
+
 from actstream.actions import follow
-from reversion import revisions as reversion
 from django.core.urlresolvers import reverse
 from django.db import models
 
 from xsd_members.models import MemberProfile
-
+from .trip_fake import TripFakeDataMixin
 from .trip_manager import TripManager
 from .trip_member import TripMember, TripMemberMixin
-
-from .trip_fake import TripFakeDataMixin
 from .trip_permission import TripPermissionMixin
 from .trip_state import *
 
@@ -83,6 +81,14 @@ class Trip(TripStateMixin,
     @property
     def in_past(self):
         return self.date_final < datetime.date.today()
+
+    @property
+    def duration(self):
+        """Return number of days"""
+        if self.date_end:
+            return (self.date_end - self.date_start).days + 1
+        else:
+            return None
 
     def get_absolute_url(self):
         return reverse('xsd_trips:TripDetail', kwargs={'pk': self.pk})
