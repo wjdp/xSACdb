@@ -3,7 +3,7 @@
 All notable changes to this project will be documented in this file. Notes should be geared towards the managers of
 xSACdb instances. This project will soon adhere to [Semantic Versioning](http://semver.org/).
 
-## Unreleased
+## [0.3.0] - 2017-02-23
 
 ### Upgrade
 - There is a problem with a single migration. After upgrade you will need to work through the following process. See issue [#272](https://gitlab.com/wjdp/xSACdb/issues/272) for more information.
