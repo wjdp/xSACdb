@@ -176,7 +176,7 @@ INSTALLED_APPS = (
     'django.contrib.humanize',
 
     'xsd_auth.apps.AuthConfig',
-    'xsd_frontend',
+    'xsd_frontend.apps.FrontendConfig',
     'xsd_members.apps.MembersConfig',
     'xsd_training',
     'xsd_trips.apps.TripsConfig',

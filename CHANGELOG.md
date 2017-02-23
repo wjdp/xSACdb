@@ -3,6 +3,11 @@
 All notable changes to this project will be documented in this file. Notes should be geared towards the managers of
 xSACdb instances. This project will soon adhere to [Semantic Versioning](http://semver.org/).
 
+## Unreleased
+
+### Added
+- Background task worker health check.
+
 ## [0.3.1] - 2017-02-23
 
 ### Added
