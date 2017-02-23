@@ -1,12 +1,16 @@
+from __future__ import unicode_literals
+
+from re import compile
+
+from django.conf import settings
 from django.core.cache import cache
 from django.core.urlresolvers import reverse
 from django.http import HttpResponseRedirect
-from django.conf import settings
-from re import compile
 
 EXEMPT_URLS = [compile(settings.LOGIN_URL.lstrip('/'))]
 if hasattr(settings, 'LOGIN_EXEMPT_URLS'):
     EXEMPT_URLS += [compile(expr) for expr in settings.LOGIN_EXEMPT_URLS]
+
 
 class LoginRequiredMiddleware:
     """
@@ -18,18 +22,21 @@ class LoginRequiredMiddleware:
     Requires authentication middleware and template context processors to be
     loaded. You'll get an error if they aren't.
     """
+
     def process_request(self, request):
         assert hasattr(request, 'user')
         if not request.user.is_authenticated():
             path = request.path_info.lstrip('/')
             if not any(m.match(path) for m in EXEMPT_URLS):
-                return HttpResponseRedirect(settings.LOGIN_URL)
+                return HttpResponseRedirect(settings.LOGIN_URL + '?next=/{}'.format(path))
+
 
 class NewbieProfileFormRedirectMiddleware:
     """
     Redirect new users to the newbie form if they're missing details from
     their profile.
     """
+
     def process_request(self, request):
         assert hasattr(request, 'user')
 
