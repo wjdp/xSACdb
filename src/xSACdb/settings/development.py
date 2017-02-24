@@ -6,7 +6,6 @@ from .common import *
 
 # Make this FALSE for deployment
 DEBUG = True
-TEMPLATE_DEBUG = True
 MESSAGE_LEVEL = message_constants.DEBUG
 
 # Add debug apps and middleware
