@@ -3,6 +3,7 @@
 All notable changes to this project will be documented in this file. Notes should be geared towards the managers of
 xSACdb instances. This project will soon adhere to [Semantic Versioning](http://semver.org/).
 
+
 ## Unreleased
 
 ### Added
@@ -14,6 +15,7 @@ xSACdb instances. This project will soon adhere to [Semantic Versioning](http://
 - Pagination for dashboard/activity feed and trips. Setting `PAGINATE_BY` defaults to 20. Prevents long page build times for long datasets, also silly long pages.
 - Notice for empty trip list.
 - Members officers can click on actors in activity feed.
+- Any application template can be overridden from the config directory `conf/templates`. Useful for custom email templates.
 
 ### Fixes
 - `manage auth_send_confirmations` no longer sends confirmation emails to archived members.
