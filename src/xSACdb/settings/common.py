@@ -1,3 +1,4 @@
+from __future__ import unicode_literals
 """All settings common to debug and production"""
 
 import os
@@ -267,3 +268,6 @@ ACTSTREAM_SETTINGS = {
 }
 
 PAGINATE_BY = 20
+
+# Browser config
+BROWSER_THEME_COLOUR = "#171f26"
