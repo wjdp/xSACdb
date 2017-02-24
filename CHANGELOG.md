@@ -9,10 +9,11 @@ xSACdb instances. This project will soon adhere to [Semantic Versioning](http://
 ### Added
 - Background task worker health check.
 - Any application template can be overridden from the config directory `conf/templates`. Useful for custom email templates.
-- Health check for
+- Health check for background task worker.
 
 ### Changes
 - Made the email confirm templates a little friendlier.
+- Color and styling tweaks.
 
 ### Fixes
 - Fixed side navigation scrolling bug on mobile – #279

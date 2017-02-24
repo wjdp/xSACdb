@@ -1,7 +1,9 @@
-{% load navigation %}
 {% load cache %}
 
 {% cache 3600 app_nav app_nav_cache_id %}
+
+    {% load navigation %}
+    {% load staticfiles %}
 
     <nav class="xsd-nav-app" id="xsd-nav-app" role="navigation">
         <div class="xsd-nav-app__container">
@@ -10,6 +12,7 @@
             </div>
 
             <a class="xsd-nav-app__brand" href="/">
+                <img src="{% static 'svg/logo-scuba-white-trimmed.svg' %}" alt="Logo" class="xsd-nav-app__brand-logo"/>
                 {{ l10n_club.name }}
             </a>
 

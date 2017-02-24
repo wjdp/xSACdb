@@ -9,14 +9,17 @@
 
 .xsd-nav-app__container
   @extend .container
-
-  @include media-breakpoint-down(sm)
-    // Override some bs padding
-    padding-left: 0
-    padding-right: 0
+  padding-left: 0
+  padding-right: 0
 
 .xsd-nav-app__brand
   @extend .navbar-brand
+  @include hide-sm
+
+.xsd-nav-app__brand-logo
+  float: left
+  height: 1.5em
+  margin-right: 0.3em
   @include hide-sm
 
 .xsd-nav-app__title

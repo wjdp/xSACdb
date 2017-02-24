@@ -3,14 +3,14 @@
 {% load staticfiles %}
 
 {% block content %}
-    <div class="row">
-        <div class="col-md-8">
+    <div class="dashboard row">
+        <div class="col-md-7 col-lg-8">
             {% include 'frontend/dashboard/banners.html' %}
 
             {% include 'frontend/dashboard/feed.html' %}
 
         </div>
-        <div class="col-md-4">
+        <div class="col-md-5 col-lg-4">
             {% include 'frontend/dashboard/membership.html' %}
         </div>
     </div>
