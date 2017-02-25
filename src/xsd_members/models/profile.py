@@ -1,26 +1,24 @@
 from __future__ import unicode_literals
 
-import random
 import warnings
 from datetime import date
 
-from actstream import action
 from django.conf import settings
 from django.core.urlresolvers import reverse
 from django.db import models
-from django.db import transaction
 from django.utils.functional import cached_property
 from reversion import revisions as reversion
 
+from xSACdb.cache import ObjectPropertyCacheInvalidationMixin
 from xSACdb.data_helpers import disable_for_loaddata
 from xsd_training.models import PerformedLesson
-from .profile_manager import MemberProfileManager
-
-from .profile_state import MemberProfileStateMixin
+from .profile_avatar import MemberProfileAvatarMixin
 from .profile_fake import MemberProfileFakeDataMixin
-from .profile_training import MemberProfileTrainingMixin
+from .profile_manager import MemberProfileManager
 from .profile_qualification import MemberProfileQualificationMixin
 from .profile_sdc import MemberProfileSDCMixin
+from .profile_state import MemberProfileStateMixin
+from .profile_training import MemberProfileTrainingMixin
 
 
 @reversion.register()
@@ -28,7 +26,9 @@ class MemberProfile(MemberProfileStateMixin,
                     MemberProfileTrainingMixin,
                     MemberProfileQualificationMixin,
                     MemberProfileSDCMixin,
+                    MemberProfileAvatarMixin,
                     MemberProfileFakeDataMixin,
+                    ObjectPropertyCacheInvalidationMixin,
                     models.Model):
     """Model for representing members of the club, a user account has a O2O
     relationship with this profile. The profile 'should' be able to exist
@@ -391,7 +391,6 @@ class MemberProfile(MemberProfileStateMixin,
         self.first_name = self.user.first_name
         self.last_name = self.user.last_name
         self.email = self.user.email
-
 
     def sync(self):
         """Sync the user object with the MP"""

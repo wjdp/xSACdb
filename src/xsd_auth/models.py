@@ -2,6 +2,7 @@ from __future__ import unicode_literals
 
 import hashlib
 import random
+import warnings
 
 from allauth.account.models import EmailAddress
 from allauth.socialaccount.models import SocialAccount
@@ -101,6 +102,9 @@ class User(UserActivityMixin, AbstractUser):
         return EmailAddress.objects.get_primary(self).verified
 
     def profile_image_url(self, size=70, blank=settings.CLUB['gravatar_default']):
+        warnings.warn("Stop using user.profile_image_url. Use profile avatar properties.", DeprecationWarning,
+                      stacklevel=2)
+
         fb_uid = SocialAccount.objects.filter(user_id=self.pk, provider='facebook')
 
         if len(fb_uid):
@@ -109,18 +113,6 @@ class User(UserActivityMixin, AbstractUser):
 
         return "https://www.gravatar.com/avatar/{0}?s={1}&d={2}".format(
             hashlib.md5(self.email).hexdigest(), size, blank)
-
-    @cached_property
-    def avatar_xs(self):
-        return self.profile_image_url(size=32)
-
-    @cached_property
-    def avatar_sm(self):
-        return self.profile_image_url(size=64)
-
-    @cached_property
-    def avatar_md(self):
-        return self.profile_image_url(size=128)
 
     def __unicode__(self):
         return self.get_full_name()
