@@ -160,7 +160,7 @@ def SDCAward(request):
     template_name = 'sdc_award.html'
 
     if 'names' in request.GET and request.GET['names'] != '':
-        selected_members = get_bulk_members(request)
+        selected_members = get_bulk_members(request, method='GET')
         sdc_form = SDCSelectForm(initial={'selected_members': selected_members})
 
     if request.POST:

@@ -12,7 +12,7 @@
 	<div class="col-sm-6">
 	<h3>Select Members</h3>
 	{% if qual_form == None %}
-	  {% include 'base/bulk_select_members.html' %}
+	  {% include 'base/bulk_select_members.html' with method="GET" %}
 	{% else %}
 		<ul>
 		{%for member in selected_members %}
