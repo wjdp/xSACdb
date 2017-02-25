@@ -2,6 +2,7 @@ $brand-background: #171f26
 $brand-primary: #014a85
 
 $color-text-white: #fefefe
+$color-text-muted: #818a91
 
 $color-OD: #6A9ED2
 $color-SD: #ECA537
@@ -11,12 +12,14 @@ $color-FC: #444
 
 $color-selection: rgba(43, 105, 255, 0.89)
 
-$color-nav-module-header: lighten($brand-background, 20%)
-$color-nav-module-link: lighten($brand-background, 10%)
-
+// Mobile side-nav
 $color-sidenav-background: $brand-background
 $color-sidenav-brand: mix($brand-primary, $brand-background)
 $color-sidenav-selection: $brand-primary
+
+// Desktop app nav
+$color-nav-module-header: $color-text-muted
+$color-nav-module-link: lighten($brand-background, 10%)
 
 $input-border-radius: 1px
 

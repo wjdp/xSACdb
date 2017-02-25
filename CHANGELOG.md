@@ -4,6 +4,12 @@ All notable changes to this project will be documented in this file. Notes shoul
 xSACdb instances. This project will soon adhere to [Semantic Versioning](http://semver.org/).
 
 
+## Unreleased
+
+### Fixes
+- Application nav module titles were incorrectly changed to blue, now back to grey
+
+
 ## [0.3.2] - 2017-02-25
 
 ### Added
