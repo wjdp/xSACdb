@@ -21,3 +21,5 @@ then
     src/manage.py reset_fake_db
     for fixture in conf/fixtures/*; do src/manage.py loaddata $fixture; done
 fi
+
+src/manage.py setup_scheduler
