@@ -16,11 +16,10 @@
   @extend .navbar-brand
   @include hide-sm
 
-.xsd-nav-app__brand-logo
+.xsd-nav-app__brand-logo, .xsd-nav-app__nav-link-text-logo
   float: left
   height: 1.5em
   margin-right: 0.3em
-  @include hide-sm
 
 .xsd-nav-app__title
   @extend .navbar-brand
@@ -103,8 +102,6 @@
     margin-right: 0.5em
 
 // Mobile side nav
-$sidenav-bg: mix($gray-dark, black, 90%)
-$sidenav-selection: $color-selection
 @include media-breakpoint-down(sm)
   .xsd-nav-app__nav
     position: fixed
@@ -116,7 +113,7 @@ $sidenav-selection: $color-selection
     top: 0
     overflow: hidden
 
-    background: $sidenav-bg
+    background: $color-sidenav-background
     padding: 0
 
     will-change: transform
@@ -184,14 +181,14 @@ $sidenav-selection: $color-selection
 
     .xsd-nav-app__nav-link
       padding: 0.7rem $sidenav-link-pad-sides !important
-      background: mix($sidenav-bg, black, 90%)
+      background: mix($color-sidenav-background, black, 90%)
       .xsd-nav-app__nav-link-text
         // Ensure clicks go to the parent element
         pointer-events: none
 
     &.active
       .xsd-nav-app__nav-link
-        border-left: 3px solid $sidenav-selection
+        border-left: 3px solid $color-sidenav-selection
         .xsd-nav-app__nav-link-text
           position: relative
           left: -3px
@@ -211,7 +208,7 @@ $sidenav-selection: $color-selection
 
   // Each app's links
   .xsd-nav-app__nav-module
-    background: $sidenav-bg
+    background: $color-sidenav-background
 
     .xsd-nav-module
       list-style: none
@@ -220,7 +217,7 @@ $sidenav-selection: $color-selection
 
     .xsd-nav-module__header
       padding: $sidenav-link-pad
-      color: mix($sidenav-bg, white)
+      color: mix($color-sidenav-background, white)
       font-size: 0.7em
       padding-top: 0.5em
       text-transform: uppercase
@@ -236,7 +233,7 @@ $sidenav-selection: $color-selection
         text-decoration: none
 
       &.active
-        border-left: 3px solid $sidenav-selection
+        border-left: 3px solid $color-sidenav-selection
         .xsd-nav-module__link-text
           position: relative
           left: -3px

@@ -11,9 +11,12 @@ $color-FC: #444
 
 $color-selection: rgba(43, 105, 255, 0.89)
 
-$color-nav-module-header: #aaabae
-$color-nav-module-link: #4b4851
-$color-sidenav-brand: $brand-primary
+$color-nav-module-header: lighten($brand-background, 20%)
+$color-nav-module-link: lighten($brand-background, 10%)
+
+$color-sidenav-background: $brand-background
+$color-sidenav-brand: mix($brand-primary, $brand-background)
+$color-sidenav-selection: $brand-primary
 
 $input-border-radius: 1px
 
