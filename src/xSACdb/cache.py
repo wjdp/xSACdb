@@ -43,6 +43,6 @@ class ObjectPropertyCacheInvalidationMixin(object):
         for property in self.get_cached_properties():
             self.invalidate_object_property_cache(property)
 
-    def save(self):
+    def save(self, *args, **kwargs):
         self.invalidate_object_property_cache_all()
-        return super(ObjectPropertyCacheInvalidationMixin, self).save()
+        return super(ObjectPropertyCacheInvalidationMixin, self).save(*args, **kwargs)
