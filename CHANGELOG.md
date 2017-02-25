@@ -4,7 +4,7 @@ All notable changes to this project will be documented in this file. Notes shoul
 xSACdb instances. This project will soon adhere to [Semantic Versioning](http://semver.org/).
 
 
-## Unreleased
+## [0.3.2] - 2017-02-25
 
 ### Added
 - Background task worker health check.
@@ -13,7 +13,7 @@ xSACdb instances. This project will soon adhere to [Semantic Versioning](http://
 
 ### Changes
 - Made the email confirm templates a little friendlier.
-- Color and styling tweaks.
+- Colour and styling tweaks.
 
 ### Fixes
 - Fixed side navigation scrolling bug on mobile – #279
