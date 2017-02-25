@@ -1,10 +1,11 @@
 {% load account %}{% user_display user as user_display %}
 Hello {{ user.get_first_name }},
 
-You're receiving this e-mail because this email address was used to register an account on {{ current_site.name }}'s club database.
+Thanks for signing up to the {{ current_site.name }}'s database. Please could you verify this email address by clicking on the link below:
 
-We require that all members have valid and correct email addresses. To this end we need you to click the following link:
 {{ activate_url }}
+
+Thanks!
 
 ---
 This is an automated message from {{ current_site.domain }}

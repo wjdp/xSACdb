@@ -24,7 +24,7 @@ class SideBarNav
 
     @hamburgerEl.addEventListener('click', @showNav)
     @pageTitle.addEventListener('click', @showNav)
-    @blurEl.addEventListener('click', @hideNav)
+    @blurEl.addEventListener('click', @hideViaBlur)
 
     document.addEventListener('touchstart', @onTouchStart)
     document.addEventListener('touchmove', @onTouchMove)
@@ -41,14 +41,27 @@ class SideBarNav
     @sideNavEl.classList.add('xsd-nav-app__nav--animate')
     @blurEl.classList.add('xsd-nav-app__blur--visible')
 
+    # Fix #279, uses BS class on body to do this
+    $(document.body).addClass('modal-open')
+
+  hideViaBlur: (e) =>
+    # Prevent clicking things under the blur
+    e.preventDefault()
+    @hideNav()
+
   hideNav: =>
     @sideNavEl.classList.remove('xsd-nav-app__nav--visible')
     @blurEl.classList.remove('xsd-nav-app__blur--visible')
     @sideBarAppSelection.reset()
 
+    # Fix #279, uses BS class on body to do this
+    $(document.body).removeClass('modal-open')
+
   onTouchStart: (e) =>
     if not @sideNavEl.classList.contains('xsd-nav-app__nav--visible')
       return
+    else
+      e.preventDefault()
 
     @sideNavEl.classList.remove('xsd-nav-app__nav--animate')
     @sideNavInnerEl.classList.remove('xsd-nav-app__nav-inner--animate')
@@ -69,6 +82,8 @@ class SideBarNav
   onTouchMove: (e) =>
     if not @touchingSideNav
       return
+    else
+      e.preventDefault()
 
     lastY = @currentY
 
@@ -81,6 +96,8 @@ class SideBarNav
   onTouchEnd: (e) =>
     if not @touchingSideNav
       return
+    else
+      e.preventDefault()
 
     @sideNavEl.classList.add('xsd-nav-app__nav--animate')
 

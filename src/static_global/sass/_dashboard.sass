@@ -1,3 +1,10 @@
+#xsd_frontend-dashboard .xsd-application-container
+  // Not really sure why but getting double padding on desktop
+  // HACK to remove this.
+  @include media-breakpoint-up(md)
+    padding-left: 0
+    padding-right: 0
+
 .xsd-membership-status
   padding: 0
   list-style: none
@@ -7,7 +14,7 @@
 
     h3
       font-size: $font-size-h4
-      
+
     h3, p
       padding-left: 3rem
 
@@ -43,7 +50,7 @@
     flex: 1
     margin-bottom: 0
 
-    background: $color-brand
+    background: $brand-primary
     color: $color-text-white
 
     display: flex

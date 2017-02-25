@@ -85,18 +85,6 @@ test:
     - redis:latest
   script:
     - source env/bin/activate
-    - src/manage.py migrate
-    - src/manage.py test xSACdb xsd_about xsd_auth xsd_frontend xsd_help xsd_kit xsd_members xsd_sites xsd_training xsd_trips
-  tags:
-    - docker
-
-coverage:
-  stage: test
-  services:
-    - postgres:latest
-    - redis:latest
-  script:
-    - source env/bin/activate
     - coverage run --include=src/\* --omit=\*/migrations/\*  src/manage.py test xSACdb xsd_about xsd_auth xsd_frontend xsd_help xsd_kit xsd_members xsd_sites xsd_training xsd_trips
     - coverage report --skip-covered
     - coverage xml
