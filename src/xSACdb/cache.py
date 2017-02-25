@@ -15,18 +15,22 @@ class object_cached_property(object):
         self.func = func
         self.name = name or func.__name__
 
-
-    def __get__(self, instance, type=None):
-        # if instance is None:
-        #     return self
-        # res = instance.__dict__[self.name] = self.func(instance)
-        cache_key = object_cache_key(type(instance).__class__.__name__, instance.pk, self.name)
+    def from_cache(self, instance):
+        cache_key = object_cache_key(instance.__class__.__name__, instance.pk, self.name)
         if cache.get(cache_key):
+            # Got it, return
             return cache.get(cache_key)
         else:
+            # Nope, compute it and save to cache
             value = self.func(instance)
             cache.set(cache_key, value)
             return value
+
+    def __get__(self, instance, type=None):
+        # Check if we have the value in the instance cache, else fetch from redis
+        res = instance.__dict__[self.name] = self.from_cache(instance)
+        return res
+
 
 class ObjectPropertyCacheInvalidationMixin(object):
     """Invalidates object_cached_property on save"""
