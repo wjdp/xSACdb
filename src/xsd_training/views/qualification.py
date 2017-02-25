@@ -18,7 +18,7 @@ def QualificationAward(request):
     selected_members=None
 
     if 'names' in request.GET and request.GET['names']!='':
-        selected_members=get_bulk_members(request)
+        selected_members=get_bulk_members(request, method='GET')
         qual_form=QualificationSelectForm(initial={'selected_members':selected_members})
 
     if request.POST:
