@@ -19,6 +19,9 @@ CLUB = {
     'onboarded_line_2': "However before you can do much more here a committee member needs to verify your account. Check back here tomorrow for your training logbook, the club dive-site directory, and details of upcoming sessions and trips.",
     'onboarded_line_email_confirm': "While you're waiting for that, check your email inbox. We've sent an confirmation email, in that is a link to confirm your email address.",
 
+    'feed_empty_title': "Your updates here",
+    'feed_empty_body': "A summary of your activity with the club, including membership, training and trips will appear here.",
+
     'how_to_renew': 'Contact the committee.',
     'bsac_club_renew': 'Contact the committee.',
     'medical_form_renew': 'Form available at <a href="http://uksdmc.co.uk/">uksdmc.co.uk</a>.',
