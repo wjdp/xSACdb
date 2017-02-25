@@ -23,9 +23,11 @@ def xsd_vars(request):
         'current_url': current_url,
         'namespace': namespace,
 
-        'DEBUG': settings.DEBUG,
         'l10n_club': settings.CLUB,
+
+        'DEBUG': settings.DEBUG,
         'RAVEN_DSN': settings.RAVEN_CONFIG.get('dsn_public', None),
+        'BROWSER_THEME_COLOUR': settings.BROWSER_THEME_COLOUR,
     }
 
     if request.user.is_authenticated():

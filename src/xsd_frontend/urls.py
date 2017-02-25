@@ -16,12 +16,18 @@ urlpatterns = patterns('',
 
     url(r'^favicon\.ico$', favicon_view),
     url(r'manifest\.json$', TemplateView.as_view(
-            template_name='manifest.json',
+            template_name='browser/manifest.json',
             content_type='application/json'),
         name='app-manifest'
     ),
+    url(r'browserconfig\.xml', TemplateView.as_view(
+            template_name='browser/browserconfig.xml',
+            content_type='application/xml'),
+        name='app-browserconfig'
+    ),
+
     url(r'service-worker\.js$', TemplateView.as_view(
             template_name='service-worker.js',
             content_type='text/javascript'),
-        name='app-manifest'),
+        name='app-service-worker'),
 )

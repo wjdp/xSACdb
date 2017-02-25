@@ -1,5 +1,4 @@
-{% load staticfiles %}
-{
+{% load staticfiles %}{
   "short_name": "{{ l10n_club.name }}",
   "name": "{{ l10n_club.name }}",
   "icons": [
@@ -14,8 +13,8 @@
       "type": "image/png"
     }
   ],
-  "theme_color": "#0f1a24",
-  "background_color": "#0f1a24",
+  "theme_color": "{{ BROWSER_THEME_COLOUR }}",
+  "background_color": "{{ BROWSER_THEME_COLOUR }}",
   "start_url": "/",
   "display": "standalone"
 }

@@ -3,6 +3,22 @@
 All notable changes to this project will be documented in this file. Notes should be geared towards the managers of
 xSACdb instances. This project will soon adhere to [Semantic Versioning](http://semver.org/).
 
+
+## [0.3.2] - 2017-02-25
+
+### Added
+- Background task worker health check.
+- Any application template can be overridden from the config directory `conf/templates`. Useful for custom email templates.
+- Health check for background task worker.
+
+### Changes
+- Made the email confirm templates a little friendlier.
+- Colour and styling tweaks.
+
+### Fixes
+- Fixed side navigation scrolling bug on mobile – #279
+
+
 ## [0.3.1] - 2017-02-23
 
 ### Added
@@ -19,14 +35,14 @@ xSACdb instances. This project will soon adhere to [Semantic Versioning](http://
 
 ### Upgrade
 - There is a problem with a single migration. After upgrade you will need to work through the following process. See issue [#272](https://gitlab.com/wjdp/xSACdb/issues/272) for more information.
-    - Enter the shell 
+    - Enter the shell
     - Disable the migration `xsd_frontend.0002_xsdaction_xsdversion`
     - Run other migrations; `manage migrate`
     - Reinstate the `xsd_frontend.0002_xsdaction_xsdversion` migration.
     - Run `manage migrate` one more time.
 - Run `manage update_follow_defaults` to make current users follow changes to their profiles. New users have this set automatically.
 - Run `manage build_version_cache` to speed up initial load times of user feeds.
-- At some point run `migrate` manually from the shell. It will prompt to delete the model `xsd_trips | tripattendee` as it is no longer used by the application. Answer yes. 
+- At some point run `migrate` manually from the shell. It will prompt to delete the model `xsd_trips | tripattendee` as it is no longer used by the application. Answer yes.
 - Run `manage auth_sync` to synchronise the internal user/email table with the allauth email table. Needed for email validation. Only needs to be run once.
 
 ### Added
@@ -42,7 +58,7 @@ xSACdb instances. This project will soon adhere to [Semantic Versioning](http://
 - All signups now trigger sending a validation email.
 - You can trigger sending validation emails to all unverified addresses with `manage auth_send_confirmations`. Ensure `auth_sync` is run first.
 - Improved styling of account pages.
- 
+
 ### Fixes
 - A number of styling fixes.
 - Cache and page speed improvements.

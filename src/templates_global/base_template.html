@@ -10,8 +10,6 @@
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width, user-scalable=no"/>
 
-    <link rel="manifest" href="/manifest.json">
-
     {% compress css %}
 
         {# Non-Sassy Library stylesheets #}
@@ -78,7 +76,7 @@
         </script>
     {% endcompress %}
 
-    {% include 'icons.html' %}
+    {% include 'browser/head.html' %}
 
     {% block post_head %}{% endblock %}
 </head>
