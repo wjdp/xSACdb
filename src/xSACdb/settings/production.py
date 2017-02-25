@@ -1,4 +1,4 @@
-from __future__ import absolute_import
+from __future__ import absolute_import, unicode_literals
 
 import socket
 import dj_database_url
@@ -69,10 +69,10 @@ if 'XSACDB_CONTAINER' in os.environ and os.environ['XSACDB_CONTAINER'] == 'DOCKE
     }
 
 # Turn on cached loading of templates
-TEMPLATE_LOADERS = (
+TEMPLATES[0]['OPTIONS']['loaders'] = (
     ('django.template.loaders.cached.Loader', (
-        'django.template.loaders.app_directories.Loader',
         'django.template.loaders.filesystem.Loader',
+        'django.template.loaders.app_directories.Loader',
     )),
 )
 
