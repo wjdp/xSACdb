@@ -1,4 +1,5 @@
 from __future__ import unicode_literals
+
 """All settings common to debug and production"""
 
 import os
@@ -164,6 +165,9 @@ FIXTURE_DIRS = (
 )
 
 INSTALLED_APPS = (
+    'redis_cache',  # https://github.com/sebleier/django-redis-cache
+    'django_rq',  # https://github.com/ui/django-rq
+
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
@@ -198,8 +202,6 @@ INSTALLED_APPS = (
     'tastypie',
 
     'geoposition',
-
-    'django_rq',
 
     'reversion',  # https://github.com/etianen/django-reversion
     'reversion_compare',  # https://github.com/jedie/django-reversion-compare
