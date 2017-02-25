@@ -174,7 +174,7 @@
 
                 {% if trip.members.count > 0 %}
 
-                    {% include 'xsd_trips/member_list.html' with members=trip.attendees %}
+                    {% include 'xsd_trips/member_list.html' with attendees=trip.attendees %}
 
                 {% else %}
 

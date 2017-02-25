@@ -40,6 +40,10 @@ class TripMember(models.Model):
 
 
 class TripMemberMixin(object):
+    @property
+    def attendees(self):
+        return TripMember.objects.filter(trip=self).order_by('member')
+
     @cached_property
     def spaces_taken(self):
         return TripMember.objects.filter(trip=self, state__gte=TripMember.STATE_ACCEPTED).count()
