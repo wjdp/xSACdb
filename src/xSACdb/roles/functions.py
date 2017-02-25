@@ -9,9 +9,10 @@ def is_allowed(user, groups):
         # Should be verified before any group stuff is allowed
         return False
 
-    user_groups = user.memberprofile.user_groups_values()
+    user_groups = user.group_values
     for group in user_groups:
-        if group in groups:
+        # Dealing with group.values() so dumb dict.
+        if group['id'] in groups:
             return True
     return False
 

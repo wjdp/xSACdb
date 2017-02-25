@@ -312,15 +312,6 @@ class MemberProfile(MemberProfileStateMixin,
         from xsd_training.models import PerformedSDC
         return PerformedSDC.objects.filter(trainees=self, completed=False)
 
-    _cached_user_group_values = 0
-
-    def user_groups_values(self):
-        if self._cached_user_group_values != 0:
-            return self._cached_user_group_values
-        else:
-            self._cached_user_group_values = [x['id'] for x in self.user.groups.all().values()]
-            return self.user_groups_values()
-
     def memberprofile(self):
         """Legacy bit"""
         warnings.warn("Stop using memberprofile.memberprofile", DeprecationWarning, stacklevel=2)

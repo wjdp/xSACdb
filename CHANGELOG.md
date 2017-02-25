@@ -9,6 +9,9 @@ xSACdb instances. This project will soon adhere to [Semantic Versioning](http://
 ### Added
 - Placeholder feed 'Your updates here' box shows for members with less than six items in their feed. See http://i.imgur.com/ZWmhjaD.png.
 
+### Changes
+- Some caching improvements.
+
 ### Fixes
 - Application nav module titles were incorrectly changed to blue, now back to grey
 - Trip attendee list now sorted.

@@ -12,6 +12,7 @@ from django.contrib.auth.models import UserManager as DJ_UserManager
 from django.db import transaction
 from django.utils.functional import cached_property
 
+from xSACdb.cache import object_cached_property, ObjectPropertyCacheInvalidationMixin
 from xSACdb.roles.groups import GROUP_ADMIN
 
 
@@ -62,8 +63,17 @@ class UserActivityMixin(object):
         follow(self, self.profile, send_action=False, actor_only=False)
 
 
-class User(UserActivityMixin, AbstractUser):
+class User(UserActivityMixin,
+           ObjectPropertyCacheInvalidationMixin,
+           AbstractUser):
+    """User subclass for xSACdb"""
+
     objects = UserManager()
+
+    def get_cached_properties(self):
+        return [
+            'group_values'
+        ]
 
     class Meta:
         verbose_name = 'user'
@@ -100,6 +110,10 @@ class User(UserActivityMixin, AbstractUser):
     @cached_property
     def is_email_confirmed(self):
         return EmailAddress.objects.get_primary(self).verified
+
+    @object_cached_property
+    def group_values(self):
+        return Group.objects.filter(user=self).values()
 
     def profile_image_url(self, size=70, blank=settings.CLUB['gravatar_default']):
         warnings.warn("Stop using user.profile_image_url. Use profile avatar properties.", DeprecationWarning,
