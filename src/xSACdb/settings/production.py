@@ -40,7 +40,7 @@ else:
     RAVEN_CONFIG = {}
 
 if 'XSACDB_CONTAINER' in os.environ and os.environ['XSACDB_CONTAINER'] == 'DOCKER':
-    ALLOWED_HOSTS.append(socket.getaddrinfo(socket.gethostname(), 'http')[0][4][0])
+    ALLOWED_HOSTS.append(socket.getaddrinfo(socket.gethostname(), b'http')[0][4][0])
 
     # If in a docker container, parse the database URL
     DATABASES = {
@@ -69,6 +69,7 @@ if 'XSACDB_CONTAINER' in os.environ and os.environ['XSACDB_CONTAINER'] == 'DOCKE
     }
 
 # Turn on cached loading of templates
+TEMPLATES[0]['APP_DIRS'] = False
 TEMPLATES[0]['OPTIONS']['loaders'] = (
     ('django.template.loaders.cached.Loader', (
         'django.template.loaders.filesystem.Loader',
