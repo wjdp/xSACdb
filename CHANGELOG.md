@@ -8,6 +8,7 @@ xSACdb instances. This project will soon adhere to [Semantic Versioning](http://
 
 ### Added
 - Placeholder feed 'Your updates here' box shows for members with less than six items in their feed. See http://i.imgur.com/ZWmhjaD.png.
+- `manage refresh` command to wipe ephemeral stores—i.e. the cache—and rebuild them without knowledge of which commands are needed for all that.
 
 ### Changes
 - Some caching improvements.
