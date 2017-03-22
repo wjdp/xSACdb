@@ -11,9 +11,9 @@ class object_cached_property(object):
     Decorator that converts a method with a single self argument into a
     property cached on the instance in redis.
     """
-    def __init__(self, func, name=None):
+    def __init__(self, func):
         self.func = func
-        self.name = name or func.__name__
+        self.name = func.__name__
 
     def from_cache(self, instance):
         cache_key = object_cache_key(instance.__class__.__name__, instance.pk, self.name)
@@ -40,6 +40,10 @@ class ObjectPropertyCacheInvalidationMixin(object):
 
     def invalidate_object_property_cache(self, property):
         """Invalidate a single property, useful for calling from elsewhere"""
+        if property in self.__dict__:
+            # Remove from instance cache, see bug #285
+            self.__dict__.pop(property)
+        # Remove from external cache
         cache.delete(object_cache_key(self.__class__.__name__, self.pk, property))
 
     def invalidate_object_property_cache_all(self):

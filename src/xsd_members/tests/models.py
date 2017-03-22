@@ -397,9 +397,15 @@ class MemberProfileTest(BaseMemberTest, TrainingTestToolsMixin):
         # Test the cache is invalidated
         self.mp.email = 'testytest@example.com'
         self.mp.save()
+        # Check instance cache has been cleared, see #285
         self.assertNotEqual(avatars['xs'], self.mp.avatar_xs)
         self.assertNotEqual(avatars['sm'], self.mp.avatar_sm)
         self.assertNotEqual(avatars['md'], self.mp.avatar_md)
+        # Check external cache has been cleared
+        mp_fresh = MemberProfile.objects.get(pk=self.mp.pk)
+        self.assertNotEqual(avatars['xs'], mp_fresh.avatar_xs)
+        self.assertNotEqual(avatars['sm'], mp_fresh.avatar_sm)
+        self.assertNotEqual(avatars['md'], mp_fresh.avatar_md)
 
 
 
