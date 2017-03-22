@@ -12,6 +12,15 @@ xSACdb instances. This project will soon adhere to [Semantic Versioning](http://
 ### Changes
 - Some caching improvements.
 
+
+## [0.3.4] - 2017-03-22
+
+### Fixes
+- Bug #284: Far too many warnings logged, apply a result timeout to periodic tasks to prevent this.
+
+
+## [0.3.3] - 2017-02-25
+
 ### Fixes
 - Application nav module titles were incorrectly changed to blue, now back to grey
 - Trip attendee list now sorted.

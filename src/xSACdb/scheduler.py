@@ -29,6 +29,6 @@ def init_scheduler():
 
             # schedule with new interval
             scheduler.schedule(now + datetime.timedelta(seconds=interval), func,
-                               interval=interval)
+                               interval=interval, result_ttl=interval*7)
 
     schedule_once(periodic_test, interval=60)
