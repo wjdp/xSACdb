@@ -4,7 +4,7 @@ All notable changes to this project will be documented in this file. Notes shoul
 xSACdb instances. This project will soon adhere to [Semantic Versioning](http://semver.org/).
 
 
-## Unreleased
+## [0.3.5] - 2017-03-23
 
 ### Added
 - Placeholder feed 'Your updates here' box shows for members with less than six items in their feed. See http://i.imgur.com/ZWmhjaD.png.
