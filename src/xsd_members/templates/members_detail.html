@@ -7,7 +7,7 @@
         <div class="col-md-6">
             <div class="titlebox">
                 {% if member.user %}
-                    <img src="{{ member.user.profile_image_url }}" alt="Profile Picture" class="alignright"/>{% endif %}
+                    <img src="{{ member.avatar_md }}" alt="Profile Picture" class="alignright"/>{% endif %}
                 <h2>{{ member }}</h2>
                 <div class="btn-group btn-group-sm" role="group">
                     {% if is_members %}

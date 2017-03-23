@@ -1,13 +1,14 @@
 {% load activity_tags %}
 {% load humanize %}
 {% load pagination %}
+{% load staticfiles %}
 
 <ul class="feed">
     {% for action in feed %}
         <li class="feed-item {{ action.data.style | default:"feed-item-default" }}">
 
             <div class="feed-item-avatar">
-                <img src="{{ action.actor.avatar_sm }}" alt="Profile image"/>
+                <img src="{{ action.actor.profile.avatar_sm }}" alt="Profile image"/>
             </div>
 
             <div class="feed-item-line">
@@ -60,6 +61,16 @@
         {# TODO Empty feed filler #}
     {% endfor %}
 </ul>
+
+{% if feed.count < 6 %}
+    <div class="feed-example">
+        <div class="feed-example__graphic">
+            <img src="{% static 'svg/feed-example.svg' %}" alt="Example of feed items"/>
+        </div>
+        <h2 class="feed-example__title">{{ l10n_club.feed_empty_title }}</h2>
+        <p class=".feed-example__title">{{ l10n_club.feed_empty_body }}</p>
+    </div>
+{% endif %}
 
 {% if is_paginated %}
     {% paginator %}

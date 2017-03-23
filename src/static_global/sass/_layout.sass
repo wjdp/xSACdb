@@ -33,7 +33,13 @@ body
   @include media-breakpoint-down(sm)
     padding: 0 15px // FIXME should be based on BS4 var, cba to find right now
 
+// Column sizing for module nav and content
 @include media-breakpoint-up(md)
+  .xsd-module-nav
+    @include make-col(3)
+  .xsd-module-content
+    @include make-col(9)
+@include media-breakpoint-up(lg)
   .xsd-module-nav
     @include make-col(4)
   .xsd-module-content

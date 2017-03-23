@@ -4,6 +4,20 @@ All notable changes to this project will be documented in this file. Notes shoul
 xSACdb instances. This project will soon adhere to [Semantic Versioning](http://semver.org/).
 
 
+## [0.3.5] - 2017-03-23
+
+### Added
+- Placeholder feed 'Your updates here' box shows for members with less than six items in their feed. See http://i.imgur.com/ZWmhjaD.png.
+- `manage refresh` command to wipe ephemeral stores—i.e. the cache—and rebuild them without knowledge of which commands are needed for all that.
+
+### Changes
+- Some caching improvements.
+
+### Fixes
+- Application nav module titles were incorrectly changed to blue, now back to grey
+- Trip attendee list now sorted.
+
+
 ## [0.3.4] - 2017-03-22
 
 ### Fixes
