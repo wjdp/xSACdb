@@ -2,6 +2,7 @@ from __future__ import unicode_literals
 
 import hashlib
 import random
+import warnings
 
 from allauth.account.models import EmailAddress
 from allauth.socialaccount.models import SocialAccount
@@ -11,6 +12,7 @@ from django.contrib.auth.models import UserManager as DJ_UserManager
 from django.db import transaction
 from django.utils.functional import cached_property
 
+from xSACdb.cache import object_cached_property, ObjectPropertyCacheInvalidationMixin
 from xSACdb.roles.groups import GROUP_ADMIN
 
 
@@ -61,8 +63,17 @@ class UserActivityMixin(object):
         follow(self, self.profile, send_action=False, actor_only=False)
 
 
-class User(UserActivityMixin, AbstractUser):
+class User(UserActivityMixin,
+           ObjectPropertyCacheInvalidationMixin,
+           AbstractUser):
+    """User subclass for xSACdb"""
+
     objects = UserManager()
+
+    def get_cached_properties(self):
+        return [
+            'group_values'
+        ]
 
     class Meta:
         verbose_name = 'user'
@@ -100,7 +111,14 @@ class User(UserActivityMixin, AbstractUser):
     def is_email_confirmed(self):
         return EmailAddress.objects.get_primary(self).verified
 
+    @object_cached_property
+    def group_values(self):
+        return Group.objects.filter(user=self).values()
+
     def profile_image_url(self, size=70, blank=settings.CLUB['gravatar_default']):
+        warnings.warn("Stop using user.profile_image_url. Use profile avatar properties.", DeprecationWarning,
+                      stacklevel=2)
+
         fb_uid = SocialAccount.objects.filter(user_id=self.pk, provider='facebook')
 
         if len(fb_uid):
@@ -109,18 +127,6 @@ class User(UserActivityMixin, AbstractUser):
 
         return "https://www.gravatar.com/avatar/{0}?s={1}&d={2}".format(
             hashlib.md5(self.email).hexdigest(), size, blank)
-
-    @cached_property
-    def avatar_xs(self):
-        return self.profile_image_url(size=32)
-
-    @cached_property
-    def avatar_sm(self):
-        return self.profile_image_url(size=64)
-
-    @cached_property
-    def avatar_md(self):
-        return self.profile_image_url(size=128)
 
     def __unicode__(self):
         return self.get_full_name()

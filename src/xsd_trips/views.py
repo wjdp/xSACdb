@@ -90,7 +90,6 @@ class TripDetail(RequireVerified, RequirePermission, DetailView):
     def get_context_data(self, **kwargs):
         context = super(TripDetail, self).get_context_data(**kwargs)
         context['page_title'] = self.object.name
-        context['attendees'] = TripMember.objects.filter(trip=self.object)
         # To populate warning dialogue
         context['export_csv_columns'] = TripAttendeeRosterDump.COLUMNS
         return context

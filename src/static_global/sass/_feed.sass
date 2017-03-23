@@ -44,3 +44,27 @@
   @include feed-icon(trip-closed, fa-stop)
   @include feed-icon(trip-completed, fa-archive)
 
+
+// Your feed here soon box
+.feed-example
+  padding: 1rem
+  margin-bottom: 1rem
+
+  background: mix($gray, white, 15%)
+  border: 3px dashed mix($gray, white, 05%)
+
+  .feed-example__graphic
+    // Prevent graphic overflowing container
+    margin-bottom: 1rem
+    overflow: hidden
+    img
+      opacity: 0.2
+
+  .feed-example__title, .feed-example__body
+    text-align: center
+
+  .feed-example__title
+    font-size: 2rem
+
+  .feed-example__body
+    margin-bottom: 0
