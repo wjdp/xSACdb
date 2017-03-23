@@ -13,6 +13,10 @@ xSACdb instances. This project will soon adhere to [Semantic Versioning](http://
 ### Changes
 - Some caching improvements.
 
+### Fixes
+- Application nav module titles were incorrectly changed to blue, now back to grey
+- Trip attendee list now sorted.
+
 
 ## [0.3.4] - 2017-03-22
 
@@ -23,8 +27,7 @@ xSACdb instances. This project will soon adhere to [Semantic Versioning](http://
 ## [0.3.3] - 2017-02-25
 
 ### Fixes
-- Application nav module titles were incorrectly changed to blue, now back to grey
-- Trip attendee list now sorted.
+- Fix qualification and SDC award forms. See #280.
 
 
 ## [0.3.2] - 2017-02-25
