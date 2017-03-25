@@ -15,8 +15,6 @@ DEFAULT_CHARSET = 'utf-8'
 
 ADMIN_MEDIA_PREFIX = ''
 
-GOOGLE_MAPS_API_KEY = ''
-
 # Define project paths
 PROJECT_PATH = os.path.join(os.path.dirname(__file__), '../../..')
 SRC_PATH = os.path.join(PROJECT_PATH, 'src')

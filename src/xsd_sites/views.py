@@ -1,6 +1,7 @@
 from __future__ import unicode_literals
 
 import reversion
+from django.conf import settings
 from django.core import serializers
 from django.core.urlresolvers import reverse_lazy
 from django.http import HttpResponse
@@ -29,6 +30,7 @@ class SitesOverview(RequireVerified, ListView):
             if site.location:
                 sites_real.append(site)
         c[self.context_object_name] = sites_real
+        c['GEOPOSITION_GOOGLE_MAPS_API_KEY'] = settings.GEOPOSITION_GOOGLE_MAPS_API_KEY
         return c
 
 

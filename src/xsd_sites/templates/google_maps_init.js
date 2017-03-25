@@ -1,4 +1,4 @@
-<script type="text/javascript" src="//maps.google.com/maps/api/js?key={{GOOGLE_MAPS_API_KEY}}&sensor=false"></script>
+<script type="text/javascript" src="//maps.google.com/maps/api/js?key={{ GEOPOSITION_GOOGLE_MAPS_API_KEY }}&sensor=false"></script>
 <script type="text/javascript">
 
 var map;
