@@ -4,6 +4,13 @@ All notable changes to this project will be documented in this file. Notes shoul
 xSACdb instances. This project will soon adhere to [Semantic Versioning](http://semver.org/).
 
 
+## Unreleased
+
+### Changes
+- We now attempt to load `conf/local_settings.py` for development. Creating this file is optional we fo not fail if it is missing.
+- Upgrade to geoposition plugin now requires Google maps API key `GOOGLE_MAPS_API_KEY` to be set in local_settings.
+
+
 ## [0.3.5] - 2017-03-23
 
 ### Added
