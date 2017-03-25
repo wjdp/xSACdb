@@ -2,6 +2,9 @@ from __future__ import absolute_import, unicode_literals
 import os
 from django.contrib.messages import constants as message_constants
 
+import logging
+logger = logging.getLogger(__name__)
+
 from .common import *
 
 # Make this FALSE for deployment
@@ -118,3 +121,12 @@ EMAIL_FILE_PATH = 'tmp/emails/' # change this to a proper location
 
 # Allow FB login local
 ACCOUNT_DEFAULT_HTTP_PROTOCOL = 'http'
+
+# django-geoposition dummy API key
+GEOPOSITION_GOOGLE_MAPS_API_KEY = 'dummy'
+
+# Override any with local_settings.py
+try:
+    from local_settings import *
+except ImportError:
+    logger.warn('conf/local_settings.py does not exist')

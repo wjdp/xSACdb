@@ -79,3 +79,6 @@ COMPRESS_ENABLED = True
 PASSWORD_HASHERS = [
     'django.contrib.auth.hashers.MD5PasswordHasher',
 ]
+
+# django-geoposition dummy API key
+GEOPOSITION_GOOGLE_MAPS_API_KEY = 'dummy'
