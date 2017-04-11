@@ -1,5 +1,5 @@
 # Remember to update .gitlab-ci.yml too
-FROM wjdp/xsacdb-image:v0.2.0-4
+FROM wjdp/xsacdb-image:v0.4.0-1
 
 ENV XSACDB_ENVIRONMENT PRODUCTION
 ENV XSACDB_CONTAINER DOCKER
@@ -9,6 +9,7 @@ ADD requirements.txt /app/
 ADD requirements_dev.txt /app/
 ADD .bowerrc /app/
 ADD bower.json /app/
+ADD package.json /app/
 RUN /app/bin/install-pre.sh
 
 ADD . /app

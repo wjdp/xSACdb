@@ -1,3 +1,4 @@
+{% load staticfiles %}
 {% load navigation %}
 {% load compress %}
 {% load hijack_tags %}
@@ -12,30 +13,10 @@
 
 <link rel="manifest" href="/manifest.json">
 
-{% compress css %}
-
-{# Project stylesheets #}
-<link rel="stylesheet" type="text/x-sass" media="screen" charset="utf-8"
-    href="/static/sass/build.sass" />
-
 <link rel="stylesheet" type="text/css" media="screen" charset="utf-8"
-    href="/static/css/strap.css" />
+    href="{% static 'css/build.css' %}" />
 
-{% endcompress %}
-
-{% compress js %}
-
-<script type="text/javascript" src="/static/jquery/dist/jquery.js"></script>
-<script type="text/javascript" src="/static/jquery-form/jquery.form.js"></script>
-<script type="text/javascript" src="/static/jquery-tokeninput/src/jquery.tokeninput.js"></script>
-<script type="text/javascript" src="/static/jquery-form/jquery.form.js"></script>
-{#<script type="text/javascript" src="/static/js/jquery.cookie.js"></script>#}
-
-<script type="text/javascript" src="/static/tether/dist/js/tether.js"></script>
-<script type="text/javascript" src="/static/bootstrap/dist/js/bootstrap.js"></script>
-<script type="text/javascript" src="/static/raven-js/dist/raven.min.js"></script>
-
-{% endcompress %}
+<script type="text/javascript" src="{% static 'js/lib.js' %}"></script>
 
 {% if RAVEN_DSN %}
 <script type="text/javascript">
@@ -48,18 +29,9 @@
 </script>
 {% endif %}
 
-{% compress js %}
-
 <script type="text/javascript" src="/static/js/css_extra.js"></script>
-<script type="text/coffeescript" src="/static/coffee/mq-detector.coffee"></script>
-<script type="text/coffeescript" src="/static/coffee/xsd-preauth.coffee"></script>
-<script type="text/coffeescript" src="/static/coffee/activity-spinner.coffee"></script>
-<script type="text/coffeescript" src="/static/coffee/nav.coffee"></script>
-<script type="text/coffeescript" src="/static/coffee/xsd_trips-list.coffee"></script>
+<script type="text/javascript" src="{% static 'js/app.js' %}"></script>
 
-{% endcompress %}
-
-{% compress js inline %}
 <script type="text/javascript">
 navigator.serviceWorker.register('/service-worker.js', { scope: '/' })
     .then(function(r) {
@@ -70,7 +42,6 @@ navigator.serviceWorker.register('/service-worker.js', { scope: '/' })
       console.error(whut);
     });
 </script>
-{% endcompress %}
 
 {% include 'browser/head.html' %}
 

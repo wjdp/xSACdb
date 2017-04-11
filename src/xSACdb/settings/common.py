@@ -81,6 +81,7 @@ STATICFILES_DIRS = (
     # Always use forward slashes, even on Windows.
     # Don't forget to use absolute paths, not relative paths.
     os.path.join(CONF_PATH, 'static'),
+    os.path.join(DIST_PATH, 'post'),
     os.path.join(SRC_PATH, 'static_global'),
     LIB_PATH,
 )
@@ -96,23 +97,8 @@ STATICFILES_FINDERS = (
 # Caching for Django Whitenoise
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 # HACK: WN doesn't seem to pick up dj compressor files as forever-cacheable
+# TODO: Is this needed anymore?
 WHITENOISE_MAX_AGE = 315360000
-
-# django-compressor settings
-# Curly braces doubled to escape them when using str.format()
-COMPRESS_PRECOMPILERS = (
-    ('text/coffeescript', 'coffee --compile --stdio'),
-    ('text/x-sass', 'sass {{infile}} {{outfile}} --load-path {}'.format(LIB_PATH)),
-    ('text/x-scss', 'sass --scss {{infile}} {{outfile}} --load-path {}'.format(LIB_PATH)),
-)
-# Lets the compress management command do it's work
-COMPRESS_OFFLINE = True
-# Prevents rebuilds if the source is unchanged
-COMPRESS_CACHEABLE_PRECOMPILERS = (
-    'text/coffeescript',
-    'text/x-sass',
-    'text/x-scss',
-)
 
 TEMPLATES = [
     {

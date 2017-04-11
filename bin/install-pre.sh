@@ -23,5 +23,7 @@ sass -v
 bower install -q --allow-root
 # This folder is trouble (whitenoise issue I think)
 rm -rf lib/tether/examples
+# NPM things
+npm install
 
 echo "[xSACdb] install-pre.sh complete!"

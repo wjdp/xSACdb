@@ -19,7 +19,6 @@ django-rq==0.9.5
 django-tastypie==0.13.3
 django-widget-tweaks==1.4.1
 Django==1.8.18
-django_compressor==2.1.1
 docutils==0.13.1
 Faker==0.7.10
 gunicorn==19.7.1
