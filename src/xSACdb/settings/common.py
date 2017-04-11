@@ -91,7 +91,6 @@ STATICFILES_DIRS = (
 STATICFILES_FINDERS = (
     'django.contrib.staticfiles.finders.AppDirectoriesFinder',
     'django.contrib.staticfiles.finders.FileSystemFinder',
-    'compressor.finders.CompressorFinder',
 )
 
 # Caching for Django Whitenoise
@@ -180,8 +179,6 @@ INSTALLED_APPS = (
     'bootstrap_toolkit',
     'bootstrap3',
     'widget_tweaks',
-
-    'compressor',
 
     'tastypie',
 
