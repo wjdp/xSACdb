@@ -1,7 +1,11 @@
 .xsd-module-nav
   .xsd-nav-module
-    @extend .nav
+    display: flex
+    flex-direction: column
+    padding-left: 0 // <ul> reset
     margin-bottom: 1rem
+
+    list-style: none
 
     .active
       border-left: 3px solid $brand-primary
@@ -21,12 +25,13 @@
       margin-top: 0
 
   .xsd-nav-module__item
-    @extend .nav-item
     margin-bottom: 0.1rem
 
   .xsd-nav-module__link
-    @extend .nav-link
+    &, &:hover, &:active
+      text-decoration: none
 
   .xsd-nav-module__link-text
+    display: inline
     font-size: 0.9em
     color: $color-nav-module-link
