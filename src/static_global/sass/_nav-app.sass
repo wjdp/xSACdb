@@ -1,20 +1,21 @@
 .xsd-nav-app
   @extend .navbar
   @extend .navbar-nav
-  // @extend .navbar-fixed-top BS4
-  // @extend .navbar-dark BS4
-  @extend .bg-inverse
+  @extend .navbar-inverse
 
   background: $brand-background
 
 .xsd-nav-app__container
   @extend .container
+  display: flex
   padding-left: 0
   padding-right: 0
 
 .xsd-nav-app__brand
   @extend .navbar-brand
   @include hide-sm
+
+  margin-right: 2.5rem
 
 .xsd-nav-app__brand-logo, .xsd-nav-app__nav-link-text-logo
   float: left
@@ -32,6 +33,7 @@
 .xsd-nav-app__nav
   @extend .nav
   @extend .navbar-nav
+  width: 100%
 
 .xsd-nav-app__nav-item
   @extend .nav-item
@@ -48,7 +50,6 @@
 
 .xsd-nav-app__nav-help
   @include media-breakpoint-up(md)
-    float: right !important
     .text
       display: none
 
@@ -66,7 +67,6 @@
   .xsd-nav-app__nav-item-xsd_auth__i-dropdown
     display: none
   @include media-breakpoint-up(md)
-    float: right !important
     .xsd-nav-app__nav-link-icon
       display: none
     .xsd-nav-app__nav-item-xsd_auth__i-dropdown
@@ -98,12 +98,34 @@
 .xsd-nav-app__activity-spinner--spin
   display: block
 
-@include media-breakpoint-up(lg)
-  .xsd-nav-app__title, .xsd-nav-app__nav-item
-    margin-right: 0.5em
+// Desktop top nav
+@include media-breakpoint-up(md)
+  .xsd-nav-app__nav-item
+    margin-right: 1rem
+
+  .xsd-nav-app__nav-inner
+    display: flex
+
+  .xsd-nav-app__nav-item-xsd_auth, .xsd-nav-app__nav-item-xsd_help
+    align-self: flex-end
+
+  .xsd-nav-app__nav-item-xsd_auth
+    order: 95
+  .xsd-nav-app__nav-help
+    order: 90
+    margin-left: auto
+
 
 // Mobile side nav
 @include media-breakpoint-down(sm)
+  .xsd-nav-app
+    // Corrections for BS4
+    padding: 0.5rem 1rem
+  .xsd-nav-app__container
+    // Corrections for BS4
+    margin-left: 0
+    margin-right: 0
+
   .xsd-nav-app__nav
     position: fixed
     height: 100%
@@ -113,6 +135,8 @@
     left: 0
     top: 0
     overflow: hidden
+
+    z-index: $zindex-nav-drawer
 
     background: $color-sidenav-background
     padding: 0
@@ -156,7 +180,7 @@
     width: 100%
     height: 100%
 
-    z-index: 100
+    z-index: $zindex-blur
 
     background: #000
     opacity: 0
