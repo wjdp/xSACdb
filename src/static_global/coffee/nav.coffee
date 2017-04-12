@@ -167,8 +167,8 @@ class SideBarAppSelection
     for appNode in @allAppNodes
       appNode.querySelector('a').addEventListener('click', @tapApp)
       moduleNode = @getModuleNode(appNode)
-      h = moduleNode.getClientRects()[0].height
-      moduleNode.dataset.fullHeight = h
+      # TODO: BS4 defudge Why are we getting the height of something that is hidden, it won't work! How did this even work before?
+      moduleNode.dataset.fullHeight = moduleNode.getClientRects()[0].height
 
       unless appNode.classList.contains('selected')
         moduleNode.style.maxHeight = 0
@@ -194,17 +194,16 @@ class SideBarAppSelection
     for appNode in @allAppNodes
       moduleNode = @getModuleNode(appNode)
       if appNode.dataset.appName == appName
-        currentAppNode = appNode
         appNode.classList.add('selected')
         @currentAppNode = appNode
         moduleNode.style.maxHeight = "#{moduleNode.dataset.fullHeight}px"
       else
         appNode.classList.remove('selected')
         moduleNode.style.maxHeight = 0
-    setTimeout ->
-      @sideBarNav.scrollTo(currentAppNode)
+    setTimeout =>
+      @sideBarNav.scrollTo(@currentAppNode)
     , 100 + 60 # Need to wait for CSS transition because we need to know the height. Add some ms to account for delays
-    return currentAppNode
+    return @currentAppNode
 
   reset: ->
     if @currentAppName

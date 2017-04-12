@@ -85,7 +85,10 @@ gulp.task('watch', function() {
     watch(['src/static_global/sass'], batch(function(events, done) {
         gulp.start('css_dev', done);
     }));
-})
+    watch(['src/static_global/coffee'], batch(function(events, done) {
+        gulp.start('js_app_dev', done);
+    }));
+});
 
 // Frontend tasks
 
