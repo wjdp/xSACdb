@@ -1,0 +1,132 @@
+{% extends 'members_template.html' %}
+{% load widget_tweaks %}
+
+{% block members_content %}
+    <form action="." method="POST">
+        {% csrf_token %}
+
+        {{ form.errors }}
+
+        <div class="row">
+            <div class="col-md-6">
+                <div class="titlebox">
+                    {% if member.image %}
+                        <img src="{{ member.image.url }}" alt="Profile Picture" class="alignright"/>{% endif %}
+                    {% if is_members %}
+                        <h2>{{ form.first_name.errors }}{{ form.first_name }}
+                            {{ form.last_name.errors }}{{ form.last_name }}</h2>
+                    {% else %}
+                        <h2>{{ member }}</h2>
+                    {% endif %}
+                </div>
+                {% if is_members %}
+                    {{ form.date_of_birth.errors }}
+                    <p>Date of Birth: {{ form.date_of_birth }}</p>
+                {% endif %}
+            </div>
+            <div class="col-md-6">
+                <h3><i class="fa fa-envelope"></i> Personal Details</h3>
+                <table class="table">
+                    {% include 'xsd_members/member/edit_field.html' with field=form.address %}
+                    {% include 'xsd_members/member/edit_field.html' with field=form.postcode %}
+                    {% include 'xsd_members/member/edit_field.html' with field=form.email %}
+                    {% include 'xsd_members/member/edit_field.html' with field=form.home_phone %}
+                    {% include 'xsd_members/member/edit_field.html' with field=form.mobile_phone %}
+                    {% include 'xsd_members/member/edit_field.html' with field=form.alergies %}
+                    {% include 'xsd_members/member/edit_field.html' with field=form.veggie %}
+
+
+                </table>
+            </div>
+        </div>
+
+        {# Second row #}
+        <div class="row">
+            <div class="col-md-6">
+                <h3><i class="fa fa-home"></i> Club Details</h3>
+                {% if is_members %}
+                    <table class="table">
+                        <tr>
+                            <th>Club ID</th>
+                            <td>{{ member.uid }}</td>
+                        </tr>
+                        {% if l10n_club.student %}
+                            {% include 'xsd_members/member/edit_field.html' with field=form.student_id %}
+                        {% endif %}
+                        {% include 'xsd_members/member/edit_field.html' with field=form.club_membership_type %}
+                        {% include 'xsd_members/member/edit_field.html' with field=form.club_expiry %}
+                        {% include 'xsd_members/member/edit_field.html' with field=form.medical_form_expiry %}
+                    </table>
+                {% else %}
+                    <p>Club details can only be updated by a database officer. If there is an error please make an
+                        update request.</p>
+                {% endif %}
+            </div>
+
+            <div class="col-md-6">
+                <h3><i class="fa fa-user"></i> Next of Kin</h3>
+                <table class="table">
+                    {% include 'xsd_members/member/edit_field.html' with field=form.next_of_kin_name %}
+                    {% include 'xsd_members/member/edit_field.html' with field=form.next_of_kin_relation %}
+                    {% include 'xsd_members/member/edit_field.html' with field=form.next_of_kin_phone %}
+                </table>
+            </div>
+        </div>
+
+        {# Third row #}
+        <div class="row">
+            <div class="col-md-6">
+
+                <h3><i class="fa fa-trophy"></i> Qualification Details</h3>
+                <table class="table">
+                    {% if is_members %}
+
+                        <tr>
+                            <th>Current Qualification</th>
+                            <td>Qualifications are added in the training module</td>
+                        </tr>
+
+                        {% include 'xsd_members/member/edit_field.html' with field=form.training_for %}
+
+                        <tr>
+                            <th>Instructor Qualification</th>
+                            <td>Qualifications are added in the training module</td>
+                        </tr>
+
+                        {% include 'xsd_members/member/edit_field.html' with field=form.instructor_number %}
+
+                    {% else %}
+                        <p>BSAC qualification details can only be updated by a database officer. If there is an error
+                            please make an update request.</p>
+                    {% endif %}
+
+                    {% include 'xsd_members/member/edit_field.html' with field=form.other_qualifications %}
+
+                </table>
+            </div>
+            <div class="col-md-6">
+                <h3><i class="icon-bsac"></i> BSAC Details</h3>
+                {% if is_members %}
+                    <table class="table">
+                        {% include 'xsd_members/member/edit_field.html' with field=form.bsac_id %}
+                        <tr>
+                            <th>Membership Type</th>
+                            <td>
+                                {% include 'forms/checkbox.html' with field=form.bsac_direct_debit %}
+                                {% include 'forms/checkbox.html' with field=form.bsac_direct_member %}
+                                {% include 'forms/checkbox.html' with field=form.bsac_member_via_another_club %}
+                            </td>
+                        </tr>
+                        {% include 'xsd_members/member/edit_field.html' with field=form.bsac_expiry %}
+                    </table>
+                {% else %}
+                    <p>BSAC details can only be updated by a database officer. If there is an error please make an
+                        update request.</p>
+                {% endif %}
+            </div>
+        </div>
+        <div class="ret-form-actions">
+            <button type="submit" class="btn btn-success alignright"><i class="fa fa-save"></i> Save Changes</button>
+        </div>
+    </form>
+{% endblock %}

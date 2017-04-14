@@ -13,9 +13,10 @@
                 {% endif %}
 
                 <div class="profile-card__content">
-
                     {% if member.user %}
-                        <img src="{{ member.avatar_md }}" alt="Profile Picture" class="avatar"/>{% endif %}
+                        <img src="{{ member.avatar_md }}" alt="Profile Picture" class="avatar"/>
+                    {% endif %}
+
                     <h2>{{ member }}</h2>
 
                     {% if is_members and not member.archived %}
@@ -58,7 +59,7 @@
                         </div>
 
                     {% elif myself %}
-                        <a href="{% url 'xsd_members:MyProfileEdit' %}" class="btn btn-secondary" type="button">
+                        <a href="{% url 'xsd_members:MyProfileEdit' %}" class="btn btn-sm btn-secondary">
                             <i class="fa fa-pencil"></i> Edit
                         </a>
                     {% endif %}
@@ -101,14 +102,14 @@
                             {% csrf_token %}
                             <button type="submit" class="btn btn-success btn-sm" type="button">
                                 <i class="fa fa-mail-forward"></i> Restore
-                            </button> this record
+                            </button>
+                            this record
                         </form>
                     </div>
                 {% endif %}
 
                 <p>{{ member.first_name }} joined the database on {{ member.date_joined|date }} and last logged in
                     on {{ member.user.last_login }}</p>
-                <p>{{ member.heshe }} was born on {{ member.date_of_birth }}.</p>
 
                 {% if member.membership_problem %}
                     <div class="alert alert-danger">
@@ -143,6 +144,11 @@
                 <tr>
                     <th>Mobile Phone</th>
                     <td>{{ member.mobile_phone }}{% if not member.mobile_phone %}
+                        <i class="fa fa-exclamation-triangle text-danger"></i>{% endif %}</td>
+                </tr>
+                <tr>
+                    <th>Date of Birth</th>
+                    <td>{% if member.date_of_birth %}{{ member.date_of_birth }}{% else %}
                         <i class="fa fa-exclamation-triangle text-danger"></i>{% endif %}</td>
                 </tr>
                 <tr>
