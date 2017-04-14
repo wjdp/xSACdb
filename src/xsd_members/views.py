@@ -25,7 +25,7 @@ from xsd_members.forms import *
 def view_my_profile(request):
     profile = request.user.memberprofile
     editable = True
-    return render(request, 'members_detail.html', {
+    return render(request, 'xsd_members/member/detail.html', {
         'member': profile,
         'editable': editable,
         'myself': True},
@@ -211,7 +211,7 @@ class MembersArchivedList(MemberList):
 
 class MemberDetail(RequireMembersOfficer, DetailView):
     model = MemberProfile
-    template_name = 'members_detail.html'
+    template_name = 'xsd_members/member/detail.html'
     context_object_name = 'member'
     accounts_settings_open = False
     member_useraccount_form = None

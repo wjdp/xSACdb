@@ -3,73 +3,92 @@
 {% block title %}{{ member }}{% endblock %}
 
 {% block members_content %}
-    <div class="row">
+    <div class="row xsd-member-profile">
         <div class="col-md-6">
-            <div class="titlebox">
-                {% if member.user %}
-                    <img src="{{ member.avatar_md }}" alt="Profile Picture" class="alignright"/>{% endif %}
-                <h2>{{ member }}</h2>
-                <div class="btn-group btn-group-sm" role="group">
-                    {% if is_members %}
-                        {% if member.new_notify %}
-                            <form action="action/approve/" method="POST">
-                                {% csrf_token %}
-                                <button type="submit" class="btn btn-success btn-sm" type="button">
-                                    <i class="fa fa-check"></i> Approve
-                                </button>
-                            </form>
-                        {% endif %}
-                        <a href="{% url 'xsd_members:MemberEdit' member.pk %}" class="btn btn-secondary" type="button">
-                            <i class="fa fa-pencil"></i> Edit
-                        </a>
-                        {% if member_useraccount_form %}
-                            <button class="btn btn-secondary" data-toggle="modal"
-                                    data-target="#member_useraccount_modal">
-                                <i class="fa fa-key"></i> Account
-                            </button>
-                        {% endif %}
+            <div class="profile-card">
+                {% if member.top_qual %}
+                    <div class="qual-banner">
+                        <div class="qual-banner__colour xsd-qual-banner--{{ member.top_qual.code }}">&nbsp;</div>
+                    </div>
+                {% endif %}
 
-                        {% if not member.archived %}
-                            <a href="{% url 'xsd_members:MemberArchive' member.pk %}" class="btn btn-outline-warning"
-                               type="button">
-                                <i class="fa fa-archive"></i> Archive
+                <div class="profile-card__content">
+
+                    {% if member.user %}
+                        <img src="{{ member.avatar_md }}" alt="Profile Picture" class="avatar"/>{% endif %}
+                    <h2>{{ member }}</h2>
+
+                    {% if is_members and not member.archived %}
+                        <div class="btn-group btn-group-sm" role="group">
+                            <a href="{% url 'xsd_members:MemberEdit' member.pk %}" class="btn btn-secondary">
+                                <i class="fa fa-pencil"></i> Edit
                             </a>
-                        {% else %}
-                            <form action="action/reinstate/" method="POST">
-                                {% csrf_token %}
-                                <button type="submit" class="btn btn-success btn-sm" type="button">
-                                    <i class="fa fa-mail-forward"></i> Restore
+
+                            <div class="btn-group" role="group">
+                                <button id="member-dropdown" type="button"
+                                        class="btn btn-sm btn-secondary dropdown-toggle"
+                                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    <i class="fa fa-ellipsis-h"></i>
                                 </button>
-                            </form>
-                        {% endif %}
+                                <div class="dropdown-menu" aria-labelledby="member-dropdown">
+                                    {% if member_useraccount_form %}
+                                        <a class="dropdown-item" href="#" data-toggle="modal"
+                                           data-target="#member_useraccount_modal">
+                                            <i class="fa fa-key"></i> Account Settings
+                                        </a>
+                                    {% endif %}
 
-                        <a href="{% url 'xsd_members:MemberDelete' member.pk %}" class="btn btn-outline-danger"
-                           type="button">
-                            <i class="fa fa-trash"></i> Delete
-                        </a>
+                                    {% if not member.archived %}
+                                        <a href="{% url 'xsd_members:MemberArchive' member.pk %}"
+                                           class="dropdown-item text-warning">
+                                            <i class="fa fa-archive"></i> Archive
+                                        </a>
+                                    {% endif %}
 
-                        <a href="{% url 'xsd_members:MemberHistory' member.pk %}" class="btn btn-secondary"
-                           type="button">
-                            <i class="fa fa-history"></i> History
-                        </a>
+                                    <a href="{% url 'xsd_members:MemberDelete' member.pk %}"
+                                       class="dropdown-item text-danger">
+                                        <i class="fa fa-trash"></i> Delete
+                                    </a>
+
+                                    <a href="{% url 'xsd_members:MemberHistory' member.pk %}" class="dropdown-item">
+                                        <i class="fa fa-history"></i> Object History
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
 
                     {% elif myself %}
                         <a href="{% url 'xsd_members:MyProfileEdit' %}" class="btn btn-secondary" type="button">
                             <i class="fa fa-pencil"></i> Edit
                         </a>
                     {% endif %}
+
+                    {% if request.user.is_superuser and member.user %}
+                        <form style="display:inline" action="/hijack/{{ member.user.pk }}/" method="post">
+                            {% csrf_token %}
+                            <button class="btn btn-sm btn-secondary" type="submit">
+                                <i class="fa fa-user-secret"></i> Hijack
+                            </button>
+                        </form>
+                    {% endif %}
                 </div>
-                {% if request.user.is_superuser and member.user %}
-                    <form style="display:inline" action="/hijack/{{ member.user.pk }}/" method="post">
-                        {% csrf_token %}
-                        <button class="btn btn-secondary" type="submit">
-                            <i class="fa fa-user-secret"></i> Hijack
-                        </button>
-                    </form>
-                {% endif %}
             </div>
+
             <div>
-                <div class="qual_badge {{ member.top_qual.code }}"></div>
+                {% if not member.verified %}
+                    <div class="alert alert-warning">
+                        <p><strong><i class="fa fa-flag"></i> This account is new and needs to
+                            be verified.</strong></p>
+                        <p>As anyone can create an account on this system new accounts must be verified to allow
+                            access.</p>
+                        <form action="action/approve/" method="POST">
+                            {% csrf_token %}
+                            <button type="submit" class="btn btn-sm btn-warning">
+                                <i class="fa fa-check"></i> Approve
+                            </button>
+                        </form>
+                    </div>
+                {% endif %}
 
                 {% if member.archived %}
                     <div class="alert alert-warning">
@@ -77,7 +96,13 @@
                             archived</strong></p>
                         <p>Personal data has been expunged. If they sign into the site they'll be prompted to re-enter
                             these details and their record will be restored.</p>
-                        <p>The record may also be restored using the button above.</p>
+
+                        <form action="action/reinstate/" method="POST">
+                            {% csrf_token %}
+                            <button type="submit" class="btn btn-success btn-sm" type="button">
+                                <i class="fa fa-mail-forward"></i> Restore
+                            </button> this record
+                        </form>
                     </div>
                 {% endif %}
 
@@ -95,28 +120,30 @@
             </div>
 
         </div>
+
         <div class="col-md-6">
             <h3><i class="fa fa-envelope"></i> Personal Details</h3>
             <table class="table">
                 <tr>
                     <th>Address</th>
-                    <td>{% if not member.address or member.post_code %}<i class="fa fa-exclamation-triangle red"></i>
+                    <td>{% if not member.address or member.post_code %}
+                        <i class="fa fa-exclamation-triangle text-danger"></i>
                         {% else %}{{ member.formatted_address|safe }}<br/>{{ member.postcode }}{% endif %}</td>
                 </tr>
                 <tr>
                     <th>Email</th>
                     <td>{{ member.email }}{% if not member.email %}
-                        <i class="fa fa-exclamation-triangle red"></i>{% endif %}</td>
+                        <i class="fa fa-exclamation-triangle text-danger"></i>{% endif %}</td>
                 </tr>
                 <tr>
                     <th>Home Phone</th>
                     <td>{{ member.home_phone }}{% if not member.home_phone %}
-                        <i class="fa fa-exclamation-triangle red"></i>{% endif %}</td>
+                        <i class="fa fa-exclamation-triangle text-danger"></i>{% endif %}</td>
                 </tr>
                 <tr>
                     <th>Mobile Phone</th>
                     <td>{{ member.mobile_phone }}{% if not member.mobile_phone %}
-                        <i class="fa fa-exclamation-triangle red"></i>{% endif %}</td>
+                        <i class="fa fa-exclamation-triangle text-danger"></i>{% endif %}</td>
                 </tr>
                 <tr>
                     <th>Allergies or other requirements</th>
@@ -152,12 +179,12 @@
                     <tr>
                         <th>Membership Expiry Date</th>
                         <td>{{ member.club_expiry }}{% if member.club_expired %}
-                            <i class="fa fa-exclamation-triangle red"></i>{% endif %}</td>
+                            <i class="fa fa-exclamation-triangle text-danger"></i>{% endif %}</td>
                     </tr>
                     <tr>
                         <th>Medical Form Expiry Date</th>
                         <td>{{ member.medical_form_expiry }}{% if member.medical_form_expired %}
-                            <i class="fa fa-exclamation-triangle red"></i>{% endif %}</td>
+                            <i class="fa fa-exclamation-triangle text-danger"></i>{% endif %}</td>
                     </tr>
                 </table>
             {% else %}
@@ -174,17 +201,17 @@
                 <tr>
                     <th>Name</th>
                     <td>{{ member.next_of_kin_name }}{% if not member.next_of_kin_name %}
-                        <i class="fa fa-exclamation-triangle red"></i>{% endif %}</td>
+                        <i class="fa fa-exclamation-triangle text-danger"></i>{% endif %}</td>
                 </tr>
                 <tr>
                     <th>Relation</th>
                     <td>{{ member.next_of_kin_relation }}{% if not member.next_of_kin_relation %}
-                        <i class="fa fa-exclamation-triangle red"></i>{% endif %}</td>
+                        <i class="fa fa-exclamation-triangle text-danger"></i>{% endif %}</td>
                 </tr>
                 <tr>
                     <th>Phone</th>
                     <td>{{ member.next_of_kin_phone }}{% if not member.next_of_kin_phone %}
-                        <i class="fa fa-exclamation-triangle red"></i>{% endif %}</td>
+                        <i class="fa fa-exclamation-triangle text-danger"></i>{% endif %}</td>
                 </tr>
             </table>
         </div>
@@ -242,7 +269,7 @@
                     <tr>
                         <th>BSAC ID</th>
                         <td>{% if member.bsac_id %}A{{ member.bsac_id }}{% else %}
-                            <i class="fa fa-exclamation-triangle red"></i>{% endif %}</td>
+                            <i class="fa fa-exclamation-triangle text-danger"></i>{% endif %}</td>
                     </tr>
                     <tr>
                         <th>Membership Type</th>
@@ -256,7 +283,7 @@
                     <tr>
                         <th>BSAC Expiry Date</th>
                         <td>{{ member.bsac_expiry }}{% if member.bsac_expired %}
-                            <i class="fa fa-exclamation-triangle red"></i>{% endif %}</td>
+                            <i class="fa fa-exclamation-triangle text-danger"></i>{% endif %}</td>
                     </tr>
                 </table>
             {% else %}
@@ -269,7 +296,7 @@
     </div>
 
     {% if member_useraccount_form %}
-        {% include 'components/member_useraccount_modal.html' %}
+        {% include 'xsd_members/components/account_modal.html' %}
     {% endif %}
 
 {% endblock %}
