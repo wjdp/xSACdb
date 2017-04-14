@@ -20,7 +20,24 @@ var uglify = require('gulp-uglify');
 var batch = require('gulp-batch');
 var watch = require('gulp-watch');
 
+var APPS = [
+    'xsd_about',
+    'xsd_auth',
+    'xsd_frontend',
+    'xsd_help',
+    'xsd_kit',
+    'xsd_members',
+    'xsd_sites',
+    'xsd_training',
+    'xsd_trips'
+];
+
 // CSS
+
+// Generate a list of include paths for Sass files
+var SASS_INCLUDE_PATHS = APPS.map(function (elem) {
+   return './src/' + elem + '/static/sass'
+}).concat(['./lib']);
 
 function css(opts) {
     if (opts.postprocess) {
@@ -33,7 +50,7 @@ function css(opts) {
     return gulp.src('src/static_global/sass/build.sass')
         .pipe(sourcemaps.init())
         .pipe(sass(
-            {includePaths: ['./lib']}
+            {includePaths: SASS_INCLUDE_PATHS}
          ).on('error', sass.logError))
         .pipe(postcss(processors))
         .pipe(sourcemaps.write('.'))
@@ -82,7 +99,7 @@ gulp.task('js_lib', function () { return js_lib({postprocess: true}) });
 gulp.task('js_lib_dev', function () { return js_lib({postprocess: false}) });
 
 gulp.task('watch', function() {
-    watch(['src/static_global/sass'], batch(function(events, done) {
+    watch(SASS_INCLUDE_PATHS.concat(['src/static_global/sass']), batch(function(events, done) {
         gulp.start('css_dev', done);
     }));
     watch(['src/static_global/coffee'], batch(function(events, done) {
