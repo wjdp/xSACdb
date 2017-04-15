@@ -11,13 +11,16 @@
         </thead>
         <tbody>
         {% for member in members %}
-            <tr {% if member.membership_problem %}class="table-danger"{% endif %}>
+            <tr {% if member.membership_problem and not member.archived %}class="table-danger"{% endif %}>
                 <td class="flag-cell {{ member.top_qual.code }}-cell" title="{{ member.top_qual }}">
                     {{ member.top_qual.code }}
                 </td>
+
                 <td class="flag-cell">
-                    {% if member.missing_personal_details %}
-                        <i class="fa fa-ban fa-fw red" title="Missing personal fields"></i>
+                    {% if member.archived %}
+                        <i class="fa fa-archive fa-fw" title="Archived"></i>
+                    {% elif member.missing_personal_details %}
+                        <i class="fa fa-ban fa-fw" title="Missing personal fields"></i>
                     {% elif member.new_notify %}
                         <i class="fa fa-flag fa-fw" title="Unverified new member"></i>
                     {% elif member.is_instructor %}
@@ -32,6 +35,7 @@
                         <span class="underline">{{ member.first_name }} <strong>{{ member.last_name }}</strong></span>
                     </a>
                 </td>
+
                 <td>{% if member.club_membership_type != None %}{{ member.club_membership_type }}{% endif %}</td>
 
                 <td class="xsd-members-table__expiry-column">
@@ -39,15 +43,17 @@
                         <i class="icon-bsac-small --expired" title="BSAC Expired: {{ member.bsac_expiry }}"></i>
                     {% endif %}
                 </td>
+
                 <td class="xsd-members-table__expiry-column">
                     {% if member.club_expired %}
                         <i class="fa fa-home --expired" title="Club Expired: {{ member.club_expiry }}"></i>
                     {% endif %}
                 </td>
+
                 <td class="xsd-members-table__expiry-column">
                     {% if member.medical_form_expired %}
                         <i class="fa fa-medkit --expired"
-                           title="Medical Form Expired: {{ member.medical_form_expiry }}">
+                           title="Medical Form Expired: {{ member.medical_form_expiry }}"></i>
                     {% endif %}
                 </td>
             </tr>
