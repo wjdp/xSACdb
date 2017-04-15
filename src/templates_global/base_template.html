@@ -50,9 +50,9 @@ navigator.serviceWorker.register('/service-worker.js', { scope: '/' })
 <body class="{% block body_class %}xsd{% endblock %}"
       id="{{ current_url.namespace }}-{{ current_url.url_name }}">
 
-{{ request|hijackNotification }}
-
 {% if request.user.is_authenticated %}{% app_nav %}{% endif %}
+
+{{ request|hijackNotification }}
 
 <div class="xsd-messages">
     {% if messages %}
@@ -76,6 +76,8 @@ navigator.serviceWorker.register('/service-worker.js', { scope: '/' })
         {% endblock %}
     </div>
 {% endblock %}
+
+{{ request|hijackNotification }}
 
 {% block modals %}{% endblock %}
 
