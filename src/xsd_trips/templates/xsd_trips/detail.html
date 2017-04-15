@@ -4,7 +4,7 @@
 
 {% block trips_content %}
     <div class="row">
-        <div class="col-xs-10">
+        <div class="col">
             <h1>
                 {{ trip.uid }} |
                 {{ trip.name }}
@@ -31,7 +31,7 @@
                 </div>
             {% endif %}
 
-            <div class="btn-toolbar" role="group">
+            <div >
                 {% permission request.user can_edit trip %}
                     <a href="{% url 'xsd_trips:TripUpdate' trip.pk %}" class="btn btn-outline-primary"><i
                             class="fa fa-pencil"></i> Edit</a>
@@ -74,7 +74,7 @@
 
                 {% permission request.user can_delete trip %}
                     {% csrf_token %}
-                    <button type="button" class="btn btn-outline-danger" data-toggle="modal" data-target="#deleteModal">
+                    <button class="btn btn-outline-danger" data-toggle="modal" data-target="#deleteModal">
                         <i class="fa fa-trash"></i> Delete
                     </button>
                 {% endpermission %}
