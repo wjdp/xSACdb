@@ -1,0 +1,53 @@
+{% extends 'training_template.html' %}
+{% load report_extras %}
+
+{% block training_content %}
+
+    <div class="col">
+
+        <form action="." method="get">
+            <div class="input-group">
+                <label class="input-group-addon" for='tg'>
+                    Group
+                </label>
+                <select class="form-control" name='tg'>
+                    {% for tgi in tgs %}
+                        <option value={{ tgi.pk }} {% if tg == tgi %}selected{% endif %}>{{ tgi }}</option>
+                    {% endfor %}
+                </select>
+                <span class="input-group-btn">
+                    <button type="submit" class="btn btn-secondary">Generate Report</button>
+                </span>
+            </div>
+
+        </form>
+
+        <hr/>
+
+        <p>Select a trainee group to generate a report on their progress.</p>
+
+
+        {% if tg %}
+            <table class="table table-sm">
+                {% for t in tg.trainees.all %}
+                    <tr>
+                        <td><i class="fa fa-user"></i> <a
+                                href="{% url 'xsd_training:TraineeNotes' t.pk %}">{{ t.get_full_name }}</a></td>
+                        <td>
+                            <i class="fa fa-square xsd-qual-fg--{{ t.memberprofile.training_for.code }}"></i>
+                            {{ t.memberprofile.training_for }}
+                        </td>
+                        <td>{% show_lessons t %}
+                    </tr>
+                    {% empty %}
+                    {# TODO Pretty alert #}
+                    No trainees in group
+                {% endfor %}
+            </table>
+        {% endif %}
+
+    </div>
+
+    {% include 'components/pl-mouseover.html' %}
+
+{% endblock %}

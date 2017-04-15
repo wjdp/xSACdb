@@ -8,8 +8,14 @@
     {% for trainee in trainees %}
         <tr>
             <td><a href="{% url 'xsd_training:TraineeNotes' trainee.pk %}">{{ trainee.get_full_name }}</a></td>
-            <td>{{ trainee.top_qual }}</td>
-            <td>{{ trainee.training_for }}</td>
+            <td>
+                <i class="fa fa-square xsd-qual-fg--{{ trainee.top_qual.code }}" aria-hidden="true"></i>
+                {{ trainee.top_qual }}
+            </td>
+            <td>
+                <i class="fa fa-square xsd-qual-fg--{{ trainee.training_for.code }}" aria-hidden="true"></i>
+                {{ trainee.training_for }}
+            </td>
             <td>
                 <form action="action/remove/" method="POST">
                     {% csrf_token %}

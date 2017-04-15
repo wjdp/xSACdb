@@ -47,7 +47,7 @@ def show_lessons(mp, only_main_three=False):
     for mode in Lesson.MODE_CHOICES:
         lessons[mode[0]] = Lesson.objects.filter(mode=mode[0]).order_by('order').prefetch_related('qualification')
 
-    output = '<table class="xsd-pl-matrix">\n'
+    output = '<table class="table table-sm xsd-pl-matrix">\n'
     for mode in Lesson.MODE_CHOICES:
         output += build_lesson_row(lessons[mode[0]], mp)
 
