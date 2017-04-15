@@ -5,7 +5,7 @@
 {% block members_content %}
     <div class="row xsd-member-profile">
         <div class="col-md-6">
-            <div class="profile-card">
+            <div class="xsd-profile-card">
                 {% if member.top_qual %}
                     <div class="qual-banner">
                         <div class="qual-banner__colour xsd-qual-banner--{{ member.top_qual.code }}">&nbsp;</div>
@@ -230,7 +230,10 @@
             <table class="table">
                 <tr>
                     <th>Current Qualification</th>
-                    <td>{{ member.top_qual }}</td>
+                    <td>
+                        <i class="fa fa-square xsd-qual-fg--{{ member.top_qual.code }}" aria-hidden="true"></i>
+                        {{ member.top_qual }}
+                    </td>
                 </tr>
                 <tr>
                     <th>Training For</th>
@@ -253,7 +256,7 @@
                 <tr>
                     <th>SDCs</th>
                     <td>
-                        <ul class="mini-sdc-list">
+                        <ul class="xsd-member-sdc-list">
                             {% for sdc in member.sdcs.all %}
                                 <li>{{ sdc }}</li>{% endfor %}
                         </ul>
