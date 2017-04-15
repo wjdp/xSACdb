@@ -40,12 +40,13 @@ var SASS_INCLUDE_PATHS = APPS.map(function (elem) {
 }).concat(['./lib']);
 
 function css(opts) {
+    var processors;
     if (opts.postprocess) {
-        var processors = [
+        processors = [
             cssnext(),
-            cssnano({autoprefixer: false}),
+            cssnano({autoprefixer: false})
         ];
-    } else { var processors = [] }
+    } else { processors = [] }
 
     return gulp.src('src/static_global/sass/build.sass')
         .pipe(sourcemaps.init())
@@ -62,8 +63,12 @@ gulp.task('css_dev', function () { return css({postprocess: false}) });
 
 // JS
 
+var COFFEE_INCLUDE_PATHS = ['src/static_global/coffee/*.coffee'].concat(APPS.map(function (elem) {
+   return './src/' + elem + '/static/coffee/*.coffee'
+}));
+
 function js_app(opts) {
-    return gulp.src('src/static_global/coffee/*.coffee')
+    return gulp.src(COFFEE_INCLUDE_PATHS)
                .pipe(sourcemaps.init())
                .pipe(coffee({bare: true}).on('error', gutil.log))
                .pipe(concat('app.js'))
