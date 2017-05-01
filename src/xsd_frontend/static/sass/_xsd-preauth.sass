@@ -154,9 +154,13 @@
 
   .xsd-preauth-form__controls
     @include make-row
+    // Has -15px margin either side from BS4, not really sure why. Removing here -- wjdp
+    margin-left: 0 !important
+    margin-right: 0 !important
 
     & > *
       @include make-col(6)
+
 
 .xsd-preauth-login__alternate
   // Login with email / New member? links
@@ -213,6 +217,8 @@ $email-exit-time: 0.22s
       transition: transform $email-entry-time cubic-bezier(0,0,0.3,1) // Slow entry
 
   .xsd-preauth-form__controls
+    a
+      color: $color-text-white
     .btn-secondary-outline
       opacity: 0.5
 
