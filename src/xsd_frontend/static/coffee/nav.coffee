@@ -185,7 +185,6 @@ class SideBarAppSelection
     elem = e.srcElement
     if elem.parentElement.dataset.appName == 'xsd-dashboard'
       @sideBarNav.hideNav()
-      window.activitySpinner.showSpinner()
       window.location = elem.href
     else if elem.classList.contains('xsd-nav-app__nav-link')
       @selectApp(elem.parentElement.dataset.appName)
@@ -217,7 +216,6 @@ class SideBarModuleNavigation
     elem = e.srcElement
     if elem.classList.contains('xsd-nav-module__link-text')
       @sideBarNav.hideNav()
-      window.activitySpinner.showSpinner()
       window.location = elem.parentElement.href
 
 $(document).ready ->
