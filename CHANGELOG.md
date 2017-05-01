@@ -4,9 +4,15 @@ All notable changes to this project will be documented in this file. Notes shoul
 xSACdb instances. This project will soon adhere to [Semantic Versioning](http://semver.org/).
 
 
+## Unreleased
+
+### Changes
+- Upgraded Bootstrap (frontend framework) to v4.a6, required some adjusting of some frontend components. Now using Gulp to build frontend assets.
+
+
 ## [0.3.7] - 2017-04-07
 
-## Changes
+### Changes
 - Minor upgrades of upstream packages.
 
 
