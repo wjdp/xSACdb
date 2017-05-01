@@ -1,6 +1,6 @@
 {% extends 'training_template.html' %}
 {% load lesson_extras %}
-{% load report_extras %}
+{% load pl_matrix %}
 
 {% block training_content %}
 
@@ -65,13 +65,13 @@
 
         </table>
     </div>
-    <div class="col-md-6">
+    <div class="col-lg-6">
         <h3><i class="fa fa-table"></i> Lessons</h3>
 
         <p><big>{{ planned }}</big> lessons planned</p>
         <p><big>{{ partially_completed }}</big> lessons partially completed</p>
         <p><big>{{ completed }}</big> lessons completed</p>
-        {% show_lessons trainee %}
+        {% pl_matrix trainee %}
         {% if is_training %}
             <a href="{% url 'xsd_training:RetroAddLessons' %}?trainee={{ trainee.pk }}&qualification={{ trainee.training_for.pk }}"
                class="btn btn-secondary"><i class="fa fa-plus"></i> Retrospectively Add Lessons</a>
@@ -79,7 +79,7 @@
     </div>
 
 
-    <div class="col-md-6">
+    <div class="col-lg-6">
         <h3><i class="fa fa-trophy"></i> Qualification Details</h3>
         <table class="table">
             <tr>

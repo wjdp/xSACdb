@@ -1,5 +1,5 @@
 {% extends 'training_template.html' %}
-{% load report_extras %}
+{% load pl_matrix %}
 
 {% block training_content %}
 
@@ -29,15 +29,15 @@
 
         {% if tg %}
             <table class="table table-sm">
-                {% for t in tg.trainees.all %}
+                {% for trainee in tg.trainees.all %}
                     <tr>
                         <td><i class="fa fa-user"></i> <a
-                                href="{% url 'xsd_training:TraineeNotes' t.pk %}">{{ t.get_full_name }}</a></td>
+                                href="{% url 'xsd_training:TraineeNotes' trainee.pk %}">{{ trainee.get_full_name }}</a></td>
                         <td>
-                            <i class="fa fa-square xsd-qual-fg--{{ t.memberprofile.training_for.code }}"></i>
-                            {{ t.memberprofile.training_for }}
+                            <i class="fa fa-square xsd-qual-fg--{{ trainee.training_for.code }}"></i>
+                            {{ trainee.training_for.code }}
                         </td>
-                        <td>{% show_lessons t %}
+                        <td>{% pl_matrix trainee %}</td>
                     </tr>
                     {% empty %}
                     {# TODO Pretty alert #}
