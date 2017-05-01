@@ -5,43 +5,47 @@
 
     <div class="col">
 
+
         <form action="." method="get">
-            <div class="input-group">
-                <label class="input-group-addon" for='tg'>
-                    Group
-                </label>
-                <select class="form-control" name='tg'>
-                    {% for tgi in tgs %}
-                        <option value={{ tgi.pk }} {% if tg == tgi %}selected{% endif %}>{{ tgi }}</option>
-                    {% endfor %}
-                </select>
-                <span class="input-group-btn">
+            <div class="form-group">
+                <div class="input-group">
+                    <label class="input-group-addon" for='tg'>
+                        Group
+                    </label>
+                    <select class="form-control" name='tg'>
+                        {% for tgi in tgs %}
+                            <option value={{ tgi.pk }} {% if tg == tgi %}selected{% endif %}>{{ tgi }}</option>
+                        {% endfor %}
+                    </select>
+                    <span class="input-group-btn">
                     <button type="submit" class="btn btn-secondary">Generate Report</button>
                 </span>
+                </div>
             </div>
-
         </form>
 
-        <hr/>
-
-        <p>Select a trainee group to generate a report on their progress.</p>
 
 
         {% if tg %}
-            <table class="table table-sm">
+            <table class="table table-sm xsd-progress-table">
                 {% for trainee in tg.trainees.all %}
                     <tr>
-                        <td><i class="fa fa-user"></i> <a
-                                href="{% url 'xsd_training:TraineeNotes' trainee.pk %}">{{ trainee.get_full_name }}</a></td>
-                        <td>
+                        <td class="training-for">
                             <i class="fa fa-square xsd-qual-fg--{{ trainee.training_for.code }}"></i>
-                            {{ trainee.training_for.code }}
+                            {# {{ trainee.training_for.code }} #}
                         </td>
-                        <td>{% pl_matrix trainee %}</td>
+                        <td class="trainee">
+                            <a href="{% url 'xsd_training:TraineeNotes' trainee.pk %}">{{ trainee.get_full_name }}</a>
+                        </td>
+                        <td class="pl-matrix">
+                            {% pl_matrix trainee %}
+                        </td>
                     </tr>
                     {% empty %}
-                    {# TODO Pretty alert #}
-                    No trainees in group
+                    <div class="alert alert-danger">
+                        There are <strong>no trainees</strong> in group {{ tg.name }}. Would you like to
+                        <a href="{% url 'xsd_training:TraineeGroupUpdate' tg.pk %}">add some?</a>
+                    </div>
                 {% endfor %}
             </table>
         {% endif %}

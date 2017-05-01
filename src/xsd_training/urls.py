@@ -1,9 +1,10 @@
-from django.conf.urls import patterns, include, url
-from django.conf import settings
+from __future__ import unicode_literals
+
+from django.conf.urls import patterns, url
 
 from xsd_frontend.versioning import VersionHistoryView
-from xsd_training.views import sessions, sdc, traineegroups, instructor, retro, support
 from xsd_training.models import TraineeGroup, PerformedSDC, Session
+from xsd_training.views import sessions, sdc, traineegroups, instructor, retro, support
 
 urlpatterns = patterns('',
     url(r'^$', 'xsd_training.views.trainee.overview', name='training-overview')    ,
