@@ -1,9 +1,11 @@
-import os
-import json
-import CommonMark
+from __future__ import unicode_literals
 
-from django.views.generic import TemplateView
+import json
+import os
+
+import CommonMark
 from django.conf import settings
+from django.views.generic import TemplateView
 
 
 class HelpView(TemplateView):
@@ -43,10 +45,9 @@ class HelpView(TemplateView):
         menu = json.loads(menu_json)
         return menu
 
-
     def get_context_data(self, **kwargs):
         context = super(HelpView, self).get_context_data(**kwargs)
-        context['page'] = self.render_page( self.get_page_name() )
+        context['page'] = self.render_page(self.get_page_name())
         context['page_name'] = self.get_page_name()
         context['menu'] = self.render_menu()
         return context
