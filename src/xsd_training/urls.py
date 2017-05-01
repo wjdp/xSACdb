@@ -1,18 +1,16 @@
-from django.conf.urls import patterns, include, url
-from django.conf import settings
+from __future__ import unicode_literals
+
+from django.conf.urls import patterns, url
 
 from xsd_frontend.versioning import VersionHistoryView
-from xsd_training.views import sessions, sdc, traineegroups, instructor, retro, support
 from xsd_training.models import TraineeGroup, PerformedSDC, Session
+from xsd_training.views import sessions, sdc, traineegroups, instructor, retro, support
 
 urlpatterns = patterns('',
     url(r'^$', 'xsd_training.views.trainee.overview', name='training-overview')    ,
     url(r'^lessons/$', 'xsd_training.views.trainee.lessons', name='training-lessons')    ,
     url(r'^lessons/(?P<id>\d+)/$', 'xsd_training.views.trainee.lesson_detail', name='lesson_detail'),
     url(r'^feedback$', 'xsd_training.views.trainee.all_feedback', name='all-feedback'),
-
-    url(r'^pl-mouseover/$',support.PerformedLessonDetailMouseover.as_view(), name='PerformedLessonDetailMouseover'),
-    url(r'^pl-mouseover-api/$',support.PerformedLessonDetailAPI.as_view(), name='PerformedLessonDetailAPI'),
 
     url(r'^session/new/$', sessions.SessionCreate.as_view(), name='SessionCreate'),
     url(r'^session/list/$', sessions.SessionList.as_view(), name='SessionList'),

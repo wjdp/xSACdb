@@ -1,0 +1,60 @@
+$color-pl-NO: #eee
+$color-pl-PLANNED: #89d5db
+$color-pl-PARTIAL: $brand-warning
+$color-pl-YES: $brand-success
+
+@mixin pl-matrix-state-bg($bg)
+  background: $bg
+  &:hover
+    background: darken($bg, 6%)
+
+.xsd-pl-matrix
+  th, tr
+    padding: 0.25rem
+
+  .completed
+    background: $brand-success
+  .partially_completed
+    background: $brand-warning
+  .nothing
+    background: #eee
+
+  .mode--XP
+    td
+      font-size: 0.7rem
+
+  td
+    cursor: pointer
+
+  .state--NO
+    @include pl-matrix-state-bg($color-pl-NO)
+  .state--PLANNED
+    @include pl-matrix-state-bg($color-pl-PLANNED)
+  .state--PARTIAL
+    @include pl-matrix-state-bg($color-pl-PARTIAL)
+  .state--YES
+    @include pl-matrix-state-bg($color-pl-YES)
+
+
+.xsd-pl-matrix-popover
+  font-size: 0.8em
+  min-width: 22em
+
+  &.--state-PARTIAL, &.--state-YES
+    // Need to be a bit wider for these states
+    min-width: 32em
+
+  .state--NO
+    background: $color-pl-NO
+  .state--PLANNED
+    background: $color-pl-PLANNED
+  .state--PARTIAL
+    background: $color-pl-PARTIAL
+  .state--YES
+    background: $color-pl-YES
+
+  // Content is xsd-pl-summary
+  .popover-content
+    display: flex
+    & > *
+      min-width: 40%

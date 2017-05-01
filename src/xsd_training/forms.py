@@ -1,56 +1,66 @@
-from models import *
-from xsd_members.models import MemberProfile
-from xsd_training.models import Qualification, SDC
-from django import forms
+from __future__ import unicode_literals
 
-from xSACdb.form_fields import UserModelChoiceField
+from django import forms
 # from xSACdb.widgets import AdminDateWidget
 from django.contrib.admin.widgets import AdminDateWidget
+
+from models import *
+from xSACdb.form_fields import UserModelChoiceField
+from xsd_members.models import MemberProfile
+from xsd_training.models import Qualification, SDC
+
 
 class PerformedSDCCreateForm(forms.ModelForm):
     class Meta:
         model = PerformedSDC
         exclude = ('trainees', 'completed')
 
+
 class PerformedSDCUpdateForm(forms.ModelForm):
     class Meta:
-        model=PerformedSDC
-        fields= ('datetime', 'notes')
+        model = PerformedSDC
+        fields = ('datetime', 'notes')
+
 
 class QualificationSelectForm(forms.Form):
-    qualification=forms.ModelChoiceField(queryset=Qualification.objects.all())
-    selected_members=forms.ModelMultipleChoiceField(
+    qualification = forms.ModelChoiceField(queryset=Qualification.objects.all())
+    selected_members = forms.ModelMultipleChoiceField(
         queryset=MemberProfile.objects.all())
 
+
 class SDCSelectForm(forms.Form):
-    sdc=forms.ModelChoiceField(queryset=SDC.objects.all())
-    selected_members=forms.ModelMultipleChoiceField(
+    sdc = forms.ModelChoiceField(queryset=SDC.objects.all())
+    selected_members = forms.ModelMultipleChoiceField(
         queryset=MemberProfile.objects.all())
+
 
 class SessionCreateForm(forms.ModelForm):
     class Meta:
-        model=Session
-        fields=['name', 'when','where','notes']
+        model = Session
+        fields = ['name', 'when', 'where', 'notes']
         widgets = {
             'when': AdminDateWidget(),
         }
 
-class SessionPLMapForm(forms.ModelForm):    # Used for mapping trainees to lessons and instructors in a Session
-    def __init__(self,*args,**kwargs):
-        super(SessionPLMapForm, self).__init__(*args,**kwargs)
+
+class SessionPLMapForm(forms.ModelForm):  # Used for mapping trainees to lessons and instructors in a Session
+    def __init__(self, *args, **kwargs):
+        super(SessionPLMapForm, self).__init__(*args, **kwargs)
 
         # Exclude experience dives from the selection
-        self.fields['lesson'].queryset=Lesson.objects.exclude(mode='XP').order_by('qualification','mode')
+        self.fields['lesson'].queryset = Lesson.objects.exclude(mode='XP').order_by('qualification', 'mode')
         # self.fields['instructor'].queryset=MemberProfile.objects.all()
 
     class Meta:
         model = PerformedLesson
-        fields=['lesson', 'instructor']
+        fields = ['lesson', 'instructor']
+
 
 class SessionCompleteForm(forms.ModelForm):
     class Meta:
         model = PerformedLesson
         fields = ['completed', 'partially_completed', 'public_notes', 'private_notes']
+
 
 class PoolSheetOptions(forms.Form):
     # DB order_by on left, friendly UI option right
@@ -60,9 +70,9 @@ class PoolSheetOptions(forms.Form):
         ('lesson__order', 'Lesson'),
     )
 
-    session = forms.ModelChoiceField(queryset = Session.objects.filter(completed=False), required=True)
+    session = forms.ModelChoiceField(queryset=Session.objects.filter(completed=False), required=True)
 
-    sort_by = forms.ChoiceField(choices = POOLSHEET_SORT_BY)
+    sort_by = forms.ChoiceField(choices=POOLSHEET_SORT_BY)
 
     show_public_notes = forms.BooleanField(initial=True, required=False)
     show_private_notes = forms.BooleanField(initial=True, required=False)
@@ -73,13 +83,14 @@ class PoolSheetOptions(forms.Form):
 
 
 class TraineeGroupSelectForm(forms.Form):
-    traineegroup=forms.ModelChoiceField(queryset=TraineeGroup.objects.all(), label='Trainee Group')
+    traineegroup = forms.ModelChoiceField(queryset=TraineeGroup.objects.all(), label='Trainee Group')
     # only_main_three_modes = forms.BooleanField(initial=False)
 
 
 class TraineeSelectForm(forms.Form):
-    trainee = UserModelChoiceField(queryset = MemberProfile.objects.all().order_by('last_name'))
-    qualification = forms.ModelChoiceField(queryset = Qualification.objects.all().exclude(instructor_qualification=True))
+    trainee = UserModelChoiceField(queryset=MemberProfile.objects.all().order_by('last_name'))
+    qualification = forms.ModelChoiceField(queryset=Qualification.objects.all().exclude(instructor_qualification=True))
+
 
 class TraineeLessonCompletionDateForm(forms.ModelForm):
     # Need processing for is not partial, is complete
@@ -87,25 +98,31 @@ class TraineeLessonCompletionDateForm(forms.ModelForm):
     already_partial = False
     already_completed = False
     display = True
+
     class Meta:
         model = PerformedLesson
         fields = ['date', 'partially_completed', 'public_notes', 'private_notes']
+
 
 class MiniQualificationForm(forms.Form):
     qualification = forms.ModelChoiceField(
         queryset=Qualification.objects.filter(instructor_qualification=False), empty_label="X Remove")
 
+
 class MiniQualificationSetForm(MiniQualificationForm):
     field = forms.CharField(widget=forms.HiddenInput(), initial='current_qual')
 
+
 class MiniTrainingForSetForm(MiniQualificationForm):
     field = forms.CharField(widget=forms.HiddenInput(), initial='training_for')
+
 
 class MiniInstructorQualificationSetForm(MiniQualificationForm):
     qualification = forms.ModelChoiceField(
         queryset=Qualification.objects.filter(instructor_qualification=True), empty_label="X Remove")
     number = forms.IntegerField()
     field = forms.CharField(widget=forms.HiddenInput(), initial='instructor_qual')
+
 
 class MiniTraineeSDCAddForm(forms.Form):
     sdc = forms.ModelChoiceField(queryset=SDC.objects.all())

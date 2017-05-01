@@ -8,7 +8,7 @@ from xsd_members.views import *
 
 class ProfileViewTest(ViewTestMixin, BaseTest):
     url_name = 'xsd_members:my-profile'
-    template_name = 'members_detail.html'
+    template_name = 'xsd_members/member/detail.html'
     allowed_unverified = True
 
 

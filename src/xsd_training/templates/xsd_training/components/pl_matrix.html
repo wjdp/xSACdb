@@ -1,0 +1,15 @@
+{% load pl_matrix %}
+<div class="xsd-pl-matrix">
+    <table class="table table-sm">
+        {% for mode, lessons in modes %}
+            <tr class="mode--{{ mode.0 }}">
+                <th>
+                    <abbr title="{{ mode.1 }}">{{ mode.0 }}</abbr>
+                </th>
+                {% for lesson in lessons %}
+                    {% pl_detail trainee lesson %}
+                {% endfor %}
+            </tr>
+        {% endfor %}
+    </table>
+</div>

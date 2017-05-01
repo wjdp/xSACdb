@@ -1,3 +1,5 @@
+from __future__ import unicode_literals
+
 from django.shortcuts import render, get_object_or_404, redirect
 from django.http import HttpResponse
 from django.template import RequestContext
@@ -9,8 +11,6 @@ from xSACdb.views import OrderedListView
 from xSACdb.roles.decorators import require_instructor, require_training_officer
 from xSACdb.roles.mixins import RequireInstructor
 
-from xsd_members.models import MemberProfile
-from xsd_training.models import *
 from xsd_training.forms import *
 
 import datetime
@@ -68,7 +68,7 @@ class TraineeNotesSearch(RequireInstructor, OrderedListView):
 
 class TraineeNotes(RequireInstructor, DetailView):
     model = MemberProfile
-    template_name = 'trainee_notes.html'
+    template_name = 'xsd_training/trainee/detail.html'
     context_object_name = 'trainee'
 
     def get_context_data(self, **kwargs):

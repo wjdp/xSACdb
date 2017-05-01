@@ -11,8 +11,8 @@ then
 fi
 
 src/manage.py migrate --noinput
+gulp deploy
 src/manage.py collectstatic --noinput
-src/manage.py compress
 
 if [[ $XSACDB_FAKE_DATA = "TRUE" ]]
 then

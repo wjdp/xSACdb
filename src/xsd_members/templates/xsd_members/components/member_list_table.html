@@ -1,0 +1,70 @@
+{% if members %}
+    <table class="xsd-members-table">
+        <thead>
+        <tr>
+            <th class="flag-cell"></th>
+            <th class="flag-cell"></th>
+            <th>Name</th>
+            <th>Membership Type</th>
+            <th colspan="3">Expiry</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for member in members %}
+            <tr {% if member.membership_problem and not member.archived %}class="table-danger"{% endif %}>
+                <td class="flag-cell {{ member.top_qual.code }}-cell" title="{{ member.top_qual }}">
+                    {{ member.top_qual.code }}
+                </td>
+
+                <td class="flag-cell">
+                    {% if member.archived %}
+                        <i class="fa fa-archive fa-fw" title="Archived"></i>
+                    {% elif member.missing_personal_details %}
+                        <i class="fa fa-ban fa-fw" title="Missing personal fields"></i>
+                    {% elif member.new_notify %}
+                        <i class="fa fa-flag fa-fw" title="Unverified new member"></i>
+                    {% elif member.is_instructor %}
+                        <i class="fa fa-mortar-board fa-fw" title="Instructor"></i>
+                    {% endif %}
+                </td>
+
+                <td>
+                    <a href="{% url 'xsd_members:MemberDetail' member.pk %}"
+                       class="no-underline" title="{{ member.uid }}">
+                        <img src="{{ member.avatar_xs }}" class="avatar avatar-xs" alt="Avatar"/>
+                        <span class="underline">{{ member.first_name }} <strong>{{ member.last_name }}</strong></span>
+                    </a>
+                </td>
+
+                <td>{% if member.club_membership_type != None %}{{ member.club_membership_type }}{% endif %}</td>
+
+                <td class="xsd-members-table__expiry-column">
+                    {% if member.bsac_expired %}
+                        <i class="icon-bsac-small --expired" title="BSAC Expired: {{ member.bsac_expiry }}"></i>
+                    {% endif %}
+                </td>
+
+                <td class="xsd-members-table__expiry-column">
+                    {% if member.club_expired %}
+                        <i class="fa fa-home --expired" title="Club Expired: {{ member.club_expiry }}"></i>
+                    {% endif %}
+                </td>
+
+                <td class="xsd-members-table__expiry-column">
+                    {% if member.medical_form_expired %}
+                        <i class="fa fa-medkit --expired"
+                           title="Medical Form Expired: {{ member.medical_form_expiry }}"></i>
+                    {% endif %}
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+{% else %}
+
+    <div class="alert alert-info">
+        <strong><i class="fa fa-info-circle"></i> No records in this view</strong>
+    </div>
+
+{% endif %}

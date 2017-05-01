@@ -1,91 +1,58 @@
+{% load staticfiles %}
 {% load navigation %}
-{% load compress %}
 {% load hijack_tags %}
 <!doctype html>
 <html>
 <head>
-    {% block pre_head %}{% endblock %}
+{% block pre_head %}{% endblock %}
 
-    <title>{% page_title %}</title>
-    <meta charset="utf-8"/>
-    <meta name="viewport" content="width=device-width, user-scalable=no"/>
+<title>{% page_title %}</title>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, user-scalable=no" />
 
-    {% compress css %}
+<link rel="manifest" href="/manifest.json">
 
-        {# Non-Sassy Library stylesheets #}
-        <link rel="stylesheet" type="text/css" media="screen" charset="utf-8"
-              href="/static/datatables/media/css/jquery.dataTables.css"/>
-        <link rel="stylesheet" type="text/css" media="screen" charset="utf-8"
-              href="/static/datatables/media/css/dataTables.bootstrap4.css"/>
+<link rel="stylesheet" type="text/css" media="screen" charset="utf-8"
+    href="{% static 'css/build.css' %}" />
 
-        {# Project stylesheets #}
-        <link rel="stylesheet" type="text/x-sass" media="screen" charset="utf-8"
-              href="/static/sass/build.sass"/>
+<script type="text/javascript" src="{% static 'js/lib.js' %}"></script>
 
-        <link rel="stylesheet" type="text/css" media="screen" charset="utf-8"
-              href="/static/css/strap.css"/>
+{% if RAVEN_DSN %}
+<script type="text/javascript">
+    Raven.config('{{ RAVEN_DSN }}').install();
+    Raven.setUserContext({
+        email: '{{ request.user.email }}',
+        id: '{{ request.user.pk }}',
+        username: '{{ request.user.username }}'
+    });
+</script>
+{% endif %}
 
-    {% endcompress %}
+<script type="text/javascript" src="/static/js/css_extra.js"></script>
+<script type="text/javascript" src="{% static 'js/app.js' %}"></script>
 
-    {% compress js %}
+<script type="text/javascript">
+navigator.serviceWorker.register('/service-worker.js', { scope: '/' })
+    .then(function(r) {
+      console.log('registered service worker');
+    })
+    .catch(function(whut) {
+      console.error('uh oh... ');
+      console.error(whut);
+    });
+</script>
 
-        <script type="text/javascript" src="/static/jquery/dist/jquery.js"></script>
-        <script type="text/javascript" src="/static/jquery-form/jquery.form.js"></script>
-        <script type="text/javascript" src="/static/jquery-tokeninput/src/jquery.tokeninput.js"></script>
-        <script type="text/javascript" src="/static/jquery-form/jquery.form.js"></script>
-        {#<script type="text/javascript" src="/static/js/jquery.cookie.js"></script>#}
+{% include 'browser/head.html' %}
 
-        <script type="text/javascript" src="/static/tether/dist/js/tether.js"></script>
-        <script type="text/javascript" src="/static/bootstrap/dist/js/bootstrap.js"></script>
-        <script type="text/javascript" src="/static/raven-js/dist/raven.min.js"></script>
-
-    {% endcompress %}
-
-    {% if RAVEN_DSN %}
-        <script type="text/javascript">
-            Raven.config('{{ RAVEN_DSN }}').install();
-            Raven.setUserContext({
-                email: '{{ request.user.email }}',
-                id: '{{ request.user.pk }}',
-                username: '{{ request.user.username }}'
-            });
-        </script>
-    {% endif %}
-
-    {% compress js %}
-
-        <script type="text/javascript" src="/static/js/css_extra.js"></script>
-        <script type="text/coffeescript" src="/static/coffee/mq-detector.coffee"></script>
-        <script type="text/coffeescript" src="/static/coffee/xsd-preauth.coffee"></script>
-        <script type="text/coffeescript" src="/static/coffee/activity-spinner.coffee"></script>
-        <script type="text/coffeescript" src="/static/coffee/nav.coffee"></script>
-        <script type="text/coffeescript" src="/static/coffee/xsd_trips-list.coffee"></script>
-
-    {% endcompress %}
-
-    {% compress js inline %}
-        <script type="text/javascript">
-            navigator.serviceWorker.register('/service-worker.js', {scope: '/'})
-                .then(function (r) {
-                    console.log('registered service worker');
-                })
-                .catch(function (whut) {
-                    console.error('uh oh... ');
-                    console.error(whut);
-                });
-        </script>
-    {% endcompress %}
-
-    {% include 'browser/head.html' %}
-
-    {% block post_head %}{% endblock %}
+{% block post_head %}{% endblock %}
 </head>
+
 <body class="{% block body_class %}xsd{% endblock %}"
       id="{{ current_url.namespace }}-{{ current_url.url_name }}">
 
-{{ request|hijackNotification }}
-
 {% if request.user.is_authenticated %}{% app_nav %}{% endif %}
+
+{{ request|hijackNotification }}
 
 <div class="xsd-messages">
     {% if messages %}
@@ -110,6 +77,8 @@
     </div>
 {% endblock %}
 
+{{ request|hijackNotification }}
+
 {% block modals %}{% endblock %}
 
 {% block closing_js %}{% endblock %}
@@ -127,4 +96,5 @@
 </span>
 
 </body>
+
 </html>
