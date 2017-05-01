@@ -1,0 +1,87 @@
+{% extends 'training_template.html' %}
+
+{% block training_content %}
+
+    <div class="col-md-6">
+        <h3>Retro Tool</h3>
+        <ol>
+            <li>Select trainee.</li>
+            <li>Input lessons to add, only lessons with dates will be counted.</li>
+            <li>Check for errors and preview lessons to be added.</li>
+            <li>Add these lessons to the database.</li>
+        </ol>
+    </div>
+    <div class="col-md-6">
+        <form action="." method="GET">
+            {% include 'forms/field.html' with field=trainee_select_form.trainee %}
+            {% include 'forms/field.html' with field=trainee_select_form.qualification %}
+            <button type="submit" class="btn {% if not formsets %}btn-primary{% endif %}"><i
+                    class="fa fa-arrow-right"></i> Select
+            </button>
+        </form>
+    </div>
+
+    {% if formsets %}
+        <div class="col-md-12 xsd-retro-spreadsheet">
+            <form action="?trainee={{ trainee.pk }}&qualification={{ qualification.pk }}" method="POST">
+                <div class="ret-form-actions">
+                    {% if all_valid %}
+                        <p>After this lessons will be immediately added.</p>
+                        <button type="submit" class="btn btn-success alignright"><i class="fa fa-check"></i> Add Lessons
+                        </button>
+                        <input type="hidden" name="save_now" value="1"/>
+                    {% else %}
+                        <button type="submit" class="btn btn-primary alignright"><i class="fa fa-eye"></i> Check
+                        </button>
+                    {% endif %}
+                </div>
+                <input type="hidden" name="trainee" value="{{ trainee.pk }}"/>
+                <input type="hidden" name="qualification" value="{{ qualification.pk }}"/>
+                {% csrf_token %}
+                <table class="retro-spreadsheet">
+                    {% for formset in formsets %}
+                            {{ formset.management_form }}
+                            {% for form in formset %}
+                                {% if form.display %}
+                                    <td class="mode-{{ form.lesson_data.mode }}">
+                                        <table class="table-single-lesson">
+                                            <tr>
+                                                <td class='top'>
+                                                    {% if form.lesson_data.code %}
+                                                        <h4>{{ form.lesson_data.code }}</h4>
+                                                        <p>{{ form.lesson_data.title }}</p>
+                                                    {% else %}
+                                                        <h4 class='mode-{{ form.lesson_data.mode }}'>{{ form.lesson_data.title }}</h4>
+                                                    {% endif %}
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td class='bottom'>
+                                                    {% if form.already_completed %}
+                                                        <p>Lesson already completed</p>
+                                                    {% else %}
+                                                        {% if form.already_partial %}
+                                                            <p>This lesson is already partially completed</p>
+                                                        {% endif %}
+                                                        {% include 'forms/field.html' with field=form.date %}
+                                                        {% include 'forms/checkbox.html' with field=form.partially_completed %}
+                                                        {% include 'forms/field.html' with field=form.public_notes %}
+                                                        {% include 'forms/field.html' with field=form.private_notes %}
+
+                                                    {% endif %}
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </td>
+                                {% endif %}
+                            {% endfor %}
+                        </tr>
+                    {% endfor %}
+                </table>
+            </form>
+        </div>
+
+
+    {% endif %}
+
+{% endblock %}

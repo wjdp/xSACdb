@@ -1,24 +1,16 @@
-from django.shortcuts import get_object_or_404
-
-from django.shortcuts import redirect
-
-from django.views.generic import TemplateView
+from __future__ import unicode_literals
 
 from django.core.urlresolvers import reverse_lazy
+from django.forms.models import formset_factory
+from django.shortcuts import redirect
+from django.views.generic import TemplateView
 
-from xSACdb.roles.decorators import require_training_officer
 from xSACdb.roles.mixins import RequireTrainingOfficer
-
-from xsd_members.models import MemberProfile
-from xsd_training.models import *
 from xsd_training.forms import *
 
-from django.forms.models import formset_factory
 
-from xsd_members.bulk_select import get_bulk_members
-
-class RetroAddLessons(RequireTrainingOfficer ,TemplateView):
-    template_name = 'retro_add_lessons.html'
+class RetroAddLessons(RequireTrainingOfficer, TemplateView):
+    template_name = 'xsd_training/retro_add_lessons.html'
     qualification = None
     trainee = None
     formsets = None
@@ -31,32 +23,31 @@ class RetroAddLessons(RequireTrainingOfficer ,TemplateView):
             return TraineeSelectForm()
 
     def make_initial_list(self, lessons):
-        lst =[]
+        lst = []
         for lesson in lessons:
-            lst.append( {'lesson': lesson} )
+            lst.append({'lesson': lesson})
         return lst
 
     def make_row_formset(self, trainee, qualification, mode, POST_data=None):
         lessons = qualification.lessons_by_mode(mode)
         initial_data = self.make_initial_list(lessons)
-        formset_blank = formset_factory(TraineeLessonCompletionDateForm, extra = 0)
+        formset_blank = formset_factory(TraineeLessonCompletionDateForm, extra=0)
         if POST_data:
             formset = formset_blank(POST_data, prefix=mode)
         else:
             formset = formset_blank(initial=initial_data, prefix=mode)
         for lesson, form in zip(lessons, formset):
             form.lesson_data = lesson
-            if PerformedLesson.objects.get_lessons(trainee=trainee, lesson=lesson, partially_completed = True):
+            if PerformedLesson.objects.get_lessons(trainee=trainee, lesson=lesson, partially_completed=True):
                 form.already_partial = True
-            if PerformedLesson.objects.get_lessons(trainee=trainee, lesson=lesson, completed = True):
+            if PerformedLesson.objects.get_lessons(trainee=trainee, lesson=lesson, completed=True):
                 form.already_completed = True
                 if POST_data:
                     form.display = False
 
-            if POST_data and form.is_valid() and form.cleaned_data['date']==None:
+            if POST_data and form.is_valid() and form.cleaned_data['date'] == None:
                 form.display = False
         return formset
-
 
     def make_all_formsets(self, trainee, qualification):
         formsets = []
@@ -120,6 +111,4 @@ class RetroAddLessons(RequireTrainingOfficer ,TemplateView):
                         new_pl.save()
             return redirect(reverse_lazy('xsd_training:TraineeNotes', args=[self.trainee.pk]))
 
-
         return super(RetroAddLessons, self).get(request, *args, **kwargs)
-
