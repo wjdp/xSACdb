@@ -61,20 +61,19 @@ class MemberProfile(MemberProfileStateMixin,
     class Meta:
         ordering = ['last_name', 'first_name']
 
-    user = models.OneToOneField(settings.AUTH_USER_MODEL, null=True,
-                                blank=True)
+    user = models.OneToOneField(settings.AUTH_USER_MODEL, null=True, blank=True, editable=False)
 
     # Used to hide users from 'all' queries.
-    hidden = models.BooleanField(default=False)
+    hidden = models.BooleanField(default=False, editable=False)
 
     # FIXME Not really sure if this is needed?
-    token = models.CharField(max_length=150, blank=True)
+    token = models.CharField(max_length=150, blank=True, editable=False)
 
     # This is being used to 'approve' new members
-    new_notify = models.BooleanField(default=True)
+    new_notify = models.BooleanField(default=True, editable=False)
 
     # Marks the user as archived.
-    archived = models.BooleanField(default=False)
+    archived = models.BooleanField(default=False, editable=False)
 
     # Migrated from user model
     first_name = models.CharField(max_length=30)
@@ -113,6 +112,7 @@ class MemberProfile(MemberProfileStateMixin,
 
     training_for = models.ForeignKey('xsd_training.Qualification', blank=True, null=True, related_name='q_training_for')
     sdcs = models.ManyToManyField('xsd_training.SDC', blank=True)
+
     instructor_number = models.IntegerField(blank=True, null=True)
 
     student_id = models.IntegerField(blank=True, null=True)
@@ -146,7 +146,7 @@ class MemberProfile(MemberProfileStateMixin,
     def uid(self):
         return "M{:0>4d}".format(self.pk)
 
-    top_qual_cached = models.ForeignKey('xsd_training.Qualification', blank=True, null=True,
+    top_qual_cached = models.ForeignKey('xsd_training.Qualification', blank=True, null=True, editable=False,
                                         related_name='top_qual_cached')
 
     def top_qual(self, nocache=False):
@@ -161,7 +161,7 @@ class MemberProfile(MemberProfileStateMixin,
         else:
             return self.top_qual_cached
 
-    top_instructor_qual_cached = models.ForeignKey('xsd_training.Qualification', blank=True, null=True,
+    top_instructor_qual_cached = models.ForeignKey('xsd_training.Qualification', blank=True, null=True, editable=False,
                                                    related_name='top_instructor_qual_cached')
 
     def top_instructor_qual(self, nocache=False):
@@ -173,7 +173,7 @@ class MemberProfile(MemberProfileStateMixin,
         else:
             return self.top_instructor_qual_cached
 
-    is_instructor_cached = models.NullBooleanField(default=None, blank=True)
+    is_instructor_cached = models.NullBooleanField(default=None, blank=True, editable=False)
 
     def is_instructor(self, nocache=False):
         if nocache:
