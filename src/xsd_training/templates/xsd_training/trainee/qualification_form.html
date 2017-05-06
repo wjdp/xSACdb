@@ -1,0 +1,11 @@
+{% extends 'training_template.html' %}
+
+{% block training_content %}
+    <form action="." method="POST">
+        {% csrf_token %}
+        {% include 'forms/form.html' with form=form %}
+        <button type="submit" class="btn btn-primary">
+            Save
+        </button>
+    </form>
+{% endblock %}

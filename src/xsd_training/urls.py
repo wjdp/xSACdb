@@ -29,9 +29,12 @@ urlpatterns = patterns('',
     url(r'^qualification/award/$', 'xsd_training.views.qualification.QualificationAward', name='QualificationAward'),
 
     url(r'^teaching/upcoming/$', 'xsd_training.views.instructor.InstructorUpcoming', name='InstructorUpcoming'),
-    url(r'^teaching/notes/$', instructor.TraineeNotesSearch.as_view(), name='TraineeNotesSearch'),
-    url(r'^teaching/notes/(?P<pk>\d+)/$', instructor.TraineeNotes.as_view(), name='TraineeNotes'),
-    url(r'^teaching/notes/(?P<pk>\d+)/set/$', 'xsd_training.views.instructor.trainee_notes_set', name='TraineeNotesSet'),
+
+    url(r'^trainee/search/$', instructor.TraineeNotesSearch.as_view(), name='TraineeNotesSearch'),
+    url(r'^trainee/(?P<pk>\d+)/$', instructor.TraineeNotes.as_view(), name='TraineeNotes'),
+    url(r'^trainee/(?P<pk>\d+)/set/$', 'xsd_training.views.instructor.trainee_notes_set', name='TraineeNotesSet'),
+    url(r'^trainee/(?P<pk>\d+)/qualification/new/$', instructor.QualificationCreate.as_view(), name='TraineeQualificationCreate'),
+
 
     url(r'^sdc/$', sdc.SDCList.as_view(), name='SDCList'),
     url(r'^sdc/reg-interest/$', 'xsd_training.views.sdc.sdc_register_interest', name='sdc_register_interest'),

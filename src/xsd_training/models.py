@@ -182,17 +182,27 @@ class PerformedQualification(models.Model):
     trainee = models.ForeignKey('xsd_members.MemberProfile', on_delete=models.CASCADE)
     qualification = models.ForeignKey('xsd_training.Qualification', on_delete=models.PROTECT)
     mode = models.CharField(max_length=3, choices=MODE_CHOICES)
-    xo_from = models.CharField(max_length=64, null=True)
+    xo_from = models.CharField(max_length=64, blank=True, null=True)
 
-    signed_off_on = models.DateField(null=True)
-    signed_off_by = models.ForeignKey('xsd_members.MemberProfile', on_delete=models.PROTECT, null=True,
+    signed_off_on = models.DateField(blank=True, null=True)
+    signed_off_by = models.ForeignKey('xsd_members.MemberProfile', on_delete=models.PROTECT, blank=True, null=True,
                                       related_name='pqs_signed')
-    notes = models.TextField(null=True)
+
+    # TODO: Add instructor_number here, migrate data from MemberProfiles
+
+    notes = models.TextField(blank=True, null=True)
 
     created = models.DateTimeField(auto_now_add=True, blank=True)
 
     def uid(self):
         return "PQ{:0>4d}".format(self.pk)
+
+    @property
+    def mode_display(self):
+        for mode in self.MODE_CHOICES:
+            if mode[0] == self.mode:
+                return mode[1]
+        raise ValueError('Mode not in MODE_CHOICES')
 
 
 SDC_TYPE_CHOICES = (

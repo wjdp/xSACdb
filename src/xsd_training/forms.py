@@ -127,3 +127,9 @@ class MiniInstructorQualificationSetForm(MiniQualificationForm):
 class MiniTraineeSDCAddForm(forms.Form):
     sdc = forms.ModelChoiceField(queryset=SDC.objects.all())
     field = forms.CharField(widget=forms.HiddenInput(), initial='sdc')
+
+
+class PerformedQualificationForm(forms.ModelForm):
+    class Meta:
+        model = PerformedQualification
+        fields = ['qualification', 'mode', 'xo_from', 'signed_off_on', 'signed_off_by', 'notes', ]

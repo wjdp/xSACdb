@@ -1,0 +1,57 @@
+<div class="modal fade xsd-qualification-modal xsd-qualification-modal--list" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Qualifications</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <table class="table">
+                    <tr>
+                        <th>Qualification</th>
+                        <th>Mode</th>
+                        <th>Dated</th>
+                        <th>Signed off by</th>
+                        <th>Notes</th>
+                    </tr>
+
+                    {% for pq in trainee.qualifications_detail %}
+                        <tr>
+                            <td>
+                                <i class="fa fa-square xsd-qual-fg--{{ pq.qualification.code }}" aria-hidden="true"></i>
+                                {{ pq.qualification }}
+                            </td>
+                            <td>
+                                {{ pq.mode_display }}
+                                {% if pq.mode == 'XO' %}
+                                    ({{ pq.xo_from }})
+                                {% endif %}
+                            </td>
+                            <td>
+                                {% if pq.signed_off_on %}
+                                    {{ pq.signed_off_on }}
+                                {% else %}
+                                    <em>Unknown</em>
+                                {% endif %}
+                            </td>
+                            <td>
+                                {% if pq.signed_off_by %}
+                                    {{ pq.signed_off_by }}
+                                {% else %}
+                                    <em>Unknown</em>
+                                {% endif %}
+                            </td>
+                            <td>
+                                {{ pq.notes }}
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </table>
+
+                <button class="btn btn-secondary btn-sm" data-dismiss="modal" data-toggle="modal" data-target=".xsd-qualification-modal--create">Award New</button>
+            </div>
+        </div>
+    </div>
+</div>
