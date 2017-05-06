@@ -175,8 +175,17 @@ class Qualification(models.Model):
 
 
 class PerformedQualification(models.Model):
+    MODE_CHOICES = (
+        ('INT', 'Internal'),
+        ('EXT', 'External'),
+        ('XO', 'Crossover'),
+        ('OTH', 'Other'),
+    )
+
     trainee = models.ForeignKey('xsd_members.MemberProfile', on_delete=models.CASCADE)
     qualification = models.ForeignKey('xsd_training.Qualification', on_delete=models.PROTECT)
+    mode = models.CharField(max_length=3, choices=MODE_CHOICES)
+    xo_from = models.CharField(max_length=64, null=True)
 
     signed_off_on = models.DateField(null=True)
     signed_off_by = models.ForeignKey('xsd_members.MemberProfile', on_delete=models.PROTECT, null=True,
