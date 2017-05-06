@@ -26,8 +26,6 @@ urlpatterns = patterns('',
 
     url(r'^retro/lessons/$', retro.RetroAddLessons.as_view(), name='RetroAddLessons'),
 
-    url(r'^qualification/award/$', 'xsd_training.views.qualification.QualificationAward', name='QualificationAward'),
-
     url(r'^teaching/upcoming/$', 'xsd_training.views.instructor.InstructorUpcoming', name='InstructorUpcoming'),
 
     url(r'^trainee/search/$', instructor.TraineeNotesSearch.as_view(), name='TraineeNotesSearch'),
