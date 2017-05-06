@@ -179,7 +179,7 @@ class PerformedQualification(models.Model):
         ('OTH', 'Other'),
     )
 
-    trainee = models.ForeignKey('xsd_members.MemberProfile', on_delete=models.CASCADE)
+    trainee = models.ForeignKey('xsd_members.MemberProfile', on_delete=models.CASCADE, editable=False)
     qualification = models.ForeignKey('xsd_training.Qualification', on_delete=models.PROTECT)
     mode = models.CharField(max_length=3, choices=MODE_CHOICES)
     xo_from = models.CharField(max_length=64, blank=True, null=True)
@@ -192,7 +192,7 @@ class PerformedQualification(models.Model):
 
     notes = models.TextField(blank=True, null=True)
 
-    created = models.DateTimeField(auto_now_add=True, blank=True)
+    created = models.DateTimeField(auto_now_add=True, blank=True, editable=False)
 
     def uid(self):
         return "PQ{:0>4d}".format(self.pk)

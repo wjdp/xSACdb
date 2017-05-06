@@ -132,4 +132,4 @@ class MiniTraineeSDCAddForm(forms.Form):
 class PerformedQualificationForm(forms.ModelForm):
     class Meta:
         model = PerformedQualification
-        fields = ['qualification', 'mode', 'xo_from', 'signed_off_on', 'signed_off_by', 'notes', ]
+        exclude = []
