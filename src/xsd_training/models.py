@@ -48,14 +48,10 @@ class PerformedLesson(models.Model):
 
     objects = PerformedLessonManager()
 
-    # def __unicode__(self):
-    #    ret = ("Lesson " + self.lesson.code + " at " +
-    #           str(self.session.when) + " instr by " +
-    #           self.instructor.first_name + " " + self.instructor.last_name)
-
     def uid(self):
         return "PL{:0>4d}".format(self.pk)
 
+    # TODO remove
     def get_date(self):
         return self.date  # legacy, will be removed
 
@@ -174,6 +170,7 @@ class Qualification(models.Model):
         return lessons
 
 
+@reversion.register()
 class PerformedQualification(models.Model):
     MODE_CHOICES = (
         ('INT', 'Internal'),
@@ -193,6 +190,9 @@ class PerformedQualification(models.Model):
     notes = models.TextField(null=True)
 
     created = models.DateTimeField(auto_now_add=True, blank=True)
+
+    def uid(self):
+        return "PQ{:0>4d}".format(self.pk)
 
 
 SDC_TYPE_CHOICES = (
@@ -273,6 +273,9 @@ class PerformedSDC(models.Model):
             return "{} @ {}".format(self.sdc, self.datetime)
         else:
             return "{} @ TBD".format(self.sdc)
+
+    def uid(self):
+        return "PSDC{:0>4d}".format(self.pk)
 
     def get_absolute_url(self):
         return reverse('xsd_training:PerformedSDCDetail', kwargs={'pk': self.pk})
