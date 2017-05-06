@@ -1,12 +1,10 @@
 from __future__ import unicode_literals
 
-import datetime
-
 from django.db.models import Q
 from django.http import HttpResponse
 from django.shortcuts import render, get_object_or_404, redirect
 from django.template import RequestContext
-from django.views.generic import DetailView, CreateView
+from django.views.generic import DetailView, CreateView, UpdateView
 
 from xSACdb.roles.decorators import require_instructor, require_training_officer
 from xSACdb.roles.mixins import RequireInstructor, RequireTrainingOfficer
@@ -89,7 +87,6 @@ class TraineeNotes(RequireInstructor, DetailView):
         context['sdc_form'] = MiniTraineeSDCAddForm()
 
         # Forms for modals
-        context['performed_qualification_form'] = PerformedQualificationForm()
         return context
 
 
@@ -138,13 +135,19 @@ def trainee_notes_set(request, pk):
         return HttpResponse('No field specified')
 
 
-class QualificationCreate(RequireTrainingOfficer, CreateView):
+class TraineeFormMixin(object):
+    def get_trainee(self):
+        return MemberProfile.objects.get(pk=self.kwargs['t_pk'])
+
+    def get_success_url(self):
+        return '{}#qualification-list'.format(
+            reverse('xsd_training:TraineeNotes', kwargs={'pk': self.get_trainee().pk}))
+
+
+class QualificationCreate(RequireTrainingOfficer, TraineeFormMixin, CreateView):
     model = PerformedQualification
     form_class = PerformedQualificationForm
     template_name = 'xsd_training/trainee/qualification_form.html'
-
-    def get_trainee(self):
-        return MemberProfile.objects.get(pk=self.kwargs['pk'])
 
     def form_valid(self, form):
         """
@@ -155,3 +158,8 @@ class QualificationCreate(RequireTrainingOfficer, CreateView):
 
         return super(QualificationCreate, self).form_valid(form)
 
+
+class QualificationUpdate(RequireTrainingOfficer, TraineeFormMixin, UpdateView):
+    model = PerformedQualification
+    fields = ['mode', 'xo_from', 'signed_off_on', 'signed_off_by', 'notes', ]
+    template_name = 'xsd_training/trainee/qualification_form.html'

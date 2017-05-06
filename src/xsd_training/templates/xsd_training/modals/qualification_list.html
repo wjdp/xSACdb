@@ -1,4 +1,5 @@
-<div class="modal fade xsd-qualification-modal xsd-qualification-modal--list" tabindex="-1" role="dialog" aria-hidden="true">
+<div class="modal fade xsd-qualification-modal xsd-qualification-modal--list" tabindex="-1" role="dialog"
+     aria-hidden="true">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">
@@ -46,12 +47,35 @@
                             <td>
                                 {{ pq.notes }}
                             </td>
+                            {% if is_training %}
+                                <td>
+                                    <div class="btn-group">
+                                        <a class="btn btn-secondary"
+                                           href="{% url 'xsd_training:TraineeQualificationUpdate' trainee.pk pq.pk %}">
+                                            <i class="fa fa-pencil"></i>
+                                        </a>
+                                        <button class="btn btn-outline-danger">
+                                            <i class="fa fa-times"></i>
+                                        </button>
+                                    </div>
+                                </td>
+                            {% endif %}
                         </tr>
                     {% endfor %}
                 </table>
-
-                <button class="btn btn-secondary btn-sm" data-dismiss="modal" data-toggle="modal" data-target=".xsd-qualification-modal--create">Award New</button>
+                {% if is_training %}
+                    <a class="btn btn-secondary" href="{% url 'xsd_training:TraineeQualificationCreate' trainee.pk %}">
+                        <i class="fa fa-plus"></i>
+                        Award New
+                    </a>
+                {% endif %}
             </div>
         </div>
     </div>
 </div>
+
+<script>
+    if (window.location.hash === '#qualification-list') {
+        $('.xsd-qualification-modal--list').modal('show')
+    }
+</script>
