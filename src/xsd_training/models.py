@@ -81,7 +81,7 @@ class LessonManager(models.Manager):
         val = cache.get(key)
         if val is None:
             val = map(map_mode_to_lessons, Lesson.MODE_CHOICES)
-            val = [i for i in val if len(i[1]) > 0] # Remove empty rows
+            val = [i for i in val if len(i[1]) > 0]  # Remove empty rows
             cache.set(key, val, 86400)
         return val
 
@@ -172,6 +172,18 @@ class Qualification(models.Model):
         """Return a QS of lessons for this qual given a mode"""
         lessons = Lesson.objects.filter(qualification=self, mode=mode)
         return lessons
+
+
+class PerformedQualification(models.Model):
+    trainee = models.ForeignKey('xsd_members.MemberProfile', on_delete=models.CASCADE)
+    qualification = models.ForeignKey('xsd_training.Qualification', on_delete=models.PROTECT)
+
+    signed_off_on = models.DateField(null=True)
+    signed_off_by = models.ForeignKey('xsd_members.MemberProfile', on_delete=models.PROTECT, null=True,
+                                      related_name='pqs_signed')
+    notes = models.TextField(null=True)
+
+    created = models.DateTimeField(auto_now_add=True, blank=True)
 
 
 SDC_TYPE_CHOICES = (

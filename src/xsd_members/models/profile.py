@@ -108,7 +108,9 @@ class MemberProfile(MemberProfileStateMixin,
                                            that would be important for both underwater activities and general trips, \
                                            details are held in confidence.")
 
-    qualifications = models.ManyToManyField('xsd_training.Qualification', blank=True)
+    qualifications = models.ManyToManyField('xsd_training.Qualification', through='xsd_training.PerformedQualification',
+                                            through_fields=('trainee', 'qualification'), blank=True, related_name='members')
+
     training_for = models.ForeignKey('xsd_training.Qualification', blank=True, null=True, related_name='q_training_for')
     sdcs = models.ManyToManyField('xsd_training.SDC', blank=True)
     instructor_number = models.IntegerField(blank=True, null=True)
