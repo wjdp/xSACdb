@@ -11,7 +11,7 @@ from reversion import revisions as reversion
 
 from xSACdb.cache import ObjectPropertyCacheInvalidationMixin
 from xSACdb.data_helpers import disable_for_loaddata
-from xsd_training.models import PerformedLesson
+from xsd_training.models import PerformedLesson, PerformedQualification
 from .profile_avatar import MemberProfileAvatarMixin
 from .profile_fake import MemberProfileFakeDataMixin
 from .profile_manager import MemberProfileManager
@@ -343,13 +343,6 @@ class MemberProfile(MemberProfileStateMixin,
                 fields_that_need_stuff_in_them.append(field_name)
         return fields_that_need_stuff_in_them
 
-    def cache_update(self):
-        """Compute and write the cached fields"""
-        # TODO replace with django's built in cache system
-        self.top_qual_cached = self.top_qual(nocache=True)
-        self.top_instructor_qual_cached = self.top_instructor_qual(nocache=True)
-        self.is_instructor_cached = self.is_instructor(nocache=True)
-
     def seed(self, user):
         """Seed a newly created MP with data from the user model"""
         self.first_name = self.user.first_name
@@ -391,3 +384,15 @@ def trigger_update_training_for(sender, instance, created, **kwargs):
 
 
 post_save.connect(trigger_update_training_for, sender=PerformedLesson)
+
+# Update qualification cache when PerformedQualifications are changed
+@disable_for_loaddata
+def trigger_update_qualification_cache(sender, instance, created, **kwargs):
+    mp = instance.trainee
+    mp.top_qual_cached = mp.top_qual(nocache=True)
+    mp.top_instructor_qual_cached = mp.top_instructor_qual(nocache=True)
+    mp.is_instructor_cached = mp.is_instructor(nocache=True)
+    mp.save()
+
+
+post_save.connect(trigger_update_qualification_cache, sender=PerformedQualification)

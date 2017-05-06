@@ -49,8 +49,6 @@ class MemberProfileStateMixin(object):
 
     def save(self, *args, **kwargs):
         """Saves changes to the model instance"""
-        if self.pk:
-            self.cache_update()
         if self.pk and self.user:
             self.sync()
 
