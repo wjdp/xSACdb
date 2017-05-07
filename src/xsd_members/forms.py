@@ -1,11 +1,9 @@
+from __future__ import unicode_literals
+
 from django import forms
 from django.forms.formsets import formset_factory
 
 from models import MemberProfile
-
-
-class MemberSearchForm(forms.Form):
-    surname = forms.CharField(max_length=50)
 
 
 class PersonalEditForm(forms.ModelForm):

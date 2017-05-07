@@ -3,7 +3,7 @@
 <div class="row">
 <div class="col-md-12">
 	{{ page_description|safe }}
-	{% include 'xsd_members/components/member_list_table.html' %}
+	{% include 'xsd_members/components/member_list_table.html' with member_url='xsd_members:MemberDetail' %}
 </div>
 </div>
 {% endblock %}

@@ -42,16 +42,15 @@ def InstructorUpcoming(request):
         'upcoming_sessions':upcoming_sessions
     }, context_instance=RequestContext(request))
 
-# Slightly messy xsd_members.MemberSearch but model is User rather than MP
 class TraineeNotesSearch(RequireInstructor, OrderedListView):
     model = MemberProfile
-    template_name='trainee_notes_search.html'
+    template_name= 'xsd_training/trainee/search.html'
     context_object_name='trainees'
     order_by='last_name'
 
     def get_queryset(self):
-        if 'surname' in self.request.GET:
-            name=self.request.GET['surname']
+        if 'q' in self.request.GET:
+            name=self.request.GET['q']
             queryset=super(TraineeNotesSearch, self).get_queryset()
             queryset=queryset.filter(
                 Q(last_name__icontains=name) |
@@ -64,6 +63,12 @@ class TraineeNotesSearch(RequireInstructor, OrderedListView):
             queryset=None
 
         return queryset
+
+    def get_context_data(self, **kwargs):
+        context = super(TraineeNotesSearch, self).get_context_data()
+        if 'q' in self.request.GET:
+            context['q'] = self.request.GET['q']
+        return context
 
 
 class TraineeNotes(RequireInstructor, DetailView):
