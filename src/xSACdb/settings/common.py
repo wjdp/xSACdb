@@ -164,7 +164,7 @@ INSTALLED_APPS = (
     'xsd_auth.apps.AuthConfig',
     'xsd_frontend.apps.FrontendConfig',
     'xsd_members.apps.MembersConfig',
-    'xsd_training',
+    'xsd_training.apps.TrainingConfig',
     'xsd_trips.apps.TripsConfig',
     'xsd_sites.apps.SitesConfig',
     'xsd_kit',

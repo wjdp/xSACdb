@@ -26,12 +26,15 @@ urlpatterns = patterns('',
 
     url(r'^retro/lessons/$', retro.RetroAddLessons.as_view(), name='RetroAddLessons'),
 
-    url(r'^qualification/award/$', 'xsd_training.views.qualification.QualificationAward', name='QualificationAward'),
-
     url(r'^teaching/upcoming/$', 'xsd_training.views.instructor.InstructorUpcoming', name='InstructorUpcoming'),
-    url(r'^teaching/notes/$', instructor.TraineeNotesSearch.as_view(), name='TraineeNotesSearch'),
-    url(r'^teaching/notes/(?P<pk>\d+)/$', instructor.TraineeNotes.as_view(), name='TraineeNotes'),
-    url(r'^teaching/notes/(?P<pk>\d+)/set/$', 'xsd_training.views.instructor.trainee_notes_set', name='TraineeNotesSet'),
+
+    url(r'^trainee/search/$', instructor.TraineeNotesSearch.as_view(), name='TraineeNotesSearch'),
+    url(r'^trainee/(?P<pk>\d+)/$', instructor.TraineeNotes.as_view(), name='TraineeNotes'),
+    url(r'^trainee/(?P<pk>\d+)/set/$', 'xsd_training.views.instructor.trainee_notes_set', name='TraineeNotesSet'),
+    url(r'^trainee/(?P<t_pk>\d+)/qualification/new/$', instructor.QualificationCreate.as_view(), name='TraineeQualificationCreate'),
+    url(r'^trainee/(?P<t_pk>\d+)/qualification/(?P<pk>\d+)/$', instructor.QualificationUpdate.as_view(), name='TraineeQualificationUpdate'),
+    url(r'^trainee/(?P<t_pk>\d+)/qualification/(?P<pk>\d+)/delete/$', instructor.QualificationDelete.as_view(), name='TraineeQualificationDelete'),
+
 
     url(r'^sdc/$', sdc.SDCList.as_view(), name='SDCList'),
     url(r'^sdc/reg-interest/$', 'xsd_training.views.sdc.sdc_register_interest', name='sdc_register_interest'),

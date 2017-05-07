@@ -48,14 +48,10 @@ class PerformedLesson(models.Model):
 
     objects = PerformedLessonManager()
 
-    # def __unicode__(self):
-    #    ret = ("Lesson " + self.lesson.code + " at " +
-    #           str(self.session.when) + " instr by " +
-    #           self.instructor.first_name + " " + self.instructor.last_name)
-
     def uid(self):
         return "PL{:0>4d}".format(self.pk)
 
+    # TODO remove
     def get_date(self):
         return self.date  # legacy, will be removed
 
@@ -81,7 +77,7 @@ class LessonManager(models.Manager):
         val = cache.get(key)
         if val is None:
             val = map(map_mode_to_lessons, Lesson.MODE_CHOICES)
-            val = [i for i in val if len(i[1]) > 0] # Remove empty rows
+            val = [i for i in val if len(i[1]) > 0]  # Remove empty rows
             cache.set(key, val, 86400)
         return val
 
@@ -174,6 +170,46 @@ class Qualification(models.Model):
         return lessons
 
 
+@reversion.register()
+class PerformedQualification(models.Model):
+    MODE_CHOICES = (
+        ('INT', 'Internal'),
+        ('EXT', 'External'),
+        ('XO', 'Crossover'),
+        ('OTH', 'Other'),
+    )
+
+    trainee = models.ForeignKey('xsd_members.MemberProfile', on_delete=models.CASCADE, editable=False)
+    qualification = models.ForeignKey('xsd_training.Qualification', on_delete=models.PROTECT)
+    mode = models.CharField(max_length=3, choices=MODE_CHOICES,
+                            help_text="Internal: within this club, extenal: with another BSAC branch, crossover: from another agency.")
+    xo_from = models.CharField(max_length=64, blank=True, null=True, verbose_name="Crossover From",
+                               help_text="What qualification did the trainee crossover from?")
+
+    signed_off_on = models.DateField(blank=True, null=True, help_text="Date when qualification was signed off in QRB.")
+    signed_off_by = models.ForeignKey('xsd_members.MemberProfile', on_delete=models.PROTECT, blank=True, null=True,
+                                      related_name='pqs_signed', help_text="Who signed the QRB? Usually the branch DO.")
+
+    # TODO: Add instructor_number here, migrate data from MemberProfiles
+
+    notes = models.TextField(blank=True, null=True, help_text="Both instructors and the trainee can see any notes written here.")
+
+    created = models.DateTimeField(auto_now_add=True, blank=True, editable=False)
+
+    class Meta:
+        ordering = ['qualification__rank']
+
+    def uid(self):
+        return "PQ{:0>4d}".format(self.pk)
+
+    @property
+    def mode_display(self):
+        for mode in self.MODE_CHOICES:
+            if mode[0] == self.mode:
+                return mode[1]
+        raise ValueError('Mode not in MODE_CHOICES')
+
+
 SDC_TYPE_CHOICES = (
     ('clu', 'Club Diving'),
     ('saf', 'Safety and Rescue'),
@@ -252,6 +288,9 @@ class PerformedSDC(models.Model):
             return "{} @ {}".format(self.sdc, self.datetime)
         else:
             return "{} @ TBD".format(self.sdc)
+
+    def uid(self):
+        return "PSDC{:0>4d}".format(self.pk)
 
     def get_absolute_url(self):
         return reverse('xsd_training:PerformedSDCDetail', kwargs={'pk': self.pk})

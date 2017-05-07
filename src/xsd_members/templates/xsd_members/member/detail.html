@@ -64,6 +64,14 @@
                         </a>
                     {% endif %}
 
+                    <div class="btn-group btn-group-sm">
+                        {% if is_training %}
+                            <a href="{% url 'xsd_training:TraineeNotes' member.pk %}" class="btn btn-secondary">
+                                <i class="fa fa-share"></i> Trainee Profile
+                            </a>
+                        {% endif %}
+                    </div>
+
                     {% if request.user.is_superuser and member.user %}
                         <form style="display:inline" action="/hijack/{{ member.user.pk }}/" method="post">
                             {% csrf_token %}

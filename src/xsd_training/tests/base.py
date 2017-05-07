@@ -36,13 +36,13 @@ class TrainingTestToolsMixin(object):
 
         cls.ADI = Qualification.objects.get(code="ADI")
         cls.PI = Qualification.objects.get(code="PI")
-        cls.THI = Qualification.objects.get(code="THI")
+        cls.TI = Qualification.objects.get(code="TI")
         cls.AOWI = Qualification.objects.get(code="AOWI")
         cls.OWI = Qualification.objects.get(code="OWI")
         cls.AI = Qualification.objects.get(code="AI")
         cls.NI = Qualification.objects.get(code="NI")
 
-        cls.INSTRUCTOR_QUALS = [cls.ADI, cls.PI, cls.THI, cls.AOWI, cls.OWI,
+        cls.INSTRUCTOR_QUALS = [cls.ADI, cls.TI, cls.PI, cls.AOWI, cls.OWI,
                                 cls.AI, cls.NI]
 
         cls.OO1 = Lesson.objects.get(code="OO1")

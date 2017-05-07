@@ -23,7 +23,7 @@ NAV = (
         'access': is_instructor,
         'items': [
             ('Lessons', None, 'fa fa-clock-o', 'xsd_training:InstructorUpcoming', []),
-            ('Trainee Notes', None, 'fa fa-pencil-square-o', 'xsd_training:TraineeNotesSearch', []),
+            ('Trainee Profiles', None, 'fa fa-pencil-square-o', 'xsd_training:TraineeNotesSearch', []),
         ]
     },
     {
@@ -46,7 +46,6 @@ NAV = (
                                                                                 'xsd_training:SessionDelete',]),
             ('Create Pool Sheet', None, 'fa fa-file-o', 'xsd_training:PoolSheet', []),
             ('Retrospectively Add Lessons', None, 'fa fa-table', 'xsd_training:RetroAddLessons', []),
-            ('Award Qualifications', None, 'fa fa-trophy', 'xsd_training:QualificationAward', []),
         ]
     },
     {

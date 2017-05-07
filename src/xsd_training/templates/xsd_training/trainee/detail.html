@@ -2,6 +2,10 @@
 {% load lesson_extras %}
 {% load pl_matrix %}
 
+{% block modals %}
+    {% include 'xsd_training/modals/qualification_list.html' %}
+{% endblock %}
+
 {% block training_content %}
 
     <div class="col-md-6">
@@ -20,7 +24,7 @@
                 <div class="btn-group btn-group-sm">
                     {% if is_members %}
                         <a href="{% url 'xsd_members:MemberDetail' trainee.pk %}" class="btn btn-secondary">
-                            <i class="fa fa-search"></i> View Member Profile
+                            <i class="fa fa-share"></i> Member Profile
                         </a>
                     {% endif %}
                 </div>
@@ -87,15 +91,9 @@
                 <td>
                     <i class="fa fa-square xsd-qual-fg--{{ trainee.top_qual.code }}" aria-hidden="true"></i>
                     {{ trainee.top_qual }}
-                    <div class="hidden-section">
-                        <div class="hidden-section-button"><i class="fa fa-plus"></i></div>
-                        <div class="hidden-section-actual">
-                            <form action="{% url 'xsd_training:TraineeNotesSet' trainee.pk %}" method="GET">
-                                {{ current_qual_form.as_p }}
-                                <input type="submit" value="Set Qual"/>
-                            </form>
-                        </div>
-                    </div>
+                    <button class="btn btn-secondary btn-sm push-right" data-toggle="modal" data-target=".xsd-qualification-modal--list">
+                        <i class="fa fa-pencil"></i>
+                    </button>
                 </td>
             </tr>
             <tr>

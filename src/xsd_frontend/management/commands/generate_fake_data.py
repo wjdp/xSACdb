@@ -40,13 +40,13 @@ class Command(BaseCommand):
 
         self.ADI = Qualification.objects.get(code="ADI")
         self.PI = Qualification.objects.get(code="PI")
-        self.THI = Qualification.objects.get(code="THI")
+        self.TI = Qualification.objects.get(code="TI")
         self.AOWI = Qualification.objects.get(code="AOWI")
         self.OWI = Qualification.objects.get(code="OWI")
         self.AI = Qualification.objects.get(code="AI")
         self.NI = Qualification.objects.get(code="NI")
 
-        self.INSTRUCTOR_QUALS = [self.ADI, self.PI, self.THI, self.AOWI, self.OWI,
+        self.INSTRUCTOR_QUALS = [self.ADI, self.PI, self.TI, self.AOWI, self.OWI,
                                  self.AI, self.NI]
 
         self.OO1 = Lesson.objects.get(code="OO1")
@@ -167,7 +167,7 @@ class Command(BaseCommand):
         membersOfficer.memberprofile.approve(superUser)
         membersOfficer.memberprofile.fake(self.fake)
         membersOfficer.memberprofile.set_qualification(self.SD)
-        membersOfficer.memberprofile.set_qualification(self.THI)
+        membersOfficer.memberprofile.set_qualification(self.TI)
         membersOfficer.memberprofile.save()
         self.verifyEmail(membersOfficer)
 
