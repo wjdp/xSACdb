@@ -7,7 +7,16 @@ xSACdb instances. This project will soon adhere to [Semantic Versioning](http://
 ## Unreleased
 
 ### Changes
+- Qualifications now have additional information attached: mode (internal, external, XO, other), XO from, signed off by and date and a notes field. Current qualifications are migrated with these details blank. Award, update and remove all via the trainee profile.
 - Upgraded Bootstrap (frontend framework) to v4.a6, required some adjusting of some frontend components. Now using Gulp to build frontend assets.
+- Member and trainee search templates have been improved.
+- Rendering of the map on site overview has been improved, made to fill more available space.
+
+### Removed
+- 'Award Qualifications' tool. As qualifications now want more details, adding in bulk isn't a good idea.
+
+### Fixes
+- Some internal fields were showing on the diff for profile updates. These have been hidden.
 
 
 ## [0.3.7] - 2017-04-07
