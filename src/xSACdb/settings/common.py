@@ -180,8 +180,6 @@ INSTALLED_APPS = (
     'bootstrap3',
     'widget_tweaks',
 
-    'tastypie',
-
     'geoposition',
 
     'reversion',  # https://github.com/etianen/django-reversion

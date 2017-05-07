@@ -16,7 +16,6 @@ django-redis-cache==1.7.1
 django-reversion-compare==0.7.3
 django-reversion==2.0.8
 django-rq==0.9.5
-django-tastypie==0.13.3
 django-widget-tweaks==1.4.1
 Django==1.11.1
 docutils==0.13.1

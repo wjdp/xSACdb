@@ -1,17 +1,10 @@
 from __future__ import unicode_literals
 
-from django.conf.urls import include, url
-from tastypie.api import Api
+from django.conf.urls import url
 
 from api import *
-from xsd_frontend.versioning import VersionHistoryView
-
-members_api = Api(api_name='members')
-members_api.register(MemberResource())
-members_api.register(UserResource())
-members_api.register(TokenInputResource())
-
 from views import *
+from xsd_frontend.versioning import VersionHistoryView
 
 urlpatterns = [
     url(r'^profile/$', view_my_profile, name='my-profile'),
@@ -39,7 +32,6 @@ urlpatterns = [
 
     url(r'^add/forms/$', BulkAddForms.as_view(), name='BulkAddForms'),
 
-    url(r'^api/', include(members_api.urls)),
     url(r'^api/tokeninput-data.js$', tokeninput_json, name='tokeninput-json'),
 
     url(r'^select/$', select_tool, name='members-select-tool'),
