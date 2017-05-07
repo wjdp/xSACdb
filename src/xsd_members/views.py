@@ -75,12 +75,11 @@ class DynamicUpdateProfile(FormView):
             if self.request.user.profile.archived:
                 # User logged back in and re-added details. Reinstate
                 form.save()
-                self.request.user.profile.reinstate()
-                self.request.user.profile.save()
+                # Done bare as we are building our own action here
+                self.request.user.profile.reinstate(bare=True)
                 action.set(actor=self.request.user, verb='reinstated',
                            target=self.request.user.profile, style='mp-dynamic-reinstate')
             else:
-
                 form.save()
                 action.set(actor=self.request.user, verb='updated',
                            target=self.request.user.profile, style='mp-dynamic-update')

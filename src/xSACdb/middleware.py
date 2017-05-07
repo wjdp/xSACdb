@@ -37,10 +37,18 @@ class NewbieProfileFormRedirectMiddleware:
     their profile.
     """
 
+    @classmethod
+    def get_cache_key(cls, user):
+        return 'newbie_form_bypass_{}'.format(user.pk)
+
+    @classmethod
+    def invalidate_cache(cls, user):
+        cache.delete(cls.get_cache_key(user))
+
     def process_request(self, request):
         assert hasattr(request, 'user')
 
-        CACHE_KEY = 'newbie_form_bypass_{}'.format(request.user.pk)
+        CACHE_KEY = self.get_cache_key(request.user)
         path = request.path_info.lstrip('/')
 
         if cache.get(CACHE_KEY) == True or any(m.match(path) for m in EXEMPT_URLS):

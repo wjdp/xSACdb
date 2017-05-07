@@ -87,13 +87,15 @@ class BaseTest(TestCase):
         return cls.fake.date_time_between(start_date="-99y", end_date="now", tzinfo=None)
 
     @classmethod
-    def create_a_user(cls):
+    def create_a_user(cls, password=None):
         """Make a random user, return them"""
+        if password is None:
+            password = cls.fake.password()
         user = U.objects.create_user(
             first_name=cls.fake.first_name(),
             last_name=cls.fake.last_name(),
             email=cls.fake.email(),
-            password=cls.fake.password(),
+            password=password,
         )
         user.save()
         return user
@@ -106,6 +108,13 @@ class BaseTest(TestCase):
     def get_client(self):
         """Return a logged in and ready to go client"""
         return self.login(self.client)
+
+    def get_client_as(self, user, password):
+        """Return a logged in client as user, skips actual authentication"""
+        # TODO When we upgraade to django 1.11, we can use client.force_login and not worry about passwords
+        c = self.client
+        c.login(username=user.username, password=password)
+        return c
 
 
 class BaseAsGroupTest(BaseTest):
