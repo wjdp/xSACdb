@@ -23,3 +23,5 @@ then
 fi
 
 src/manage.py setup_scheduler
+
+date +%s > dist/deploy.timestamp

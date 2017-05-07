@@ -26,4 +26,7 @@ rm -rf lib/tether/examples
 # NPM things
 npm install
 
+mkdir -p dist
+date +%s > dist/pre.timestamp
+
 echo "[xSACdb] install-pre.sh complete!"
