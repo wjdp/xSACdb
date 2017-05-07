@@ -1,0 +1,33 @@
+{% extends 'members_template.html' %}
+
+{% block title %}Member Search{% endblock %}
+
+{% block members_content %}
+    <div class="col-md-12">
+        <div class="formbox">
+            <form action="." method="GET">
+                <div class="form-group">
+                    <div class="input-group">
+                        <input class="form-control" type="text" name="q" value="{{ q }}"
+                               placeholder="First OR last name"/>
+                        <span class="input-group-btn">
+                            <button type="submit" class="btn btn-primary">Search</button>
+                        </span>
+                    </div>
+                </div>
+            </form>
+        </div>
+        {% if members %}
+            {% include 'xsd_members/components/member_list_table.html' with members=members member_url='xsd_members:MemberDetail' %}
+        {% else %}
+            {% if q %}
+                <div class="alert alert-warning">
+                    No results found for <span class="alert-link">{{ q }}</span>
+                </div>
+            {% else %}
+                <p>Search here for member profiles. Please use either first or last names, not both.</p>
+            {% endif %}
+        {% endif %}
+
+    </div>
+{% endblock %}

@@ -1,0 +1,35 @@
+{% extends 'training_template.html' %}
+{% load lesson_extras %}
+{% load bootstrap_toolkit %}
+
+{% block training_content %}
+
+    <div class="col-md-12">
+        <div class="formbox">
+            <form action="." method="GET">
+                <div class="form-group">
+                    <div class="input-group">
+                        <input class="form-control" type="text" name="q" value="{{ q }}"
+                               placeholder="First OR last name"/>
+                        <span class="input-group-btn">
+                            <button type="submit" class="btn btn-primary">Search</button>
+                        </span>
+                    </div>
+                </div>
+            </form>
+        </div>
+        {% if trainees %}
+            {% include 'xsd_members/components/member_list_table.html' with members=trainees member_url='xsd_training:TraineeNotes' training=True %}
+        {% else %}
+            {% if q %}
+                <div class="alert alert-warning">
+                    No results found for <span class="alert-link">{{ q }}</span>
+                </div>
+            {% else %}
+                <p>Search here for trainee profiles. Please use either first or last names, not both.</p>
+            {% endif %}
+        {% endif %}
+
+    </div>
+
+{% endblock %}

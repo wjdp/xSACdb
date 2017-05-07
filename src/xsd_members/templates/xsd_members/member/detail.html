@@ -88,11 +88,11 @@
                     <div class="alert alert-warning">
                         <p><strong><i class="fa fa-flag"></i> This account is new and needs to
                             be verified.</strong></p>
-                        <p>As anyone can create an account on this system new accounts must be verified to allow
+                        <p>As anyone can create an account on this system new accounts must be approved to allow
                             access.</p>
                         <form action="action/approve/" method="POST">
                             {% csrf_token %}
-                            <button type="submit" class="btn btn-sm btn-warning">
+                            <button type="submit" class="btn btn-sm btn-success">
                                 <i class="fa fa-check"></i> Approve
                             </button>
                         </form>

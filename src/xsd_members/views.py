@@ -92,13 +92,13 @@ class DynamicUpdateProfile(FormView):
 
 class MemberSearch(RequireMembersOfficer, OrderedListView):
     model = MemberProfile
-    template_name = 'members_search.html'
+    template_name = 'xsd_members/member/search.html'
     context_object_name = 'members'
     order_by = 'last_name'
 
     def get_queryset(self):
-        if 'surname' in self.request.GET:
-            name = self.request.GET['surname']
+        if 'q' in self.request.GET:
+            name = self.request.GET['q']
             queryset = super(MemberSearch, self).get_queryset()
             queryset = queryset.filter(
                 Q(last_name__icontains=name) |
@@ -113,8 +113,8 @@ class MemberSearch(RequireMembersOfficer, OrderedListView):
     def get_context_data(self, **kwargs):
         # Call the base implementation first to get a context
         context = super(MemberSearch, self).get_context_data(**kwargs)
-        # Add in a QuerySet of all the books
-        context['search_form'] = MemberSearchForm()
+        if 'q' in self.request.GET:
+            context['q'] = self.request.GET['q']
         return context
 
 
