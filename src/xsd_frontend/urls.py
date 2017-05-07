@@ -2,7 +2,7 @@ from __future__ import unicode_literals
 
 from django.conf.urls import url
 from django.contrib.staticfiles.templatetags.staticfiles import static
-from django.views.generic import RedirectView
+from django.views.generic import RedirectView, TemplateView
 
 from views import *
 

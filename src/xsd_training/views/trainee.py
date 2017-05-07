@@ -1,63 +1,67 @@
+from __future__ import unicode_literals
+
 from django.shortcuts import render, get_object_or_404
-from django.template import RequestContext
 
-from xSACdb.ui import xsdUI
 from xSACdb.roles.decorators import require_verified
-
-from xsd_training.models import *
+from xSACdb.ui import xsdUI
 from xsd_training.forms import *
+
 
 @require_verified
 def overview(request):
-    ui=xsdUI
-    ui.app='training'
-    ui.page='my_overview'
-    ui.section='my'
+    ui = xsdUI
+    ui.app = 'training'
+    ui.page = 'my_overview'
+    ui.section = 'my'
 
     quals = Qualification.objects.filter(instructor_qualification=False)
 
-    return render(request,'overview.html', {
-            'ui':ui,
-            'quals':quals,
-            }, context_instance=RequestContext(request))
+    return render(request, 'overview.html', {
+        'ui': ui,
+        'quals': quals,
+    })
+
 
 @require_verified
 def lessons(request):
-    ui=xsdUI
-    ui.app='training'
-    ui.page='my_lessons'
-    ui.section='my'
+    ui = xsdUI
+    ui.app = 'training'
+    ui.page = 'my_lessons'
+    ui.section = 'my'
 
-    return render(request,'lessons.html', {
-            'ui':ui
-            }, context_instance=RequestContext(request))
+    return render(request, 'lessons.html', {
+        'ui': ui
+    })
+
 
 @require_verified
 def lesson_detail(request, id):
-    lesson=get_object_or_404(Lesson, id=id)
-    ui=xsdUI
-    ui.app='training'
-    ui.page='my_lessons'
-    ui.section='my'
+    lesson = get_object_or_404(Lesson, id=id)
+    ui = xsdUI
+    ui.app = 'training'
+    ui.page = 'my_lessons'
+    ui.section = 'my'
     try:
-        pls=PerformedLesson.objects.filter(trainee=request.user.memberprofile, lesson=lesson).order_by('date')
-    except PerformedLesson.DoesNotExist: pl=None
+        pls = PerformedLesson.objects.filter(trainee=request.user.memberprofile, lesson=lesson).order_by('date')
+    except PerformedLesson.DoesNotExist:
+        pl = None
     return render(request, 'lesson_detail.html', {
-        'lesson':lesson,
+        'lesson': lesson,
         'pls': pls,
-        'ui':ui,
-        }, context_instance=RequestContext(request))
+        'ui': ui,
+    })
+
 
 @require_verified
 def all_feedback(request):
-    ui=xsdUI
-    ui.app='training'
-    ui.section='my'
-    ui.page='my_feedback'
-    pls=PerformedLesson.objects.filter(trainee=request.user.memberprofile)
-    pls=pls.exclude(public_notes="").order_by('-date')
+    ui = xsdUI
+    ui.app = 'training'
+    ui.section = 'my'
+    ui.page = 'my_feedback'
+    pls = PerformedLesson.objects.filter(trainee=request.user.memberprofile)
+    pls = pls.exclude(public_notes="").order_by('-date')
 
-    return render(request,'all_feedback.html', {
-                  'ui':ui,
-                  'pls':pls
-                  }, context_instance=RequestContext(request))
+    return render(request, 'all_feedback.html', {
+        'ui': ui,
+        'pls': pls
+    })

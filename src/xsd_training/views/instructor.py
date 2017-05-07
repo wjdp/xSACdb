@@ -38,7 +38,7 @@ def InstructorUpcoming(request):
 
     return render(request, 'instructor_upcoming.html', {
         'upcoming_sessions': upcoming_sessions
-    }, context_instance=RequestContext(request))
+    })
 
 class TraineeNotesSearch(RequireInstructor, OrderedListView):
     model = MemberProfile
