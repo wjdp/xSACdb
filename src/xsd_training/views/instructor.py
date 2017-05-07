@@ -142,9 +142,8 @@ class TraineeFormMixin(object):
         return MemberProfile.objects.get(pk=self.kwargs['t_pk'])
 
     def get_context_data(self, **kwargs):
-        context = super(TraineeFormMixin, self).get_context_data()
+        context = super(TraineeFormMixin, self).get_context_data(**kwargs)
         context['trainee'] = self.get_trainee()
-        context['form'] = kwargs['form']
         return context
 
     def get_success_url(self):
