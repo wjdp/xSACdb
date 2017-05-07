@@ -27,7 +27,7 @@ class MemberSearchTest(ViewTestMixin, AsGroupMixin, BaseTest):
         # Do search for user, ensure user's name is in response
         u = self.create_a_user()
         c = self.get_client()
-        r = c.get("{}?surname={}".format(
+        r = c.get("{}?q={}".format(
             self.get_url(),
             u.last_name,
         ))
