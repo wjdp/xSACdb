@@ -10,60 +10,71 @@
             </div>
             <div class="modal-body">
                 {% if trainee.qualifications_detail %}
-                <table class="table">
-                    <tr>
-                        <th>Qualification</th>
-                        <th>Mode</th>
-                        <th>Dated</th>
-                        <th>Signed off by</th>
-                        <th>Notes</th>
-                    </tr>
-
-                    {% for pq in trainee.qualifications_detail %}
+                    <table class="table">
                         <tr>
-                            <td>
-                                <i class="fa fa-square xsd-qual-fg--{{ pq.qualification.code }}" aria-hidden="true"></i>
-                                {{ pq.qualification }}
-                            </td>
-                            <td>
-                                {{ pq.mode_display }}
-                                {% if pq.mode == 'XO' %}
-                                    ({{ pq.xo_from }})
-                                {% endif %}
-                            </td>
-                            <td>
-                                {% if pq.signed_off_on %}
-                                    {{ pq.signed_off_on }}
-                                {% else %}
-                                    <em>Unknown</em>
-                                {% endif %}
-                            </td>
-                            <td>
-                                {% if pq.signed_off_by %}
-                                    {{ pq.signed_off_by }}
-                                {% else %}
-                                    <em>Unknown</em>
-                                {% endif %}
-                            </td>
-                            <td>
-                                {{ pq.notes }}
-                            </td>
-                            {% if is_training %}
-                                <td>
-                                    <div class="btn-group">
-                                        <a class="btn btn-secondary"
-                                           href="{% url 'xsd_training:TraineeQualificationUpdate' trainee.pk pq.pk %}">
-                                            <i class="fa fa-pencil"></i>
-                                        </a>
-                                        <button class="btn btn-outline-danger">
-                                            <i class="fa fa-times"></i>
-                                        </button>
-                                    </div>
-                                </td>
-                            {% endif %}
+                            <th>Qualification</th>
+                            <th>Mode</th>
+                            <th>Dated</th>
+                            <th>Signed off by</th>
+                            <th>Notes</th>
                         </tr>
-                    {% endfor %}
-                </table>
+
+                        {% for pq in trainee.qualifications_detail %}
+                            <tr>
+                                <td>
+                                    <i class="fa fa-square xsd-qual-fg--{{ pq.qualification.code }}"
+                                       aria-hidden="true"></i>
+                                    {{ pq.qualification }}
+                                </td>
+                                <td>
+                                    {{ pq.mode_display }}
+                                    {% if pq.mode == 'XO' %}
+                                        ({{ pq.xo_from }})
+                                    {% endif %}
+                                </td>
+                                <td>
+                                    {% if pq.signed_off_on %}
+                                        {{ pq.signed_off_on }}
+                                    {% else %}
+                                        <em>Unknown</em>
+                                    {% endif %}
+                                </td>
+                                <td>
+                                    {% if pq.signed_off_by %}
+                                        {{ pq.signed_off_by }}
+                                    {% else %}
+                                        <em>Unknown</em>
+                                    {% endif %}
+                                </td>
+                                <td>
+                                    {{ pq.notes }}
+                                </td>
+                                {% if is_training %}
+                                    <td>
+                                        <div class="btn-group">
+                                            <a class="btn btn-secondary"
+                                               href="{% url 'xsd_training:TraineeQualificationUpdate' trainee.pk pq.pk %}">
+                                                <i class="fa fa-pencil"></i>
+                                            </a>
+                                            <form action="{% url 'xsd_training:TraineeQualificationDelete' trainee.pk pq.pk %}"
+                                                  method="POST"
+                                                  onsubmit="return confirm('Are you sure you want to delete {{ pq.qualification }} from {{ trainee.full_name }}?');">
+                                                {% csrf_token %}
+                                                <button class="btn btn-outline-danger" data-qualification-delete
+                                                        type="submit">
+                                                    <i class="fa fa-times"></i>
+                                                </button>
+                                            </form>
+                                        </div>
+                                    </td>
+                                {% endif %}
+                            </tr>
+                        {% endfor %}
+                    </table>
+                {% else %}
+                    <div class="alert alert-info">
+                        {{ trainee.first_name }} has no qualifications on record.
+                    </div>
                 {% endif %}
                 {% if is_training %}
                     <a class="btn btn-secondary" href="{% url 'xsd_training:TraineeQualificationCreate' trainee.pk %}">

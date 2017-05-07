@@ -181,18 +181,23 @@ class PerformedQualification(models.Model):
 
     trainee = models.ForeignKey('xsd_members.MemberProfile', on_delete=models.CASCADE, editable=False)
     qualification = models.ForeignKey('xsd_training.Qualification', on_delete=models.PROTECT)
-    mode = models.CharField(max_length=3, choices=MODE_CHOICES)
-    xo_from = models.CharField(max_length=64, blank=True, null=True)
+    mode = models.CharField(max_length=3, choices=MODE_CHOICES,
+                            help_text="Internal: within this club, extenal: with another BSAC branch, crossover: from another agency.")
+    xo_from = models.CharField(max_length=64, blank=True, null=True, verbose_name="Crossover From",
+                               help_text="What qualification did the trainee crossover from?")
 
-    signed_off_on = models.DateField(blank=True, null=True)
+    signed_off_on = models.DateField(blank=True, null=True, help_text="Date when qualification was signed off in QRB.")
     signed_off_by = models.ForeignKey('xsd_members.MemberProfile', on_delete=models.PROTECT, blank=True, null=True,
-                                      related_name='pqs_signed')
+                                      related_name='pqs_signed', help_text="Who signed the QRB? Usually the branch DO.")
 
     # TODO: Add instructor_number here, migrate data from MemberProfiles
 
-    notes = models.TextField(blank=True, null=True)
+    notes = models.TextField(blank=True, null=True, help_text="Both instructors and the trainee can see any notes written here.")
 
     created = models.DateTimeField(auto_now_add=True, blank=True, editable=False)
+
+    class Meta:
+        ordering = ['qualification__rank']
 
     def uid(self):
         return "PQ{:0>4d}".format(self.pk)

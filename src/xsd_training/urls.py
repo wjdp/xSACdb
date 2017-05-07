@@ -33,6 +33,7 @@ urlpatterns = patterns('',
     url(r'^trainee/(?P<pk>\d+)/set/$', 'xsd_training.views.instructor.trainee_notes_set', name='TraineeNotesSet'),
     url(r'^trainee/(?P<t_pk>\d+)/qualification/new/$', instructor.QualificationCreate.as_view(), name='TraineeQualificationCreate'),
     url(r'^trainee/(?P<t_pk>\d+)/qualification/(?P<pk>\d+)/$', instructor.QualificationUpdate.as_view(), name='TraineeQualificationUpdate'),
+    url(r'^trainee/(?P<t_pk>\d+)/qualification/(?P<pk>\d+)/delete/$', instructor.QualificationDelete.as_view(), name='TraineeQualificationDelete'),
 
 
     url(r'^sdc/$', sdc.SDCList.as_view(), name='SDCList'),

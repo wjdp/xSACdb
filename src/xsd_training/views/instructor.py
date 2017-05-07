@@ -4,7 +4,7 @@ from django.db.models import Q
 from django.http import HttpResponse
 from django.shortcuts import render, get_object_or_404, redirect
 from django.template import RequestContext
-from django.views.generic import DetailView, CreateView, UpdateView
+from django.views.generic import DetailView, CreateView, UpdateView, DeleteView
 
 from xSACdb.roles.decorators import require_instructor, require_training_officer
 from xSACdb.roles.mixins import RequireInstructor, RequireTrainingOfficer
@@ -139,6 +139,12 @@ class TraineeFormMixin(object):
     def get_trainee(self):
         return MemberProfile.objects.get(pk=self.kwargs['t_pk'])
 
+    def get_context_data(self, **kwargs):
+        context = super(TraineeFormMixin, self).get_context_data()
+        context['trainee'] = self.get_trainee()
+        context['form'] = kwargs['form']
+        return context
+
     def get_success_url(self):
         return '{}#qualification-list'.format(
             reverse('xsd_training:TraineeNotes', kwargs={'pk': self.get_trainee().pk}))
@@ -163,3 +169,9 @@ class QualificationUpdate(RequireTrainingOfficer, TraineeFormMixin, UpdateView):
     model = PerformedQualification
     fields = ['mode', 'xo_from', 'signed_off_on', 'signed_off_by', 'notes', ]
     template_name = 'xsd_training/trainee/qualification_form.html'
+
+
+class QualificationDelete(RequireTrainingOfficer, TraineeFormMixin, DeleteView):
+    model = PerformedQualification
+    template_name = 'base/delete.html'
+

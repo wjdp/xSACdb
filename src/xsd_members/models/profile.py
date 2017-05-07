@@ -358,7 +358,7 @@ class MemberProfile(MemberProfileStateMixin,
         self.user.save()
 
 
-from django.db.models.signals import post_save
+from django.db.models.signals import post_save, post_delete
 
 
 # Make sure we create a MemberProfile when creating a User
@@ -375,7 +375,6 @@ post_save.connect(create_member_profile, sender=settings.AUTH_USER_MODEL)
 
 
 # Update training_for when a PerformedLesson is updated
-@disable_for_loaddata
 def trigger_update_training_for(sender, instance, created, **kwargs):
     if instance.trainee and instance.lesson:
         mp = instance.trainee
@@ -386,8 +385,7 @@ def trigger_update_training_for(sender, instance, created, **kwargs):
 post_save.connect(trigger_update_training_for, sender=PerformedLesson)
 
 # Update qualification cache when PerformedQualifications are changed
-@disable_for_loaddata
-def trigger_update_qualification_cache(sender, instance, created, **kwargs):
+def trigger_update_qualification_cache(sender, instance, **kwargs):
     mp = instance.trainee
     mp.top_qual_cached = mp.top_qual(nocache=True)
     mp.top_instructor_qual_cached = mp.top_instructor_qual(nocache=True)
@@ -396,3 +394,4 @@ def trigger_update_qualification_cache(sender, instance, created, **kwargs):
 
 
 post_save.connect(trigger_update_qualification_cache, sender=PerformedQualification)
+post_delete.connect(trigger_update_qualification_cache, sender=PerformedQualification)

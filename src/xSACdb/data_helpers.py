@@ -6,7 +6,7 @@ def disable_for_loaddata(signal_handler):
     """
     @wraps(signal_handler)
     def wrapper(*args, **kwargs):
-        if kwargs['raw']:
+        if kwargs.get('raw', False):
             return
         signal_handler(*args, **kwargs)
     return wrapper

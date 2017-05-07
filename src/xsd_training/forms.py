@@ -133,3 +133,12 @@ class PerformedQualificationForm(forms.ModelForm):
     class Meta:
         model = PerformedQualification
         exclude = []
+
+    def clean(self):
+        cleaned_data = super(PerformedQualificationForm, self).clean()
+        mode = cleaned_data.get('mode')
+        xo_from = cleaned_data.get('xo_from')
+
+        # Put a arbitrary minimum character limit here of 4, could probably make higher but let's play safe
+        if mode == 'XO' and len(xo_from) <= 4:
+            self.add_error('xo_from', 'This field is required when the mode is crossover.')
