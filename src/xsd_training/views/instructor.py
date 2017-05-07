@@ -40,29 +40,30 @@ def InstructorUpcoming(request):
         'upcoming_sessions': upcoming_sessions
     }, context_instance=RequestContext(request))
 
-
-# Slightly messy xsd_members.MemberSearch but model is User rather than MP
 class TraineeNotesSearch(RequireInstructor, OrderedListView):
     model = MemberProfile
-    template_name = 'trainee_notes_search.html'
-    context_object_name = 'trainees'
-    order_by = 'last_name'
+    template_name= 'xsd_training/trainee/search.html'
+    context_object_name='trainees'
+    order_by='last_name'
 
     def get_queryset(self):
-        if 'surname' in self.request.GET:
-            name = self.request.GET['surname']
-            queryset = super(TraineeNotesSearch, self).get_queryset()
-            queryset = queryset.filter(
+        queryset = super(TraineeNotesSearch, self).get_queryset()
+        if 'q' in self.request.GET:
+            name=self.request.GET['q']
+            queryset=queryset.filter(
                 Q(last_name__icontains=name) |
                 Q(first_name__icontains=name)
             )
-            queryset = queryset.prefetch_related(
-                'top_qual_cached',
-            )
-        else:
-            queryset = None
-
+        queryset = queryset.prefetch_related(
+            'top_qual_cached',
+        )
         return queryset
+
+    def get_context_data(self, **kwargs):
+        context = super(TraineeNotesSearch, self).get_context_data()
+        if 'q' in self.request.GET:
+            context['q'] = self.request.GET['q']
+        return context
 
 
 class TraineeNotes(RequireInstructor, DetailView):
