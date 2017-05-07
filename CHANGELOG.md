@@ -6,6 +6,9 @@ xSACdb instances. This project will soon adhere to [Semantic Versioning](http://
 
 ## Unreleased
 
+### Added
+- Several timestamps (pre, post and deploy), relating to the time the application was built, are shown on the about page.
+
 ### Changes
 - Qualifications now have additional information attached: mode (internal, external, XO, other), XO from, signed off by and date and a notes field. Current qualifications are migrated with these details blank. Award, update and remove all via the trainee profile.
 - Upgraded Bootstrap (frontend framework) to v4.a6, required some adjusting of some frontend components. Now using Gulp to build frontend assets.

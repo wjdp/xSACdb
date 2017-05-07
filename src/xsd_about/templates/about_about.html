@@ -3,16 +3,19 @@
 
 {% block about_content %}
 <div class="row">
-    <div class="col-sm-4">
+    <div class="col-sm-5">
         <img src="{% static 'images/logo.gif' %}" class="about-logo" />
 
         <table class="table break-up">
             <tr><th>Version</th><td>{{ version.tag }}</td></tr>
             <tr><th>Released</th><td>{{ version.released }}</td></tr>
+            <tr><th>Pre Time</th><td>{{ build_time_pre }}</td></tr>
+            <tr><th>Post Time</th><td>{{ build_time_post }}</td></tr>
+            <tr><th>Deploy Time</th><td>{{ build_time_deploy }}</td></tr>
         </table>
     </div>
 
-    <div class="col-sm-8">
+    <div class="col-sm-7">
         <p>xSACdb, a web application for managing BSAC branch clubs, is an open source project built and maintained by
             <a href="//wjdp.uk">Will Pimblett</a>.</p>
 
