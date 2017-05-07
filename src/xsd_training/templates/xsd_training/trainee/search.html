@@ -19,7 +19,7 @@
             </form>
         </div>
         {% if trainees %}
-            {% include 'xsd_members/components/member_list_table.html' with members=trainees member_url='xsd_training:TraineeNotes' %}
+            {% include 'xsd_members/components/member_list_table.html' with members=trainees member_url='xsd_training:TraineeNotes' training=True %}
         {% else %}
             {% if q %}
                 <div class="alert alert-warning">

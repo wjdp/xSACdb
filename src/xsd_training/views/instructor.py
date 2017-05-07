@@ -49,19 +49,16 @@ class TraineeNotesSearch(RequireInstructor, OrderedListView):
     order_by='last_name'
 
     def get_queryset(self):
+        queryset = super(TraineeNotesSearch, self).get_queryset()
         if 'q' in self.request.GET:
             name=self.request.GET['q']
-            queryset=super(TraineeNotesSearch, self).get_queryset()
             queryset=queryset.filter(
                 Q(last_name__icontains=name) |
                 Q(first_name__icontains=name)
             )
-            queryset = queryset.prefetch_related(
-                'top_qual_cached',
-            )
-        else:
-            queryset=None
-
+        queryset = queryset.prefetch_related(
+            'top_qual_cached',
+        )
         return queryset
 
     def get_context_data(self, **kwargs):

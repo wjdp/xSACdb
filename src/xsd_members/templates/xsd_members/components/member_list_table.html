@@ -5,7 +5,11 @@
             <th class="flag-cell"></th>
             <th class="flag-cell"></th>
             <th>Name</th>
-            <th>Membership Type</th>
+            {% if training %}
+                <th>Training For</th>
+            {% else %}
+                <th>Membership Type</th>
+            {% endif %}
             <th colspan="3">Expiry</th>
         </tr>
         </thead>
@@ -35,7 +39,14 @@
                     </a>
                 </td>
 
-                <td>{% if member.club_membership_type != None %}{{ member.club_membership_type }}{% endif %}</td>
+                {% if training %}
+                    <td>{% if member.training_for != None %}{{ member.training_for }}{% endif %}</td>
+
+                {% else %}
+                    <td>{% if member.club_membership_type != None %}{{ member.club_membership_type }}{% endif %}</td>
+
+                {% endif %}
+
 
                 <td class="xsd-members-table__expiry-column">
                     {% if member.bsac_expired %}
