@@ -15,7 +15,7 @@ from xsd_sites.models import Site
 from xsd_training.models import *
 from xsd_trips.models import Trip
 from xsd_trips.models.trip_member import TripMember
-from xsd_trips.models.trip_state import STATE_OPEN, STATE_CLOSED, STATE_COMPLETED, STATE_CANCELLED
+from xsd_trips.models.trip_state import STATE_COMPLETED, STATE_CANCELLED
 
 
 class Command(BaseCommand):
@@ -27,7 +27,7 @@ class Command(BaseCommand):
     SS_COUNT = 50
     PL_COUNT = 500
     PSDC_COUNT = 50
-    TRIP_COUNT = 300
+    TRIP_COUNT = 100
 
     def setUp(self):
         self.OD = Qualification.objects.get(code="OD")
@@ -117,6 +117,7 @@ class Command(BaseCommand):
         superUser.groups.add(groupAdmin)
         superUser.save()
         superUser.memberprofile.fake(self.fake)
+        superUser.memberprofile.training_for = self.OD
         superUser.memberprofile.save()
         self.verifyEmail(superUser)
 
@@ -303,6 +304,16 @@ class Command(BaseCommand):
 
         self.status_write('Generated useful users')
 
+    def _awardQualification(self, mp, qual):
+        pq = PerformedQualification(trainee=mp, qualification=qual)
+        pq.mode = random.choice(PerformedQualification.MODE_CHOICES)[0]
+        if pq.mode == 'XO':
+            pq.xo_from = '{} {}'.format(
+                random.choice(['PADI', 'SSI', 'NAUI', 'CMAS', 'FLOPS']),
+                random.choice(['Dive-maestro', 'Fin-flapper', 'Fish', 'Snorkel-sucker', 'Coral-sniffer']),
+            )
+        mp.award_qualification(pq, actor=self.usefulUsers['do'])
+
     def generateFluffyUsers(self):
         U = get_user_model()
 
@@ -320,14 +331,18 @@ class Command(BaseCommand):
                     self.verifyEmail(u)
                 else:
                     sync_user_email_addresses(u)
+
                 if self.fake.boolean(chance_of_getting_true=80):
                     u.memberprofile.approve(random.choice(self.memberActionUsers))
+
                 if self.fake.boolean(chance_of_getting_true=90):
-                    u.memberprofile.set_qualification(random.choice(self.PERSONAL_QUALS))
+                    for i in range(random.randint(1,4)):
+                        self._awardQualification(u.memberprofile, random.choice(self.PERSONAL_QUALS))
+
                     if self.fake.boolean(chance_of_getting_true=10):
-                        u.memberprofile.set_qualification(random.choice(self.INSTRUCTOR_QUALS))
-                        # if u.memberprofile.top_instructor_qual().rank >= self.OWI.rank:
-                        #     u.memberprofile.instructor_number = random.randrange(1234,99999)
+                        for i in range(random.randint(1, 4)):
+                            self._awardQualification(u.memberprofile, random.choice(self.INSTRUCTOR_QUALS))
+
             if self.fake.boolean(chance_of_getting_true=10):
                 # Archive some
                 u.memberprofile.archive(random.choice(self.memberActionUsers))
@@ -348,22 +363,22 @@ class Command(BaseCommand):
 
         y = datetime.date.today().year
         self.tg_od1 = TraineeGroup.objects.create(name="Ocean Diver {}".format(y))
-        self.tg_od1.trainees.add(self.usefulUsers['su'].profile) # SU should be an ocean diver
-        fill_group(self.tg_od1, None, random.randint(8,self.TG_MAX_SIZE))
-        self.tg_od2 = TraineeGroup.objects.create(name="Ocean Diver {}".format(y-1))
-        fill_group(self.tg_od2, None, random.randint(8,self.TG_MAX_SIZE))
+        self.tg_od1.trainees.add(self.usefulUsers['su'].profile)  # SU should be an ocean diver
+        fill_group(self.tg_od1, None, random.randint(8, self.TG_MAX_SIZE))
+        self.tg_od2 = TraineeGroup.objects.create(name="Ocean Diver {}".format(y - 1))
+        fill_group(self.tg_od2, None, random.randint(8, self.TG_MAX_SIZE))
         self.tg_sd1 = TraineeGroup.objects.create(name="Sports Diver {}".format(y))
-        fill_group(self.tg_sd1, self.OD, random.randint(8,self.TG_MAX_SIZE))
-        self.tg_sd2 = TraineeGroup.objects.create(name="Sports Diver {}".format(y-1))
-        fill_group(self.tg_sd2, self.OD, random.randint(8,self.TG_MAX_SIZE))
+        fill_group(self.tg_sd1, self.OD, random.randint(8, self.TG_MAX_SIZE))
+        self.tg_sd2 = TraineeGroup.objects.create(name="Sports Diver {}".format(y - 1))
+        fill_group(self.tg_sd2, self.OD, random.randint(8, self.TG_MAX_SIZE))
         self.tg_dl1 = TraineeGroup.objects.create(name="Dive Leader {}".format(y))
-        fill_group(self.tg_dl1, self.SD, random.randint(8,self.TG_MAX_SIZE))
+        fill_group(self.tg_dl1, self.SD, random.randint(8, self.TG_MAX_SIZE))
 
         self.status_write('Generated useful training groups')
 
         for i in range(0, self.TG_COUNT):
-            g = TraineeGroup.objects.create(name=' '.join(self.fake.words(nb=random.randint(2,4))))
-            fill_group(g, random.choice([None, self.OD, self.SD, self.DL, self.AD, self.FC]), random.randint(1,15))
+            g = TraineeGroup.objects.create(name=' '.join(self.fake.words(nb=random.randint(2, 4))))
+            fill_group(g, random.choice([None, self.OD, self.SD, self.DL, self.AD, self.FC]), random.randint(1, 15))
 
         self.status_write('Generated {} fluffy training groups'.format(self.TG_COUNT))
 
@@ -372,10 +387,10 @@ class Command(BaseCommand):
         sites = Site.objects.filter(type='TR')
 
         def session_name(mode, qual):
-            if mode=='AS':
+            if mode == 'AS':
                 return "{} Theory Exam".format(qual.title)
             else:
-                return "{}{}".format(self.fake.word(), random.randint(0, 9)),
+                return self.fake.word()
 
         for i in range(0, self.SS_COUNT):
             mode = random.choice(['TH', 'SW', 'OW', 'AS'])
@@ -387,13 +402,13 @@ class Command(BaseCommand):
                 # (self.tg_dl1, self.DL),
             ])
             s = Session.objects.create(
-                name = session_name(mode, g[1]),
-                when = self.fake.date_time_between(start_date="-3y", end_date="+120d"),
-                where = random.choice(sites),
-                notes = '\n\n'.join(self.fake.paragraphs(nb=random.randint(0,3)))
+                name=session_name(mode, g[1]),
+                when=self.fake.date_time_between(start_date="-3y", end_date="+120d"),
+                where=random.choice(sites),
+                notes='\n\n'.join(self.fake.paragraphs(nb=random.randint(0, 3)))
             )
             ts = g[0].trainees.all()
-            for j in range(0, random.randint(1, min(len(ts),self.TG_MAX_SIZE))):
+            for j in range(0, random.randint(1, min(len(ts), self.TG_MAX_SIZE))):
                 pl = PerformedLesson.objects.create(
                     session=s,
                     lesson=random.choice(Lesson.objects.filter(
@@ -407,10 +422,10 @@ class Command(BaseCommand):
 
     def generatePerformedLessons(self):
         instructors = MemberProfile.objects.filter(is_instructor_cached=True)
+
         def generateTraineePLs(trainee, qual, level=0.5, previous=False):
             # Theory
             ths = Lesson.objects.filter(qualification=qual, mode='TH')
-
 
     def generateTrips(self):
         for i in range(0, self.TRIP_COUNT):
@@ -458,6 +473,4 @@ class Command(BaseCommand):
                 else:
                     trip.add_members(members=[member], actor=random.choice(actors))
 
-
         self.status_write('Filled {} trips'.format(trips_to_fill.count()))
-
