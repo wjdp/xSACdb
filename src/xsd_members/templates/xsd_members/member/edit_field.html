@@ -1,22 +1,13 @@
 {% load widget_tweaks %}
+{% load forms %}
+
 <tr>
     <th><label for="{{ field.id_for_label }}">
         {{ field.label }}
     </label>
     </th>
     <td class="{% if field.errors %}has-error{% endif %}">
-        <div class="input-group">
-            {% if field.id_for_label == "id_bsac_id" %}
-                <span class="input-group-addon">A</span>
-            {% endif %}
-
-            {% if field.id_for_label == "id_instructor_number" %}
-                <span class="input-group-addon">{{ member.top_instructor_qual.code }}</span>
-            {% endif %}
-
-            {% render_field field class+="form-control" %}
-
-        </div>
+        {% include 'forms/field_input-group.html' with field=field %}
 
         {% for error in field.errors %}
             <div class="form-control-feedback">

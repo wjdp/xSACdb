@@ -4,7 +4,7 @@
         {{ field.label }}
     </label>
 
-    {% render_field field class+="form-control" %}
+    {% include 'forms/field_input-group.html' with field=field %}
 
     {% for error in field.errors %}
         <div class="form-control-feedback">

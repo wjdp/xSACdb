@@ -9,19 +9,17 @@
 
         <div class="row">
             <div class="col-md-6">
-                <div class="titlebox">
-                    {% if member.image %}
-                        <img src="{{ member.image.url }}" alt="Profile Picture" class="alignright"/>{% endif %}
-                    {% if is_members %}
-                        <h2>{{ form.first_name.errors }}{{ form.first_name }}
-                            {{ form.last_name.errors }}{{ form.last_name }}</h2>
-                    {% else %}
-                        <h2>{{ member }}</h2>
-                    {% endif %}
-                </div>
                 {% if is_members %}
-                    {{ form.date_of_birth.errors }}
-                    <p>Date of Birth: {{ form.date_of_birth }}</p>
+                    <h3><i class="fa fa-id-card"></i> Identity</h3>
+
+                    <table class="table">
+                    {% include 'xsd_members/member/edit_field.html' with field=form.first_name %}
+                    {% include 'xsd_members/member/edit_field.html' with field=form.last_name %}
+                    {% include 'xsd_members/member/edit_field.html' with field=form.date_of_birth %}
+                    {% include 'xsd_members/member/edit_field.html' with field=form.gender %}
+                    </table>
+                {% else %}
+                    <h2>{{ member }}</h2>
                 {% endif %}
             </div>
             <div class="col-md-6">
