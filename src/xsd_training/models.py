@@ -2,11 +2,11 @@ from __future__ import unicode_literals
 
 import datetime
 
-from django.db import models
 from django.conf import settings
+from django.core.cache import cache
 from django.core.urlresolvers import reverse
+from django.db import models
 from django.db import transaction
-
 from reversion import revisions as reversion
 
 
@@ -48,14 +48,10 @@ class PerformedLesson(models.Model):
 
     objects = PerformedLessonManager()
 
-    # def __unicode__(self):
-    #    ret = ("Lesson " + self.lesson.code + " at " +
-    #           str(self.session.when) + " instr by " +
-    #           self.instructor.first_name + " " + self.instructor.last_name)
-
     def uid(self):
         return "PL{:0>4d}".format(self.pk)
 
+    # TODO remove
     def get_date(self):
         return self.date  # legacy, will be removed
 
@@ -66,6 +62,24 @@ class PerformedLesson(models.Model):
 
     class Meta:
         ordering = ['trainee__last_name']
+        get_latest_by = "date"
+
+
+class LessonManager(models.Manager):
+    def by_qualification_detailed(self, qualification):
+        """Return a list of tuples (mode, lessons)"""
+
+        def map_mode_to_lessons(mode):
+            lessons_in_mode = self.filter(qualification=qualification, mode=mode[0])
+            return (mode, lessons_in_mode)
+
+        key = "by_qualification_detailed--{qualification}".format(qualification=qualification.code)
+        val = cache.get(key)
+        if val is None:
+            val = map(map_mode_to_lessons, Lesson.MODE_CHOICES)
+            val = [i for i in val if len(i[1]) > 0]  # Remove empty rows
+            cache.set(key, val, 86400)
+        return val
 
 
 class Lesson(models.Model):
@@ -90,11 +104,40 @@ class Lesson(models.Model):
     max_depth = models.IntegerField(blank=True, null=True)
     activities = models.TextField(blank=True)
 
+    objects = LessonManager()
+
     def __unicode__(self):
         return self.code + " - " + self.title
 
     class Meta:
         ordering = ['qualification', 'mode', 'order']
+
+    @property
+    def short(self):
+        """Short respresentation of lesson"""
+        return self.code or self.title
+
+    # Replace with enum when we get python3
+    LESSON_STATE_NO = ('NO', 'Unplanned')
+    LESSON_STATE_PLANNED = ('PLANNED', 'Planned')
+    LESSON_STATE_PARTIAL = ('PARTIAL', 'Partially Completed')
+    LESSON_STATE_YES = ('YES', 'Completed')
+
+    def get_pls(self, trainee):
+        """Return a QS of PLs for a lesson for a particular trainee"""
+        return PerformedLesson.objects.filter(trainee=trainee, lesson=self)
+
+    def get_lesson_state(self, trainee):
+        """Return the 'highest attained state' of a lesson for a particualar trainee"""
+        high_state = self.LESSON_STATE_NO
+        for pl in self.get_pls(trainee):
+            if pl.completed:
+                return self.LESSON_STATE_YES
+            if pl.partially_completed:
+                high_state = self.LESSON_STATE_PARTIAL
+            else:
+                high_state = self.LESSON_STATE_PLANNED
+        return high_state
 
     def is_completed(self, mp):
         pl = PerformedLesson.objects.filter(trainee=mp, lesson=self, completed=True).count()
@@ -122,8 +165,49 @@ class Qualification(models.Model):
         ordering = ['rank']
 
     def lessons_by_mode(self, mode):
+        """Return a QS of lessons for this qual given a mode"""
         lessons = Lesson.objects.filter(qualification=self, mode=mode)
         return lessons
+
+
+@reversion.register()
+class PerformedQualification(models.Model):
+    MODE_CHOICES = (
+        ('INT', 'Internal'),
+        ('EXT', 'External'),
+        ('XO', 'Crossover'),
+        ('OTH', 'Other'),
+    )
+
+    trainee = models.ForeignKey('xsd_members.MemberProfile', on_delete=models.CASCADE, editable=False)
+    qualification = models.ForeignKey('xsd_training.Qualification', on_delete=models.PROTECT)
+    mode = models.CharField(max_length=3, choices=MODE_CHOICES,
+                            help_text="Internal: within this club, extenal: with another BSAC branch, crossover: from another agency.")
+    xo_from = models.CharField(max_length=64, blank=True, null=True, verbose_name="Crossover From",
+                               help_text="What qualification did the trainee crossover from?")
+
+    signed_off_on = models.DateField(blank=True, null=True, help_text="Date when qualification was signed off in QRB.")
+    signed_off_by = models.ForeignKey('xsd_members.MemberProfile', on_delete=models.PROTECT, blank=True, null=True,
+                                      related_name='pqs_signed', help_text="Who signed the QRB? Usually the branch DO.")
+
+    # TODO: Add instructor_number here, migrate data from MemberProfiles
+
+    notes = models.TextField(blank=True, null=True, help_text="Both instructors and the trainee can see any notes written here.")
+
+    created = models.DateTimeField(auto_now_add=True, blank=True, editable=False)
+
+    class Meta:
+        ordering = ['qualification__rank']
+
+    def uid(self):
+        return "PQ{:0>4d}".format(self.pk)
+
+    @property
+    def mode_display(self):
+        for mode in self.MODE_CHOICES:
+            if mode[0] == self.mode:
+                return mode[1]
+        raise ValueError('Mode not in MODE_CHOICES')
 
 
 SDC_TYPE_CHOICES = (
@@ -205,6 +289,9 @@ class PerformedSDC(models.Model):
         else:
             return "{} @ TBD".format(self.sdc)
 
+    def uid(self):
+        return "PSDC{:0>4d}".format(self.pk)
+
     def get_absolute_url(self):
         return reverse('xsd_training:PerformedSDCDetail', kwargs={'pk': self.pk})
 
@@ -259,6 +346,7 @@ class Session(models.Model):
 
     class Meta:
         ordering = ['when']
+
 
 @reversion.register()
 class TraineeGroup(models.Model):

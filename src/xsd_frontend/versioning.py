@@ -12,6 +12,10 @@ class XSDVersion(CompareMixin, Version):
         proxy = True
 
     @property
+    def compare_fields(self):
+        return [field.name for field in self.object._meta.get_fields() if field.editable]
+
+    @property
     def cache_key(self):
         return 'version_{}'.format(self.pk)
 

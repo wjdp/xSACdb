@@ -1,10 +1,12 @@
-from django.core.urlresolvers import resolve, Resolver404
+from __future__ import unicode_literals
+
 from django.conf import settings
+from django.core.urlresolvers import resolve, Resolver404
 
 from xSACdb.roles.functions import *
-
 from xsd_frontend.forms import UpdateRequestMake
 from xsd_members.forms import MyUserAccountForm
+
 
 def xsd_vars(request):
     # General template variables used by our templates
@@ -40,16 +42,16 @@ def xsd_vars(request):
         context.update({
             'profile': request.user.memberprofile,
 
-            'update_request_form':update_request_form,
+            'update_request_form': update_request_form,
             'my_user_account_form': my_user_account_form,
 
-            'is_verified':is_verified(request.user),
-            'is_training':is_training(request.user),
-            'is_trips':is_trips(request.user),
-            'is_sites':is_sites(request.user),
-            'is_members':is_members(request.user),
-            'is_diving_officer':is_diving_officer(request.user),
-            'is_admin':is_admin(request.user),
+            'is_verified': is_verified(request.user),
+            'is_training': is_training(request.user),
+            'is_trips': is_trips(request.user),
+            'is_sites': is_sites(request.user),
+            'is_members': is_members(request.user),
+            'is_diving_officer': is_diving_officer(request.user),
+            'is_admin': is_admin(request.user),
             'is_trusted': is_trusted(request.user),
         })
 

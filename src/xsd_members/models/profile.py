@@ -11,7 +11,7 @@ from reversion import revisions as reversion
 
 from xSACdb.cache import ObjectPropertyCacheInvalidationMixin
 from xSACdb.data_helpers import disable_for_loaddata
-from xsd_training.models import PerformedLesson
+from xsd_training.models import PerformedLesson, PerformedQualification
 from .profile_avatar import MemberProfileAvatarMixin
 from .profile_fake import MemberProfileFakeDataMixin
 from .profile_manager import MemberProfileManager
@@ -61,20 +61,19 @@ class MemberProfile(MemberProfileStateMixin,
     class Meta:
         ordering = ['last_name', 'first_name']
 
-    user = models.OneToOneField(settings.AUTH_USER_MODEL, null=True,
-                                blank=True)
+    user = models.OneToOneField(settings.AUTH_USER_MODEL, null=True, blank=True, editable=False)
 
     # Used to hide users from 'all' queries.
-    hidden = models.BooleanField(default=False)
+    hidden = models.BooleanField(default=False, editable=False)
 
     # FIXME Not really sure if this is needed?
-    token = models.CharField(max_length=150, blank=True)
+    token = models.CharField(max_length=150, blank=True, editable=False)
 
     # This is being used to 'approve' new members
-    new_notify = models.BooleanField(default=True)
+    new_notify = models.BooleanField(default=True, editable=False)
 
     # Marks the user as archived.
-    archived = models.BooleanField(default=False)
+    archived = models.BooleanField(default=False, editable=False)
 
     # Migrated from user model
     first_name = models.CharField(max_length=30)
@@ -108,9 +107,12 @@ class MemberProfile(MemberProfileStateMixin,
                                            that would be important for both underwater activities and general trips, \
                                            details are held in confidence.")
 
-    qualifications = models.ManyToManyField('xsd_training.Qualification', blank=True)
+    qualifications = models.ManyToManyField('xsd_training.Qualification', through='xsd_training.PerformedQualification',
+                                            through_fields=('trainee', 'qualification'), blank=True, related_name='members')
+
     training_for = models.ForeignKey('xsd_training.Qualification', blank=True, null=True, related_name='q_training_for')
     sdcs = models.ManyToManyField('xsd_training.SDC', blank=True)
+
     instructor_number = models.IntegerField(blank=True, null=True)
 
     student_id = models.IntegerField(blank=True, null=True)
@@ -144,7 +146,7 @@ class MemberProfile(MemberProfileStateMixin,
     def uid(self):
         return "M{:0>4d}".format(self.pk)
 
-    top_qual_cached = models.ForeignKey('xsd_training.Qualification', blank=True, null=True,
+    top_qual_cached = models.ForeignKey('xsd_training.Qualification', blank=True, null=True, editable=False,
                                         related_name='top_qual_cached')
 
     def top_qual(self, nocache=False):
@@ -159,7 +161,7 @@ class MemberProfile(MemberProfileStateMixin,
         else:
             return self.top_qual_cached
 
-    top_instructor_qual_cached = models.ForeignKey('xsd_training.Qualification', blank=True, null=True,
+    top_instructor_qual_cached = models.ForeignKey('xsd_training.Qualification', blank=True, null=True, editable=False,
                                                    related_name='top_instructor_qual_cached')
 
     def top_instructor_qual(self, nocache=False):
@@ -171,7 +173,7 @@ class MemberProfile(MemberProfileStateMixin,
         else:
             return self.top_instructor_qual_cached
 
-    is_instructor_cached = models.NullBooleanField(default=None, blank=True)
+    is_instructor_cached = models.NullBooleanField(default=None, blank=True, editable=False)
 
     def is_instructor(self, nocache=False):
         if nocache:
@@ -274,35 +276,6 @@ class MemberProfile(MemberProfileStateMixin,
         if self.gender == "f": return "She"
         return "They"
 
-    def set_qualification(self, qual):
-        """Adds the qualification qual, if qual is lower than top_qual then
-        the higher qualifications are removed"""
-        instructor = qual.instructor_qualification
-
-        to_remove = self.qualifications.filter(
-            instructor_qualification=instructor,
-            rank__gt=qual.rank,
-        )
-
-        for q in to_remove:
-            self.qualifications.remove(q)
-
-        # TODO if qual is instructor_qual AND previous, lower ranking instructor
-        # qual is present THEN reset the instructor_number
-
-        self.qualifications.add(qual)
-
-    def remove_qualifications(self, instructor=False):
-        """Wipes all qualifications"""
-        quals = self.qualifications.filter(
-            instructor_qualification=instructor
-        )
-        for q in quals:
-            self.qualifications.remove(q)
-
-        if instructor:
-            self.instructor_number = None
-
     def add_sdc(self, sdc):
         if not sdc in self.sdcs.all():
             self.sdcs.add(sdc)
@@ -370,13 +343,6 @@ class MemberProfile(MemberProfileStateMixin,
                 fields_that_need_stuff_in_them.append(field_name)
         return fields_that_need_stuff_in_them
 
-    def cache_update(self):
-        """Compute and write the cached fields"""
-        # TODO replace with django's built in cache system
-        self.top_qual_cached = self.top_qual(nocache=True)
-        self.top_instructor_qual_cached = self.top_instructor_qual(nocache=True)
-        self.is_instructor_cached = self.is_instructor(nocache=True)
-
     def seed(self, user):
         """Seed a newly created MP with data from the user model"""
         self.first_name = self.user.first_name
@@ -392,7 +358,7 @@ class MemberProfile(MemberProfileStateMixin,
         self.user.save()
 
 
-from django.db.models.signals import post_save
+from django.db.models.signals import post_save, post_delete
 
 
 # Make sure we create a MemberProfile when creating a User
@@ -409,7 +375,6 @@ post_save.connect(create_member_profile, sender=settings.AUTH_USER_MODEL)
 
 
 # Update training_for when a PerformedLesson is updated
-@disable_for_loaddata
 def trigger_update_training_for(sender, instance, created, **kwargs):
     if instance.trainee and instance.lesson:
         mp = instance.trainee
@@ -418,3 +383,15 @@ def trigger_update_training_for(sender, instance, created, **kwargs):
 
 
 post_save.connect(trigger_update_training_for, sender=PerformedLesson)
+
+# Update qualification cache when PerformedQualifications are changed
+def trigger_update_qualification_cache(sender, instance, **kwargs):
+    mp = instance.trainee
+    mp.top_qual_cached = mp.top_qual(nocache=True)
+    mp.top_instructor_qual_cached = mp.top_instructor_qual(nocache=True)
+    mp.is_instructor_cached = mp.is_instructor(nocache=True)
+    mp.save()
+
+
+post_save.connect(trigger_update_qualification_cache, sender=PerformedQualification)
+post_delete.connect(trigger_update_qualification_cache, sender=PerformedQualification)

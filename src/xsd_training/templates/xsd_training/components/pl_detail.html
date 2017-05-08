@@ -1,0 +1,29 @@
+<!---->
+<td class="state--{{ state.0 }}" data-toggle="popover" data-placement="bottom"
+    title="{{ lesson.title }}" data-html=true data-trigger="hover"
+    data-content='{% if state.0 = "NO" %}Lesson not planned{% else %}
+    <dl class="xsd-pl-summary --detail">
+    <dt class="date"><i class="fa fa-calendar-o fa-fw"></i></dt>
+    <dd>{{ pl_latest.date }}</dd>
+    <dt class="session"><i class="fa fa-map-marker fa-fw"></i></dt>
+    <dd>{{ pl_latest.session }}</dd>
+    <dt class="instructor"><i class="fa fa-user fa-fw"></i></dt>
+    <dd>{{ pl_latest.instructor }}</dd>
+    </dl>
+    {% if state.0 != "PLANNED" %}
+    <dl class="xsd-pl-summary --notes">
+    <dt class="notes-public"><i class="fa fa-unlock fa-fw"></i></dt>
+    <dd>{{ pl_latest.public_notes }}</dd>
+    <dt class="notes-private"><i class="fa fa-lock fa-fw"></i></dt>
+    <dd>{{ pl_latest.private_notes }}</dd>
+    </dl>{% endif %}
+    {% endif %}'
+    data-template='<div class="popover xsd-pl-matrix-popover --state-{{ state.0 }}" role="tooltip">
+    <div class="popover-arrow"></div>
+    <h3 class="popover-title state--{{ state.0 }}"></h3>
+    <div class="popover-content"></div>
+    </div>'>
+    {{ lesson.short }}
+</td>
+
+

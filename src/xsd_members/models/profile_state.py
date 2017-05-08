@@ -1,5 +1,8 @@
+from __future__ import unicode_literals
+
 import reversion
 
+from xSACdb.middleware import NewbieProfileFormRedirectMiddleware
 from xsd_frontend.activity import DoAction
 
 
@@ -8,24 +11,44 @@ class MemberProfileStateMixin(object):
     def verified(self):
         return not self.new_notify
 
-    def approve(self, actor):
+    def approve(self, actor=None, bare=False):
         """
         Set whatever property we need to approve this member.
         """
-        with DoAction() as action, reversion.create_revision():
-            if actor:
-                action.set(actor=actor, verb='approved', target=self, style='mp-approve')
+
+        def _approve():
             self.new_notify = False
             self.save()
 
-    def archive(self, actor):
+        if bare:
+            _approve()
+        elif actor is not None:
+            with DoAction() as action, reversion.create_revision():
+                if actor:
+                    action.set(actor=actor, verb='approved', target=self, style='mp-approve')
+                _approve()
+        else:
+            raise ValueError('You must specify actor or set bare')
+
+    def archive(self, actor=None, bare=False):
         """Archive the user, hiding them from most views and removing a lot of personal data."""
-        with DoAction() as action, reversion.create_revision():
-            if actor:
-                action.set(actor=actor, verb='archived', target=self, style='mp-archive')
+
+        def _archive():
             self.expunge()
             self.archived = True
             self.save()
+            # This middleware controls access to site dependant on missing fields
+            NewbieProfileFormRedirectMiddleware.invalidate_cache(self.user)
+
+        if bare:
+            _archive()
+        elif actor is not None:
+            with DoAction() as action, reversion.create_revision():
+                if actor:
+                    action.set(actor=actor, verb='archived', target=self, style='mp-archive')
+                _archive()
+        else:
+            raise ValueError('You must specify actor or set bare')
 
     def expunge(self):
         """Remove personal data"""
@@ -38,19 +61,25 @@ class MemberProfileStateMixin(object):
                 # Everything else has None
                 setattr(self, field_name, None)
 
-    def reinstate(self, actor):
+    def reinstate(self, actor=None, bare=False):
         """Opposite of archive"""
-        # self.hidden = False # Seems this is too aggressive
-        with DoAction() as action, reversion.create_revision():
-            if actor:
-                action.set(actor=actor, verb='restored', target=self, style='mp-restore')
+
+        def _reinstate():
             self.archived = False
             self.save()
 
+        if bare:
+            _reinstate()
+        elif actor is not None:
+            with DoAction() as action, reversion.create_revision():
+                if actor:
+                    action.set(actor=actor, verb='restored', target=self, style='mp-restore')
+                _reinstate()
+        else:
+            raise ValueError('You must specify actor or set bare')
+
     def save(self, *args, **kwargs):
         """Saves changes to the model instance"""
-        if self.pk:
-            self.cache_update()
         if self.pk and self.user:
             self.sync()
 

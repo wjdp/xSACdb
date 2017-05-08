@@ -1,14 +1,15 @@
 from __future__ import unicode_literals
+
 import json
 
-from xSACdb.test_helpers import BaseTest, ViewTestMixin, AsGroupMixin
 from xSACdb.roles.groups import GROUP_MEMBERS
+from xSACdb.test_helpers import BaseTest, ViewTestMixin, AsGroupMixin
 from xsd_members.views import *
 
 
 class ProfileViewTest(ViewTestMixin, BaseTest):
     url_name = 'xsd_members:my-profile'
-    template_name = 'members_detail.html'
+    template_name = 'xsd_members/member/detail.html'
     allowed_unverified = True
 
 
@@ -16,6 +17,55 @@ class ProfileEditViewTest(ViewTestMixin, BaseTest):
     url_name = 'xsd_members:MyProfileEdit'
     view = MyProfileEdit
     allowed_unverified = True
+
+
+class DynamicProfileUpdateFormTest(ViewTestMixin, BaseTest):
+    url_name = 'xsd_members:DynamicUpdateProfile'
+    view = DynamicUpdateProfile
+    allowed_unverified = True
+
+    def test_site_lockout(self):
+        """Ensure the middleware redirects to this form when missing data"""
+        password = self.fake.password()
+        user = self.create_a_user(password)
+        member = user.profile
+        member.approve(actor=self.user)
+        member.archive(actor=self.user)
+
+        c = self.get_client_as(user, password)
+        r = c.get('/')
+
+        self.assertRedirects(r, self.get_url(), status_code=302, target_status_code=200)
+
+    def test_restore_profile(self):
+        password = self.fake.password()
+        user = self.create_a_user(password)
+        member = user.profile
+        member.approve(actor=self.user)
+        member.archive(actor=self.user)
+
+        # member.refresh_from_db()
+        self.assertTrue(member.archived)
+
+        form_data = {
+            'date_of_birth': '01/01/1970',
+            'gender': 'f',
+            'address': 'address',
+            'postcode': 'postcode',
+            'home_phone': '123456789',
+            'mobile_phone': '123456789',
+            'next_of_kin_name': 'abc',
+            'next_of_kin_relation': 'abc',
+            'next_of_kin_phone': '123456789',
+        }
+
+        c = self.get_client_as(user, password)
+        r = c.post(self.get_url(), data=form_data)
+
+        member.refresh_from_db()
+        self.assertEqual(member.address, form_data['address'])
+        self.assertFalse(member.archived)
+        self.assertRedirects(r, self.view.success_url, status_code=302, target_status_code=200)
 
 
 class MemberSearchTest(ViewTestMixin, AsGroupMixin, BaseTest):
@@ -27,13 +77,13 @@ class MemberSearchTest(ViewTestMixin, AsGroupMixin, BaseTest):
         # Do search for user, ensure user's name is in response
         u = self.create_a_user()
         c = self.get_client()
-        r = c.get("{}?surname={}".format(
+        r = c.get("{}?q={}".format(
             self.get_url(),
             u.last_name,
         ))
         self.assertEqual(200, r.status_code)
-        self.assertContains(r, u.first_name)#, html=True)
-        self.assertContains(r, u.last_name)#, html=True)
+        self.assertContains(r, u.first_name)  # , html=True)
+        self.assertContains(r, u.last_name)  # , html=True)
 
 
 class MemberDetailTest(ViewTestMixin, AsGroupMixin, BaseTest):
@@ -48,8 +98,8 @@ class MemberDetailTest(ViewTestMixin, AsGroupMixin, BaseTest):
 
     def test_member_detail(self):
         r = self.response
-        self.assertContains(r, self.test_user.first_name)#, html=True)
-        self.assertContains(r, self.test_user.last_name)#
+        self.assertContains(r, self.test_user.first_name)  # , html=True)
+        self.assertContains(r, self.test_user.last_name)  #
 
 
 class MemberEditTest(ViewTestMixin, AsGroupMixin, BaseTest):
@@ -64,8 +114,8 @@ class MemberEditTest(ViewTestMixin, AsGroupMixin, BaseTest):
 
     def test_member_detail(self):
         r = self.response
-        self.assertContains(r, self.test_user.first_name)#, html=True)
-        self.assertContains(r, self.test_user.last_name)#, html=True)
+        self.assertContains(r, self.test_user.first_name)  # , html=True)
+        self.assertContains(r, self.test_user.last_name)  # , html=True)
 
         # TODO perform an edit
 
@@ -83,8 +133,8 @@ class MemberDeleteTest(ViewTestMixin, AsGroupMixin, BaseTest):
 
     def test_member_in_page(self):
         r = self.response
-        self.assertContains(r, self.test_user.first_name)#, html=True)
-        self.assertContains(r, self.test_user.last_name)#, html=True)
+        self.assertContains(r, self.test_user.first_name)  # , html=True)
+        self.assertContains(r, self.test_user.last_name)  # , html=True)
 
     def test_delete(self):
         self.assertEqual(MemberProfile.objects.filter(pk=self.test_user_pk).count(), 1)
@@ -104,8 +154,8 @@ class MemberArchiveTest(ViewTestMixin, AsGroupMixin, BaseTest):
 
     def test_member_in_page(self):
         r = self.response
-        self.assertContains(r, self.test_user.first_name)#, html=True)
-        self.assertContains(r, self.test_user.last_name)#, html=True)
+        self.assertContains(r, self.test_user.first_name)  # , html=True)
+        self.assertContains(r, self.test_user.last_name)  # , html=True)
 
     def test_archive(self):
         self.assertFalse(self.test_user.memberprofile.archived)
@@ -126,16 +176,16 @@ class MemberListTest(ViewTestMixin, AsGroupMixin, BaseTest):
     def test_member_in_list(self):
         """Current members should show in the list"""
         r = self.response
-        self.assertContains(r, self.test_user.first_name)#, html=True)
-        self.assertContains(r, self.test_user.last_name)#, html=True)
+        self.assertContains(r, self.test_user.first_name)  # , html=True)
+        self.assertContains(r, self.test_user.last_name)  # , html=True)
 
     def test_member_not_in_list(self):
         """The current members list should not show archived members"""
         self.test_user.memberprofile.archive(self.user)
         self.test_user.memberprofile.save()
         r = self.get_response()
-        self.assertNotContains(r, self.test_user.first_name)#, html=True)
-        self.assertNotContains(r, self.test_user.last_name)#, html=True)
+        self.assertNotContains(r, self.test_user.first_name)  # , html=True)
+        self.assertNotContains(r, self.test_user.last_name)  # , html=True)
 
 
 class NewMembersTest(ViewTestMixin, AsGroupMixin, BaseTest):
@@ -149,15 +199,15 @@ class NewMembersTest(ViewTestMixin, AsGroupMixin, BaseTest):
 
     def test_member_in_list(self):
         r = self.response
-        self.assertContains(r, self.test_user.first_name)#, html=True)
-        self.assertContains(r, self.test_user.last_name)#, html=True)
+        self.assertContains(r, self.test_user.first_name)  # , html=True)
+        self.assertContains(r, self.test_user.last_name)  # , html=True)
 
     def test_member_not_in_list(self):
         self.test_user.memberprofile.new_notify = False
         self.test_user.memberprofile.save()
         r = self.get_response()
-        self.assertNotContains(r, self.test_user.first_name)#, html=True)
-        self.assertNotContains(r, self.test_user.last_name)#, html=True)
+        self.assertNotContains(r, self.test_user.first_name)  # , html=True)
+        self.assertNotContains(r, self.test_user.last_name)  # , html=True)
 
 
 class MembersExpiredFormsListTest(ViewTestMixin, AsGroupMixin, BaseTest):
@@ -171,8 +221,8 @@ class MembersExpiredFormsListTest(ViewTestMixin, AsGroupMixin, BaseTest):
 
     def test_member_in_list(self):
         r = self.response
-        self.assertContains(r, self.test_user.first_name)#, html=True)
-        self.assertContains(r, self.test_user.last_name)#, html=True)
+        self.assertContains(r, self.test_user.first_name)  # , html=True)
+        self.assertContains(r, self.test_user.last_name)  # , html=True)
 
     def test_member_not_in_list(self):
         self.test_user.memberprofile.bsac_expiry = self.get_future_date()
@@ -180,8 +230,9 @@ class MembersExpiredFormsListTest(ViewTestMixin, AsGroupMixin, BaseTest):
         self.test_user.memberprofile.medical_form_expiry = self.get_future_date()
         self.test_user.memberprofile.save()
         r = self.get_response()
-        self.assertNotContains(r, self.test_user.first_name)#, html=True)
-        self.assertNotContains(r, self.test_user.last_name)#, html=True)
+        self.assertNotContains(r, self.test_user.first_name)  # , html=True)
+        self.assertNotContains(r, self.test_user.last_name)  # , html=True)
+
 
 class MembersArchivedList(ViewTestMixin, AsGroupMixin, BaseTest):
     GROUPS = [GROUP_MEMBERS]

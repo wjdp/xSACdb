@@ -74,12 +74,15 @@ class DoAction(object):
         else:
             return None
 
-    def __exit__(self, type, value, traceback):
+    def __exit__(self, exception_type, exception_value, traceback):
         # Can handle multiple targets or action_objects. Just not both.
         post_revision_commit.disconnect(self.post_revision_commit)
 
+        if exception_type:
+            raise exception_type(exception_value)
+
         if self.action == {}:
-            return RuntimeError("You haven't called action.set in your action block")
+            raise RuntimeError("You haven't called action.set in your action block")
 
         if isinstance(self.target, list):
             for target in self.target:

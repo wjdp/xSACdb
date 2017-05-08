@@ -1,4 +1,4 @@
-image: wjdp/xsacdb-image:v0.2.0-4
+image: wjdp/xsacdb-image:v0.4.0-1
 
 variables:
   POSTGRES_DB: xsacdb
@@ -30,17 +30,20 @@ pip:
   tags:
     - docker
 
-bower:
+frontend:
   stage: prepare
   script:
     - bower install --allow-root
     - rm -rf lib/tether/examples
+    - npm install
   cache:
     paths:
       - lib/
+      - node_modules/
   artifacts:
     paths:
       - lib/
+      - node_modules/
   tags:
     - docker
 
@@ -69,9 +72,9 @@ static:
     - postgres:latest
     - redis:latest
   script:
+    - gulp deploy
     - source env/bin/activate
     - src/manage.py collectstatic --noinput
-    - src/manage.py compress
   artifacts:
     paths:
       - dist/

@@ -1,0 +1,15 @@
+{% load widget_tweaks %}
+<div class="form-check">
+    {% for error in field.errors %}
+        <div class="form-control-feedback">
+            {{ error }}
+        </div>
+    {% endfor %}
+    <label class="form-check-label">
+        {% render_field field class+="form-check-input" %}
+        {{ field.label }}
+    </label>
+    {% if field.help_text %}
+        <small class="form-text text-muted">{{ field.help_text|safe }}</small>
+    {% endif %}
+</div>

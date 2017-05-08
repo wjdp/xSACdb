@@ -1,18 +1,16 @@
-from django.conf.urls import patterns, include, url
-from django.conf import settings
+from __future__ import unicode_literals
+
+from django.conf.urls import patterns, url
 
 from xsd_frontend.versioning import VersionHistoryView
-from xsd_training.views import sessions, sdc, traineegroups, instructor, retro, support
 from xsd_training.models import TraineeGroup, PerformedSDC, Session
+from xsd_training.views import sessions, sdc, traineegroups, instructor, retro, support
 
 urlpatterns = patterns('',
     url(r'^$', 'xsd_training.views.trainee.overview', name='training-overview')    ,
     url(r'^lessons/$', 'xsd_training.views.trainee.lessons', name='training-lessons')    ,
     url(r'^lessons/(?P<id>\d+)/$', 'xsd_training.views.trainee.lesson_detail', name='lesson_detail'),
     url(r'^feedback$', 'xsd_training.views.trainee.all_feedback', name='all-feedback'),
-
-    url(r'^pl-mouseover/$',support.PerformedLessonDetailMouseover.as_view(), name='PerformedLessonDetailMouseover'),
-    url(r'^pl-mouseover-api/$',support.PerformedLessonDetailAPI.as_view(), name='PerformedLessonDetailAPI'),
 
     url(r'^session/new/$', sessions.SessionCreate.as_view(), name='SessionCreate'),
     url(r'^session/list/$', sessions.SessionList.as_view(), name='SessionList'),
@@ -28,12 +26,15 @@ urlpatterns = patterns('',
 
     url(r'^retro/lessons/$', retro.RetroAddLessons.as_view(), name='RetroAddLessons'),
 
-    url(r'^qualification/award/$', 'xsd_training.views.qualification.QualificationAward', name='QualificationAward'),
-
     url(r'^teaching/upcoming/$', 'xsd_training.views.instructor.InstructorUpcoming', name='InstructorUpcoming'),
-    url(r'^teaching/notes/$', instructor.TraineeNotesSearch.as_view(), name='TraineeNotesSearch'),
-    url(r'^teaching/notes/(?P<pk>\d+)/$', instructor.TraineeNotes.as_view(), name='TraineeNotes'),
-    url(r'^teaching/notes/(?P<pk>\d+)/set/$', 'xsd_training.views.instructor.trainee_notes_set', name='TraineeNotesSet'),
+
+    url(r'^trainee/search/$', instructor.TraineeNotesSearch.as_view(), name='TraineeNotesSearch'),
+    url(r'^trainee/(?P<pk>\d+)/$', instructor.TraineeNotes.as_view(), name='TraineeNotes'),
+    url(r'^trainee/(?P<pk>\d+)/set/$', 'xsd_training.views.instructor.trainee_notes_set', name='TraineeNotesSet'),
+    url(r'^trainee/(?P<t_pk>\d+)/qualification/new/$', instructor.QualificationCreate.as_view(), name='TraineeQualificationCreate'),
+    url(r'^trainee/(?P<t_pk>\d+)/qualification/(?P<pk>\d+)/$', instructor.QualificationUpdate.as_view(), name='TraineeQualificationUpdate'),
+    url(r'^trainee/(?P<t_pk>\d+)/qualification/(?P<pk>\d+)/delete/$', instructor.QualificationDelete.as_view(), name='TraineeQualificationDelete'),
+
 
     url(r'^sdc/$', sdc.SDCList.as_view(), name='SDCList'),
     url(r'^sdc/reg-interest/$', 'xsd_training.views.sdc.sdc_register_interest', name='sdc_register_interest'),

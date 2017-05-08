@@ -1,0 +1,18 @@
+{% load widget_tweaks %}
+<div class="form-group {% if field.errors %}has-error{% endif %}">
+    <label for="{{ field.id_for_label }}">
+        {{ field.label }}
+    </label>
+
+    {% include 'forms/field_input-group.html' with field=field %}
+
+    {% for error in field.errors %}
+        <div class="form-control-feedback">
+            {{ error }}
+        </div>
+    {% endfor %}
+
+    {% if field.help_text %}
+        <small class="form-text text-muted">{{ field.help_text|safe }}</small>
+    {% endif %}
+</div>

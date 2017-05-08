@@ -25,7 +25,7 @@ from xsd_members.forms import *
 def view_my_profile(request):
     profile = request.user.memberprofile
     editable = True
-    return render(request, 'members_detail.html', {
+    return render(request, 'xsd_members/member/detail.html', {
         'member': profile,
         'editable': editable,
         'myself': True},
@@ -75,12 +75,11 @@ class DynamicUpdateProfile(FormView):
             if self.request.user.profile.archived:
                 # User logged back in and re-added details. Reinstate
                 form.save()
-                self.request.user.profile.reinstate()
-                self.request.user.profile.save()
+                # Done bare as we are building our own action here
+                self.request.user.profile.reinstate(bare=True)
                 action.set(actor=self.request.user, verb='reinstated',
                            target=self.request.user.profile, style='mp-dynamic-reinstate')
             else:
-
                 form.save()
                 action.set(actor=self.request.user, verb='updated',
                            target=self.request.user.profile, style='mp-dynamic-update')
@@ -92,13 +91,13 @@ class DynamicUpdateProfile(FormView):
 
 class MemberSearch(RequireMembersOfficer, OrderedListView):
     model = MemberProfile
-    template_name = 'members_search.html'
+    template_name = 'xsd_members/member/search.html'
     context_object_name = 'members'
     order_by = 'last_name'
 
     def get_queryset(self):
-        if 'surname' in self.request.GET:
-            name = self.request.GET['surname']
+        if 'q' in self.request.GET:
+            name = self.request.GET['q']
             queryset = super(MemberSearch, self).get_queryset()
             queryset = queryset.filter(
                 Q(last_name__icontains=name) |
@@ -113,8 +112,8 @@ class MemberSearch(RequireMembersOfficer, OrderedListView):
     def get_context_data(self, **kwargs):
         # Call the base implementation first to get a context
         context = super(MemberSearch, self).get_context_data(**kwargs)
-        # Add in a QuerySet of all the books
-        context['search_form'] = MemberSearchForm()
+        if 'q' in self.request.GET:
+            context['q'] = self.request.GET['q']
         return context
 
 
@@ -211,7 +210,7 @@ class MembersArchivedList(MemberList):
 
 class MemberDetail(RequireMembersOfficer, DetailView):
     model = MemberProfile
-    template_name = 'members_detail.html'
+    template_name = 'xsd_members/member/detail.html'
     context_object_name = 'member'
     accounts_settings_open = False
     member_useraccount_form = None
@@ -304,7 +303,7 @@ class ModelFormView(FormView):
 
 
 class MyProfileEdit(ModelFormView):
-    template_name = 'members_edit.html'
+    template_name = 'xsd_members/member/edit.html'
     form_class = PersonalEditForm
     success_url = reverse_lazy('xsd_members:my-profile')
 
@@ -318,7 +317,7 @@ class MyProfileEdit(ModelFormView):
 
 
 class MemberEdit(RequireMembersOfficer, ModelFormView):
-    template_name = 'members_edit.html'
+    template_name = 'xsd_members/member/edit.html'
     form_class = MemberEditForm
 
     def get_object(self):
