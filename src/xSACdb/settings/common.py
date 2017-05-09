@@ -176,7 +176,6 @@ INSTALLED_APPS = (
     'allauth.socialaccount',
     'allauth.socialaccount.providers.facebook',
 
-    'bootstrap_toolkit',
     'bootstrap3',
     'widget_tweaks',
 

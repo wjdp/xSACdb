@@ -1,16 +1,14 @@
 {% extends 'training_template.html' %}
-{% load lesson_extras %}
-{% load bootstrap_toolkit %}
 
 {% block training_content %}
 
-<div class="span6">
-<h1>Plan an SDC</h1>
-    <form action="" method="post">{% csrf_token %}
-    {{ form|as_bootstrap  }}
-    <input type="submit" value="Create" />
-    </form>
-
-</div>
+    <div class="col-md-12">
+        <h1>Plan an SDC</h1>
+        <form action="" method="post">
+            {% csrf_token %}
+            {% include "forms/form.html" with form=form %}
+            <input class="btn btn-primary" type="submit" value="Create"/>
+        </form>
+    </div>
 
 {% endblock %}

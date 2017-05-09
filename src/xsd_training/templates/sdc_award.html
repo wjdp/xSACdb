@@ -1,56 +1,56 @@
 {% extends 'training_template.html' %}
-{% load lesson_extras %}
-{% load bootstrap_toolkit %}
 
 {% block training_content %}
 
-<div class="col-md-12">
-<p>This tool alows you to instantly award an SDC.</p>
-</div>
+    <div class="col-md-12">
+        <p>This tool alows you to instantly award an SDC.</p>
+    </div>
 
-{% if not completed %}
-	<div class="col-sm-6">
-	<h3>Select Members</h3>
-	{% if sdc_form == None %}
-	  {% include 'base/bulk_select_members.html' with method="GET" %}
-	{% else %}
-		<ul>
-		{%for member in selected_members %}
-		<li>{{member.get_full_name}}</li>
-		{%endfor%}
-		</ul>
-	{% endif %}
-	</div>
+    {% if not completed %}
+        <div class="col-sm-6">
+            <h3>Select Members</h3>
+            {% if sdc_form == None %}
+                {% include 'base/bulk_select_members.html' with method="GET" %}
+            {% else %}
+                <ul>
+                    {% for member in selected_members %}
+                        <li>{{ member.get_full_name }}</li>
+                    {% endfor %}
+                </ul>
+            {% endif %}
+        </div>
 
-	<div class="col-sm-6">
-	<h3>Select SDC</h3>
-	{% if sdc_form != None %}
-	<form method="POST" action=".">
-	{%csrf_token%}
-	{{sdc_form.sdc|as_bootstrap}}
-	<div class="hidden">
-	{{sdc_form.selected_members|as_bootstrap}}
-	</div>
-	<div><button type="submit" class="btn btn-primary">Award</button></form></div>
-	{% else %}
-	<div class="alert alert-info">
-	            Please select members first.
-	        </div>
-	</div>
-	{% endif %}
+        <div class="col-sm-6">
+            <h3>Select SDC</h3>
+            {% if sdc_form != None %}
+                <form method="POST" action=".">
+                    {% csrf_token %}
+                    {{ sdc_form.sdc }}
+                    <div class="hidden">
+                        {{ sdc_form.selected_members }}
+                    </div>
+                    <div>
+                        <button type="submit" class="btn btn-primary">Award</button>
+                </form></div>
+            {% else %}
+                <div class="alert alert-info">
+                    Please select members first.
+                </div>
+                </div>
+            {% endif %}
 
-{% else %}
-	<div class="col-sm-6">
-		<h3><i class="fa fa-check green"></i> Members</h3>
-		<ul>
-			{%for member in selected_members %}
-				<li>{{member.get_full_name}}</li>
-			{%endfor%}
-		</ul>
-	</div>
-	<div class="col-sm-6">
-		<h3><i class="fa fa-check green"></i> SDC</h3>
-			<p>All awarded the <strong>{{qualification}}</strong> SDC.</p>
-	</div>
-{% endif %}
+    {% else %}
+        <div class="col-sm-6">
+            <h3><i class="fa fa-check green"></i> Members</h3>
+            <ul>
+                {% for member in selected_members %}
+                    <li>{{ member.get_full_name }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+        <div class="col-sm-6">
+            <h3><i class="fa fa-check green"></i> SDC</h3>
+            <p>All awarded the <strong>{{ qualification }}</strong> SDC.</p>
+        </div>
+    {% endif %}
 {% endblock %}
