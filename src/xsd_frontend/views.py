@@ -1,9 +1,10 @@
+from __future__ import unicode_literals
+
 from allauth.account.views import LoginView, SignupView
 from django.conf import settings
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
 from django.views.generic import ListView
-from django.views.generic.base import TemplateView
 
 from forms import UpdateRequestMake, ClassicSignupForm
 from xSACdb.roles.mixins import RequirePreauth

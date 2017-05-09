@@ -1,3 +1,9 @@
+{% load forms %}
 {% for field in form %}
-    {% include 'forms/field.html' with field=field %}
+    <!-- {{ field|xsd_field_type }} -->
+    {% if field|xsd_field_type == "boolean" %}
+        {% include 'forms/checkbox.html' with field=field %}
+    {% else %}
+        {% include 'forms/field.html' with field=field %}
+    {% endif %}
 {% endfor %}

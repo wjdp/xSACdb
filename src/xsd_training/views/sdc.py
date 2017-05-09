@@ -1,25 +1,21 @@
-from django.shortcuts import redirect, render
-from django.http import HttpResponse
-from django.template import RequestContext
-
-from django.views.generic.edit import CreateView, UpdateView, DeleteView
-from django.views.generic.list import ListView
-from django.views.generic.detail import DetailView
-
-from django.core.urlresolvers import reverse_lazy
-
-from xSACdb.views import OrderedListView, ActionView
-from xSACdb.roles.decorators import require_training_officer, require_verified
-from xSACdb.roles.mixins import RequireTrainingOfficer, RequireVerified
-
-from xsd_members.models import MemberProfile
-from xsd_training.models import *
-from xsd_training.forms import *
-import xsd_training.trainee_table as trainee_table
-
-from xsd_members.bulk_select import get_bulk_members
+from __future__ import unicode_literals
 
 import re
+
+from django.core.urlresolvers import reverse_lazy
+from django.http import HttpResponse
+from django.shortcuts import redirect, render
+from django.template import RequestContext
+from django.views.generic.detail import DetailView
+from django.views.generic.edit import CreateView, UpdateView, DeleteView
+from django.views.generic.list import ListView
+
+import xsd_training.trainee_table as trainee_table
+from xSACdb.roles.decorators import require_training_officer, require_verified
+from xSACdb.roles.mixins import RequireTrainingOfficer, RequireVerified
+from xSACdb.views import OrderedListView, ActionView
+from xsd_members.bulk_select import get_bulk_members
+from xsd_training.forms import *
 
 
 class SDCList(RequireVerified, OrderedListView):
@@ -173,10 +169,10 @@ def SDCAward(request):
                 'completed': True,
                 'selected_members': sdc_form.cleaned_data['selected_members'],
                 'sdc': sdc_form.cleaned_data['sdc'],
-            }, context_instance=RequestContext(request))
+            })
 
     return render(request, template_name, {
         'sdc_form': sdc_form,
         'selected_members': selected_members,
         'completed': False
-    }, context_instance=RequestContext(request))
+    })

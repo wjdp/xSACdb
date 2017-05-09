@@ -1,6 +1,4 @@
 {% extends 'training_template.html' %}
-{% load lesson_extras %}
-{% load bootstrap_toolkit %}
 
 {% block training_content %}
 
@@ -26,14 +24,13 @@
                 <input type="hidden" name="form_def" value="session"/>
                 <div class="row">
                     <div class="col-md-6">
-                        {{ form.name|as_bootstrap }}
-                        {{ form.when|as_bootstrap }}
-                        {{ form.where|as_bootstrap }}
+                        {% include 'forms/field.html' with field=form.name %}
+                        {% include 'forms/field.html' with field=form.when %}
+                        {% include 'forms/field.html' with field=form.where %}
                     </div>
                     <div class="col-md-6">
-                        {{ form.notes|as_bootstrap }}
+                        {% include 'forms/field.html' with field=form.notes %}
                     </div>
-
                 </div>
             </div>
             <div class="col-md-7">
@@ -60,19 +57,18 @@
                                 class="fa fa-remove"></i></a></td>
                     </tr>
                     {% empty %}
-                    </table>
                     <h2 class="no-trainee">No Trainees Added Yet</h3>
                 {% endfor %}
 
-                </table>
-                <div class="form-actions ">
+            </table>
+            <div class="form-actions ">
 
-                    <button type="submit" class="btn btn-primary alignright"><i class="fa fa-save"></i> Save</button>
-                    {% if session.in_past %}
-                        <a class="btn btn-secondary" href="{% url 'xsd_training:SessionComplete' session.pk %}"><i
-                                class="fa fa-check-square"></i> Complete Session</a>{% endif %}
+                <button type="submit" class="btn btn-primary alignright"><i class="fa fa-save"></i> Save</button>
+                {% if session.in_past %}
+                    <a class="btn btn-secondary" href="{% url 'xsd_training:SessionComplete' session.pk %}"><i
+                            class="fa fa-check-square"></i> Complete Session</a>{% endif %}
 
-                </div>
+            </div>
 
 
         </div>
@@ -92,8 +88,5 @@
             </form>
         </div>
     </div>
-
-    </div>
-
 
 {% endblock %}
