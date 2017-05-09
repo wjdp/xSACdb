@@ -5,7 +5,7 @@ class TraineeQualificationForm
 
     @modeDropdownEl = formEl.querySelector('#id_mode')
     @xoFieldEl = formEl.querySelector('#id_xo_from')
-    @xoFormControlEl = @xoFieldEl.parentElement
+    @xoFormControlEl = @xoFieldEl.parentElement.parentElement
 
     @modeDropdownEl.addEventListener('change', @update)
 

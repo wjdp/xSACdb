@@ -88,6 +88,7 @@ var JS_LIBS = [
     './lib/js/jquery.cookie.js">',
     './lib/tether/dist/js/tether.js',
     './lib/bootstrap/dist/js/bootstrap.js',
+    './lib/bootstrap-datepicker/dist/js/bootstrap-datepicker.js',
     './lib/raven-js/dist/raven.min.js',
 ];
 

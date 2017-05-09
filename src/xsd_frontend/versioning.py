@@ -11,6 +11,12 @@ class XSDVersion(CompareMixin, Version):
     class Meta:
         proxy = True
 
+    # This is a list of fields to ignore across all models. Rather dirty but it works. Will become an issue if we want
+    # to track a field in one model but not another but cannot set editable=False. We'll cross that bridge if it occurs.
+    compare_exclude = [
+        'training_for',
+    ]
+
     @property
     def compare_fields(self):
         return [field.name for field in self.object._meta.get_fields() if field.editable]

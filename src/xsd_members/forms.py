@@ -44,7 +44,7 @@ class WelcomeScreenForm(PersonalEditForm):
 class MemberEditForm(forms.ModelForm):
     class Meta:
         model = MemberProfile
-        fields = ['date_of_birth', 'home_phone', 'mobile_phone', 'address', 'postcode',
+        fields = ['date_of_birth', 'gender', 'home_phone', 'mobile_phone', 'address', 'postcode',
                   'veggie', 'alergies', 'next_of_kin_name', 'next_of_kin_relation',
                   'next_of_kin_phone', 'training_for', 'instructor_number',
                   'student_id',

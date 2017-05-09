@@ -1,21 +1,12 @@
 {% load widget_tweaks %}
+{% load forms %}
 <dt>
     <label for="{{ field.id_for_label }}">
         {{ field.label }}
     </label>
 </dt>
 <dd class="{% if field.errors %}has-error{% endif %}">
-    <div class="input-group">
-        {% if field.id_for_label == "id_cost" %}
-        <span class="input-group-addon">£</span>
-        {% endif %}
-
-        {% render_field field class+="form-control" %}
-
-        {% if field.id_for_label == "id_max_depth" %}
-        <span class="input-group-addon">metres</span>
-        {% endif %}
-    </div>
+    {% include 'forms/field_input-group.html' with field=field %}
 
     {% for error in field.errors %}
         <div class="form-control-feedback">

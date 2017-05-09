@@ -4,10 +4,11 @@ All notable changes to this project will be documented in this file. Notes shoul
 xSACdb instances. This project will soon adhere to [Semantic Versioning](http://semver.org/).
 
 
-## Unreleased
+## [0.4.0] - 2017-05-08
 
 ### Added
 - Several timestamps (pre, post and deploy), relating to the time the application was built, are shown on the about page.
+- Date-picker widgets to some date fields.
 
 ### Changes
 - Qualifications now have additional information attached: mode (internal, external, XO, other), XO from, signed off by and date and a notes field. Current qualifications are migrated with these details blank. Award, update and remove all via the trainee profile.
@@ -19,6 +20,7 @@ xSACdb instances. This project will soon adhere to [Semantic Versioning](http://
 - 'Award Qualifications' tool. As qualifications now want more details, adding in bulk isn't a good idea.
 
 ### Fixes
+- #292 Archived members were unable to restore their profiles after logging in.
 - Some internal fields were showing on the diff for profile updates. These have been hidden.
 
 
