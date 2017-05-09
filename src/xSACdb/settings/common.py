@@ -138,9 +138,8 @@ ROOT_URLCONF = 'xSACdb.urls'
 WSGI_APPLICATION = 'xSACdb.wsgi.application'
 
 AUTHENTICATION_BACKENDS = (
-    'django.contrib.auth.backends.ModelBackend',
+    # 'django.contrib.auth.backends.ModelBackend',
     'allauth.account.auth_backends.AuthenticationBackend',
-    'xSACdb.email_auth.EmailBackend',
 )
 
 FIXTURE_DIRS = (
@@ -213,7 +212,7 @@ AUTH_PROFILE_MODEL = 'xsd_members.MemberProfile'
 LOGIN_REDIRECT_URL = '/'
 ACCOUNT_LOGOUT_REDIRECT_URL = '/accounts/login'
 
-# ACCOUNT_AUTHENTICATION_METHOD = 'email'
+ACCOUNT_AUTHENTICATION_METHOD = 'username_email'
 ACCOUNT_EMAIL_REQUIRED = True
 ACCOUNT_EMAIL_CONFIRMATION_EXPIRE_DAYS = 7
 ACCOUNT_DEFAULT_HTTP_PROTOCOL = 'https'
@@ -227,8 +226,6 @@ ACCOUNT_PASSWORD_MIN_LENGTH = 8
 SOCIALACCOUNT_FORMS = {
     'signup': 'xsd_auth.forms.SignupForm'
 }
-
-SOCIALACCOUNT_ADAPTER = 'xsd_auth.adapter.XSDSocialAccountAdapter'
 
 TEST_FIXTURES = [
     os.path.join(TMP_PATH, 'bsac_data.yaml'),
