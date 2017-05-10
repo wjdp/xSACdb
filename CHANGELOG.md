@@ -4,7 +4,9 @@ All notable changes to this project will be documented in this file. Notes shoul
 xSACdb instances. This project will soon adhere to [Semantic Versioning](http://semver.org/).
 
 
-## Unreleased
+## [0.5.0] - 2017-05-10
+
+This is a provisional release, club instances will be upgraded to it after a test period.
 
 ### Changes
 - Upgrade our core framework (Django) to the newly released long term support version. This upgrade required a certain amount of refactoring of various parts of the project.
