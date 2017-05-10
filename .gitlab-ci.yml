@@ -59,7 +59,7 @@ data:
     - docker
 
 check:
-  stage: build
+  stage: test
   script:
     - source env/bin/activate
     - src/manage.py check

@@ -3,14 +3,12 @@ from __future__ import unicode_literals
 import datetime
 
 import reversion
-from actstream import action
 from django.conf import settings
 from django.contrib import messages
 from django.core.urlresolvers import reverse, reverse_lazy
 from django.db.models import Q
 from django.http.response import HttpResponseRedirect
 from django.shortcuts import render, redirect, get_object_or_404
-from django.template import RequestContext
 from django.views.generic.base import View
 from django.views.generic.detail import DetailView, SingleObjectTemplateResponseMixin, BaseDetailView
 from django.views.generic.edit import FormView, DeleteView
@@ -28,8 +26,8 @@ def view_my_profile(request):
     return render(request, 'xsd_members/member/detail.html', {
         'member': profile,
         'editable': editable,
-        'myself': True},
-                  context_instance=RequestContext(request))
+        'myself': True}
+                  )
 
 
 def admin(request):
@@ -374,9 +372,7 @@ class MemberArchive(RequireMembersOfficer, SingleObjectTemplateResponseMixin, Ba
 
 @require_members_officer
 def select_tool(request):
-    return render(request, 'members_bulk_select.html', {
-    },
-                  context_instance=RequestContext(request))
+    return render(request, 'members_bulk_select.html')
 
 
 class BulkAddForms(RequireMembersOfficer, View):
@@ -404,12 +400,12 @@ class BulkAddForms(RequireMembersOfficer, View):
             return render(request, 'members_bulk_edit_forms.html', {
                 'page_title': 'Bulk Select Results',
                 'formset': formset,
-            }, context_instance=RequestContext(request))
+            })
         else:
             # First form
             return render(request, 'members_bulk_select.html', {
                 'content': '<h3 class="no-top"><i class="fa fa-plus"></i> Bulk Add Forms</h3><p>This tool sets the expiry dates for club, BSAC and medical forms on multiple records. The record set can either be subset of members or the entire membership.</p>'
-            }, context_instance=RequestContext(request))
+            })
 
     def get_all_objects(self):
         return self.model.objects.all()
@@ -430,7 +426,7 @@ class BulkAddForms(RequireMembersOfficer, View):
                     mps.append(mp)
                 action.set(actor=request.user, verb="updated forms on", target=mps, style='mp-update-forms')
         else:
-            return render(request, 'members_bulk_edit_forms_error.html', {}, context_instance=RequestContext(request))
+            return render(request, 'members_bulk_edit_forms_error.html', {})
 
         return redirect(reverse('xsd_members:BulkAddForms'))
 

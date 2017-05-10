@@ -1,34 +1,40 @@
 {% extends 'training_template.html' %}
-{% load lesson_extras %}
-{% load bootstrap_toolkit %}
 
 {% block training_content %}
 
-<div class="col-md-12">
-{% if upcoming_sessions %}
-<p>Below are lessons you're down to teach. Select a student to see their notes.</p>
-<table class="table table-sm table-striped">
-    <tr><th>Session</th><th>Location</th><th>Notes</th><th>Your Trainees</th></tr>
-{% for session, pls in upcoming_sessions %}
-    <tr>
-        <td>{{session.when}}</td>
-        <td>{{session.where}}</td>
-        <td>{{session.notes}}</td>
-        <td>
-        	<table>{% for pl in pls %}
-        	<tr>
-        		<td><a href="{% url 'xsd_training:TraineeNotes' pl.trainee.id %}">{{pl.trainee.get_full_name}}</a></td>
-        		<td>{{pl.lesson}}</td>
-        	</tr>
-        	{% endfor %}</table>
-        </td>
-        </tr>
-{% endfor %}
-</table>
-{% else %}
-<p>You do not have any upcoming sessions.</p>
-{% endif %}
-</div>
-
+    <div class="col-md-12">
+        {% if upcoming_sessions %}
+            <p>Below are lessons you're down to teach. Select a student to see their notes.</p>
+            <table class="table table-sm table-striped">
+                <tr>
+                    <th>Session</th>
+                    <th>Location</th>
+                    <th>Notes</th>
+                    <th>Your Trainees</th>
+                </tr>
+                {% for session, pls in upcoming_sessions %}
+                    <tr>
+                        <td>{{ session.when }}</td>
+                        <td>{{ session.where }}</td>
+                        <td>{{ session.notes }}</td>
+                        <td>
+                            <table>{% for pl in pls %}
+                                <tr>
+                                    <td>
+                                        <a href="{% url 'xsd_training:TraineeNotes' pl.trainee.id %}">
+                                            {{ pl.trainee.get_full_name }}
+                                        </a>
+                                    </td>
+                                    <td>{{ pl.lesson }}</td>
+                                </tr>
+                            {% endfor %}</table>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </table>
+        {% else %}
+            <p>You do not have any upcoming sessions.</p>
+        {% endif %}
+    </div>
 
 {% endblock %}

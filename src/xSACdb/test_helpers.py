@@ -1,18 +1,15 @@
 import datetime
 import random
 
-from django.test import TestCase
-from django.test.client import Client
 from django.conf import settings
-
 from django.contrib.auth import get_user_model
 from django.contrib.auth.models import Group
-
 from django.core.urlresolvers import reverse
-
+from django.test import TestCase
 from faker import Factory
 
 U = get_user_model()
+
 
 class BaseTest(TestCase):
     fake = Factory.create(settings.FAKER_LOCALE)
@@ -68,7 +65,7 @@ class BaseTest(TestCase):
 
     @staticmethod
     def get_random_date():
-        return datetime.date.fromtimestamp(random.randrange(-2284101485, 2284101485))
+        return datetime.date.fromtimestamp(random.randrange(-50 * (50 * 86400), 50 * (50 * 86400)))
 
     @classmethod
     def get_future_date(cls):
@@ -188,7 +185,7 @@ class ViewTestMixin(object):
     def test_unverified(self):
         self.user.memberprofile.new_notify = True
         self.user.memberprofile.save()
-        r = self.get_response() # Need a fresh response this time around
+        r = self.get_response()  # Need a fresh response this time around
         if self.allowed_unverified:
             self.assertEqual(200, r.status_code)
         else:

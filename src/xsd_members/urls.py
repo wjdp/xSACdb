@@ -1,31 +1,24 @@
 from __future__ import unicode_literals
 
-from django.conf.urls import patterns, include, url
-from tastypie.api import Api
+from django.conf.urls import url
 
 from api import *
+from views import *
 from xsd_frontend.versioning import VersionHistoryView
 
-members_api = Api(api_name='members')
-members_api.register(MemberResource())
-members_api.register(UserResource())
-members_api.register(TokenInputResource())
-
-from views import *
-
-urlpatterns = patterns('',
-    url(r'^profile/$', 'xsd_members.views.view_my_profile', name='my-profile'),
+urlpatterns = [
+    url(r'^profile/$', view_my_profile, name='my-profile'),
     url(r'^profile/edit/$', MyProfileEdit.as_view(), name='MyProfileEdit'),
 
     url(r'^profile/update/$', DynamicUpdateProfile.as_view(), name='DynamicUpdateProfile'),
 
-    url(r'^$', 'xsd_members.views.admin', name='members_admin'),
+    url(r'^$', admin, name='members_admin'),
 
     url(r'^search/$', MemberSearch.as_view(), name='MemberSearch'),
 
     url(r'^member/(?P<pk>\d+)/$', MemberDetail.as_view(), name='MemberDetail'),
     url(r'^member/(?P<pk>\d+)/history/$', VersionHistoryView.as_view(), name='MemberHistory',
-       kwargs={'model': MemberProfile}),
+        kwargs={'model': MemberProfile}),
     url(r'^member/(?P<pk>\d+)/edit/$', MemberEdit.as_view(), name='MemberEdit'),
     url(r'^member/(?P<pk>\d+)/action/(?P<action>\w+)/$', MemberAction.as_view(), name='MemberAction'),
     url(r'^member/(?P<pk>\d+)/delete/$', MemberDelete.as_view(), name='MemberDelete'),
@@ -39,15 +32,13 @@ urlpatterns = patterns('',
 
     url(r'^add/forms/$', BulkAddForms.as_view(), name='BulkAddForms'),
 
-    url(r'^api/', include(members_api.urls)),
-    url(r'^api/tokeninput-data.js$', 'xsd_members.api.tokeninput_json', name='tokeninput-json'),
+    url(r'^api/tokeninput-data.js$', tokeninput_json, name='tokeninput-json'),
 
-    url(r'^select/$', 'xsd_members.views.select_tool', name='members-select-tool'),
+    url(r'^select/$', select_tool, name='members-select-tool'),
 
     url(r'^update-requests/$', MemberUpdateRequestList.as_view(), name='MemberUpdateRequestList'),
     url(r'^update-requests/save/$', MemberUpdateRequestRespond.as_view(),
-       name='MemberUpdateRequestRespond'),
+        name='MemberUpdateRequestRespond'),
 
-    url(r'^reports/overview/$', 'xsd_members.views.reports_overview', name='ReportsOverview'),
-
-)
+    url(r'^reports/overview/$', reports_overview, name='ReportsOverview'),
+]

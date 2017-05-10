@@ -1,14 +1,12 @@
 {% extends 'sites_template.html' %}
-{% load bootstrap_toolkit %}
-
 
 {% block sites_content %}
-<div class="col-md-12">
-	<form action="." method="POST">
-    {% csrf_token %}
-    {{ form.media }}
-    {{ form|as_bootstrap }}
-    <button type="submit" class="btn btn-primary">Save Changes</button>
-	</form>
-</div>
+    <div class="col-md-12">
+        <form action="." method="POST">
+            {% csrf_token %}
+            {{ form.media }}
+            {% include 'forms/form.html' with form=form %}
+            <button type="submit" class="btn btn-primary">Save Changes</button>
+        </form>
+    </div>
 {% endblock %}

@@ -1,6 +1,9 @@
+from __future__ import unicode_literals
+
 from django.conf import settings
-from django.conf.urls import patterns, include, url
+from django.conf.urls import include, url
 from django.contrib import admin
+from django.views.defaults import page_not_found
 
 admin.autodiscover()
 
@@ -9,11 +12,7 @@ handler403 = 'xsd_frontend.views.handler403'
 handler404 = 'xsd_frontend.views.handler404'
 handler500 = 'xsd_frontend.views.handler500'
 
-urlpatterns = patterns('',
-    url(r'^update-request/$', 'xsd_frontend.views.update_request', name='update_request'),
-
-    url(r'^design/$', 'xsd_frontend.views.design', name='design'),
-
+urlpatterns = [
     url(r'^', include('xsd_frontend.urls', namespace='xsd_frontend')),
 
     url(r'^members/', include('xsd_members.urls', namespace='xsd_members')),
@@ -43,8 +42,8 @@ urlpatterns = patterns('',
 
     url(r'^health/', include('health_check.urls')),
 
-    url(r'^404/$', 'django.views.defaults.page_not_found'),
-)
+    url(r'^404/$', page_not_found),
+]
 
 if settings.DEBUG:
     import debug_toolbar
