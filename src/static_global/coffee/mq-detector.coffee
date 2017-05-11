@@ -1,2 +1,2 @@
 window.detectMQ = (mq) ->
-  $(".visible-#{mq}").is(':visible')
+    $(".visible-#{mq}").is(':visible')
