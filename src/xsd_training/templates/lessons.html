@@ -2,37 +2,38 @@
 {% load lesson_extras %}
 
 {% block training_content %}
+    <div class="row">
+        {% if profile.training_for %}
+            <div class="col-md-12">
+                <div class="xsd-qual-banner xsd-qual-banner--{{ profile.training_for.code }}">
+                    <i class="indicator fa fa-chevron-circle-right"></i>
+                    {{ profile.training_for }}
+                </div>
+            </div>
 
-{% if profile.training_for %}
-    <div class="col-md-12">
-        <div class="xsd-qual-banner xsd-qual-banner--{{ profile.training_for.code }}">
-            <i class="indicator fa fa-chevron-circle-right"></i>
-            {{ profile.training_for }}
-        </div>
-    </div>
+            <div class="col-lg-7">
+                <h4>Theory Lessons</h4>
+                {% show_lessons profile.training_for 'TH' profile %}
+                <h4>Sheltered Water Lessons</h4>
+                {% show_lessons profile.training_for 'SW' profile %}
+                <h4>Open Water Lessons</h4>
+                {% show_lessons profile.training_for 'OW' profile %}
+                <h4>Dry Practical Lessons</h4>
+                {% show_lessons profile.training_for 'DP' profile %}
+            </div>
+            <div class="col-lg-5">
+                <h4>Experience</h4>
+                <p>Experience dives can take place at any point, but you need to get them signed off by an
+                    instructor.</p>
 
-    <div class="col-lg-7">
-        <h4>Theory Lessons</h4>
-        {% show_lessons profile.training_for 'TH' profile %}
-        <h4>Sheltered Water Lessons</h4>
-        {% show_lessons profile.training_for 'SW' profile %}
-        <h4>Open Water Lessons</h4>
-        {% show_lessons profile.training_for 'OW' profile %}
-        <h4>Dry Practical Lessons</h4>
-        {% show_lessons profile.training_for 'DP' profile %}
+                {% show_lessons profile.training_for 'XP' profile %}
+                <h4>Assessment</h4>
+                {% show_lessons profile.training_for 'AS' profile %}
+            </div>
+        {% else %}
+            <div class="col-md-12">
+                <p>You're not currently undertaking training.</p>
+            </div>
+        {% endif %}
     </div>
-    <div class="col-lg-5">
-        <h4>Experience</h4>
-        <p>Experience dives can take place at any point, but you need to get them signed off by an instructor.</p>
-
-        {% show_lessons profile.training_for 'XP' profile %}
-        <h4>Assessment</h4>
-        {% show_lessons profile.training_for 'AS' profile %}
-    </div>
-{% else %}
-    <div class="col-md-12">
-        <p>You're not currently undertaking training.</p>
-    </div>
-{% endif %}
-
 {% endblock %}

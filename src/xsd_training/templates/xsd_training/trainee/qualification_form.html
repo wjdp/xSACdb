@@ -1,51 +1,53 @@
 {% extends 'training_template.html' %}
 
 {% block training_content %}
-    <div class="col-md-5">
-        {% if object.pk %}
-            <h3>Update Qualification</h3>
+    <div class="row">
+        <div class="col-md-5">
+            {% if object.pk %}
+                <h3>Update Qualification</h3>
 
-            <dl>
-                <dt>Trainee</dt>
-                <dd>{{ object.trainee.full_name }}</dd>
-                <dt>Qualification</dt>
-                <dd>
-                    <i class="fa fa-square xsd-qual-fg--{{ object.qualification.code }}"
-                       aria-hidden="true"></i>
-                    {{ object.qualification }}
-                </dd>
-                <dt>Created</dt>
-                <dd>{{ object.created }}</dd>
-            </dl>
+                <dl>
+                    <dt>Trainee</dt>
+                    <dd>{{ object.trainee.full_name }}</dd>
+                    <dt>Qualification</dt>
+                    <dd>
+                        <i class="fa fa-square xsd-qual-fg--{{ object.qualification.code }}"
+                           aria-hidden="true"></i>
+                        {{ object.qualification }}
+                    </dd>
+                    <dt>Created</dt>
+                    <dd>{{ object.created }}</dd>
+                </dl>
 
-        {% else %}
-            <h3>Award New Qualification</h3>
+            {% else %}
+                <h3>Award New Qualification</h3>
 
-            <dl>
-                <dt>Trainee</dt>
-                <dd>{{ trainee.full_name }}</dd>
-            </dl>
-        {% endif %}
-    </div>
+                <dl>
+                    <dt>Trainee</dt>
+                    <dd>{{ trainee.full_name }}</dd>
+                </dl>
+            {% endif %}
+        </div>
 
-    <div class="col-md-7" id="trainee-qualification-form">
-        <form action="." method="POST">
-            {% csrf_token %}
-            {% include 'forms/form.html' with form=form %}
+        <div class="col-md-7" id="trainee-qualification-form">
+            <form action="." method="POST">
+                {% csrf_token %}
+                {% include 'forms/form.html' with form=form %}
 
-            <div class="form-controls">
-                <a class="btn btn-secondary" href="{% url 'xsd_training:TraineeNotes' trainee.pk %}#qualification-list">
-                    <i class="fa fa-chevron-left"></i> Back
-                </a>
-                <button type="submit" class="btn btn-primary">
-                    {% if object.pk %}
-                        <i class="fa fa-pencil"></i> Update
-                    {% else %}
-                        <i class="fa fa-trophy"></i> Award
-                    {% endif %}
-                </button>
-            </div>
-        </form>
-
+                <div class="form-controls">
+                    <a class="btn btn-secondary"
+                       href="{% url 'xsd_training:TraineeNotes' trainee.pk %}#qualification-list">
+                        <i class="fa fa-chevron-left"></i> Back
+                    </a>
+                    <button type="submit" class="btn btn-primary">
+                        {% if object.pk %}
+                            <i class="fa fa-pencil"></i> Update
+                        {% else %}
+                            <i class="fa fa-trophy"></i> Award
+                        {% endif %}
+                    </button>
+                </div>
+            </form>
+        </div>
     </div>
 {% endblock %}

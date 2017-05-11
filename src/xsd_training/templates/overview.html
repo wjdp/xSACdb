@@ -1,42 +1,52 @@
 {% extends 'training_template.html' %}
 {% load lesson_extras %}
 {% block training_content %}
+    <div class="row">
+        <div class="col-md-6">
+            <p>Welcome to your club training logbook. From here you can lookup all your upcoming and past lessons
+                including lesson feedback.</p>
 
-<div class="col-md-6">
-	<p>Welcome to your club training logbook. From here you can lookup all your upcoming and past lessons including lesson feedback.</p>
+            <table class="table">
+                <tr>
+                    <td><i class="indicator fa fa-chevron-circle-right"></i></td>
+                    <td>Training For</td>
+                    <td><i class="indicator fa fa-star"></td>
+                    <td>Current Qualification</td>
+                </tr>
+            </table>
+            {% for qual in quals %}
+                <div class="xsd-qual-banner xsd-qual-banner--{{ qual.code }}">
+                    {% if profile.top_qual == qual %}<i class="indicator fa fa-star"></i>
+                    {% elif profile.training_for == qual %}
+                        <i class="indicator fa fa-chevron-circle-right"></i>{% endif %}
+                    {{ qual.title }}
+                </div>
+            {% endfor %}
 
-	<table class="table">
-		<tr><td><i class="indicator fa fa-chevron-circle-right"></i></td><td>Training For</td><td><i class="indicator fa fa-star"></td><td>Current Qualification</td></tr>
-	</table>
-	{% for qual in quals %}
-	<div class="xsd-qual-banner xsd-qual-banner--{{qual.code}}">
-		{% if profile.top_qual == qual %}<i class="indicator fa fa-star"></i>
-		{% elif profile.training_for == qual %}<i class="indicator fa fa-chevron-circle-right"></i>{% endif %}
-		{{ qual.title }}
-	</div>
-	{% endfor %}
+        </div>
 
-</div>
-
-<div class="col-md-6">
-	<h3>Upcoming Training</h3>
-	{% if profile.training_for != None %}
-	<h4>Lessons</h4>
-	{# templates/lesson_list_template_with_dates.html #}
-	{% show_upcoming_lessons profile %}
-	{% endif %}
+        <div class="col-md-6">
+            <h3>Upcoming Training</h3>
+            {% if profile.training_for != None %}
+                <h4>Lessons</h4>
+                {# templates/lesson_list_template_with_dates.html #}
+                {% show_upcoming_lessons profile %}
+            {% endif %}
 
 
-	<h4>SDCs</h4>
-	{% if profile.upcoming_sdcs.exists %}
-	<table class="lessons planned table table-bordered table-sm">
-		{% for psdc in profile.upcoming_sdcs %}
-		<tr><td>{{psdc.sdc}}</td> <td>{{psdc.datetime}}</td></tr>
-		{% endfor %}
-	</table>
-	{%else%}
-	<p>You're not registered on any upcoming SDCs</p>
-	{% endif %}
-</div>
-
+            <h4>SDCs</h4>
+            {% if profile.upcoming_sdcs.exists %}
+                <table class="lessons planned table table-bordered table-sm">
+                    {% for psdc in profile.upcoming_sdcs %}
+                        <tr>
+                            <td>{{ psdc.sdc }}</td>
+                            <td>{{ psdc.datetime }}</td>
+                        </tr>
+                    {% endfor %}
+                </table>
+            {% else %}
+                <p>You're not registered on any upcoming SDCs</p>
+            {% endif %}
+        </div>
+    </div>
 {% endblock %}

@@ -1,29 +1,30 @@
 {% extends 'training_template.html' %}
 
 {% block training_content %}
-
-    <div class="col-md-12">
-        <p>This is the list of all the skill development courses that the club has planned. To obtain a place on an SDC,
-            contact the Assistant Diving Officer.</p>
-        {% if psdc %}
-            <table class="table table-sm table-striped">
-                <tr>
-                    <th>SDC</th>
-                    <th>When</th>
-                    <th>Trainees</th>
-                </tr>
-                {% for p in psdc %}
+    <div class="row">
+        <div class="col-md-12">
+            <p>This is the list of all the skill development courses that the club has planned. To obtain a place on an
+                SDC,
+                contact the Assistant Diving Officer.</p>
+            {% if psdc %}
+                <table class="table table-sm table-striped">
                     <tr>
-                        <td><a href="{% url 'xsd_training:PerformedSDCDetail' p.pk %}">{{ p.sdc.title }}</a></td>
-                        <td>{{ p.datetime }}</td>
-                        <td>{{ p.trainees.count }}</td>
-
+                        <th>SDC</th>
+                        <th>When</th>
+                        <th>Trainees</th>
                     </tr>
-                {% endfor %}
-            </table>
-        {% else %}
-            No SDCs have been planned, perhaps you should bug the training officer to run some.
-        {% endif %}
-    </div>
+                    {% for p in psdc %}
+                        <tr>
+                            <td><a href="{% url 'xsd_training:PerformedSDCDetail' p.pk %}">{{ p.sdc.title }}</a></td>
+                            <td>{{ p.datetime }}</td>
+                            <td>{{ p.trainees.count }}</td>
 
+                        </tr>
+                    {% endfor %}
+                </table>
+            {% else %}
+                No SDCs have been planned, perhaps you should bug the training officer to run some.
+            {% endif %}
+        </div>
+    </div>
 {% endblock %}

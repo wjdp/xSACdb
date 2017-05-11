@@ -1,28 +1,28 @@
 {% extends 'training_template.html' %}
 
 {% block training_content %}
+    <div class="row">
+        <div class="col-md-12">
+            <h1>Session Planning</h1>
+            <h2>New Session</h2>
+            <form action="" method="post">{% csrf_token %}
+                <div class="row-fluid">
+                    <div class="span7">
+                        {% include 'forms/field.html' with field=form.name %}
+                        {% include 'forms/field.html' with field=form.when %}
+                        {% include 'forms/field.html' with field=form.where %}
+                    </div>
+                    <div class="span5">
+                        {% include 'forms/field.html' with field=form.notes %}
+                    </div>
 
-    <div class="col-md-12">
-        <h1>Session Planning</h1>
-        <h2>New Session</h2>
-        <form action="" method="post">{% csrf_token %}
-            <div class="row-fluid">
-                <div class="span7">
-                    {% include 'forms/field.html' with field=form.name %}
-                    {% include 'forms/field.html' with field=form.when %}
-                    {% include 'forms/field.html' with field=form.where %}
                 </div>
-                <div class="span5">
-                    {% include 'forms/field.html' with field=form.notes %}
+                <div class="form-actions ">
+                    Trainees and lessons are added in the next step.
+                    <button type="submit" class="btn btn-primary alignright">Next</button>
                 </div>
+            </form>
 
-            </div>
-            <div class="form-actions ">
-                Trainees and lessons are added in the next step.
-                <button type="submit" class="btn btn-primary alignright">Next</button>
-            </div>
-        </form>
-
+        </div>
     </div>
-
 {% endblock %}
