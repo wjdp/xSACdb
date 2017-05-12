@@ -10,9 +10,9 @@ then
     pip install -qr requirements_dev.txt
 fi
 
-src/manage.py migrate --noinput
 gulp deploy
 src/manage.py collectstatic --noinput
+src/manage.py migrate --noinput
 
 if [[ $XSACDB_FAKE_DATA = "TRUE" ]]
 then
