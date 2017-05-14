@@ -4,6 +4,12 @@ All notable changes to this project will be documented in this file. Notes shoul
 xSACdb instances. This project will soon adhere to [Semantic Versioning](http://semver.org/).
 
 
+## [0.5.1] - 2017-05-14
+
+### Fixes
+- Pre-deployment script was failing on new installs.
+
+
 ## [0.5.0] - 2017-05-10
 
 This is a provisional release, club instances will be upgraded to it after a test period.
