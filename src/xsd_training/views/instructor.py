@@ -1,13 +1,14 @@
 from __future__ import unicode_literals
 
 from django.contrib import messages
+from django.core.exceptions import PermissionDenied
 from django.db.models import Q
 from django.http import HttpResponse
 from django.shortcuts import render, get_object_or_404, redirect
-from django.template import RequestContext
 from django.views.generic import DetailView, CreateView, UpdateView, DeleteView
 
 from xSACdb.roles.decorators import require_instructor, require_training_officer
+from xSACdb.roles.functions import is_instructor
 from xSACdb.roles.mixins import RequireInstructor, RequireTrainingOfficer
 from xSACdb.views import OrderedListView
 from xsd_training.forms import *
@@ -40,17 +41,18 @@ def InstructorUpcoming(request):
         'upcoming_sessions': upcoming_sessions
     })
 
+
 class TraineeNotesSearch(RequireInstructor, OrderedListView):
     model = MemberProfile
-    template_name= 'xsd_training/trainee/search.html'
-    context_object_name='trainees'
-    order_by='last_name'
+    template_name = 'xsd_training/trainee/search.html'
+    context_object_name = 'trainees'
+    order_by = 'last_name'
 
     def get_queryset(self):
         queryset = super(TraineeNotesSearch, self).get_queryset()
         if 'q' in self.request.GET:
-            name=self.request.GET['q']
-            queryset=queryset.filter(
+            name = self.request.GET['q']
+            queryset = queryset.filter(
                 Q(last_name__icontains=name) |
                 Q(first_name__icontains=name)
             )
@@ -137,10 +139,21 @@ def trainee_notes_set(request, pk):
         return HttpResponse('No field specified')
 
 
-class TraineeFormMixin(object):
+class TraineeViewMixin(object):
     def get_trainee(self):
         return MemberProfile.objects.get(pk=self.kwargs['t_pk'])
 
+    def is_allowed(self, user):
+        return self.get_trainee() == user.profile or is_instructor(user)
+
+    def dispatch(self, request, *args, **kwargs):
+        if self.is_allowed(request.user):
+            return super(TraineeViewMixin, self).dispatch(request, *args, **kwargs)
+        else:
+            raise PermissionDenied
+
+
+class TraineeFormMixin(TraineeViewMixin, object):
     def get_context_data(self, **kwargs):
         context = super(TraineeFormMixin, self).get_context_data(**kwargs)
         context['trainee'] = self.get_trainee()
@@ -149,6 +162,18 @@ class TraineeFormMixin(object):
     def get_success_url(self):
         return '{}#qualification-list'.format(
             reverse('xsd_training:TraineeNotes', kwargs={'pk': self.get_trainee().pk}))
+
+
+class LessonDetail(TraineeViewMixin, DetailView):
+    model = Lesson
+    context_object_name = 'lesson'
+    template_name = 'xsd_training/trainee/lesson_detail.html'
+
+    def get_context_data(self, **kwargs):
+        context = super(LessonDetail, self).get_context_data(**kwargs)
+        context['pls'] = self.get_object().get_pls(self.get_trainee())
+        context['state'] = self.get_object().get_lesson_state(self.get_trainee()),
+        return context
 
 
 class QualificationCreate(RequireTrainingOfficer, TraineeFormMixin, CreateView):
@@ -173,7 +198,7 @@ class QualificationUpdate(RequireTrainingOfficer, TraineeFormMixin, UpdateView):
     model = PerformedQualification
     fields = ['mode', 'xo_from', 'signed_off_on', 'signed_off_by', 'notes', ]
     template_name = 'xsd_training/trainee/qualification_form.html'
-    
+
     def form_valid(self, form):
         messages.add_message(self.request, messages.SUCCESS,
                              '{} updated on {}'.format(self.get_object().qualification, self.get_trainee().full_name))
@@ -183,7 +208,7 @@ class QualificationUpdate(RequireTrainingOfficer, TraineeFormMixin, UpdateView):
 class QualificationDelete(RequireTrainingOfficer, TraineeFormMixin, DeleteView):
     model = PerformedQualification
     template_name = 'base/delete.html'
-    
+
     def delete(self, request, *args, **kwargs):
         messages.add_message(self.request, messages.ERROR,
                              '{} removed from {}'.format(self.get_object().qualification, self.get_trainee().full_name))

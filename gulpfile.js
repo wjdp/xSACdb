@@ -108,7 +108,7 @@ gulp.task('watch', function() {
     watch(SASS_INCLUDE_PATHS.concat(['src/static_global/sass']), batch(function(events, done) {
         gulp.start('css_dev', done);
     }));
-    watch(['src/static_global/coffee'], batch(function(events, done) {
+    watch(COFFEE_INCLUDE_PATHS, batch(function(events, done) {
         gulp.start('js_app_dev', done);
     }));
 });

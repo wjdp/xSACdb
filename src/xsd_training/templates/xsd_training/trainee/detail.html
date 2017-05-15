@@ -4,160 +4,163 @@
 
 {% block modals %}
     {% include 'xsd_training/modals/qualification_list.html' %}
+    {% include 'xsd_training/modals/lesson_detail.html' %}
 {% endblock %}
 
 {% block training_content %}
+    <div class="row">
+        <div class="col-md-7">
+            <div class="xsd-profile-card xsd-profile-card--training">
+                <div class="qual-banner">
+                    <div class="qual-banner__colour xsd-qual-banner--{{ trainee.top_qual.code }}">&nbsp;</div>
+                </div>
 
-    <div class="col-md-6">
-        <div class="xsd-profile-card xsd-profile-card--training">
-            <div class="qual-banner">
-                <div class="qual-banner__colour xsd-qual-banner--{{ trainee.top_qual.code }}">&nbsp;</div>
-            </div>
-
-            <div class="profile-card__content">
-                {% if trainee.user %}
-                    <img src="{{ trainee.avatar_md }}" alt="Profile Picture" class="avatar"/>
-                {% endif %}
-
-                <h2>{{ trainee }}</h2>
-
-                <div class="btn-group btn-group-sm">
-                    {% if is_members %}
-                        <a href="{% url 'xsd_members:MemberDetail' trainee.pk %}" class="btn btn-secondary">
-                            <i class="fa fa-share"></i> Member Profile
-                        </a>
+                <div class="profile-card__content">
+                    {% if trainee.user %}
+                        <img src="{{ trainee.avatar_md }}" alt="Profile Picture" class="avatar"/>
                     {% endif %}
+
+                    <h2>{{ trainee }}</h2>
+
+                    <div class="btn-group btn-group-sm">
+                        {% if is_members %}
+                            <a href="{% url 'xsd_members:MemberDetail' trainee.pk %}" class="btn btn-secondary">
+                                <i class="fa fa-share"></i> Member Profile
+                            </a>
+                        {% endif %}
+                    </div>
                 </div>
             </div>
+
+            <p>{{ trainee.first_name }} joined the database on {{ trainee.date_joined|date }}.</p>
+
+            {% if trainee.membership_problem %}
+                <div class="alert alert-danger">
+                    <i class="fa fa-exclamation-triangle"></i> <strong>Uh-oh</strong> There are currently issues
+                    with {{ trainee.first_name }}'s membership, until this is rectified {{ trainee.heshe|lower }} cannot
+                    go diving.
+                </div>
+            {% endif %}
+
+        </div>
+        <div class="col-md-5">
+            <h3><i class="fa fa-envelope"></i> Contact Details</h3>
+            <table class="table">
+                <tr>
+                    <th>Address</th>
+                    <td>{% if not trainee.address or trainee.post_code %}
+                        <i class="fa fa-exclamation-triangle text-danger"></i>
+                        {% else %}{{ trainee.formatted_address|safe }}<br/>{{ trainee.postcode }}{% endif %}</td>
+                </tr>
+                <tr>
+                    <th>Email</th>
+                    <td>{{ trainee.email }}{% if not trainee.email %}
+                        <i class="fa fa-exclamation-triangle text-danger"></i>{% endif %}</td>
+                </tr>
+                <tr>
+                    <th>Home Phone</th>
+                    <td>{{ trainee.home_phone }}{% if not trainee.home_phone %}
+                        <i class="fa fa-exclamation-triangle text-danger"></i>{% endif %}</td>
+                </tr>
+                <tr>
+                    <th>Mobile Phone</th>
+                    <td>{{ trainee.mobile_phone }}{% if not trainee.mobile_phone %}
+                        <i class="fa fa-exclamation-triangle text-danger"></i>{% endif %}</td>
+                </tr>
+
+            </table>
+        </div>
+        <div class="col-lg-7">
+            <h3><i class="fa fa-table"></i> Lessons</h3>
+
+            <p><big>{{ planned }}</big> lessons planned</p>
+            <p><big>{{ partially_completed }}</big> lessons partially completed</p>
+            <p><big>{{ completed }}</big> lessons completed</p>
+            {% pl_matrix trainee %}
+            {% if is_training %}
+                <a href="{% url 'xsd_training:RetroAddLessons' %}?trainee={{ trainee.pk }}&qualification={{ trainee.training_for.pk }}"
+                   class="btn btn-secondary"><i class="fa fa-plus"></i> Retrospectively Add Lessons</a>
+            {% endif %}
         </div>
 
-        <p>{{ trainee.first_name }} joined the database on {{ trainee.date_joined|date }}.</p>
 
-        {% if trainee.membership_problem %}
-            <div class="alert alert-danger">
-                <i class="fa fa-exclamation-triangle"></i> <strong>Uh-oh</strong> There are currently issues
-                with {{ trainee.first_name }}'s membership, until this is rectified {{ trainee.heshe|lower }} cannot
-                go diving.
-            </div>
-        {% endif %}
-
-    </div>
-    <div class="col-md-6">
-        <h3><i class="fa fa-envelope"></i> Contact Details</h3>
-        <table class="table">
-            <tr>
-                <th>Address</th>
-                <td>{% if not trainee.address or trainee.post_code %}
-                    <i class="fa fa-exclamation-triangle text-danger"></i>
-                    {% else %}{{ trainee.formatted_address|safe }}<br/>{{ trainee.postcode }}{% endif %}</td>
-            </tr>
-            <tr>
-                <th>Email</th>
-                <td>{{ trainee.email }}{% if not trainee.email %}
-                    <i class="fa fa-exclamation-triangle text-danger"></i>{% endif %}</td>
-            </tr>
-            <tr>
-                <th>Home Phone</th>
-                <td>{{ trainee.home_phone }}{% if not trainee.home_phone %}
-                    <i class="fa fa-exclamation-triangle text-danger"></i>{% endif %}</td>
-            </tr>
-            <tr>
-                <th>Mobile Phone</th>
-                <td>{{ trainee.mobile_phone }}{% if not trainee.mobile_phone %}
-                    <i class="fa fa-exclamation-triangle text-danger"></i>{% endif %}</td>
-            </tr>
-
-        </table>
-    </div>
-    <div class="col-lg-6">
-        <h3><i class="fa fa-table"></i> Lessons</h3>
-
-        <p><big>{{ planned }}</big> lessons planned</p>
-        <p><big>{{ partially_completed }}</big> lessons partially completed</p>
-        <p><big>{{ completed }}</big> lessons completed</p>
-        {% pl_matrix trainee %}
-        {% if is_training %}
-            <a href="{% url 'xsd_training:RetroAddLessons' %}?trainee={{ trainee.pk }}&qualification={{ trainee.training_for.pk }}"
-               class="btn btn-secondary"><i class="fa fa-plus"></i> Retrospectively Add Lessons</a>
-        {% endif %}
-    </div>
-
-
-    <div class="col-lg-6">
-        <h3><i class="fa fa-trophy"></i> Qualification Details</h3>
-        <table class="table">
-            <tr>
-                <th>Current Qualification</th>
-                <td>
-                    <i class="fa fa-square xsd-qual-fg--{{ trainee.top_qual.code }}" aria-hidden="true"></i>
-                    {{ trainee.top_qual }}
-                    <button class="btn btn-secondary btn-sm push-right" data-toggle="modal" data-target=".xsd-qualification-modal--list">
-                        <i class="fa fa-pencil"></i>
-                    </button>
-                </td>
-            </tr>
-            <tr>
-                <th>Training For</th>
-                <td>{{ trainee.training_for }}
-                    <div class="hidden-section">
-                        <div class="hidden-section-button"><i class="fa fa-plus"></i></div>
-                        <div class="hidden-section-actual">
-                            <form action="{% url 'xsd_training:TraineeNotesSet' trainee.pk %}" method="GET">
-                                {{ training_for_form.as_p }}
-                                <input type="submit" value="Set TF"/>
-                            </form>
-                        </div>
-                    </div>
-                </td>
-            </tr>
-            <tr>
-                <th>Instructor</th>
-                <td>{% if trainee.top_instructor_qual %}<i class="fa fa-check"></i>{% else %}
-                    <i class="fa fa-remove"></i>{% endif %}
-                    <div class="hidden-section">
-                        <div class="hidden-section-button"><i class="fa fa-plus"></i></div>
-                        <div class="hidden-section-actual">
-                            <form action="{% url 'xsd_training:TraineeNotesSet' trainee.pk %}" method="GET">
-                                {{ instructor_form.as_p }}
-                                <input type="submit" value="Set"/>
-                            </form>
-                        </div>
-                    </div>
-                </td>
-            </tr>
-            {% if trainee.top_instructor_qual or not myself %}
+        <div class="col-lg-5">
+            <h3><i class="fa fa-trophy"></i> Qualification Details</h3>
+            <table class="table">
                 <tr>
-                    <th>I. Qualification</th>
-                    <td>{{ trainee.top_instructor_qual }}</td>
+                    <th>Current Qualification</th>
+                    <td>
+                        <i class="fa fa-square xsd-qual-fg--{{ trainee.top_qual.code }}" aria-hidden="true"></i>
+                        {{ trainee.top_qual }}
+                        <button class="btn btn-secondary btn-sm push-right" data-toggle="modal"
+                                data-target=".xsd-qualification-modal--list">
+                            <i class="fa fa-pencil"></i>
+                        </button>
+                    </td>
                 </tr>
                 <tr>
-                    <th>I. Number</th>
-                    <td>{{ trainee.instructor_number }}</td>
-                </tr>
-            {% endif %}
-            <tr>
-                <th>SDCs</th>
-                <td>
-                    <ul class="xsd-member-sdc-list">
-                        {% for sdc in trainee.sdcs.all %}
-                            <li>{{ sdc }}
-                                <div class="action"><a
-                                        href="{% url 'xsd_training:TraineeNotesSet' trainee.pk %}?field=remove_sdc&sdc={{ sdc.pk }}"><i
-                                        class="fa fa-remove"></i></a></div>
-                            </li>{% endfor %}
-                    </ul>
-                    <div class="hidden-section">
-                        <div class="hidden-section-button"><i class="fa fa-plus"></i></div>
-                        <div class="hidden-section-actual">
-                            <form action="{% url 'xsd_training:TraineeNotesSet' trainee.pk %}" method="GET">
-                                {{ sdc_form.as_p }}
-                                <input type="submit" value="Add SDC"/>
-                            </form>
+                    <th>Training For</th>
+                    <td>{{ trainee.training_for }}
+                        <div class="hidden-section">
+                            <div class="hidden-section-button"><i class="fa fa-plus"></i></div>
+                            <div class="hidden-section-actual">
+                                <form action="{% url 'xsd_training:TraineeNotesSet' trainee.pk %}" method="GET">
+                                    {{ training_for_form.as_p }}
+                                    <input type="submit" value="Set TF"/>
+                                </form>
+                            </div>
                         </div>
-                    </div>
-                </td>
-            </tr>
+                    </td>
+                </tr>
+                <tr>
+                    <th>Instructor</th>
+                    <td>{% if trainee.top_instructor_qual %}<i class="fa fa-check"></i>{% else %}
+                        <i class="fa fa-remove"></i>{% endif %}
+                        <div class="hidden-section">
+                            <div class="hidden-section-button"><i class="fa fa-plus"></i></div>
+                            <div class="hidden-section-actual">
+                                <form action="{% url 'xsd_training:TraineeNotesSet' trainee.pk %}" method="GET">
+                                    {{ instructor_form.as_p }}
+                                    <input type="submit" value="Set"/>
+                                </form>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+                {% if trainee.top_instructor_qual or not myself %}
+                    <tr>
+                        <th>I. Qualification</th>
+                        <td>{{ trainee.top_instructor_qual }}</td>
+                    </tr>
+                    <tr>
+                        <th>I. Number</th>
+                        <td>{{ trainee.instructor_number }}</td>
+                    </tr>
+                {% endif %}
+                <tr>
+                    <th>SDCs</th>
+                    <td>
+                        <ul class="xsd-member-sdc-list">
+                            {% for sdc in trainee.sdcs.all %}
+                                <li>{{ sdc }}
+                                    <div class="action"><a
+                                            href="{% url 'xsd_training:TraineeNotesSet' trainee.pk %}?field=remove_sdc&sdc={{ sdc.pk }}"><i
+                                            class="fa fa-remove"></i></a></div>
+                                </li>{% endfor %}
+                        </ul>
+                        <div class="hidden-section">
+                            <div class="hidden-section-button"><i class="fa fa-plus"></i></div>
+                            <div class="hidden-section-actual">
+                                <form action="{% url 'xsd_training:TraineeNotesSet' trainee.pk %}" method="GET">
+                                    {{ sdc_form.as_p }}
+                                    <input type="submit" value="Add SDC"/>
+                                </form>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
 
-        </table>
+            </table>
+        </div>
     </div>
 {% endblock %}
