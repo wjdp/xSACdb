@@ -14,6 +14,10 @@ source env/bin/activate
 
 echo "[xSACdb] Installing python dependencies..."
 echo ">> Production dependencies"
+
+# TODO Hacky install of pre-release django-geopositoion package
+pip install https://github.com/philippbosch/django-geoposition/archive/django-1.11.zip
+
 pip install -qr requirements.txt
 
 echo "[xSACdb] Installing frontend dependencies..."

@@ -4,6 +4,12 @@ All notable changes to this project will be documented in this file. Notes shoul
 xSACdb instances. This project will soon adhere to [Semantic Versioning](http://semver.org/).
 
 
+## Unreleased
+
+### Fixes
+- #300 Fix geoposition field on sites using @wjdp's patch for dependency django-geoposition. 
+
+
 ## [0.5.1] - 2017-05-14
 
 ### Fixes
