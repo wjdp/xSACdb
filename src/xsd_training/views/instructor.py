@@ -153,13 +153,6 @@ class TraineeViewMixin(object):
             raise PermissionDenied
 
 
-class TraineeFormMixin(TraineeViewMixin, object):
-    def get_context_data(self, **kwargs):
-        context = super(TraineeFormMixin, self).get_context_data(**kwargs)
-        context['trainee'] = self.get_trainee()
-        return context
-
-
 class LessonDetail(TraineeViewMixin, DetailView):
     model = Lesson
     context_object_name = 'lesson'
@@ -169,7 +162,14 @@ class LessonDetail(TraineeViewMixin, DetailView):
         context = super(LessonDetail, self).get_context_data(**kwargs)
         context['trainee'] = self.get_trainee()
         context['pls'] = self.get_object().get_pls(self.get_trainee())
-        context['state'] = self.get_object().get_lesson_state(self.get_trainee()),
+        context['state'] = self.get_object().get_lesson_state(self.get_trainee())
+        return context
+
+
+class TraineeFormMixin(TraineeViewMixin, object):
+    def get_context_data(self, **kwargs):
+        context = super(TraineeFormMixin, self).get_context_data(**kwargs)
+        context['trainee'] = self.get_trainee()
         return context
 
 
@@ -199,7 +199,7 @@ class PerformedLessonCreate(RequireInstructor, PerformedLessonFormMixin, CreateV
         self.object.lesson = self.get_lesson()
 
         messages.add_message(self.request, messages.SUCCESS,
-                             '{} added to {}'.format(self.object.lesson.code, self.get_trainee().full_name))
+                             '{} added to {}'.format(self.object.lesson, self.get_trainee().full_name))
 
         return super(PerformedLessonCreate, self).form_valid(form)
 
@@ -213,6 +213,11 @@ class PerformedLessonUpdate(RequireInstructor, PerformedLessonFormMixin, UpdateV
 
 class PerformedLessonDelete(RequireTrainingOfficer, PerformedLessonFormMixin, DeleteView):
     model = PerformedLesson
+
+    def delete(self, request, *args, **kwargs):
+        messages.add_message(self.request, messages.ERROR,
+                             '{} removed from {}'.format(self.get_lesson(), self.get_trainee().full_name))
+        return super(PerformedLessonDelete, self).delete(request, args, kwargs)
 
 
 class QualificationFormMixin(TraineeFormMixin, object):
