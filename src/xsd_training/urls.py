@@ -32,6 +32,7 @@ urlpatterns = [
     url(r'^trainee/search/$', instructor.TraineeNotesSearch.as_view(), name='TraineeNotesSearch'),
     url(r'^trainee/(?P<pk>\d+)/$', instructor.TraineeNotes.as_view(), name='TraineeNotes'),
     url(r'^trainee/(?P<t_pk>\d+)/lesson/(?P<pk>\d+)/$', instructor.LessonDetail.as_view(), name='TraineeLessonDetail'),
+    url(r'^trainee/(?P<t_pk>\d+)/lesson/(?P<l_pk>\d+)/new/$', instructor.PerformedLessonCreate.as_view(), name='TraineePerformedLessonCreate'),
     url(r'^trainee/(?P<t_pk>\d+)/lesson/(?P<l_pk>\d+)/(?P<pk>\d+)/$', instructor.PerformedLessonUpdate.as_view(), name='TraineePerformedLessonUpdate'),
     url(r'^trainee/(?P<t_pk>\d+)/lesson/(?P<l_pk>\d+)/(?P<pk>\d+)/delete/$', instructor.PerformedLessonDelete.as_view(), name='TraineePerformedLessonDelete'),
     url(r'^trainee/(?P<pk>\d+)/set/$', instructor.trainee_notes_set, name='TraineeNotesSet'),

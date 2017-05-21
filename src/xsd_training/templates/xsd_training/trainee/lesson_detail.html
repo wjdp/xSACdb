@@ -61,6 +61,14 @@
                     {% empty %}
                     <li>No performed lessons</li>
                 {% endfor %}
+
+                <p>
+                    <a class="btn btn-secondary btn-sm"
+                       href="{% url 'xsd_training:TraineePerformedLessonCreate' t_pk=trainee.pk l_pk=lesson.pk %}">
+                        <i class="fa fa-plus"></i>
+                        Add Lesson
+                    </a>
+                </p>
             </ul>
         </div>
 

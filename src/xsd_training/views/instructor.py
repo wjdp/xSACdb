@@ -177,10 +177,34 @@ class LessonDetail(TraineeViewMixin, DetailView):
         return context
 
 
+class PerformedLessonCreate(RequireInstructor, TraineeViewMixin, CreateView):
+    model = PerformedLesson
+    template_name = 'xsd_training/trainee/pl_form.html'
+    fields = ['date', 'instructor', 'completed', 'partially_completed', 'public_notes',
+              'private_notes', ]
+
+    def get_success_url(self):
+        return reverse('xsd_training:TraineeLessonDetail',
+                       kwargs={'t_pk': self.kwargs['t_pk'], 'pk': self.kwargs['l_pk']})
+
+    def get_lesson(self):
+        return Lesson.objects.get(pk=self.kwargs['l_pk'])
+    
+    def form_valid(self, form):
+        self.object = form.save(commit=False)
+        self.object.trainee = self.get_trainee()
+        self.object.lesson = self.get_lesson()
+
+        messages.add_message(self.request, messages.SUCCESS,
+                             '{} added to {}'.format(self.object.lesson.code, self.get_trainee().full_name))
+        
+        return super(PerformedLessonCreate, self).form_valid(form)
+        
+
+
 class PerformedLessonUpdate(RequireInstructor, TraineeViewMixin, UpdateView):
     model = PerformedLesson
-    context_object_name = 'pl'
-    template_name = 'xsd_training/trainee/pl_update.html'
+    template_name = 'xsd_training/trainee/pl_form.html'
     fields = ['session', 'date', 'instructor', 'completed', 'partially_completed', 'public_notes',
               'private_notes', ]
 
@@ -191,7 +215,6 @@ class PerformedLessonUpdate(RequireInstructor, TraineeViewMixin, UpdateView):
 
 class PerformedLessonDelete(RequireTrainingOfficer, TraineeViewMixin, DeleteView):
     model = PerformedLesson
-    template_name = 'generic/delete.html'
 
     def get_success_url(self):
         return reverse('xsd_training:TraineeLessonDetail',
