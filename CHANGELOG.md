@@ -4,6 +4,12 @@ All notable changes to this project will be documented in this file. Notes shoul
 xSACdb instances. This project will soon adhere to [Semantic Versioning](http://semver.org/).
 
 
+## Unreleased
+
+### Added
+- #308 Add modal detail view for lessons to trainee notes view. Allow adding, editing and deleting performed lessons from trainee notes view.
+
+
 ## [0.5.2] - 2017-05-20
 
 ### Fixes
