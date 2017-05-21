@@ -2,6 +2,26 @@
 
 {% block training_content %}
     <div class="row">
+        <div class="col-md-5">
+            {% if object.pk %}
+                <h3>Update Lesson</h3>
+
+                <dl>
+                    <dt>Trainee</dt>
+                    <dd>{{ object.trainee.full_name }}</dd>
+{#                    <dt>Created</dt>#}
+{#                    <dd>{{ object.created }}</dd>#}
+                </dl>
+
+            {% else %}
+                <h3>Add Lesson</h3>
+
+                <dl>
+                    <dt>Trainee</dt>
+                    <dd>{{ object.trainee.full_name }}</dd>
+                </dl>
+            {% endif %}
+        </div>
         <div class="col">
             <form method="POST">
                 {% csrf_token %}

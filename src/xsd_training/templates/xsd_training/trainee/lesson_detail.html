@@ -1,4 +1,5 @@
 {% extends 'training_template.html' %}
+{% load lessons %}
 
 {% block training_content %}
     <div class="row">
@@ -20,31 +21,37 @@
             <ul class="xsd-pl-list">
                 {% for pl in pls %}
                     <li class="pl pl--{{ pl.state.0 }}">
-                        <dl class="xsd-pl-summary --detail">
-                            <dt class="date"><i class="fa fa-calendar-o fa-fw"></i></dt>
-                            <dd>{{ pl.date }}</dd>
-                            <dt class="session"><i class="fa fa-map-marker fa-fw"></i></dt>
-                            <dd>{{ pl.session }}</dd>
-                            <dt class="instructor"><i class="fa fa-user fa-fw"></i></dt>
-                            <dd>{{ pl.instructor }}</dd>
-                        </dl>
-                        {% if state.0 != "PLANNED" %}
-                        <dl class="xsd-pl-summary --notes">
-                            <dt class="notes-public"><i class="fa fa-unlock fa-fw"></i></dt>
-                            <dd>{{ pl.public_notes }}</dd>
-                            <dt class="notes-private"><i class="fa fa-lock fa-fw"></i></dt>
-                            <dd>{{ pl.private_notes }}</dd>
-                        </dl>
-                        {% endif %}
-                        <a class="btn btn-secondary btn-sm"
-                           href="{% url 'xsd_training:TraineePerformedLessonUpdate' t_pk=trainee.pk l_pk=lesson.pk pk=pl.pk %}">
-                            <i class="fa fa-pencil"></i>
-                            Edit
-                        </a>
-                        <a class="btn btn-outline-danger btn-sm" href="#">
-                            <i class="fa fa-trash"></i>
-                            Delete
-                        </a>
+                    <div class="card">
+                        <div class="card-header pl-header">
+                            {% pl_state_icon pl %}
+                            {{ pl.date }}
+                            <div class="pl-controls btn-group">
+                                <a class="btn btn-secondary btn-sm"
+                                   href="{% url 'xsd_training:TraineePerformedLessonUpdate' t_pk=trainee.pk l_pk=lesson.pk pk=pl.pk %}">
+                                    <i class="fa fa-pencil"></i>
+                                    Edit
+                                </a>
+                                <a class="btn btn-danger btn-sm" href="#">
+                                    <i class="fa fa-trash"></i>
+                                    Delete
+                                </a>
+                            </div>
+                        </div>
+                        <div class="card-block pl-body">
+                            <dl class="xsd-pl-summary --detail">
+                                <dt class="session"><i class="fa fa-map-marker fa-fw"></i></dt>
+                                <dd>{{ pl.session }}</dd>
+                                <dt class="instructor"><i class="fa fa-user fa-fw"></i></dt>
+                                <dd>{{ pl.instructor }}</dd>
+                                {% if state.0 != "PLANNED" %}
+                                    <dt class="notes-public"><i class="fa fa-unlock fa-fw"></i></dt>
+                                    <dd>{{ pl.public_notes }}</dd>
+                                    <dt class="notes-private"><i class="fa fa-lock fa-fw"></i></dt>
+                                    <dd>{{ pl.private_notes }}</dd>
+                                {% endif %}
+                            </dl>
+                        </div>
+                    </div>
                     </li>
                     {% empty %}
                     <li>No performed lessons</li>
