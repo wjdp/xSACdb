@@ -51,6 +51,16 @@ class PerformedLesson(models.Model):
     def uid(self):
         return "PL{:0>4d}".format(self.pk)
 
+    @property
+    def state(self):
+        """Return the state of this PL"""
+        if self.completed:
+            return Lesson.LESSON_STATE_YES
+        elif self.partially_completed:
+            return Lesson.LESSON_STATE_PARTIAL
+        else:
+            return Lesson.LESSON_STATE_PLANNED
+
     # TODO remove
     def get_date(self):
         return self.date  # legacy, will be removed
@@ -128,15 +138,15 @@ class Lesson(models.Model):
         return PerformedLesson.objects.filter(trainee=trainee, lesson=self)
 
     def get_lesson_state(self, trainee):
-        """Return the 'highest attained state' of a lesson for a particualar trainee"""
-        high_state = self.LESSON_STATE_NO
+        """Return the 'highest attained state' of a lesson for a particular trainee"""
+        high_state = Lesson.LESSON_STATE_NO
         for pl in self.get_pls(trainee):
             if pl.completed:
-                return self.LESSON_STATE_YES
+                return Lesson.LESSON_STATE_YES
             if pl.partially_completed:
-                high_state = self.LESSON_STATE_PARTIAL
+                high_state = Lesson.LESSON_STATE_PARTIAL
             else:
-                high_state = self.LESSON_STATE_PLANNED
+                high_state = Lesson.LESSON_STATE_PLANNED
         return high_state
 
     def is_completed(self, mp):

@@ -171,9 +171,21 @@ class LessonDetail(TraineeViewMixin, DetailView):
 
     def get_context_data(self, **kwargs):
         context = super(LessonDetail, self).get_context_data(**kwargs)
+        context['trainee'] = self.get_trainee()
         context['pls'] = self.get_object().get_pls(self.get_trainee())
         context['state'] = self.get_object().get_lesson_state(self.get_trainee()),
         return context
+
+
+class PerformedLessonUpdate(TraineeViewMixin, UpdateView):
+    model = PerformedLesson
+    context_object_name = 'pl'
+    template_name = 'xsd_training/trainee/pl_update.html'
+    fields = ['session', 'date', 'instructor', 'completed', 'partially_completed', 'public_notes',
+              'private_notes', ]
+
+    def get_success_url(self):
+        return reverse('xsd_training:TraineeLessonDetail', kwargs={'t_pk': self.kwargs['t_pk'], 'pk': self.kwargs['l_pk']})
 
 
 class QualificationCreate(RequireTrainingOfficer, TraineeFormMixin, CreateView):

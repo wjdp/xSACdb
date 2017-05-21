@@ -42,8 +42,6 @@ class XSDLessonModal
 
 $(document).ready ->
     $('.xsd-lesson-modal').on 'show.bs.modal', (event) ->
-        console.log event.relatedTarget
-
         lessonModal = new XSDLessonModal
             modalEl: this,
             href: event.relatedTarget.href,

@@ -1,0 +1,16 @@
+{% extends 'training_template.html' %}
+
+{% block training_content %}
+    <div class="row">
+        <div class="col">
+            <form method="POST">
+                {% csrf_token %}
+                {% include 'forms/form.html' with form=form %}
+
+                <button type="submit" class="btn btn-primary">
+                    <i class="fa fa-save"></i> Save
+                </button>
+            </form>
+        </div>
+    </div>
+{% endblock %}

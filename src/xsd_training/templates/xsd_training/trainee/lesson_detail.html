@@ -3,23 +3,23 @@
 {% block training_content %}
     <div class="row">
         <div class="col-md-12">
-            <h2 id="lesson-title">
+            <h2 id="lesson-title" class="xsd-lesson-title">
                 {% if lesson.code %}<span class="code">{{ lesson.code }}</span>{% endif %}
                 <span class="title">{{ lesson.title }}</span>
             </h2>
         </div>
     </div>
 
-    <div class="row" id="lesson-body">
-        <div class="col-md-6">
+    <div class="row" id="lesson-body" class="xsd-lesson-body">
+        <div class="col-lg-5">
             <p>{{ lesson.description }}</p>
             <p class="mode">This is a {{ lesson.get_mode_display|lower }} lesson.</p>
 
         </div>
-        <div class="col-md-6">
-            <ul>
+        <div class="col-lg-7">
+            <ul class="xsd-pl-list">
                 {% for pl in pls %}
-                    <li>
+                    <li class="pl pl--{{ pl.state.0 }}">
                         <dl class="xsd-pl-summary --detail">
                             <dt class="date"><i class="fa fa-calendar-o fa-fw"></i></dt>
                             <dd>{{ pl.date }}</dd>
@@ -36,6 +36,15 @@
                             <dd>{{ pl.private_notes }}</dd>
                         </dl>
                         {% endif %}
+                        <a class="btn btn-secondary btn-sm"
+                           href="{% url 'xsd_training:TraineePerformedLessonUpdate' t_pk=trainee.pk l_pk=lesson.pk pk=pl.pk %}">
+                            <i class="fa fa-pencil"></i>
+                            Edit
+                        </a>
+                        <a class="btn btn-outline-danger btn-sm" href="#">
+                            <i class="fa fa-trash"></i>
+                            Delete
+                        </a>
                     </li>
                     {% empty %}
                     <li>No performed lessons</li>
