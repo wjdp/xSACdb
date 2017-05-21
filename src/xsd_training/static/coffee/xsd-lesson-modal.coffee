@@ -42,9 +42,18 @@ class XSDLessonModal
 
 $(document).ready ->
     $('.xsd-lesson-modal').on 'show.bs.modal', (event) ->
+        # Prep the modal
         lessonModal = new XSDLessonModal
             modalEl: this,
             href: event.relatedTarget.href,
             triggerData: event.relatedTarget.dataset,
 
+        # Save a ref for debugging
         window.lessonModal = lessonModal
+
+        # Set the hash to pk of lesson
+        window.location.hash = event.relatedTarget.dataset.pk
+
+    $('.xsd-lesson-modal').on 'hide.bs.modal', (event) ->
+        # Remove hash
+        window.location.hash = ''

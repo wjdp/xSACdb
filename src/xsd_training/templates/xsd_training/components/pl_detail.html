@@ -1,5 +1,5 @@
 <!---->
-<td class="--state-{{ state.0 }}" data-toggle="popover" data-placement="bottom"
+<td id="{{ lesson.pk }}" class="--state-{{ state.0 }}" data-toggle="popover" data-placement="bottom"
     title="{{ lesson.title }}" data-html=true data-trigger="hover"
     data-content='{% if state.0 == "NO" %}Lesson not planned{% else %}
     <dl class="xsd-pl-summary --detail">
@@ -25,7 +25,8 @@
     <div class="popover-content"></div>
     </div>'>
     <a href="{% url 'xsd_training:TraineeLessonDetail' trainee.pk lesson.pk %}"
-       data-toggle="modal" data-target=".xsd-lesson-modal" data-state="{{ state.0 }}">{{ lesson.short }}</a>
+       data-toggle="modal" data-target=".xsd-lesson-modal" data-state="{{ state.0 }}" data-pk={{ lesson.pk }}>
+        {{ lesson.short }}</a>
 </td>
 
 

@@ -71,7 +71,7 @@ class PerformedLesson(models.Model):
         super(PerformedLesson, self).save(*args, **kwargs)
 
     class Meta:
-        ordering = ['trainee__last_name']
+        ordering = ['trainee__last_name', 'date']
         get_latest_by = "date"
 
 

@@ -159,10 +159,6 @@ class TraineeFormMixin(TraineeViewMixin, object):
         context['trainee'] = self.get_trainee()
         return context
 
-    def get_success_url(self):
-        return '{}#qualification-list'.format(
-            reverse('xsd_training:TraineeNotes', kwargs={'pk': self.get_trainee().pk}))
-
 
 class LessonDetail(TraineeViewMixin, DetailView):
     model = Lesson
@@ -177,19 +173,26 @@ class LessonDetail(TraineeViewMixin, DetailView):
         return context
 
 
-class PerformedLessonCreate(RequireInstructor, TraineeViewMixin, CreateView):
+class PerformedLessonFormMixin(TraineeFormMixin, object):
+    def get_lesson(self):
+        return Lesson.objects.get(pk=self.kwargs['l_pk'])
+
+    def get_context_data(self, **kwargs):
+        context = super(PerformedLessonFormMixin, self).get_context_data(**kwargs)
+        context['lesson'] = self.get_lesson()
+        return context
+
+    def get_success_url(self):
+        return '{}#{}'.format(reverse('xsd_training:TraineeNotes', kwargs={'pk': self.kwargs['t_pk']}),
+                              self.kwargs['l_pk'])
+
+
+class PerformedLessonCreate(RequireInstructor, PerformedLessonFormMixin, CreateView):
     model = PerformedLesson
     template_name = 'xsd_training/trainee/pl_form.html'
     fields = ['date', 'instructor', 'completed', 'partially_completed', 'public_notes',
               'private_notes', ]
 
-    def get_success_url(self):
-        return reverse('xsd_training:TraineeLessonDetail',
-                       kwargs={'t_pk': self.kwargs['t_pk'], 'pk': self.kwargs['l_pk']})
-
-    def get_lesson(self):
-        return Lesson.objects.get(pk=self.kwargs['l_pk'])
-    
     def form_valid(self, form):
         self.object = form.save(commit=False)
         self.object.trainee = self.get_trainee()
@@ -197,31 +200,28 @@ class PerformedLessonCreate(RequireInstructor, TraineeViewMixin, CreateView):
 
         messages.add_message(self.request, messages.SUCCESS,
                              '{} added to {}'.format(self.object.lesson.code, self.get_trainee().full_name))
-        
+
         return super(PerformedLessonCreate, self).form_valid(form)
-        
 
 
-class PerformedLessonUpdate(RequireInstructor, TraineeViewMixin, UpdateView):
+class PerformedLessonUpdate(RequireInstructor, PerformedLessonFormMixin, UpdateView):
     model = PerformedLesson
     template_name = 'xsd_training/trainee/pl_form.html'
     fields = ['session', 'date', 'instructor', 'completed', 'partially_completed', 'public_notes',
               'private_notes', ]
 
-    def get_success_url(self):
-        return reverse('xsd_training:TraineeLessonDetail',
-                       kwargs={'t_pk': self.kwargs['t_pk'], 'pk': self.kwargs['l_pk']})
 
-
-class PerformedLessonDelete(RequireTrainingOfficer, TraineeViewMixin, DeleteView):
+class PerformedLessonDelete(RequireTrainingOfficer, PerformedLessonFormMixin, DeleteView):
     model = PerformedLesson
 
+
+class QualificationFormMixin(TraineeFormMixin, object):
     def get_success_url(self):
-        return reverse('xsd_training:TraineeLessonDetail',
-                       kwargs={'t_pk': self.kwargs['t_pk'], 'pk': self.kwargs['l_pk']})
+        return '{}#qualification-list'.format(
+            reverse('xsd_training:TraineeNotes', kwargs={'pk': self.kwargs['t_pk']}))
 
 
-class QualificationCreate(RequireTrainingOfficer, TraineeFormMixin, CreateView):
+class QualificationCreate(RequireTrainingOfficer, QualificationFormMixin, CreateView):
     model = PerformedQualification
     form_class = PerformedQualificationForm
     template_name = 'xsd_training/trainee/qualification_form.html'
@@ -239,7 +239,7 @@ class QualificationCreate(RequireTrainingOfficer, TraineeFormMixin, CreateView):
         return super(QualificationCreate, self).form_valid(form)
 
 
-class QualificationUpdate(RequireTrainingOfficer, TraineeFormMixin, UpdateView):
+class QualificationUpdate(RequireTrainingOfficer, QualificationFormMixin, UpdateView):
     model = PerformedQualification
     fields = ['mode', 'xo_from', 'signed_off_on', 'signed_off_by', 'notes', ]
     template_name = 'xsd_training/trainee/qualification_form.html'
@@ -250,7 +250,7 @@ class QualificationUpdate(RequireTrainingOfficer, TraineeFormMixin, UpdateView):
         return super(QualificationUpdate, self).form_valid(form)
 
 
-class QualificationDelete(RequireTrainingOfficer, TraineeFormMixin, DeleteView):
+class QualificationDelete(RequireTrainingOfficer, QualificationFormMixin, DeleteView):
     model = PerformedQualification
     template_name = 'base/delete.html'
 
