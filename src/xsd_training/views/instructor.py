@@ -177,7 +177,7 @@ class LessonDetail(TraineeViewMixin, DetailView):
         return context
 
 
-class PerformedLessonUpdate(TraineeViewMixin, UpdateView):
+class PerformedLessonUpdate(RequireInstructor, TraineeViewMixin, UpdateView):
     model = PerformedLesson
     context_object_name = 'pl'
     template_name = 'xsd_training/trainee/pl_update.html'
@@ -185,7 +185,17 @@ class PerformedLessonUpdate(TraineeViewMixin, UpdateView):
               'private_notes', ]
 
     def get_success_url(self):
-        return reverse('xsd_training:TraineeLessonDetail', kwargs={'t_pk': self.kwargs['t_pk'], 'pk': self.kwargs['l_pk']})
+        return reverse('xsd_training:TraineeLessonDetail',
+                       kwargs={'t_pk': self.kwargs['t_pk'], 'pk': self.kwargs['l_pk']})
+
+
+class PerformedLessonDelete(RequireTrainingOfficer, TraineeViewMixin, DeleteView):
+    model = PerformedLesson
+    template_name = 'generic/delete.html'
+
+    def get_success_url(self):
+        return reverse('xsd_training:TraineeLessonDetail',
+                       kwargs={'t_pk': self.kwargs['t_pk'], 'pk': self.kwargs['l_pk']})
 
 
 class QualificationCreate(RequireTrainingOfficer, TraineeFormMixin, CreateView):

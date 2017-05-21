@@ -21,37 +21,42 @@
             <ul class="xsd-pl-list">
                 {% for pl in pls %}
                     <li class="pl pl--{{ pl.state.0 }}">
-                    <div class="card">
-                        <div class="card-header pl-header">
-                            {% pl_state_icon pl %}
-                            {{ pl.date }}
-                            <div class="pl-controls btn-group">
-                                <a class="btn btn-secondary btn-sm"
-                                   href="{% url 'xsd_training:TraineePerformedLessonUpdate' t_pk=trainee.pk l_pk=lesson.pk pk=pl.pk %}">
-                                    <i class="fa fa-pencil"></i>
-                                    Edit
-                                </a>
-                                <a class="btn btn-danger btn-sm" href="#">
-                                    <i class="fa fa-trash"></i>
-                                    Delete
-                                </a>
+                        <div class="card">
+                            <div class="card-header pl-header">
+                                {% pl_state_icon pl %}
+                                {{ pl.date }}
+                                <div class="pl-controls">
+                                    <a class="btn btn-secondary btn-sm"
+                                       href="{% url 'xsd_training:TraineePerformedLessonUpdate' t_pk=trainee.pk l_pk=lesson.pk pk=pl.pk %}">
+                                        <i class="fa fa-pencil"></i>
+                                        Edit
+                                    </a>
+                                    <form method="POST"
+                                          onsubmit="return confirm('Are you sure you want to delete this performed lesson?');"
+                                          action="{% url 'xsd_training:TraineePerformedLessonDelete' t_pk=trainee.pk l_pk=lesson.pk pk=pl.pk %}">
+                                        {% csrf_token %}
+                                        <button class="btn btn-danger btn-sm">
+                                            <i class="fa fa-trash"></i>
+                                            Delete
+                                        </button>
+                                    </form>
+                                </div>
+                            </div>
+                            <div class="card-block pl-body">
+                                <dl class="xsd-pl-summary --detail">
+                                    <dt class="session"><i class="fa fa-map-marker fa-fw"></i></dt>
+                                    <dd>{{ pl.session }}</dd>
+                                    <dt class="instructor"><i class="fa fa-user fa-fw"></i></dt>
+                                    <dd>{{ pl.instructor }}</dd>
+                                    {% if state.0 != "PLANNED" %}
+                                        <dt class="notes-public"><i class="fa fa-unlock fa-fw"></i></dt>
+                                        <dd>{{ pl.public_notes }}</dd>
+                                        <dt class="notes-private"><i class="fa fa-lock fa-fw"></i></dt>
+                                        <dd>{{ pl.private_notes }}</dd>
+                                    {% endif %}
+                                </dl>
                             </div>
                         </div>
-                        <div class="card-block pl-body">
-                            <dl class="xsd-pl-summary --detail">
-                                <dt class="session"><i class="fa fa-map-marker fa-fw"></i></dt>
-                                <dd>{{ pl.session }}</dd>
-                                <dt class="instructor"><i class="fa fa-user fa-fw"></i></dt>
-                                <dd>{{ pl.instructor }}</dd>
-                                {% if state.0 != "PLANNED" %}
-                                    <dt class="notes-public"><i class="fa fa-unlock fa-fw"></i></dt>
-                                    <dd>{{ pl.public_notes }}</dd>
-                                    <dt class="notes-private"><i class="fa fa-lock fa-fw"></i></dt>
-                                    <dd>{{ pl.private_notes }}</dd>
-                                {% endif %}
-                            </dl>
-                        </div>
-                    </div>
                     </li>
                     {% empty %}
                     <li>No performed lessons</li>

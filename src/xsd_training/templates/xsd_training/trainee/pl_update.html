@@ -9,8 +9,10 @@
                 <dl>
                     <dt>Trainee</dt>
                     <dd>{{ object.trainee.full_name }}</dd>
-{#                    <dt>Created</dt>#}
-{#                    <dd>{{ object.created }}</dd>#}
+                    <dt>Lesson</dt>
+                    <dd>{{ object.lesson }}</dd>
+                    {#                    <dt>Created</dt>#}
+                    {#                    <dd>{{ object.created }}</dd>#}
                 </dl>
 
             {% else %}
@@ -19,6 +21,8 @@
                 <dl>
                     <dt>Trainee</dt>
                     <dd>{{ object.trainee.full_name }}</dd>
+                    <dt>Lesson</dt>
+                    <dd>{{ object.lesson }}</dd>
                 </dl>
             {% endif %}
         </div>
