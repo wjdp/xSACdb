@@ -4,7 +4,8 @@ from django.conf.urls import url
 
 from xsd_frontend.versioning import VersionHistoryView
 from xsd_training.models import TraineeGroup, PerformedSDC, Session
-from xsd_training.views import sessions, sdc, traineegroups, instructor, retro, support, trainee
+from xsd_training.views import sessions, traineegroups, instructor, retro, support, trainee
+from xsd_training.views.sdc import *
 
 urlpatterns = [
     url(r'^$', trainee.overview, name='training-overview'),
@@ -43,19 +44,19 @@ urlpatterns = [
     url(r'^trainee/(?P<t_pk>\d+)/qualification/(?P<pk>\d+)/delete/$', instructor.QualificationDelete.as_view(),
         name='TraineeQualificationDelete'),
 
-    url(r'^sdc/$', sdc.SDCList.as_view(), name='SDCList'),
-    url(r'^sdc/reg-interest/$', sdc.sdc_register_interest, name='sdc_register_interest'),
+    url(r'^sdc/$', SDCList.as_view(), name='SDCList'),
+    url(r'^sdc/reg-interest/$', sdc_register_interest, name='sdc_register_interest'),
 
-    url(r'^sdc/plan/$', sdc.PerformedSDCCreate.as_view(), name='PerformedSDCCreate'),
-    url(r'^sdc/upcoming/$', sdc.PerformedSDCList.as_view(), name='PerformedSDCList'),
-    url(r'^sdc/(?P<pk>\d+)/$', sdc.PerformedSDCDetail.as_view(), name='PerformedSDCDetail'),
-    url(r'^sdc/(?P<pk>\d+)/edit/$', sdc.PerformedSDCUpdate.as_view(), name='PerformedSDCUpdate'),
-    url(r'^sdc/(?P<pk>\d+)/edit/action/(?P<action>\w+)/$', sdc.PerformedSDCAction.as_view(), name='PerformedSDCAction'),
+    url(r'^sdc/plan/$', PerformedSDCCreate.as_view(), name='PerformedSDCCreate'),
+    url(r'^sdc/upcoming/$', PerformedSDCList.as_view(), name='PerformedSDCList'),
+    url(r'^sdc/(?P<pk>\d+)/$', PerformedSDCDetail.as_view(), name='PerformedSDCDetail'),
+    url(r'^sdc/(?P<pk>\d+)/edit/$', PerformedSDCUpdate.as_view(), name='PerformedSDCUpdate'),
+    url(r'^sdc/(?P<pk>\d+)/edit/action/(?P<action>\w+)/$', PerformedSDCAction.as_view(), name='PerformedSDCAction'),
     url(r'^sdc/(?P<pk>\d+)/history/$', VersionHistoryView.as_view(), name='PerformedSDCHistory',
         kwargs={'model': PerformedSDC}),
-    url(r'^sdc/(?P<pk>\d+)/complete/$', sdc.PerformedSDCComplete.as_view(), name='PerformedSDCComplete'),
-    url(r'^sdc/(?P<pk>\d+)/delete/$', sdc.PerformedSDCDelete.as_view(), name='PerformedSDCDelete'),
-    url(r'^sdc/award/$', sdc.SDCAward, name='SDCAward'),
+    url(r'^sdc/(?P<pk>\d+)/complete/$', PerformedSDCComplete.as_view(), name='PerformedSDCComplete'),
+    url(r'^sdc/(?P<pk>\d+)/delete/$', PerformedSDCDelete.as_view(), name='PerformedSDCDelete'),
+    url(r'^sdc/award/$', SDCAward, name='SDCAward'),
 
     url(r'^groups/$', traineegroups.TraineeGroupList.as_view(), name='TraineeGroupList'),
     url(r'^groups/new/$', traineegroups.TraineeGroupCreate.as_view(), name='TraineeGroupCreate'),
