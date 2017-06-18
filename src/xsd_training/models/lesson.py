@@ -1,11 +1,15 @@
 from __future__ import unicode_literals
 
 import datetime
+
 from django.conf import settings
 from django.core.cache import cache
 from django.db import models, transaction
 from django.urls import reverse
 from reversion import revisions as reversion
+
+from xSACdb.roles.functions import is_instructor, is_training
+from xsd_auth.permissions import ModelPermissions, ModelComposeMixin
 
 
 class LessonManager(models.Manager):
@@ -118,8 +122,32 @@ class PerformedLessonManager(models.Manager):
         return pls
 
 
+class PerformedLessonPermissions(ModelPermissions):
+    def can_view(self, user):
+        """Trainee, all instructors and all training officers can view PLs"""
+        return (self.instance.trainee == user.profile) or is_instructor(user) or is_training(user)
+
+    def can_view_private(self, user):
+        """All instructors and training officers can view private notes"""
+        return is_instructor(user) or is_training(user)
+
+    def get_private_notes(self, user):
+        """Proxy method to access private notes"""
+        if self.can_view_private(user):
+            return self.instance.private_notes
+        else:
+            return None
+
+    def can_edit(self, user):
+        """The named instructor and all training officers can edit PLs"""
+        return (self.instance.instructor == user.profile) or is_training(user)
+
+    def can_delete(self, user):
+        return self.can_edit(user)
+
+
 @reversion.register()
-class PerformedLesson(models.Model):
+class PerformedLesson(ModelComposeMixin, models.Model):
     session = models.ForeignKey('Session', blank=True, null=True)
     date = models.DateField(blank=True, null=True)
     lesson = models.ForeignKey('Lesson', blank=True, null=True)
@@ -132,6 +160,11 @@ class PerformedLesson(models.Model):
     private_notes = models.TextField(blank=True)
 
     objects = PerformedLessonManager()
+
+    compose_classes = {
+        'permissions': PerformedLessonPermissions
+    }
+    permissions = None # type: PerformedLessonPermissions
 
     def uid(self):
         return "PL{:0>4d}".format(self.pk)

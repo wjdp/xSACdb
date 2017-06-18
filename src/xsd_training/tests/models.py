@@ -83,6 +83,38 @@ class PerformedLessonTest(BaseTrainingTest, TrainingTestToolsMixin):
         # Add another OD and complete it, is lower ranked so should not change
         self.assertEqual(trainee.training_for, self.SD)
 
+    def test_pl_trainee_permissions(self):
+        pl = self.create_basic_pl()
+        user = pl.trainee.user
+        self.assertTrue(pl.permissions.can_view(user))
+        self.assertFalse(pl.permissions.can_view_private(user))
+        self.assertFalse(pl.permissions.can_edit(user))
+        self.assertFalse(pl.permissions.can_delete(user))
+
+    def test_pl_instructor_permissions(self):
+        pl = self.create_pl()
+        user = pl.instructor.user
+        self.assertTrue(pl.permissions.can_view(user))
+        self.assertTrue(pl.permissions.can_view_private(user))
+        self.assertTrue(pl.permissions.can_edit(user))
+        self.assertTrue(pl.permissions.can_delete(user))
+
+    def test_pl_other_instructor_permissions(self):
+        pl = self.create_pl()
+        user = self.get_instructor().user
+        self.assertTrue(pl.permissions.can_view(user))
+        self.assertTrue(pl.permissions.can_view_private(user))
+        self.assertFalse(pl.permissions.can_edit(user))
+        self.assertFalse(pl.permissions.can_delete(user))
+
+    def test_pl_training_officer_permissions(self):
+        pl = self.create_pl()
+        user = self.get_training_officer().user
+        self.assertTrue(pl.permissions.can_view(user))
+        self.assertTrue(pl.permissions.can_view_private(user))
+        self.assertTrue(pl.permissions.can_edit(user))
+        self.assertTrue(pl.permissions.can_delete(user))
+
 
 class PerformedLessonManagerTest(BaseTrainingTest, TrainingTestToolsMixin):
     def setUp(self):

@@ -17,6 +17,8 @@ class RequireGroup(object):
 
 
 class RequirePermission(object):
+    # TODO This is the old version of RequirePermission where model has permission functions.
+    # TODO New version lives in xsd_auth.permissions
     def get_permission_object(self):
         """Object to check permission against"""
         return self.get_object()
