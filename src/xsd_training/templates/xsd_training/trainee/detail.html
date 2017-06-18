@@ -112,21 +112,6 @@
                         </div>
                     </td>
                 </tr>
-                <tr>
-                    <th>Instructor</th>
-                    <td>{% if trainee.top_instructor_qual %}<i class="fa fa-check"></i>{% else %}
-                        <i class="fa fa-remove"></i>{% endif %}
-                        <div class="hidden-section">
-                            <div class="hidden-section-button"><i class="fa fa-plus"></i></div>
-                            <div class="hidden-section-actual">
-                                <form action="{% url 'xsd_training:TraineeNotesSet' trainee.pk %}" method="GET">
-                                    {{ instructor_form.as_p }}
-                                    <input type="submit" value="Set"/>
-                                </form>
-                            </div>
-                        </div>
-                    </td>
-                </tr>
                 {% if trainee.top_instructor_qual or not myself %}
                     <tr>
                         <th>I. Qualification</th>

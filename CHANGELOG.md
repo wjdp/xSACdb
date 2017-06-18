@@ -9,6 +9,9 @@ xSACdb instances. This project will soon adhere to [Semantic Versioning](http://
 ### Added
 - Version inspection API endpoint. Allows checking the version of instances programmatically.
 
+### Removed
+- Instructor qualification 'setter' on trainee notes view. All qualifications go through the 'Award New Qualification' form.
+
 
 ## [0.5.3] - 2017-06-18
 
