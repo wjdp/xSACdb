@@ -2,6 +2,7 @@
 {% load staticfiles %}
 
 {% block training_content %}
+    <div class="row">
     <div class="col-lg-4">
         <h2>{{ psdc.sdc.title }}</h2>
         <p>This skill development course is planned for {{ psdc.datetime }}</p>
@@ -39,21 +40,21 @@
         {% endif %}
     </div>
     {% if is_training %}
-        <div class="col-md-12 >
-<div class=" form-actions">
-        {% if not psdc.completed %}
-            <a class="btn btn-secondary" href="{% url 'xsd_training:PerformedSDCUpdate' psdc.pk %}"><i
-                    class="fa fa-pencil"></i> Edit</a>
-        {% endif %}
-        <a class="btn btn-secondary" href="{% url 'xsd_training:PerformedSDCHistory' psdc.pk %}"><i
-                class="fa fa-history"></i> History</a>
-        <div class="btn-group pull-right">
-            <a class="btn btn-danger" href="{% url 'xsd_training:PerformedSDCDelete' psdc.pk %}"><i
-                    class="fa fa-remove"></i> Cancel Course</a>
-            <a class="btn btn-success" href="{% url 'xsd_training:PerformedSDCComplete' psdc.pk %}"><i
-                    class="fa fa-ok"></i> Complete Course</a>
-        </div>
+        <div class="col-md-12">
+        <div class="form-actions">
+            {% if not psdc.completed %}
+                <a class="btn btn-secondary" href="{% url 'xsd_training:PerformedSDCUpdate' psdc.pk %}"><i
+                        class="fa fa-pencil"></i> Edit</a>
+            {% endif %}
+            <a class="btn btn-secondary" href="{% url 'xsd_training:PerformedSDCHistory' psdc.pk %}"><i
+                    class="fa fa-history"></i> History</a>
+            <div class="btn-group pull-right">
+                <a class="btn btn-danger" href="{% url 'xsd_training:PerformedSDCDelete' psdc.pk %}"><i
+                        class="fa fa-remove"></i> Cancel Course</a>
+                <a class="btn btn-success" href="{% url 'xsd_training:PerformedSDCComplete' psdc.pk %}"><i
+                        class="fa fa-ok"></i> Complete Course</a>
+            </div>
         </div>
     {% endif %}
-
+    <div class="row">
 {% endblock %}

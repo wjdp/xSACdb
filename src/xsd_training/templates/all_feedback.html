@@ -1,20 +1,21 @@
 {% extends 'training_template.html' %}
 {% block training_content %}
-
-<div class="col-md-12">
-<h1>All Lesson Feedback</h1>
-{% if pls %}
-    {% for pl in pls %}
-    <div class="feedback-inv">
-    <h2 class="feedback-lesson"><strong>{{pl.lesson}}</strong>
-    {{pl.get_date}}</h2>
-    <p>{{pl.public_notes}}</p>
-    <p>{{pl.instructor.get_full_name}}</p>
+    <div class="row">
+        <div class="col-md-12">
+            <h1>All Lesson Feedback</h1>
+            {% if pls %}
+                {% for pl in pls %}
+                    <div class="feedback-inv">
+                        <h2 class="feedback-lesson"><strong>{{ pl.lesson }}</strong>
+                            {{ pl.get_date }}</h2>
+                        <p>{{ pl.public_notes }}</p>
+                        <p>{{ pl.instructor.get_full_name }}</p>
+                    </div>
+                {% endfor %}
+            {% else %}
+                <p>Sorry but either you havent done any lessons yet, or your instructors haven't given you any
+                    feedback.</p>
+            {% endif %}
+        </div>
     </div>
-    {% endfor %}
-{% else %}
-<p>Sorry but either you havent done any lessons yet, or your instructors haven't given you any feedback.</p>
-{% endif %}
-</div>
-
 {% endblock %}

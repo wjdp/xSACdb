@@ -35,24 +35,6 @@ def lessons(request):
 
 
 @require_verified
-def lesson_detail(request, id):
-    lesson = get_object_or_404(Lesson, id=id)
-    ui = xsdUI
-    ui.app = 'training'
-    ui.page = 'my_lessons'
-    ui.section = 'my'
-    try:
-        pls = PerformedLesson.objects.filter(trainee=request.user.memberprofile, lesson=lesson).order_by('date')
-    except PerformedLesson.DoesNotExist:
-        pl = None
-    return render(request, 'lesson_detail.html', {
-        'lesson': lesson,
-        'pls': pls,
-        'ui': ui,
-    })
-
-
-@require_verified
 def all_feedback(request):
     ui = xsdUI
     ui.app = 'training'

@@ -1,14 +1,12 @@
 from __future__ import unicode_literals
 
-from django.contrib import messages
 from django.db.models import Q
 from django.http import HttpResponse
 from django.shortcuts import render, get_object_or_404, redirect
-from django.template import RequestContext
-from django.views.generic import DetailView, CreateView, UpdateView, DeleteView
+from django.views.generic import DetailView
 
 from xSACdb.roles.decorators import require_instructor, require_training_officer
-from xSACdb.roles.mixins import RequireInstructor, RequireTrainingOfficer
+from xSACdb.roles.mixins import RequireInstructor
 from xSACdb.views import OrderedListView
 from xsd_training.forms import *
 
@@ -40,17 +38,18 @@ def InstructorUpcoming(request):
         'upcoming_sessions': upcoming_sessions
     })
 
+
 class TraineeNotesSearch(RequireInstructor, OrderedListView):
     model = MemberProfile
-    template_name= 'xsd_training/trainee/search.html'
-    context_object_name='trainees'
-    order_by='last_name'
+    template_name = 'xsd_training/trainee/search.html'
+    context_object_name = 'trainees'
+    order_by = 'last_name'
 
     def get_queryset(self):
         queryset = super(TraineeNotesSearch, self).get_queryset()
         if 'q' in self.request.GET:
-            name=self.request.GET['q']
-            queryset=queryset.filter(
+            name = self.request.GET['q']
+            queryset = queryset.filter(
                 Q(last_name__icontains=name) |
                 Q(first_name__icontains=name)
             )
@@ -135,56 +134,3 @@ def trainee_notes_set(request, pk):
         return redirect(reverse('xsd_training:TraineeNotes', kwargs={'pk': pk}))
     else:
         return HttpResponse('No field specified')
-
-
-class TraineeFormMixin(object):
-    def get_trainee(self):
-        return MemberProfile.objects.get(pk=self.kwargs['t_pk'])
-
-    def get_context_data(self, **kwargs):
-        context = super(TraineeFormMixin, self).get_context_data(**kwargs)
-        context['trainee'] = self.get_trainee()
-        return context
-
-    def get_success_url(self):
-        return '{}#qualification-list'.format(
-            reverse('xsd_training:TraineeNotes', kwargs={'pk': self.get_trainee().pk}))
-
-
-class QualificationCreate(RequireTrainingOfficer, TraineeFormMixin, CreateView):
-    model = PerformedQualification
-    form_class = PerformedQualificationForm
-    template_name = 'xsd_training/trainee/qualification_form.html'
-
-    def form_valid(self, form):
-        """
-        If the form is valid, save the associated model.
-        """
-        self.object = form.save(commit=False)
-        self.get_trainee().award_qualification(self.object, actor=self.request.user)
-
-        messages.add_message(self.request, messages.SUCCESS,
-                             '{} awarded to {}'.format(self.object.qualification, self.get_trainee().full_name))
-
-        return super(QualificationCreate, self).form_valid(form)
-
-
-class QualificationUpdate(RequireTrainingOfficer, TraineeFormMixin, UpdateView):
-    model = PerformedQualification
-    fields = ['mode', 'xo_from', 'signed_off_on', 'signed_off_by', 'notes', ]
-    template_name = 'xsd_training/trainee/qualification_form.html'
-    
-    def form_valid(self, form):
-        messages.add_message(self.request, messages.SUCCESS,
-                             '{} updated on {}'.format(self.get_object().qualification, self.get_trainee().full_name))
-        return super(QualificationUpdate, self).form_valid(form)
-
-
-class QualificationDelete(RequireTrainingOfficer, TraineeFormMixin, DeleteView):
-    model = PerformedQualification
-    template_name = 'base/delete.html'
-    
-    def delete(self, request, *args, **kwargs):
-        messages.add_message(self.request, messages.ERROR,
-                             '{} removed from {}'.format(self.get_object().qualification, self.get_trainee().full_name))
-        return super(QualificationDelete, self).delete(request, args, kwargs)

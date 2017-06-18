@@ -4,11 +4,13 @@ from allauth.account.views import password_change
 from allauth.socialaccount.views import connections
 from django.conf import settings
 from django.contrib.auth import authenticate
+from django.core.exceptions import PermissionDenied
 from django.test import TestCase
 from faker import Factory
 
 from xSACdb.test_helpers import BaseTest, ViewTestMixin
 from xsd_auth.models import User
+from xsd_auth.permissions import RequireAllowed, RequireObjectPermission
 from xsd_members.models import MemberProfile
 
 
@@ -103,3 +105,81 @@ class SocialAccountConnectionsViewTest(ViewTestMixin, BaseTest):
     url_name = 'xsd_auth:socialaccount_connections'
     template_name = 'socialaccount/connections.html'
     allowed_unverified = True
+
+
+class RequireAllowedTest(TestCase):
+    class BaseView(object):
+        def dispatch(self, request, *args, **kwargs):
+            return "Hello"
+
+    class RequireAllowedTestImplementation(RequireAllowed, BaseView):
+        def is_allowed(self, user):
+            return user.first_name == "Fred"
+
+    class DummyUser(object):
+        first_name = "Alice"
+
+    class DummyRequest(object):
+        user = None
+
+    def test_not_allowed(self):
+        view = self.RequireAllowedTestImplementation()
+        request = self.DummyRequest()
+        request.user = self.DummyUser()
+        with self.assertRaises(PermissionDenied):
+            view.dispatch(request)
+
+    def test_allowed(self):
+        view = self.RequireAllowedTestImplementation()
+        request = self.DummyRequest()
+        request.user = self.DummyUser()
+        request.user.first_name = "Fred"
+
+        self.assertEqual(view.dispatch(request), "Hello")
+
+
+class RequireObjectPermissionTest(TestCase):
+    class BaseView(object):
+        def dispatch(self, request, *args, **kwargs):
+            return "Hello"
+
+    class DummyPermissions(object):
+        def __init__(self, instance):
+            self.instance = instance
+
+        def can_test(self, user):
+            # The user's first name must match the name of the model
+            return self.instance.name == user.first_name
+
+    class DummyModel(object):
+        name = "Fred"
+
+        def __init__(self):
+            self.permissions = RequireObjectPermissionTest.DummyPermissions(self)
+
+    class RequireObjectPermissionTestImplementation(RequireObjectPermission, BaseView):
+        def get_object(self):
+            return RequireObjectPermissionTest.DummyModel()
+
+        permission = 'can_test'
+
+    class DummyUser(object):
+        first_name = "Alice"
+
+    class DummyRequest(object):
+        user = None
+
+    def test_not_allowed(self):
+        view = self.RequireObjectPermissionTestImplementation()
+        request = self.DummyRequest()
+        request.user = self.DummyUser()
+        with self.assertRaises(PermissionDenied):
+            view.dispatch(request)
+
+    def test_allowed(self):
+        view = self.RequireObjectPermissionTestImplementation()
+        request = self.DummyRequest()
+        request.user = self.DummyUser()
+        request.user.first_name = "Fred"
+
+        self.assertEqual(view.dispatch(request), "Hello")

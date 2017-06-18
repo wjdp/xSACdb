@@ -1,0 +1,49 @@
+// A list of Performed Lessons for a single Lesson
+
+.xsd-pl-list
+    @include list-unstyled
+
+    .pl
+        clear: both
+        margin-bottom: 1rem
+
+    .pl-header
+        padding: 0.25rem 0.5rem
+
+        font-weight: bold
+
+        .pl-controls
+            float: right
+
+    .pl-body
+        padding: 0
+
+    .pl--PLANNED
+        .pl-header
+            background: $color-pl-PLANNED
+
+    .pl--PARTIAL
+        .pl-header
+            background: $color-pl-PARTIAL
+
+    .pl--YES
+        .pl-header
+            background: $color-pl-YES
+
+    // TODO The PL 'summary' styling here is to style a <dl> to fill a container, should generalise
+    .xsd-pl-summary
+        margin-bottom: 0
+        $left-col: 1.5em
+
+        dd, dt
+            padding: 0.5em
+
+        dd
+            padding-left: $left-col
+            margin-bottom: 0
+            border-bottom: 1px solid $gray-lighter
+
+            &:last-child
+                border-bottom: none
+
+

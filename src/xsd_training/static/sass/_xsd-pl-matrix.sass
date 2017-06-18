@@ -1,16 +1,14 @@
-$color-pl-NO: #eee
-$color-pl-PLANNED: #89d5db
-$color-pl-PARTIAL: $brand-warning
-$color-pl-YES: $brand-success
-
-@mixin pl-matrix-state-bg($bg)
-  background: $bg
-  &:hover
-    background: darken($bg, 6%)
-
 .xsd-pl-matrix
   th, tr
     padding: 0.25rem
+
+  td
+    cursor: pointer
+
+  a
+    text-decoration: none
+    color: $body-color
+    pointer-events: none
 
   .completed
     background: $brand-success
@@ -23,16 +21,18 @@ $color-pl-YES: $brand-success
     td
       font-size: 0.7rem
 
-  td
-    cursor: pointer
+  @mixin pl-matrix-state-bg($bg)
+    background: $bg
+    &:hover
+      background: darken($bg, 6%)
 
-  .state--NO
+  .--state-NO
     @include pl-matrix-state-bg($color-pl-NO)
-  .state--PLANNED
+  .--state-PLANNED
     @include pl-matrix-state-bg($color-pl-PLANNED)
-  .state--PARTIAL
+  .--state-PARTIAL
     @include pl-matrix-state-bg($color-pl-PARTIAL)
-  .state--YES
+  .--state-YES
     @include pl-matrix-state-bg($color-pl-YES)
 
 
@@ -44,17 +44,17 @@ $color-pl-YES: $brand-success
     // Need to be a bit wider for these states
     min-width: 32em
 
-  .state--NO
-    background: $color-pl-NO
-  .state--PLANNED
-    background: $color-pl-PLANNED
-  .state--PARTIAL
-    background: $color-pl-PARTIAL
-  .state--YES
-    background: $color-pl-YES
-
   // Content is xsd-pl-summary
   .popover-content
     display: flex
     & > *
       min-width: 40%
+
+  &.--state-NO .popover-title
+    background: $color-pl-NO
+  &.--state-PLANNED .popover-title
+    background: $color-pl-PLANNED
+  &.--state-PARTIAL .popover-title
+    background: $color-pl-PARTIAL
+  &.--state-YES .popover-title
+    background: $color-pl-YES

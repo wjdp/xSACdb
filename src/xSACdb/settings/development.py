@@ -120,7 +120,7 @@ EMAIL_FILE_PATH = 'tmp/emails/' # change this to a proper location
 ACCOUNT_DEFAULT_HTTP_PROTOCOL = 'http'
 
 # django-geoposition dummy API key
-GEOPOSITION_GOOGLE_MAPS_API_KEY = 'dummy'
+GEOPOSITION_GOOGLE_MAPS_API_KEY = 'AIzaSyDZVX7SCc4sZ67FngboxjR4VYbbiqMG1pg'
 
 # Override any with local_settings.py
 try:

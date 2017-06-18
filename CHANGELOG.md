@@ -4,6 +4,16 @@ All notable changes to this project will be documented in this file. Notes shoul
 xSACdb instances. This project will soon adhere to [Semantic Versioning](http://semver.org/).
 
 
+## [0.5.3] - 2017-06-18
+
+### Added
+- #308 Add modal detail view for lessons to trainee notes view. Allow adding, editing and deleting performed lessons from trainee notes view.
+
+## Changes
+- The trainee's lesson detail view uses the same template as the new modal detail view.
+- The Django admin site shows the club name in the header in the same style as the server's shell.
+
+
 ## [0.5.2] - 2017-05-20
 
 ### Fixes

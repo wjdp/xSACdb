@@ -3,13 +3,13 @@
 {% load widget_tweaks %}
 
 {% block training_content %}
-
-    <div class="col">
-        <h1>Trainee Groups</h1>
-        <form action="" method="post">{% csrf_token %}
-            {% include 'forms/field.html' with field=form.name %}
-            <button type="submit" class="btn btn-primary alignright">Create</button>
-        </form>
+    <div class="row">
+        <div class="col">
+            <h1>Trainee Groups</h1>
+            <form action="" method="post">{% csrf_token %}
+                {% include 'forms/field.html' with field=form.name %}
+                <button type="submit" class="btn btn-primary alignright">Create</button>
+            </form>
+        </div>
     </div>
-
 {% endblock %}

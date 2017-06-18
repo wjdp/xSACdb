@@ -1,5 +1,5 @@
 <!---->
-<td class="state--{{ state.0 }}" data-toggle="popover" data-placement="bottom"
+<td id="{{ lesson.pk }}" class="--state-{{ state.0 }}" data-toggle="popover" data-placement="bottom"
     title="{{ lesson.title }}" data-html=true data-trigger="hover"
     data-content='{% if state.0 == "NO" %}Lesson not planned{% else %}
     <dl class="xsd-pl-summary --detail">
@@ -16,14 +16,17 @@
     <dd>{{ pl_latest.public_notes }}</dd>
     <dt class="notes-private"><i class="fa fa-lock fa-fw"></i></dt>
     <dd>{{ pl_latest.private_notes }}</dd>
-    </dl>{% endif %}
+    </dl>
+    {% endif %}
     {% endif %}'
     data-template='<div class="popover xsd-pl-matrix-popover --state-{{ state.0 }}" role="tooltip">
     <div class="popover-arrow"></div>
-    <h3 class="popover-title state--{{ state.0 }}"></h3>
+    <h3 class="popover-title"></h3>
     <div class="popover-content"></div>
     </div>'>
-    {{ lesson.short }}
+    <a href="{% url 'xsd_training:TraineeLessonDetail' trainee.pk lesson.pk %}"
+       data-toggle="modal" data-target=".xsd-lesson-modal" data-state="{{ state.0 }}" data-pk={{ lesson.pk }}>
+        {{ lesson.short }}</a>
 </td>
 
 
