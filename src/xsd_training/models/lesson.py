@@ -164,6 +164,7 @@ class PerformedLesson(ModelComposeMixin, models.Model):
     compose_classes = {
         'permissions': PerformedLessonPermissions
     }
+    permissions = None # type: PerformedLessonPermissions
 
     def uid(self):
         return "PL{:0>4d}".format(self.pk)

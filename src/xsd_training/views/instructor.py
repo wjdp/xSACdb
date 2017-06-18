@@ -8,9 +8,9 @@ from django.shortcuts import render, get_object_or_404, redirect
 from django.views.generic import DetailView, CreateView, UpdateView, DeleteView
 
 from xSACdb.roles.decorators import require_instructor, require_training_officer
-from xSACdb.roles.functions import is_instructor
 from xSACdb.roles.mixins import RequireInstructor, RequireTrainingOfficer
 from xSACdb.views import OrderedListView
+from xsd_auth.permissions import RequireObjectPermission, RequireAllowed
 from xsd_training.forms import *
 
 
@@ -153,10 +153,20 @@ class TraineeViewMixin(object):
             raise PermissionDenied
 
 
-class LessonDetail(TraineeViewMixin, DetailView):
+class LessonDetail(RequireAllowed, TraineeViewMixin, DetailView):
     model = Lesson
+    permission = 'can_view'
     context_object_name = 'lesson'
     template_name = 'xsd_training/trainee/lesson_detail.html'
+
+    def is_allowed(self, user):
+        # Trainee may view their lessons
+        if self.get_trainee().user == user:
+            return True
+        # Instructors and training officers may view all
+        elif is_instructor(user) or is_training(user):
+            return True
+        return False
 
     def get_context_data(self, **kwargs):
         context = super(LessonDetail, self).get_context_data(**kwargs)
@@ -204,15 +214,17 @@ class PerformedLessonCreate(RequireInstructor, PerformedLessonFormMixin, CreateV
         return super(PerformedLessonCreate, self).form_valid(form)
 
 
-class PerformedLessonUpdate(RequireInstructor, PerformedLessonFormMixin, UpdateView):
+class PerformedLessonUpdate(RequireObjectPermission, PerformedLessonFormMixin, UpdateView):
     model = PerformedLesson
+    permission = 'can_edit'
     template_name = 'xsd_training/trainee/pl_form.html'
     fields = ['session', 'date', 'instructor', 'completed', 'partially_completed', 'public_notes',
               'private_notes', ]
 
 
-class PerformedLessonDelete(RequireTrainingOfficer, PerformedLessonFormMixin, DeleteView):
+class PerformedLessonDelete(RequireObjectPermission, PerformedLessonFormMixin, DeleteView):
     model = PerformedLesson
+    permission = 'can_delete'
 
     def delete(self, request, *args, **kwargs):
         messages.add_message(self.request, messages.ERROR,
@@ -257,7 +269,6 @@ class QualificationUpdate(RequireTrainingOfficer, QualificationFormMixin, Update
 
 class QualificationDelete(RequireTrainingOfficer, QualificationFormMixin, DeleteView):
     model = PerformedQualification
-    template_name = 'base/delete.html'
 
     def delete(self, request, *args, **kwargs):
         messages.add_message(self.request, messages.ERROR,
