@@ -79,7 +79,7 @@
             {% pl_matrix trainee %}
             {% if is_training %}
                 <a href="{% url 'xsd_training:RetroAddLessons' %}?trainee={{ trainee.pk }}&qualification={{ trainee.training_for.pk }}"
-                   class="btn btn-secondary"><i class="fa fa-plus"></i> Retrospectively Add Lessons</a>
+                   class="btn btn-secondary btn-sm"><i class="fa fa-plus"></i> Add Lessons in Bulk</a>
             {% endif %}
         </div>
 
