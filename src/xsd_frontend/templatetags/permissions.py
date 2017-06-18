@@ -1,3 +1,5 @@
+from __future__ import unicode_literals
+
 from django import template
 
 register = template.Library()
@@ -32,10 +34,19 @@ class PermissionNode(template.Node):
 
         content = self.nodelist.render(context)
 
+        # Permissions directly on model
         if hasattr(object_inst, self.permission):
             # check to see if the permissions object has the permissions method
             # provided in the template tag
             perm_func = getattr(object_inst, self.permission)
+            # execute that permissions method
+            if perm_func(user_inst):
+                return content
+        # Permissions on permissions sub-object
+        if hasattr(object_inst, 'permissions'):
+            # check to see if the permissions object has the permissions method
+            # provided in the template tag
+            perm_func = getattr(object_inst.permissions, self.permission)
             # execute that permissions method
             if perm_func(user_inst):
                 return content
