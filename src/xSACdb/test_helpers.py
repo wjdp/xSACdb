@@ -84,7 +84,7 @@ class BaseTest(TestCase):
         return cls.fake.date_time_between(start_date="-99y", end_date="now", tzinfo=None)
 
     @classmethod
-    def create_a_user(cls, password=None):
+    def create_a_user(cls, password=None, verified=False):
         """Make a random user, return them"""
         if password is None:
             password = cls.fake.password()
@@ -95,6 +95,8 @@ class BaseTest(TestCase):
             password=password,
         )
         user.save()
+        if verified:
+            user.profile.approve(bare=True)
         return user
 
     def login(self, c):

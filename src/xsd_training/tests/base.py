@@ -1,3 +1,4 @@
+from xSACdb.roles.groups import GROUP_TRAINING
 from xSACdb.test_helpers import BaseTest, AsGroupMixin
 from xsd_training.models import *
 
@@ -15,7 +16,7 @@ class BaseInstructorTest(BaseTraineeTest):
 
 
 class BaseTrainingTest(AsGroupMixin, BaseTest):
-    GROUPS = [3]
+    GROUPS = [GROUP_TRAINING]
 
 
 class TrainingTestToolsMixin(object):
@@ -61,10 +62,16 @@ class TrainingTestToolsMixin(object):
 
     def get_instructor(self, qualification=None):
         if not qualification: qualification = self.OWI
-        user = self.create_a_user()
+        user = self.create_a_user(verified=True)
         mp = user.get_profile()
-        mp.set_qualification(self.OWI)
+        mp.set_qualification(qualification)
         mp.save()
+        return user.get_profile()
+
+    def get_training_officer(self):
+        user = self.create_a_user(verified=True)
+        user.groups.add(GROUP_TRAINING)
+        user.save()
         return user.get_profile()
 
     def create_basic_pl(self, trainee=None):
@@ -77,7 +84,7 @@ class TrainingTestToolsMixin(object):
 
     def create_pl(self, trainee=None, instructor=None):
         if not trainee: trainee = self.get_trainee()
-        if not instructor: trainee = self.get_instructor()
+        if not instructor: instructor = self.get_instructor()
         pl = PerformedLesson.objects.create(
             trainee=trainee,
             instructor=instructor,
