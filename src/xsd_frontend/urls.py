@@ -19,6 +19,8 @@ urlpatterns = [
 
     url(r'^design/$', design, name='design'),
 
+    url(r'^inspect.json$', inspect_api, name='inspect_api'),
+
     url(r'^favicon\.ico$', favicon_view),
     url(r'manifest\.json$', TemplateView.as_view(
         template_name='browser/manifest.json',

@@ -51,6 +51,7 @@ LOGIN_EXEMPT_URLS = (
     r'^favicon.ico$',
     r'^manifest.json$',
     r'^service-worker.js',
+    r'^inspect.json', # Uses an API key
 )
 
 # Absolute filesystem path to the directory that will hold user-uploaded files.
@@ -246,3 +247,7 @@ PAGINATE_BY = 20
 
 # Browser config
 BROWSER_THEME_COLOUR = "#171f26"
+
+# Inspect API
+INSPECT_API_KEY_HASH = "033be85008caa4f26e04df5da463ee92218e4ff3bbf6565b4cee51abb0b0e973"
+INSPECT_API_KEY_SALT = "EMQ2b6iDt96N"
