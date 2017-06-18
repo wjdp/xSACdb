@@ -3,9 +3,7 @@ from __future__ import unicode_literals
 from django.conf.urls import url
 
 from xsd_frontend.versioning import VersionHistoryView
-from xsd_training.models import TraineeGroup, PerformedSDC, Session
-from xsd_training.views import sessions, traineegroups, instructor, retro, support, trainee
-from xsd_training.views.sdc import *
+from xsd_training.views import *
 
 urlpatterns = [
     url(r'^$', trainee.overview, name='training-overview'),
@@ -14,34 +12,34 @@ urlpatterns = [
 
     url(r'^feedback$', trainee.all_feedback, name='all-feedback'),
 
-    url(r'^session/new/$', sessions.SessionCreate.as_view(), name='SessionCreate'),
-    url(r'^session/list/$', sessions.SessionList.as_view(), name='SessionList'),
-    url(r'^session/(?P<pk>\d+)/$', sessions.SessionPlanner.as_view(), name='SessionPlanner'),
+    url(r'^session/new/$', SessionCreate.as_view(), name='SessionCreate'),
+    url(r'^session/list/$', SessionList.as_view(), name='SessionList'),
+    url(r'^session/(?P<pk>\d+)/$', SessionPlanner.as_view(), name='SessionPlanner'),
     url(r'^session/(?P<pk>\d+)/history/$', VersionHistoryView.as_view(), name='SessionHistory',
         kwargs={'model': Session}),
-    url(r'^session/(?P<pk>\d+)/action/(?P<action>\w+)/$', sessions.SessionAction.as_view(), name='SessionAction'),
-    url(r'^session/(?P<pk>\d+)/complete/$', sessions.SessionComplete.as_view(), name='SessionComplete'),
-    url(r'^session/(?P<pk>\d+)/delete/$', sessions.SessionDelete.as_view(), name='SessionDelete'),
+    url(r'^session/(?P<pk>\d+)/action/(?P<action>\w+)/$', SessionAction.as_view(), name='SessionAction'),
+    url(r'^session/(?P<pk>\d+)/complete/$', SessionComplete.as_view(), name='SessionComplete'),
+    url(r'^session/(?P<pk>\d+)/delete/$', SessionDelete.as_view(), name='SessionDelete'),
 
-    url(r'^pool-sheet/$', sessions.pool_sheet, name='PoolSheet'),
-    url(r'^pool-sheet/generate$', sessions.pool_sheet_generate, name='PoolSheetGenerate'),
+    url(r'^pool-sheet/$', pool_sheet, name='PoolSheet'),
+    url(r'^pool-sheet/generate$', pool_sheet_generate, name='PoolSheetGenerate'),
 
-    url(r'^retro/lessons/$', retro.RetroAddLessons.as_view(), name='RetroAddLessons'),
+    url(r'^retro/lessons/$', RetroAddLessons.as_view(), name='RetroAddLessons'),
 
-    url(r'^teaching/upcoming/$', instructor.InstructorUpcoming, name='InstructorUpcoming'),
+    url(r'^teaching/upcoming/$', InstructorUpcoming, name='InstructorUpcoming'),
 
-    url(r'^trainee/search/$', instructor.TraineeNotesSearch.as_view(), name='TraineeNotesSearch'),
-    url(r'^trainee/(?P<pk>\d+)/$', instructor.TraineeNotes.as_view(), name='TraineeNotes'),
-    url(r'^trainee/(?P<t_pk>\d+)/lesson/(?P<pk>\d+)/$', instructor.LessonDetail.as_view(), name='TraineeLessonDetail'),
-    url(r'^trainee/(?P<t_pk>\d+)/lesson/(?P<l_pk>\d+)/new/$', instructor.PerformedLessonCreate.as_view(), name='TraineePerformedLessonCreate'),
-    url(r'^trainee/(?P<t_pk>\d+)/lesson/(?P<l_pk>\d+)/(?P<pk>\d+)/$', instructor.PerformedLessonUpdate.as_view(), name='TraineePerformedLessonUpdate'),
-    url(r'^trainee/(?P<t_pk>\d+)/lesson/(?P<l_pk>\d+)/(?P<pk>\d+)/delete/$', instructor.PerformedLessonDelete.as_view(), name='TraineePerformedLessonDelete'),
-    url(r'^trainee/(?P<pk>\d+)/set/$', instructor.trainee_notes_set, name='TraineeNotesSet'),
-    url(r'^trainee/(?P<t_pk>\d+)/qualification/new/$', instructor.QualificationCreate.as_view(),
+    url(r'^trainee/search/$', TraineeNotesSearch.as_view(), name='TraineeNotesSearch'),
+    url(r'^trainee/(?P<pk>\d+)/$', TraineeNotes.as_view(), name='TraineeNotes'),
+    url(r'^trainee/(?P<t_pk>\d+)/lesson/(?P<pk>\d+)/$', LessonDetail.as_view(), name='TraineeLessonDetail'),
+    url(r'^trainee/(?P<t_pk>\d+)/lesson/(?P<l_pk>\d+)/new/$', PerformedLessonCreate.as_view(), name='TraineePerformedLessonCreate'),
+    url(r'^trainee/(?P<t_pk>\d+)/lesson/(?P<l_pk>\d+)/(?P<pk>\d+)/$', PerformedLessonUpdate.as_view(), name='TraineePerformedLessonUpdate'),
+    url(r'^trainee/(?P<t_pk>\d+)/lesson/(?P<l_pk>\d+)/(?P<pk>\d+)/delete/$', PerformedLessonDelete.as_view(), name='TraineePerformedLessonDelete'),
+    url(r'^trainee/(?P<pk>\d+)/set/$', trainee_notes_set, name='TraineeNotesSet'),
+    url(r'^trainee/(?P<t_pk>\d+)/qualification/new/$', QualificationCreate.as_view(),
         name='TraineeQualificationCreate'),
-    url(r'^trainee/(?P<t_pk>\d+)/qualification/(?P<pk>\d+)/$', instructor.QualificationUpdate.as_view(),
+    url(r'^trainee/(?P<t_pk>\d+)/qualification/(?P<pk>\d+)/$', QualificationUpdate.as_view(),
         name='TraineeQualificationUpdate'),
-    url(r'^trainee/(?P<t_pk>\d+)/qualification/(?P<pk>\d+)/delete/$', instructor.QualificationDelete.as_view(),
+    url(r'^trainee/(?P<t_pk>\d+)/qualification/(?P<pk>\d+)/delete/$', QualificationDelete.as_view(),
         name='TraineeQualificationDelete'),
 
     url(r'^sdc/$', SDCList.as_view(), name='SDCList'),
@@ -58,18 +56,18 @@ urlpatterns = [
     url(r'^sdc/(?P<pk>\d+)/delete/$', PerformedSDCDelete.as_view(), name='PerformedSDCDelete'),
     url(r'^sdc/award/$', SDCAward, name='SDCAward'),
 
-    url(r'^groups/$', traineegroups.TraineeGroupList.as_view(), name='TraineeGroupList'),
-    url(r'^groups/new/$', traineegroups.TraineeGroupCreate.as_view(), name='TraineeGroupCreate'),
-    url(r'^groups/(?P<pk>\d+)/$', traineegroups.TraineeGroupUpdate.as_view(), name='TraineeGroupUpdate'),
+    url(r'^groups/$', TraineeGroupList.as_view(), name='TraineeGroupList'),
+    url(r'^groups/new/$', TraineeGroupCreate.as_view(), name='TraineeGroupCreate'),
+    url(r'^groups/(?P<pk>\d+)/$', TraineeGroupUpdate.as_view(), name='TraineeGroupUpdate'),
     url(r'^groups/(?P<pk>\d+)/history/$', VersionHistoryView.as_view(), name='TraineeGroupHistory',
         kwargs={'model': TraineeGroup}),
-    url(r'^groups/(?P<pk>\d+)/action/(?P<action>\w+)/$', traineegroups.TraineeGroupAction.as_view(),
+    url(r'^groups/(?P<pk>\d+)/action/(?P<action>\w+)/$', TraineeGroupAction.as_view(),
         name='TraineeGroupAction'),
-    url(r'^groups/(?P<pk>\d+)/delete/$', traineegroups.TraineeGroupDelete.as_view(), name='TraineeGroupDelete'),
+    url(r'^groups/(?P<pk>\d+)/delete/$', TraineeGroupDelete.as_view(), name='TraineeGroupDelete'),
 
-    url(r'^groups/progress/$', traineegroups.TraineeGroupProgress.as_view(), name='TraineeGroupProgress'),
+    url(r'^groups/progress/$', TraineeGroupProgress.as_view(), name='TraineeGroupProgress'),
 
-    url(r'^update-requests/$', support.TrainingUpdateRequestList.as_view(), name='TrainingUpdateRequestList'),
-    url(r'^update-requests/save/$', support.TrainingUpdateRequestRespond.as_view(),
+    url(r'^update-requests/$', TrainingUpdateRequestList.as_view(), name='TrainingUpdateRequestList'),
+    url(r'^update-requests/save/$', TrainingUpdateRequestRespond.as_view(),
         name='TrainingUpdateRequestRespond'),
 ]
