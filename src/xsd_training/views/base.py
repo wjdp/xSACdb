@@ -7,7 +7,10 @@ from xsd_training.forms import *
 
 class TraineeViewMixin(object):
     def get_trainee(self):
-        return MemberProfile.objects.get(pk=self.kwargs['t_pk'])
+        if 't_pk' in self.kwargs:
+            return MemberProfile.objects.get(pk=self.kwargs['t_pk'])
+        else:
+            return self.request.user.profile
 
     def is_allowed(self, user):
         return self.get_trainee() == user.profile or is_instructor(user)

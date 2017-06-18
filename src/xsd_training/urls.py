@@ -8,7 +8,7 @@ from xsd_training.views import *
 urlpatterns = [
     url(r'^$', trainee.overview, name='training-overview'),
     url(r'^lessons/$', trainee.lessons, name='training-lessons'),
-    url(r'^lessons/(?P<id>\d+)/$', trainee.lesson_detail, name='lesson_detail'),
+    url(r'^lessons/(?P<pk>\d+)/$', LessonDetail.as_view(), name='MyLessonDetail'),
 
     url(r'^feedback$', trainee.all_feedback, name='all-feedback'),
 
