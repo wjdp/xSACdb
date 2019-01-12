@@ -1,3 +1,5 @@
+redis==2.10.6
+rq==0.7.1
 CommonMark==0.7.3
 coverage==4.4.1
 diff-match-patch==20121119
@@ -24,7 +26,6 @@ Pillow==4.1.1
 psycopg2==2.7.1
 PyYAML==3.12
 raven==6.1.0
-redis==2.10.5
 requests==2.18.1
 rq-scheduler==0.7.0
 whitenoise==3.3.0

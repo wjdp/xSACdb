@@ -1,6 +1,34 @@
-# Remember to update .gitlab-ci.yml too
-FROM wjdp/xsacdb-image:v0.4.0-1
+FROM debian:stretch-slim
 
+RUN apt-get update -qy
+
+RUN apt-get upgrade -qy
+
+# Locales
+RUN DEBIAN_FRONTEND=noninteractive apt-get install -y locales
+RUN sed -i -e 's/# en_GB.UTF-8 UTF-8/en_GB.UTF-8 UTF-8/' /etc/locale.gen && \
+    echo 'LANG="en_GB.UTF-8"'>/etc/default/locale && \
+    dpkg-reconfigure --frontend=noninteractive locales && \
+    update-locale LANG=en_GB.UTF-8
+ENV LANG en_GB.UTF-8
+
+# System
+RUN apt-get install -qy supervisor build-essential git curl libpq-dev \
+libjpeg-dev imagemagick
+
+# Python
+RUN apt-get install -qy python-virtualenv python-pip python-dev
+
+# Node
+RUN curl -sL https://deb.nodesource.com/setup_6.x | bash
+RUN apt-get install -qy nodejs
+RUN npm install -g bower uglifyjs coffee-script jsonlint gulp-cli
+
+# Ruby
+RUN apt-get install -qy ruby ruby-dev
+RUN gem install bundler sass
+
+# Application
 ENV XSACDB_ENVIRONMENT PRODUCTION
 ENV XSACDB_CONTAINER DOCKER
 
