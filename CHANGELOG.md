@@ -4,10 +4,14 @@ All notable changes to this project will be documented in this file. Notes shoul
 xSACdb instances. This project will soon adhere to [Semantic Versioning](http://semver.org/).
 
 
-## Unreleased
+## [0.6.0] - 2019-01-12
 
 ### Added
 - Version inspection API endpoint. Allows checking the version of instances programmatically.
+
+### Changed
+- Deployment now handled in straight docker (add docker compose to maintain sanity). Dokku support has been removed as it was a PITA.
+- Link for medical form updated to use correct website (http://www.ukdmc.org), they appear to have lost control of their previous domain.
 
 ### Removed
 - Instructor qualification 'setter' on trainee notes view. All qualifications go through the 'Award New Qualification' form.
