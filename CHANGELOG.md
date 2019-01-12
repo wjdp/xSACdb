@@ -4,12 +4,21 @@ All notable changes to this project will be documented in this file. Notes shoul
 xSACdb instances. This project will soon adhere to [Semantic Versioning](http://semver.org/).
 
 
+## Unreleased
+
+### Added
+- Version inspection API endpoint. Allows checking the version of instances programmatically.
+
+### Removed
+- Instructor qualification 'setter' on trainee notes view. All qualifications go through the 'Award New Qualification' form.
+
+
 ## [0.5.3] - 2017-06-18
 
 ### Added
 - #308 Add modal detail view for lessons to trainee notes view. Allow adding, editing and deleting performed lessons from trainee notes view.
 
-## Changes
+### Changes
 - The trainee's lesson detail view uses the same template as the new modal detail view.
 - The Django admin site shows the club name in the header in the same style as the server's shell.
 

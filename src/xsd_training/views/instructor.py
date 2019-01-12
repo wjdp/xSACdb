@@ -95,15 +95,6 @@ class TraineeNotes(RequireInstructor, DetailView):
 def trainee_notes_set(request, pk):
     if 'field' in request.GET:
         trainee_profile = get_object_or_404(MemberProfile, pk=pk)
-        if request.GET['field'] == 'current_qual':
-            if request.GET['qualification'] == "":
-                # Remove all
-                trainee_profile.remove_qualifications()
-            else:
-                # Set qual
-                q = get_object_or_404(Qualification, pk=request.GET['qualification'])
-                trainee_profile.set_qualification(q)
-            trainee_profile.save()
         if request.GET['field'] == 'training_for':
             if request.GET['qualification'] == "":
                 # Remove
@@ -111,16 +102,6 @@ def trainee_notes_set(request, pk):
             else:
                 q = get_object_or_404(Qualification, pk=request.GET['qualification'])
                 trainee_profile.training_for = q
-            trainee_profile.save()
-        if request.GET['field'] == 'instructor_qual':
-            if request.GET['qualification'] == "":
-                # Remove all
-                trainee_profile.remove_qualifications(instructor=True)
-            else:
-                q = get_object_or_404(Qualification, pk=request.GET['qualification'])
-                trainee_profile.set_qualification(q)
-                if request.GET['number'] != "":
-                    trainee_profile.instructor_number = int(request.GET['number'])
             trainee_profile.save()
         if request.GET['field'] == 'sdc':
             sdc = get_object_or_404(SDC, pk=request.GET['sdc'])

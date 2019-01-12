@@ -1,13 +1,17 @@
 from __future__ import unicode_literals
 
+import hashlib
+
 from allauth.account.views import LoginView, SignupView
 from django.conf import settings
-from django.http import HttpResponse
+from django.http import HttpResponse, JsonResponse
 from django.shortcuts import render, redirect
 from django.views.generic import ListView
 
 from forms import UpdateRequestMake, ClassicSignupForm
+from xSACdb.build_info import get_time, PRE_FILE, POST_FILE, DEPLOY_FILE
 from xSACdb.roles.mixins import RequirePreauth
+from xSACdb.version import VERSION
 from xsd_frontend.activity import XSDAction
 
 
@@ -68,6 +72,26 @@ def update_request(request):
 
 def design(request):
     return render(request, 'design.html')
+
+
+def inspect_api(request):
+    """API for showing version and build times of instance. Protected with basic key."""
+    key = request.GET.get('key', None)
+    key_hash = hashlib.sha256('{salt}{key}'.format(salt=settings.INSPECT_API_KEY_SALT, key=key)).hexdigest()
+
+    if key and key_hash == settings.INSPECT_API_KEY_HASH:
+        return JsonResponse({
+            'version_tag': VERSION['tag'],
+            'version_released': VERSION['released'],
+            'build_time_pre': get_time(PRE_FILE),
+            'build_time_post': get_time(POST_FILE),
+            'build_time_deploy': get_time(DEPLOY_FILE),
+        })
+    else:
+        return JsonResponse({
+            'error': True,
+            'message': 'Missing or invalid key',
+        })
 
 
 def handler400(request):

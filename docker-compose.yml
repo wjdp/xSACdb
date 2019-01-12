@@ -1,0 +1,38 @@
+version: '3'
+
+volumes:
+  xsacdb-postgres-data:
+  xsacdb-redis-data:
+
+services:
+  postgres:
+    image: postgres:9.6-alpine
+    volumes:
+      - xsacdb-postgres-data:/var/lib/postgresql/data
+
+  redis:
+    image: redis:5-alpine
+    volumes:
+      - xsacdb-redis-data:/data
+
+  xsacdb-dev:
+    image: xsacdb
+    container_name: xsacdb-dev
+    restart: "no"
+    command: /bin/bash -c "/app/bin/predeploy.sh; /usr/bin/supervisord -c /app/supervisord.conf"
+    volumes:
+      - ~/local/xsacdb/storage/xsacdb-dev/conf:/app/conf
+      - ~/local/xsacdb/storage/xsacdb-dev/media:/app/media
+    depends_on:
+      - postgres
+      - redis
+    links:
+      - postgres
+      - redis
+    ports:
+      - 5000:5000
+    environment:
+      - XSACDB_CONTAINER=DOCKER
+      - DATABASE_URL=postgres://xsacdb_dev:123456@postgres:5432/xsacdb_dev
+      - REDIS_URL=redis:6379
+      - REDIS_KEY_PREFIX=xsacdb-dev

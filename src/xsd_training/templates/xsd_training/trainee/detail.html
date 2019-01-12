@@ -79,7 +79,7 @@
             {% pl_matrix trainee %}
             {% if is_training %}
                 <a href="{% url 'xsd_training:RetroAddLessons' %}?trainee={{ trainee.pk }}&qualification={{ trainee.training_for.pk }}"
-                   class="btn btn-secondary"><i class="fa fa-plus"></i> Retrospectively Add Lessons</a>
+                   class="btn btn-secondary btn-sm"><i class="fa fa-plus"></i> Add Lessons in Bulk</a>
             {% endif %}
         </div>
 
@@ -107,21 +107,6 @@
                                 <form action="{% url 'xsd_training:TraineeNotesSet' trainee.pk %}" method="GET">
                                     {{ training_for_form.as_p }}
                                     <input type="submit" value="Set TF"/>
-                                </form>
-                            </div>
-                        </div>
-                    </td>
-                </tr>
-                <tr>
-                    <th>Instructor</th>
-                    <td>{% if trainee.top_instructor_qual %}<i class="fa fa-check"></i>{% else %}
-                        <i class="fa fa-remove"></i>{% endif %}
-                        <div class="hidden-section">
-                            <div class="hidden-section-button"><i class="fa fa-plus"></i></div>
-                            <div class="hidden-section-actual">
-                                <form action="{% url 'xsd_training:TraineeNotesSet' trainee.pk %}" method="GET">
-                                    {{ instructor_form.as_p }}
-                                    <input type="submit" value="Set"/>
                                 </form>
                             </div>
                         </div>

@@ -58,6 +58,7 @@ if 'XSACDB_CONTAINER' in os.environ and os.environ['XSACDB_CONTAINER'] == 'DOCKE
         'default': {
             'BACKEND': 'redis_cache.RedisCache',
             'LOCATION': os.environ['REDIS_URL'],
+            'KEY_PREFIX': os.environ['REDIS_KEY_PREFIX'],
         },
     }
 

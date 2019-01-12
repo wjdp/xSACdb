@@ -17,15 +17,15 @@
                 </tr>
                 {% if is_admin %}
                     <tr>
-                        <th>Pre Time</th>
+                        <th><abbr title="install-pre needs running when dependencies change">Pre Time</abbr></th>
                         <td>{{ build_time_pre }}</td>
                     </tr>
                     <tr>
-                        <th>Post Time</th>
+                        <th><abbr title="install-post needs running when the app's code changes">Post Time</abbr></th>
                         <td>{{ build_time_post }}</td>
                     </tr>
                     <tr>
-                        <th>Deploy Time</th>
+                        <th><abbr title="When this specific instance was deployed">Deploy Time</abbr></th>
                         <td>{{ build_time_deploy }}</td>
                     </tr>
                 {% endif %}
