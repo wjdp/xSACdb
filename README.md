@@ -20,7 +20,7 @@ Requirements
 
 Install
 -------
-xSACdb is a Python web application, it is built on the Django web framework. For production use the only supported deployment method is via Dokku/Docker. See section below.
+xSACdb is a Python web application, it is built on the Django web framework. For production use the only supported deployment method is via Docker. See section below.
 
 Install within a virtualenv container, this isolates the dependencies of xSACdb from the rest of your server. If you know what you're doing this'll get you up and running quickly (config needs doing first):
 
@@ -39,29 +39,4 @@ The application is distributed without any qualifications, lessons or SDCs. I've
 Deployment
 ----------
 
-The only supported deployment method is within a predefined Docker container running on a Dokku server. See http://dokku.viewdocs.io/dokku/ for details about setting up a Dokku server. Run the following on the remote. 
-
-You will need to make a copy of `conf/local_settings.py.example` as `conf/local_settings.py` and define your environment settings and club localisation options.
-
-```
-dokku apps:create xsacdb
-dokku plugin:install https://github.com/dokku/dokku-postgres.git
-dokku postgres:create xsacdb
-dokku postgres:link xsacdb xsacdb
-dokku plugin:install https://github.com/dokku/dokku-redis.git redis
-dokku redis:create xsacdb
-dokku redis:link xsacdb xsacdb
-mkdir -p /storage/xsacdb/conf /storage/xsacdb/media
-dokku storage:mount xsacdb /storage/xsacdb/conf/:/app/conf/
-dokku storage:mount xsacdb /storage/xsacdb/media/:/app/media/
-```
-
-Now on your local machine: obtain the code, add your dokku server as a git remote, and push to deploy.
-
-```
-git clone git@gitlab.com:wjdp/xsacdb.git
-cd xsacdb
-git checkout master
-git remote add deploy dokku@YOUR_DOKKU_SERVER:xsacdb
-git push deploy master
-```
+Deployment via Dokku is no longer supported. See the `docker-compose.yml` file in the repo for an example on how to get a server up. More docs to follow.

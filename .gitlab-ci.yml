@@ -1,4 +1,4 @@
-image: wjdp/xsacdb-image:v0.4.0-1
+image: wjdp/xsacdb:v0.6.0
 
 variables:
   POSTGRES_DB: xsacdb
@@ -97,32 +97,32 @@ test:
   tags:
     - docker
 
-deploy-current:
-  stage: deploy
-  only:
-    - master
-  script:
-    - mkdir -p ~/.ssh
-    - echo "$SSH_PRIVATE_KEY" | tr -d '\r' > ~/.ssh/id_rsa && chmod 600 ~/.ssh/id_rsa
-    - ssh-keyscan -H "$DEPLOY_HOST" >> ~/.ssh/known_hosts
-    - git push dokku@$DEPLOY_HOST:xsacdb-current HEAD:master -f
-  environment:
-    name: xsacdb-current
-    url: https://current.xsacdb.wjdp.uk
-  tags:
-    - docker
-
-deploy-next:
-  stage: deploy
-  only:
-    - develop
-  script:
-    - mkdir -p ~/.ssh
-    - echo "$SSH_PRIVATE_KEY" | tr -d '\r' > ~/.ssh/id_rsa && chmod 600 ~/.ssh/id_rsa
-    - ssh-keyscan -H "$DEPLOY_HOST" >> ~/.ssh/known_hosts
-    - git push dokku@$DEPLOY_HOST:xsacdb-next HEAD:master -f
-  environment:
-    name: xsacdb-next
-    url: https://next.xsacdb.wjdp.uk
-  tags:
-    - docker
+#deploy-current:
+#  stage: deploy
+#  only:
+#    - master
+#  script:
+#    - mkdir -p ~/.ssh
+#    - echo "$SSH_PRIVATE_KEY" | tr -d '\r' > ~/.ssh/id_rsa && chmod 600 ~/.ssh/id_rsa
+#    - ssh-keyscan -H "$DEPLOY_HOST" >> ~/.ssh/known_hosts
+#    - git push dokku@$DEPLOY_HOST:xsacdb-current HEAD:master -f
+#  environment:
+#    name: xsacdb-current
+#    url: https://current.xsacdb.wjdp.uk
+#  tags:
+#    - docker
+#
+#deploy-next:
+#  stage: deploy
+#  only:
+#    - develop
+#  script:
+#    - mkdir -p ~/.ssh
+#    - echo "$SSH_PRIVATE_KEY" | tr -d '\r' > ~/.ssh/id_rsa && chmod 600 ~/.ssh/id_rsa
+#    - ssh-keyscan -H "$DEPLOY_HOST" >> ~/.ssh/known_hosts
+#    - git push dokku@$DEPLOY_HOST:xsacdb-next HEAD:master -f
+#  environment:
+#    name: xsacdb-next
+#    url: https://next.xsacdb.wjdp.uk
+#  tags:
+#    - docker

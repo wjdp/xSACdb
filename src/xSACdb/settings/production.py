@@ -16,7 +16,7 @@ from local_settings import *
 from xSACdb.version import VERSION
 
 # Patch debug apps into staging instances
-# The production settings just mean production or production-like (running on dokku)
+# The production settings just mean production or production-like (running on Docker)
 # Hence the possibility we could be running with DEBUG on.
 if STAGING or DEBUG:
     INSTALLED_APPS = INSTALLED_APPS + (
