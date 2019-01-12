@@ -43,4 +43,5 @@ RUN /app/bin/install-pre.sh
 ADD . /app
 RUN /app/bin/install-post.sh
 
+EXPOSE 5000
 CMD /usr/bin/supervisord -c /app/supervisord.conf
