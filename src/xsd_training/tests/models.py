@@ -219,6 +219,38 @@ class QualificationTest(BaseTrainingTest, TrainingTestToolsMixin):
         self.assertTrue(len(lessons) == 7)
 
 
+class QualificationManagerTest(BaseTrainingTest, TrainingTestToolsMixin):
+    def setUp(self):
+        self.trainingTestToolsSetUp()
+
+    def test_get_active(self):
+        quals = Qualification.objects.get_active()
+        # checking directly results in different objects, just check count and that our excluded one isn't in there
+        self.assertCountEqual(self.ACTIVE_QUALS, quals)
+        self.assertNotIn(self.ODL, quals)
+
+    def test_get_active_training_for(self):
+        trainee = self.get_trainee(self.ODL)
+        trainee.training_for = self.ODL
+        trainee.save()
+
+        quals = Qualification.objects.get_active(trainee)
+        self.assertIn(self.ODL, quals)
+
+    def test_get_active_completed(self):
+        trainee = self.get_instructor(self.ODL) # sets the current qualification correctly
+
+        quals = Qualification.objects.get_active(trainee)
+        self.assertIn(self.ODL, quals)
+
+    def test_get_active_with_pl(self):
+        pl = self.create_basic_pl()
+        pl.lesson = Lesson.objects.get(pk=1000)
+        pl.save()
+
+        quals = Qualification.objects.get_active(pl.trainee)
+        self.assertIn(self.ODL, quals)
+
 # TODO Award Qualifications
 
 class PerformedSDCTest(BaseTraineeTest, TrainingTestToolsMixin):

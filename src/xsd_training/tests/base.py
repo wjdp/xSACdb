@@ -28,6 +28,7 @@ class TrainingTestToolsMixin(object):
     @classmethod
     def trainingTestToolsSetUp(cls):
         cls.OD = Qualification.objects.get(code="OD")
+        cls.ODL = Qualification.objects.get(code="ODL")
         cls.SD = Qualification.objects.get(code="SD")
         cls.DL = Qualification.objects.get(code="DL")
         cls.AD = Qualification.objects.get(code="AD")
@@ -45,6 +46,7 @@ class TrainingTestToolsMixin(object):
 
         cls.INSTRUCTOR_QUALS = [cls.ADI, cls.TI, cls.PI, cls.AOWI, cls.OWI,
                                 cls.AI, cls.NI]
+        cls.ACTIVE_QUALS = cls.PERSONAL_QUALS + cls.INSTRUCTOR_QUALS
 
         cls.OO1 = Lesson.objects.get(code="OO1")
         cls.OO2 = Lesson.objects.get(code="OO2")
