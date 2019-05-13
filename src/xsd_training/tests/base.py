@@ -48,8 +48,8 @@ class TrainingTestToolsMixin(object):
                                 cls.AI, cls.NI]
         cls.ACTIVE_QUALS = cls.PERSONAL_QUALS + cls.INSTRUCTOR_QUALS
 
-        cls.OO1 = Lesson.objects.get(code="OO1")
-        cls.OO2 = Lesson.objects.get(code="OO2")
+        cls.OO1 = Lesson.objects.get(code="OO1", qualification=cls.OD)
+        cls.OO2 = Lesson.objects.get(code="OO2", qualification=cls.OD)
         cls.SO1 = Lesson.objects.get(code="SO1")
 
         cls.BOAT_HANDLING = SDC.objects.get(title="Boat Handling")

@@ -216,7 +216,7 @@ class QualificationTest(BaseTrainingTest, TrainingTestToolsMixin):
     def test_lessons_by_mode(self):
         mode = "TH"
         lessons = self.OD.lessons_by_mode(mode=mode)
-        self.assertTrue(len(lessons) == 7)
+        self.assertTrue(len(lessons) == 6)
 
 
 class QualificationManagerTest(BaseTrainingTest, TrainingTestToolsMixin):
@@ -245,7 +245,7 @@ class QualificationManagerTest(BaseTrainingTest, TrainingTestToolsMixin):
 
     def test_get_active_with_pl(self):
         pl = self.create_basic_pl()
-        pl.lesson = Lesson.objects.get(pk=1000)
+        pl.lesson = Lesson.objects.get(code="OO1", qualification=self.ODL)
         pl.save()
 
         quals = Qualification.objects.get_active(pl.trainee)
