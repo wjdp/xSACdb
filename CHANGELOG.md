@@ -4,6 +4,13 @@ All notable changes to this project will be documented in this file. Notes shoul
 xSACdb instances. This project will soon adhere to [Semantic Versioning](http://semver.org/).
 
 
+## [0.7.0] - 2019-01-12
+
+### Added
+
+- #324 Ability to retire qualifications and lessons (for hiding old OD syllabus for new trainees).
+
+
 ## [0.6.0] - 2019-01-12
 
 ### Added
