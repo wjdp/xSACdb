@@ -1,9 +1,20 @@
 from __future__ import unicode_literals
 
 from django.db import models
+from django.db.models import Q
 from reversion import revisions as reversion
 
 from xsd_training.models import Lesson
+
+
+class QualificationManager(models.Manager):
+    def get_active(self, trainee=None):
+        qs = Q(active=True)
+        if trainee is not None:
+            qs |= Q(performedqualification__trainee=trainee)
+            qs |= Q(q_training_for=trainee)
+            qs |= Q(lesson__performedlesson__trainee=trainee)
+        return self.filter(qs).distinct()
 
 
 class Qualification(models.Model):
@@ -12,6 +23,9 @@ class Qualification(models.Model):
     rank = models.IntegerField()
     definition = models.TextField(blank=True)
     instructor_qualification = models.BooleanField(default=False)
+    active = models.BooleanField(default=True)
+
+    objects = QualificationManager()
 
     def __unicode__(self): return self.title
 

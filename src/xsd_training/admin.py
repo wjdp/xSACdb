@@ -27,7 +27,7 @@ class PerformedQualificationAdmin(CompareVersionAdmin):
 
 
 class QualificationAdmin(ModelAdmin):
-    list_display = ('code', 'title', 'rank', 'instructor_qualification')
+    list_display = ('code', 'title', 'rank', 'instructor_qualification', 'active')
     list_filter = ('instructor_qualification',)
 
 

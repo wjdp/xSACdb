@@ -216,8 +216,40 @@ class QualificationTest(BaseTrainingTest, TrainingTestToolsMixin):
     def test_lessons_by_mode(self):
         mode = "TH"
         lessons = self.OD.lessons_by_mode(mode=mode)
-        self.assertTrue(len(lessons) == 7)
+        self.assertTrue(len(lessons) == 6)
 
+
+class QualificationManagerTest(BaseTrainingTest, TrainingTestToolsMixin):
+    def setUp(self):
+        self.trainingTestToolsSetUp()
+
+    def test_get_active(self):
+        quals = Qualification.objects.get_active()
+        # checking directly results in different objects, just check count and that our excluded one isn't in there
+        self.assertCountEqual(self.ACTIVE_QUALS, quals)
+        self.assertNotIn(self.ODL, quals)
+
+    def test_get_active_training_for(self):
+        trainee = self.get_trainee(self.ODL)
+        trainee.training_for = self.ODL
+        trainee.save()
+
+        quals = Qualification.objects.get_active(trainee)
+        self.assertIn(self.ODL, quals)
+
+    def test_get_active_completed(self):
+        trainee = self.get_instructor(self.ODL) # sets the current qualification correctly
+
+        quals = Qualification.objects.get_active(trainee)
+        self.assertIn(self.ODL, quals)
+
+    def test_get_active_with_pl(self):
+        pl = self.create_basic_pl()
+        pl.lesson = Lesson.objects.get(code="OO1", qualification=self.ODL)
+        pl.save()
+
+        quals = Qualification.objects.get_active(pl.trainee)
+        self.assertIn(self.ODL, quals)
 
 # TODO Award Qualifications
 

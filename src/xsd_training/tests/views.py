@@ -44,7 +44,7 @@ class TrainingLessonsViewTest(TrainingTestToolsMixin, ViewTestMixin, BaseTrainee
     def test_content(self):
         r = self.response
         self.assertContains(r, 'Ocean Diver')
-        self.assertContains(r, 'OT1 - Our Branch and Ocean Diver Training')
+        self.assertContains(r, 'OT1 - Adapting to the underwater world')
 
         # def test_200_no_tf(self):
         #     self.mp.training_for = None

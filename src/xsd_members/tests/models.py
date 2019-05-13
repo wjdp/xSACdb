@@ -45,7 +45,7 @@ class MPExternalFunc(BaseTest):
         PLS = [
             {
                 'trainee': self.mp,
-                'lesson': Lesson.objects.get(code='OO2'),
+                'lesson': Lesson.objects.get(code='OO2', qualification__active=True),
                 'completed': False,
                 'partially_completed': False,
                 'public_notes': 'Note',
@@ -53,7 +53,7 @@ class MPExternalFunc(BaseTest):
             },
             {
                 'trainee': self.mp,
-                'lesson': Lesson.objects.get(code='OO3'),
+                'lesson': Lesson.objects.get(code='OO3', qualification__active=True),
                 'completed': True,
                 'partially_completed': False,
                 'public_notes': 'Note',
@@ -61,7 +61,7 @@ class MPExternalFunc(BaseTest):
             },
             {
                 'trainee': self.mp,
-                'lesson': Lesson.objects.get(code='OO4'),
+                'lesson': Lesson.objects.get(code='OO4', qualification__active=True),
                 'completed': False,
                 'partially_completed': True,
                 'public_notes': 'Note',

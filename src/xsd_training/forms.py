@@ -105,8 +105,14 @@ class TraineeLessonCompletionDateForm(forms.ModelForm):
 
 
 class MiniQualificationForm(forms.Form):
-    qualification = forms.ModelChoiceField(
-        queryset=Qualification.objects.filter(instructor_qualification=False), empty_label="X Remove")
+    def __init__(self, trainee=None, *args, **kwargs):
+        super(MiniQualificationForm, self).__init__(*args, **kwargs)
+        self.fields['qualification'] = forms.ModelChoiceField(
+            queryset=Qualification.objects.get_active(trainee).filter(instructor_qualification=False),
+            empty_label="X Remove")
+
+    # qualification = forms.ModelChoiceField(
+    #     queryset=Qualification.objects.filter(instructor_qualification=False), empty_label="X Remove")
 
 
 class MiniQualificationSetForm(MiniQualificationForm):

@@ -49,8 +49,8 @@ class Command(BaseCommand):
         self.INSTRUCTOR_QUALS = [self.ADI, self.PI, self.TI, self.AOWI, self.OWI,
                                  self.AI, self.NI]
 
-        self.OO1 = Lesson.objects.get(code="OO1")
-        self.OO2 = Lesson.objects.get(code="OO2")
+        self.OO1 = Lesson.objects.get(code="OO1", qualification__active=True)
+        self.OO2 = Lesson.objects.get(code="OO2", qualification__active=True)
         self.SO1 = Lesson.objects.get(code="SO1")
 
         self.BOAT_HANDLING = SDC.objects.get(title="Boat Handling")

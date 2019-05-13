@@ -83,7 +83,7 @@ class TraineeNotes(RequireInstructor, DetailView):
 
         # Forms for trainee updation
         context['current_qual_form'] = MiniQualificationSetForm()
-        context['training_for_form'] = MiniTrainingForSetForm()
+        context['training_for_form'] = MiniTrainingForSetForm(self.get_object())
         context['instructor_form'] = MiniInstructorQualificationSetForm()
         context['sdc_form'] = MiniTraineeSDCAddForm()
 
