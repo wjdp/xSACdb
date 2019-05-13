@@ -28,12 +28,22 @@ class PersonalEditForm(forms.ModelForm):
                 self.fields[field].required = True
 
 
-class WelcomeScreenForm(PersonalEditForm):
+class MemberProfileUpdateForm(PersonalEditForm):
     class Meta:
         model = MemberProfile
-        fields = ['date_of_birth', 'home_phone', 'mobile_phone', 'address', 'postcode',
-                  'veggie', 'alergies', 'next_of_kin_name', 'next_of_kin_relation',
-                  'next_of_kin_phone']
+        fields = [
+            'date_of_birth',
+            'gender',
+            'address',
+            'postcode',
+            'home_phone',
+            'mobile_phone',
+            'next_of_kin_name',
+            'next_of_kin_relation',
+            'next_of_kin_phone',
+            'veggie',
+            'alergies',
+        ]
         widgets = {
             'date_of_birth': forms.TextInput(attrs={'placeholder': 'dd/mm/yyyy', 'class': 'input-block-level'}),
             'address': forms.Textarea(attrs={'rows': 4, 'cols': 11}),

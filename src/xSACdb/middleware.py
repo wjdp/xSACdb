@@ -55,7 +55,7 @@ class NewbieProfileFormRedirectMiddleware:
             return
 
         if (request.user.is_authenticated() and request.user.memberprofile.get_missing_field_list() != []):
-            newbie_form_url = reverse('xsd_members:DynamicUpdateProfile')
+            newbie_form_url = reverse('xsd_members:MemberProfileUpdate')
             if request.path_info != newbie_form_url:
                 return HttpResponseRedirect(newbie_form_url)
         else:
