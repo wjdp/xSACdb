@@ -84,7 +84,7 @@
             </div>
 
             <div>
-                {% if not member.verified %}
+                {% if is_members and not member.verified %}
                     <div class="alert alert-warning">
                         <p><strong><i class="fa fa-flag"></i> This account is new and needs to
                             be verified.</strong></p>
@@ -99,7 +99,7 @@
                     </div>
                 {% endif %}
 
-                {% if member.archived %}
+                {% if is_members and member.archived %}
                     <div class="alert alert-warning">
                         <p><strong><i class="fa fa-archive"></i> {{ member.first_name }}'s record has been
                             archived</strong></p>
