@@ -20,7 +20,7 @@ libjpeg-dev imagemagick
 RUN apt-get install -qy python-virtualenv python-pip python-dev
 
 # Node
-RUN curl -sL https://deb.nodesource.com/setup_6.x | bash
+RUN curl -sL https://deb.nodesource.com/setup_10.x | bash
 RUN apt-get install -qy nodejs
 RUN npm install -g bower uglifyjs coffee-script jsonlint gulp-cli
 
