@@ -40,6 +40,8 @@ ADD bower.json /app/
 ADD package.json /app/
 RUN /app/bin/install-pre.sh
 
+ADD lib /app/lib
+ADD dist /app/dist
 ADD . /app
 RUN /app/bin/install-post.sh
 
