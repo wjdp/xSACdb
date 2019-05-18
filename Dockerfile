@@ -1,8 +1,6 @@
 FROM debian:stretch-slim
 
-RUN apt-get update -qy
-
-RUN apt-get upgrade -qy
+RUN apt-get update && apt-get install -y --no-install-recommends apt-utils
 
 # Locales
 RUN DEBIAN_FRONTEND=noninteractive apt-get install -y locales
@@ -13,19 +11,18 @@ RUN sed -i -e 's/# en_GB.UTF-8 UTF-8/en_GB.UTF-8 UTF-8/' /etc/locale.gen && \
 ENV LANG en_GB.UTF-8
 
 # System
-RUN apt-get install -qy supervisor build-essential git curl libpq-dev \
-libjpeg-dev imagemagick
+RUN apt-get update && apt-get install -qy supervisor build-essential git curl libpq-dev libjpeg-dev imagemagick
 
 # Python
-RUN apt-get install -qy python-virtualenv python-pip python-dev
+RUN apt-get update && apt-get install -qy python-virtualenv python-pip python-dev
 
 # Node
 RUN curl -sL https://deb.nodesource.com/setup_10.x | bash
-RUN apt-get install -qy nodejs
+RUN apt-get update && apt-get install -qy nodejs
 RUN npm install -g bower uglifyjs coffee-script jsonlint gulp-cli
 
 # Ruby
-RUN apt-get install -qy ruby ruby-dev
+RUN apt-get update && apt-get install -qy ruby ruby-dev
 RUN gem install bundler sass
 
 # Application
