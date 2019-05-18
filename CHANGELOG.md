@@ -4,7 +4,7 @@ All notable changes to this project will be documented in this file. Notes shoul
 xSACdb instances. This project will soon adhere to [Semantic Versioning](http://semver.org/).
 
 
-## [0.7.0] - Unreleased
+## [0.7.0] - 2019-05-18
 
 ### Added
 

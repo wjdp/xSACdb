@@ -2,6 +2,6 @@
 # TODO: This really should be automatic
 
 VERSION = {
-    'tag': 'v0.6.0',
-    'released': '2019-01-12',
+    'tag': 'v0.7.0',
+    'released': '2019-05-18',
 }
