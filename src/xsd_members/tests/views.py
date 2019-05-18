@@ -19,9 +19,9 @@ class ProfileEditViewTest(ViewTestMixin, BaseTest):
     allowed_unverified = True
 
 
-class DynamicProfileUpdateFormTest(ViewTestMixin, BaseTest):
-    url_name = 'xsd_members:DynamicUpdateProfile'
-    view = DynamicUpdateProfile
+class MemberProfileUpdateFormTest(ViewTestMixin, BaseTest):
+    url_name = 'xsd_members:MemberProfileUpdate'
+    view = MemberProfileUpdate
     allowed_unverified = True
 
     def test_site_lockout(self):

@@ -78,7 +78,7 @@ class ClassicLogin(TestCase):
         response = c.get(reverse('xsd_frontend:dashboard'))
         self.assertEqual(response.status_code, 302)
         # To update profile view
-        response = c.get(reverse('xsd_members:DynamicUpdateProfile'))
+        response = c.get(reverse('xsd_members:MemberProfileUpdate'))
         self.assertEqual(response.status_code, 200)
         self.assertEqual(response.context['user'], self.user)
 
@@ -90,7 +90,7 @@ class ClassicLogin(TestCase):
         response = c.get(reverse('xsd_frontend:dashboard'))
         self.assertEqual(response.status_code, 302)
         # To update profile view
-        response = c.get(reverse('xsd_members:DynamicUpdateProfile'))
+        response = c.get(reverse('xsd_members:MemberProfileUpdate'))
         self.assertEqual(response.status_code, 200)
         self.assertEqual(response.context['user'], self.user)
 

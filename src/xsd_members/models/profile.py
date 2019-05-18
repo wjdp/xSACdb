@@ -43,7 +43,6 @@ class MemberProfile(MemberProfileStateMixin,
         'gender',
         'address',
         'postcode',
-        'home_phone',
         'mobile_phone',
         'next_of_kin_name',
         'next_of_kin_relation',
@@ -51,6 +50,7 @@ class MemberProfile(MemberProfileStateMixin,
     )
     # Fields shown with above, but as can be blank we can't require them
     OPTIONAL_FIELDS = (
+        'home_phone',
         'veggie',
         'alergies',
     )

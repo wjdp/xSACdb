@@ -10,7 +10,7 @@ urlpatterns = [
     url(r'^profile/$', view_my_profile, name='my-profile'),
     url(r'^profile/edit/$', MyProfileEdit.as_view(), name='MyProfileEdit'),
 
-    url(r'^profile/update/$', DynamicUpdateProfile.as_view(), name='DynamicUpdateProfile'),
+    url(r'^profile/update/$', MemberProfileUpdate.as_view(), name='MemberProfileUpdate'),
 
     url(r'^$', admin, name='members_admin'),
 

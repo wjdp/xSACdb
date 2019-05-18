@@ -34,33 +34,10 @@ def admin(request):
     return redirect(reverse('xsd_members:MemberSearch'))
 
 
-class DynamicUpdateProfile(FormView):
-    template_name = "xsd_members/dynamic_update_profile.html"
+class MemberProfileUpdate(FormView):
+    template_name = "xsd_members/member/update.html"
     success_url = "/"
-
-    def get_form_class(self):
-        # Factory for building form
-        # Build list of fields to ask for
-        req_fields = []
-        for field in self.request.user.profile.get_missing_field_list():
-            req_fields.append(field)
-
-        # Add in optional fields
-        req_fields += list(MemberProfile.OPTIONAL_FIELDS)
-
-        class _DynamicUpdateForm(forms.ModelForm):
-            class Meta:
-                model = MemberProfile
-                fields = req_fields
-
-            def __init__(self, *args, **kwargs):
-                # Set required attrs in required fields
-                super(_DynamicUpdateForm, self).__init__(*args, **kwargs)
-                for key, field in self.fields.iteritems():
-                    if key in MemberProfile.REQUIRED_FIELDS:
-                        field.required = True
-
-        return _DynamicUpdateForm
+    form_class = MemberProfileUpdateForm
 
     def get_form(self, form_class=None):
         if not form_class:
@@ -82,9 +59,9 @@ class DynamicUpdateProfile(FormView):
                 action.set(actor=self.request.user, verb='updated',
                            target=self.request.user.profile, style='mp-dynamic-update')
 
-        messages.add_message(self.request, messages.SUCCESS, settings.CLUB['dynamic_update_profile_success'])
+        messages.add_message(self.request, messages.SUCCESS, settings.CLUB['memberprofile_update_success'])
 
-        return super(DynamicUpdateProfile, self).form_valid(form)
+        return super(MemberProfileUpdate, self).form_valid(form)
 
 
 class MemberSearch(RequireMembersOfficer, OrderedListView):
