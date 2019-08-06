@@ -18,7 +18,7 @@ django-reversion-compare==0.7.5
 django-reversion==2.0.8
 django-rq==0.9.5
 django-widget-tweaks==1.4.1
-Django==1.11.2
+Django==1.11.23
 docutils==0.13.1
 Faker==0.7.17
 gunicorn==19.7.1
