@@ -9,7 +9,6 @@ from django.db import models
 from django.utils.functional import cached_property
 from reversion import revisions as reversion
 
-from xSACdb.cache import ObjectPropertyCacheInvalidationMixin
 from xSACdb.data_helpers import disable_for_loaddata
 from xsd_training.models import PerformedLesson, PerformedQualification
 from .profile_avatar import MemberProfileAvatarMixin
@@ -28,7 +27,6 @@ class MemberProfile(MemberProfileStateMixin,
                     MemberProfileSDCMixin,
                     MemberProfileAvatarMixin,
                     MemberProfileFakeDataMixin,
-                    ObjectPropertyCacheInvalidationMixin,
                     models.Model):
     """Model for representing members of the club, a user account has a O2O
     relationship with this profile. The profile 'should' be able to exist

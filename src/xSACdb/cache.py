@@ -1,4 +1,8 @@
+"""
+TODO: Remove, replace or fix
 
+This module doesn't seem to work with py3. Do we need it? If yes can we use an external package?
+"""
 
 from django.core.cache import cache
 

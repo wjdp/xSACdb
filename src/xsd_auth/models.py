@@ -1,5 +1,3 @@
-
-
 import hashlib
 import random
 import warnings
@@ -12,7 +10,6 @@ from django.contrib.auth.models import UserManager as DJ_UserManager
 from django.db import transaction
 from django.utils.functional import cached_property
 
-from xSACdb.cache import object_cached_property, ObjectPropertyCacheInvalidationMixin
 from xSACdb.roles.groups import GROUP_ADMIN
 
 
@@ -64,7 +61,6 @@ class UserActivityMixin(object):
 
 
 class User(UserActivityMixin,
-           ObjectPropertyCacheInvalidationMixin,
            AbstractUser):
     """User subclass for xSACdb"""
 
@@ -111,7 +107,7 @@ class User(UserActivityMixin,
     def is_email_confirmed(self):
         return EmailAddress.objects.get_primary(self).verified
 
-    @object_cached_property
+    # @object_cached_property
     def group_values(self):
         return list(Group.objects.filter(user=self).values())
 
