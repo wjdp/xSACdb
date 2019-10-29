@@ -1,9 +1,9 @@
-from __future__ import unicode_literals
+
 
 from allauth.account.forms import SignupForm
 from django import forms
 
-from models import UpdateRequest
+from .models import UpdateRequest
 
 
 class UpdateRequestMake(forms.ModelForm):

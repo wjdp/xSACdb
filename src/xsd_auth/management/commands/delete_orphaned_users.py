@@ -18,7 +18,7 @@ class Command(BaseCommand):
             self.stdout.write('{}/{}/{}/{}'.format(u.username, u.email, u.first_name, u.last_name), ending='\n')
 
         self.stdout.write('\n Again that\'s {} orphaned users. Shall we delete them? [y/n]'.format(qs.count()))
-        choice = raw_input().lower()
+        choice = input().lower()
 
         if choice == 'y':
             qs.delete()

@@ -1,4 +1,4 @@
-from __future__ import unicode_literals
+
 
 import hashlib
 import random
@@ -113,7 +113,7 @@ class User(UserActivityMixin,
 
     @object_cached_property
     def group_values(self):
-        return Group.objects.filter(user=self).values()
+        return list(Group.objects.filter(user=self).values())
 
     def profile_image_url(self, size=70, blank=settings.CLUB['gravatar_default']):
         warnings.warn("Stop using user.profile_image_url. Use profile avatar properties.", DeprecationWarning,

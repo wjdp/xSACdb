@@ -27,5 +27,5 @@ class SiteTest(BaseTest):
         )
         site.save()
 
-        self.assertIsInstance(unicode(site), basestring)
-        self.assertEqual(unicode(site), name)
+        self.assertIsInstance(str(site), str)
+        self.assertEqual(str(site), name)

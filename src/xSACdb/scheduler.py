@@ -1,4 +1,4 @@
-from __future__ import unicode_literals
+
 
 import datetime
 from collections import defaultdict
@@ -14,7 +14,7 @@ def init_scheduler():
     jobs = scheduler.get_jobs()
     functions = defaultdict(lambda: list())
 
-    map(lambda x: functions[x.func].append(x.meta.get('interval')), jobs)
+    list(map(lambda x: functions[x.func].append(x.meta.get('interval')), jobs))
 
     now = datetime.datetime.now()
 
@@ -25,7 +25,7 @@ def init_scheduler():
         if not func in functions or not interval in functions[func] \
                 or len(functions[func]) > 1:
             # clear all scheduled jobs for this function
-            map(scheduler.cancel, filter(lambda x: x.func == func, jobs))
+            list(map(scheduler.cancel, [x for x in jobs if x.func == func]))
 
             # schedule with new interval
             scheduler.schedule(now + datetime.timedelta(seconds=interval), func,

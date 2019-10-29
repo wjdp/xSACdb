@@ -1,4 +1,4 @@
-from __future__ import absolute_import, unicode_literals
+
 
 from xSACdb.test_helpers import BaseTest, ViewTestMixin
 from xsd_about.views import *

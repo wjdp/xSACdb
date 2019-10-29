@@ -109,12 +109,12 @@ def page_title(context):
     url_name = get_url_name(context)
     module_nav = get_module_nav_list(namespace, url_name, context.request.user)
     if get_app_title(namespace):
-        return u"{} – {} – {}".format(get_page_title(module_nav, context), get_app_title(namespace),
+        return "{} – {} – {}".format(get_page_title(module_nav, context), get_app_title(namespace),
                                                get_club_name(context))
     elif get_page_title(module_nav, context):
-        return u"{} – {}".format(get_page_title(module_nav, context), get_club_name(context))
+        return "{} – {}".format(get_page_title(module_nav, context), get_club_name(context))
     else:
-        return u"{}".format(get_club_name(context))
+        return "{}".format(get_club_name(context))
 
 
 @register.inclusion_tag('nav/app.html', takes_context=True)

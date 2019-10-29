@@ -1,4 +1,4 @@
-from __future__ import unicode_literals
+
 
 import warnings
 from datetime import date
@@ -124,14 +124,14 @@ class MemberProfile(MemberProfileStateMixin,
     club_expiry = models.DateField(blank=True, null=True)
     club_membership_type = models.ForeignKey('MembershipType', blank=True, null=True)
 
-    bsac_id = models.IntegerField(blank=True, null=True, verbose_name=u'BSAC ID')
-    bsac_expiry = models.DateField(blank=True, null=True, verbose_name=u'BSAC Expiry')
-    bsac_direct_member = models.BooleanField(default=False, verbose_name=u'BSAC Direct Member',
+    bsac_id = models.IntegerField(blank=True, null=True, verbose_name='BSAC ID')
+    bsac_expiry = models.DateField(blank=True, null=True, verbose_name='BSAC Expiry')
+    bsac_direct_member = models.BooleanField(default=False, verbose_name='BSAC Direct Member',
                                              help_text='Adjusts the wording presented to the member when BSAC expires.')
-    bsac_member_via_another_club = models.BooleanField(default=False, verbose_name=u'BSAC member via another club',
+    bsac_member_via_another_club = models.BooleanField(default=False, verbose_name='BSAC member via another club',
                                                        help_text='Adjusts the wording presented to the member when \
                                                        BSAC membership expires.')
-    bsac_direct_debit = models.BooleanField(default=False, verbose_name=u'BSAC Direct Debit')
+    bsac_direct_debit = models.BooleanField(default=False, verbose_name='BSAC Direct Debit')
 
     medical_form_expiry = models.DateField(blank=True, null=True)
 
@@ -292,7 +292,7 @@ class MemberProfile(MemberProfileStateMixin,
 
     def get_full_name(self):
         """Transfer bit"""
-        return u"{} {}".format(self.first_name, self.last_name)
+        return "{} {}".format(self.first_name, self.last_name)
 
     @cached_property
     def full_name(self):

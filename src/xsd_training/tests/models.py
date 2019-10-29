@@ -1,4 +1,4 @@
-from __future__ import unicode_literals
+
 
 from xsd_sites.tests import SiteTestToolsMixin
 from .base import *
@@ -205,8 +205,8 @@ class LessonTest(BaseTrainingTest, TrainingTestToolsMixin):
 
     def test_unicode(self):
         lesson = self.OO1
-        self.assertTrue(lesson.code in unicode(lesson))
-        self.assertTrue(lesson.title in unicode(lesson))
+        self.assertTrue(lesson.code in str(lesson))
+        self.assertTrue(lesson.title in str(lesson))
 
 
 class QualificationTest(BaseTrainingTest, TrainingTestToolsMixin):
@@ -264,7 +264,7 @@ class PerformedSDCTest(BaseTraineeTest, TrainingTestToolsMixin):
         )
         psdc.save()
         psdc.trainees.add(self.get_trainee(), self.get_trainee())
-        self.assertIsInstance(psdc.get_absolute_url(), basestring)
+        self.assertIsInstance(psdc.get_absolute_url(), str)
 
 
 class SessionTest(BaseTraineeTest, TrainingTestToolsMixin, SiteTestToolsMixin):
@@ -295,20 +295,20 @@ class SessionTest(BaseTraineeTest, TrainingTestToolsMixin, SiteTestToolsMixin):
 
     def test_get_absolute_url(self):
         sesh = self.create_session(site=self.create_site())
-        self.assertIsInstance(sesh.get_absolute_url(), basestring)
+        self.assertIsInstance(sesh.get_absolute_url(), str)
 
     def test_unicode(self):
         sesh = Session.objects.create(
             when=self.get_random_date(),
             where=self.create_site()
         )
-        self.assertIsInstance(unicode(sesh), basestring)
-        self.assertTrue(len(unicode(sesh)) > 5)
+        self.assertIsInstance(str(sesh), str)
+        self.assertTrue(len(str(sesh)) > 5)
         sesh.name = "SuperSession"
         sesh.save()
-        self.assertIsInstance(unicode(sesh), basestring)
-        self.assertTrue(len(unicode(sesh)) > 5)
-        self.assertTrue("SuperSession" in unicode(sesh))
+        self.assertIsInstance(str(sesh), str)
+        self.assertTrue(len(str(sesh)) > 5)
+        self.assertTrue("SuperSession" in str(sesh))
 
 
 class TraineeGroupTest(BaseTraineeTest, TrainingTestToolsMixin):
@@ -322,7 +322,7 @@ class TraineeGroupTest(BaseTraineeTest, TrainingTestToolsMixin):
         tg.save()
         tg.trainees.add(trainee1, trainee2)
 
-        self.assertIsInstance(tg.trainees_list(), basestring)
+        self.assertIsInstance(tg.trainees_list(), str)
         self.assertTrue(trainee1.get_full_name() in tg.trainees_list())
         self.assertTrue(trainee2.get_full_name() in tg.trainees_list())
 
@@ -333,7 +333,7 @@ class TraineeGroupTest(BaseTraineeTest, TrainingTestToolsMixin):
         tg.save()
         tg.trainees.add(trainee1, trainee2)
 
-        self.assertIsInstance(tg.trainees_list(), basestring)
+        self.assertIsInstance(tg.trainees_list(), str)
         self.assertTrue(trainee1.get_full_name() in tg.trainees_list())
         self.assertTrue(trainee2.get_full_name() in tg.trainees_list())
         self.assertTrue("<a href=" in tg.trainees_list_with_links())
@@ -353,4 +353,4 @@ class TraineeGroupTest(BaseTraineeTest, TrainingTestToolsMixin):
         tg = TraineeGroup.objects.create(name=name)
         tg.save()
 
-        self.assertEqual(unicode(tg), "TG{:0>4d} {}".format(tg.pk, name))
+        self.assertEqual(str(tg), "TG{:0>4d} {}".format(tg.pk, name))

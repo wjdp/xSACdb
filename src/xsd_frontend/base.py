@@ -3,8 +3,8 @@ from django.views.generic.list import ListView
 
 from django.shortcuts import redirect
 
-from models import UpdateRequest
-from forms import UpdateRequestReply
+from .models import UpdateRequest
+from .forms import UpdateRequestReply
 
 class BaseUpdateRequestList(ListView):
     model=UpdateRequest

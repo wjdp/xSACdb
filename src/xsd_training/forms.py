@@ -1,10 +1,10 @@
-from __future__ import unicode_literals
+
 
 from django import forms
 # from xSACdb.widgets import AdminDateWidget
 from django.contrib.admin.widgets import AdminDateWidget
 
-from models import *
+from .models import *
 from xSACdb.form_fields import UserModelChoiceField
 from xsd_members.models import MemberProfile
 from xsd_training.models import Qualification, SDC

@@ -1,4 +1,4 @@
-from __future__ import absolute_import, unicode_literals
+
 
 from allauth.account.views import password_change
 from allauth.socialaccount.views import connections
@@ -58,7 +58,7 @@ class UserTest(TestCase):
 
     def test_full_name(self):
         user = self.create_user()
-        self.assertEqual(user.get_full_name(), u"{0} {1}".format(
+        self.assertEqual(user.get_full_name(), "{0} {1}".format(
             self.FIRST_NAME, self.LAST_NAME
         ))
 
@@ -84,11 +84,11 @@ class UserTest(TestCase):
 
     def test_profile_image_url(self):
         user = self.create_user()
-        self.assertIsInstance(user.profile_image_url(), basestring)
+        self.assertIsInstance(user.profile_image_url(), str)
 
     def test_unicode(self):
         user = self.create_user()
-        self.assertEqual(unicode(user), user.get_full_name())
+        self.assertEqual(str(user), user.get_full_name())
 
 
 class PasswordChangeViewTest(ViewTestMixin, BaseTest):

@@ -1,4 +1,4 @@
-from __future__ import unicode_literals
+
 
 import datetime
 import random
@@ -118,7 +118,7 @@ class MemberProfileTest(BaseMemberTest, TrainingTestToolsMixin):
         self.setUpTestData()  # Class requires a new member profile for each test so we start with a clean slate
 
     def test_unicode(self):
-        self.assertEqual(unicode(self.mp), u"{} {}".format(self.FIRST_NAME, self.LAST_NAME))
+        self.assertEqual(str(self.mp), "{} {}".format(self.FIRST_NAME, self.LAST_NAME))
 
     def test_award_qualification(self):
         pq = PerformedQualification(
@@ -246,12 +246,12 @@ class MemberProfileTest(BaseMemberTest, TrainingTestToolsMixin):
         self.assertEqual(self.mp.age(), test_age)
 
     def test_formatted_methods(self):
-        self.assertIsInstance(self.mp.formatted_address(), basestring)
-        self.assertIsInstance(self.mp.formatted_other_qualifications(), basestring)
-        self.assertIsInstance(self.mp.formatted_alergies(), basestring)
+        self.assertIsInstance(self.mp.formatted_address(), str)
+        self.assertIsInstance(self.mp.formatted_other_qualifications(), str)
+        self.assertIsInstance(self.mp.formatted_alergies(), str)
 
     def test_heshe(self):
-        self.assertIsInstance(self.mp.heshe(), basestring)
+        self.assertIsInstance(self.mp.heshe(), str)
 
     # TODO fix this test, self.mp seems to be deleted along with the PQs. I cannot reproduce this outside this test so am skipping for now
     # def test_remove_qualifications(self):
@@ -396,7 +396,7 @@ class MembershipTypeTest(BaseTest):
         NAME = self.fake.name()
         a = MembershipType.objects.create(name=NAME)
         a.save()
-        self.assertEqual(a.name, unicode(a))
+        self.assertEqual(a.name, str(a))
 
 
 class MembershipManagerTest(BaseTest):

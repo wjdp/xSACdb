@@ -1,4 +1,4 @@
-from __future__ import unicode_literals
+
 
 from django.apps import AppConfig
 from health_check.plugins import plugin_dir

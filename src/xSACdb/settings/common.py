@@ -1,4 +1,4 @@
-from __future__ import unicode_literals
+
 
 """All settings common to debug and production"""
 

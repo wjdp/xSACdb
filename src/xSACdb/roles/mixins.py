@@ -1,8 +1,8 @@
-from __future__ import unicode_literals
+
 
 from django.core.exceptions import PermissionDenied
 
-from functions import *
+from .functions import *
 
 
 class RequireGroup(object):

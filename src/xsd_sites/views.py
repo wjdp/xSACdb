@@ -1,4 +1,4 @@
-from __future__ import unicode_literals
+
 
 import reversion
 from django.conf import settings
@@ -9,8 +9,8 @@ from django.shortcuts import get_object_or_404
 from django.views.generic.edit import CreateView, UpdateView
 from django.views.generic.list import ListView
 
-from forms import SiteForm
-from models import Site
+from .forms import SiteForm
+from .models import Site
 from xSACdb.roles.decorators import require_verified
 from xSACdb.roles.mixins import RequireSiteAdministrator, RequireVerified
 from xsd_frontend.activity import DoAction

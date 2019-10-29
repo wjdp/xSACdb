@@ -1,4 +1,4 @@
-from __future__ import unicode_literals
+
 
 import datetime
 
@@ -23,7 +23,7 @@ class LessonManager(models.Manager):
         key = "by_qualification_detailed--{qualification}".format(qualification=qualification.code)
         val = cache.get(key)
         if val is None:
-            val = map(map_mode_to_lessons, Lesson.MODE_CHOICES)
+            val = list(map(map_mode_to_lessons, Lesson.MODE_CHOICES))
             val = [i for i in val if len(i[1]) > 0]  # Remove empty rows
             cache.set(key, val, 86400)
         return val

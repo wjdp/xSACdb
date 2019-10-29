@@ -1,4 +1,4 @@
-from __future__ import unicode_literals
+
 
 CLUB = {
     # Name of your club

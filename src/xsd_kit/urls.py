@@ -1,9 +1,9 @@
-from __future__ import unicode_literals
+
 
 from django.conf.urls import url
 from django.views.generic.base import TemplateView
 
-from views import *
+from .views import *
 
 urlpatterns = [
     url(r'^$', TemplateView.as_view(template_name='kit_overview.html'), name='KitOverview'),

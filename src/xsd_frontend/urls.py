@@ -1,10 +1,10 @@
-from __future__ import unicode_literals
+
 
 from django.conf.urls import url
 from django.contrib.staticfiles.templatetags.staticfiles import static
 from django.views.generic import RedirectView, TemplateView
 
-from views import *
+from .views import *
 
 favicon_view = RedirectView.as_view(url=static('icons/favicon.ico'), permanent=True)
 
