@@ -23,7 +23,7 @@ class Site(models.Model):
     max_depth=models.IntegerField(blank=True, null=True)
     facilities=models.TextField(blank=True)
 
-    def __unicode__(self):
+    def __str__(self):
         return self.name
 
     def uid(self):

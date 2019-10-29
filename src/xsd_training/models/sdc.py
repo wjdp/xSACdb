@@ -24,7 +24,7 @@ class SDC(models.Model):
 
     interested_members = models.ManyToManyField(settings.AUTH_PROFILE_MODEL, blank=True)
 
-    def __unicode__(self):
+    def __str__(self):
         return self.title
 
     def uid(self):
@@ -79,7 +79,7 @@ class PerformedSDC(models.Model):
                 self.trainees.remove(trainee)
             self.save()
 
-    def __unicode__(self):
+    def __str__(self):
         if self.datetime:
             return "{} @ {}".format(self.sdc, self.datetime)
         else:

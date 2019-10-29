@@ -34,7 +34,7 @@ class Kit(models.Model):
     needs_testing = models.BooleanField(blank=True, default=False)
     test_date = models.DateField(blank=True, null=True)
 
-    def __unicode__(self):
+    def __str__(self):
         return self.club_id + ": " + self.name
 
     class Meta:

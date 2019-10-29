@@ -53,7 +53,7 @@ class Lesson(models.Model):
 
     objects = LessonManager()
 
-    def __unicode__(self):
+    def __str__(self):
         return self.code + " - " + self.title
 
     class Meta:
@@ -202,9 +202,9 @@ class Session(models.Model):
 
     completed = models.BooleanField(default=False)
 
-    def __unicode__(self):
+    def __str__(self):
         if self.name:
-            # return "'" + self.name + "' " + self.when.strftime('%a %d %b %Y %H:%M') + " at " + self.where.__unicode__()
+            # return "'" + self.name + "' " + self.when.strftime('%a %d %b %Y %H:%M') + " at " + self.where.__str__()
             return "{} '{}' {} at {}".format(self.uid(), self.name, self.when.strftime('%a %d %b %Y %H:%M'), self.where)
         else:
             return "{} {} at {}".format(self.uid(), self.when.strftime('%a %d %b %Y %H:%M'), self.where)

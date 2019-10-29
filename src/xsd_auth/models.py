@@ -124,5 +124,5 @@ class User(UserActivityMixin,
         return "https://www.gravatar.com/avatar/{0}?s={1}&d={2}".format(
             hashlib.md5(self.email).hexdigest(), size, blank)
 
-    def __unicode__(self):
+    def __str__(self):
         return self.get_full_name()

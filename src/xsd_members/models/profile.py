@@ -135,7 +135,7 @@ class MemberProfile(MemberProfileStateMixin,
 
     other_qualifications = models.TextField(blank=True)
 
-    def __unicode__(self):
+    def __str__(self):
         return self.first_name + " " + self.last_name
 
     def get_absolute_url(self):
