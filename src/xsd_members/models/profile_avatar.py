@@ -4,7 +4,7 @@ from allauth.socialaccount.models import SocialAccount
 from django.conf import settings
 
 
-class MemberProfileAvatarMixin(object):
+class MemberProfileAvatarMixin:
     def get_cached_properties(self):
         cps = super(MemberProfileAvatarMixin, self).get_cached_properties()
         cps += [

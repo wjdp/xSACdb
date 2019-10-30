@@ -32,7 +32,7 @@ class LessonDetail(RequireAllowed, TraineeViewMixin, DetailView):
         return context
 
 
-class PerformedLessonFormMixin(TraineeFormMixin, object):
+class PerformedLessonFormMixin(TraineeFormMixin):
     def get_lesson(self):
         return Lesson.objects.get(pk=self.kwargs['l_pk'])
 

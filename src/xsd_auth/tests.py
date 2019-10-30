@@ -108,7 +108,7 @@ class SocialAccountConnectionsViewTest(ViewTestMixin, BaseTest):
 
 
 class RequireAllowedTest(TestCase):
-    class BaseView(object):
+    class BaseView:
         def dispatch(self, request, *args, **kwargs):
             return "Hello"
 
@@ -116,10 +116,10 @@ class RequireAllowedTest(TestCase):
         def is_allowed(self, user):
             return user.first_name == "Fred"
 
-    class DummyUser(object):
+    class DummyUser:
         first_name = "Alice"
 
-    class DummyRequest(object):
+    class DummyRequest:
         user = None
 
     def test_not_allowed(self):
@@ -139,11 +139,11 @@ class RequireAllowedTest(TestCase):
 
 
 class RequireObjectPermissionTest(TestCase):
-    class BaseView(object):
+    class BaseView:
         def dispatch(self, request, *args, **kwargs):
             return "Hello"
 
-    class DummyPermissions(object):
+    class DummyPermissions:
         def __init__(self, instance):
             self.instance = instance
 
@@ -151,7 +151,7 @@ class RequireObjectPermissionTest(TestCase):
             # The user's first name must match the name of the model
             return self.instance.name == user.first_name
 
-    class DummyModel(object):
+    class DummyModel:
         name = "Fred"
 
         def __init__(self):
@@ -163,10 +163,10 @@ class RequireObjectPermissionTest(TestCase):
 
         permission = 'can_test'
 
-    class DummyUser(object):
+    class DummyUser:
         first_name = "Alice"
 
-    class DummyRequest(object):
+    class DummyRequest:
         user = None
 
     def test_not_allowed(self):

@@ -8,7 +8,7 @@ from reversion.signals import post_revision_commit
 from xsd_frontend.versioning import XSDVersion
 
 
-class DoAction(object):
+class DoAction:
     """Wrapper for things that do things to record the doing of the thing."""
 
     def __enter__(self):

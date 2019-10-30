@@ -36,7 +36,7 @@ class SDC(models.Model):
         ordering = ['title']
 
 
-class SDCCategoryList(object):
+class SDCCategoryList:
     cat_id = ""
     cat_name = ""
     sdcs = []
@@ -46,7 +46,7 @@ class SDCCategoryList(object):
         self.cat_name = cat_name
 
 
-class SDCDisplay(object):
+class SDCDisplay:
     sdc = None
     can_do = False
 

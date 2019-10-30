@@ -8,7 +8,7 @@ from xsd_training.forms import *
 from xsd_training.views.base import TraineeFormMixin
 
 
-class QualificationFormMixin(TraineeFormMixin, object):
+class QualificationFormMixin(TraineeFormMixin):
     def get_success_url(self):
         return '{}#qualification-list'.format(
             reverse('xsd_training:TraineeNotes', kwargs={'pk': self.kwargs['t_pk']}))

@@ -1,6 +1,6 @@
 import random
 
-class MemberProfileFakeDataMixin(object):
+class MemberProfileFakeDataMixin:
     def fake(self, fake):
         self.date_of_birth = fake.date_time_between(start_date="-90y", end_date="-12y", tzinfo=None).date()
         self.gender = random.choice(('m', 'f'))

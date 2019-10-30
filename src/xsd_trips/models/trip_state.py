@@ -17,7 +17,7 @@ STATE_CLOSED = 80  # Closed for sign-ups
 STATE_COMPLETED = 90  # Trip done
 
 
-class TripStateMixin(object):
+class TripStateMixin:
     @property
     def is_denied(self):
         return self.state == STATE_DENIED

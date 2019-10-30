@@ -3,14 +3,14 @@
 from django.core.exceptions import PermissionDenied
 
 
-class RequireAllowed(object):
+class RequireAllowed:
     def dispatch(self, request, *args, **kwargs):
         if self.is_allowed(request.user):
             return super(RequireAllowed, self).dispatch(request, *args, **kwargs)
         else:
             raise PermissionDenied
 
-class RequireObjectPermission(object):
+class RequireObjectPermission:
     def get_permission_object(self):
         """Object to check permission against"""
         return self.get_object()

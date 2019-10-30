@@ -1,2 +1,2 @@
-class MemberProfileTrainingMixin(object):
+class MemberProfileTrainingMixin:
     pass

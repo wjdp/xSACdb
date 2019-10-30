@@ -55,7 +55,7 @@ class UserManager(DJ_UserManager):
 from actstream.actions import follow
 
 
-class UserActivityMixin(object):
+class UserActivityMixin:
     def follow_defaults(self):
         follow(self, self.profile, send_action=False, actor_only=False)
 

@@ -6,7 +6,7 @@ from xsd_frontend.activity import DoAction
 from xsd_training.models import PerformedQualification
 
 
-class MemberProfileQualificationMixin(object):
+class MemberProfileQualificationMixin:
     @property
     def qualifications_detail(self):
         """Allows quick access to the junction model"""

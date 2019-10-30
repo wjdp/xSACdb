@@ -129,7 +129,7 @@ class BaseAsGroupTest(BaseTest):
         self.user.save()
 
 
-class AsGroupMixin(object):
+class AsGroupMixin:
     @classmethod
     def setUp_base(cls):
         super(AsGroupMixin, cls).setUp_base()
@@ -143,7 +143,7 @@ class AsGroupMixin(object):
         cls.user.save()
 
 
-class ViewTestMixin(object):
+class ViewTestMixin:
     view = None
     url_name = None
     template_name = None

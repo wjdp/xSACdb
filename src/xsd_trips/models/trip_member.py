@@ -39,7 +39,7 @@ class TripMember(models.Model):
         return self.member.top_qual().rank < self.trip.min_qual.rank
 
 
-class TripMemberMixin(object):
+class TripMemberMixin:
     @property
     def attendees(self):
         return TripMember.objects.filter(trip=self).order_by('member')

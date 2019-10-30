@@ -1,4 +1,4 @@
-class MemberProfileSDCMixin(object):
+class MemberProfileSDCMixin:
     pass
 
     # award_sdc

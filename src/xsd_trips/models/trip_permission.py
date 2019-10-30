@@ -4,7 +4,7 @@ from xSACdb.roles.functions import *
 from .trip_state import *
 
 
-class TripPermissionMixin(object):
+class TripPermissionMixin:
     def _is_modifier(self, user):
         return is_trips(user) or self.owner == user.get_profile()
 

@@ -1,6 +1,6 @@
 
 
-class ModelComposeMixin(object):
+class ModelComposeMixin:
     """Instantiates objects under each instance of the parent class"""
     # TODO spin out into generic module
     compose_classes = {}
@@ -10,7 +10,7 @@ class ModelComposeMixin(object):
         for key, class_ref in self.compose_classes.items():
             setattr(self, key, class_ref(self))
 
-class BaseModelComposeObject(object):
+class BaseModelComposeObject:
     def __init__(self, instance):
         self.instance = instance
 

@@ -9,7 +9,7 @@ from faker import Factory
 fake = Factory.create(settings.FAKER_LOCALE)
 fake.seed(settings.RANDOM_SEED)
 
-class SiteTestToolsMixin(object):
+class SiteTestToolsMixin:
     def create_site(self):
         site = Site.objects.create(
             name=fake.name(),
