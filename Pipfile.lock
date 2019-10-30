@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "2bd0884a4433d8587577fe6e5b6c91eb288a2f3dc7d54efa5230329694857a3e"
+            "sha256": "1bed2f4ec22f967c6c94a99c57411ce398411d49cb3a25d2283a49efc4e56dc9"
         },
         "pipfile-spec": 6,
         "requires": {
@@ -163,6 +163,14 @@
             "index": "pypi",
             "version": "==1.11"
         },
+        "django-geoposition-2": {
+            "hashes": [
+                "sha256:1c7521bac987694a84d019d136d9e67a54476ec68c43cd169b7b3f253f5148d6",
+                "sha256:db4d066be743e873b6b631043506d600a2ad77c4a8f187dccd9c23028eda570a"
+            ],
+            "index": "pypi",
+            "version": "==0.3.6"
+        },
         "django-health-check": {
             "hashes": [
                 "sha256:0e5667f5481aaa0499d354f4d049d12af3c000d8a48972dfaedf5c8ac776d3fc"
@@ -183,6 +191,14 @@
             ],
             "index": "pypi",
             "version": "==1.0.1"
+        },
+        "django-jsonfield-compat": {
+            "hashes": [
+                "sha256:0182d2e9db886abc2bf30958e4953f72b6f0e20336524755641bc3968899cd5b",
+                "sha256:e2b1cd7dfef7633c8befb9c85fa764d344377512c8fdaf65ded4827392410a1d"
+            ],
+            "index": "pypi",
+            "version": "==0.4.4"
         },
         "django-redis-cache": {
             "hashes": [
@@ -209,11 +225,11 @@
         },
         "django-rq": {
             "hashes": [
-                "sha256:368051f0a3ef08670dd186ea0202cbc7644e199fd48fd31eace2e637e915a7f7",
-                "sha256:7cd517c3e243603c8e5b24bfc4797d57d751a4ba1b471124157e9822a83335a2"
+                "sha256:1eda0efe0ad1638c5671412edc28a3574a9a69fdc567be56dc86a7a0a8687343",
+                "sha256:d9377e851336430676e5fb52c5efae379348355be84d5fc0ece70c0479dc0600"
             ],
             "index": "pypi",
-            "version": "==0.9.6"
+            "version": "==2.1.0"
         },
         "django-widget-tweaks": {
             "hashes": [
@@ -391,11 +407,10 @@
         },
         "redis": {
             "hashes": [
-                "sha256:8a1900a9f2a0a44ecf6e8b5eb3e967a9909dfed219ad66df094f27f7d6f330fb",
-                "sha256:a22ca993cea2962dbb588f9f30d0015ac4afcc45bee27d3978c0dbe9e97c6c0f"
+                "sha256:3613daad9ce5951e426f460deddd5caf469e08a3af633e9578fc77d362becf62",
+                "sha256:8d0fc278d3f5e1249967cba2eb4a5632d19e45ce5c09442b8422d15ee2c22cc2"
             ],
-            "index": "pypi",
-            "version": "==2.10.6"
+            "version": "==3.3.11"
         },
         "requests": {
             "hashes": [
@@ -414,11 +429,10 @@
         },
         "rq": {
             "hashes": [
-                "sha256:6c36f146914f6a28009dbcee0c4610600afd1f4f493ce3a2afbd467076cddaac",
-                "sha256:b0e98fcfe980cbc7644447d17ea2c177fcbd5c04f1f92d5136c47f00ed2d583d"
+                "sha256:2798d26a7b850e759f23f69695a389d676a9c08f2c14f96f0d34d9648c9d5616",
+                "sha256:4f27c6a690d1bd02b9157e615d8819555b9b359c0c4ec8ff0013d160c31b40bb"
             ],
-            "index": "pypi",
-            "version": "==0.7.1"
+            "version": "==1.1.0"
         },
         "rq-scheduler": {
             "hashes": [
