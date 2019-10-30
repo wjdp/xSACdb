@@ -13,7 +13,7 @@ Requirements
 ------------
 
 - Linux OS, tested on Ubuntu and Debian
-- Python 2.7
+- Python 3.7
 - virtualenv
 - Bower
 - Sass
