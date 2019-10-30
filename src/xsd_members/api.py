@@ -1,10 +1,10 @@
-from __future__ import unicode_literals
+
 
 import json
 
 from django.http import HttpResponse
 
-from models import MemberProfile
+from .models import MemberProfile
 from xSACdb.roles.decorators import require_verified
 
 

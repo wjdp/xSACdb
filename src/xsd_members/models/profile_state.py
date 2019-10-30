@@ -1,4 +1,4 @@
-from __future__ import unicode_literals
+
 
 import reversion
 
@@ -6,7 +6,7 @@ from xSACdb.middleware import NewbieProfileFormRedirectMiddleware
 from xsd_frontend.activity import DoAction
 
 
-class MemberProfileStateMixin(object):
+class MemberProfileStateMixin:
     @property
     def verified(self):
         return not self.new_notify

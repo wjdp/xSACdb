@@ -1,4 +1,4 @@
-from __future__ import unicode_literals
+
 
 from django.conf import settings
 from django.core.urlresolvers import reverse
@@ -24,7 +24,7 @@ class SDC(models.Model):
 
     interested_members = models.ManyToManyField(settings.AUTH_PROFILE_MODEL, blank=True)
 
-    def __unicode__(self):
+    def __str__(self):
         return self.title
 
     def uid(self):
@@ -36,7 +36,7 @@ class SDC(models.Model):
         ordering = ['title']
 
 
-class SDCCategoryList(object):
+class SDCCategoryList:
     cat_id = ""
     cat_name = ""
     sdcs = []
@@ -46,7 +46,7 @@ class SDCCategoryList(object):
         self.cat_name = cat_name
 
 
-class SDCDisplay(object):
+class SDCDisplay:
     sdc = None
     can_do = False
 
@@ -79,7 +79,7 @@ class PerformedSDC(models.Model):
                 self.trainees.remove(trainee)
             self.save()
 
-    def __unicode__(self):
+    def __str__(self):
         if self.datetime:
             return "{} @ {}".format(self.sdc, self.datetime)
         else:

@@ -1,8 +1,8 @@
-from __future__ import unicode_literals
+
 
 from django.conf.urls import url
 
-from views import *
+from .views import *
 
 urlpatterns = [
     url(r'^$', AboutView.as_view(), name='AboutView'),

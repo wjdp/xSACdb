@@ -1,4 +1,4 @@
-from __future__ import unicode_literals
+
 
 import datetime
 
@@ -23,7 +23,7 @@ class LessonManager(models.Manager):
         key = "by_qualification_detailed--{qualification}".format(qualification=qualification.code)
         val = cache.get(key)
         if val is None:
-            val = map(map_mode_to_lessons, Lesson.MODE_CHOICES)
+            val = list(map(map_mode_to_lessons, Lesson.MODE_CHOICES))
             val = [i for i in val if len(i[1]) > 0]  # Remove empty rows
             cache.set(key, val, 86400)
         return val
@@ -53,7 +53,7 @@ class Lesson(models.Model):
 
     objects = LessonManager()
 
-    def __unicode__(self):
+    def __str__(self):
         return self.code + " - " + self.title
 
     class Meta:
@@ -202,9 +202,9 @@ class Session(models.Model):
 
     completed = models.BooleanField(default=False)
 
-    def __unicode__(self):
+    def __str__(self):
         if self.name:
-            # return "'" + self.name + "' " + self.when.strftime('%a %d %b %Y %H:%M') + " at " + self.where.__unicode__()
+            # return "'" + self.name + "' " + self.when.strftime('%a %d %b %Y %H:%M') + " at " + self.where.__str__()
             return "{} '{}' {} at {}".format(self.uid(), self.name, self.when.strftime('%a %d %b %Y %H:%M'), self.where)
         else:
             return "{} {} at {}".format(self.uid(), self.when.strftime('%a %d %b %Y %H:%M'), self.where)

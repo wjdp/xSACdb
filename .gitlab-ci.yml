@@ -1,84 +1,43 @@
-image: wjdp/xsacdb:v0.6.0
+image: wjdp/xsacdb:py3
 
 variables:
   POSTGRES_DB: xsacdb
   POSTGRES_USER: runner
   POSTGRES_PASSWORD: ""
+  BSAC_DATA: "https://s3.amazonaws.com/xsacdb-bsac-data/bsac_data.yaml"
 
 before_script:
-  - locale
-  - export XSACDB_ENVIRONMENT=TEST
+
 
 stages:
-  - prepare
   - build
   - test
   - deploy
 
-pip:
-  stage: prepare
-  script:
-    - virtualenv env
-    - source env/bin/activate
-    - pip install https://github.com/philippbosch/django-geoposition/archive/django-1.11.zip
-    - pip install -r requirements.txt
-  cache:
-    paths:
-      - env/
-  artifacts:
-    paths:
-      - env/
-  tags:
-    - docker
-
-frontend:
-  stage: prepare
-  script:
+static:
+  stage: build
+  before_script:
+    - export XSACDB_ENVIRONMENT=TEST
+    - pipenv install --deploy --system
     - bower install --allow-root
     - rm -rf lib/tether/examples
     - npm install
-  cache:
-    paths:
-      - lib/
-      - node_modules/
-  artifacts:
-    paths:
-      - lib/
-      - node_modules/
-  tags:
-    - docker
-
-data:
-  stage: prepare
   script:
-    - mkdir tmp
-    - curl $BSAC_DATA > tmp/bsac_data.yaml
+    - gulp deploy
+    - src/manage.py collectstatic --noinput
   artifacts:
     paths:
-      - tmp/bsac_data.yaml
+      - dist/
   tags:
     - docker
 
 check:
   stage: test
+  before_script:
+    - export XSACDB_ENVIRONMENT=TEST
+    - pipenv install --deploy --system
   script:
-    - source env/bin/activate
     - src/manage.py check
-  tags:
-    - docker
-
-static:
-  stage: build
-  services:
-    - postgres:latest
-    - redis:latest
-  script:
-    - gulp deploy
-    - source env/bin/activate
-    - src/manage.py collectstatic --noinput
-  artifacts:
-    paths:
-      - dist/
   tags:
     - docker
 
@@ -87,12 +46,17 @@ test:
   services:
     - postgres:latest
     - redis:latest
+  before_script:
+    - export XSACDB_ENVIRONMENT=TEST
+    - locale
+    - pipenv install --deploy --system
+    - mkdir tmp
+    - curl $BSAC_DATA > tmp/bsac_data.yaml
   script:
-    - source env/bin/activate
     - coverage run --include=src/\* --omit=\*/migrations/\*  src/manage.py test xSACdb xsd_about xsd_auth xsd_frontend xsd_help xsd_kit xsd_members xsd_sites xsd_training xsd_trips
     - coverage report --skip-covered
     - coverage xml
-    - pip install codacy-coverage
+    - pip3 install codacy-coverage
     - python-codacy-coverage -r coverage.xml
   tags:
     - docker

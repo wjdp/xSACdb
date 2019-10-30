@@ -3,7 +3,7 @@ from django.views.generic import ListView
 
 from xSACdb.roles.mixins import RequireVerified
 
-from models import *
+from .models import *
 
 class ClubKitListView(RequireVerified, ListView):
     model = Kit

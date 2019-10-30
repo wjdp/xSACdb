@@ -1,11 +1,11 @@
-from __future__ import unicode_literals
+
 
 from django.core.exceptions import PermissionDenied
 
-from functions import *
+from .functions import *
 
 
-class RequireGroup(object):
+class RequireGroup:
     def is_in_group(self, user):
         return False
 
@@ -16,7 +16,7 @@ class RequireGroup(object):
             raise PermissionDenied
 
 
-class RequirePermission(object):
+class RequirePermission:
     # TODO This is the old version of RequirePermission where model has permission functions.
     # TODO New version lives in xsd_auth.permissions
     def get_permission_object(self):
@@ -92,7 +92,7 @@ class RequireTrusted(RequireGroup):
 from django.http import HttpResponseRedirect
 
 
-class RequirePreauth(object):
+class RequirePreauth:
     def dispatch(self, request, *args, **kwargs):
         if request.user.is_authenticated():
             return HttpResponseRedirect('/')

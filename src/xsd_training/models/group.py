@@ -1,4 +1,4 @@
-from __future__ import unicode_literals
+
 
 from django.conf import settings
 from django.core.urlresolvers import reverse
@@ -14,7 +14,7 @@ class TraineeGroup(models.Model):
 
     TRAINEE_ORDER_BY = 'last_name'
 
-    def __unicode__(self):
+    def __str__(self):
         return "{} {}".format(self.uid(), self.name)
 
     def uid(self):

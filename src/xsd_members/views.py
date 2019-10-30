@@ -1,4 +1,4 @@
-from __future__ import unicode_literals
+
 
 import datetime
 
@@ -362,7 +362,7 @@ class BulkAddForms(RequireMembersOfficer, View):
                 members = self.get_all_objects().order_by('last_name')
             spreadsheet = True
         elif 'names' in request.GET and request.GET['names'] != '':
-            from bulk_select import get_bulk_members
+            from .bulk_select import get_bulk_members
             members = get_bulk_members(request, method="GET")
             spreadsheet = True
         if spreadsheet:

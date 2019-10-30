@@ -1,4 +1,8 @@
-from __future__ import unicode_literals
+"""
+TODO: Remove, replace or fix
+
+This module doesn't seem to work with py3. Do we need it? If yes can we use an external package?
+"""
 
 from django.core.cache import cache
 
@@ -6,7 +10,7 @@ def object_cache_key(model, pk, name):
     return '{0}_{1}_{2}'.format(model, pk, name)
 
 
-class object_cached_property(object):
+class object_cached_property:
     """
     Decorator that converts a method with a single self argument into a
     property cached on the instance in redis.
@@ -32,7 +36,7 @@ class object_cached_property(object):
         return res
 
 
-class ObjectPropertyCacheInvalidationMixin(object):
+class ObjectPropertyCacheInvalidationMixin:
     """Invalidates object_cached_property on save"""
     def get_cached_properties(self):
         """Returns list of properties to clear. Setup as a function so mixins can append to."""

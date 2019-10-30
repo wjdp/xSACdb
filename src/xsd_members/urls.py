@@ -1,9 +1,9 @@
-from __future__ import unicode_literals
+
 
 from django.conf.urls import url
 
-from api import *
-from views import *
+from .api import *
+from .views import *
 from xsd_frontend.versioning import VersionHistoryView
 
 urlpatterns = [

@@ -1,4 +1,4 @@
-from __future__ import unicode_literals
+
 
 from django.db import models
 from django.db.models import Q
@@ -27,7 +27,7 @@ class Qualification(models.Model):
 
     objects = QualificationManager()
 
-    def __unicode__(self): return self.title
+    def __str__(self): return self.title
 
     class Meta:
         ordering = ['rank']

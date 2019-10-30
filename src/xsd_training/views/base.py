@@ -1,11 +1,11 @@
-from __future__ import unicode_literals
+
 
 from django.core.exceptions import PermissionDenied
 
 from xsd_training.forms import *
 
 
-class TraineeViewMixin(object):
+class TraineeViewMixin:
     def get_trainee(self):
         if 't_pk' in self.kwargs:
             return MemberProfile.objects.get(pk=self.kwargs['t_pk'])
@@ -22,7 +22,7 @@ class TraineeViewMixin(object):
             raise PermissionDenied
 
 
-class TraineeFormMixin(TraineeViewMixin, object):
+class TraineeFormMixin(TraineeViewMixin):
     def get_context_data(self, **kwargs):
         context = super(TraineeFormMixin, self).get_context_data(**kwargs)
         context['trainee'] = self.get_trainee()

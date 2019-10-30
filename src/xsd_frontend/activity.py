@@ -1,4 +1,4 @@
-from __future__ import unicode_literals
+
 
 import reversion
 from actstream import action
@@ -8,7 +8,7 @@ from reversion.signals import post_revision_commit
 from xsd_frontend.versioning import XSDVersion
 
 
-class DoAction(object):
+class DoAction:
     """Wrapper for things that do things to record the doing of the thing."""
 
     def __enter__(self):
@@ -34,7 +34,7 @@ class DoAction(object):
     @property
     def actor(self):
         if not 'actor' in self.action:
-            print(self.action)
+            print((self.action))
             raise RuntimeError("Missing actor from action set")
         return self.action['actor']
 
@@ -111,6 +111,6 @@ class XSDAction(Action):
     @cached_property
     def versions(self):
         if self.data and self.data.get('version_pks', None) is not None:
-            return XSDVersion.objects.in_bulk(self.data['version_pks']).values()
+            return list(XSDVersion.objects.in_bulk(self.data['version_pks']).values())
         else:
             return []

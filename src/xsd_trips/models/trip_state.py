@@ -1,4 +1,4 @@
-from __future__ import unicode_literals
+
 
 import reversion
 from django.conf import settings
@@ -17,7 +17,7 @@ STATE_CLOSED = 80  # Closed for sign-ups
 STATE_COMPLETED = 90  # Trip done
 
 
-class TripStateMixin(object):
+class TripStateMixin:
     @property
     def is_denied(self):
         return self.state == STATE_DENIED

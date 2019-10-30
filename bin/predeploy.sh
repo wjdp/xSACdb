@@ -2,12 +2,10 @@
 
 cd /app
 
-source env/bin/activate
-
 if [[ $XSACDB_FAKE_DATA = "TRUE" ]]
 then
     echo ">> Development dependencies"
-    pip install -qr requirements_dev.txt
+    pipenv install --deploy --system --dev
 fi
 
 gulp deploy

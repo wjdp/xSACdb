@@ -1,4 +1,4 @@
-from __future__ import unicode_literals
+
 
 from xSACdb.test_helpers import ViewTestMixin
 from xsd_training.views import *

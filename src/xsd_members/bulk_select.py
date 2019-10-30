@@ -1,6 +1,6 @@
-from models import MemberProfile
+from .models import MemberProfile
 
-import StringIO
+import io
 import csv
 
 TOKEN_NAME = 'names'
@@ -11,7 +11,7 @@ def get_some_objects(list):
 
 
 def parse_token_data(request_post):
-    f = StringIO.StringIO(request_post[TOKEN_NAME])
+    f = io.StringIO(request_post[TOKEN_NAME])
     reader = csv.reader(f, delimiter=',')
     user_ids = []
     for row in reader:

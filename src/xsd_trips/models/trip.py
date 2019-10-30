@@ -1,4 +1,4 @@
-from __future__ import unicode_literals
+
 
 import datetime
 
@@ -101,5 +101,5 @@ class Trip(TripStateMixin,
         else:
             super(Trip, self).save(**kwargs)
 
-    def __unicode__(self):
+    def __str__(self):
         return '{}'.format(self.name)

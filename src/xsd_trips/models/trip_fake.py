@@ -1,4 +1,4 @@
-from __future__ import unicode_literals
+
 
 import decimal
 import random
@@ -92,7 +92,7 @@ def generate_fake_name():
     )
 
 
-class TripFakeDataMixin(object):
+class TripFakeDataMixin:
     def fake(self, fake, quals, past=False):
         self.name = generate_fake_name()
         if past:

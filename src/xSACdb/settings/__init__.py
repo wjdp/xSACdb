@@ -1,4 +1,4 @@
-from __future__ import absolute_import, unicode_literals
+
 
 import os
 
@@ -15,9 +15,9 @@ else:
 # Club conf default inserter
 from .defaults import CLUB as CLUB_DEFAULTS
 
-for key, default_value in CLUB_DEFAULTS.iteritems():
-    if not key in CLUB.keys():
+for key, default_value in CLUB_DEFAULTS.items():
+    if not key in list(CLUB.keys()):
         CLUB[key] = default_value
 
 # Dirty fixes
-ACCOUNT_EMAIL_SUBJECT_PREFIX = u'[{}] '.format(CLUB['name'])
+ACCOUNT_EMAIL_SUBJECT_PREFIX = '[{}] '.format(CLUB['name'])

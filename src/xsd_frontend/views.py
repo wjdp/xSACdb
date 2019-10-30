@@ -1,4 +1,4 @@
-from __future__ import unicode_literals
+
 
 import hashlib
 
@@ -8,7 +8,7 @@ from django.http import HttpResponse, JsonResponse
 from django.shortcuts import render, redirect
 from django.views.generic import ListView
 
-from forms import UpdateRequestMake, ClassicSignupForm
+from .forms import UpdateRequestMake, ClassicSignupForm
 from xSACdb.build_info import get_time, PRE_FILE, POST_FILE, DEPLOY_FILE
 from xSACdb.roles.mixins import RequirePreauth
 from xSACdb.version import VERSION

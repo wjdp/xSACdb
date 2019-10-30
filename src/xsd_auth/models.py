@@ -1,5 +1,3 @@
-from __future__ import unicode_literals
-
 import hashlib
 import random
 import warnings
@@ -12,7 +10,6 @@ from django.contrib.auth.models import UserManager as DJ_UserManager
 from django.db import transaction
 from django.utils.functional import cached_property
 
-from xSACdb.cache import object_cached_property, ObjectPropertyCacheInvalidationMixin
 from xSACdb.roles.groups import GROUP_ADMIN
 
 
@@ -58,13 +55,12 @@ class UserManager(DJ_UserManager):
 from actstream.actions import follow
 
 
-class UserActivityMixin(object):
+class UserActivityMixin:
     def follow_defaults(self):
         follow(self, self.profile, send_action=False, actor_only=False)
 
 
 class User(UserActivityMixin,
-           ObjectPropertyCacheInvalidationMixin,
            AbstractUser):
     """User subclass for xSACdb"""
 
@@ -111,9 +107,9 @@ class User(UserActivityMixin,
     def is_email_confirmed(self):
         return EmailAddress.objects.get_primary(self).verified
 
-    @object_cached_property
+    @property
     def group_values(self):
-        return Group.objects.filter(user=self).values()
+        return list(Group.objects.filter(user=self).values())
 
     def profile_image_url(self, size=70, blank=settings.CLUB['gravatar_default']):
         warnings.warn("Stop using user.profile_image_url. Use profile avatar properties.", DeprecationWarning,
@@ -126,7 +122,7 @@ class User(UserActivityMixin,
                 .format(fb_uid[0].uid, size, size)
 
         return "https://www.gravatar.com/avatar/{0}?s={1}&d={2}".format(
-            hashlib.md5(self.email).hexdigest(), size, blank)
+            hashlib.md5(self.email.encode()).hexdigest(), size, blank)
 
-    def __unicode__(self):
+    def __str__(self):
         return self.get_full_name()

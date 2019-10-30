@@ -1,4 +1,4 @@
-from __future__ import unicode_literals
+
 
 import csv
 import datetime
@@ -16,7 +16,7 @@ from django.views.generic import View
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.views.generic.list import ListView
 
-from models import Trip
+from .models import Trip
 from xSACdb.roles.functions import is_trips
 from xSACdb.roles.mixins import RequireVerified, RequirePermission, RequireTripsOfficer
 from xSACdb.views import ActionView

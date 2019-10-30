@@ -19,7 +19,7 @@ class BaseTrainingTest(AsGroupMixin, BaseTest):
     GROUPS = [GROUP_TRAINING]
 
 
-class TrainingTestToolsMixin(object):
+class TrainingTestToolsMixin:
     @classmethod
     def setUp_base(cls):
         cls.trainingTestToolsSetUp()

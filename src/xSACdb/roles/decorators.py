@@ -1,8 +1,8 @@
 from django.core.exceptions import PermissionDenied
 
-from functions import *
+from .functions import *
 
-class require_group(object):
+class require_group:
     def __init__(self, f):
         self.f=f
 
