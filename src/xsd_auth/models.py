@@ -122,7 +122,7 @@ class User(UserActivityMixin,
                 .format(fb_uid[0].uid, size, size)
 
         return "https://www.gravatar.com/avatar/{0}?s={1}&d={2}".format(
-            hashlib.md5(self.email).hexdigest(), size, blank)
+            hashlib.md5(self.email.encode()).hexdigest(), size, blank)
 
     def __str__(self):
         return self.get_full_name()

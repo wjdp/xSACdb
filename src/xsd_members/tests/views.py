@@ -2,6 +2,8 @@
 
 import json
 
+from django.utils.html import escape
+
 from xSACdb.roles.groups import GROUP_MEMBERS
 from xSACdb.test_helpers import BaseTest, ViewTestMixin, AsGroupMixin
 from xsd_members.views import *
@@ -82,8 +84,8 @@ class MemberSearchTest(ViewTestMixin, AsGroupMixin, BaseTest):
             u.last_name,
         ))
         self.assertEqual(200, r.status_code)
-        self.assertContains(r, u.first_name)  # , html=True)
-        self.assertContains(r, u.last_name)  # , html=True)
+        self.assertContains(r, escape(u.first_name))  # , html=True)
+        self.assertContains(r, escape(u.last_name))  # , html=True)
 
 
 class MemberDetailTest(ViewTestMixin, AsGroupMixin, BaseTest):
@@ -98,8 +100,8 @@ class MemberDetailTest(ViewTestMixin, AsGroupMixin, BaseTest):
 
     def test_member_detail(self):
         r = self.response
-        self.assertContains(r, self.test_user.first_name)  # , html=True)
-        self.assertContains(r, self.test_user.last_name)  #
+        self.assertContains(r, escape(self.test_user.first_name))  # , html=True)
+        self.assertContains(r, escape(self.test_user.last_name))  #
 
 
 class MemberEditTest(ViewTestMixin, AsGroupMixin, BaseTest):
@@ -114,8 +116,8 @@ class MemberEditTest(ViewTestMixin, AsGroupMixin, BaseTest):
 
     def test_member_detail(self):
         r = self.response
-        self.assertContains(r, self.test_user.first_name)  # , html=True)
-        self.assertContains(r, self.test_user.last_name)  # , html=True)
+        self.assertContains(r, escape(self.test_user.first_name))  # , html=True)
+        self.assertContains(r, escape(self.test_user.last_name))  # , html=True)
 
         # TODO perform an edit
 
@@ -133,8 +135,8 @@ class MemberDeleteTest(ViewTestMixin, AsGroupMixin, BaseTest):
 
     def test_member_in_page(self):
         r = self.response
-        self.assertContains(r, self.test_user.first_name)  # , html=True)
-        self.assertContains(r, self.test_user.last_name)  # , html=True)
+        self.assertContains(r, escape(self.test_user.first_name))  # , html=True)
+        self.assertContains(r, escape(self.test_user.last_name))  # , html=True)
 
     def test_delete(self):
         self.assertEqual(MemberProfile.objects.filter(pk=self.test_user_pk).count(), 1)
@@ -154,8 +156,8 @@ class MemberArchiveTest(ViewTestMixin, AsGroupMixin, BaseTest):
 
     def test_member_in_page(self):
         r = self.response
-        self.assertContains(r, self.test_user.first_name)  # , html=True)
-        self.assertContains(r, self.test_user.last_name)  # , html=True)
+        self.assertContains(r, escape(self.test_user.first_name))  # , html=True)
+        self.assertContains(r, escape(self.test_user.last_name))  # , html=True)
 
     def test_archive(self):
         self.assertFalse(self.test_user.memberprofile.archived)
@@ -176,16 +178,16 @@ class MemberListTest(ViewTestMixin, AsGroupMixin, BaseTest):
     def test_member_in_list(self):
         """Current members should show in the list"""
         r = self.response
-        self.assertContains(r, self.test_user.first_name)  # , html=True)
-        self.assertContains(r, self.test_user.last_name)  # , html=True)
+        self.assertContains(r, escape(self.test_user.first_name))  # , html=True)
+        self.assertContains(r, escape(self.test_user.last_name))  # , html=True)
 
     def test_member_not_in_list(self):
         """The current members list should not show archived members"""
         self.test_user.memberprofile.archive(self.user)
         self.test_user.memberprofile.save()
         r = self.get_response()
-        self.assertNotContains(r, self.test_user.first_name)  # , html=True)
-        self.assertNotContains(r, self.test_user.last_name)  # , html=True)
+        self.assertNotContains(r, escape(self.test_user.first_name))  # , html=True)
+        self.assertNotContains(r, escape(self.test_user.last_name))  # , html=True)
 
 
 class NewMembersTest(ViewTestMixin, AsGroupMixin, BaseTest):
@@ -199,8 +201,8 @@ class NewMembersTest(ViewTestMixin, AsGroupMixin, BaseTest):
 
     def test_member_in_list(self):
         r = self.response
-        self.assertContains(r, self.test_user.first_name)  # , html=True)
-        self.assertContains(r, self.test_user.last_name)  # , html=True)
+        self.assertContains(r, escape(self.test_user.first_name))  # , html=True)
+        self.assertContains(r, escape(self.test_user.last_name))  # , html=True)
 
     def test_member_not_in_list(self):
         self.test_user.memberprofile.new_notify = False
@@ -221,8 +223,8 @@ class MembersExpiredFormsListTest(ViewTestMixin, AsGroupMixin, BaseTest):
 
     def test_member_in_list(self):
         r = self.response
-        self.assertContains(r, self.test_user.first_name)  # , html=True)
-        self.assertContains(r, self.test_user.last_name)  # , html=True)
+        self.assertContains(r, escape(self.test_user.first_name))  # , html=True)
+        self.assertContains(r, escape(self.test_user.last_name))  # , html=True)
 
     def test_member_not_in_list(self):
         self.test_user.memberprofile.bsac_expiry = self.get_future_date()
@@ -248,8 +250,8 @@ class MembersArchivedList(ViewTestMixin, AsGroupMixin, BaseTest):
         self.test_user.memberprofile.archive(self.user)
         self.test_user.memberprofile.save()
         r = self.get_response()
-        self.assertContains(r, self.test_user.first_name)  # , html=True)
-        self.assertContains(r, self.test_user.last_name)  # , html=True)
+        self.assertContains(r, escape(self.test_user.first_name))  # , html=True)
+        self.assertContains(r, escape(self.test_user.last_name))  # , html=True)
 
     def test_member_not_in_list(self):
         """Current members should not show in MembersArchivedList"""

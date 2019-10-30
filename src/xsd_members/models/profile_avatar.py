@@ -23,7 +23,7 @@ class MemberProfileAvatarMixin:
                     .format(fb_uid[0].uid, size, size)
 
         return "https://www.gravatar.com/avatar/{0}?s={1}&d={2}".format(
-            hashlib.md5(self.email).hexdigest(), size, 'retro')
+            hashlib.md5(self.email.encode()).hexdigest(), size, 'retro')
 
     @property
     def avatar_xs(self):
