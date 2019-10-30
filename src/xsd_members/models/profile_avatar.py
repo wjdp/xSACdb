@@ -25,21 +25,21 @@ class MemberProfileAvatarMixin(object):
         return "https://www.gravatar.com/avatar/{0}?s={1}&d={2}".format(
             hashlib.md5(self.email).hexdigest(), size, 'retro')
 
-    # @object_cached_property
+    @property
     def avatar_xs(self):
         if self.user:
             return self.get_avatar(size=32)
         else:
             return None
 
-    # @object_cached_property
+    @property
     def avatar_sm(self):
         if self.user:
             return self.get_avatar(size=64)
         else:
             return None
 
-    # @object_cached_property
+    @property
     def avatar_md(self):
         if self.user:
             return self.get_avatar(size=128)

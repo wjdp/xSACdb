@@ -107,7 +107,7 @@ class User(UserActivityMixin,
     def is_email_confirmed(self):
         return EmailAddress.objects.get_primary(self).verified
 
-    # @object_cached_property
+    @property
     def group_values(self):
         return list(Group.objects.filter(user=self).values())
 
