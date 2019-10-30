@@ -1,4 +1,4 @@
-FROM debian:stretch-slim
+FROM debian:buster-slim
 
 RUN apt-get update && apt-get install -y --no-install-recommends apt-utils
 
@@ -11,10 +11,11 @@ RUN sed -i -e 's/# en_GB.UTF-8 UTF-8/en_GB.UTF-8 UTF-8/' /etc/locale.gen && \
 ENV LANG en_GB.UTF-8
 
 # System
-RUN apt-get update && apt-get install -qy supervisor build-essential git curl libpq-dev libjpeg-dev imagemagick
+RUN apt-get update && apt-get install -qy supervisor build-essential git curl libpq-dev libjpeg-dev zlib1g-dev imagemagick
 
 # Python
-RUN apt-get update && apt-get install -qy python-virtualenv python-pip python-dev
+RUN apt-get update && apt-get install -qy python3-pip python3-dev
+RUN pip3 install pipenv
 
 # Node
 RUN curl -sL https://deb.nodesource.com/setup_10.x | bash
@@ -30,8 +31,8 @@ ENV XSACDB_ENVIRONMENT PRODUCTION
 ENV XSACDB_CONTAINER DOCKER
 
 ADD bin/install-pre.sh /app/bin/
-ADD requirements.txt /app/
-ADD requirements_dev.txt /app/
+ADD Pipfile /app/
+ADD Pipfile.lock /app/
 ADD .bowerrc /app/
 ADD bower.json /app/
 ADD package.json /app/

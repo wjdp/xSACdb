@@ -6,19 +6,9 @@ env
 
 cd /app
 
-echo "[xSACdb] Setting up virtualenv"
-
-rm -rf env
-virtualenv env
-source env/bin/activate
-
 echo "[xSACdb] Installing python dependencies..."
-echo ">> Production dependencies"
 
-# TODO Hacky install of pre-release django-geopositoion package
-pip install https://github.com/philippbosch/django-geoposition/archive/django-1.11.zip
-
-pip install -qr requirements.txt
+pipenv install --system --deploy
 
 echo "[xSACdb] Installing frontend dependencies..."
 # Just check the sass version
