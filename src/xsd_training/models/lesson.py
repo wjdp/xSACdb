@@ -195,6 +195,8 @@ class PerformedLesson(ModelComposeMixin, models.Model):
 
 @reversion.register()
 class Session(models.Model):
+    LESSON_HISTORY = datetime.timedelta(weeks=2)
+
     name = models.CharField(max_length=64, blank=True, help_text='Optional name for session')
     when = models.DateTimeField(help_text='Formatted like: DD/MM/YYYY HH:MM')
     where = models.ForeignKey('xsd_sites.Site')
