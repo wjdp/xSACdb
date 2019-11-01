@@ -5,13 +5,12 @@ variables:
   POSTGRES_USER: runner
   POSTGRES_PASSWORD: ""
   BSAC_DATA: "https://s3.amazonaws.com/xsacdb-bsac-data/bsac_data.yaml"
-
-before_script:
-
+  DOCKER_DRIVER: overlay2
 
 stages:
   - build
   - test
+  - docker
   - deploy
 
 static:
@@ -28,8 +27,7 @@ static:
   artifacts:
     paths:
       - dist/
-  tags:
-    - docker
+      - lib/
 
 check:
   stage: test
@@ -38,8 +36,6 @@ check:
     - pipenv install --deploy --system
   script:
     - src/manage.py check
-  tags:
-    - docker
 
 test:
   stage: test
@@ -58,8 +54,20 @@ test:
     - coverage xml
     - pip3 install codacy-coverage
     - python-codacy-coverage -r coverage.xml
-  tags:
-    - docker
+
+docker-build-next:
+  image: docker
+  stage: docker
+  services:
+    - docker:dind
+  before_script:
+    - docker pull wjdp/xsacdb:next || true
+    - docker login -u $DOCKER_HUB_USER -p $DOCKER_HUB_TOKEN
+  script:
+    - docker build --cache-from wjdp/xsacdb:next -t wjdp/xsacdb:next .
+    - docker push wjdp/xsacdb:next
+  only:
+    - master
 
 #deploy-current:
 #  stage: deploy
