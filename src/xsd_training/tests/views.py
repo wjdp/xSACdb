@@ -1,6 +1,7 @@
-
+import uuid
 
 from xSACdb.test_helpers import ViewTestMixin
+from xsd_sites.tests import SiteTestToolsMixin
 from xsd_training.views import *
 from .base import *
 
@@ -61,6 +62,7 @@ class TrainingLessonsViewTest(TrainingTestToolsMixin, ViewTestMixin, BaseTrainee
         #     r = c.get(self.URL)
         #     # TODO add content check, need to write content
 
+
 # TODO lesson detail
 
 class TrainingFeedbackViewTest(ViewTestMixin, BaseTraineeTest):
@@ -68,6 +70,7 @@ class TrainingFeedbackViewTest(ViewTestMixin, BaseTraineeTest):
     template_name = 'all_feedback.html'
 
     # TODO add some feedback, check
+
 
 # TODO pl-mouseover-api
 
@@ -108,20 +111,54 @@ class PoolSheetViewTest(BaseTrainingTest):
     def test_dumb_ps_theory(self):
         self.generic_ps(self.url_theory)
 
+
 # TODO retro lessons
 
 # TODO qualification award
 
-class InstructorUpcomingViewTest(ViewTestMixin, BaseInstructorTest):
+class InstructorUpcomingViewTest(ViewTestMixin, TrainingTestToolsMixin, SiteTestToolsMixin, BaseInstructorTest):
     url_name = 'xsd_training:InstructorUpcoming'
     template_name = 'instructor_upcoming.html'
 
+    def create_instructor_session(self, when, trainee=None, instructor=None):
+        if trainee is None:
+            trainee = self.get_trainee()
+        if instructor is None:
+            instructor = self.get_instructor()
+
+        sesh = Session.objects.create(
+            name=self.fake.name(),
+            when=when,
+            where=self.create_site(),
+            notes=uuid.uuid4(),  # allow us to search for this easily in responses
+        )
+        sesh.save()
+        pl = self.create_pl(trainee, instructor)
+        pl.session = sesh
+        pl.save()
+        return sesh
+
     def test_content(self):
         r = self.response
-        # Check a header and two SDCs
+        # check empty
         self.assertContains(r, 'You do not have any upcoming sessions')
 
-        # TODO test for actual upcoming sessions, blank page tested only
+        # create some sessions to work with
+        past_sesh = self.create_instructor_session(
+            self.get_past_datetime() - Session.LESSON_HISTORY,  # pad to make sure its well outside our timeframe
+            instructor=self.mp
+        )
+        future_sesh = self.create_instructor_session(self.get_future_datetime(), instructor=self.mp)
+        last_sesh = self.create_instructor_session(datetime.datetime.now() - (Session.LESSON_HISTORY / 2),
+                                                   instructor=self.mp)
+        todays_sesh = self.create_instructor_session(datetime.datetime.now(), instructor=self.mp)
+
+        r = self.get_response()
+        self.assertNotContains(r, past_sesh.notes)
+        self.assertContains(r, future_sesh.notes)
+        self.assertContains(r, last_sesh.notes)
+        self.assertContains(r, todays_sesh.notes)
+
 
 # TODO trainee notes search
 # TODO trainee notes detail
@@ -138,6 +175,7 @@ class SDCListViewTest(ViewTestMixin, BaseTraineeTest):
         self.assertContains(r, 'Compressor Operation')
         self.assertContains(r, 'Advanced Lifesaver Award')
 
+
 # TODO SDC register interest
 
 class PSDCPlanViewTest(TrainingTestToolsMixin, ViewTestMixin, BaseTrainingTest):
@@ -145,6 +183,7 @@ class PSDCPlanViewTest(TrainingTestToolsMixin, ViewTestMixin, BaseTrainingTest):
     view = PerformedSDCCreate
 
     # TODO actually create a PSDC
+
 
 class PSDCListViewTest(ViewTestMixin, BaseTraineeTest):
     url_name = 'xsd_training:PerformedSDCList'
@@ -168,6 +207,7 @@ class PSDCListViewTest(ViewTestMixin, BaseTraineeTest):
         psdc = self.setUp_single_SDC()
         r = self.get_response()
         self.assertContains(r, psdc.sdc.title)
+
 
 # TODO PSDC detail
 # TODO PSDC edit
@@ -212,6 +252,7 @@ class TraineeGroupCreate(ViewTestMixin, BaseTrainingTest):
         tgs = TraineeGroup.objects.all()
         self.assertEqual(len(tgs), 0)
 
+
 class TraineeGroupUpdate(ViewTestMixin, BaseTrainingTest):
     url_name = 'xsd_training:TraineeGroupUpdate'
     view = TraineeGroupUpdate
@@ -225,6 +266,7 @@ class TraineeGroupUpdate(ViewTestMixin, BaseTrainingTest):
     def test_content(self):
         r = self.response
         self.assertContains(r, self.TG_NAME)
+
 
 class TraineeGroupDelete(ViewTestMixin, BaseTrainingTest):
     url_name = 'xsd_training:TraineeGroupDelete'
@@ -245,5 +287,3 @@ class TraineeGroupDelete(ViewTestMixin, BaseTrainingTest):
         self.assertEqual(qs.count(), 0)
 
 # TODO group progress
-
-

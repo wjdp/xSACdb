@@ -14,8 +14,8 @@ from xsd_training.forms import *
 @require_instructor
 def InstructorUpcoming(request):
     def get_upcoming_sessions_by_instructor(instructor):
-        now = datetime.datetime.now() + datetime.timedelta(days=1)
-        sessions_query = Session.objects.filter(when__gt=now).order_by('when')
+        now = datetime.datetime.now() - Session.LESSON_HISTORY
+        sessions_query = Session.objects.filter(when__gte=now).order_by('when')
 
         sessions = []
 
