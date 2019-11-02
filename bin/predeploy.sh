@@ -1,15 +1,9 @@
 #!/bin/bash
 
+set -e
+
 cd /app
 
-if [[ $XSACDB_FAKE_DATA = "TRUE" ]]
-then
-    echo ">> Development dependencies"
-    pipenv install --deploy --system --dev
-fi
-
-webpack --mode production
-src/manage.py collectstatic --noinput
 src/manage.py migrate --noinput
 
 if [[ $XSACDB_FAKE_DATA = "TRUE" ]]

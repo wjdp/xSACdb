@@ -12,14 +12,24 @@ DEBUG = True
 MESSAGE_LEVEL = message_constants.DEBUG
 
 # Add debug apps and middleware
-INSTALLED_APPS = INSTALLED_APPS + (
-    'debug_toolbar',
-    'django_extensions',
-)
+try:
+    import debug_toolbar
+    INSTALLED_APPS = INSTALLED_APPS + (
+        'debug_toolbar',
+    )
+    MIDDLEWARE_CLASSES = MIDDLEWARE_CLASSES + (
+        'debug_toolbar.middleware.DebugToolbarMiddleware',
+    )
+except ImportError as e:
+    pass
 
-MIDDLEWARE_CLASSES = MIDDLEWARE_CLASSES + (
-    'debug_toolbar.middleware.DebugToolbarMiddleware',
-)
+try:
+    import django_extensions
+    INSTALLED_APPS = INSTALLED_APPS + (
+        'django_extensions',
+    )
+except ImportError as e:
+    pass
 
 # Club config
 CLUB = {
