@@ -1,0 +1,29 @@
+@mixin hide-sm
+    display: none
+    @include media-breakpoint-up(md)
+        display: block
+
+@mixin hide-md
+    display: block
+    @include media-breakpoint-up(md)
+        display: none
+
+.visible-xs
+    display: none
+    @include media-breakpoint-down(xs)
+        display: inline
+
+.visible-sm
+    display: none
+    @include media-breakpoint-down(sm)
+        display: inline
+
+.visible-md
+    display: none
+    @include media-breakpoint-down(md)
+        display: inline
+
+.visible-lg
+    display: none
+    @include media-breakpoint-down(lg)
+        display: inline

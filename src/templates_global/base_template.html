@@ -1,53 +1,38 @@
 {% load staticfiles %}
 {% load navigation %}
 {% load hijack_tags %}
+{% load render_bundle from webpack_loader %}
 <!doctype html>
 <html>
 <head>
-{% block pre_head %}{% endblock %}
+    {% block pre_head %}{% endblock %}
 
-<title>{% page_title %}</title>
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width, user-scalable=no" />
+    <title>{% page_title %}</title>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, user-scalable=no"/>
 
-<link rel="manifest" href="/manifest.json">
+    <link rel="manifest" href="/manifest.json">
 
-<link rel="stylesheet" type="text/css" media="screen" charset="utf-8"
-    href="{% static 'css/build.css' %}" />
+    {% if RAVEN_DSN %}
+        {# TODO: Move to js #}
+        <script type="text/javascript">
+            Raven.config('{{ RAVEN_DSN }}').install();
+            Raven.setUserContext({
+                email: '{{ request.user.email }}',
+                id: '{{ request.user.pk }}',
+                username: '{{ request.user.username }}'
+            });
+        </script>
+    {% endif %}
 
-<link rel="stylesheet" type="text/css" media="screen" charset="utf-8"
-    href="{% static 'bootstrap-datepicker/dist/css/bootstrap-datepicker3.min.css' %}" />
+    <!-- BUNDLE -->
+    {% render_bundle 'lib' %}
+    {% render_bundle 'app' %}
+    {% render_bundle 'styles' %}
 
-<script type="text/javascript" src="{% static 'js/lib.js' %}"></script>
+    {% include 'browser/head.html' %}
 
-{% if RAVEN_DSN %}
-<script type="text/javascript">
-    Raven.config('{{ RAVEN_DSN }}').install();
-    Raven.setUserContext({
-        email: '{{ request.user.email }}',
-        id: '{{ request.user.pk }}',
-        username: '{{ request.user.username }}'
-    });
-</script>
-{% endif %}
-
-<script type="text/javascript" src="/static/js/css_extra.js"></script>
-<script type="text/javascript" src="{% static 'js/app.js' %}"></script>
-
-<script type="text/javascript">
-navigator.serviceWorker.register('/service-worker.js', { scope: '/' })
-    .then(function(r) {
-      console.log('registered service worker');
-    })
-    .catch(function(whut) {
-      console.error('uh oh... ');
-      console.error(whut);
-    });
-</script>
-
-{% include 'browser/head.html' %}
-
-{% block post_head %}{% endblock %}
+    {% block post_head %}{% endblock %}
 </head>
 
 <body class="{% block body_class %}xsd{% endblock %}"
