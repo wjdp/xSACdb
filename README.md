@@ -14,8 +14,8 @@ Requirements
 
 - Linux OS, tested on Ubuntu and Debian
 - Python 3.7
+- Node 12.x
 - virtualenv
-- Bower
 - Sass
 
 Install
@@ -24,7 +24,6 @@ xSACdb is a Python web application, it is built on the Django web framework. For
 
 Install within a virtualenv container, this isolates the dependencies of xSACdb from the rest of your server. If you know what you're doing this'll get you up and running quickly (config needs doing first):
 
-    bower install
     pip install -r requirements.txt
     src/manage.py migrate
     src/manage.py reset_fake_db

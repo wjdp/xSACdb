@@ -18,9 +18,9 @@ RUN apt-get update && apt-get install -qy python3-pip python3-dev
 RUN pip3 install pipenv
 
 # Node
-RUN curl -sL https://deb.nodesource.com/setup_10.x | bash
+RUN curl -sL https://deb.nodesource.com/setup_12.x | bash
 RUN apt-get update && apt-get install -qy nodejs
-RUN npm install -g bower uglifyjs coffee-script jsonlint gulp-cli
+RUN npm install -g npm
 
 # Ruby
 RUN apt-get update && apt-get install -qy ruby ruby-dev
@@ -33,13 +33,9 @@ ENV XSACDB_CONTAINER DOCKER
 ADD bin/install-pre.sh /app/bin/
 ADD Pipfile /app/
 ADD Pipfile.lock /app/
-ADD .bowerrc /app/
-ADD bower.json /app/
 ADD package.json /app/
 RUN /app/bin/install-pre.sh
 
-ADD lib /app/lib
-ADD dist /app/dist
 ADD . /app
 RUN /app/bin/install-post.sh
 

@@ -13,10 +13,6 @@ pipenv install --system --deploy
 echo "[xSACdb] Installing frontend dependencies..."
 # Just check the sass version
 sass -v
-# Bower things
-bower install -q --allow-root
-# This folder is trouble (whitenoise issue I think)
-rm -rf lib/tether/examples
 # NPM things
 npm install
 
