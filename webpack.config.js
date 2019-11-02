@@ -21,12 +21,6 @@ module.exports = (env, argv) => {
         module: {
             rules: [
                 {
-                    test: /lib\.js$/,
-                    use: [
-                        // 'expose-loader',
-                    ]
-                },
-                {
                     test: /\.(sa|sc|c)ss$/,
                     use: [
                         {
