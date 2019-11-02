@@ -11,8 +11,24 @@ DEBUG = False
 TEMPLATE_DEBUG = False
 
 EMAIL_BACKEND = 'xSACdb.mail.EnqueueBackend'
+ALLOW_UNSAFE = os.environ.get('XSACDB_ALLOW_UNSAFE') == 'TRUE'
 
-from local_settings import *
+if ALLOW_UNSAFE:
+    # Should be overriden by local_settings
+    EMAIL_FROM = 'placeholder@xsacdb.wjdp.uk'
+    ALLOWED_HOSTS = []
+    CLUB = {'name': 'MadeUpSAC'}
+    SECRET_KEY = 'abc123'
+    GEOPOSITION_GOOGLE_MAPS_API_KEY = 'abc123'
+
+try:
+    from local_settings import *
+except ImportError as e:
+    if ALLOW_UNSAFE:
+        print("local_settings.py is not present")
+    else:
+        raise e
+
 from xSACdb.version import VERSION
 
 # Patch debug apps into staging instances
@@ -42,25 +58,27 @@ else:
 if 'XSACDB_CONTAINER' in os.environ and os.environ['XSACDB_CONTAINER'] == 'DOCKER':
     ALLOWED_HOSTS.append(socket.getaddrinfo(socket.gethostname(), b'http')[0][4][0])
 
-    # If in a docker container, parse the database URL
-    DATABASES = {
-        'default': dj_database_url.parse(
-            os.environ['DATABASE_URL']
-        )
-    }
+    if 'DATABASE_URL' in os.environ:
+        # If in a docker container, parse the database URL
+        DATABASES = {
+            'default': dj_database_url.parse(
+                os.environ['DATABASE_URL']
+            )
+        }
 
-    # Keep a database connection open. Kill at a defined limit to prevent leaks or other issues.
-    # http://www.revsys.com/blog/2015/may/06/django-performance-simple-things/
-    DATABASES['default']['CONN_MAX_AGE'] = 600
+        # Keep a database connection open. Kill at a defined limit to prevent leaks or other issues.
+        # http://www.revsys.com/blog/2015/may/06/django-performance-simple-things/
+        DATABASES['default']['CONN_MAX_AGE'] = 600
 
-    # Cache data store
-    CACHES = {
-        'default': {
-            'BACKEND': 'redis_cache.RedisCache',
-            'LOCATION': os.environ['REDIS_URL'],
-            'KEY_PREFIX': os.environ['REDIS_KEY_PREFIX'],
-        },
-    }
+    if 'REDIS_URL' in os.environ:
+        # Cache data store
+        CACHES = {
+            'default': {
+                'BACKEND': 'redis_cache.RedisCache',
+                'LOCATION': os.environ['REDIS_URL'],
+                'KEY_PREFIX': os.environ['REDIS_KEY_PREFIX'],
+            },
+        }
 
     # Background task queues, uses same connection as django-redis-cache
     RQ_QUEUES = {

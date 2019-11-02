@@ -14,7 +14,7 @@ module.exports = (env, argv) => {
             styles: './styles/main.sass',
         },
         output: {
-            path: path.resolve(__dirname, './dist'),
+            path: path.resolve(__dirname, './dist/webpack'),
             publicPath: '/static/',
             filename: DEV ? "[name].js" : '[name].[chunkhash].js',
         },

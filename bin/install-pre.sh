@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+set -e
+
 echo "[xSACdb] Running install-pre.sh"
 
 env
