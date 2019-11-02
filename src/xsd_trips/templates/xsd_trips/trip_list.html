@@ -50,7 +50,10 @@
                 {% endif %}
             </td>
             <td class="trip-col-dates">
-                {{ trip.date_start }} —<br/>{{ trip.date_end }}
+                {{ trip.date_start }}
+                {% if trip.date_start != trip.date_end %}
+                    —<br/>{{ trip.date_end }}
+                {% endif %}
             </td>
         </tr>
     {% endfor %}

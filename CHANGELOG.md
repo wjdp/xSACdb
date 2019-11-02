@@ -4,6 +4,13 @@ All notable changes to this project will be documented in this file. Notes shoul
 xSACdb instances. This project will soon adhere to [Semantic Versioning](http://semver.org/).
 
 
+## Unreleased
+
+### Fixed
+
+- #340 Trip date in list should only show one date if starts and ends on same day
+
+
 ## [0.8.0] - 2019-11-02
 
 ### Changed
