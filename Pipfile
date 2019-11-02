@@ -5,7 +5,7 @@ verify_ssl = true
 
 [dev-packages]
 django-extensions = "==1.7.9"
-werkzeug = "==0.12.2"
+werkzeug = "==0.15.3"
 2to3 = "*"
 honcho = "*"
 
