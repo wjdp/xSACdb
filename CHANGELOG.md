@@ -4,6 +4,14 @@ All notable changes to this project will be documented in this file. Notes shoul
 xSACdb instances. This project will soon adhere to [Semantic Versioning](http://semver.org/).
 
 
+## Unreleased
+
+### Changed
+
+- Upgraded Python version from v2 to v3.
+- Show 2 weeks of past lessons to instructors in the upcoming lessons view. 
+
+
 ## [0.7.0] - 2019-05-18
 
 ### Added
