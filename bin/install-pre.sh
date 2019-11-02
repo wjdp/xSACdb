@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+set -e
+
 echo "[xSACdb] Running install-pre.sh"
 
 env
@@ -11,15 +13,8 @@ echo "[xSACdb] Installing python dependencies..."
 pipenv install --system --deploy
 
 echo "[xSACdb] Installing frontend dependencies..."
-# Just check the sass version
-sass -v
-# Bower things
-bower install -q --allow-root
-# This folder is trouble (whitenoise issue I think)
-rm -rf lib/tether/examples
-# NPM things
-npm install
 
+npm install
 mkdir -p dist
 date +%s > dist/pre.timestamp
 

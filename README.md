@@ -16,9 +16,8 @@ Requirements
 
 - Linux OS, tested on Ubuntu and Debian
 - Python 3.7
+- Node 12.x
 - pipenv
-- Bower
-- Sass
 
 
 Running Locally
@@ -27,7 +26,6 @@ xSACdb is a Python web application, it is built on the Django web framework. For
 
 For development you can run the server from a local shell. Firstly get your local environment set up by installing Python and frontend packages:
 
-    bower install
     npm install
     pipenv install
 

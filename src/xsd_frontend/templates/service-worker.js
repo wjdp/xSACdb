@@ -1,1 +1,0 @@
-/* Blank service worker */

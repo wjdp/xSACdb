@@ -13,8 +13,10 @@
 __pycache__
 coverage.xml
 db.sqlite3
+dist
 Dockerfile
 env
+media
 node_modules
 pip-log.txt
 tmp

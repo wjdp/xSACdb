@@ -32,9 +32,4 @@ urlpatterns = [
         content_type='application/xml'),
         name='app-browserconfig'
         ),
-
-    url(r'service-worker\.js$', TemplateView.as_view(
-        template_name='service-worker.js',
-        content_type='text/javascript'),
-        name='app-service-worker'),
 ]

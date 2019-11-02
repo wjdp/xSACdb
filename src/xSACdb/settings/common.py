@@ -18,7 +18,7 @@ ADMIN_MEDIA_PREFIX = ''
 # Define project paths
 PROJECT_PATH = os.path.join(os.path.dirname(__file__), '../../..')
 SRC_PATH = os.path.join(PROJECT_PATH, 'src')
-LIB_PATH = os.path.join(PROJECT_PATH, 'lib')
+ASSETS_PATH = os.path.join(PROJECT_PATH, 'assets')
 DIST_PATH = os.path.join(PROJECT_PATH, 'dist')
 TMP_PATH = os.path.join(PROJECT_PATH, 'tmp')
 CONF_PATH = os.path.join(PROJECT_PATH, 'conf')
@@ -50,7 +50,6 @@ LOGIN_EXEMPT_URLS = (
     r'^health/',  # Needs to be publicly accessible
     r'^favicon.ico$',
     r'^manifest.json$',
-    r'^service-worker.js',
     r'^inspect.json', # Uses an API key
 )
 
@@ -82,9 +81,8 @@ STATICFILES_DIRS = (
     # Always use forward slashes, even on Windows.
     # Don't forget to use absolute paths, not relative paths.
     os.path.join(CONF_PATH, 'static'),
-    os.path.join(DIST_PATH, 'post'),
-    os.path.join(SRC_PATH, 'static_global'),
-    LIB_PATH,
+    os.path.join(DIST_PATH, 'webpack'),
+    ASSETS_PATH,
 )
 
 # List of finder classes that know how to find static files in
@@ -99,6 +97,17 @@ STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 # HACK: WN doesn't seem to pick up dj compressor files as forever-cacheable
 # TODO: Is this needed anymore?
 WHITENOISE_MAX_AGE = 315360000
+
+WEBPACK_LOADER = {
+    'DEFAULT': {
+        'CACHE': False, # set to true in production.py
+        'BUNDLE_DIR_NAME': '/', # must end with slash
+        'STATS_FILE': os.path.join(DIST_PATH, 'webpack-stats.json'),
+        'POLL_INTERVAL': 0.1,
+        'TIMEOUT': 20,
+        'IGNORE': [r'.+\.hot-update.js', r'.+\.map']
+    }
+}
 
 TEMPLATES = [
     {
@@ -197,6 +206,8 @@ INSTALLED_APPS = (
     'health_check.db',
     'health_check.cache',
     'health_check.storage',
+
+    'webpack_loader',
 )
 
 CACHES = {

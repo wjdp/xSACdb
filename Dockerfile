@@ -11,35 +11,26 @@ RUN sed -i -e 's/# en_GB.UTF-8 UTF-8/en_GB.UTF-8 UTF-8/' /etc/locale.gen && \
 ENV LANG en_GB.UTF-8
 
 # System
-RUN apt-get update && apt-get install -qy supervisor build-essential git curl libpq-dev libjpeg-dev zlib1g-dev imagemagick
+RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install -qy supervisor build-essential git curl libpq-dev libjpeg-dev zlib1g-dev imagemagick
 
 # Python
-RUN apt-get update && apt-get install -qy python3-pip python3-dev
-RUN pip3 install pipenv
+RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install -qy python3-pip python3-dev && pip3 install pipenv
 
 # Node
-RUN curl -sL https://deb.nodesource.com/setup_10.x | bash
-RUN apt-get update && apt-get install -qy nodejs
-RUN npm install -g bower uglifyjs coffee-script jsonlint gulp-cli
-
-# Ruby
-RUN apt-get update && apt-get install -qy ruby ruby-dev
-RUN gem install bundler sass
+RUN curl -sL https://deb.nodesource.com/setup_12.x | bash
+RUN DEBIAN_FRONTEND=noninteractive apt-get install -qy nodejs
+RUN npm install -g npm
 
 # Application
 ENV XSACDB_ENVIRONMENT PRODUCTION
 ENV XSACDB_CONTAINER DOCKER
 
+# Environment installation, only invalidated when we upgrade third-party packages
+ADD Pipfile Pipfile.lock package.json package-lock.json /app/
 ADD bin/install-pre.sh /app/bin/
-ADD Pipfile /app/
-ADD Pipfile.lock /app/
-ADD .bowerrc /app/
-ADD bower.json /app/
-ADD package.json /app/
 RUN /app/bin/install-pre.sh
 
-ADD lib /app/lib
-ADD dist /app/dist
+# Add the actuall app code in
 ADD . /app
 RUN /app/bin/install-post.sh
 

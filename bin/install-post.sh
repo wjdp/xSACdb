@@ -1,6 +1,9 @@
 #!/usr/bin/env bash
 
-# Fast stuff / stuff that needs app code here
+set -e
+export XSACDB_ALLOW_UNSAFE=TRUE
+
+# Jobs that needs app code here
 
 echo "[xSACdb] Running install-post.sh"
 
@@ -14,10 +17,14 @@ mkdir log
 pwd
 ls -lah
 
+echo "[xSACdb] Frontend build"
+
+./node_modules/.bin/webpack --mode production
+src/manage.py collectstatic --noinput
+
 echo "[xSACdb] Setting up shell"
 
 cp .bashrc /root/.bashrc
-
 date +%s > dist/post.timestamp
 
 echo "[xSACdb] install-post.sh complete!"

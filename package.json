@@ -1,20 +1,27 @@
 {
-  "name": "xsacdb",
-  "private": true,
-  "devDependencies": {
-    "cssnano": "^3.10.0",
-    "gulp": "^3.9.1",
-    "gulp-batch": "^1.0.5",
-    "gulp-coffee": "^2.3.4",
-    "gulp-concat": "^2.6.1",
-    "gulp-if": "^2.0.2",
-    "gulp-postcss": "^6.4.0",
-    "gulp-sass": "^3.1.0",
-    "gulp-shell": "^0.6.3",
-    "gulp-sourcemaps": "^2.6.0",
-    "gulp-uglify": "^2.1.2",
-    "gulp-util": "^3.0.8",
-    "gulp-watch": "^4.3.11",
-    "postcss-cssnext": "^2.10.0"
-  }
+    "name": "xsacdb",
+    "private": true,
+    "dependencies": {
+        "bootstrap": "v4.0.0-alpha.6",
+        "bootstrap-datepicker": "^1.6.4",
+        "bourbon": "~4.3.4",
+        "css-loader": "^3.2.0",
+        "cssnano": "^3.10.0",
+        "expose-loader": "^0.7.5",
+        "file-loader": "^4.2.0",
+        "font-awesome": "^4.7.0",
+        "jquery": "^2.2.3",
+        "jquery-form": "^3.46.0",
+        "jquery.tokeninput": "https://github.com/loopj/jquery-tokeninput/archive/v1.7.0.tar.gz",
+        "mini-css-extract-plugin": "^0.8.0",
+        "node-sass": "^4.13.0",
+        "postcss-cssnext": "^2.10.0",
+        "raven-js": "^3.0.4",
+        "sass-loader": "^8.0.0",
+        "tether": "^1.3.2",
+        "webpack": "^4.41.2",
+        "webpack-bundle-tracker": "^0.4.3",
+        "webpack-cli": "^3.3.10"
+    },
+    "devDependencies": {}
 }

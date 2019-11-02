@@ -18,16 +18,13 @@ static:
   before_script:
     - export XSACDB_ENVIRONMENT=TEST
     - pipenv install --deploy --system
-    - bower install --allow-root
-    - rm -rf lib/tether/examples
     - npm install
   script:
-    - gulp deploy
+    - ./node_modules/.bin/webpack --mode production
     - src/manage.py collectstatic --noinput
   artifacts:
     paths:
       - dist/
-      - lib/
 
 check:
   stage: test
