@@ -9,4 +9,4 @@ import "./legacy/trips-list.js"
 import "./legacy/xsd-lesson-modal.js"
 import "./legacy/xsd-pl-matrix.js"
 
-console.debug('Webpack app loaded');
+console.debug('[xSACdb] 🐙 Bundle loaded');
