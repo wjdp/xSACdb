@@ -11,6 +11,7 @@
             <path value="file://$PROJECT_DIR$/src/xsd_members/static/images" />
             <path value="file://$PROJECT_DIR$/src/xsd_sites/static/images" />
             <path value="file://$PROJECT_DIR$/src/xsd_training/static/images" />
+            <path value="file://$PROJECT_DIR$/assets" />
           </resourceRoots>
         </entryData>
       </entry>
