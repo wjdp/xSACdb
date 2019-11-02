@@ -17,7 +17,6 @@ ls -lah
 echo "[xSACdb] Setting up shell"
 
 cp .bashrc /root/.bashrc
-
 date +%s > dist/post.timestamp
 
 echo "[xSACdb] install-post.sh complete!"

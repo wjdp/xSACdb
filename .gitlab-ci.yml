@@ -20,12 +20,11 @@ static:
     - pipenv install --deploy --system
     - npm install
   script:
-    - gulp deploy
+    - webpack --mode production
     - src/manage.py collectstatic --noinput
   artifacts:
     paths:
       - dist/
-      - lib/
 
 check:
   stage: test

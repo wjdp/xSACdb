@@ -8,7 +8,7 @@ then
     pipenv install --deploy --system --dev
 fi
 
-gulp deploy
+webpack --mode production
 src/manage.py collectstatic --noinput
 src/manage.py migrate --noinput
 

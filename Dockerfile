@@ -22,10 +22,6 @@ RUN curl -sL https://deb.nodesource.com/setup_12.x | bash
 RUN apt-get update && apt-get install -qy nodejs
 RUN npm install -g npm
 
-# Ruby
-RUN apt-get update && apt-get install -qy ruby ruby-dev
-RUN gem install bundler sass
-
 # Application
 ENV XSACDB_ENVIRONMENT PRODUCTION
 ENV XSACDB_CONTAINER DOCKER

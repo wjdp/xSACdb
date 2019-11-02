@@ -11,11 +11,8 @@ echo "[xSACdb] Installing python dependencies..."
 pipenv install --system --deploy
 
 echo "[xSACdb] Installing frontend dependencies..."
-# Just check the sass version
-sass -v
-# NPM things
-npm install
 
+npm install
 mkdir -p dist
 date +%s > dist/pre.timestamp
 

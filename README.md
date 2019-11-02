@@ -16,7 +16,6 @@ Requirements
 - Python 3.7
 - Node 12.x
 - virtualenv
-- Sass
 
 Install
 -------
