@@ -34,8 +34,7 @@ class RQSchedulerHealthCheck(BaseHealthCheckBackend):
             scheduler = get_scheduler('default')
             if not scheduler:
                 self.add_error(ServiceUnavailable("No scheduler"))
-            jobs = scheduler.get_jobs()
-            if len(jobs) == 0:
+            if scheduler.count() == 0:
                 self.add_error(ServiceUnavailable("No jobs in scheduler"))
         except BaseException as e:
             self.add_error(ServiceUnavailable("Unknown error"), e)

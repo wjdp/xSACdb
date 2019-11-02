@@ -8,6 +8,7 @@ xSACdb instances. This project will soon adhere to [Semantic Versioning](http://
 
 ### Fixed
 
+- #342 Scheduler health check crashing
 - #340 Trip date in list should only show one date if starts and ends on same day
 
 
