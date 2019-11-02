@@ -4,39 +4,49 @@
 
 A web based database for managing [BSAC](https://www.bsac.com/) branch clubs. It looks after membership details, training records, known sites and club trips.
 
+
 Demo
 ----
 
 You can find information about demo instances of the application here: <http://xsacdb.wjdp.uk/demo/>.
+
 
 Requirements
 ------------
 
 - Linux OS, tested on Ubuntu and Debian
 - Python 3.7
-- virtualenv
+- pipenv
 - Bower
 - Sass
 
-Install
+
+Running Locally
 -------
 xSACdb is a Python web application, it is built on the Django web framework. For production use the only supported deployment method is via Docker. See section below.
 
-Install within a virtualenv container, this isolates the dependencies of xSACdb from the rest of your server. If you know what you're doing this'll get you up and running quickly (config needs doing first):
+For development you can run the server from a local shell. Firstly get your local environment set up by installing Python and frontend packages:
 
     bower install
-    pip install -r requirements.txt
-    src/manage.py migrate
-    src/manage.py reset_fake_db
-    src/manage.py runserver
+    npm install
+    pipenv install
 
-You'll also need to run some background task workers with `src/manage.py rqworker` and a scheduler `src/manage.py rqscheduler`.
+Then get your database created and filled with fake data:
+
+    pipenv run src/manage.py migrate
+    pipenv run src/manage.py reset_fake_db
+
+Finally start the application with:
+
+    pipenv run honcho start
+
 
 BSAC Data
 ---------
 The application is distributed without any qualifications, lessons or SDCs. I've not fully looked into this but I'm guessing BSAC has copyright on that data. You'll have to put this in yourself.
 
+
 Deployment
 ----------
 
-Deployment via Dokku is no longer supported. See the `docker-compose.yml` file in the repo for an example on how to get a server up. More docs to follow.
+Deployment is via a docker container. See the `docker-compose.yml` file in the repo for an example on how to get a server up. More docs to follow.
