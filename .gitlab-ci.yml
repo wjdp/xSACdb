@@ -1,5 +1,3 @@
-image: wjdp/xsacdb:py3
-
 variables:
   POSTGRES_DB: xsacdb
   POSTGRES_USER: runner
@@ -10,88 +8,49 @@ variables:
 stages:
   - build
   - test
-  - docker
   - deploy
 
-static:
+build:
   stage: build
+  image: docker:19.03.1
+  services:
+    - docker:19.03.1-dind
   before_script:
-    - export XSACDB_ENVIRONMENT=TEST
-    - pipenv install --deploy --system
-    - npm install
+    - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
+    - docker pull wjdp/xsacdb:next || true
   script:
-    - ./node_modules/.bin/webpack --mode production
-    - src/manage.py collectstatic --noinput
-  artifacts:
-    paths:
-      - dist/
+    - docker build --cache-from docker.io/wjdp/xsacdb:next -t $CI_REGISTRY_IMAGE/ci:$CI_COMMIT_REF_SLUG .
+    - docker push $CI_REGISTRY_IMAGE/ci:$CI_COMMIT_REF_SLUG
 
-check:
+django-test:
   stage: test
-  before_script:
-    - export XSACDB_ENVIRONMENT=TEST
-    - pipenv install --deploy --system
-  script:
-    - src/manage.py check
-
-test:
-  stage: test
+  image: $CI_REGISTRY_IMAGE/ci:$CI_COMMIT_REF_SLUG
+  variables:
+    GIT_STRATEGY: none
   services:
     - postgres:latest
     - redis:latest
   before_script:
     - export XSACDB_ENVIRONMENT=TEST
-    - locale
-    - pipenv install --deploy --system
+    - cd /app
     - mkdir tmp
     - curl $BSAC_DATA > tmp/bsac_data.yaml
   script:
-    - coverage run --include=src/\* --omit=\*/migrations/\*  src/manage.py test xSACdb xsd_about xsd_auth xsd_frontend xsd_help xsd_kit xsd_members xsd_sites xsd_training xsd_trips
-    - coverage report --skip-covered
-    - coverage xml
-    - pip3 install codacy-coverage
-    - python-codacy-coverage -r coverage.xml
+    - src/manage.py check
+    - src/manage.py test xSACdb xsd_about xsd_auth xsd_frontend xsd_help xsd_kit xsd_members xsd_sites xsd_training xsd_trips
 
-docker-build-next:
-  image: docker
-  stage: docker
+deploy-next:
+  stage: deploy
+  image: docker:19.03.1
+  variables:
+    GIT_STRATEGY: none
   services:
-    - docker:dind
+    - docker:19.03.1-dind
   before_script:
-    - docker pull wjdp/xsacdb:next || true
+    - docker pull $CI_REGISTRY_IMAGE/ci:$CI_COMMIT_REF_SLUG
     - docker login -u $DOCKER_HUB_USER -p $DOCKER_HUB_TOKEN
   script:
-    - docker build --cache-from docker.io/wjdp/xsacdb:next -t wjdp/xsacdb:next .
+    - docker tag $CI_REGISTRY_IMAGE/ci:$CI_COMMIT_REF_SLUG wjdp/xsacdb:next
     - docker push wjdp/xsacdb:next
   only:
     - master
-
-#deploy-current:
-#  stage: deploy
-#  only:
-#    - master
-#  script:
-#    - mkdir -p ~/.ssh
-#    - echo "$SSH_PRIVATE_KEY" | tr -d '\r' > ~/.ssh/id_rsa && chmod 600 ~/.ssh/id_rsa
-#    - ssh-keyscan -H "$DEPLOY_HOST" >> ~/.ssh/known_hosts
-#    - git push dokku@$DEPLOY_HOST:xsacdb-current HEAD:master -f
-#  environment:
-#    name: xsacdb-current
-#    url: https://current.xsacdb.wjdp.uk
-#  tags:
-#    - docker
-#
-#deploy-next:
-#  stage: deploy
-#  only:
-#    - develop
-#  script:
-#    - mkdir -p ~/.ssh
-#    - echo "$SSH_PRIVATE_KEY" | tr -d '\r' > ~/.ssh/id_rsa && chmod 600 ~/.ssh/id_rsa
-#    - ssh-keyscan -H "$DEPLOY_HOST" >> ~/.ssh/known_hosts
-#    - git push dokku@$DEPLOY_HOST:xsacdb-next HEAD:master -f
-#  environment:
-#    name: xsacdb-next
-#    url: https://next.xsacdb.wjdp.uk
-#  tags:
-#    - docker
