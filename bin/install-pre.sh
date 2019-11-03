@@ -14,7 +14,7 @@ pipenv install --system --deploy
 
 echo "[xSACdb] Installing frontend dependencies..."
 
-npm install
+npm ci
 mkdir -p dist
 date +%s > dist/pre.timestamp
 
