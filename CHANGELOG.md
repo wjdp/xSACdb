@@ -11,6 +11,10 @@ xSACdb instances. This project will soon adhere to [Semantic Versioning](http://
 - #342 Scheduler health check crashing
 - #340 Trip date in list should only show one date if starts and ends on same day
 
+### Refactored
+
+- Replaced the outdated bower/gulp frontend build system with Webpack.
+
 
 ## [0.8.0] - 2019-11-02
 
