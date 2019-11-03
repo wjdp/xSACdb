@@ -36,11 +36,11 @@ gunicorn = "~=19.7.1"
 pillow = "~=4.1.1"
 psycopg2 = "~=2.7.1"
 pyyaml = "~=3.12"
-raven = "~=6.1.0"
 requests = "~=2.18.1"
 rq-scheduler = "~=0.9.1"
 whitenoise = "~=3.3.0"
 django-webpack-loader = "~=0.6.0"
+sentry-sdk = "~=0.13.1"
 
 [requires]
 python_version = "3.7"
