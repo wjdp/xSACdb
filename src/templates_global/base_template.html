@@ -3,7 +3,7 @@
 {% load hijack_tags %}
 {% load render_bundle from webpack_loader %}
 <!doctype html>
-<html>
+<html lang="en-gb">
 <head>
     {% block pre_head %}{% endblock %}
 
@@ -11,19 +11,13 @@
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width, user-scalable=no"/>
 
+    <!--suppress HtmlUnknownTarget -->
     <link rel="manifest" href="/manifest.json">
 
-    {% if RAVEN_DSN %}
-        {# TODO: Move to js #}
-        <script type="text/javascript">
-            Raven.config('{{ RAVEN_DSN }}').install();
-            Raven.setUserContext({
-                email: '{{ request.user.email }}',
-                id: '{{ request.user.pk }}',
-                username: '{{ request.user.username }}'
-            });
-        </script>
-    {% endif %}
+    {# Global JS object to pass state from backend to frontend #}
+    <script type="text/javascript">
+        window.g = {{ global_json|safe }};
+    </script>
 
     <!-- BUNDLE -->
     {% render_bundle 'lib' %}

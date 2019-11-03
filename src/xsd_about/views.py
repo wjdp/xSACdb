@@ -4,7 +4,7 @@ from django.contrib.auth import get_user_model
 from django.contrib.auth.models import Group
 from django.views.generic.base import TemplateView
 
-from xSACdb.build_info import get_time, PRE_FILE, POST_FILE, DEPLOY_FILE
+from xSACdb.environment import get_time, PRE_FILE, POST_FILE, DEPLOY_FILE
 from xSACdb.roles.mixins import RequireVerified, is_admin
 from xSACdb.version import *
 

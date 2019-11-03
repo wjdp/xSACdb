@@ -9,4 +9,6 @@ import "./legacy/trips-list.js"
 import "./legacy/xsd-lesson-modal.js"
 import "./legacy/xsd-pl-matrix.js"
 
+import "./sentry"
+
 console.debug('[xSACdb] 🐙 Bundle loaded');

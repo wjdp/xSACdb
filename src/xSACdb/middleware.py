@@ -60,14 +60,3 @@ class NewbieProfileFormRedirectMiddleware:
                 return HttpResponseRedirect(newbie_form_url)
         else:
             cache.set(CACHE_KEY, True, 3600)
-
-
-def dev_show_toolbar(request):
-    """
-    More permissive debug toolbar, for dev.xsacdb.wjdp.uk. Allows anyone with HTTP access, access to the debug toolbar.
-    """
-
-    if request.is_ajax():
-        return False
-
-    return bool(settings.DEBUG)

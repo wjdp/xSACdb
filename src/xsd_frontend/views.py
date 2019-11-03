@@ -9,7 +9,7 @@ from django.shortcuts import render, redirect
 from django.views.generic import ListView
 
 from .forms import UpdateRequestMake, ClassicSignupForm
-from xSACdb.build_info import get_time, PRE_FILE, POST_FILE, DEPLOY_FILE
+from xSACdb.environment import get_time, PRE_FILE, POST_FILE, DEPLOY_FILE
 from xSACdb.roles.mixins import RequirePreauth
 from xSACdb.version import VERSION
 from xsd_frontend.activity import XSDAction
