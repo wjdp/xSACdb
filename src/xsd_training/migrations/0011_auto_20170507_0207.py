@@ -29,7 +29,7 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='performedqualification',
             name='signed_off_by',
-            field=models.ForeignKey(related_name='pqs_signed', on_delete=django.db.models.deletion.PROTECT, blank=True, to='xsd_members.MemberProfile', help_text='Who signed the QRB? Usually the branch DO.', null=True),
+            field=models.ForeignKey(related_name='pqs_signed', on_delete=models.PROTECT, blank=True, to='xsd_members.MemberProfile', help_text='Who signed the QRB? Usually the branch DO.', null=True),
         ),
         migrations.AlterField(
             model_name='performedqualification',

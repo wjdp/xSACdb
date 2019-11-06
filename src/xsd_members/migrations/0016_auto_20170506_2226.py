@@ -40,16 +40,16 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='memberprofile',
             name='top_instructor_qual_cached',
-            field=models.ForeignKey(related_name='top_instructor_qual_cached', blank=True, editable=False, to='xsd_training.Qualification', null=True),
+            field=models.ForeignKey(related_name='top_instructor_qual_cached', blank=True, editable=False, to='xsd_training.Qualification', null=True, on_delete=models.SET_NULL),
         ),
         migrations.AlterField(
             model_name='memberprofile',
             name='top_qual_cached',
-            field=models.ForeignKey(related_name='top_qual_cached', blank=True, editable=False, to='xsd_training.Qualification', null=True),
+            field=models.ForeignKey(related_name='top_qual_cached', blank=True, editable=False, to='xsd_training.Qualification', null=True, on_delete=models.SET_NULL),
         ),
         migrations.AlterField(
             model_name='memberprofile',
             name='user',
-            field=models.OneToOneField(null=True, blank=True, editable=False, to=settings.AUTH_USER_MODEL),
+            field=models.OneToOneField(null=True, blank=True, editable=False, to=settings.AUTH_USER_MODEL, on_delete=models.CASCADE),
         ),
     ]

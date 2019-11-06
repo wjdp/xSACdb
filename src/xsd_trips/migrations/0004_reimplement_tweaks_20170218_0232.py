@@ -31,12 +31,12 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='trip',
             name='min_qual',
-            field=models.ForeignKey(blank=True, to='xsd_training.Qualification', help_text="Indication of the minimum qualification needed to participate on this trip's diving.", null=True, verbose_name='Minimum qualification'),
+            field=models.ForeignKey(blank=True, to='xsd_training.Qualification', help_text="Indication of the minimum qualification needed to participate on this trip's diving.", null=True, verbose_name='Minimum qualification', on_delete=models.SET_NULL),
         ),
         migrations.AlterField(
             model_name='trip',
             name='owner',
-            field=models.ForeignKey(related_name='trip_owner', verbose_name='Organiser', to='xsd_members.MemberProfile'),
+            field=models.ForeignKey(related_name='trip_owner', verbose_name='Organiser', to='xsd_members.MemberProfile', on_delete=models.SET_NULL),
         ),
         migrations.AlterField(
             model_name='trip',

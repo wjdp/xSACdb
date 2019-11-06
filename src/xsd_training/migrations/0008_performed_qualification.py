@@ -20,9 +20,9 @@ class Migration(migrations.Migration):
                 ('signed_off_on', models.DateField(null=True)),
                 ('notes', models.TextField(null=True)),
                 ('created', models.DateTimeField(auto_now_add=True)),
-                ('qualification', models.ForeignKey(to='xsd_training.Qualification', on_delete=django.db.models.deletion.PROTECT)),
-                ('signed_off_by', models.ForeignKey(related_name='pqs_signed', on_delete=django.db.models.deletion.PROTECT, to='xsd_members.MemberProfile', null=True)),
-                ('trainee', models.ForeignKey(to='xsd_members.MemberProfile')),
+                ('qualification', models.ForeignKey(to='xsd_training.Qualification', on_delete=models.PROTECT)),
+                ('signed_off_by', models.ForeignKey(related_name='pqs_signed', on_delete=models.PROTECT, to='xsd_members.MemberProfile', null=True)),
+                ('trainee', models.ForeignKey(to='xsd_members.MemberProfile', on_delete=models.CASCADE)),
             ],
         ),
         migrations.AlterModelOptions(

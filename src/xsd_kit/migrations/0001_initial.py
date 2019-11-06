@@ -26,7 +26,7 @@ class Migration(migrations.Migration):
                 ('purchase_date', models.DateField(null=True, blank=True)),
                 ('needs_testing', models.BooleanField()),
                 ('test_date', models.DateField(null=True, blank=True)),
-                ('owner', models.ForeignKey(blank=True, to=settings.AUTH_USER_MODEL, null=True)),
+                ('owner', models.ForeignKey(blank=True, to=settings.AUTH_USER_MODEL, null=True, on_delete=models.SET_NULL)),
             ],
             options={
                 'ordering': ['type', 'size', 'club_id'],
@@ -44,7 +44,7 @@ class Migration(migrations.Migration):
                 ('date_start', models.DateField()),
                 ('date_end', models.DateField()),
                 ('kit', models.ManyToManyField(to='xsd_kit.Kit')),
-                ('member', models.ForeignKey(to=settings.AUTH_USER_MODEL)),
+                ('member', models.ForeignKey(to=settings.AUTH_USER_MODEL, on_delete=models.CASCADE)),
             ],
             options={
             },

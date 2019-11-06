@@ -98,13 +98,13 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='performedlesson',
             name='instructor',
-            field=models.ForeignKey(related_name='pl_instructor', blank=True, to='xsd_members.MemberProfile', null=True),
+            field=models.ForeignKey(related_name='pl_instructor', blank=True, to='xsd_members.MemberProfile', null=True, on_delete=models.SET_NULL),
             preserve_default=True,
         ),
         migrations.AlterField(
             model_name='performedlesson',
             name='trainee',
-            field=models.ForeignKey(related_name='pl_trainee', to='xsd_members.MemberProfile'),
+            field=models.ForeignKey(related_name='pl_trainee', to='xsd_members.MemberProfile', on_delete=models.CASCADE),
             preserve_default=True,
         ),
         migrations.AlterField(
@@ -122,7 +122,7 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='session',
             name='created_by',
-            field=models.ForeignKey(blank=True, to='xsd_members.MemberProfile', null=True),
+            field=models.ForeignKey(blank=True, to='xsd_members.MemberProfile', null=True, on_delete=models.SET_NULL),
             preserve_default=True,
         ),
         migrations.AlterField(

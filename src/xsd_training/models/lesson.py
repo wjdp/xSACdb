@@ -152,7 +152,7 @@ class PerformedLesson(ModelComposeMixin, models.Model):
     date = models.DateField(blank=True, null=True)
     lesson = models.ForeignKey('Lesson', blank=True, null=True, on_delete=models.PROTECT)
     instructor = models.ForeignKey(settings.AUTH_PROFILE_MODEL, related_name="pl_instructor", blank=True, null=True,
-                                   limit_choices_to={'is_instructor_cached': True}, on_delete=models.PROTECT)
+                                   limit_choices_to={'is_instructor_cached': True}, on_delete=models.SET_NULL)
     trainee = models.ForeignKey(settings.AUTH_PROFILE_MODEL, related_name="pl_trainee", on_delete=models.CASCADE)
     completed = models.BooleanField(default=False)
     partially_completed = models.BooleanField(default=False)
