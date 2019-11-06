@@ -64,8 +64,7 @@ class NewbieProfileFormRedirectMiddleware(object):
         CACHE_KEY = self.get_cache_key(request.user)
         path = request.path_info.lstrip('/')
 
-        if not (cache.get(CACHE_KEY) is True or (m.match(path) for m in EXEMPT_URLS)):
-
+        if cache.get(CACHE_KEY) is not True or (m.match(path) for m in EXEMPT_URLS):
             if request.user.is_authenticated and request.user.memberprofile.get_missing_field_list() != []:
                 newbie_form_url = reverse('xsd_members:MemberProfileUpdate')
                 if request.path_info != newbie_form_url:
