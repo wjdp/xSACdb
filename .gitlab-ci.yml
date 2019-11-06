@@ -16,9 +16,11 @@ build:
   services:
     - docker:19.03.1-dind
   before_script:
+    - apk add git
     - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
     - docker pull wjdp/xsacdb:next || true
   script:
+    - git describe
     - docker build
         --cache-from docker.io/wjdp/xsacdb:next
         -t $CI_REGISTRY_IMAGE/ci:$CI_COMMIT_REF_SLUG
