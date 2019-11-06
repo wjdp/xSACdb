@@ -3,7 +3,7 @@
 import json
 import os
 
-import CommonMark
+import commonmark
 from django.conf import settings
 from django.views.generic import TemplateView
 
@@ -31,8 +31,8 @@ class HelpView(TemplateView):
     def render_page(self, page):
         page_s = self.retrieve_page(page)
         if page_s:
-            parser = CommonMark.Parser()
-            renderer = CommonMark.HtmlRenderer()
+            parser = commonmark.Parser()
+            renderer = commonmark.HtmlRenderer()
             ast = parser.parse(page_s)
             html = renderer.render(ast)
             return html
