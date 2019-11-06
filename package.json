@@ -23,5 +23,11 @@
         "webpack-bundle-tracker": "^0.4.3",
         "webpack-cli": "^3.3.10"
     },
-    "devDependencies": {}
+    "devDependencies": {},
+    "scripts": {
+        "build": "webpack --progress --colors",
+        "build:dev": "webpack --progress --colors --mode=development",
+        "build:prod": "npm run build",
+        "watch": "webpack --progress -colors --mode=development --watch"
+    }
 }
