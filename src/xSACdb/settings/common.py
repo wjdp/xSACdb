@@ -199,7 +199,6 @@ INSTALLED_APPS = (
     'hijack',
 
     'compat',
-    'raven.contrib.django.raven_compat',
 
     'health_check',
     # 'health_check_celery',

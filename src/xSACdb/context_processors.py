@@ -1,8 +1,9 @@
-
+import json
 
 from django.conf import settings
 from django.core.urlresolvers import resolve, Resolver404
 
+from xSACdb import environment
 from xSACdb.roles.functions import *
 from xsd_frontend.forms import UpdateRequestMake
 from xsd_members.forms import MyUserAccountForm
@@ -21,6 +22,20 @@ def xsd_vars(request):
         current_url = None
         namespace = None
 
+    global_obj = {
+        'env': {
+            'name': environment.get_environment_name(),
+            'release': environment.get_version(),
+        },
+        'site': {
+            'name': settings.CLUB['name'],
+        },
+        'sentry': {
+            'dsn': settings.RAVEN_CONFIG.get('dsn_public', None),
+        },
+        'user': None,
+    }
+
     context = {
         'current_url': current_url,
         'namespace': namespace,
@@ -28,7 +43,6 @@ def xsd_vars(request):
         'l10n_club': settings.CLUB,
 
         'DEBUG': settings.DEBUG,
-        'RAVEN_DSN': settings.RAVEN_CONFIG.get('dsn_public', None),
         'BROWSER_THEME_COLOUR': settings.BROWSER_THEME_COLOUR,
     }
 
@@ -38,6 +52,12 @@ def xsd_vars(request):
         # TODO remove when we have a ticket framework
         update_request_form = UpdateRequestMake()
         my_user_account_form = MyUserAccountForm()
+
+        global_obj['user'] = {
+            'id': request.user.pk,
+            'username': request.user.username,
+            'email': request.user.email,
+        }
 
         context.update({
             'profile': request.user.memberprofile,
@@ -54,5 +74,9 @@ def xsd_vars(request):
             'is_admin': is_admin(request.user),
             'is_trusted': is_trusted(request.user),
         })
+
+    context.update({
+        'global_json': json.dumps(global_obj),
+    })
 
     return context

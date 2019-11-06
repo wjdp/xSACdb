@@ -1,9 +1,8 @@
-
-
 from django.conf import settings
 from django.conf.urls import include, url
 from django.contrib import admin
-from django.views.defaults import page_not_found
+
+import xsd_frontend.views
 
 admin.autodiscover()
 
@@ -42,7 +41,11 @@ urlpatterns = [
 
     url(r'^health/', include('health_check.urls')),
 
-    url(r'^404/$', page_not_found),
+    url(r'^exc/$', xsd_frontend.views.throw_exception),
+    url(r'^400/$', xsd_frontend.views.handler400),
+    url(r'^403/$', xsd_frontend.views.handler403),
+    url(r'^404/$', xsd_frontend.views.handler404),
+    url(r'^500/$', xsd_frontend.views.handler500),
 ]
 
 if settings.DEBUG:
