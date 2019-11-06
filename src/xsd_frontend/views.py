@@ -94,15 +94,15 @@ def inspect_api(request):
         })
 
 
-def handler400(request):
+def handler400(request, exception):
     return render(request, '500.html', status=400)
 
 
-def handler403(request):
+def handler403(request, exception):
     return render(request, '403.html', status=403)
 
 
-def handler404(request):
+def handler404(request, exception):
     return render(request, '404.html', status=404)
 
 
