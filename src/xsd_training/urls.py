@@ -5,6 +5,8 @@ from django.conf.urls import url
 from xsd_frontend.versioning import VersionHistoryView
 from xsd_training.views import *
 
+app_name = 'xsd_training'
+
 urlpatterns = [
     url(r'^$', trainee.overview, name='training-overview'),
     url(r'^lessons/$', trainee.lessons, name='training-lessons'),

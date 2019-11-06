@@ -6,6 +6,8 @@ from .models import Site
 from .views import *
 from xsd_frontend.versioning import VersionHistoryView
 
+app_name = 'xsd_sites'
+
 urlpatterns = [
     url(r'^$', SitesOverview.as_view(), name='SitesOverview'),
     url(r'^search/$', SitesSearch.as_view(), name='SitesSearch'),

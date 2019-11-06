@@ -4,6 +4,8 @@ from django.conf.urls import url
 
 from .views import *
 
+app_name = 'xsd_about'
+
 urlpatterns = [
     url(r'^$', AboutView.as_view(), name='AboutView'),
     url(r'^database-officers/$', DatabaseOfficersView.as_view(), name='DatabaseOfficers'),
