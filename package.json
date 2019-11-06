@@ -28,6 +28,6 @@
         "build": "webpack --progress --colors",
         "build:dev": "webpack --progress --colors --mode=development",
         "build:prod": "npm run build",
-        "watch": "webpack --progress -colors --mode=development --watch"
+        "watch": "webpack --progress --colors --mode=development --watch"
     }
 }
