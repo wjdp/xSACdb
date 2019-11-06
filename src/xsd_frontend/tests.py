@@ -1,4 +1,4 @@
-
+from unittest.mock import patch
 
 from django.conf import settings
 from django.core.cache import cache
@@ -7,11 +7,13 @@ from django.test import TestCase
 from django.test.client import Client
 from faker import Factory
 
+from xSACdb import version
 from xSACdb.test_helpers import BaseTest, ViewTestMixin
 from xsd_auth.models import User
 
 fake = Factory.create(settings.FAKER_LOCALE)
 fake.seed(settings.RANDOM_SEED)
+
 
 class AccountsLogin(TestCase):
     def test_200(self):
@@ -116,3 +118,60 @@ class Dashboard(ViewTestMixin, BaseTest):
     url_name = 'xsd_frontend:dashboard'
     template_name = 'frontend/dashboard.html'
     allowed_unverified = True
+
+
+# Tests for xSACdb module environment
+# Doesn't feel the best place for tests for this. Due to I don't think django can run tests outside of apps.
+
+class VersionGetVersion(TestCase):
+    def test_empty(self):
+        with patch.dict('os.environ', {'VCS_REV': ''}):
+            self.assertIsNone(version.get_version())
+
+    def test_present(self):
+        with patch.dict('os.environ', {'VCS_REV': 'v0.8.0-26-gea9f8a4'}):
+            self.assertEqual(version.get_version(), 'v0.8.0-26-gea9f8a4')
+
+
+class VersionGetRelease(TestCase):
+    def test_empty(self):
+        with patch.dict('os.environ', {'VCS_REV': ''}):
+            self.assertIsNone(version.get_release())
+
+    def test_bare(self):
+        with patch.dict('os.environ', {'VCS_REV': 'v0.8.0'}):
+            self.assertEqual(version.get_release(), 'v0.8.0')
+
+    def test_with_tail(self):
+        with patch.dict('os.environ', {'VCS_REV': 'v0.8.0-26-gea9f8a4'}):
+            self.assertEqual(version.get_release(), 'v0.8.0')
+
+    def test_with_rc(self):
+        with patch.dict('os.environ', {'VCS_REV': 'v0.8.0-rc1'}):
+            self.assertEqual(version.get_release(), 'v0.8.0-rc1')
+
+    def test_with_rc_and_tail(self):
+        with patch.dict('os.environ', {'VCS_REV': 'v0.8.0-rc1-26-gea9f8a4'}):
+            self.assertEqual(version.get_release(), 'v0.8.0-rc1')
+
+
+class VersionGetSentryRelease(TestCase):
+    def test_empty(self):
+        with patch.dict('os.environ', {'VCS_REV': ''}):
+            self.assertIsNone(version.get_sentry_release())
+
+    def test_bare(self):
+        with patch.dict('os.environ', {'VCS_REV': 'v0.8.0'}):
+            self.assertEqual(version.get_sentry_release(), 'xsacdb@0.8.0')
+
+    def test_with_tail(self):
+        with patch.dict('os.environ', {'VCS_REV': 'v0.8.0-26-gea9f8a4'}):
+            self.assertEqual(version.get_sentry_release(), 'xsacdb@0.8.0')
+
+    def test_with_rc(self):
+        with patch.dict('os.environ', {'VCS_REV': 'v0.8.0-rc1'}):
+            self.assertEqual(version.get_sentry_release(), 'xsacdb@0.8.0-rc1')
+
+    def test_with_rc_and_tail(self):
+        with patch.dict('os.environ', {'VCS_REV': 'v0.8.0-rc1-26-gea9f8a4'}):
+            self.assertEqual(version.get_sentry_release(), 'xsacdb@0.8.0-rc1')

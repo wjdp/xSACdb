@@ -86,14 +86,3 @@ class NewbieProfileFormRedirectMiddleware(object):
     @classmethod
     def invalidate_cache(cls, user):
         cache.delete(cls.get_cache_key(user))
-
-
-def dev_show_toolbar(request):
-    """
-    More permissive debug toolbar, for dev.xsacdb.wjdp.uk. Allows anyone with HTTP access, access to the debug toolbar.
-    """
-
-    if request.is_ajax():
-        return False
-
-    return bool(settings.DEBUG)

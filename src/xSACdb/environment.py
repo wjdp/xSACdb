@@ -1,7 +1,6 @@
-
-
 import datetime
 import os
+import re
 
 from django.conf import settings
 
@@ -17,3 +16,12 @@ def get_time(filename):
             return datetime.datetime.fromtimestamp(int(f.read()))
     except IOError:
         return None
+
+
+def get_environment_name():
+    if settings.DEBUG:
+        return 'development'
+    elif settings.STAGING:
+        return 'staging'
+    else:
+        return 'production'

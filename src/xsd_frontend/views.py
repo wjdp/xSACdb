@@ -2,6 +2,7 @@
 
 import hashlib
 
+import sentry_sdk
 from allauth.account.views import LoginView, SignupView
 from django.conf import settings
 from django.http import HttpResponse, JsonResponse
@@ -9,9 +10,9 @@ from django.shortcuts import render, redirect
 from django.views.generic import ListView
 
 from .forms import UpdateRequestMake, ClassicSignupForm
-from xSACdb.build_info import get_time, PRE_FILE, POST_FILE, DEPLOY_FILE
+from xSACdb.environment import get_time, PRE_FILE, POST_FILE, DEPLOY_FILE
 from xSACdb.roles.mixins import RequirePreauth
-from xSACdb.version import VERSION
+import xSACdb.version
 from xsd_frontend.activity import XSDAction
 
 
@@ -81,8 +82,8 @@ def inspect_api(request):
 
     if key and key_hash == settings.INSPECT_API_KEY_HASH:
         return JsonResponse({
-            'version_tag': VERSION['tag'],
-            'version_released': VERSION['released'],
+            'release': xSACdb.version.RELEASE,
+            'version': xSACdb.version.VERSION,
             'build_time_pre': get_time(PRE_FILE),
             'build_time_post': get_time(POST_FILE),
             'build_time_deploy': get_time(DEPLOY_FILE),
@@ -93,6 +94,11 @@ def inspect_api(request):
             'message': 'Missing or invalid key',
         })
 
+class TestException(Exception):
+    pass
+
+def throw_exception(request):
+    raise TestException("This is a test exception")
 
 def handler400(request, exception):
     return render(request, '500.html', status=400)
@@ -107,4 +113,6 @@ def handler404(request, exception):
 
 
 def handler500(request):
-    return render(request, '500.html', status=500)
+    return render(request, '500.html', status=500, context={
+        'sentry_event_id': sentry_sdk.last_event_id(),
+    })

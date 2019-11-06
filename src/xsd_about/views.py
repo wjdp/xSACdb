@@ -4,9 +4,9 @@ from django.contrib.auth import get_user_model
 from django.contrib.auth.models import Group
 from django.views.generic.base import TemplateView
 
-from xSACdb.build_info import get_time, PRE_FILE, POST_FILE, DEPLOY_FILE
+from xSACdb.environment import get_time, PRE_FILE, POST_FILE, DEPLOY_FILE
 from xSACdb.roles.mixins import RequireVerified, is_admin
-from xSACdb.version import *
+import xSACdb.version
 
 
 class AboutView(RequireVerified, TemplateView):
@@ -14,7 +14,8 @@ class AboutView(RequireVerified, TemplateView):
 
     def get_context_data(self, **kwargs):
         context = super(AboutView, self).get_context_data(**kwargs)
-        context['version'] = VERSION
+        context['version'] = xSACdb.version.VERSION
+        context['release'] = xSACdb.version.RELEASE
         if is_admin(self.request.user):
             context['build_time_pre'] = get_time(PRE_FILE)
             context['build_time_post'] = get_time(POST_FILE)
