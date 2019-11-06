@@ -1,9 +1,8 @@
 import datetime
 import os
+import re
 
 from django.conf import settings
-
-from xSACdb import version
 
 PRE_FILE = os.path.join(settings.DIST_PATH, 'pre.timestamp')
 POST_FILE = os.path.join(settings.DIST_PATH, 'post.timestamp')
@@ -26,7 +25,3 @@ def get_environment_name():
         return 'staging'
     else:
         return 'production'
-
-
-def get_version():
-    return version.VERSION['tag']

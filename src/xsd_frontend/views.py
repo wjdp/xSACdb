@@ -12,7 +12,7 @@ from django.views.generic import ListView
 from .forms import UpdateRequestMake, ClassicSignupForm
 from xSACdb.environment import get_time, PRE_FILE, POST_FILE, DEPLOY_FILE
 from xSACdb.roles.mixins import RequirePreauth
-from xSACdb.version import VERSION
+import xSACdb.version
 from xsd_frontend.activity import XSDAction
 
 
@@ -82,8 +82,8 @@ def inspect_api(request):
 
     if key and key_hash == settings.INSPECT_API_KEY_HASH:
         return JsonResponse({
-            'version_tag': VERSION['tag'],
-            'version_released': VERSION['released'],
+            'release': xSACdb.version.RELEASE,
+            'version': xSACdb.version.VERSION,
             'build_time_pre': get_time(PRE_FILE),
             'build_time_post': get_time(POST_FILE),
             'build_time_deploy': get_time(DEPLOY_FILE),

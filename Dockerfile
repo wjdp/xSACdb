@@ -30,6 +30,9 @@ ADD Pipfile Pipfile.lock package.json package-lock.json /app/
 ADD bin/install-pre.sh /app/bin/
 RUN /app/bin/install-pre.sh
 
+ARG VCS_REV="UNKNOWN"
+ENV VCS_REV=$VCS_REV
+
 # Add the actuall app code in
 ADD . /app
 RUN /app/bin/install-post.sh
