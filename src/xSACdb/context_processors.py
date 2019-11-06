@@ -3,7 +3,7 @@ import json
 from django.conf import settings
 from django.core.urlresolvers import resolve, Resolver404
 
-from xSACdb import environment
+from xSACdb import environment, version
 from xSACdb.roles.functions import *
 from xsd_frontend.forms import UpdateRequestMake
 from xsd_members.forms import MyUserAccountForm
@@ -25,7 +25,7 @@ def xsd_vars(request):
     global_obj = {
         'env': {
             'name': environment.get_environment_name(),
-            'release': environment.get_version(),
+            'release': version.get_release(),
         },
         'site': {
             'name': settings.CLUB['name'],

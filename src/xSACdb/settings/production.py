@@ -1,6 +1,5 @@
-
-
 import socket
+
 import dj_database_url
 
 from .common import *
@@ -28,23 +27,23 @@ except ImportError as e:
     else:
         raise e
 
-from xSACdb.version import VERSION
-
 # Some areas use this
 DEFAULT_FROM_EMAIL = EMAIL_FROM
 
 if 'RAVEN_CONFIG' in locals():
     import sentry_sdk
     from sentry_sdk.integrations.django import DjangoIntegration
+    import xSACdb.version
 
     sentry_sdk.init(
         dsn=RAVEN_CONFIG['dsn'],
         integrations=[DjangoIntegration()],
-        release= VERSION['tag'],
+        release=xSACdb.version.RELEASE_SENTRY,
         environment='staging' if STAGING else 'production',
     )
     with sentry_sdk.configure_scope() as scope:
         scope.set_tag("site", CLUB['name'])
+        scope.set_tag("version", xSACdb.version.VERSION)
 else:
     RAVEN_CONFIG = {}
 
