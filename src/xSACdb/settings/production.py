@@ -87,9 +87,9 @@ TEMPLATES[0]['OPTIONS']['loaders'] = (
 SESSION_ENGINE = 'django.contrib.sessions.backends.cached_db'
 
 # Catch 404s
-MIDDLEWARE_CLASSES = (
+MIDDLEWARE = (
     'raven.contrib.django.raven_compat.middleware.Sentry404CatchMiddleware',
-) + MIDDLEWARE_CLASSES
+) + MIDDLEWARE
 
 # Webpack
 WEBPACK_LOADER['DEFAULT']['CACHE'] = True
