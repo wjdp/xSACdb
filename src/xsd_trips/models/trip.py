@@ -24,7 +24,8 @@ class Trip(TripStateMixin,
 
     objects = TripManager()
 
-    owner = models.ForeignKey(MemberProfile, related_name='trip_owner', verbose_name='Organiser')
+    owner = models.ForeignKey(MemberProfile, related_name='trip_owner', verbose_name='Organiser',
+                              blank=True, null=True, on_delete=models.SET_NULL)
 
     name = models.CharField(max_length=64, help_text='Friendly name.')
 
@@ -42,7 +43,8 @@ class Trip(TripStateMixin,
                                             help_text='Indication of the maximum planned depth of dives.')
     min_qual = models.ForeignKey('xsd_training.Qualification', blank=True, null=True,
                                  verbose_name='Minimum qualification',
-                                 help_text='Indication of the minimum qualification needed to participate on this trip\'s diving.')
+                                 help_text='Indication of the minimum qualification needed to participate on this trip\'s diving.',
+                                 on_delete=models.SET_NULL)
 
     # Copy states from states
     STATE_DENIED = STATE_DENIED
