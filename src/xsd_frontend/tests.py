@@ -53,6 +53,7 @@ class RegisterLogin(TestCase):
 
 
 class ClassicLogin(TestCase):
+    USERNAME = fake.user_name()
     FIRST_NAME = fake.first_name()
     LAST_NAME = fake.last_name()
     EMAIL = fake.email()
@@ -60,6 +61,7 @@ class ClassicLogin(TestCase):
 
     def setUp(self):
         self.user = User.objects.create_user(
+            username=self.USERNAME,
             email=self.EMAIL,
             password=self.PASSWORD,
             first_name=self.FIRST_NAME,

@@ -110,7 +110,7 @@ class XSDAction(Action):
 
     @cached_property
     def versions(self):
-        if self.data and self.data.get('version_pks', None) is not None:
+        if self.data and not isinstance(self.data, str) and self.data.get('version_pks', None) is not None:
             return list(XSDVersion.objects.in_bulk(self.data['version_pks']).values())
         else:
             return []

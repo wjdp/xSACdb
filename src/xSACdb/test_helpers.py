@@ -101,18 +101,17 @@ class BaseTest(TestCase):
 
     def login(self, c):
         """Login a client with USERNAME"""
-        c.login(username=self.user.username, password=self.PASSWORD)
+        c.force_login(self.user)
         return c
 
     def get_client(self):
         """Return a logged in and ready to go client"""
         return self.login(self.client)
 
-    def get_client_as(self, user, password):
+    def get_client_as(self, user):
         """Return a logged in client as user, skips actual authentication"""
-        # TODO When we upgraade to django 1.11, we can use client.force_login and not worry about passwords
         c = self.client
-        c.login(username=user.username, password=password)
+        c.force_login(user)
         return c
 
 

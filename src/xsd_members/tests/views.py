@@ -34,7 +34,7 @@ class MemberProfileUpdateFormTest(ViewTestMixin, BaseTest):
         member.approve(actor=self.user)
         member.archive(actor=self.user)
 
-        c = self.get_client_as(user, password)
+        c = self.get_client_as(user)
         r = c.get('/')
 
         self.assertRedirects(r, self.get_url(), status_code=302, target_status_code=200)
@@ -61,7 +61,7 @@ class MemberProfileUpdateFormTest(ViewTestMixin, BaseTest):
             'next_of_kin_phone': '123456789',
         }
 
-        c = self.get_client_as(user, password)
+        c = self.get_client_as(user)
         r = c.post(self.get_url(), data=form_data)
 
         member.refresh_from_db()
