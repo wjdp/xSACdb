@@ -32,7 +32,7 @@ def xsd_vars(request):
         'BROWSER_THEME_COLOUR': settings.BROWSER_THEME_COLOUR,
     }
 
-    if request.user.is_authenticated():
+    if request.user.is_authenticated:
         # Only if user is logged in
 
         # TODO remove when we have a ticket framework
