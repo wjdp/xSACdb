@@ -19,7 +19,7 @@ ls -lah
 
 echo "[xSACdb] Frontend build"
 
-./node_modules/.bin/webpack --mode production
+npm run build:prod
 src/manage.py collectstatic --noinput
 
 echo "[xSACdb] Setting up shell"
