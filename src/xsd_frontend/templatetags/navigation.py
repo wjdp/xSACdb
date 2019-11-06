@@ -4,7 +4,7 @@ import importlib
 
 from django import template
 from django.core.cache.utils import make_template_fragment_key
-from django.core.urlresolvers import resolve, Resolver404
+from django.urls import resolve, Resolver404
 from django.core.cache import cache
 
 from xsd_frontend.nav import APP_LIST
