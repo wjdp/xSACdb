@@ -3,7 +3,7 @@
 import datetime
 
 from actstream.actions import follow
-from django.core.urlresolvers import reverse
+from django.urls import reverse
 from django.db import models
 
 from xsd_members.models import MemberProfile

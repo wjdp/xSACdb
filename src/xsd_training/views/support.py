@@ -1,6 +1,6 @@
 
 
-from django.core.urlresolvers import reverse_lazy
+from django.urls import reverse_lazy
 
 from xSACdb.roles.mixins import RequireTrainingOfficer
 from xsd_frontend.base import BaseUpdateRequestList, BaseUpdateRequestRespond

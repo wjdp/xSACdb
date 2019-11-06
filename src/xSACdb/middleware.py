@@ -4,7 +4,7 @@ from re import compile
 
 from django.conf import settings
 from django.core.cache import cache
-from django.core.urlresolvers import reverse
+from django.urls import reverse
 from django.http import HttpResponseRedirect
 
 EXEMPT_URLS = [compile(settings.LOGIN_URL.lstrip('/'))]

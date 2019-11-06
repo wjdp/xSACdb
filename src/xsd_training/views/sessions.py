@@ -1,6 +1,6 @@
 
 
-from django.core.urlresolvers import reverse_lazy
+from django.urls import reverse_lazy
 from django.forms.models import modelformset_factory
 from django.shortcuts import get_object_or_404
 from django.shortcuts import redirect, render

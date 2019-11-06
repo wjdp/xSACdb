@@ -5,7 +5,7 @@ import datetime
 import reversion
 from django.conf import settings
 from django.contrib import messages
-from django.core.urlresolvers import reverse, reverse_lazy
+from django.urls import reverse, reverse_lazy
 from django.db.models import Q
 from django.http.response import HttpResponseRedirect
 from django.shortcuts import render, redirect, get_object_or_404
