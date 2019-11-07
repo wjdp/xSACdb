@@ -44,8 +44,10 @@
         "build:prod": "npm run build",
         "watch": "webpack --progress --colors --mode=development --watch",
         "types": "tsc",
-        "lint": "eslint 'js/**' --fix",
-        "lint:report": "eslint 'js/**'"
+        "lint": "npm run lint:fix",
+        "lint:fix": "eslint 'js/**' --fix",
+        "lint:report": "eslint 'js/**'",
+        "lint:junit": "eslint 'js/**' --format junit --output-file junit-eslint.xml"
     },
     "husky": {
         "hooks": {
