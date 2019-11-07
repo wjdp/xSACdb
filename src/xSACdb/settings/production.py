@@ -33,11 +33,17 @@ DEFAULT_FROM_EMAIL = EMAIL_FROM
 if 'RAVEN_CONFIG' in locals():
     import sentry_sdk
     from sentry_sdk.integrations.django import DjangoIntegration
+    from sentry_sdk.integrations.rq import RqIntegration
+    from sentry_sdk.integrations.redis import RedisIntegration
     import xSACdb.version
 
     sentry_sdk.init(
         dsn=RAVEN_CONFIG['dsn'],
-        integrations=[DjangoIntegration()],
+        integrations=[
+            DjangoIntegration(),
+            RqIntegration(),
+            RedisIntegration(),
+        ],
         release=xSACdb.version.RELEASE_SENTRY,
         environment='staging' if STAGING else 'production',
     )
