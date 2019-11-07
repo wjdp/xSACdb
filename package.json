@@ -10,12 +10,15 @@
         "@babel/preset-env": "^7.7.1",
         "@babel/preset-typescript": "^7.7.2",
         "@sentry/browser": "^5.7.1",
+        "@typescript-eslint/eslint-plugin": "^2.6.1",
+        "@typescript-eslint/parser": "^2.6.1",
         "babel-loader": "^8.0.6",
         "bootstrap": "v4.0.0-alpha.6",
         "bootstrap-datepicker": "^1.6.4",
         "bourbon": "~4.3.4",
         "core-js": "^3.4.0",
         "css-loader": "^3.2.0",
+        "eslint": "^6.6.0",
         "expose-loader": "^0.7.5",
         "file-loader": "^4.2.0",
         "font-awesome": "^4.7.0",
@@ -31,13 +34,26 @@
         "webpack-bundle-tracker": "^0.4.3",
         "webpack-cli": "^3.3.10"
     },
-    "devDependencies": {},
+    "devDependencies": {
+        "husky": "^3.0.9",
+        "lint-staged": "^9.4.2"
+    },
     "scripts": {
         "build": "webpack --progress --colors",
         "build:dev": "webpack --progress --colors --mode=development",
         "build:prod": "npm run build",
         "watch": "webpack --progress --colors --mode=development --watch",
-        "types": "tsc"
+        "types": "tsc",
+        "lint": "eslint 'js/**' --fix",
+        "lint:report": "eslint 'js/**'"
+    },
+    "husky": {
+        "hooks": {
+            "pre-commit": "lint-staged"
+        }
+    },
+    "lint-staged": {
+        "js/**": "eslint --fix"
     },
     "browserslist": "> 0.25%, not dead"
 }
