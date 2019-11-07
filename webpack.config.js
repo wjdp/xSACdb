@@ -9,7 +9,7 @@ module.exports = (env, argv) => {
 
     return {
         entry: {
-            app: './js/app.js',
+            app: './js/app.ts',
             lib: './js/lib.js',
             styles: './styles/main.sass',
         },
@@ -20,6 +20,13 @@ module.exports = (env, argv) => {
         },
         module: {
             rules: [
+                {
+                    test: /\.([tj])s$/,
+                    use: [
+                        'babel-loader',
+                    ],
+                    exclude: /node_modules/,
+                },
                 {
                     test: /\.(sa|sc|c)ss$/,
                     use: [
@@ -53,7 +60,7 @@ module.exports = (env, argv) => {
 
         },
         resolve: {
-            extensions: ['.js', '.json'],
+            extensions: ['.ts', '.js', '.json'],
             alias: {
                 'assets': path.resolve(__dirname, 'assets'),
             }
