@@ -42,9 +42,9 @@
         "lint-staged": "^9.4.2"
     },
     "scripts": {
-        "build": "webpack --progress --colors",
+        "build": "npm run build:prod",
         "build:dev": "webpack --progress --colors --mode=development",
-        "build:prod": "npm run build",
+        "build:prod": "webpack --progress --colors --mode=production",
         "watch": "webpack --progress --colors --mode=development --watch",
         "types": "tsc",
         "lint": "npm run lint:fix",
