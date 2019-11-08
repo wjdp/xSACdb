@@ -34,6 +34,7 @@ django-test:
   image: $CI_REGISTRY_IMAGE/ci:$CI_COMMIT_REF_SLUG
   variables:
     GIT_STRATEGY: none
+    XSACDB_XMLTESTRUNNER: 1
   services:
     - postgres:latest
     - redis:latest
@@ -45,6 +46,13 @@ django-test:
   script:
     - src/manage.py check
     - src/manage.py test xSACdb xsd_about xsd_auth xsd_frontend xsd_help xsd_kit xsd_members xsd_sites xsd_training xsd_trips
+  after_script:
+    - mv /app/junit-django.xml $CI_PROJECT_DIR
+  artifacts:
+    paths:
+      - junit-django.xml
+    reports:
+      junit: junit-django.xml
 
 deploy-next:
   stage: deploy
