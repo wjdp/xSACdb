@@ -55,6 +55,8 @@ eslint:
     - cd /app
   script:
     - npm run lint:junit
+  after_script:
+    - mv /app/junit-eslint.xml $CI_PROJECT_DIR
   artifacts:
     paths:
       - junit-eslint.xml
