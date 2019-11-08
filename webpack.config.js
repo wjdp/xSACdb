@@ -36,8 +36,8 @@ module.exports = (env, argv) => {
                                 hmr: DEV,
                             },
                         },
-                        'css-loader',
-                        // postcss-loader
+                        { loader: 'css-loader', options: { importLoaders: 1 } },
+                        'postcss-loader',
                         {
                             loader: 'sass-loader',
                             options: {
