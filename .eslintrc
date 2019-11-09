@@ -1,6 +1,7 @@
 {
     "extends": [
-        "plugin:@typescript-eslint/recommended"
+        "plugin:@typescript-eslint/recommended",
+        "plugin:vue/recommended"
     ],
     "parserOptions": {
         "parser": "@typescript-eslint/parser",
@@ -21,6 +22,11 @@
         "@typescript-eslint/ban-ts-ignore": "off",
         "@typescript-eslint/explicit-function-return-type": "off",
         // Errors on x! assertions that x isn't null
-        "@typescript-eslint/no-non-null-assertion": "off"
+        "@typescript-eslint/no-non-null-assertion": "off",
+        "vue/html-self-closing": "off",
+        "vue/html-closing-bracket-newline": "off",
+        "vue/attribute-hyphenation": "off",
+        "vue/singleline-html-element-content-newline": "off",
+        "vue/html-indent": ["error", 4]
     }
 }
