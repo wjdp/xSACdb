@@ -1,3 +1,90 @@
+class SideBarAppSelection {
+    constructor(sideBarNav) {
+        this.tapApp = this.tapApp.bind(this);
+        this.selectApp = this.selectApp.bind(this);
+        this.sideBarNav = sideBarNav;
+
+        this.allAppNodes = document.querySelectorAll('.xsd-nav-app__nav-item');
+        this.currentAppNode = document.querySelector('.xsd-nav-app__nav-item.active');
+        if (this.currentAppNode) {
+            this.currentAppName = this.currentAppNode.dataset.appName;
+        }
+
+        for (const appNode of Array.from(this.allAppNodes)) {
+            appNode.querySelector('a').addEventListener('click', this.tapApp);
+            const moduleNode = this.getModuleNode(appNode);
+            // TODO: BS4 defudge Why are we getting the height of something that is hidden, it won't work! How did this even work before?
+            moduleNode.dataset.fullHeight = moduleNode.getClientRects()[0].height;
+
+            if (!appNode.classList.contains('selected')) {
+                moduleNode.style.maxHeight = 0;
+            }
+        }
+    }
+
+    getModuleNode(appNode) {
+        return appNode.querySelector('.xsd-nav-app__nav-module');
+    }
+
+    tapApp(e) {
+        e.preventDefault();
+        const {
+            appName
+        } = e.srcElement.parentElement.dataset;
+        return this.selectApp(appName);
+    }
+
+    touchEvent(e) {
+        const elem = e.srcElement;
+        if (elem.parentElement.dataset.appName === 'xsd-dashboard') {
+            this.sideBarNav.hideNav();
+            return window.location = elem.href;
+        } else if (elem.classList.contains('xsd-nav-app__nav-link')) {
+            return this.selectApp(elem.parentElement.dataset.appName);
+        }
+    }
+
+    selectApp(appName) {
+        for (const appNode of Array.from(this.allAppNodes)) {
+            const moduleNode = this.getModuleNode(appNode);
+            if (appNode.dataset.appName === appName) {
+                appNode.classList.add('selected');
+                this.currentAppNode = appNode;
+                moduleNode.style.maxHeight = `${moduleNode.dataset.fullHeight}px`;
+            } else {
+                appNode.classList.remove('selected');
+                moduleNode.style.maxHeight = 0;
+            }
+        }
+        setTimeout(() => {
+                return this.sideBarNav.scrollTo(this.currentAppNode);
+            }
+            , 100 + 60); // Need to wait for CSS transition because we need to know the height. Add some ms to account for delays
+        return this.currentAppNode;
+    }
+
+    reset() {
+        if (this.currentAppName) {
+            return this.selectApp(this.currentAppName);
+        }
+    }
+}
+
+class SideBarModuleNavigation {
+    constructor(sideBarNav) {
+        this.touchEvent = this.touchEvent.bind(this);
+        this.sideBarNav = sideBarNav;
+    }
+
+    touchEvent(e) {
+        const elem = e.srcElement;
+        if (elem.classList.contains('xsd-nav-module__link-text')) {
+            this.sideBarNav.hideNav();
+            return window.location = elem.parentElement.href;
+        }
+    }
+}
+
 class SideBarNav {
     constructor() {
         this.showNav = this.showNav.bind(this);
@@ -184,94 +271,6 @@ class SideBarNav {
         this.translateY = -elem.offsetTop;
         this.lastTranslateY = this.translateY;
         return this.setTranslateY(this.translateY, true);
-    }
-}
-
-
-class SideBarAppSelection {
-    constructor(sideBarNav) {
-        this.tapApp = this.tapApp.bind(this);
-        this.selectApp = this.selectApp.bind(this);
-        this.sideBarNav = sideBarNav;
-
-        this.allAppNodes = document.querySelectorAll('.xsd-nav-app__nav-item');
-        this.currentAppNode = document.querySelector('.xsd-nav-app__nav-item.active');
-        if (this.currentAppNode) {
-            this.currentAppName = this.currentAppNode.dataset.appName;
-        }
-
-        for (let appNode of Array.from(this.allAppNodes)) {
-            appNode.querySelector('a').addEventListener('click', this.tapApp);
-            const moduleNode = this.getModuleNode(appNode);
-            // TODO: BS4 defudge Why are we getting the height of something that is hidden, it won't work! How did this even work before?
-            moduleNode.dataset.fullHeight = moduleNode.getClientRects()[0].height;
-
-            if (!appNode.classList.contains('selected')) {
-                moduleNode.style.maxHeight = 0;
-            }
-        }
-    }
-
-    getModuleNode(appNode) {
-        return appNode.querySelector('.xsd-nav-app__nav-module');
-    }
-
-    tapApp(e) {
-        e.preventDefault();
-        const {
-            appName
-        } = e.srcElement.parentElement.dataset;
-        return this.selectApp(appName);
-    }
-
-    touchEvent(e) {
-        const elem = e.srcElement;
-        if (elem.parentElement.dataset.appName === 'xsd-dashboard') {
-            this.sideBarNav.hideNav();
-            return window.location = elem.href;
-        } else if (elem.classList.contains('xsd-nav-app__nav-link')) {
-            return this.selectApp(elem.parentElement.dataset.appName);
-        }
-    }
-
-    selectApp(appName) {
-        for (let appNode of Array.from(this.allAppNodes)) {
-            const moduleNode = this.getModuleNode(appNode);
-            if (appNode.dataset.appName === appName) {
-                appNode.classList.add('selected');
-                this.currentAppNode = appNode;
-                moduleNode.style.maxHeight = `${moduleNode.dataset.fullHeight}px`;
-            } else {
-                appNode.classList.remove('selected');
-                moduleNode.style.maxHeight = 0;
-            }
-        }
-        setTimeout(() => {
-                return this.sideBarNav.scrollTo(this.currentAppNode);
-            }
-            , 100 + 60); // Need to wait for CSS transition because we need to know the height. Add some ms to account for delays
-        return this.currentAppNode;
-    }
-
-    reset() {
-        if (this.currentAppName) {
-            return this.selectApp(this.currentAppName);
-        }
-    }
-}
-
-class SideBarModuleNavigation {
-    constructor(sideBarNav) {
-        this.touchEvent = this.touchEvent.bind(this);
-        this.sideBarNav = sideBarNav;
-    }
-
-    touchEvent(e) {
-        const elem = e.srcElement;
-        if (elem.classList.contains('xsd-nav-module__link-text')) {
-            this.sideBarNav.hideNav();
-            return window.location = elem.parentElement.href;
-        }
     }
 }
 

@@ -1,13 +1,3 @@
-class XSDTripList {
-    constructor() {
-        this.tableEl = document.getElementById('xsd_trip-list');
-        this.rows = [];
-        for (let row of Array.from(this.tableEl.querySelectorAll('[data-trip-row]'))) {
-            this.rows.push(new XSDTripListRow(row));
-        }
-    }
-}
-
 class XSDTripListRow {
     constructor(row) {
         this.tripNavigate = this.tripNavigate.bind(this);
@@ -19,8 +9,18 @@ class XSDTripListRow {
         }
     }
 
-    tripNavigate(e) {
+    tripNavigate() {
         return window.location = this.url;
+    }
+}
+
+class XSDTripList {
+    constructor() {
+        this.tableEl = document.getElementById('xsd_trip-list');
+        this.rows = [];
+        for (const row of Array.from(this.tableEl.querySelectorAll('[data-trip-row]'))) {
+            this.rows.push(new XSDTripListRow(row));
+        }
     }
 }
 

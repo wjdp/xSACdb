@@ -33,15 +33,14 @@ class NewMemberActivityFaker {
         this.newMemberLink.addEventListener('click', this.blur);
     }
 
-    blur(e) {
+    blur() {
         return this.blurEl.classList.add('xsd-preauth-blur--visible');
     }
 }
 
 $(document).ready(function () {
     if (document.getElementById('xsd_frontend-login')) {
-        const emailLoginForm = new EmailLoginForm();
-        const newMemberActivityFaker = new NewMemberActivityFaker();
-        return window.elf = emailLoginForm;
+        new EmailLoginForm();
+        new NewMemberActivityFaker();
     }
 });

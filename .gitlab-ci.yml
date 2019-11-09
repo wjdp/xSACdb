@@ -34,17 +34,34 @@ django-test:
   image: $CI_REGISTRY_IMAGE/ci:$CI_COMMIT_REF_SLUG
   variables:
     GIT_STRATEGY: none
+    XSACDB_ENVIRONMENT: TEST
   services:
     - postgres:latest
     - redis:latest
   before_script:
-    - export XSACDB_ENVIRONMENT=TEST
     - cd /app
     - mkdir tmp
     - curl $BSAC_DATA > tmp/bsac_data.yaml
   script:
     - src/manage.py check
     - src/manage.py test xSACdb xsd_about xsd_auth xsd_frontend xsd_help xsd_kit xsd_members xsd_sites xsd_training xsd_trips
+
+eslint:
+  stage: test
+  image: $CI_REGISTRY_IMAGE/ci:$CI_COMMIT_REF_SLUG
+  variables:
+    GIT_STRATEGY: none
+  before_script:
+    - cd /app
+  script:
+    - npm run lint:junit
+  after_script:
+    - mv /app/junit-eslint.xml $CI_PROJECT_DIR
+  artifacts:
+    paths:
+      - junit-eslint.xml
+    reports:
+      junit: junit-eslint.xml
 
 deploy-next:
   stage: deploy
