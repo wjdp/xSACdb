@@ -13,8 +13,6 @@ stages:
 build:
   stage: build
   image: docker:19.03.1
-  services:
-    - docker:19.03.1-dind
   before_script:
     - apk add git
     - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
@@ -76,8 +74,6 @@ deploy-next:
   image: docker:19.03.1
   variables:
     GIT_STRATEGY: none
-  services:
-    - docker:19.03.1-dind
   before_script:
     - docker pull $CI_REGISTRY_IMAGE/ci:$CI_COMMIT_REF_SLUG
     - docker login -u $DOCKER_HUB_USER -p $DOCKER_HUB_TOKEN
