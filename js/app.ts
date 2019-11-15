@@ -12,3 +12,5 @@ import "./legacy/xsd-pl-matrix.js"
 import "./sentry"
 
 console.debug('[xSACdb] 🐙 Bundle loaded');
+
+import "./vue-apps"
