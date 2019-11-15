@@ -12,7 +12,7 @@ if hasattr(settings, 'LOGIN_EXEMPT_URLS'):
     EXEMPT_URLS += [compile(expr) for expr in settings.LOGIN_EXEMPT_URLS]
 
 
-class LoginRequiredMiddleware(object):
+class LoginRequiredMiddleware:
     """
     Middleware that requires a user to be authenticated to view any page other
     than LOGIN_URL. Exemptions to this requirement can optionally be specified
@@ -45,7 +45,7 @@ class LoginRequiredMiddleware(object):
         return response
 
 
-class NewbieProfileFormRedirectMiddleware(object):
+class NewbieProfileFormRedirectMiddleware:
     """
     Redirect new users to the newbie form if they're missing details from
     their profile.
