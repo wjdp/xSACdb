@@ -26,15 +26,15 @@ ENV XSACDB_ENVIRONMENT PRODUCTION
 ENV XSACDB_CONTAINER DOCKER
 
 # Environment installation, only invalidated when we upgrade third-party packages
-ADD Pipfile Pipfile.lock package.json package-lock.json /app/
-ADD bin/install-pre.sh /app/bin/
+COPY Pipfile Pipfile.lock package.json package-lock.json /app/
+COPY bin/install-pre.sh /app/bin/
 RUN /app/bin/install-pre.sh
 
 ARG VCS_REV="UNKNOWN"
 ENV VCS_REV=$VCS_REV
 
 # Add the actuall app code in
-ADD . /app
+COPY . /app
 RUN /app/bin/install-post.sh
 
 EXPOSE 5000

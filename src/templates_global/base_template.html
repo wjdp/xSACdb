@@ -21,7 +21,7 @@
 
     <!-- BUNDLE -->
     {% render_bundle 'lib' %}
-    {% render_bundle 'app' %}
+    {% render_bundle 'app' 'css' %}
     {% render_bundle 'styles' %}
 
     {% include 'browser/head.html' %}
@@ -76,6 +76,8 @@
     <span class="visible-md"></span>
     <span class="visible-lg"></span>
 </span>
+
+{% render_bundle 'app' 'js' %}
 
 </body>
 

@@ -19,7 +19,7 @@ urlpatterns = [
 
     url(r'^update-request/$', update_request, name='update_request'),
 
-    url(r'^design/$', design, name='design'),
+    url(r'^vue/$', vue_library),
 
     url(r'^inspect.json$', inspect_api, name='inspect_api'),
 

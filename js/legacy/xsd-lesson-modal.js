@@ -51,8 +51,8 @@ class XSDLessonModal {
 
 
 $(document).ready(function () {
-    const xsd_lesson_modal = $('.xsd-lesson-modal');
-    xsd_lesson_modal.on('show.bs.modal', function (event) {
+    const xsdLessonModal = $('.xsd-lesson-modal');
+    xsdLessonModal.on('show.bs.modal', function (event) {
         // Prep the modal
         const lessonModal = new XSDLessonModal({
             modalEl: this,
@@ -67,6 +67,6 @@ $(document).ready(function () {
         return window.location.hash = event.relatedTarget.dataset.pk;
     });
 
-    return xsd_lesson_modal.on('hide.bs.modal', event => // Remove hash
+    return xsdLessonModal.on('hide.bs.modal', () => // Remove hash
         window.location.hash = '');
 });

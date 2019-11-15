@@ -13,15 +13,14 @@ stages:
 build:
   stage: build
   image: docker:19.03.1
-  services:
-    - docker:19.03.1-dind
   before_script:
     - apk add git
     - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
-    - docker pull wjdp/xsacdb:next || true
+    - docker pull $CI_REGISTRY_IMAGE/ci:$CI_COMMIT_REF_SLUG || docker pull wjdp/xsacdb:next || true
   script:
     - git describe
     - docker build
+        --cache-from $CI_REGISTRY_IMAGE/ci:$CI_COMMIT_REF_SLUG
         --cache-from docker.io/wjdp/xsacdb:next
         -t $CI_REGISTRY_IMAGE/ci:$CI_COMMIT_REF_SLUG
         --build-arg VCS_REV=$(git describe)
@@ -33,25 +32,48 @@ django-test:
   image: $CI_REGISTRY_IMAGE/ci:$CI_COMMIT_REF_SLUG
   variables:
     GIT_STRATEGY: none
+    XSACDB_ENVIRONMENT: TEST
+    XSACDB_XMLTESTRUNNER: 1
   services:
     - postgres:latest
     - redis:latest
   before_script:
-    - export XSACDB_ENVIRONMENT=TEST
     - cd /app
     - mkdir tmp
     - curl $BSAC_DATA > tmp/bsac_data.yaml
   script:
     - src/manage.py check
     - src/manage.py test xSACdb xsd_about xsd_auth xsd_frontend xsd_help xsd_kit xsd_members xsd_sites xsd_training xsd_trips
+  after_script:
+    - mv /app/junit-django.xml $CI_PROJECT_DIR
+  artifacts:
+    paths:
+      - junit-django.xml
+    reports:
+      junit: junit-django.xml
+
+eslint:
+  stage: test
+  image: $CI_REGISTRY_IMAGE/ci:$CI_COMMIT_REF_SLUG
+  variables:
+    GIT_STRATEGY: none
+  before_script:
+    - cd /app
+  script:
+    - npm run lint:junit
+  after_script:
+    - mv /app/junit-eslint.xml $CI_PROJECT_DIR
+  artifacts:
+    paths:
+      - junit-eslint.xml
+    reports:
+      junit: junit-eslint.xml
 
 deploy-next:
   stage: deploy
   image: docker:19.03.1
   variables:
     GIT_STRATEGY: none
-  services:
-    - docker:19.03.1-dind
   before_script:
     - docker pull $CI_REGISTRY_IMAGE/ci:$CI_COMMIT_REF_SLUG
     - docker login -u $DOCKER_HUB_USER -p $DOCKER_HUB_TOKEN

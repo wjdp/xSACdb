@@ -71,8 +71,8 @@ def update_request(request):
     return response
 
 
-def design(request):
-    return render(request, 'design.html')
+def vue_library(request):
+    return render(request, 'vue-library.html')
 
 
 def inspect_api(request):

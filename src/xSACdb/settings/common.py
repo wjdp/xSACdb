@@ -261,3 +261,7 @@ BROWSER_THEME_COLOUR = "#171f26"
 # Inspect API
 INSPECT_API_KEY_HASH = "033be85008caa4f26e04df5da463ee92218e4ff3bbf6565b4cee51abb0b0e973"
 INSPECT_API_KEY_SALT = "EMQ2b6iDt96N"
+
+if os.environ.get('XSACDB_XMLTESTRUNNER'):
+    TEST_RUNNER = 'xmlrunner.extra.djangotestrunner.XMLTestRunner'
+    TEST_OUTPUT_FILE_NAME = 'junit-django.xml'

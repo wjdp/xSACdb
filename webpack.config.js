@@ -1,6 +1,7 @@
 const path = require('path');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const BundleTracker = require('webpack-bundle-tracker');
+const VueLoaderPlugin = require('vue-loader/lib/plugin');
 
 module.exports = (env, argv) => {
     const DEV = argv.mode === 'development';
@@ -9,7 +10,7 @@ module.exports = (env, argv) => {
 
     return {
         entry: {
-            app: './js/app.js',
+            app: './js/app.ts',
             lib: './js/lib.js',
             styles: './styles/main.sass',
         },
@@ -18,8 +19,28 @@ module.exports = (env, argv) => {
             publicPath: '/static/',
             filename: DEV ? "[name].js" : '[name].[chunkhash].js',
         },
+        optimization: {
+            // TODO: Can't do this with current django-webpack-loader. There is a fork to do this but will leave
+            //       until we have a large enough app to make it worth it.
+            //       See: https://github.com/owais/webpack-bundle-tracker/pull/41#issuecomment-463709521
+            // splitChunks: {
+            //     chunks: 'all',
+            // },
+        },
         module: {
             rules: [
+                {
+                    test: /\.vue$/,
+                    loader: 'vue-loader',
+                },
+
+                {
+                    test: /\.([tj])s$/,
+                    use: [
+                        'babel-loader',
+                    ],
+                    exclude: /node_modules/,
+                },
                 {
                     test: /\.(sa|sc|c)ss$/,
                     use: [
@@ -29,8 +50,8 @@ module.exports = (env, argv) => {
                                 hmr: DEV,
                             },
                         },
-                        'css-loader',
-                        // postcss-loader
+                        {loader: 'css-loader', options: {importLoaders: 1}},
+                        'postcss-loader',
                         {
                             loader: 'sass-loader',
                             options: {
@@ -53,9 +74,10 @@ module.exports = (env, argv) => {
 
         },
         resolve: {
-            extensions: ['.js', '.json'],
+            extensions: ['.ts', '.js', '.vue', '.json'],
             alias: {
                 'assets': path.resolve(__dirname, 'assets'),
+                'vue$': 'vue/dist/vue.esm.js',
             }
         },
         plugins: [
@@ -64,7 +86,8 @@ module.exports = (env, argv) => {
             }),
             new BundleTracker({
                 filename: 'dist/webpack-stats.json'
-            })
+            }),
+            new VueLoaderPlugin(),
         ],
         devtool: DEV ? '#eval-source-map' : '#source-map',
         performance: {
