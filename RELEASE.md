@@ -25,5 +25,9 @@ To release a version for production use follow these steps:
 5. Tag this commit like so `git tag -am "" vX.Y.Z`.
 6. Push the master branch followed by the new tag.
 
-A CI pipeline will be triggered for the commit, updating the `wjdp/xsacdb:next` image. 
-Another pipeline will build and release the `wjdp/xsacdb:vX.Y.Z` image.
+A CI pipeline will be triggered for the commit, updating the `wjdp/xsacdb:next` image.
+
+Another pipeline will build and release the `wjdp/xsacdb:vX.Y.Z` and `wjdp/xsacdb:latest` image.
+
+The staging environment https://current.xsacdb.wjdp.uk watches for changes in the `latest` tag and will automatically deploy if a newer version is available.
+This can be used for final checks before upgrading club instances.
