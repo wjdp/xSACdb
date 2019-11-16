@@ -8,7 +8,7 @@ variables:
 stages:
   - build
   - test
-  - deploy
+  - release
 
 build:
   stage: build
@@ -72,8 +72,8 @@ eslint:
     reports:
       junit: junit-eslint.xml
 
-deploy-next:
-  stage: deploy
+release-next:
+  stage: release
   image: docker:19.03.1
   variables:
     GIT_STRATEGY: none
@@ -85,3 +85,21 @@ deploy-next:
     - docker push wjdp/xsacdb:next
   only:
     - master
+  except:
+    - tags
+
+release-tag:
+  stage: release
+  image: docker:19.03.1
+  variables:
+    GIT_STRATEGY: none
+  before_script:
+    - docker pull $CI_REGISTRY_IMAGE/ci:$CI_COMMIT_REF_SLUG
+    - docker login -u $DOCKER_HUB_USER -p $DOCKER_HUB_TOKEN
+  script:
+    - docker tag $CI_REGISTRY_IMAGE/ci:$CI_COMMIT_REF_SLUG wjdp/xsacdb:latest
+    - docker tag $CI_REGISTRY_IMAGE/ci:$CI_COMMIT_REF_SLUG wjdp/xsacdb:$CI_COMMIT_TAG
+    - docker push wjdp/xsacdb:latest
+    - docker push wjdp/xsacdb:$CI_COMMIT_TAG
+  only:
+    - /^v\d+[0-9A-z.-]+$/
