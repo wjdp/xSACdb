@@ -6,6 +6,9 @@ xSACdb instances. This project will soon adhere to [Semantic Versioning](http://
 
 ## Unreleased
 
+### Changed
+
+- Improved password strength checks. Passwords are now checked for similarity to personal details and against a common password list.
 - Upgraded underlying Django framework to 2.2.
 
 
