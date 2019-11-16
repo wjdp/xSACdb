@@ -17,7 +17,7 @@ try:
     INSTALLED_APPS = INSTALLED_APPS + (
         'debug_toolbar',
     )
-    MIDDLEWARE_CLASSES = MIDDLEWARE_CLASSES + (
+    MIDDLEWARE = MIDDLEWARE + (
         'debug_toolbar.middleware.DebugToolbarMiddleware',
     )
 except ImportError as e:

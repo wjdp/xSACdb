@@ -8,6 +8,8 @@ from .views import *
 
 favicon_view = RedirectView.as_view(url=static('icons/favicon.ico'), permanent=True)
 
+app_name = "xsd_frontend"
+
 urlpatterns = [
     url(r'^$', DashboardView.as_view(), name='dashboard'),
 

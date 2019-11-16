@@ -1,7 +1,7 @@
 
 
 from django.conf import settings
-from django.core.urlresolvers import reverse
+from django.urls import reverse
 from django.db import models
 from django.db import transaction
 from reversion import revisions as reversion
@@ -17,7 +17,7 @@ SDC_TYPE_CHOICES = (
 
 class SDC(models.Model):
     title = models.CharField(max_length=50)
-    min_qualification = models.ForeignKey('Qualification', blank=True, null=True)
+    min_qualification = models.ForeignKey('Qualification', blank=True, null=True, on_delete=models.SET_NULL)
     description = models.TextField(blank=True)
     category = models.CharField(choices=SDC_TYPE_CHOICES, max_length=3)
     other_requirements = models.BooleanField(default=False)
@@ -53,7 +53,7 @@ class SDCDisplay:
 
 @reversion.register()
 class PerformedSDC(models.Model):
-    sdc = models.ForeignKey('SDC')
+    sdc = models.ForeignKey('SDC', on_delete=models.PROTECT)
     datetime = models.DateTimeField(blank=True, null=True)
     notes = models.TextField(blank=True)
     trainees = models.ManyToManyField(settings.AUTH_PROFILE_MODEL, blank=True)

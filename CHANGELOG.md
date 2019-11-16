@@ -4,6 +4,11 @@ All notable changes to this project will be documented in this file. Notes shoul
 xSACdb instances. This project will soon adhere to [Semantic Versioning](http://semver.org/).
 
 
+## Unreleased
+
+- Upgraded underlying Django framework to 2.2.
+
+
 ## [0.8.1] - 2019-11-07
 
 ### Fixed

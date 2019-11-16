@@ -2,7 +2,7 @@ from unittest.mock import patch
 
 from django.conf import settings
 from django.core.cache import cache
-from django.core.urlresolvers import reverse
+from django.urls import reverse
 from django.test import TestCase
 from django.test.client import Client
 from faker import Factory
@@ -55,6 +55,7 @@ class RegisterLogin(TestCase):
 
 
 class ClassicLogin(TestCase):
+    USERNAME = fake.user_name()
     FIRST_NAME = fake.first_name()
     LAST_NAME = fake.last_name()
     EMAIL = fake.email()
@@ -62,6 +63,7 @@ class ClassicLogin(TestCase):
 
     def setUp(self):
         self.user = User.objects.create_user(
+            username=self.USERNAME,
             email=self.EMAIL,
             password=self.PASSWORD,
             first_name=self.FIRST_NAME,

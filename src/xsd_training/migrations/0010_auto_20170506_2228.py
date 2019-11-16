@@ -20,7 +20,7 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='performedqualification',
             name='signed_off_by',
-            field=models.ForeignKey(related_name='pqs_signed', on_delete=django.db.models.deletion.PROTECT, blank=True, to='xsd_members.MemberProfile', null=True),
+            field=models.ForeignKey(related_name='pqs_signed', on_delete=models.PROTECT, blank=True, to='xsd_members.MemberProfile', null=True),
         ),
         migrations.AlterField(
             model_name='performedqualification',
@@ -30,7 +30,7 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='performedqualification',
             name='trainee',
-            field=models.ForeignKey(editable=False, to='xsd_members.MemberProfile'),
+            field=models.ForeignKey(editable=False, to='xsd_members.MemberProfile', on_delete=models.CASCADE),
         ),
         migrations.AlterField(
             model_name='performedqualification',

@@ -1,6 +1,6 @@
 
 
-from django.core.urlresolvers import reverse_lazy
+from django.urls import reverse_lazy
 from django.forms.models import formset_factory
 from django.shortcuts import redirect
 from django.views.generic import TemplateView

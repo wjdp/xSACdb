@@ -4,6 +4,8 @@ from django.conf.urls import url
 
 from .views import *
 
+app_name = 'xsd_trips'
+
 urlpatterns = [
     url(r'^$', TripListUpcoming.as_view(), name='TripListUpcoming'),
     url(r'^archive/$', TripListArchive.as_view(), name='TripListArchive'),

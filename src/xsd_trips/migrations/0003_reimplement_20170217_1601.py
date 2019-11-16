@@ -17,7 +17,7 @@ class Migration(migrations.Migration):
             fields=[
                 ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
                 ('accepted', models.BooleanField(default=False)),
-                ('member', models.ForeignKey(to='xsd_members.MemberProfile')),
+                ('member', models.ForeignKey(to='xsd_members.MemberProfile', on_delete=models.CASCADE)),
             ],
         ),
         migrations.RemoveField(
@@ -70,7 +70,7 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='trip',
             name='owner',
-            field=models.ForeignKey(related_name='trip_owner', default=0, to='xsd_members.MemberProfile'),
+            field=models.ForeignKey(related_name='trip_owner', default=0, to='xsd_members.MemberProfile', on_delete=models.SET_NULL),
             preserve_default=False,
         ),
         migrations.AddField(
@@ -91,7 +91,7 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='trip',
             name='min_qual',
-            field=models.ForeignKey(blank=True, to='xsd_training.Qualification', help_text="Indication of the minimum qualification needed to participate on this trip's diving.", null=True),
+            field=models.ForeignKey(blank=True, to='xsd_training.Qualification', help_text="Indication of the minimum qualification needed to participate on this trip's diving.", null=True, on_delete=models.SET_NULL),
         ),
         migrations.AlterField(
             model_name='trip',
@@ -109,7 +109,7 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='tripmember',
             name='trip',
-            field=models.ForeignKey(to='xsd_trips.Trip'),
+            field=models.ForeignKey(to='xsd_trips.Trip', on_delete=models.CASCADE),
         ),
         migrations.AddField(
             model_name='trip',

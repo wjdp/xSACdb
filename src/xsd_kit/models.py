@@ -21,13 +21,14 @@ TYPE_CHOICES = (
     ('REEL','Reel'),
 )
 
+
 class Kit(models.Model):
     club_id = models.CharField(max_length=32)
     name = models.CharField(max_length=64)
     type = models.CharField(max_length=64, choices=TYPE_CHOICES)
     size = models.CharField(max_length=64, blank=True)
     club_owned = models.BooleanField(blank=True, default=True)
-    owner = models.ForeignKey(settings.AUTH_USER_MODEL, blank=True, null=True)
+    owner = models.ForeignKey(settings.AUTH_USER_MODEL, blank=True, null=True, on_delete=models.SET_NULL)
     cost = models.DecimalField(decimal_places=2, max_digits=9, blank=True, null=True)
     value = models.DecimalField(decimal_places=2, max_digits=9, blank=True, null=True)
     purchase_date = models.DateField(blank=True, null=True)
@@ -42,8 +43,9 @@ class Kit(models.Model):
         verbose_name_plural="Bits of kit"
         ordering=['type', 'size', 'club_id']
 
+
 class Loan(models.Model):
-    member = models.ForeignKey(settings.AUTH_USER_MODEL)
+    member = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     kit = models.ManyToManyField('Kit')
     approved = models.BooleanField(blank=True, default=False)
     notes = models.TextField(blank=True)

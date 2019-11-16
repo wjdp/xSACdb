@@ -17,6 +17,7 @@ from xsd_members.models import MemberProfile
 class UserTest(TestCase):
     fake = Factory.create(settings.FAKER_LOCALE)
     fake.seed(settings.RANDOM_SEED)
+    USERNAME = fake.user_name()
     FIRST_NAME = fake.first_name()
     LAST_NAME = fake.last_name()
     EMAIL = fake.email()
@@ -24,6 +25,7 @@ class UserTest(TestCase):
 
     def create_user(self):
         user = User.objects.create_user(
+            username=self.USERNAME,
             first_name=self.FIRST_NAME,
             last_name=self.LAST_NAME,
             email=self.EMAIL,
@@ -35,6 +37,7 @@ class UserTest(TestCase):
     def test_create_user(self):
         user = self.create_user()
         self.assertIsInstance(user, User)
+        self.assertEqual(user.username, self.USERNAME)
         self.assertEqual(user.first_name, self.FIRST_NAME)
         self.assertEqual(user.last_name, self.LAST_NAME)
         self.assertEqual(user.email, self.EMAIL)

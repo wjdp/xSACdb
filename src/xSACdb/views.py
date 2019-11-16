@@ -1,5 +1,5 @@
 from django.core.exceptions import ViewDoesNotExist
-from django.core.urlresolvers import reverse
+from django.urls import reverse
 from django.shortcuts import redirect
 from django.views.generic import View
 from django.views.generic.detail import SingleObjectMixin

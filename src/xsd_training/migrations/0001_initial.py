@@ -40,8 +40,8 @@ class Migration(migrations.Migration):
                 ('partially_completed', models.BooleanField(default=False)),
                 ('public_notes', models.TextField(blank=True)),
                 ('private_notes', models.TextField(blank=True)),
-                ('instructor', models.ForeignKey(related_name='pl_instructor', blank=True, to=settings.AUTH_USER_MODEL, null=True)),
-                ('lesson', models.ForeignKey(blank=True, to='xsd_training.Lesson', null=True)),
+                ('instructor', models.ForeignKey(related_name='pl_instructor', blank=True, to=settings.AUTH_USER_MODEL, null=True, on_delete=models.SET_NULL)),
+                ('lesson', models.ForeignKey(blank=True, to='xsd_training.Lesson', null=True, on_delete=models.CASCADE)),
             ],
             options={
             },
@@ -83,7 +83,7 @@ class Migration(migrations.Migration):
                 ('category', models.CharField(max_length=3, choices=[(b'clu', b'Club Diving'), (b'saf', b'Safety and Rescue'), (b'sea', b'Seamanship'), (b'spe', b'Special Interest'), (b'tec', b'Technical')])),
                 ('other_requirements', models.BooleanField(default=False)),
                 ('interested_members', models.ManyToManyField(to=settings.AUTH_USER_MODEL, blank=True)),
-                ('min_qualification', models.ForeignKey(blank=True, to='xsd_training.Qualification', null=True)),
+                ('min_qualification', models.ForeignKey(blank=True, to='xsd_training.Qualification', null=True, on_delete=models.SET_NULL)),
             ],
             options={
                 'ordering': ['title'],
@@ -100,8 +100,8 @@ class Migration(migrations.Migration):
                 ('when', models.DateTimeField(help_text=b'Formatted like: DD/MM/YYY HH:MM')),
                 ('notes', models.TextField(help_text=b'Viewable by instructors and trainees in session.', blank=True)),
                 ('completed', models.BooleanField(default=False)),
-                ('created_by', models.ForeignKey(blank=True, to=settings.AUTH_USER_MODEL, null=True)),
-                ('where', models.ForeignKey(to='xsd_sites.Site')),
+                ('created_by', models.ForeignKey(blank=True, to=settings.AUTH_USER_MODEL, null=True, on_delete=models.SET_NULL)),
+                ('where', models.ForeignKey(to='xsd_sites.Site', on_delete=models.SET_NULL)),
             ],
             options={
                 'ordering': ['when'],
@@ -123,7 +123,7 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='performedsdc',
             name='sdc',
-            field=models.ForeignKey(to='xsd_training.SDC'),
+            field=models.ForeignKey(to='xsd_training.SDC', on_delete=models.PROTECT),
             preserve_default=True,
         ),
         migrations.AddField(
@@ -135,19 +135,19 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='performedlesson',
             name='session',
-            field=models.ForeignKey(blank=True, to='xsd_training.Session', null=True),
+            field=models.ForeignKey(blank=True, to='xsd_training.Session', null=True, on_delete=models.SET_NULL),
             preserve_default=True,
         ),
         migrations.AddField(
             model_name='performedlesson',
             name='trainee',
-            field=models.ForeignKey(related_name='pl_trainee', to=settings.AUTH_USER_MODEL),
+            field=models.ForeignKey(related_name='pl_trainee', to=settings.AUTH_USER_MODEL, on_delete=models.CASCADE),
             preserve_default=True,
         ),
         migrations.AddField(
             model_name='lesson',
             name='qualification',
-            field=models.ForeignKey(to='xsd_training.Qualification'),
+            field=models.ForeignKey(to='xsd_training.Qualification', on_delete=models.PROTECT),
             preserve_default=True,
         ),
     ]

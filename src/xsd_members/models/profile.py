@@ -4,7 +4,7 @@ import warnings
 from datetime import date
 
 from django.conf import settings
-from django.core.urlresolvers import reverse
+from django.urls import reverse
 from django.db import models
 from django.utils.functional import cached_property
 from reversion import revisions as reversion
@@ -59,7 +59,8 @@ class MemberProfile(MemberProfileStateMixin,
     class Meta:
         ordering = ['last_name', 'first_name']
 
-    user = models.OneToOneField(settings.AUTH_USER_MODEL, null=True, blank=True, editable=False)
+    user = models.OneToOneField(settings.AUTH_USER_MODEL, null=True, blank=True, editable=False,
+                                on_delete=models.CASCADE)
 
     # Used to hide users from 'all' queries.
     hidden = models.BooleanField(default=False, editable=False)
@@ -108,7 +109,8 @@ class MemberProfile(MemberProfileStateMixin,
     qualifications = models.ManyToManyField('xsd_training.Qualification', through='xsd_training.PerformedQualification',
                                             through_fields=('trainee', 'qualification'), blank=True, related_name='members')
 
-    training_for = models.ForeignKey('xsd_training.Qualification', blank=True, null=True, related_name='q_training_for')
+    training_for = models.ForeignKey('xsd_training.Qualification', blank=True, null=True, related_name='q_training_for',
+                                     on_delete=models.SET_NULL)
     sdcs = models.ManyToManyField('xsd_training.SDC', blank=True)
 
     instructor_number = models.IntegerField(blank=True, null=True)
@@ -120,7 +122,7 @@ class MemberProfile(MemberProfileStateMixin,
 
     club_id = models.IntegerField(blank=True, null=True)
     club_expiry = models.DateField(blank=True, null=True)
-    club_membership_type = models.ForeignKey('MembershipType', blank=True, null=True)
+    club_membership_type = models.ForeignKey('MembershipType', blank=True, null=True, on_delete=models.SET_NULL)
 
     bsac_id = models.IntegerField(blank=True, null=True, verbose_name='BSAC ID')
     bsac_expiry = models.DateField(blank=True, null=True, verbose_name='BSAC Expiry')
@@ -145,7 +147,7 @@ class MemberProfile(MemberProfileStateMixin,
         return "M{:0>4d}".format(self.pk)
 
     top_qual_cached = models.ForeignKey('xsd_training.Qualification', blank=True, null=True, editable=False,
-                                        related_name='top_qual_cached')
+                                        related_name='top_qual_cached', on_delete=models.SET_NULL)
 
     def top_qual(self, nocache=False):
         if nocache:
@@ -160,7 +162,7 @@ class MemberProfile(MemberProfileStateMixin,
             return self.top_qual_cached
 
     top_instructor_qual_cached = models.ForeignKey('xsd_training.Qualification', blank=True, null=True, editable=False,
-                                                   related_name='top_instructor_qual_cached')
+                                                   related_name='top_instructor_qual_cached', on_delete=models.SET_NULL)
 
     def top_instructor_qual(self, nocache=False):
         if nocache:

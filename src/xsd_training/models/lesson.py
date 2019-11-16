@@ -41,7 +41,7 @@ class Lesson(models.Model):
         ('XO', 'Cross-over'),
         ('AS', 'Assessment'),
     )
-    qualification = models.ForeignKey('Qualification')
+    qualification = models.ForeignKey('Qualification', on_delete=models.PROTECT)
     code = models.CharField(max_length=5, blank=True)
     title = models.CharField(max_length=90)
     mode = models.CharField(max_length=2, choices=MODE_CHOICES)
@@ -148,12 +148,12 @@ class PerformedLessonPermissions(ModelPermissions):
 
 @reversion.register()
 class PerformedLesson(ModelComposeMixin, models.Model):
-    session = models.ForeignKey('Session', blank=True, null=True)
+    session = models.ForeignKey('Session', blank=True, null=True, on_delete=models.SET_NULL)
     date = models.DateField(blank=True, null=True)
-    lesson = models.ForeignKey('Lesson', blank=True, null=True)
+    lesson = models.ForeignKey('Lesson', blank=True, null=True, on_delete=models.PROTECT)
     instructor = models.ForeignKey(settings.AUTH_PROFILE_MODEL, related_name="pl_instructor", blank=True, null=True,
-                                   limit_choices_to={'is_instructor_cached': True})
-    trainee = models.ForeignKey(settings.AUTH_PROFILE_MODEL, related_name="pl_trainee")
+                                   limit_choices_to={'is_instructor_cached': True}, on_delete=models.SET_NULL)
+    trainee = models.ForeignKey(settings.AUTH_PROFILE_MODEL, related_name="pl_trainee", on_delete=models.CASCADE)
     completed = models.BooleanField(default=False)
     partially_completed = models.BooleanField(default=False)
     public_notes = models.TextField(blank=True)
@@ -199,7 +199,7 @@ class Session(models.Model):
 
     name = models.CharField(max_length=64, blank=True, help_text='Optional name for session')
     when = models.DateTimeField(help_text='Formatted like: DD/MM/YYYY HH:MM')
-    where = models.ForeignKey('xsd_sites.Site')
+    where = models.ForeignKey('xsd_sites.Site', blank=True, null=True, on_delete=models.SET_NULL)
     notes = models.TextField(blank=True, help_text='Viewable by instructors and trainees in session.')
 
     completed = models.BooleanField(default=False)

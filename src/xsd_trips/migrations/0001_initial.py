@@ -27,9 +27,9 @@ class Migration(migrations.Migration):
                 ('max_depth', models.PositiveIntegerField(null=True, blank=True)),
                 ('spaces', models.PositiveIntegerField(null=True, blank=True)),
                 ('accepting_signups', models.BooleanField(default=True)),
-                ('min_qual', models.ForeignKey(to='xsd_training.Qualification')),
+                ('min_qual', models.ForeignKey(to='xsd_training.Qualification', on_delete=models.PROTECT)),
                 ('sites', models.ManyToManyField(to='xsd_sites.Site', blank=True)),
-                ('trip_organiser', models.ForeignKey(to=settings.AUTH_USER_MODEL)),
+                ('trip_organiser', models.ForeignKey(to=settings.AUTH_USER_MODEL, on_delete=models.PROTECT)),
             ],
             options={
             },
@@ -43,8 +43,8 @@ class Migration(migrations.Migration):
                 ('deposit_paid', models.BooleanField(default=False)),
                 ('cost_paid', models.BooleanField(default=False)),
                 ('notes', models.TextField(blank=True)),
-                ('attendee', models.ForeignKey(to=settings.AUTH_USER_MODEL)),
-                ('trip', models.ForeignKey(to='xsd_trips.Trip')),
+                ('attendee', models.ForeignKey(to=settings.AUTH_USER_MODEL, on_delete=models.CASCADE)),
+                ('trip', models.ForeignKey(to='xsd_trips.Trip', on_delete=models.CASCADE)),
             ],
             options={
             },

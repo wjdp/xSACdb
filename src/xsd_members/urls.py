@@ -6,6 +6,8 @@ from .api import *
 from .views import *
 from xsd_frontend.versioning import VersionHistoryView
 
+app_name = 'xsd_members'
+
 urlpatterns = [
     url(r'^profile/$', view_my_profile, name='my-profile'),
     url(r'^profile/edit/$', MyProfileEdit.as_view(), name='MyProfileEdit'),

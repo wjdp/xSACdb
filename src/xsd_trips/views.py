@@ -7,7 +7,7 @@ import reversion
 from django.conf import settings
 from django.contrib import messages
 from django.core.exceptions import PermissionDenied
-from django.core.urlresolvers import reverse_lazy
+from django.urls import reverse_lazy
 from django.http import HttpResponse
 from django.template.defaultfilters import slugify
 from django.utils.functional import cached_property

@@ -76,7 +76,7 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='memberprofile',
             name='club_membership_type',
-            field=models.ForeignKey(blank=True, to='xsd_members.MembershipType', null=True),
+            field=models.ForeignKey(blank=True, to='xsd_members.MembershipType', null=True, on_delete=models.SET_NULL),
             preserve_default=True,
         ),
         migrations.AddField(
@@ -94,25 +94,25 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='memberprofile',
             name='top_instructor_qual_cached',
-            field=models.ForeignKey(related_name='top_instructor_qual_cached', blank=True, to='xsd_training.Qualification', null=True),
+            field=models.ForeignKey(related_name='top_instructor_qual_cached', blank=True, to='xsd_training.Qualification', null=True, on_delete=models.SET_NULL),
             preserve_default=True,
         ),
         migrations.AddField(
             model_name='memberprofile',
             name='top_qual_cached',
-            field=models.ForeignKey(related_name='top_qual_cached', blank=True, to='xsd_training.Qualification', null=True),
+            field=models.ForeignKey(related_name='top_qual_cached', blank=True, to='xsd_training.Qualification', null=True, on_delete=models.SET_NULL),
             preserve_default=True,
         ),
         migrations.AddField(
             model_name='memberprofile',
             name='training_for',
-            field=models.ForeignKey(related_name='q_training_for', blank=True, to='xsd_training.Qualification', null=True),
+            field=models.ForeignKey(related_name='q_training_for', blank=True, to='xsd_training.Qualification', null=True, on_delete=models.SET_NULL),
             preserve_default=True,
         ),
         migrations.AddField(
             model_name='memberprofile',
             name='user',
-            field=models.OneToOneField(to=settings.AUTH_USER_MODEL),
+            field=models.OneToOneField(to=settings.AUTH_USER_MODEL, on_delete=models.CASCADE),
             preserve_default=True,
         ),
     ]

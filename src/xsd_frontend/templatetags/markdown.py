@@ -1,4 +1,4 @@
-import CommonMark
+import commonmark
 
 from django import template
 from django.utils.html import conditional_escape
@@ -13,5 +13,5 @@ def markdown(md, autoescape=True):
         esc = conditional_escape
     else:
         esc = lambda x: x
-    html = CommonMark.commonmark(esc(md))
+    html = commonmark.commonmark(esc(md))
     return mark_safe(html)

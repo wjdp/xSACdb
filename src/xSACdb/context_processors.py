@@ -1,7 +1,7 @@
 import json
 
 from django.conf import settings
-from django.core.urlresolvers import resolve, Resolver404
+from django.urls import resolve, Resolver404
 
 from xSACdb import environment, version
 from xSACdb.roles.functions import *
@@ -46,7 +46,7 @@ def xsd_vars(request):
         'BROWSER_THEME_COLOUR': settings.BROWSER_THEME_COLOUR,
     }
 
-    if request.user.is_authenticated():
+    if request.user.is_authenticated:
         # Only if user is logged in
 
         # TODO remove when we have a ticket framework

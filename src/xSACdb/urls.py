@@ -1,6 +1,7 @@
 from django.conf import settings
 from django.conf.urls import include, url
 from django.contrib import admin
+from django.urls import path
 
 import xsd_frontend.views
 
@@ -30,14 +31,14 @@ urlpatterns = [
 
     # Bodge here as accounts/ URLS need to be avaliable under the xsd_auth
     # namespace along with no namespace for access via external libs #185
-    url(r'^accounts/', include('allauth.urls', namespace='xsd_auth')),
+    url(r'^accounts/', include(('allauth.urls', 'allauth'), namespace='xsd_auth')),
     url(r'^accounts/', include('allauth.urls')),
 
     url(r'^hijack/', include('hijack.urls')),
 
     url(r'^admin/doc/', include('django.contrib.admindocs.urls')),
     url(r'^admin/rq/', include('django_rq.urls')),
-    url(r'^admin/', include(admin.site.urls)),
+    path('admin/', admin.site.urls),
 
     url(r'^health/', include('health_check.urls')),
 
