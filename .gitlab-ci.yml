@@ -41,11 +41,14 @@ django-test:
     - cd /app
     - mkdir tmp
     - curl $BSAC_DATA > tmp/bsac_data.yaml
+    - pip3 install coverage
   script:
     - src/manage.py check
-    - src/manage.py test xSACdb xsd_about xsd_auth xsd_frontend xsd_help xsd_kit xsd_members xsd_sites xsd_training xsd_trips
+    - coverage run --source='src' src/manage.py test xSACdb xsd_about xsd_auth xsd_frontend xsd_help xsd_kit xsd_members xsd_sites xsd_training xsd_trips
+    - coverage report
   after_script:
     - mv /app/junit-django.xml $CI_PROJECT_DIR
+  coverage: '/^TOTAL.+?(\d+\%)$/'
   artifacts:
     paths:
       - junit-django.xml
