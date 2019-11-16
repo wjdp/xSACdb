@@ -8,6 +8,7 @@ django-extensions = "==1.7.9"
 werkzeug = "==0.12.2"
 2to3 = "*"
 honcho = "*"
+coverage = "*"
 
 [packages]
 commonmark = "~=0.7.3"

@@ -1,6 +1,6 @@
 ![xSACdb](https://raw.githubusercontent.com/wjdp/xSACdb/master/assets/images/xsacdb.gif)
 
-[![build status](https://gitlab.com/wjdp/xSACdb/badges/master/build.svg)](https://gitlab.com/wjdp/xSACdb/commits/master) [![Codacy Badge](https://api.codacy.com/project/badge/Coverage/c8831628fa6943f8884c54370e94d87c)](https://www.codacy.com/app/wjdp/xSACdb?utm_source=github.com&utm_medium=referral&utm_content=wjdp/xSACdb&utm_campaign=Badge_Coverage) [![Codacy Badge](https://api.codacy.com/project/badge/Grade/c8831628fa6943f8884c54370e94d87c)](https://www.codacy.com/app/wjdp/xSACdb?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=wjdp/xSACdb&amp;utm_campaign=Badge_Grade)
+[![build status](https://gitlab.com/wjdp/xSACdb/badges/master/build.svg)](https://gitlab.com/wjdp/xSACdb/commits/master) ![coverage](https://gitlab.com/wjdp/xSACdb/badges/master/coverage.svg)
 
 A web based database for managing [BSAC](https://www.bsac.com/) branch clubs. It looks after membership details, training records, known sites and club trips.
 
