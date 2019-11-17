@@ -6,7 +6,7 @@ const g = (window as any).g as Global;
 if (g.sentry.dsn) {
     Sentry.init({
         dsn: g.sentry.dsn,
-        release: g.env.release || undefined,
+        release: g.env.sentryRelease || undefined,
         environment: g.env.name,
     });
     Sentry.setExtra("site", g.site.name);

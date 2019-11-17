@@ -1,6 +1,7 @@
 export interface GlobalEnv {
     name: string
     release: string | null
+    sentryRelease: string | null
 }
 
 export interface GlobalSite {
