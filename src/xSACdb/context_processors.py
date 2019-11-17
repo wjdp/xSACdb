@@ -26,6 +26,7 @@ def xsd_vars(request):
         'env': {
             'name': environment.get_environment_name(),
             'release': version.get_release(),
+            'sentryRelease': version.get_sentry_release(),
         },
         'site': {
             'name': settings.CLUB['name'],

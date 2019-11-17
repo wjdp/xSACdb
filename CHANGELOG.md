@@ -4,6 +4,13 @@ All notable changes to this project will be documented in this file. Notes shoul
 xSACdb instances. This project will soon adhere to [Semantic Versioning](http://semver.org/).
 
 
+## Unreleased
+
+### Fixed
+
+- #355 Sentry (error tracking) not using consistent release names.
+
+
 ## [0.9.0] - 2019-11-16
 
 ### Changed
