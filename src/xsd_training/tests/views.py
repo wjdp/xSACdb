@@ -161,8 +161,71 @@ class InstructorUpcomingViewTest(ViewTestMixin, TrainingTestToolsMixin, SiteTest
 
 
 # TODO trainee notes search
-# TODO trainee notes detail
 # TODO trainee set field
+
+
+class TraineeNotesViewTest(ViewTestMixin, TrainingTestToolsMixin, SiteTestToolsMixin, BaseInstructorTest):
+    url_name = 'xsd_training:TraineeNotes'
+    template_name = 'xsd_training/trainee/detail.html'
+    view = TraineeNotes
+    url_kwargs = {}
+
+    @classmethod
+    def setUp_test(cls):
+        cls.mp.training_for = cls.OD
+        cls.mp.save()
+        cls.url_kwargs['pk'] = cls.mp.pk
+
+    def test_all_lessons_listed(self):
+        response = self.get_response()
+        self.assertEqual(response.status_code, 200)
+
+        # basic check we have all tests lessons rendered
+        for lesson in self.mp.training_for.lesson_set.all():
+            self.assertContains(response, lesson.code)
+
+    def test_lesson_status(self):
+        sesh = self.create_session(self.create_site())
+        pl = self.create_pl(self.mp)
+        pl.lesson = self.SO1
+        pl.session = sesh
+        pl.save()
+
+        # currently just planned
+        response = self.get_response()
+        self.assertEqual(response.status_code, 200)
+
+        self.assertContains(response, 'id="{}" class="--state-PLANNED"'.format(pl.lesson.id))
+
+        # partial completion
+        pl.partially_completed = True
+        pl.save()
+
+        response = self.get_response()
+        self.assertEqual(response.status_code, 200)
+
+        self.assertContains(response, 'id="{}" class="--state-PARTIAL"'.format(pl.lesson.id))
+
+        # fully completed
+        pl.partially_completed = False
+        pl.completed = True
+        pl.save()
+
+        response = self.get_response()
+        self.assertEqual(response.status_code, 200)
+
+        self.assertContains(response, 'id="{}" class="--state-YES"'.format(pl.lesson.id))
+
+    def test_pl_history(self):
+        pq = PerformedQualification.objects.create(trainee=self.mp, qualification=self.OD,
+                                                   mode=PerformedQualification.MODE_CHOICES[0][0])
+
+        response = self.get_response()
+        self.assertEqual(response.status_code, 200)
+
+        for lesson in pq.qualification.lesson_set.all():
+            self.assertContains(response, lesson.code)
+
 
 class SDCListViewTest(ViewTestMixin, BaseTraineeTest):
     url_name = 'xsd_training:SDCList'
