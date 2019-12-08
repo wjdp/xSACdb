@@ -4,6 +4,13 @@ All notable changes to this project will be documented in this file. Notes shoul
 xSACdb instances. This project will soon adhere to [Semantic Versioning](http://semver.org/).
 
 
+## Upcoming
+
+### Fixed
+
+- #361 Training notes view shows "None" in page title instead of trainee name
+
+
 ## [0.9.1] - 2019-11-17
 
 ### Fixed
