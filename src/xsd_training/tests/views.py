@@ -176,6 +176,10 @@ class TraineeNotesViewTest(ViewTestMixin, TrainingTestToolsMixin, SiteTestToolsM
         cls.mp.save()
         cls.url_kwargs['pk'] = cls.mp.pk
 
+    def test_page_title(self):
+        response = self.get_response()
+        self.assertContains(response, f"<title>{self.mp.full_name}")
+
     def test_all_lessons_listed(self):
         response = self.get_response()
         self.assertEqual(response.status_code, 200)

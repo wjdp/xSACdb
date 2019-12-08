@@ -74,7 +74,7 @@ class TraineeNotes(RequireInstructor, DetailView):
         # Call the base implementation first to get a context
         context = super(TraineeNotes, self).get_context_data(**kwargs)
         # Add in a QuerySet of all the books
-        context['trainee'] = self.get_object().memberprofile
+        context['trainee'] = self.get_object()
         pls = PerformedLesson.objects.filter(trainee=self.get_object())
         context['pls'] = pls
         context['planned'] = pls.filter(completed=False, partially_completed=False).count()
@@ -86,6 +86,8 @@ class TraineeNotes(RequireInstructor, DetailView):
         context['training_for_form'] = MiniTrainingForSetForm(self.get_object())
         context['instructor_form'] = MiniInstructorQualificationSetForm()
         context['sdc_form'] = MiniTraineeSDCAddForm()
+
+        context['page_title'] = self.get_object().full_name
 
         # Forms for modals
         return context
