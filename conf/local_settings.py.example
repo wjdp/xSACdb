@@ -17,11 +17,6 @@ CLUB = {
     'bsac_club_renew': 'Contact the VP for details.',
 }
 
-# Hostnames that are allowed to host this instance
-ALLOWED_HOSTS=[
-    'database.madeupsac.com',
-]
-
 # Email
 
 # Mailgun integration
