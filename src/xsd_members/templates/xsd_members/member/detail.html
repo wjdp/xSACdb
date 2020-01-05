@@ -290,11 +290,13 @@
                     </tr>
                     <tr>
                         <th>Membership Type</th>
-                        <td>
-                            {% if member.bsac_direct_debit %}Pays by direct debit
-                            {% elif member.bsac_direct_member %}Member of BSAC directly
-                                {% elif member.bsac_member_via_another_club}Member of BSAC through another club
-                                        {% else %}Standard club member{% endif %}
+                        <td class="last-child-mb0">
+                            {% if member.bsac_direct_debit %}<p>Pays by direct debit</p>{% endif %}
+                            {% if member.bsac_direct_member %}<p>Member of BSAC directly</p>{% endif %}
+                            {% if member.bsac_member_via_another_club %}<p>Member of BSAC through another club</p>{% endif %}
+                            {% if not member.bsac_direct_member and not member.bsac_member_via_another_club %}
+                                <p>Standard club member</p>
+                            {% endif %}
                         </td>
                     </tr>
                     <tr>

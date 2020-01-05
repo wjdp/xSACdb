@@ -4,6 +4,13 @@ All notable changes to this project will be documented in this file. Notes shoul
 xSACdb instances. This project will soon adhere to [Semantic Versioning](http://semver.org/).
 
 
+## Unreleased
+
+### Fixed
+
+- #362 HTML template tags show in "BSAC Details" when member is set to "Member of BSAC through another club".
+
+
 ## [0.10.0] - 2019-12-08
 
 ### Added
