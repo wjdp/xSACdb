@@ -11,3 +11,13 @@ a.no-underline:hover
   text-decoration: none
 a:hover .underline
   text-decoration: underline
+
+.last-child-mb0
+  // Remove the bottom margin from the last child of this container.
+  // The <p>Two</p> has its bottom margin removed
+  //  <div class="last-child-m0">
+  //    <p>One</p>
+  //    <p>Two</p>
+  //  </div>
+  & > *:last-child
+    margin-bottom: 0
