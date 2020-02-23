@@ -1,7 +1,7 @@
 variables:
   POSTGRES_DB: xsacdb
   POSTGRES_USER: runner
-  POSTGRES_PASSWORD: ""
+  POSTGRES_PASSWORD: "runner-password"
   BSAC_DATA: "https://s3.amazonaws.com/xsacdb-bsac-data/bsac_data.yaml"
   DOCKER_DRIVER: overlay2
 
