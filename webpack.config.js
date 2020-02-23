@@ -4,7 +4,7 @@ const BundleTracker = require('webpack-bundle-tracker');
 const VueLoaderPlugin = require('vue-loader/lib/plugin');
 
 module.exports = (env, argv) => {
-    const DEV = argv.mode === 'development';
+    const DEV = argv ? argv.mode === 'development' : true;
     if (DEV) console.log(`Webpack running in DEVELOPMENT mode`);
     else console.log(`Webpack running in PRODUCTION mode`);
 
