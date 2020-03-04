@@ -251,6 +251,14 @@ class QualificationManagerTest(BaseTrainingTest, TrainingTestToolsMixin):
         quals = Qualification.objects.get_active(pl.trainee)
         self.assertIn(self.ODL, quals)
 
+    def test_excluded_by_rank(self):
+        trainee = self.get_trainee(self.ODL)
+        trainee.training_for = self.ODL
+        trainee.save()
+
+        quals = Qualification.objects.get_active(trainee)
+        self.assertNotIn(self.OD, quals)
+
 # TODO Award Qualifications
 
 class PerformedSDCTest(BaseTraineeTest, TrainingTestToolsMixin):
