@@ -4,11 +4,16 @@ All notable changes to this project will be documented in this file. Notes shoul
 xSACdb instances. This project will soon adhere to [Semantic Versioning](http://semver.org/).
 
 
-## Unreleased
+## [0.11.0] - 2020-03-04
+
+## Added
+
+- #371 Session notes on pool sheet.
 
 ### Fixed
 
 - #362 HTML template tags show in "BSAC Details" when member is set to "Member of BSAC through another club".
+- #370 Do not show lessons from legacy Ocean Diver in session planner (hides lessons from same ranked qual).
 
 
 ## [0.10.0] - 2019-12-08
