@@ -9,11 +9,20 @@ from xsd_training.models import Lesson
 
 class QualificationManager(models.Manager):
     def get_active(self, trainee=None):
-        qs = Q(active=True)
+        """
+
+        :type trainee: xsd_members.models.MemberProfile
+        """
+        direct = Q(active=True)
+        qs = direct
         if trainee is not None:
-            qs |= Q(performedqualification__trainee=trainee)
-            qs |= Q(q_training_for=trainee)
-            qs |= Q(lesson__performedlesson__trainee=trainee)
+            from_trainee_q = Q(performedqualification__trainee=trainee) | \
+                             Q(q_training_for=trainee) | \
+                             Q(lesson__performedlesson__trainee=trainee)
+            ignore_ranks = self.filter(from_trainee_q).distinct().values('rank')
+
+            direct &= ~Q(rank__in=ignore_ranks)
+            qs = direct | from_trainee_q
         return self.filter(qs).distinct()
 
 

@@ -4,10 +4,10 @@ from django import forms
 # from xSACdb.widgets import AdminDateWidget
 from django.contrib.admin.widgets import AdminDateWidget
 
-from .models import *
 from xSACdb.form_fields import UserModelChoiceField
 from xsd_members.models import MemberProfile
 from xsd_training.models import Qualification, SDC
+from .models import *
 
 
 class PerformedSDCCreateForm(forms.ModelForm):
@@ -48,7 +48,10 @@ class SessionPLMapForm(forms.ModelForm):  # Used for mapping trainees to lessons
         super(SessionPLMapForm, self).__init__(*args, **kwargs)
 
         # Exclude experience dives from the selection
-        self.fields['lesson'].queryset = Lesson.objects.exclude(mode='XP').order_by('qualification', 'mode')
+        self.fields['lesson'].queryset = Lesson.objects \
+            .filter(qualification__in=Qualification.objects.get_active(self.instance.trainee)) \
+            .exclude(mode='XP') \
+            .order_by('qualification', 'mode')
         # self.fields['instructor'].queryset=MemberProfile.objects.all()
 
     class Meta:
