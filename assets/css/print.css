@@ -12,18 +12,34 @@ body {
 
 h1 {
 	font-size: 20px;
-	text-align:center;
-	padding-bottom: 10px
+	text-align: center;
+	padding-top: 10px;
+	padding-bottom: 10px;
 }
 h2 {
 	font-size: 16px;
-	text-align:center;
+	text-align: center;
 }
+
 h3 {
 	font-size: 14px
 }
+
 h4 {
 	font-size: 12px
+}
+
+div.pool-sheet-notes ul {
+	padding-left: 1.5rem;
+}
+
+div.pool-sheet-notes h1 {
+	font-size: 18px;
+	text-align: left;
+}
+
+div.pool-sheet-notes h2 {
+	text-align: left;
 }
 
 table.pool-sheet {

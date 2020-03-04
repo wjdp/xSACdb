@@ -1,8 +1,15 @@
 {% extends 'print_template.html' %}
+{% load markdown %}
 
 {% block title %}Pool Sheet for {{session}}{% endblock %}
 
 {% block content %}
+{% if session.notes %}
+    <h1 style="text-align: left">Session Notes</h1>
+    <div class="pool-sheet-notes">
+        {{ session.notes | markdown }}
+    </div>
+{% endif %}
 
 <table class="pool-sheet">
 <th>Trainee</th><th>Lesson</th><th>Instructor</th>
