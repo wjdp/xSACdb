@@ -1,6 +1,6 @@
 
 
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render
 
 from xSACdb.roles.decorators import require_verified
 from xSACdb.ui import xsdUI
@@ -14,7 +14,7 @@ def overview(request):
     ui.page = 'my_overview'
     ui.section = 'my'
 
-    quals = Qualification.objects.filter(instructor_qualification=False)
+    quals = Qualification.objects.get_active(trainee=request.user.memberprofile).filter(instructor_qualification=False)
 
     return render(request, 'overview.html', {
         'ui': ui,
