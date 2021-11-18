@@ -265,3 +265,10 @@ INSPECT_API_KEY_SALT = "EMQ2b6iDt96N"
 if os.environ.get('XSACDB_XMLTESTRUNNER'):
     TEST_RUNNER = 'xmlrunner.extra.djangotestrunner.XMLTestRunner'
     TEST_OUTPUT_FILE_NAME = 'junit-django.xml'
+
+# Flag to enable filtering out lessons from other qualifications of the same rank
+# If this is disabled with multiple OD/SD qualifications active you get duplicate
+# lessons in dropdowns.
+# HOWEVER: There is an outstanding bug where enabling this causes huge performance
+#          issues.
+QUALIFICATION_LESSON_FILTER_OUT_SAME_RANK = False

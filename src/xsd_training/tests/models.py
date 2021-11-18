@@ -234,13 +234,24 @@ class QualificationManagerTest(BaseTrainingTest, TrainingTestToolsMixin):
         trainee.training_for = self.ODL
         trainee.save()
 
-        quals = Qualification.objects.get_active(trainee)
+        with self.settings(QUALIFICATION_LESSON_FILTER_OUT_SAME_RANK=True):
+            quals = Qualification.objects.get_active(trainee)
         self.assertIn(self.ODL, quals)
+
+    def test_get_active_training_for_with_filtering_disabled(self):
+        trainee = self.get_trainee(self.ODL)
+        trainee.training_for = self.ODL
+        trainee.save()
+
+        quals = Qualification.objects.get_active(trainee)
+        self.assertIn(self.OD, quals)
+        self.assertNotIn(self.ODL, quals)
 
     def test_get_active_completed(self):
         trainee = self.get_instructor(self.ODL) # sets the current qualification correctly
 
-        quals = Qualification.objects.get_active(trainee)
+        with self.settings(QUALIFICATION_LESSON_FILTER_OUT_SAME_RANK=True):
+            quals = Qualification.objects.get_active(trainee)
         self.assertIn(self.ODL, quals)
 
     def test_get_active_with_pl(self):
@@ -248,7 +259,8 @@ class QualificationManagerTest(BaseTrainingTest, TrainingTestToolsMixin):
         pl.lesson = Lesson.objects.get(code="OO1", qualification=self.ODL)
         pl.save()
 
-        quals = Qualification.objects.get_active(pl.trainee)
+        with self.settings(QUALIFICATION_LESSON_FILTER_OUT_SAME_RANK=True):
+            quals = Qualification.objects.get_active(pl.trainee)
         self.assertIn(self.ODL, quals)
 
     def test_excluded_by_rank_OD(self):
@@ -257,7 +269,8 @@ class QualificationManagerTest(BaseTrainingTest, TrainingTestToolsMixin):
         trainee.training_for = self.ODL
         trainee.save()
 
-        quals = Qualification.objects.get_active(trainee)
+        with self.settings(QUALIFICATION_LESSON_FILTER_OUT_SAME_RANK=True):
+            quals = Qualification.objects.get_active(trainee)
         self.assertNotIn(self.OD, quals)
 
     def test_excluded_by_rank_ODL(self):
@@ -266,7 +279,8 @@ class QualificationManagerTest(BaseTrainingTest, TrainingTestToolsMixin):
         trainee.training_for = self.OD
         trainee.save()
 
-        quals = Qualification.objects.get_active(trainee)
+        with self.settings(QUALIFICATION_LESSON_FILTER_OUT_SAME_RANK=True):
+            quals = Qualification.objects.get_active(trainee)
         self.assertNotIn(self.ODL, quals)
 
 # TODO Award Qualifications

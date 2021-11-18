@@ -1,5 +1,4 @@
-
-
+from django.conf import settings
 from django.db import models
 from django.db.models import Q
 from reversion import revisions as reversion
@@ -15,7 +14,7 @@ class QualificationManager(models.Manager):
         """
         direct = Q(active=True)
         qs = direct
-        if trainee is not None:
+        if trainee is not None and settings.QUALIFICATION_LESSON_FILTER_OUT_SAME_RANK:
             from_trainee_q = Q(performedqualification__trainee=trainee) | \
                              Q(q_training_for=trainee) | \
                              Q(lesson__performedlesson__trainee=trainee)
