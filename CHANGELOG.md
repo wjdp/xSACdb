@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file. Notes should be geared towards the managers of
 xSACdb instances. This project will soon adhere to [Semantic Versioning](http://semver.org/).
 
+## [0.11.1] - 2021-11-18
+
+### Fixed
+
+- Mitigated performance issues with the session planning page.
+
 
 ## [0.11.0] - 2020-03-04
 
